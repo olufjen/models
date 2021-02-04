@@ -1,0 +1,34 @@
+class RejectionSampling
+!!!399874.java!!!	RejectionSampling()
+		this(new PriorSample());
+!!!400002.java!!!	RejectionSampling(inout ps : PriorSample)
+		this.ps = ps;
+!!!400130.java!!!	rejectionSampling(inout X : RandomVariable [[]], inout e : AssignmentProposition [[]], inout bn : BayesianNetwork, in Nsamples : int) : CategoricalDistribution
+		// local variables: <b>N</b>, a vector of counts for each value of X,
+		// initially zero
+		double[] N = new double[ProbUtil
+				.expectedSizeOfCategoricalDistribution(X)];
+
+		// for j = 1 to N do
+		for (int j = 0; j < Nsamples; j++) {
+			// <b>x</b> <- PRIOR-SAMPLE(bn)
+			Map<RandomVariable, Object> x = ps.priorSample(bn);
+			// if <b>x</b> is consistent with e then
+			if (isConsistent(x, e)) {
+				// <b>N</b>[x] <- <b>N</b>[x] + 1
+				// where x is the value of X in <b>x</b>
+				N[ProbUtil.indexOf(X, x)] += 1.0;
+			}
+		}
+		// return NORMALIZE(<b>N</b>)
+		return new ProbabilityTable(N, X).normalize();
+!!!400258.java!!!	ask(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork, in N : int) : CategoricalDistribution
+		return rejectionSampling(X, observedEvidence, bn, N);
+!!!400386.java!!!	isConsistent(inout x : Map<RandomVariable, Object>, inout e : AssignmentProposition [[]]) : boolean
+
+		for (AssignmentProposition ap : e) {
+			if (!ap.getValue().equals(x.get(ap.getTermVariable()))) {
+				return false;
+			}
+		}
+		return true;

@@ -1,0 +1,73 @@
+class VacuumEnvironment
+!!!183426.java!!!	VacuumEnvironment()
+		this(Util.randomBoolean() ? LocationState.Clean : LocationState.Dirty,
+				Util.randomBoolean() ? LocationState.Clean : LocationState.Dirty);
+!!!183554.java!!!	VacuumEnvironment(inout locAState : VacuumEnvironment::LocationState, inout locBState : VacuumEnvironment::LocationState)
+		this(Arrays.asList(LOCATION_A, LOCATION_B), locAState, locBState);
+!!!183682.java!!!	VacuumEnvironment(inout locations : List<String>, inout  : LocationState...locStates)
+		this.locations = locations;
+		envState = new VacuumEnvironmentState();
+		for (int i = 0; i < locations.size() && i < locStates.length; i++)
+			envState.setLocationState(locations.get(i), locStates[i]);
+!!!183810.java!!!	getLocations() : List<String>
+		return locations;
+!!!183938.java!!!	getCurrentState() : EnvironmentState
+		return envState;
+!!!184066.java!!!	getLocationState(in location : String) : VacuumEnvironment::LocationState
+		return envState.getLocationState(location);
+!!!184194.java!!!	getAgentLocation(inout a : Agent) : String
+		return envState.getAgentLocation(a);
+!!!184322.java!!!	addAgent(inout a : Agent) : void
+		int idx = new Random().nextInt(locations.size());
+		envState.setAgentLocation(a, locations.get(idx));
+		super.addAgent(a);
+!!!184450.java!!!	addAgent(inout a : Agent, in location : String) : void
+		// Ensure the agent state information is tracked before
+		// adding to super, as super will notify the registered
+		// EnvironmentViews that is was added.
+		envState.setAgentLocation(a, location);
+		super.addAgent(a);
+!!!184578.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+		if (anAgent instanceof NondeterministicSearchAgent) {
+			// This agent expects a fully observable environment. It gets a clone of the environment state.
+			return envState.clone();
+		}
+		// Other agents get a local percept.
+		String loc = envState.getAgentLocation(anAgent);
+		return new LocalVacuumEnvironmentPercept(loc, envState.getLocationState(loc));
+!!!184706.java!!!	executeAction(inout a : Agent, inout action : Action) : void
+		String loc = getAgentLocation(a);
+		if (ACTION_MOVE_RIGHT == action) {
+			int x = getX(loc);
+			if (x < getXDimension())
+				envState.setAgentLocation(a, getLocation(x + 1, getY(loc)));
+			updatePerformanceMeasure(a, -1);
+		} else if (ACTION_MOVE_LEFT == action) {
+			int x = getX(loc);
+			if (x > 1)
+				envState.setAgentLocation(a, getLocation(x - 1, getY(loc)));
+			updatePerformanceMeasure(a, -1);
+		} else if (ACTION_SUCK == action) {
+			if (LocationState.Dirty == envState.getLocationState(envState
+					.getAgentLocation(a))) {
+				envState.setLocationState(envState.getAgentLocation(a),
+						LocationState.Clean);
+				updatePerformanceMeasure(a, 10);
+			}
+		} else if (action.isNoOp()) {
+			// In the Vacuum Environment we consider things done if
+			// the agent generates a NoOp.
+			isDone = true;
+		}
+!!!184834.java!!!	isDone() : boolean
+		return super.isDone() || isDone;
+!!!184962.java!!!	getXDimension() : int
+		return locations.size();
+!!!185090.java!!!	getYDimension() : int
+		return 1;
+!!!185218.java!!!	getX(in location : String) : int
+		return getLocations().indexOf(location) % getXDimension() + 1;
+!!!185346.java!!!	getY(in location : String) : int
+		return getYDimension() - getLocations().indexOf(location) / getXDimension();
+!!!185474.java!!!	getLocation(in x : int, in y : int) : String
+		return locations.get((getYDimension() - y) * getXDimension() + x - 1);

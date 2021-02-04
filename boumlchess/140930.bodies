@@ -1,0 +1,104 @@
+class TicTacToeState
+!!!180354.java!!!	getPlayerToMove() : String
+		return playerToMove;
+!!!180482.java!!!	isEmpty(in col : int, in row : int) : boolean
+		return Objects.equals(board[getAbsPosition(col, row)], EMPTY);
+!!!180610.java!!!	getValue(in col : int, in row : int) : String
+		return board[getAbsPosition(col, row)];
+!!!180738.java!!!	getUtility() : double
+		return utility;
+!!!180866.java!!!	mark(inout action : XYLocation) : void
+		mark(action.getXCoOrdinate(), action.getYCoOrdinate());
+!!!180994.java!!!	mark(in col : int, in row : int) : void
+		if (utility == -1 && Objects.equals(getValue(col, row), EMPTY)) {
+			board[getAbsPosition(col, row)] = playerToMove;
+			analyzeUtility();
+			playerToMove = (Objects.equals(playerToMove, X) ? O : X);
+		}
+!!!181122.java!!!	analyzeUtility() : void
+		if (lineThroughBoard()) {
+			utility = (Objects.equals(playerToMove, X) ? 1 : 0);
+		} else if (getNumberOfMarkedPositions() == 9) {
+			utility = 0.5;
+		}
+!!!181250.java!!!	lineThroughBoard() : boolean
+		return (isAnyRowComplete() || isAnyColumnComplete() || isAnyDiagonalComplete());
+!!!181378.java!!!	isAnyRowComplete() : boolean
+		for (int row = 0; row < 3; row++) {
+			String val = getValue(0, row);
+			if (!Objects.equals(val, EMPTY) && Objects.equals(val, getValue(1, row)) && Objects.equals(val, getValue(2, row))) {
+				return true;
+			}
+		}
+		return false;
+!!!181506.java!!!	isAnyColumnComplete() : boolean
+		for (int col = 0; col < 3; col++) {
+			String val = getValue(col, 0);
+			if (!Objects.equals(val, EMPTY) && Objects.equals(val, getValue(col, 1)) && Objects.equals(val, getValue(col, 2))) {
+				return true;
+			}
+		}
+		return false;
+!!!181634.java!!!	isAnyDiagonalComplete() : boolean
+		String val = getValue(0, 0);
+		if (!Objects.equals(val, EMPTY) && Objects.equals(val, getValue(1, 1)) && Objects.equals(val, getValue(2, 2))) {
+			return true;
+		}
+		val = getValue(0, 2);
+		if (!Objects.equals(val, EMPTY) && Objects.equals(val, getValue(1, 1)) && Objects.equals(val, getValue(2, 0))) {
+			return true;
+		}
+		return false;
+!!!181762.java!!!	getNumberOfMarkedPositions() : int
+		int retVal = 0;
+		for (int col = 0; col < 3; col++) {
+			for (int row = 0; row < 3; row++) {
+				if (!(isEmpty(col, row))) {
+					retVal++;
+				}
+			}
+		}
+		return retVal;
+!!!181890.java!!!	getUnMarkedPositions() : XYLocation
+		List<XYLocation> result = new ArrayList<>();
+		for (int col = 0; col < 3; col++) {
+			for (int row = 0; row < 3; row++) {
+				if (isEmpty(col, row)) {
+					result.add(new XYLocation(col, row));
+				}
+			}
+		}
+		return result;
+!!!182018.java!!!	clone() : TicTacToeState
+		TicTacToeState copy = null;
+		try {
+			copy = (TicTacToeState) super.clone();
+			copy.board = Arrays.copyOf(board, board.length);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace(); // should never happen...
+		}
+		return copy;
+!!!182146.java!!!	equals(inout anObj : Object) : boolean
+		if (anObj != null && anObj.getClass() == getClass()) {
+			TicTacToeState anotherState = (TicTacToeState) anObj;
+			for (int i = 0; i < 9; i++) {
+				if (!Objects.equals(board[i], anotherState.board[i]))
+					return false;
+			}
+			return true;
+		}
+		return false;
+!!!182274.java!!!	hashCode() : int
+		// Need to ensure equal objects have equivalent hashcodes (Issue 77).
+		return toString().hashCode();
+!!!182402.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder();
+		for (int row = 0; row < 3; row++) {
+			for (int col = 0; col < 3; col++) {
+				builder.append(getValue(col, row)).append(" ");
+			}
+			builder.append("\n");
+		}
+		return builder.toString();
+!!!182530.java!!!	getAbsPosition(in col : int, in row : int) : int
+		return row * 3 + col;

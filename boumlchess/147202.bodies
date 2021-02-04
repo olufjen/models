@@ -1,0 +1,14 @@
+class StringAttributeSpecification
+!!!215042.java!!!	StringAttributeSpecification(in attributeName : String, inout attributePossibleValues : List<String>)
+		this.attributeName = attributeName;
+		this.attributePossibleValues = attributePossibleValues;
+!!!215170.java!!!	StringAttributeSpecification(in attributeName : String, inout attributePossibleValues : String [[]])
+		this(attributeName, Arrays.asList(attributePossibleValues));
+!!!215298.java!!!	isValid(in value : String) : boolean
+		return (attributePossibleValues.contains(value));
+!!!215426.java!!!	getAttributeName() : String
+		return attributeName;
+!!!215554.java!!!	possibleAttributeValues() : List<String>
+		return attributePossibleValues;
+!!!215682.java!!!	createAttribute(in rawValue : String) : Attribute
+		return new StringAttribute(rawValue, this);

@@ -1,0 +1,41 @@
+class ConnectFourGame
+!!!150914.java!!!	getInitialState() : ConnectFourState
+		return initialState;
+!!!151042.java!!!	getPlayers() : String
+		return players;
+!!!151170.java!!!	getPlayer(inout state : ConnectFourState) : String
+		return getPlayer(state.getPlayerToMove());
+!!!151298.java!!!	getPlayer(in playerNum : int) : String
+		switch (playerNum) {
+		case 1:
+			return players[0];
+		case 2:
+			return players[1];
+		}
+		return null;
+!!!151426.java!!!	getPlayerNum(in player : String) : int
+		for (int i = 0; i < players.length; i++)
+			if (Objects.equals(players[i], player))
+				return i+1;
+		throw new IllegalArgumentException("Wrong player number.");
+!!!151554.java!!!	getActions(inout state : ConnectFourState) : List<Integer>
+		List<Integer> result = new ArrayList<>();
+		for (int i = 0; i < state.getCols(); i++)
+			if (state.getPlayerNum(0, i) == 0)
+				result.add(i);
+		return result;
+!!!151682.java!!!	getResult(inout state : ConnectFourState, inout action : Integer) : ConnectFourState
+		ConnectFourState result = state.clone();
+		result.dropDisk(action);
+		return result;
+!!!151810.java!!!	isTerminal(inout state : ConnectFourState) : boolean
+		return state.getUtility() != -1;
+!!!151938.java!!!	getUtility(inout state : ConnectFourState, in player : String) : double
+		double result = state.getUtility();
+		if (result != -1) {
+			if (Objects.equals(player, players[1]))
+				result = 1 - result;
+		} else {
+			throw new IllegalArgumentException("State is not terminal.");
+		}
+		return result;

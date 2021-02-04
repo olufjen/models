@@ -1,0 +1,17 @@
+class ProofStepClauseParamodulation
+!!!311298.java!!!	ProofStepClauseParamodulation(inout paramodulated : Clause, inout topClause : Clause, inout equalityClause : Clause, inout assertion : TermEquality)
+		this.paramodulated = paramodulated;
+		this.topClause = topClause;
+		this.equalityClause = equalityClause;
+		this.assertion = assertion;
+		this.predecessors.add(topClause.getProofStep());
+		this.predecessors.add(equalityClause.getProofStep());
+!!!311426.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!311554.java!!!	getProof() : String
+		return paramodulated.toString();
+!!!311682.java!!!	getJustification() : String
+		return "Paramodulation: " + topClause.getProofStep().getStepNumber()
+				+ ", " + equalityClause.getProofStep().getStepNumber() + ", ["
+				+ assertion + "]";
+

@@ -1,0 +1,629 @@
+format 223
+"exact" // aima::core::probability::bayes::exact
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/bayes/exact/"
+  java_package "aima.core.probability.bayes.exact"
+  classview 135810 "exact"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 179074 "EliminationAsk"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 14.11, page
+528.<br>
+<br>
+
+<pre>
+function ELIMINATION-ASK(X, e, bn) returns a distribution over X
+  inputs: X, the query variable
+          e, observed values for variables E
+          bn, a Bayesian network specifying joint distribution P(X<sub>1</sub>, ..., X<sub>n</sub>)
+  
+  factors <- []
+  for each var in ORDER(bn.VARS) do
+      factors <- [MAKE-FACTOR(var, e) | factors]
+      if var is hidden variable the factors <- SUM-OUT(var, factors)
+  return NORMALIZE(POINTWISE-PRODUCT(factors))
+</pre>
+
+Figure 14.11 The variable elimination algorithm for inference in Bayesian
+networks. <br>
+<br>
+<b>Note:</b> The implementation has been extended to handle queries with
+multiple variables. <br>
+
+@author Ciaran O'Reilly
+"
+      classrelation 205186 // <realization>
+	relation 205186 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 205186 // <realization>
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      classrelation 205314 // _identity (<unidirectional association>)
+	relation 205314 --->
+	  a role_name "_identity" init_value " new ProbabilityTable(
+			new double[] { 1.0 })" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 205314 // _identity (<unidirectional association>)
+	  b parent class_ref 179202 // ProbabilityTable
+      end
+
+      operation 400514 "EliminationAsk"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 400642 "eliminationAsk"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function ELIMINATION-ASK(X, e, bn) returns a distribution over X
+
+The ELIMINATION-ASK algorithm in Figure 14.11.
+
+@param X
+           the query variables.
+@param e
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables //
+@return a distribution over the query variables.
+"
+      end
+
+      operation 400770 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-BayesInference"
+      end
+
+      operation 400898 "calculateVariables"
+	protected explicit_return_type "void"
+	nparams 5
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param inout name "hidden" explicit_type "Set<RandomVariable>"
+	  param inout name "bnVARS" explicit_type "Collection<RandomVariable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-BayesInference
+
+
+ PROTECTED METHODS
+
+
+<b>Note:</b>Override this method for a more efficient implementation as
+outlined in AIMA3e pgs. 527-28. Calculate the hidden variables from the
+Bayesian Network. The default implementation does not perform any of
+these.<br>
+<br>
+Two calcuations to be performed here in order to optimize iteration over
+the Bayesian Network:<br>
+1. Calculate the hidden variables to be enumerated over. An optimization
+(AIMA3e pg. 528) is to remove 'every variable that is not an ancestor of
+a query variable or evidence variable as it is irrelevant to the query'
+(i.e. sums to 1). 2. The subset of variables from the Bayesian Network to
+be retained after irrelevant hidden variables have been removed.
+
+@param X
+           the query variables.
+@param e
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables //
+@param hidden
+           to be populated with the relevant hidden variables Y.
+@param bnVARS
+           to be populated with the subset of the random variables
+           comprising the Bayesian Network with any irrelevant hidden
+           variables removed.
+"
+      end
+
+      operation 401026 "order"
+	protected return_type class_ref 175490 // RandomVariable
+	nparams 2
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param inout name "vars" explicit_type "Collection<RandomVariable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>Note:</b>Override this method for a more efficient implementation as
+outlined in AIMA3e pgs. 527-28. The default implementation does not
+perform any of these.<br>
+
+@param bn
+           the Bayesian Network over which the query is being made. Note,
+           is necessary to provide this in order to be able to determine
+           the dependencies between variables.
+@param vars
+           a subset of the RandomVariables making up the Bayesian
+           Network, with any irrelevant hidden variables alreay removed.
+@return a possibly opimal ordering for the random variables to be
+        iterated over by the algorithm. For example, one fairly effective
+        ordering is a greedy one: eliminate whichever variable minimizes
+        the size of the next factor to be constructed.
+"
+      end
+
+      operation 401154 "makeFactor"
+	private return_type class_ref 176130 // Factor
+	nparams 3
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 401282 "sumOut"
+	private return_type class_ref 176130 // Factor
+	nparams 3
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	  param inout name "factors" explicit_type "List<Factor>"
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 401410 "pointwiseProduct"
+	private return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "factors" explicit_type "List<Factor>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 179330 "EnumerationAsk"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 14.9, page
+525.<br>
+<br>
+
+<pre>
+function ENUMERATION-ASK(X, e, bn) returns a distribution over X
+  inputs: X, the query variable
+          e, observed values for variables E
+          bn, a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden variables //
+          
+  Q(X) <- a distribution over X, initially empty
+  for each value x<sub>i</sub> of X do
+      Q(x<sub>i</sub>) <- ENUMERATE-ALL(bn.VARS, e<sub>x<sub>i</sub></sub>)
+         where e<sub>x<sub>i</sub></sub> is e extended with X = x<sub>i</sub>
+  return NORMALIZE(Q(X))
+  
+---------------------------------------------------------------------------------------------------
+
+function ENUMERATE-ALL(vars, e) returns a real number
+  if EMPTY?(vars) then return 1.0
+  Y <- FIRST(vars)
+  if Y has value y in e
+      then return P(y | parents(Y)) * ENUMERATE-ALL(REST(vars), e)
+      else return &sum;<sub>y</sub> P(y | parents(Y)) * ENUMERATE-ALL(REST(vars), e<sub>y</sub>)
+          where e<sub>y</sub> is e extended with Y = y
+</pre>
+
+Figure 14.9 The enumeration algorithm for answering queries on Bayesian
+networks. <br>
+<br>
+<b>Note:</b> The implementation has been extended to handle queries with
+multiple variables. <br>
+
+@author Ciaran O'Reilly
+"
+      classrelation 205442 // <realization>
+	relation 205442 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 205442 // <realization>
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      operation 401538 "EnumerationAsk"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 401666 "enumerationAsk"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function ENUMERATION-ASK(X, e, bn) returns a distribution over X
+
+The ENUMERATION-ASK algorithm in Figure 14.9 evaluates expression trees
+(Figure 14.8) using depth-first recursion.
+
+@param X
+           the query variables.
+@param observedEvidence
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables //
+@return a distribution over the query variables.
+"
+      end
+
+      operation 401794 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-BayesInference"
+      end
+
+      operation 401922 "enumerateAll"
+	protected explicit_return_type "double"
+	nparams 2
+	  param inout name "vars" explicit_type "List<RandomVariable>"
+	  param inout name "e" type class_ref 179458 // ObservedEvidence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-BayesInference
+
+
+ PROTECTED METHODS
+
+ function ENUMERATE-ALL(vars, e) returns a real number"
+      end
+
+      class 179458 "ObservedEvidence"
+	visibility protected 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 205570 // bn (<unidirectional association>)
+	  relation 205570 --->
+	    a role_name "bn" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 205570 // bn (<unidirectional association>)
+	    b parent class_ref 175874 // BayesianNetwork
+	end
+
+	attribute 181250 "extendedValues"
+	  private explicit_type "Object"
+	  multiplicity "[]"
+	  init_value " null"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 181378 "hiddenStart"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 181506 "extendedIdx"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 205698 // var (<unidirectional association>)
+	  relation 205698 --->
+	    a role_name "var" multiplicity "[]" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	      classrelation_ref 205698 // var (<unidirectional association>)
+	    b parent class_ref 175490 // RandomVariable
+	end
+
+	classrelation 205826 // varIdxs (<unidirectional association>)
+	  relation 205826 --->
+	    stereotype "Map"
+	    a role_name "varIdxs" init_value " new HashMap<RandomVariable, Integer>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Integer> ${name}${value};
+"
+	      classrelation_ref 205826 // varIdxs (<unidirectional association>)
+	    b parent class_ref 175490 // RandomVariable
+	end
+
+	operation 402050 "ObservedEvidence"
+	  public explicit_return_type ""
+	  nparams 3
+	    param inout name "queryVariables" type class_ref 175490 // RandomVariable
+	  multiplicity "[]"
+	    param inout name "e" type class_ref 176898 // AssignmentProposition
+	  multiplicity "[]"
+	    param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 402178 "setExtendedValue"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "rv" type class_ref 175490 // RandomVariable
+	    param inout name "value" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 402306 "containsValue"
+	  public explicit_return_type "boolean"
+	  nparams 1
+	    param inout name "rv" type class_ref 175490 // RandomVariable
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 402434 "posteriorForParents"
+	  public explicit_return_type "double"
+	  nparams 1
+	    param inout name "rv" type class_ref 175490 // RandomVariable
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+  end
+
+  deploymentview 134530 "exact"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 169346 "EliminationAsk"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.Factor;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.bayes.FiniteNode;
+import aima.core.probability.bayes.Node;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbabilityTable;
+${definition}"
+      associated_elems
+	class_ref 179074 // EliminationAsk
+      end
+    end
+
+    artifact 169474 "EnumerationAsk"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.bayes.FiniteNode;
+import aima.core.probability.bayes.Node;
+import aima.core.probability.domain.FiniteDomain;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbabilityTable;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 179330 // EnumerationAsk
+      end
+    end
+  end
+end

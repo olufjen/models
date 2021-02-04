@@ -1,0 +1,18 @@
+class SimpleSudokuApp
+!!!565250.java!!!	main(inout args : String [[]]) : void
+        launch(args);
+!!!565378.java!!!	getTitle() : String
+        return "Simple Sudoku App";
+!!!565506.java!!!	createRootPane() : Pane
+        StackPane root = new StackPane();
+        stateViewCtrl = new SudokuViewCtrl(root);
+        return root;
+!!!565634.java!!!	initialize() : void
+        initView(puzzle1);
+!!!565890.java!!!	initView(in puzzle : String) : void
+        stateViewCtrl.clear(true);
+        for (int i = 0; i < puzzle.length(); i++) {
+            char ch = puzzle.charAt(i);
+            if (ch >= '1' && ch <= '9')
+                stateViewCtrl.fixDigit(i % 9 + 1, i / 9 + 1, ch - '0');
+        }

@@ -1,0 +1,36 @@
+class DecisionList
+!!!218626.java!!!	DecisionList(in positive : String, in negative : String)
+		this.positive = positive;
+		this.negative = negative;
+		this.tests = new ArrayList<DLTest>();
+		testOutcomes = new Hashtable<DLTest, String>();
+!!!218754.java!!!	predict(inout example : Example) : String
+		if (tests.size() == 0) {
+			return negative;
+		}
+		for (DLTest test : tests) {
+			if (test.matches(example)) {
+				return testOutcomes.get(test);
+			}
+		}
+		return negative;
+!!!218882.java!!!	add(inout test : DLTest, in outcome : String) : void
+		tests.add(test);
+		testOutcomes.put(test, outcome);
+!!!219010.java!!!	mergeWith(inout dlist2 : DecisionList) : DecisionList
+		DecisionList merged = new DecisionList(positive, negative);
+		for (DLTest test : tests) {
+			merged.add(test, testOutcomes.get(test));
+		}
+		for (DLTest test : dlist2.tests) {
+			merged.add(test, dlist2.testOutcomes.get(test));
+		}
+		return merged;
+!!!219138.java!!!	toString() : String
+		StringBuffer buf = new StringBuffer();
+		for (DLTest test : tests) {
+			buf.append(test.toString() + " => " + testOutcomes.get(test)
+					+ " ELSE \n");
+		}
+		buf.append("END");
+		return buf.toString();

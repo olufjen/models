@@ -1,0 +1,362 @@
+format 223
+"learner" // no::games::learner
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no/games/learner/"
+  java_package "no.games.learner"
+  classview 142210 "learner"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 226690 "Learner"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 671618 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 226818 "MessageClassifier"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Java program for classifying short text messages into two classes 'miss'
+and 'hit'.
+<p/>
+See also wiki article <a href=\"http://weka.wiki.sourceforge.net/MessageClassifier\">MessageClassifier</a>.
+
+@author Eibe Frank (eibe@cs.waikato.ac.nz)
+@version $Revision$
+"
+      classrelation 282242 // <realization>
+	relation 282242 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 282242 // <realization>
+	  b parent class_ref 202242 // Serializable
+      end
+
+      attribute 267778 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " -123455813150452885L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " for serialization. 
+"
+      end
+
+      attribute 267906 "m_Data"
+	private explicit_type "Instances"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The training data gathered so far. 
+"
+      end
+
+      attribute 268034 "m_Filter"
+	private explicit_type "StringToWordVector"
+	init_value " new StringToWordVector()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The filter used to generate the word counts. 
+"
+      end
+
+      attribute 268162 "m_Classifier"
+	private explicit_type "Classifier"
+	init_value " new J48()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The actual classifier. 
+"
+      end
+
+      attribute 268290 "m_UpToDate"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Whether the model is up to date. 
+"
+      end
+
+      operation 671746 "MessageClassifier"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs empty training dataset.
+"
+      end
+
+      operation 671874 "updateData"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "message" explicit_type "String"
+	  param in name "classValue" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Updates model using the given training message.
+
+@param message	the message content
+@param classValue	the class label
+"
+      end
+
+      operation 672002 "classifyMessage"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Classifies a given message.
+
+@param message	the message content
+@throws Exception 	if classification fails
+"
+      end
+
+      operation 672130 "makeInstance"
+	private explicit_return_type "Instance"
+	nparams 2
+	  param in name "text" explicit_type "String"
+	  param inout name "data" explicit_type "Instances"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Method that converts a text message into an instance.
+
+@param text	the message content to convert
+@param data	the header information
+@return		the generated Instance
+"
+      end
+
+      operation 672258 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Main method. The following parameters are recognized:
+<ul>
+  <li>
+     <code>-m messagefile</code><br/>
+     Points to the file containing the message to classify or use for
+     updating the model.
+  </li>
+  <li>
+     <code>-c classlabel</code><br/>
+     The class label of the message if model is to be updated. Omit for
+     classification of a message.
+  </li>
+  <li>
+     <code>-t modelfile</code><br/>
+     The file containing the model. If it doesn't exist, it will be
+     created automatically.
+  </li>
+</ul>
+
+@param args	the commandline options
+"
+      end
+    end
+  end
+
+  deploymentview 141954 "learner"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 208386 "Learner"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import org.tensorflow.DataType;
+import org.tensorflow.Graph;
+import org.tensorflow.Operation;
+import org.tensorflow.OperationBuilder;
+import org.tensorflow.Session;
+import org.tensorflow.Tensor;
+import org.tensorflow.TensorFlow;
+${definition}"
+      associated_elems
+	class_ref 226690 // Learner
+      end
+    end
+
+    artifact 208514 "MessageClassifier"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import weka.classifiers.Classifier;
+import weka.classifiers.trees.J48;
+import weka.core.Attribute;
+import weka.core.DenseInstance;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.SerializationHelper;
+import weka.core.Utils;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.StringToWordVector;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Serializable;
+import java.util.ArrayList;
+${definition}"
+      associated_elems
+	class_ref 226818 // MessageClassifier
+      end
+      comment "   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+   MessageClassifier.java
+   Copyright (C) 2009 University of Waikato, Hamilton, New Zealand
+
+"
+    end
+  end
+end

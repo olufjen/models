@@ -1,0 +1,19 @@
+class AppStarter
+!!!588930.java!!!	AppStarter(inout ac : Class<?>)
+			appClass = ac;
+!!!589058.java!!!	actionPerformed(inout ev : ActionEvent) : void
+			try {
+				if (currPanel != null)
+					getContentPane().remove(currPanel);
+				System.setOut(outStream);
+				Object instance = appClass.newInstance();
+				Method m = appClass.getMethod("constructApplicationFrame",
+						new Class[0]);
+				JFrame af = (JFrame) m.invoke(instance, (Object[]) null);
+				currPanel = (JComponent) af.getContentPane().getComponent(0);
+				af.getContentPane().remove(currPanel);
+				getContentPane().add(currPanel, BorderLayout.CENTER);
+				validate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}

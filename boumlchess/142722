@@ -1,0 +1,1334 @@
+format 223
+"map" // aima::gui::swing::applications::agent::map
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/gui/swing/applications/agent/map/"
+  java_package "aima.gui.swing.applications.agent.map"
+  classview 141058 "map"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 214274 "AbstractMapAgentController"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Provides a useful base class for agent application controller implementations
+in the context of route finding agent application development. To get it
+ready to work, all you need to do is, to provide implementations for the four
+abstract methods. See {@link RouteFindingAgentApp} for an example.
+
+@author Ruediger Lunde
+"
+      classrelation 264066 // <generalisation>
+	relation 264066 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 264066 // <generalisation>
+	  b parent class_ref 212866 // AgentAppController
+      end
+
+      classrelation 264194 // scenario (<unidirectional association>)
+	relation 264194 --->
+	  a role_name "scenario" protected
+	    comment " A scenario. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 264194 // scenario (<unidirectional association>)
+	  b parent class_ref 138882 // Scenario
+      end
+
+      attribute 235906 "destinations"
+	protected explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Some location names. For route finding problems, only one location
+should be specified.
+
+"
+      end
+
+      classrelation 264322 // search (<unidirectional association>)
+	relation 264322 --->
+	  a role_name "search" protected
+	    comment " Search method to be used. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<String, MoveToAction> ${name}${value};
+"
+	    classrelation_ref 264322 // search (<unidirectional association>)
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 264450 // heuristic (<unidirectional association>)
+	relation 264450 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "heuristic" protected
+	    comment " Heuristic function to be used when performing informed search. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<String, MoveToAction>> ${name}${value};
+"
+	    classrelation_ref 264450 // heuristic (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      attribute 236034 "isPrepared"
+	protected explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Is the scenario up to date? 
+"
+      end
+
+      attribute 236162 "sleepTime"
+	protected explicit_type "long"
+	init_value " 500"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Sleep time between two steps during simulation in msec. 
+"
+      end
+
+      operation 599682 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Clears all tracks and prepares simulation if necessary. "
+      end
+
+      operation 599810 "prepare"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "changedSelectors" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Template method, which performs necessary preparations for running the
+agent. The behavior is strongly influenced by the primitive operations
+{@link #selectScenarioAndDest(int, int)}, {@link #prepareView()} and
+{@link #createHeuristic(int)}.
+"
+      end
+
+      operation 599938 "isPrepared"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the current scenario contains an environment which is
+ready for simulation (no agents or not done).
+"
+      end
+
+      operation 600066 "run"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "logger" type class_ref 213122 // MessageLogger
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calls {@link #initAgents(MessageLogger)} if necessary and
+then starts simulation until done.
+"
+      end
+
+      operation 600194 "step"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "logger" type class_ref 213122 // MessageLogger
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Calls {@link #initAgents(MessageLogger)} if necessary and
+then executes one simulation step.
+"
+      end
+
+      operation 600322 "update"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "simulationThread" type class_ref 213250 // SimulationThread
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Updates the status of the frame. "
+      end
+
+      operation 600450 "selectScenarioAndDest"
+	abstract protected explicit_return_type "void"
+	nparams 2
+	  param in name "scenarioIdx" explicit_type "int"
+	  param in name "destIdx" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "///////////////////////////////////////////////////////////////
+ abstract methods
+
+Primitive operation, responsible for assigning values to attributes
+{@link #scenario} and {@link #destinations}.
+"
+      end
+
+      operation 600578 "prepareView"
+	abstract protected explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, responsible for preparing the view. Scenario and
+destinations are already selected when this method is called.
+"
+      end
+
+      operation 600706 "createHeuristic"
+	abstract protected return_type class_ref 135170 // Node
+	nparams 1
+	  param in name "heuIdx" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<String, MoveToAction>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Factory method, responsible for creating a heuristic function.
+"
+      end
+
+      operation 600834 "initAgents"
+	abstract protected explicit_return_type "void"
+	nparams 1
+	  param inout name "logger" type class_ref 213122 // MessageLogger
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, responsible for creating new agents and adding
+them to the current environment.
+"
+      end
+    end
+
+    class 214402 "ExtendedMapAgentView"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Extends the <code>MapAgentView</code> by visualization of
+scenario, destination, and agent map information.
+
+@author Ruediger Lunde
+"
+      classrelation 264834 // <generalisation>
+	relation 264834 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 264834 // <generalisation>
+	  b parent class_ref 214530 // MapAgentView
+      end
+
+      attribute 236418 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 264962 // scenario (<unidirectional association>)
+	relation 264962 --->
+	  a role_name "scenario" protected
+	    comment " A scenario. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 264962 // scenario (<unidirectional association>)
+	  b parent class_ref 138882 // Scenario
+      end
+
+      attribute 236546 "destinations"
+	protected explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " A list of location names, possibly null. 
+"
+      end
+
+      classrelation 265090 // agentMap (<unidirectional association>)
+	relation 265090 --->
+	  a role_name "agentMap" protected
+	    comment " Map which reflects the agent's knowledge about the environment. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 265090 // agentMap (<unidirectional association>)
+	  b parent class_ref 136834 // Map
+      end
+
+      operation 602498 "setData"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "scenario" type class_ref 138882 // Scenario
+	  param inout name "destinations" explicit_type "List<String>"
+	  param inout name "agentMap" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Sets data to be displayed. All values may be null. "
+      end
+
+      operation 602626 "paintMap"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "g2" explicit_type "java.awt.Graphics2D"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Represents roads by lines and locations by name-labeled points.
+"
+      end
+
+      operation 602754 "paintLoc"
+	protected explicit_return_type "void"
+	nparams 2
+	  param inout name "g2" explicit_type "Graphics2D"
+	  param in name "loc" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Displays a map location. "
+      end
+
+      operation 602882 "paintRoadblock"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "g2" explicit_type "java.awt.Graphics2D"
+	  param inout name "block" type class_ref 214658 // Roadblock
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Blocked roads are represented by filled rectangles. Blue denotes, the
+agent doesn't know it, red denotes, the road is no blocked, but the
+agent thinks so.
+"
+      end
+
+      class 214658 "Roadblock"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 265218 // pos1 (<unidirectional association>)
+	  relation 265218 --->
+	    a role_name "pos1" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 265218 // pos1 (<unidirectional association>)
+	    b parent class_ref 137218 // Point2D
+	end
+
+	classrelation 265346 // pos2 (<unidirectional association>)
+	  relation 265346 --->
+	    a role_name "pos2" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 265346 // pos2 (<unidirectional association>)
+	    b parent class_ref 137218 // Point2D
+	end
+
+	attribute 236674 "inEnvMap"
+	  package explicit_type "boolean"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 236802 "inAgentMap"
+	  package explicit_type "boolean"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 603010 "Roadblock"
+	  private explicit_return_type ""
+	  nparams 4
+	    param inout name "pos1" type class_ref 137218 // Point2D
+	    param inout name "pos2" type class_ref 137218 // Point2D
+	    param inout name "inEnvMap" explicit_type "boolean"
+	    param inout name "inAgentMap" explicit_type "boolean"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 214530 "MapAgentView"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "General graphical environment view implementation for map agent applications.
+This view requires the used environment to be of type {@link MapEnvironment}.
+All agents are tracked but only the track of the first agent is shown.
+
+@author Ruediger Lunde
+"
+      classrelation 264578 // <generalisation>
+	relation 264578 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 264578 // <generalisation>
+	  b parent class_ref 214018 // EmptyEnvironmentView
+      end
+
+      attribute 236290 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 264706 // agentTracks (<unidirectional association>)
+	relation 264706 --->
+	  stereotype "Hashtable"
+	  a role_name "agentTracks" init_value " new Hashtable<Agent, List<String>>()" const_relation private
+	    comment " Stores for each agent the locations, it has already visited. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, List<String>> ${name}${value};
+"
+	    classrelation_ref 264706 // agentTracks (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      operation 600962 "getMapEnv"
+	protected return_type class_ref 137858 // MapEnvironment
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 601090 "getTrack"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns a list of all already visited agent locations. "
+      end
+
+      operation 601218 "clearTracks"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Clears the list of already visited locations. "
+      end
+
+      operation 601346 "agentAdded"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Reacts on environment changes and updates the agent tracks.
+"
+      end
+
+      operation 601474 "agentActed"
+	public explicit_return_type "void"
+	nparams 4
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "command" type class_ref 128002 // Action
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Reacts on environment changes and updates the agent tracks. The command
+is always send to the message logger as string.
+"
+      end
+
+      operation 601602 "paintComponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "g" explicit_type "java.awt.Graphics"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Clears the panel, displays the map, the current agent locations, and the
+track of the first agent.
+"
+      end
+
+      operation 601730 "updateTracks"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Updates all tracks with respect to the current agent locations. "
+      end
+
+      operation 601858 "getAgentLocs"
+	protected explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns the locations of all agents. "
+      end
+
+      operation 601986 "adjustTransformation"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adjusts offsets and scale so that the whole map fits on the view without
+scrolling.
+"
+      end
+
+      operation 602114 "paintMap"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "g2" explicit_type "java.awt.Graphics2D"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Represents roads by lines and locations by name-labeled points.
+"
+      end
+
+      operation 602242 "paintTrack"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "g2" explicit_type "java.awt.Graphics2D"
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " The track of the agent is visualized with red lines. "
+      end
+
+      operation 602370 "paintLoc"
+	protected explicit_return_type "void"
+	nparams 2
+	  param inout name "g2" explicit_type "java.awt.Graphics2D"
+	  param in name "loc" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 214786 "MapAgentFrame"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Universal frame for experiments with route planning agents. It configures the
+agent application frame with some selectors and an agent view which is
+designed for cooperation with an {@link aima.core.environment.map.MapEnvironment}.
+Since items for scenario, agent, destination, agent, and heuristic selection
+are application specific, this general implementation provides items only
+for search strategy and mode selection.
+
+@author Ruediger Lunde
+"
+      classrelation 265474 // <generalisation>
+	relation 265474 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 265474 // <generalisation>
+	  b parent class_ref 212610 // AgentAppFrame
+      end
+
+      attribute 236930 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237058 "SCENARIO_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"ScenarioSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237186 "DESTINATION_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"DestinationSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237314 "AGENT_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"AgentSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237442 "SEARCH_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"SearchSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237570 "Q_SEARCH_IMPL_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"SearchModeSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 237698 "HEURISTIC_SEL"
+	class_attribute public explicit_type "String"
+	init_value " \"HeuristicSelection\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 603138 "MapAgentFrame"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Standard constructor. "
+      end
+    end
+
+    class 214914 "RouteFindingAgentApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Demo example of a route finding agent application with GUI. The main method
+starts a map agent frame and supports runtime experiments. This
+implementation is based on the {@link aima.core.environment.map.SimpleMapAgent} and
+the {@link aima.core.environment.map.MapEnvironment}. It can be used as a
+code template for creating new applications with different specialised kinds
+of agents and environments.
+
+@author Ruediger Lunde
+"
+      classrelation 265602 // <generalisation>
+	relation 265602 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 265602 // <generalisation>
+	  b parent class_ref 212482 // SimpleAgentApp
+      end
+
+      operation 603266 "createEnvironmentView"
+	public return_type class_ref 212738 // AgentAppEnvironmentView
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Creates a <code>MapAgentView</code>. "
+      end
+
+      operation 603394 "createFrame"
+	public return_type class_ref 212610 // AgentAppFrame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Creates and configures a <code>RouteFindingAgentFrame</code>. "
+      end
+
+      operation 603522 "createController"
+	public return_type class_ref 212866 // AgentAppController
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Creates a <code>RouteFindingAgentController</code>. "
+      end
+
+      class 215042 "RouteFindingAgentFrame"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 265730 // <generalisation>
+	  relation 265730 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 265730 // <generalisation>
+	    b parent class_ref 214786 // MapAgentFrame
+	end
+
+	attribute 237826 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	class 215170 "MapType"
+	  visibility public stereotype "enum"
+	  cpp_decl ""
+	  java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	  php_decl ""
+	  python_2_2 python_decl ""
+	  idl_decl ""
+	  explicit_switch_type ""
+	  mysql_decl ""
+	  
+	  attribute 237954 "ROMANIA"
+	    public type class_ref 215170 // MapType
+	    cpp_decl ""
+	    java_decl "  ${@}${name}${value},${comment}"
+	    php_decl ""
+	    python_decl ""
+	    idl_decl ""
+	    mysql_decl ""
+	    MysqlColumn
+	  end
+
+	  attribute 238082 "AUSTRALIA"
+	    public type class_ref 215170 // MapType
+	    cpp_decl ""
+	    java_decl "  ${@}${name}${value},${comment}"
+	    php_decl ""
+	    python_decl ""
+	    idl_decl ""
+	    mysql_decl ""
+	    MysqlColumn
+	  end
+	end
+
+	classrelation 265858 // usedMap (<unidirectional association>)
+	  relation 265858 --->
+	    a role_name "usedMap" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 265858 // usedMap (<unidirectional association>)
+	    b parent class_ref 215170 // MapType
+	end
+
+	attribute 238210 "ROMANIA_DESTS"
+	  class_attribute private explicit_type "String"
+	  multiplicity "[]"
+	  init_value " new String[] {
+				\"to Bucharest\", \"to Eforie\", \"to Neamt\",
+				\"to Random\" }"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 238338 "AUSTRALIA_DESTS"
+	  class_attribute private explicit_type "String"
+	  multiplicity "[]"
+	  init_value " new String[] {
+				\"to Port Hedland\", \"to Albany\", \"to Melbourne\",
+				\"to Random\" }"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 603650 "RouteFindingAgentFrame"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Creates a new frame. "
+	end
+
+	operation 603778 "selectionChanged"
+	  protected explicit_return_type "void"
+	  nparams 1
+	    param in name "changedSelector" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Changes the destination selector items depending on the scenario
+selection if necessary, and calls the super class implementation
+afterwards.
+"
+	end
+      end
+
+      class 215298 "RouteFindingAgentController"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 265986 // <generalisation>
+	  relation 265986 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 265986 // <generalisation>
+	    b parent class_ref 214274 // AbstractMapAgentController
+	end
+
+	operation 603906 "selectScenarioAndDest"
+	  protected explicit_return_type "void"
+	  nparams 2
+	    param in name "scenarioIdx" explicit_type "int"
+	    param in name "destIdx" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Configures a scenario and a list of destinations. Note that for route
+finding problems, the size of the list needs to be 1.
+"
+	end
+
+	operation 604034 "prepareView"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Prepares the view for the previously specified scenario and
+destinations.
+"
+	end
+
+	operation 604162 "createHeuristic"
+	  protected return_type class_ref 135170 // Node
+	  nparams 1
+	    param in name "heuIdx" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<String, MoveToAction>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Returns the trivial zero function or a simple heuristic which is
+based on straight-line distance computation.
+"
+	end
+
+	operation 604290 "initAgents"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "logger" type class_ref 213122 // MessageLogger
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Creates a new agent and adds it to the scenario's environment.
+"
+	end
+      end
+
+      operation 604418 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " //////////////////////////////////////////////////////////
+ starter method
+ Application starter. "
+      end
+    end
+  end
+
+  deploymentview 140802 "map"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 200834 "AbstractMapAgentController"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Agent;
+import aima.core.environment.map.MapEnvironment;
+import aima.core.environment.map.MoveToAction;
+import aima.core.environment.map.Scenario;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.SearchForActions;
+import aima.gui.swing.framework.AgentAppController;
+import aima.gui.swing.framework.MessageLogger;
+import aima.gui.swing.framework.SimulationThread;
+import aima.gui.util.SearchFactory;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 214274 // AbstractMapAgentController
+      end
+    end
+
+    artifact 200962 "MapAgentView"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Environment;
+import aima.core.agent.Percept;
+import aima.core.environment.map.Map;
+import aima.core.environment.map.MapEnvironment;
+import aima.core.util.math.geom.shapes.Point2D;
+import aima.gui.swing.framework.EmptyEnvironmentView;
+${definition}"
+      associated_elems
+	class_ref 214530 // MapAgentView
+      end
+    end
+
+    artifact 201090 "ExtendedMapAgentView"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.environment.map.Map;
+import aima.core.environment.map.Scenario;
+import aima.core.util.math.geom.shapes.Point2D;
+${definition}"
+      associated_elems
+	class_ref 214402 // ExtendedMapAgentView
+      end
+    end
+
+    artifact 201218 "MapAgentFrame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.gui.swing.framework.AgentAppFrame;
+import aima.gui.util.SearchFactory;
+${definition}"
+      associated_elems
+	class_ref 214786 // MapAgentFrame
+      end
+    end
+
+    artifact 201346 "RouteFindingAgentApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.function.ToDoubleFunction;
+import aima.core.environment.map.*;
+import aima.core.search.framework.Node;
+import aima.gui.swing.framework.AgentAppController;
+import aima.gui.swing.framework.AgentAppEnvironmentView;
+import aima.gui.swing.framework.AgentAppFrame;
+import aima.gui.swing.framework.MessageLogger;
+import aima.gui.swing.framework.SimpleAgentApp;
+import aima.gui.util.SearchFactory;
+${definition}"
+      associated_elems
+	class_ref 214914 // RouteFindingAgentApp
+      end
+    end
+  end
+end

@@ -1,0 +1,524 @@
+format 223
+"example" // aima::core::learning::reinforcement::example
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/reinforcement/example/"
+  java_package "aima.core.learning.reinforcement.example"
+  classview 133506 "example"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 155010 "CellWorldEnvironment"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implementation of the Cell World Environment, supporting the execution of
+trials for reinforcement learning agents.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 161666 // <generalisation>
+	relation 161666 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 161666 // <generalisation>
+	  b parent class_ref 129922 // AbstractEnvironment
+      end
+
+      classrelation 161794 // startingCell (<unidirectional association>)
+	relation 161794 --->
+	  a role_name "startingCell" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Double> ${name}${value};
+"
+	    classrelation_ref 161794 // startingCell (<unidirectional association>)
+	  b parent class_ref 132354 // Cell
+      end
+
+      classrelation 161922 // allStates (<unidirectional association>)
+	relation 161922 --->
+	  stereotype "Set"
+	  a role_name "allStates" init_value " new LinkedHashSet<Cell<Double>>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<Double>> ${name}${value};
+"
+	    classrelation_ref 161922 // allStates (<unidirectional association>)
+	  b parent class_ref 132354 // Cell
+      end
+
+      classrelation 162050 // tpf (<unidirectional association>)
+	relation 162050 --->
+	  a role_name "tpf" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Cell<Double>, CellWorldAction> ${name}${value};
+"
+	    classrelation_ref 162050 // tpf (<unidirectional association>)
+	  b parent class_ref 155138 // TransitionProbabilityFunction
+      end
+
+      classrelation 162178 // r (<unidirectional association>)
+	relation 162178 --->
+	  a role_name "r" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 162178 // r (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      classrelation 162306 // currentState (<unidirectional association>)
+	relation 162306 --->
+	  a role_name "currentState" init_value " new CellWorldEnvironmentState()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 162306 // currentState (<unidirectional association>)
+	  b parent class_ref 155394 // CellWorldEnvironmentState
+      end
+
+      operation 251778 "CellWorldEnvironment"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "startingCell" type class_ref 132354 // Cell
+	  param inout name "allStates" explicit_type "Set<Cell<Double>>"
+	  param inout name "tpf" type class_ref 155138 // TransitionProbabilityFunction
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<Double> ${p0}, ${t1} ${p1}, ${t2}<Cell<Double>, CellWorldAction> ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param startingCell
+           the cell that agent(s) are to start from at the beginning of
+           each trial within the environment.
+@param allStates
+           all the possible states in this environment.
+@param tpf
+           the transition probability function that simulates how the
+           environment is meant to behave in response to an agent action.
+@param r
+           a Randomizer used to sample actions that are actually to be
+           executed based on the transition probabilities for actions.
+"
+      end
+
+      operation 251906 "executeTrials"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "n" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Execute N trials.
+
+@param n
+           the number of trials to execute.
+"
+      end
+
+      operation 252034 "executeTrial"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Execute a single trial.
+"
+      end
+
+      operation 252162 "executeAction"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 252290 "getPerceptSeenBy"
+	public return_type class_ref 128386 // Percept
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 155394 "CellWorldEnvironmentState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An implementation of the EnvironmentState interface for a Cell World.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 162434 // <realization>
+	relation 162434 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 162434 // <realization>
+	  b parent class_ref 129410 // EnvironmentState
+      end
+
+      classrelation 162562 // agentLocations (<unidirectional association>)
+	relation 162562 --->
+	  stereotype "Map"
+	  a role_name "agentLocations" init_value " new HashMap<Agent, CellWorldPercept>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, CellWorldPercept> ${name}${value};
+"
+	    classrelation_ref 162562 // agentLocations (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      operation 252418 "CellWorldEnvironmentState"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 252546 "reset"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reset the environment state to its default state.
+"
+      end
+
+      operation 252674 "setAgentLocation"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	  param inout name "location" type class_ref 132354 // Cell
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<Double> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set an agent's location within the cell world environment.
+
+@param anAgent
+           the agents whose location is to be tracked.
+@param location
+           the location for the agent in the cell world environment.
+"
+      end
+
+      operation 252802 "getAgentLocation"
+	public return_type class_ref 132354 // Cell
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the location of an agent within the cell world environment.
+
+@param anAgent
+           the agent whose location is being queried.
+@return the location of the agent within the cell world environment.
+"
+      end
+
+      operation 252930 "getPerceptFor"
+	public return_type class_ref 155522 // CellWorldPercept
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a percept for an agent, representing what it senses within the cell
+world environment.
+
+@param anAgent
+           the agent a percept is being queried for.
+@return a percept for the agent, representing what it senses within the
+        cell world environment.
+"
+      end
+    end
+
+    class 155522 "CellWorldPercept"
+      visibility public 
+      nactuals 1
+      actual class class_ref 153730 // PerceptStateReward
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An implementation of the PerceptStateReward interface for the cell world
+environment. Note: The getCell() and setCell() methods allow a single percept
+to be instantiated per agent within the environment. However, if an agent
+tracks its perceived percepts it will need to explicitly copy the relevant
+information.
+
+@author oreilly
+
+"
+      classrelation 162690 // <realization>
+	relation 162690 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 162690 // <realization>
+	  b parent class_ref 153730 // PerceptStateReward
+      end
+
+      classrelation 162818 // cell (<unidirectional association>)
+	relation 162818 --->
+	  a role_name "cell" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Double> ${name}${value};
+"
+	    classrelation_ref 162818 // cell (<unidirectional association>)
+	  b parent class_ref 132354 // Cell
+      end
+
+      operation 253058 "CellWorldPercept"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "cell" type class_ref 132354 // Cell
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<Double> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param cell
+           the cell within the environment that the percept refers to.
+"
+      end
+
+      operation 253186 "getCell"
+	public return_type class_ref 132354 // Cell
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the cell within the environment that the percept refers to.
+"
+      end
+
+      operation 253314 "setCell"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "cell" type class_ref 132354 // Cell
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Double> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the cell within the environment that the percept refers to.
+
+@param cell
+           the cell within the environment that the percept refers to.
+"
+      end
+
+      operation 253442 "reward"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-PerceptStateReward"
+      end
+
+      operation 253570 "state"
+	public return_type class_ref 132354 // Cell
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 131586 "example"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 148354 "CellWorldEnvironment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractEnvironment;
+import aima.core.environment.cellworld.Cell;
+import aima.core.environment.cellworld.CellWorldAction;
+import aima.core.probability.mdp.TransitionProbabilityFunction;
+import aima.core.util.Randomizer;
+${definition}"
+      associated_elems
+	class_ref 155010 // CellWorldEnvironment
+      end
+    end
+
+    artifact 148482 "CellWorldEnvironmentState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import aima.core.agent.Agent;
+import aima.core.agent.EnvironmentState;
+import aima.core.environment.cellworld.Cell;
+${definition}"
+      associated_elems
+	class_ref 155394 // CellWorldEnvironmentState
+      end
+    end
+
+    artifact 148610 "CellWorldPercept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.environment.cellworld.Cell;
+import aima.core.learning.reinforcement.PerceptStateReward;
+${definition}"
+      associated_elems
+	class_ref 155522 // CellWorldPercept
+      end
+    end
+  end
+end

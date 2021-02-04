@@ -1,0 +1,2285 @@
+format 223
+"csp" // aima::core::search::csp
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/csp/"
+  java_package "aima.core.search.csp"
+  classview 137986 "csp"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 190722 "AbstractBacktrackingSolver"
+      abstract visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 190978 // CspSolver
+        rank 0 explicit_value ""
+      actual class class_ref 190978 // CspSolver
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.5, Page 215.<br>
+<br>
+<p>
+<pre>
+<code>
+function BACKTRACKING-SEARCH(csp) returns a solution, or failure
+   return BACKTRACK({ }, csp)
+
+function BACKTRACK(assignment, csp) returns a solution, or failure
+   if assignment is complete then return assignment
+   var = SELECT-UNASSIGNED-VARIABLE(csp)
+   for each value in ORDER-DOMAIN-VALUES(var, assignment, csp) do
+      if value is consistent with assignment then
+         add {var = value} to assignment
+         inferences = INFERENCE(csp, var, value)
+         if inferences != failure then
+            add inferences to assignment
+            result = BACKTRACK(assignment, csp)
+            if result != failure then
+               return result
+         remove {var = value} and inferences from assignment
+   return failure
+</code>
+</pre>
+<p>
+Figure 6.5 A simple backtracking algorithm for constraint satisfaction
+problems. The algorithm is modeled on the recursive depth-first search of
+Chapter 3. By varying the functions SELECT-UNASSIGNED-VARIABLE and
+ORDER-DOMAIN-VALUES, we can implement the general-purpose heuristic discussed
+in the text. The function INFERENCE can optionally be used to impose arc-,
+path-, or k-consistency, as desired. If a value choice leads to failure
+(noticed wither by INFERENCE or by BACKTRACK), then value assignments
+(including those made by INFERENCE) are removed from the current assignment
+and a new value is tried.
+
+@param <VAR> Type which is used to represent variables
+@param <VAL> Type which is used to represent the values in the domains
+
+@author Ruediger Lunde
+"
+      classrelation 227330 // <realization>
+	relation 227330 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 227330 // <realization>
+	  b parent class_ref 190978 // CspSolver
+      end
+
+      operation 446466 "solve"
+	cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<VAR, VAL>> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Applies a recursive backtracking search to solve the CSP. "
+      end
+
+      operation 446594 "backtrack"
+	cpp_inline private return_type class_ref 191234 // Assignment
+	nparams 2
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Template method, which can be configured by overriding the three
+primitive operations below.
+@return An assignment (possibly incomplete if task was cancelled) or null if no solution was found.
+"
+      end
+
+      operation 446722 "selectUnassignedVariable"
+	abstract cpp_inline protected explicit_return_type "VAR"
+	nparams 2
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, selecting a not yet assigned variable.
+"
+      end
+
+      operation 446850 "orderDomainValues"
+	abstract cpp_inline protected explicit_return_type "Iterable<VAL>"
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, ordering the domain values of the specified variable.
+"
+      end
+
+      operation 446978 "inference"
+	abstract cpp_inline protected return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, which tries to optimize the CSP representation with respect to a new assignment.
+
+@param var The variable which just got a new value in the assignment.
+@return An object which provides information about
+(1) whether changes have been performed,
+(2) possibly inferred empty domains, and
+(3) how to restore the original CSP.
+"
+      end
+    end
+
+    class 190850 "Variable"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A variable is a distinguishable object with a name.
+
+@author Ruediger Lunde
+"
+      attribute 188418 "name"
+	const_attribute private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 455938 "Variable"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 456066 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent final java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 456194 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 456322 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent final java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Variables with equal names are equal. "
+      end
+
+      operation 456450 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent final java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 190978 "CspSolver"
+      abstract visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Base class for CSP solver implementations. Solving a CSP means finding an
+assignment, which is consistent and complete with respect to a CSP. This
+abstract class provides the central interface method and additionally an
+implementation of an observer mechanism.
+
+@param <VAR> Type which is used to represent variables
+@param <VAL> Type which is used to represent the values in the domains
+
+@author Ruediger Lunde
+@author Mike Stampone
+"
+      classrelation 227202 // listeners (<unidirectional association>)
+	relation 227202 --->
+	  stereotype "List"
+	  a role_name "listeners" init_value " new ArrayList<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<VAR, VAL>> ${name}${value};
+"
+	    classrelation_ref 227202 // listeners (<unidirectional association>)
+	  b parent class_ref 191106 // CspListener
+      end
+
+      operation 445954 "solve"
+	abstract cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<VAR, VAL>> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Computes a solution to the given CSP, which specifies values for all
+variables of the CSP such that all constraints are satisfied.
+
+@param csp a CSP to be solved.
+@return the computed solution or empty if no solution was found.
+"
+      end
+
+      operation 446082 "addCspListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" type class_ref 191106 // CspListener
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds a CSP listener to the solution strategy.
+
+@param listener a listener which follows the progress of the solution strategy
+                step-by-step.
+"
+      end
+
+      operation 446210 "removeCspListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" type class_ref 191106 // CspListener
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes a CSP listener from the solution strategy.
+
+@param listener the listener to remove
+"
+      end
+
+      operation 446338 "fireStateChanged"
+	cpp_inline protected explicit_return_type "void"
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "variable" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Informs all registered listeners about a state change. "
+      end
+    end
+
+    class 191106 "CspListener"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Interface which allows interested clients to register at a CSP solver
+and follow its progress step by step.
+
+@author Ruediger Lunde
+"
+      operation 451714 "stateChanged"
+	cpp_inline public explicit_return_type "void"
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "variable" explicit_type "VAR"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Informs about changed assignments and inference steps.
+
+@param csp        a CSP, possibly changed by an inference step.
+@param assignment a new assignment or null if the last processing step was an inference step.
+@param variable   a variable, whose domain or assignment value has been changed (may be null).
+"
+      end
+
+      class 192642 "StepCounter"
+	visibility public 
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 191106 // CspListener
+	  rank 0 explicit_value ""
+	actual class class_ref 191106 // CspListener
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 228610 // <realization>
+	  relation 228610 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 228610 // <realization>
+	    b parent class_ref 191106 // CspListener
+	end
+
+	attribute 187778 "assignmentCount"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 187906 "inferenceCount"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 451842 "stateChanged"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 3
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "assignment" type class_ref 191234 // Assignment
+	    param inout name "variable" explicit_type "VAR"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 451970 "reset"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 452098 "getResults"
+	  cpp_inline public return_type class_ref 133634 // Metrics
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 191234 "Assignment"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An assignment assigns values to some or all variables of a CSP.
+
+@author Ruediger Lunde
+"
+      classrelation 227458 // <realization>
+	relation 227458 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 227458 // <realization>
+	  b parent class_ref 134274 // Cloneable
+      end
+
+      attribute 187522 "variableToValueMap"
+	private explicit_type "VAR, VAL"
+	init_value " new LinkedHashMap<>()"
+	stereotype "LinkedHashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Maps variables to their assigned values.
+
+"
+      end
+
+      operation 447106 "getVariables"
+	cpp_inline public explicit_return_type "List<VAR>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 447234 "getValue"
+	cpp_inline public explicit_return_type "VAL"
+	nparams 1
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 447362 "add"
+	cpp_inline public explicit_return_type "VAL"
+	nparams 2
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "value" explicit_type "VAL"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 447490 "remove"
+	cpp_inline public explicit_return_type "VAL"
+	nparams 1
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 447618 "contains"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 447746 "isConsistent"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "constraints" explicit_type "List<Constraint<VAR, VAL>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if this assignment does not violate any constraints of
+<code>constraints</code>.
+"
+      end
+
+      operation 447874 "isComplete"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "vars" explicit_type "List<VAR>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if this assignment assigns values to every variable of
+<code>vars</code>.
+"
+      end
+
+      operation 448002 "isSolution"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if this assignment is consistent as well as complete with
+respect to the given CSP.
+"
+      end
+
+      operation 448130 "clone"
+	cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+@Override
+"
+	
+	
+	
+      end
+
+      operation 448258 "toString"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 191362 "CSP"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Section 6.1, Page 202.<br>
+<br>
+A constraint satisfaction problem or CSP consists of three components, X, D,
+and C:
+<ul>
+<li>X is a set of variables, {X1, ... ,Xn}.</li>
+<li>D is a set of domains, {D1, ... ,Dn}, one for each variable.</li>
+<li>C is a set of constraints that specify allowable combinations of values.</li>
+</ul>
+
+@param <VAR> Type which is used to represent variables
+@param <VAL> Type which is used to represent the values in the domains
+
+@author Ruediger Lunde
+"
+      classrelation 227586 // <realization>
+	relation 227586 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 227586 // <realization>
+	  b parent class_ref 134274 // Cloneable
+      end
+
+      attribute 187650 "variables"
+	private explicit_type "VAR"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 227714 // domains (<unidirectional association>)
+	relation 227714 --->
+	  stereotype "List"
+	  a role_name "domains" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<VAL>> ${name}${value};
+"
+	    classrelation_ref 227714 // domains (<unidirectional association>)
+	  b parent class_ref 191746 // Domain
+      end
+
+      classrelation 227842 // constraints (<unidirectional association>)
+	relation 227842 --->
+	  stereotype "List"
+	  a role_name "constraints" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<VAR, VAL>> ${name}${value};
+"
+	    classrelation_ref 227842 // constraints (<unidirectional association>)
+	  b parent class_ref 191618 // Constraint
+      end
+
+      classrelation 227970 // varIndexHash (<unidirectional association>)
+	relation 227970 --->
+	  stereotype "Hashtable"
+	  a role_name "varIndexHash" private
+	    comment "Lookup, which maps a variable to its index in the list of variables.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Integer> ${name}${value};
+"
+	    classrelation_ref 227970 // varIndexHash (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 228098 // cnet (<unidirectional association>)
+	relation 228098 --->
+	  stereotype "Hashtable"
+	  a role_name "cnet" private
+	    comment "Constraint network. Maps variables to those constraints in which they
+participate.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, List<Constraint<VAR, VAL>>> ${name}${value};
+"
+	    classrelation_ref 228098 // cnet (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      operation 448642 "CSP"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new CSP.
+"
+      end
+
+      operation 448770 "CSP"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "vars" explicit_type "List<VAR>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new CSP.
+"
+      end
+
+      operation 448898 "addVariable"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds a new variable only if its name is new.
+"
+      end
+
+      operation 449026 "getVariables"
+	cpp_inline public explicit_return_type "List<VAR>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449154 "indexOf"
+	cpp_inline public explicit_return_type "int"
+	nparams 1
+	  param inout name "var" type class_ref 190850 // Variable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449282 "setDomain"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "domain" type class_ref 191746 // Domain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449410 "getDomain"
+	cpp_inline public return_type class_ref 191746 // Domain
+	nparams 1
+	  param inout name "var" type class_ref 190850 // Variable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAL> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449538 "removeValueFromDomain"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "value" explicit_type "VAL"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Replaces the domain of the specified variable by new domain, which
+contains all values of the old domain except the specified value.
+"
+      end
+
+      operation 449666 "addConstraint"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449794 "removeConstraint"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 449922 "getConstraints"
+	cpp_inline public return_type class_ref 191618 // Constraint
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<VAR, VAL>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 450050 "getConstraints"
+	cpp_inline public return_type class_ref 191618 // Constraint
+	nparams 1
+	  param inout name "var" type class_ref 190850 // Variable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<VAR, VAL>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all constraints in which the specified variable participates.
+"
+      end
+
+      operation 450178 "getNeighbor"
+	cpp_inline public explicit_return_type "VAR"
+	nparams 2
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAR, VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns for binary constraints the other variable from the scope.
+
+@return a variable or null for non-binary constraints.
+"
+      end
+
+      operation 450306 "copyDomains"
+	cpp_inline public return_type class_ref 191362 // CSP
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+	comment "Returns a copy which contains a copy of the domains list and is in all
+other aspects a flat copy of this.
+"
+      end
+    end
+
+    class 191618 "Constraint"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A constraint specifies the allowable combinations of values for a set of
+variables. Each constraint consists of a pair <scope, rel>, where scope is a
+tuple of variables that participate in the constraint and rel is a relation
+that defines the values that those variables can take on.<br>
+<br>
+<b>Note:</b> Implementations of this interface define the different kinds of
+relations that constraints can represent.
+
+@author Ruediger Lunde
+"
+      operation 448386 "getScope"
+	cpp_inline public explicit_return_type "List<VAR>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns a tuple of variables that participate in the constraint. "
+      end
+
+      operation 448514 "isSatisfiedWith"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Constrains the values that the variables can take on. "
+      end
+    end
+
+    class 191746 "Domain"
+      visibility public 
+      nformals 1
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A domain Di consists of a set of allowable values {v1, ... , vk} for the
+corresponding variable Xi and defines a default order on those values. This
+implementation guarantees, that domains are never changed after they have
+been created. Domain reduction is implemented by replacement instead of
+modification. So previous states can easily and safely be restored.
+
+@author Ruediger Lunde
+"
+      classrelation 228738 // <realization>
+	relation 228738 -_-|>
+	  a public
+	    java "${type}<VAL>"
+	    classrelation_ref 228738 // <realization>
+	  b parent class_ref 192770 // Iterable
+      end
+
+      attribute 188034 "values"
+	const_attribute private explicit_type "Object"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 452226 "Domain"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "values" explicit_type "List<VAL>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 452354 "Domain"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "" explicit_type "VAL...values"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SafeVarargs
+"
+	
+	
+	
+      end
+
+      operation 452482 "size"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 452610 "get"
+	cpp_inline public explicit_return_type "VAL"
+	nparams 1
+	  param in name "index" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 452738 "isEmpty"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 452866 "contains"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "value" explicit_type "VAL"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 452994 "iterator"
+	cpp_inline public explicit_return_type "Iterator<VAL>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 453122 "asList"
+	cpp_inline public explicit_return_type "List<VAL>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+	comment " Not very efficient... "
+      end
+
+      operation 453250 "equals"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 453378 "hashCode"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 453506 "toString"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 191874 "CspHeuristics"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Defines variable and value selection heuristics for CSP backtracking strategies.
+@author Ruediger Lunde
+"
+      class 192002 "VariableSelection"
+	visibility public stereotype "interface"
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 450434 "apply"
+	  cpp_inline public explicit_return_type "List<VAR>"
+	  nparams 2
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "vars" explicit_type "List<VAR>"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 192130 "ValueSelection"
+	visibility public stereotype "interface"
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 450562 "apply"
+	  cpp_inline public explicit_return_type "List<VAL>"
+	  nparams 3
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "assignment" type class_ref 191234 // Assignment
+	    param inout name "var" explicit_type "VAR"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 450690 "mrv"
+	class_operation public return_type class_ref 192002 // VariableSelection
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 450818 "deg"
+	class_operation public return_type class_ref 192002 // VariableSelection
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 450946 "mrvDeg"
+	class_operation public return_type class_ref 192002 // VariableSelection
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 451074 "lcv"
+	class_operation public return_type class_ref 192130 // ValueSelection
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 192258 "MrvHeuristic"
+	visibility public 
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 192002 // VariableSelection
+	  rank 0 explicit_value ""
+	actual class class_ref 192002 // VariableSelection
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 228226 // <realization>
+	  relation 228226 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 228226 // <realization>
+	    b parent class_ref 192002 // VariableSelection
+	end
+
+	operation 451202 "apply"
+	  cpp_inline public explicit_return_type "List<VAR>"
+	  nparams 2
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "vars" explicit_type "List<VAR>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns variables from <code>vars</code> which are the best with respect to MRV. "
+	end
+      end
+
+      class 192386 "DegHeuristic"
+	visibility public 
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 192002 // VariableSelection
+	  rank 0 explicit_value ""
+	actual class class_ref 192002 // VariableSelection
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 228354 // <realization>
+	  relation 228354 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 228354 // <realization>
+	    b parent class_ref 192002 // VariableSelection
+	end
+
+	operation 451330 "apply"
+	  cpp_inline public explicit_return_type "List<VAR>"
+	  nparams 2
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "vars" explicit_type "List<VAR>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns variables from <code>vars</code> which are the best with respect to DEG. "
+	end
+      end
+
+      class 192514 "LcvHeuristic"
+	visibility public 
+	nformals 2
+	formal name "VAR" type "" explicit_default_value ""
+	  extends class_ref 190850 // Variable
+	formal name "VAL" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 192130 // ValueSelection
+	  rank 0 explicit_value ""
+	actual class class_ref 192130 // ValueSelection
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 228482 // <realization>
+	  relation 228482 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 228482 // <realization>
+	    b parent class_ref 192130 // ValueSelection
+	end
+
+	operation 451458 "apply"
+	  cpp_inline public explicit_return_type "List<VAL>"
+	  nparams 3
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "assignment" type class_ref 191234 // Assignment
+	    param inout name "var" explicit_type "VAR"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns the values of Dom(var) in a special order. The least constraining value comes first. "
+	end
+
+	operation 451586 "countLostValues"
+	  cpp_inline private explicit_return_type "int"
+	  nparams 4
+	    param inout name "csp" type class_ref 191362 // CSP
+	    param inout name "assignment" type class_ref 191234 // Assignment
+	    param inout name "var" explicit_type "VAR"
+	    param inout name "value" explicit_type "VAL"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Ignores constraints which are not binary.
+"
+	end
+      end
+    end
+
+    class 192898 "FlexibleBacktrackingSolver"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 190722 // AbstractBacktrackingSolver
+        rank 0 explicit_value ""
+      actual class class_ref 190722 // AbstractBacktrackingSolver
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This backtracking search implementation can be configured with arbitrary strategies for variable selection,
+value ordering, and inference. These strategies are represented by objects implementing standard interfaces.
+The design supports experiments with user-defined strategies of all kinds.
+
+@param <VAR> Type which is used to represent variables
+@param <VAL> Type which is used to represent the values in the domains
+
+@author Ruediger Lunde
+"
+      classrelation 228866 // <realization>
+	relation 228866 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 228866 // <realization>
+	  b parent class_ref 190722 // AbstractBacktrackingSolver
+      end
+
+      classrelation 228994 // varSelectionStrategy (<unidirectional association>)
+	relation 228994 --->
+	  a role_name "varSelectionStrategy" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<VAR, VAL> ${name}${value};
+"
+	    classrelation_ref 228994 // varSelectionStrategy (<unidirectional association>)
+	  b parent class_ref 192002 // VariableSelection
+      end
+
+      classrelation 229122 // valSelectionStrategy (<unidirectional association>)
+	relation 229122 --->
+	  a role_name "valSelectionStrategy" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<VAR, VAL> ${name}${value};
+"
+	    classrelation_ref 229122 // valSelectionStrategy (<unidirectional association>)
+	  b parent class_ref 192130 // ValueSelection
+      end
+
+      classrelation 229250 // inferenceStrategy (<unidirectional association>)
+	relation 229250 --->
+	  a role_name "inferenceStrategy" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<VAR, VAL> ${name}${value};
+"
+	    classrelation_ref 229250 // inferenceStrategy (<unidirectional association>)
+	  b parent class_ref 193026 // InferenceStrategy
+      end
+
+      operation 453634 "set"
+	cpp_inline public return_type class_ref 192898 // FlexibleBacktrackingSolver
+	nparams 1
+	  param inout name "varStrategy" type class_ref 192002 // VariableSelection
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Selects the algorithm for SELECT-UNASSIGNED-VARIABLE. Uses the fluent interface design pattern.
+"
+      end
+
+      operation 453762 "set"
+	cpp_inline public return_type class_ref 192898 // FlexibleBacktrackingSolver
+	nparams 1
+	  param inout name "valStrategy" type class_ref 192130 // ValueSelection
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Selects the algorithm for ORDER-DOMAIN-VALUES. Uses the fluent interface design pattern.
+"
+      end
+
+      operation 453890 "set"
+	cpp_inline public return_type class_ref 192898 // FlexibleBacktrackingSolver
+	nparams 1
+	  param inout name "iStrategy" type class_ref 193026 // InferenceStrategy
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Selects the algorithm for INFERENCE. Uses the fluent interface design pattern.
+"
+      end
+
+      operation 454018 "setAll"
+	cpp_inline public return_type class_ref 192898 // FlexibleBacktrackingSolver
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Selects MRV&DEG for variable selection, LCV for domain ordering and AC3 as inference method.
+"
+      end
+
+      operation 454146 "solve"
+	cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<VAR, VAL>> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Applies an initial inference step and then calls the super class implementation.
+"
+      end
+
+      operation 454274 "selectUnassignedVariable"
+	cpp_inline protected explicit_return_type "VAR"
+	nparams 2
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Primitive operation, selecting a not yet assigned variable.
+"
+      end
+
+      operation 454402 "orderDomainValues"
+	cpp_inline protected explicit_return_type "Iterable<VAL>"
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Primitive operation, ordering the domain values of the specified variable.
+"
+      end
+
+      operation 454530 "inference"
+	cpp_inline protected return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Primitive operation, which tries to optimize the CSP representation with respect to a new assignment.
+
+@param var The variable which just got a new value in the assignment.
+@return An object which provides information about
+(1) whether changes have been performed,
+(2) possibly inferred empty domains, and
+(3) how to restore the original CSP.
+"
+      end
+    end
+
+    class 193154 "MinConflictsSolver"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 190978 // CspSolver
+        rank 0 explicit_value ""
+      actual class class_ref 190978 // CspSolver
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.8, Page 221.<br>
+<br>
+
+<pre>
+<code>
+function MIN-CONFLICTS(csp, max-steps) returns a solution or failure
+   inputs: csp, a constraint satisfaction problem
+           max-steps, the number of steps allowed before giving up
+   current = an initial complete assignment for csp
+   for i = 1 to max steps do
+      if current is a solution for csp then return current
+      var = a randomly chosen conflicted variable from csp.VARIABLES
+      value = the value v for var that minimizes CONFLICTS(var, v, current, csp)
+      set var = value in current
+   return failure
+</code>
+</pre>
+
+Figure 6.8 The MIN-CONFLICTS algorithm for solving CSPs by local search. The
+initial state may be chosen randomly or by a greedy assignment process that
+chooses a minimal-conflict value for each variable in turn. The CONFLICTS
+function counts the number of constraints violated by a particular value,
+given the rest of the current assignment.
+
+@param <VAR> Type which is used to represent variables
+@param <VAL> Type which is used to represent the values in the domains
+
+@author Ruediger Lunde
+@author Mike Stampone
+"
+      classrelation 229378 // <realization>
+	relation 229378 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 229378 // <realization>
+	  b parent class_ref 190978 // CspSolver
+      end
+
+      attribute 188162 "maxSteps"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 454658 "MinConflictsSolver"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param in name "maxSteps" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a min-conflicts strategy with a given number of steps allowed
+before giving up.
+
+@param maxSteps
+           the number of steps allowed before giving up
+"
+      end
+
+      operation 454786 "solve"
+	cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<VAR, VAL>> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 454914 "generateRandomAssignment"
+	cpp_inline private return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 455042 "getConflictedVariables"
+	cpp_inline private explicit_return_type "Set<VAR>"
+	nparams 2
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 455170 "getMinConflictValueFor"
+	cpp_inline private explicit_return_type "VAL"
+	nparams 3
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2}<VAR, VAL> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 455298 "countConflicts"
+	cpp_inline private explicit_return_type "int"
+	nparams 2
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "constraints" explicit_type "List<Constraint<VAR, VAL>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 193282 "TreeCspSolver"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 190978 // CspSolver
+        rank 0 explicit_value ""
+      actual class class_ref 190978 // CspSolver
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.11, Page
+224.<br>
+<br>
+<p>
+<pre>
+<code>
+function TREE-CSP-SOLVER(csp) returns a solution, or failure
+		inputs: csp, a CSP with components X, D, C
+		n &larr; number of variables in X
+		assignment &larr; an empty assignment
+		root  &larr; any variable in X
+		X &larr; TOPOLOGICALSORT(X, root )
+		for j = n down to 2 do
+			MAKE-ARC-CONSISTENT(PARENT(Xj),Xj )
+			if it cannot be made consistent then return failure
+		for i = 1 to n do
+			assignment[Xi] &larr; any consistent value from Di
+			if there is no consistent value then return failure (*)
+		return assignment
+</code>
+
+<pre>
+
+Figure 6.11 The TREE-CSP-SOLVER algorithm for solving tree-structured CSPs.
+If the CSP has a solution, we will find it in linear time; if not, we will
+detect a contradiction. Comment to (*) (RL): If no empty domain was found in the
+previous loop, this will only happen if n == 1.
+
+@author Ruediger Lunde
+@author Anurag Rai
+"
+      classrelation 229506 // <realization>
+	relation 229506 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 229506 // <realization>
+	  b parent class_ref 190978 // CspSolver
+      end
+
+      attribute 188290 "useRandom"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 455426 "useRandom"
+	cpp_inline public return_type class_ref 193282 // TreeCspSolver
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 455554 "solve"
+	cpp_inline public return_type class_ref 191234 // Assignment
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<VAR, VAL>> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 455682 "topologicalSort"
+	cpp_inline private explicit_return_type "void"
+	nparams 4
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "root" explicit_type "VAR"
+	  param inout name "orderedVars" explicit_type "List<VAR>"
+	  param inout name "parentConstraints" explicit_type "Map<VAR, Constraint<VAR, VAL>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Computes an explicit representation of the tree structure and a total order which is consistent with the
+parent-child relations. If the provided CSP has not the required properties (CSP contains only binary
+constraints, constraint graph is tree-structured and connected), an exception is thrown.
+
+@param csp               A CSP
+@param root              A root variable
+@param orderedVars       The computed total order (initially empty)
+@param parentConstraints The tree structure, maps a variable to the constraint representing the arc to the parent
+                         variable (initially empty)
+"
+      end
+
+      operation 455810 "makeArcConsistent"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 4
+	  param inout name "xi" explicit_type "VAR"
+	  param inout name "xj" explicit_type "VAR"
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<VAR, VAL> ${p2}, ${t3}<VAR, VAL> ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Establishes arc-consistency for (xi, xj).
+@return value true if the domain of xi was reduced.
+"
+      end
+    end
+  end
+
+  deploymentview 137090 "csp"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 180610 "CspSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+${definition}"
+      associated_elems
+	class_ref 190978 // CspSolver
+      end
+    end
+
+    artifact 180738 "AbstractBacktrackingSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.inference.InferenceLog;
+import aima.core.util.Tasks;
+import java.util.Optional;
+${definition}"
+      associated_elems
+	class_ref 190722 // AbstractBacktrackingSolver
+      end
+    end
+
+    artifact 180866 "Assignment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+import java.util.stream.Collectors;
+${definition}"
+      associated_elems
+	class_ref 191234 // Assignment
+      end
+    end
+
+    artifact 180994 "Constraint"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 191618 // Constraint
+      end
+    end
+
+    artifact 181122 "CSP"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 191362 // CSP
+      end
+    end
+
+    artifact 181250 "CspHeuristics"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.datastructure.Pair;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+${definition}"
+      associated_elems
+	class_ref 191874 // CspHeuristics
+      end
+    end
+
+    artifact 181378 "CspListener"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 191106 // CspListener
+      end
+    end
+
+    artifact 181506 "Domain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import aima.core.util.ArrayIterator;
+${definition}"
+      associated_elems
+	class_ref 191746 // Domain
+      end
+    end
+
+    artifact 181634 "FlexibleBacktrackingSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import aima.core.search.csp.inference.*;
+${definition}"
+      associated_elems
+	class_ref 192898 // FlexibleBacktrackingSolver
+      end
+    end
+
+    artifact 181762 "MinConflictsSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.Tasks;
+import aima.core.util.Util;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 193154 // MinConflictsSolver
+      end
+    end
+
+    artifact 181890 "TreeCspSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.Util;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 193282 // TreeCspSolver
+      end
+    end
+
+    artifact 182018 "Variable"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 190850 // Variable
+      end
+    end
+  end
+
+  package_ref 139138 // inference
+
+  package_ref 139266 // examples
+end

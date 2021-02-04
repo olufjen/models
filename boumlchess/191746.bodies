@@ -1,0 +1,48 @@
+class Domain
+!!!452226.java!!!	Domain(inout values : List<VAL>)
+		this.values = values.toArray();
+!!!452354.java!!!	Domain(inout  : VAL...values)
+		this.values = values;
+!!!452482.java!!!	size() : int
+		return values.length;
+!!!452610.java!!!	get(in index : int) : VAL
+		return (VAL) values[index];
+!!!452738.java!!!	isEmpty() : boolean
+		return values.length == 0;
+!!!452866.java!!!	contains(inout value : VAL) : boolean
+		for (Object v : values)
+			if (value.equals(v))
+				return true;
+		return false;
+!!!452994.java!!!	iterator() : Iterator<VAL>
+		return new ArrayIterator<>((VAL[]) values);
+!!!453122.java!!!	asList() : List<VAL>
+		return Arrays.asList((VAL[]) values);
+!!!453250.java!!!	equals(inout obj : Object) : boolean
+		if (obj != null && getClass() == obj.getClass()) {
+			Domain d = (Domain) obj;
+			if (d.values.length != values.length)
+				return false;
+			for (int i = 0; i < values.length; i++)
+				if (!values[i].equals(d.values[i]))
+					return false;
+			return true;
+		}
+		return false;
+!!!453378.java!!!	hashCode() : int
+		int hash = 9; // arbitrary seed value
+		int multiplier = 13; // arbitrary multiplier value
+		for (Object value : values)
+			hash = hash * multiplier + value.hashCode();
+		return hash;
+!!!453506.java!!!	toString() : String
+		StringBuilder result = new StringBuilder("{");
+		boolean comma = false;
+		for (Object value : values) {
+			if (comma)
+				result.append(", ");
+			result.append(value.toString());
+			comma = true;
+		}
+		result.append("}");
+		return result.toString();

@@ -1,0 +1,57 @@
+class ProofFinal
+!!!304898.java!!!	ProofFinal(inout finalStep : ProofStep, inout answerBindings : Map<Variable, Term>)
+		this.finalStep = finalStep;
+		this.answerBindings.putAll(answerBindings);
+!!!305026.java!!!	getSteps() : ProofStep
+		// Only calculate if the proof steps are actually requested.
+		if (null == proofSteps) {
+			calcualteProofSteps();
+		}
+		return proofSteps;
+!!!305154.java!!!	getAnswerBindings() : Variable
+		return answerBindings;
+!!!305282.java!!!	replaceAnswerBindings(inout updatedBindings : Map<Variable, Term>) : void
+		answerBindings.clear();
+		answerBindings.putAll(updatedBindings);
+!!!305410.java!!!	toString() : String
+		return answerBindings.toString();
+!!!305538.java!!!	calcualteProofSteps() : void
+		proofSteps = new ArrayList<ProofStep>();
+		addToProofSteps(finalStep);
+
+		// Move all premises to the front of the
+		// list of steps
+		int to = 0;
+		for (int i = 0; i < proofSteps.size(); i++) {
+			if (proofSteps.get(i) instanceof ProofStepPremise) {
+				ProofStep m = proofSteps.remove(i);
+				proofSteps.add(to, m);
+				to++;
+			}
+		}
+
+		// Move the Goals after the premises
+		for (int i = 0; i < proofSteps.size(); i++) {
+			if (proofSteps.get(i) instanceof ProofStepGoal) {
+				ProofStep m = proofSteps.remove(i);
+				proofSteps.add(to, m);
+				to++;
+			}
+		}
+
+		// Assign the step #s now that all the proof
+		// steps have been unwound
+		for (int i = 0; i < proofSteps.size(); i++) {
+			proofSteps.get(i).setStepNumber(i + 1);
+		}
+!!!305666.java!!!	addToProofSteps(inout step : ProofStep) : void
+		if (!proofSteps.contains(step)) {
+			proofSteps.add(0, step);
+		} else {
+			proofSteps.remove(step);
+			proofSteps.add(0, step);
+		}
+		List<ProofStep> predecessors = step.getPredecessorSteps();
+		for (int i = predecessors.size() - 1; i >= 0; i--) {
+			addToProofSteps(predecessors.get(i));
+		}

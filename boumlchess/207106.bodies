@@ -1,0 +1,44 @@
+class SimpleEnvironmentViewCtrl
+!!!578562.java!!!	SimpleEnvironmentViewCtrl(inout viewRoot : StackPane)
+		splitPane = new SplitPane();
+		textArea = new TextArea();
+		textArea.setMinWidth(0.0);
+		splitPane.getItems().add(textArea);
+		viewRoot.getChildren().add(splitPane);
+!!!578690.java!!!	SimpleEnvironmentViewCtrl(inout viewRoot : StackPane, inout envStateView : Pane, in dividerPos : double)
+		this(viewRoot);
+		splitPane.getItems().add(0, envStateView);
+		splitPane.setDividerPosition(0, dividerPos);
+!!!578818.java!!!	initialize(inout env : Environment) : void
+		if (!textArea.getText().isEmpty())
+			textArea.appendText("\n\n");
+		updateEnvStateView(env);
+!!!578946.java!!!	notify(in msg : String) : void
+		if (Platform.isFxApplicationThread())
+			textArea.appendText("\n" + msg + "\n");
+		else
+			Platform.runLater(() -> textArea.appendText("\n" + msg+ "\n"));
+!!!579074.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+		Runnable r = () -> {
+			int agentId = source.getAgents().indexOf(agent) + 1;
+			textArea.appendText("\nAgent " + agentId + " added.");
+			updateEnvStateView(source);
+		};
+		if (Platform.isFxApplicationThread())
+			r.run();
+		else
+			Platform.runLater(r);
+!!!579202.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+		Runnable r = () -> {
+			int agentId = source.getAgents().indexOf(agent) + 1;
+			textArea.appendText("\nAgent " + agentId + " acted.");
+			textArea.appendText("\n   Percept: " + percept.toString());
+			textArea.appendText("\n   Action: " + action.toString());
+			updateEnvStateView(source);
+		};
+		if (Platform.isFxApplicationThread())
+			r.run();
+		else
+			Platform.runLater(r);
+!!!579330.java!!!	updateEnvStateView(inout env : Environment) : void
+		notifyObservers();

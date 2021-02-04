@@ -1,0 +1,15 @@
+class KBAgent
+!!!358146.java!!!	KBAgent(inout KB : KnowledgeBase)
+		this.KB = KB;
+!!!358274.java!!!	execute(inout percept : Percept) : Action
+		// TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+		KB.tell(makePerceptSentence(percept, t));
+		// action &lt;- ASK(KB, MAKE-ACTION-QUERY(t))
+		Action action = ask(KB, makeActionQuery(t));
+		
+		// TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+		KB.tell(makeActionSentence(action, t));
+		// t &lt;- t + 1
+		t = t + 1;
+		// return action
+		return action;

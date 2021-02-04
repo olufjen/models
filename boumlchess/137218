@@ -1,0 +1,299 @@
+format 223
+"model" // aima::core::probability::bayes::model
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/bayes/model/"
+  java_package "aima.core.probability.bayes.model"
+  classview 136194 "model"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 180226 "FiniteBayesModel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Very simple implementation of the FiniteProbabilityModel API using a Bayesian
+Network, consisting of FiniteNodes, to represent the underlying model.<br>
+<br>
+<b>Note:</b> The implementation currently doesn't take advantage of the use
+of evidence values when calculating posterior values using the provided
+Bayesian Inference implementation (e.g enumerationAsk). Instead it simply
+creates a joint distribution over the scope of the propositions (i.e. using
+the inference implementation with just query variables corresponding to the
+scope of the propositions) and then iterates over this to get the appropriate
+probability values. A smarter version, in the general case, would need to
+dynamically create deterministic nodes to represent the outcome of logical
+and derived propositions (e.g. conjuncts and summations over variables) in
+order to be able to correctly calculate using evidence values.
+
+@author Ciaran O'Reilly
+"
+      classrelation 209026 // <realization>
+	relation 209026 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 209026 // <realization>
+	  b parent class_ref 176386 // FiniteProbabilityModel
+      end
+
+      classrelation 209154 // bayesNet (<unidirectional association>)
+	relation 209154 --->
+	  a role_name "bayesNet" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 209154 // bayesNet (<unidirectional association>)
+	  b parent class_ref 175874 // BayesianNetwork
+      end
+
+      classrelation 209282 // representation (<unidirectional association>)
+	relation 209282 --->
+	  stereotype "Set"
+	  a role_name "representation" init_value " new LinkedHashSet<RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 209282 // representation (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 209410 // bayesInference (<unidirectional association>)
+	relation 209410 --->
+	  a role_name "bayesInference" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 209410 // bayesInference (<unidirectional association>)
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      operation 408066 "FiniteBayesModel"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408194 "FiniteBayesModel"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param inout name "bi" type class_ref 176002 // BayesInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408322 "getBayesInference"
+	public return_type class_ref 176002 // BayesInference
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408450 "setBayesInference"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "bi" type class_ref 176002 // BayesInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408578 "isValid"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-ProbabilityModel"
+      end
+
+      operation 408706 "prior"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Proposition...phi"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408834 "posterior"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "phi" type class_ref 176642 // Proposition
+	  param inout name "" explicit_type "Proposition...evidence"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 408962 "getRepresentation"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 409090 "priorDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "Proposition...phi"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-ProbabilityModel
+
+
+ START-FiniteProbabilityModel"
+      end
+
+      operation 409218 "posteriorDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "phi" type class_ref 176642 // Proposition
+	  param inout name "" explicit_type "Proposition...evidence"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 409346 "jointDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "Proposition...propositions"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 134786 "model"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 170242 "FiniteBayesModel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.FiniteProbabilityModel;
+import aima.core.probability.ProbabilityModel;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.bayes.exact.EnumerationAsk;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.proposition.ConjunctiveProposition;
+import aima.core.probability.proposition.Proposition;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.ProbabilityTable;
+${definition}"
+      associated_elems
+	class_ref 180226 // FiniteBayesModel
+      end
+    end
+  end
+end

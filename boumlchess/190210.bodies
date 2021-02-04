@@ -1,0 +1,40 @@
+class NondeterministicSearchAgent
+!!!444546.java!!!	NondeterministicSearchAgent(inout ptsFn : Function<Percept, S>)
+		this.ptsFunction = ptsFn;
+!!!444674.java!!!	NondeterministicSearchAgent(inout ptsFn : Function<Percept, S>, inout notifier : EnvironmentViewNotifier)
+		this.ptsFunction = ptsFn;
+		this.notifier = notifier;
+!!!444802.java!!!	makePlan(inout problem : NondeterministicProblem) : void
+		this.problem = problem;
+		setAlive(true);
+		AndOrSearch<S, A> andOrSearch = new AndOrSearch<>();
+		Optional<Plan<S, A>> plan = andOrSearch.search(problem);
+		contingencyPlan = plan.isPresent() ? plan.get() : null;
+		currStep = -1;
+		if (notifier != null)
+			notifier.notifyViews("Contingency plan: " + contingencyPlan);
+!!!444930.java!!!	getProblem() : NondeterministicProblem
+		return problem;
+!!!445058.java!!!	getPlan() : Plan
+		return contingencyPlan;
+!!!445186.java!!!	execute(inout percept : Percept) : Action
+		S state = (S) ptsFunction.apply(percept);
+		// at goal or no plan?
+		if (problem.testGoal(state) || contingencyPlan == null)
+			return NoOpAction.NO_OP;
+
+		currStep++;
+		// end of plan reached?
+		if (currStep == contingencyPlan.size()) {
+			contingencyPlan = null;
+			return NoOpAction.NO_OP;
+		}
+
+		// next step is action step?
+		if (contingencyPlan.isActionStep(currStep))
+			return contingencyPlan.getAction(currStep);
+
+		// determine next sub-plan and execute it!
+		contingencyPlan = contingencyPlan.getPlan(currStep, state);
+		currStep = -1;
+		return execute(percept);

@@ -1,0 +1,60 @@
+class IntegratedAppPaneCtrl
+!!!571650.java!!!	IntegratedAppPaneCtrl()
+		messageArea = new TextArea();
+		messageArea.setFont(Font.font("monospaced"));
+		messageScrollPane = new ScrollPane(messageArea);
+		messageScrollPane.setFitToWidth(true);
+		messageScrollPane.setFitToHeight(true);
+		messagePaneCtrl = new MessagePaneCtrl(messageArea);
+		scale.set(1.0);
+!!!571778.java!!!	setContext(inout pane : BorderPane, inout stage : Stage, in title : String) : void
+		this.pane = pane;
+		this.stage = stage;
+		this.title = title;
+		updateStageTitle();
+!!!571906.java!!!	scaleProperty() : DoubleProperty
+		return scale;
+!!!572034.java!!!	startApp(inout appClass : Class<? extends IntegrableApplication>) : void
+		stopRunningAppsAndDemo();
+		try {
+			currApp = appClass.newInstance();
+			Pane appPane = currApp.createRootPane();
+			pane.setCenter(appPane);
+			updateStageTitle();
+			currApp.initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+!!!572162.java!!!	startDemo(inout demoClass : Class<?>) : void
+		stopRunningAppsAndDemo();
+		if (pane.getCenter() != messageScrollPane)
+			pane.setCenter(messageScrollPane);
+		messageArea.clear();
+		updateStageTitle();
+		// redirect the standard output into the text area
+		PrintStream pStream = messagePaneCtrl.getPrintStream();
+		System.setOut(pStream);
+		// System.setErr(messagePaneCtrl.getPrintStream());
+		currDemoThread = Tasks.executeInBackground(() -> {
+			startMain(demoClass);
+			pStream.flush();
+		});
+!!!572290.java!!!	startMain(inout demoClass : Class<?>) : void
+		try {
+			Method m = demoClass.getMethod("main", String[].class);
+			m.invoke(null, (Object) new String[] {});
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e) {
+			e.printStackTrace();
+		}
+!!!572418.java!!!	stopRunningAppsAndDemo() : void
+		if (currApp != null) {
+			currApp.cleanup();
+			currApp = null;
+		}
+		if (currDemoThread != null) {
+			Tasks.cancel(currDemoThread);
+			currDemoThread = null;
+		}
+!!!572546.java!!!	updateStageTitle() : void
+		stage.setTitle(title + (currApp != null ? " - " + currApp.getTitle() : ""));

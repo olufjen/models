@@ -1,0 +1,45 @@
+class PropositionSymbol
+!!!381570.java!!!	PropositionSymbol(in symbol : String)
+		// Ensure differing cases for the 'True' and 'False'
+		// propositional constants are represented in a canonical form.
+		if (TRUE_SYMBOL.equalsIgnoreCase(symbol)) {
+			this.symbol = TRUE_SYMBOL;
+		} else if (FALSE_SYMBOL.equalsIgnoreCase(symbol)) {
+			this.symbol = FALSE_SYMBOL;
+		} else if (isPropositionSymbol(symbol)){
+			this.symbol = symbol;
+		}
+		else {
+			throw new IllegalArgumentException("Not a legal proposition symbol: "+symbol);
+		}
+!!!381698.java!!!	isAlwaysTrue() : boolean
+		return TRUE_SYMBOL.equals(symbol);
+!!!381826.java!!!	isAlwaysTrueSymbol(in symbol : String) : boolean
+		return TRUE_SYMBOL.equalsIgnoreCase(symbol);
+!!!381954.java!!!	isAlwaysFalse() : boolean
+		return FALSE_SYMBOL.equals(symbol);
+!!!382082.java!!!	isAlwaysFalseSymbol(in symbol : String) : boolean
+		return FALSE_SYMBOL.equalsIgnoreCase(symbol);
+!!!382210.java!!!	isPropositionSymbol(in symbol : String) : boolean
+		return SourceVersion.isIdentifier(symbol);
+!!!382338.java!!!	isPropositionSymbolIdentifierStart(in ch : char) : boolean
+		return Character.isJavaIdentifierStart(ch);
+!!!382466.java!!!	isPropositionSymbolIdentifierPart(in ch : char) : boolean
+		return Character.isJavaIdentifierPart(ch);
+!!!382594.java!!!	getSymbol() : String
+		return symbol;
+!!!382722.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		PropositionSymbol sym = (PropositionSymbol) o;
+		return symbol.equals(sym.symbol);
+
+!!!382850.java!!!	hashCode() : int
+		return symbol.hashCode();
+!!!382978.java!!!	toString() : String
+		return getSymbol();

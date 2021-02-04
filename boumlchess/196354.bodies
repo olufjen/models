@@ -1,0 +1,7 @@
+class BestFirstSearch
+!!!474114.java!!!	BestFirstSearch(inout impl : QueueSearch, in evalFn : ToDoubleFunction<Node<S, A>>)
+		super(impl, QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)));
+		this.evalFn = evalFn;
+!!!474242.java!!!	setHeuristicFunction(inout h : ToDoubleFunction<Node<S, A>>) : void
+		if (evalFn instanceof HeuristicEvaluationFunction)
+			((HeuristicEvaluationFunction<S, A>) evalFn).setHeuristicFunction(h);

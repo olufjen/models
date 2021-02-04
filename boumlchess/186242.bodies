@@ -1,0 +1,33 @@
+class ConjunctiveProposition
+!!!430594.java!!!	ConjunctiveProposition(inout left : Proposition, inout right : Proposition)
+		if (null == left) {
+			throw new IllegalArgumentException(
+					"Left side of conjunction must be specified.");
+		}
+		if (null == right) {
+			throw new IllegalArgumentException(
+					"Right side of conjunction must be specified.");
+		}
+		// Track nested scope
+		addScope(left.getScope());
+		addScope(right.getScope());
+		addUnboundScope(left.getUnboundScope());
+		addUnboundScope(right.getUnboundScope());
+
+		this.left = left;
+		this.right = right;
+!!!430722.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return left.holds(possibleWorld) && right.holds(possibleWorld);
+!!!430850.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("(");
+			sb.append(left.toString());
+			sb.append(" AND ");
+			sb.append(right.toString());
+			sb.append(")");
+
+			toString = sb.toString();
+		}
+
+		return toString;

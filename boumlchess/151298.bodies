@@ -1,0 +1,84 @@
+class BackPropLearning
+!!!234882.java!!!	BackPropLearning(in learningRate : double, in momentum : double)
+
+		this.learningRate = learningRate;
+		this.momentum = momentum;
+
+!!!235010.java!!!	setNeuralNetwork(inout fapp : FunctionApproximator) : void
+		FeedForwardNeuralNetwork ffnn = (FeedForwardNeuralNetwork) fapp;
+		this.hiddenLayer = ffnn.getHiddenLayer();
+		this.outputLayer = ffnn.getOutputLayer();
+		this.hiddenSensitivity = new LayerSensitivity(hiddenLayer);
+		this.outputSensitivity = new LayerSensitivity(outputLayer);
+!!!235138.java!!!	processInput(inout network : FeedForwardNeuralNetwork, inout input : Vector) : Vector
+
+		hiddenLayer.feedForward(input);
+		outputLayer.feedForward(hiddenLayer.getLastActivationValues());
+		return outputLayer.getLastActivationValues();
+!!!235266.java!!!	processError(inout network : FeedForwardNeuralNetwork, inout error : Vector) : void
+		// TODO calculate total error somewhere
+		// create Sensitivity Matrices
+		outputSensitivity.sensitivityMatrixFromErrorMatrix(error);
+
+		hiddenSensitivity
+				.sensitivityMatrixFromSucceedingLayer(outputSensitivity);
+
+		// calculate weight Updates
+		calculateWeightUpdates(outputSensitivity,
+				hiddenLayer.getLastActivationValues(), learningRate, momentum);
+		calculateWeightUpdates(hiddenSensitivity,
+				hiddenLayer.getLastInputValues(), learningRate, momentum);
+
+		// calculate Bias Updates
+		calculateBiasUpdates(outputSensitivity, learningRate, momentum);
+		calculateBiasUpdates(hiddenSensitivity, learningRate, momentum);
+
+		// update weightsAndBiases
+		outputLayer.updateWeights();
+		outputLayer.updateBiases();
+
+		hiddenLayer.updateWeights();
+		hiddenLayer.updateBiases();
+
+!!!235394.java!!!	calculateWeightUpdates(inout layerSensitivity : LayerSensitivity, inout previousLayerActivationOrInput : Vector, in alpha : double, in momentum : double) : Matrix
+		Layer layer = layerSensitivity.getLayer();
+		Matrix activationTranspose = previousLayerActivationOrInput.transpose();
+		Matrix momentumLessUpdate = layerSensitivity.getSensitivityMatrix()
+				.times(activationTranspose).times(alpha).times(-1.0);
+		Matrix updateWithMomentum = layer.getLastWeightUpdateMatrix()
+				.times(momentum).plus(momentumLessUpdate.times(1.0 - momentum));
+		layer.acceptNewWeightUpdate(updateWithMomentum.copy());
+		return updateWithMomentum;
+!!!235522.java!!!	calculateWeightUpdates(inout layerSensitivity : LayerSensitivity, inout previousLayerActivationOrInput : Vector, in alpha : double) : Matrix
+		Layer layer = layerSensitivity.getLayer();
+		Matrix activationTranspose = previousLayerActivationOrInput.transpose();
+		Matrix weightUpdateMatrix = layerSensitivity.getSensitivityMatrix()
+				.times(activationTranspose).times(alpha).times(-1.0);
+		layer.acceptNewWeightUpdate(weightUpdateMatrix.copy());
+		return weightUpdateMatrix;
+!!!235650.java!!!	calculateBiasUpdates(inout layerSensitivity : LayerSensitivity, in alpha : double, in momentum : double) : Vector
+		Layer layer = layerSensitivity.getLayer();
+		Matrix biasUpdateMatrixWithoutMomentum = layerSensitivity
+				.getSensitivityMatrix().times(alpha).times(-1.0);
+
+		Matrix biasUpdateMatrixWithMomentum = layer.getLastBiasUpdateVector()
+				.times(momentum)
+				.plus(biasUpdateMatrixWithoutMomentum.times(1.0 - momentum));
+		Vector result = new Vector(
+				biasUpdateMatrixWithMomentum.getRowDimension());
+		for (int i = 0; i < biasUpdateMatrixWithMomentum.getRowDimension(); i++) {
+			result.setValue(i, biasUpdateMatrixWithMomentum.get(i, 0));
+		}
+		layer.acceptNewBiasUpdate(result.copyVector());
+		return result;
+!!!235778.java!!!	calculateBiasUpdates(inout layerSensitivity : LayerSensitivity, in alpha : double) : Vector
+		Layer layer = layerSensitivity.getLayer();
+		Matrix biasUpdateMatrix = layerSensitivity.getSensitivityMatrix()
+				.times(alpha).times(-1.0);
+
+		Vector result = new Vector(biasUpdateMatrix.getRowDimension());
+		for (int i = 0; i < biasUpdateMatrix.getRowDimension(); i++) {
+			result.setValue(i, biasUpdateMatrix.get(i, 0));
+		}
+		layer.acceptNewBiasUpdate(result.copyVector());
+		return result;

@@ -1,0 +1,48 @@
+class ObjectWithDynamicAttributes
+!!!134530.java!!!	describeType() : String
+		return getClass().getSimpleName();
+!!!134658.java!!!	describeAttributes() : String
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("[");
+		boolean first = true;
+		for (Object key : attributes.keySet()) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(", ");
+			}
+
+			sb.append(key);
+			sb.append("=");
+			sb.append(attributes.get(key));
+		}
+		sb.append("]");
+
+		return sb.toString();
+!!!134786.java!!!	getKeySet() : Set<Object>
+		return Collections.unmodifiableSet(attributes.keySet());
+!!!134914.java!!!	setAttribute(inout key : Object, inout value : Object) : void
+		attributes.put(key, value);
+!!!135042.java!!!	getAttribute(inout key : Object) : Object
+		return attributes.get(key);
+!!!135170.java!!!	removeAttribute(inout key : Object) : void
+		attributes.remove(key);
+!!!135298.java!!!	copy() : ObjectWithDynamicAttributes
+		ObjectWithDynamicAttributes copy = null;
+
+		try {
+			copy = getClass().newInstance();
+			copy.attributes.putAll(attributes);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return copy;
+!!!135426.java!!!	equals(inout o : Object) : boolean
+		return o != null && getClass() == o.getClass()
+			&& attributes.equals(((ObjectWithDynamicAttributes) o).attributes);
+!!!135554.java!!!	hashCode() : int
+		return attributes.hashCode();
+!!!135682.java!!!	toString() : String
+		return describeType() + describeAttributes();

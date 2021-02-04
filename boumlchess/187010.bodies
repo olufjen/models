@@ -1,0 +1,22 @@
+class SubsetProposition
+!!!432514.java!!!	SubsetProposition(in name : String, inout subsetDomain : FiniteDomain, inout ofVar : RandomVariable)
+		super(name);
+
+		if (null == subsetDomain) {
+			throw new IllegalArgumentException("Sum Domain must be specified.");
+		}
+		this.subsetDomain = subsetDomain;
+		this.varSubsetOf = ofVar;
+		addScope(this.varSubsetOf);
+!!!432642.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return subsetDomain.getPossibleValues().contains(
+				possibleWorld.get(varSubsetOf));
+!!!432770.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getDerivedName());
+			sb.append(" = ");
+			sb.append(subsetDomain.toString());
+			toString = sb.toString();
+		}
+		return toString;

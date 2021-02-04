@@ -1,0 +1,863 @@
+format 223
+"agent" // aima::core::search::agent
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/agent/"
+  java_package "aima.core.search.agent"
+  classview 129922 "agent"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 137602 "ProblemSolvingAgent"
+      abstract visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Modified copy of class
+{@link SimpleProblemSolvingAgent} which can be used for
+online search, too. Here, attribute {@link #plan} (original:
+<code>seq</code>) is protected. Static pseudo code variable state is used in
+a more general sense including world state as well as agent state aspects.
+This allows the agent to change the plan, if unexpected percepts are
+observed. In the concrete java code, state corresponds with the agent
+instance itself (this).
+
+<pre>
+<code>
+function PROBLEM-SOLVING-AGENT(percept) returns an action
+  inputs: percept, a percept
+  static: state, some description of current agent and world state
+          
+  state <- UPDATE-STATE(state, percept)
+  while (state.plan is empty) do
+    goal <- FORMULATE-GOAL(state)
+    if (goal != null) then
+      problem    <- FORMULATE-PROBLEM(state, goal)
+      state.plan <- SEARCH(problem)
+      if (state.plan is empty and !tryWithAnotherGoal()) then
+        add NO_OP to plan         // failure
+    else
+      add NO_OP to plan           // success
+  action <- FIRST(state.plan)
+  plan <- REST(state.plan)
+  return action
+</code>
+</pre>
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 138370 // <generalisation>
+	relation 138370 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 138370 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      attribute 133506 "plan"
+	protected explicit_type "A"
+	init_value " new LinkedList<>()"
+	stereotype "Queue"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Plan, an action sequence, initially empty. 
+"
+      end
+
+      operation 164610 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Template method, which corresponds to pseudo code function
+<code>PROBLEM-SOLVING-AGENT(percept)</code>.
+
+@return an action
+"
+      end
+
+      operation 164738 "tryWithAnotherGoal"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, which decides after a search for a plan failed,
+whether to stop the whole task with a failure, or to go on with
+formulating another goal. This implementation always returns false. If
+the agent defines local goals to reach an externally specified global
+goal, it might be interesting, not to stop when the first local goal
+turns out to be unreachable.
+"
+      end
+
+      operation 164866 "updateState"
+	abstract cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " ABSTRACT METHODS
+
+
+Primitive operation, responsible for updating the state of the agent with
+respect to latest feedback from the world. In this version,
+implementations have access to the agent's current goal and plan, so they
+can modify them if needed. For example, if the plan didn't work because
+the model of the world proved to be wrong, implementations could update
+the model and also clear the plan.
+"
+      end
+
+      operation 164994 "formulateGoal"
+	abstract cpp_inline protected explicit_return_type "Optional<Object>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, responsible for goal generation. In this version,
+implementations are allowed to return empty to indicate that the agent has
+finished the job an should die. Implementations can access the current
+goal (which is a possibly modified version of the last formulated goal).
+This might be useful in situations in which plan execution has failed.
+"
+      end
+
+      operation 165122 "formulateProblem"
+	abstract cpp_inline protected return_type class_ref 134914 // Problem
+	nparams 1
+	  param inout name "goal" explicit_type "Object"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, responsible for search problem generation.
+"
+      end
+
+      operation 165250 "search"
+	abstract cpp_inline protected explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "problem" type class_ref 134914 // Problem
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, responsible for the generation of an action list
+(plan) for the given search problem.
+"
+      end
+    end
+
+    class 139138 "SimpleProblemSolvingAgent"
+      abstract visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.1, page 67.<br>
+<br>
+
+<pre>
+function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
+  persistent: seq, an action sequence, initially empty
+              state, some description of the current world state
+              goal, a goal, initially null
+              problem, a problem formulation
+          
+  state &lt;- UPDATE-STATE(state, percept)
+  if seq is empty then
+    goal    &lt;- FORMULATE-GOAL(state)
+    problem &lt;- FORMULATE-PROBLEM(state, goal)
+    seq     &lt;- SEARCH(problem)
+    if seq = failure then return a null action
+  action &lt;- FIRST(seq)
+  seq &lt;- REST(seq)
+  return action
+</pre>
+
+Figure 3.1 A simple problem-solving agent. It first formulates a goal and a
+problem, searches for a sequence of actions that would solve the problem, and
+then executes the actions one at a time. When this is complete, it formulates
+another goal and starts over.<br>
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      classrelation 141058 // <generalisation>
+	relation 141058 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 141058 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      attribute 134530 "seq"
+	private explicit_type "A"
+	init_value " new LinkedList<>()"
+	stereotype "Queue"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " seq, an action sequence, initially empty
+"
+      end
+
+      attribute 134658 "formulateGoalsIndefinitely"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 134786 "maxGoalsToFormulate"
+	private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 134914 "goalsFormulated"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 170626 "SimpleProblemSolvingAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a simple problem solving agent which will formulate goals
+indefinitely.
+"
+      end
+
+      operation 170754 "SimpleProblemSolvingAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param in name "maxGoalsToFormulate" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a simple problem solving agent which will formulate, at
+maximum, the specified number of goals.
+
+@param maxGoalsToFormulate
+           the maximum number of goals this agent is to formulate.
+"
+      end
+
+      operation 170882 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action"
+      end
+
+      operation 171010 "updateState"
+	abstract cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+"
+      end
+
+      operation 171138 "formulateGoal"
+	abstract cpp_inline protected explicit_return_type "Object"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 171266 "formulateProblem"
+	abstract cpp_inline protected return_type class_ref 134914 // Problem
+	nparams 1
+	  param inout name "goal" explicit_type "Object"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 171394 "search"
+	abstract cpp_inline protected explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "problem" type class_ref 134914 // Problem
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 171522 "notifyViewOfMetrics"
+	abstract cpp_inline protected explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 190210 "NondeterministicSearchAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This agent traverses the nondeterministic environment using a
+contingency plan. See page 135, AIMA3e.
+
+@author Ruediger Lunde
+@author Andrew Brown
+"
+      classrelation 226050 // <generalisation>
+	relation 226050 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 226050 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 226178 // ptsFunction (<unidirectional association>)
+	relation 226178 --->
+	  stereotype "Function"
+	  a role_name "ptsFunction" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, S> ${name}${value};
+"
+	    classrelation_ref 226178 // ptsFunction (<unidirectional association>)
+	  b parent class_ref 128386 // Percept
+      end
+
+      classrelation 226306 // notifier (<unidirectional association>)
+	relation 226306 --->
+	  a role_name "notifier" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 226306 // notifier (<unidirectional association>)
+	  b parent class_ref 129538 // EnvironmentViewNotifier
+      end
+
+      classrelation 226434 // problem (<unidirectional association>)
+	relation 226434 --->
+	  a role_name "problem" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 226434 // problem (<unidirectional association>)
+	  b parent class_ref 190338 // NondeterministicProblem
+      end
+
+      classrelation 226562 // contingencyPlan (<unidirectional association>)
+	relation 226562 --->
+	  a role_name "contingencyPlan" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 226562 // contingencyPlan (<unidirectional association>)
+	  b parent class_ref 190466 // Plan
+      end
+
+      attribute 187394 "currStep"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 444546 "NondeterministicSearchAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 444674 "NondeterministicSearchAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	  param inout name "notifier" type class_ref 129538 // EnvironmentViewNotifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 444802 "makePlan"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "problem" type class_ref 190338 // NondeterministicProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Computes a contingency plan for the given problem and prepares plan execution.
+
+@param problem
+           The search problem for this agent to solve.
+"
+      end
+
+      operation 444930 "getProblem"
+	cpp_inline public return_type class_ref 190338 // NondeterministicProblem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the search problem for this agent.
+
+@return The search problem for this agent.
+"
+      end
+
+      operation 445058 "getPlan"
+	cpp_inline public return_type class_ref 190466 // Plan
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the contingency plan of the agent.
+
+@return The plan the agent uses to clean the vacuum world or null.
+"
+      end
+
+      operation 445186 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Execute an action from the contingency plan.
+
+@param percept A percept.
+@return An action from the contingency plan.
+"
+      end
+    end
+
+    class 190594 "SearchAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ravi Mohan
+@author Ruediger Lunde
+"
+      classrelation 226690 // <generalisation>
+	relation 226690 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 226690 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 226818 // actionList (<unidirectional association>)
+	relation 226818 --->
+	  stereotype "List"
+	  a role_name "actionList" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 226818 // actionList (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 226946 // actionIterator (<unidirectional association>)
+	relation 226946 --->
+	  stereotype "Iterator"
+	  a role_name "actionIterator" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 226946 // actionIterator (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 227074 // searchMetrics (<unidirectional association>)
+	relation 227074 --->
+	  a role_name "searchMetrics" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 227074 // searchMetrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 445314 "SearchAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "p" type class_ref 134914 // Problem
+	  param inout name "search" type class_ref 137730 // SearchForActions
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 445442 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 445570 "isDone"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 445698 "getActions"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 445826 "getInstrumentation"
+	cpp_inline public explicit_return_type "Properties"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 129282 "agent"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 134786 "ProblemSolvingAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.framework.problem.Problem;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
+${definition}"
+      associated_elems
+	class_ref 137602 // ProblemSolvingAgent
+      end
+    end
+
+    artifact 136066 "SimpleProblemSolvingAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.framework.problem.Problem;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
+${definition}"
+      associated_elems
+	class_ref 139138 // SimpleProblemSolvingAgent
+      end
+    end
+
+    artifact 180354 "NondeterministicSearchAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.EnvironmentViewNotifier;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.nondeterministic.AndOrSearch;
+import aima.core.search.nondeterministic.NondeterministicProblem;
+import aima.core.search.nondeterministic.Plan;
+import java.util.Optional;
+import java.util.function.Function;
+${definition}"
+      associated_elems
+	class_ref 190210 // NondeterministicSearchAgent
+      end
+    end
+
+    artifact 180482 "SearchAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 190594 // SearchAgent
+      end
+    end
+  end
+end

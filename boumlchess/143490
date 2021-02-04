@@ -1,0 +1,2124 @@
+format 223
+"games" // aima::gui::swing::applications::search::games
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/gui/swing/applications/search/games/"
+  java_package "aima.gui.swing.applications.search.games"
+  classview 141698 "games"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 219522 "ConnectFourApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Simple graphical Connect Four game application. It demonstrates the Minimax
+algorithm with alpha-beta pruning, iterative deepening, and action ordering.
+The implemented action ordering strategy tries to maximize the impact of the
+chosen action for later game phases.
+
+@author Ruediger Lunde
+"
+      operation 627330 "constructApplicationFrame"
+	public explicit_return_type "JFrame"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Used for integration into the universal demo application. "
+      end
+
+      operation 627458 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Application starter. "
+      end
+
+      class 219650 "ConnectFourPanel"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 273026 // <generalisation>
+	  relation 273026 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 273026 // <generalisation>
+	    b parent class_ref 216706 // JPanel
+	end
+
+	classrelation 273154 // <realization>
+	  relation 273154 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 273154 // <realization>
+	    b parent class_ref 211970 // ActionListener
+	end
+
+	attribute 252802 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 252930 "strategyCombo"
+	  package explicit_type "String"
+	  stereotype "JComboBox"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 253058 "timeCombo"
+	  package explicit_type "String"
+	  stereotype "JComboBox"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 253186 "clearButton"
+	  package explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 253314 "proposeButton"
+	  package explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 253442 "statusBar"
+	  package explicit_type "JLabel"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 273282 // game (<unidirectional association>)
+	  relation 273282 --->
+	    a role_name "game" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 273282 // game (<unidirectional association>)
+	    b parent class_ref 134146 // ConnectFourGame
+	end
+
+	classrelation 273410 // currState (<unidirectional association>)
+	  relation 273410 --->
+	    a role_name "currState" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 273410 // currState (<unidirectional association>)
+	    b parent class_ref 133250 // ConnectFourState
+	end
+
+	classrelation 273538 // searchMetrics (<unidirectional association>)
+	  relation 273538 --->
+	    a role_name "searchMetrics" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 273538 // searchMetrics (<unidirectional association>)
+	    b parent class_ref 133634 // Metrics
+	end
+
+	operation 627586 "ConnectFourPanel"
+	  package explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Standard constructor. "
+	end
+
+	operation 627714 "actionPerformed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "e" explicit_type "ActionEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Handles all button events and updates the view. "
+	end
+
+	operation 627842 "proposeMove"
+	  private explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Uses adversarial search for selecting the next action. "
+	end
+
+	operation 627970 "updateStatus"
+	  private explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Updates the status bar. "
+	end
+
+	class 219778 "GridElement"
+	  visibility private 
+	  cpp_decl ""
+	  java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	  java_annotation "@SuppressWarnings(\"serial\")
+"
+	  php_decl ""
+	  python_2_2 python_decl ""
+	  idl_decl ""
+	  explicit_switch_type ""
+	  mysql_decl ""
+	  
+	  classrelation 273666 // <generalisation>
+	    relation 273666 ---|>
+	      a public
+		java "${type}"
+		classrelation_ref 273666 // <generalisation>
+	      b parent class_ref 219906 // JButton
+	  end
+
+	  attribute 253570 "row"
+	    package explicit_type "int"
+	    cpp_decl ""
+	    java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    php_decl ""
+	    python_decl ""
+	    idl_decl ""
+	    mysql_decl ""
+	    MysqlColumn
+	  end
+
+	  attribute 253698 "col"
+	    package explicit_type "int"
+	    cpp_decl ""
+	    java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    php_decl ""
+	    python_decl ""
+	    idl_decl ""
+	    mysql_decl ""
+	    MysqlColumn
+	  end
+
+	  operation 628098 "GridElement"
+	    package explicit_return_type ""
+	    nparams 2
+	      param in name "row" explicit_type "int"
+	      param in name "col" explicit_type "int"
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	  end
+
+	  operation 628226 "paintComponent"
+	    public explicit_return_type "void"
+	    nparams 1
+	      param inout name "g" explicit_type "Graphics"
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	  end
+
+	  operation 628354 "drawDisk"
+	    package explicit_return_type "void"
+	    nparams 2
+	      param inout name "g" explicit_type "Graphics"
+	      param in name "playerNum" explicit_type "int"
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	    comment " Fills a simple oval. "
+	  end
+
+	  operation 628482 "drawWinSituation"
+	    package explicit_return_type "void"
+	    nparams 2
+	      param inout name "g" explicit_type "Graphics"
+	      param in name "playerNum" explicit_type "int"
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	    comment " Draws a simple oval. "
+	  end
+	end
+      end
+    end
+
+    class 220034 "EightPuzzleApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Graphical 8-puzzle game application. It demonstrates the performance of
+different search algorithms. Additionally, users can make experiences with
+human problem solving.
+
+@author Ruediger Lunde
+"
+      classrelation 273794 // <generalisation>
+	relation 273794 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 273794 // <generalisation>
+	  b parent class_ref 212482 // SimpleAgentApp
+      end
+
+      attribute 253826 "SEARCH_NAMES"
+	class_attribute protected explicit_type "String"
+	init_value " new ArrayList<>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " List of supported search algorithm names. 
+"
+      end
+
+      classrelation 273922 // SEARCH_ALGOS (<unidirectional association>)
+	relation 273922 --->
+	  stereotype "List"
+	  a role_name "SEARCH_ALGOS" init_value " new ArrayList<>()" class_relation protected
+	    comment " List of supported search algorithms. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<EightPuzzleBoard, Action>> ${name}${value};
+"
+	    classrelation_ref 273922 // SEARCH_ALGOS (<unidirectional association>)
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      operation 628610 "addSearchAlgorithm"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "algo" type class_ref 137730 // SearchForActions
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<EightPuzzleBoard, Action> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Adds a new item to the list of supported search algorithms. "
+      end
+
+      extra_member 128386 "initialization"
+	
+	cpp "" ""
+	java "  static {
+		addSearchAlgorithm(\"Breadth First Search (Graph Search)\",
+				new BreadthFirstSearch<>(new GraphSearch<>()));
+		addSearchAlgorithm(\"Breadth First Search (Bidirectional Search)\",
+				new BreadthFirstSearch<>(new BidirectionalSearch<>()));
+		addSearchAlgorithm(\"Depth Limited Search (9)\", new DepthLimitedSearch<>(9));
+		addSearchAlgorithm(\"Iterative Deepening Search\", new IterativeDeepeningSearch<>());
+		addSearchAlgorithm(\"Greedy Best First Search (MisplacedTileHeursitic)\",
+				new GreedyBestFirstSearch<>(new GraphSearch<>(),
+						EightPuzzleFunctions.createMisplacedTileHeuristicFunction()));
+		addSearchAlgorithm(\"Greedy Best First Search (ManhattanHeursitic)\",
+				new GreedyBestFirstSearch<>(new GraphSearch<>(),
+						EightPuzzleFunctions.createManhattanHeuristicFunction()));
+		addSearchAlgorithm(\"AStar Search (MisplacedTileHeursitic)\",
+				new AStarSearch<>(new GraphSearch<>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction()));
+		addSearchAlgorithm(\"AStar Search (ManhattanHeursitic)\",
+				new AStarSearch<>(new GraphSearch<>(), EightPuzzleFunctions.createManhattanHeuristicFunction()));
+		addSearchAlgorithm(\"Simulated Annealing Search\",
+				new SimulatedAnnealingSearch<>(EightPuzzleFunctions.createManhattanHeuristicFunction()));
+	}"
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      operation 628738 "createEnvironmentView"
+	public return_type class_ref 212738 // AgentAppEnvironmentView
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns an <code>EightPuzzleView</code> instance. "
+      end
+
+      operation 628866 "createFrame"
+	public return_type class_ref 212610 // AgentAppFrame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Returns a <code>EightPuzzleFrame</code> instance. "
+      end
+
+      operation 628994 "createController"
+	public return_type class_ref 212866 // AgentAppController
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Returns a <code>EightPuzzleController</code> instance. "
+      end
+
+      operation 629122 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " ///////////////////////////////////////////////////////////////
+ main method
+
+Starts the application.
+"
+      end
+
+      class 220162 "EightPuzzleFrame"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 274050 // <generalisation>
+	  relation 274050 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 274050 // <generalisation>
+	    b parent class_ref 212610 // AgentAppFrame
+	end
+
+	attribute 253954 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 254082 "ENV_SEL"
+	  class_attribute public explicit_type "String"
+	  init_value " \"EnvSelection\""
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 254210 "SEARCH_SEL"
+	  class_attribute public explicit_type "String"
+	  init_value " \"SearchSelection\""
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 629250 "EightPuzzleFrame"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 220290 "EightPuzzleView"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 274178 // <generalisation>
+	  relation 274178 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 274178 // <generalisation>
+	    b parent class_ref 212738 // AgentAppEnvironmentView
+	end
+
+	classrelation 274306 // <realization>
+	  relation 274306 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 274306 // <realization>
+	    b parent class_ref 211970 // ActionListener
+	end
+
+	attribute 254338 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 254466 "squareButtons"
+	  protected explicit_type "JButton"
+	  multiplicity "[]"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 629378 "EightPuzzleView"
+	  protected explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 629506 "setEnvironment"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "env" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 629634 "agentAdded"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "source" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 629762 "agentActed"
+	  public explicit_return_type "void"
+	  nparams 4
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "percept" type class_ref 128386 // Percept
+	    param inout name "action" type class_ref 128002 // Action
+	    param inout name "source" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Agent value null indicates a user initiated action. "
+	end
+
+	operation 629890 "showState"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Displays the board state by labeling and coloring the square buttons.
+"
+	end
+
+	operation 630018 "actionPerformed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "ae" explicit_type "ActionEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "When the user presses square buttons the board state is modified
+accordingly.
+"
+	end
+      end
+
+      class 220418 "EightPuzzleController"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 274434 // <generalisation>
+	  relation 274434 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 274434 // <generalisation>
+	    b parent class_ref 212866 // AgentAppController
+	end
+
+	classrelation 274562 // env (<unidirectional association>)
+	  relation 274562 --->
+	    a role_name "env" init_value " null" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 274562 // env (<unidirectional association>)
+	    b parent class_ref 220546 // EightPuzzleEnvironment
+	end
+
+	classrelation 274690 // agent (<unidirectional association>)
+	  relation 274690 --->
+	    a role_name "agent" init_value " null" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 274690 // agent (<unidirectional association>)
+	    b parent class_ref 190594 // SearchAgent
+	end
+
+	attribute 254594 "dirty"
+	  protected explicit_type "boolean"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 630146 "clear"
+	  public explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Prepares next simulation. "
+	end
+
+	operation 630274 "prepare"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param in name "changedSelector" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Creates an eight puzzle environment and clears the current search
+agent.
+"
+	end
+
+	operation 630402 "addAgent"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  nexceptions 1
+	    explicit_exception "Exception"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Creates a new search agent and adds it to the current environment if
+necessary.
+"
+	end
+
+	operation 630530 "isPrepared"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Checks whether simulation can be started. "
+	end
+
+	operation 630658 "run"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "logger" type class_ref 213122 // MessageLogger
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Starts simulation. "
+	end
+
+	operation 630786 "step"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "logger" type class_ref 213122 // MessageLogger
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Executes one simulation step. "
+	end
+
+	operation 630914 "update"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "simulationThread" type class_ref 213250 // SimulationThread
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Updates the status of the frame after simulation has finished. "
+	end
+
+	operation 631042 "getStatistics"
+	  private explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Provides a text with statistical information about the last run. "
+	end
+
+	operation 631170 "executeUserAction"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "action" type class_ref 128002 // Action
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 220546 "EightPuzzleEnvironment"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 274818 // <generalisation>
+	  relation 274818 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 274818 // <generalisation>
+	    b parent class_ref 129922 // AbstractEnvironment
+	end
+
+	classrelation 274946 // board (<unidirectional association>)
+	  relation 274946 --->
+	    a role_name "board" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 274946 // board (<unidirectional association>)
+	    b parent class_ref 134658 // EightPuzzleBoard
+	end
+
+	operation 631298 "EightPuzzleEnvironment"
+	  protected explicit_return_type ""
+	  nparams 1
+	    param inout name "board" type class_ref 134658 // EightPuzzleBoard
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 631426 "getBoard"
+	  protected return_type class_ref 134658 // EightPuzzleBoard
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 631554 "executeAction"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "action" type class_ref 128002 // Action
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Executes the provided action and returns null. "
+	end
+
+	operation 631682 "getPerceptSeenBy"
+	  public return_type class_ref 128386 // Percept
+	  nparams 1
+	    param inout name "anAgent" type class_ref 128130 // Agent
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Returns null. "
+	end
+      end
+    end
+
+    class 220674 "NQueensApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Graphical n-queens game application. It demonstrates the performance of
+different search algorithms. An incremental problem formulation is supported
+as well as a complete-state formulation. Additionally, the user can make
+experiences with manual search.
+
+@author Ruediger Lunde
+"
+      classrelation 275074 // <generalisation>
+	relation 275074 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 275074 // <generalisation>
+	  b parent class_ref 212482 // SimpleAgentApp
+      end
+
+      attribute 254722 "SEARCH_NAMES"
+	class_attribute protected explicit_type "String"
+	init_value " new ArrayList<>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " List of supported search algorithm names. 
+"
+      end
+
+      classrelation 275202 // SEARCH_ALGOS (<unidirectional association>)
+	relation 275202 --->
+	  stereotype "List"
+	  a role_name "SEARCH_ALGOS" init_value " new ArrayList<>()" class_relation protected
+	    comment " List of supported search algorithms. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<NQueensBoard, QueenAction>> ${name}${value};
+"
+	    classrelation_ref 275202 // SEARCH_ALGOS (<unidirectional association>)
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      operation 631810 "addSearchAlgorithm"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "algo" type class_ref 137730 // SearchForActions
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<NQueensBoard, QueenAction> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Adds a new item to the list of supported search algorithms. "
+      end
+
+      extra_member 128514 "initialization"
+	
+	cpp "" ""
+	java "  static {
+		addSearchAlgorithm(\"Depth First Search (Graph Search)\",
+				new DepthFirstSearch<>(new GraphSearch<>()));
+		addSearchAlgorithm(\"Breadth First Search (Tree Search)\",
+				new BreadthFirstSearch<>(new TreeSearch<>()));
+		addSearchAlgorithm(\"Breadth First Search (Graph Search)\",
+				new BreadthFirstSearch<>(new GraphSearch<>()));
+		addSearchAlgorithm(\"Depth Limited Search (8)\", new DepthLimitedSearch<>(8));
+		addSearchAlgorithm(\"Iterative Deepening Search\", new IterativeDeepeningSearch<>());
+		addSearchAlgorithm(\"A* search (attacking pair heuristic)\",
+				new AStarSearch<>(new GraphSearch<>(), NQueensFunctions.createAttackingPairsHeuristicFunction()));
+		addSearchAlgorithm(\"Hill Climbing Search\", new HillClimbingSearch<>
+				(NQueensFunctions.createAttackingPairsHeuristicFunction()));
+		addSearchAlgorithm(\"Simulated Annealing Search\",
+				new SimulatedAnnealingSearch<>(NQueensFunctions.createAttackingPairsHeuristicFunction(),
+						new Scheduler(20, 0.045, 1000)));
+	}"
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      operation 631938 "createEnvironmentView"
+	public return_type class_ref 212738 // AgentAppEnvironmentView
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns a <code>NQueensView</code> instance. "
+      end
+
+      operation 632066 "createFrame"
+	public return_type class_ref 212610 // AgentAppFrame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Returns a <code>NQueensFrame</code> instance. "
+      end
+
+      operation 632194 "createController"
+	public return_type class_ref 212866 // AgentAppController
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Returns a <code>NQueensController</code> instance. "
+      end
+
+      operation 632322 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " ///////////////////////////////////////////////////////////////
+ main method
+
+Starts the application.
+"
+      end
+
+      class 220802 "NQueensFrame"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 275330 // <generalisation>
+	  relation 275330 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 275330 // <generalisation>
+	    b parent class_ref 212610 // AgentAppFrame
+	end
+
+	attribute 254850 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 254978 "ENV_SEL"
+	  class_attribute public explicit_type "String"
+	  init_value " \"EnvSelection\""
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 255106 "PROBLEM_SEL"
+	  class_attribute public explicit_type "String"
+	  init_value " \"ProblemSelection\""
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 255234 "SEARCH_SEL"
+	  class_attribute public explicit_type "String"
+	  init_value " \"SearchSelection\""
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 632450 "NQueensFrame"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 220930 "NQueensView"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 275458 // <generalisation>
+	  relation 275458 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 275458 // <generalisation>
+	    b parent class_ref 212738 // AgentAppEnvironmentView
+	end
+
+	classrelation 275586 // <realization>
+	  relation 275586 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 275586 // <realization>
+	    b parent class_ref 211970 // ActionListener
+	end
+
+	attribute 255362 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 255490 "squareButtons"
+	  protected explicit_type "JButton"
+	  multiplicity "[]"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 255618 "currSize"
+	  protected explicit_type "int"
+	  init_value " -1"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 632578 "NQueensView"
+	  protected explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 632706 "setEnvironment"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "env" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 632834 "agentAdded"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "source" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 632962 "agentActed"
+	  public explicit_return_type "void"
+	  nparams 4
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "percept" type class_ref 128386 // Percept
+	    param inout name "action" type class_ref 128002 // Action
+	    param inout name "source" type class_ref 129154 // Environment
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Agent value null indicates a user initiated action. "
+	end
+
+	operation 633090 "showState"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Displays the board state by labeling and coloring the square buttons.
+"
+	end
+
+	operation 633218 "actionPerformed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "ae" explicit_type "ActionEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "When the user presses square buttons the board state is modified
+accordingly.
+"
+	end
+      end
+
+      class 221058 "NQueensController"
+	visibility protected 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 275714 // <generalisation>
+	  relation 275714 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 275714 // <generalisation>
+	    b parent class_ref 212866 // AgentAppController
+	end
+
+	classrelation 275842 // env (<unidirectional association>)
+	  relation 275842 --->
+	    a role_name "env" init_value " null" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 275842 // env (<unidirectional association>)
+	    b parent class_ref 221186 // NQueensEnvironment
+	end
+
+	classrelation 275970 // agent (<unidirectional association>)
+	  relation 275970 --->
+	    a role_name "agent" init_value " null" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 275970 // agent (<unidirectional association>)
+	    b parent class_ref 190594 // SearchAgent
+	end
+
+	attribute 255746 "boardDirty"
+	  protected explicit_type "boolean"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 633346 "clear"
+	  public explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Prepares next simulation. "
+	end
+
+	operation 633474 "prepare"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param in name "changedSelector" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Creates an n-queens environment and clears the current search agent.
+"
+	end
+
+	operation 633602 "addAgent"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  nexceptions 1
+	    explicit_exception "Exception"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Creates a new search agent and adds it to the current environment if
+necessary.
+"
+	end
+
+	operation 633730 "isPrepared"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Checks whether simulation can be started. "
+	end
+
+	operation 633858 "run"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "logger" type class_ref 213122 // MessageLogger
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Starts simulation. "
+	end
+
+	operation 633986 "step"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "logger" type class_ref 213122 // MessageLogger
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Executes one simulation step. "
+	end
+
+	operation 634114 "update"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "simulationThread" type class_ref 213250 // SimulationThread
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Updates the status of the frame after simulation has finished. "
+	end
+
+	operation 634242 "getStatistics"
+	  private explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Provides a text with statistical information about the last run. "
+	end
+
+	operation 634370 "modifySquare"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "loc" type class_ref 135938 // XYLocation
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 221186 "NQueensEnvironment"
+	visibility public 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 276098 // <generalisation>
+	  relation 276098 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 276098 // <generalisation>
+	    b parent class_ref 129922 // AbstractEnvironment
+	end
+
+	classrelation 276226 // board (<unidirectional association>)
+	  relation 276226 --->
+	    a role_name "board" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 276226 // board (<unidirectional association>)
+	    b parent class_ref 139522 // NQueensBoard
+	end
+
+	operation 634498 "NQueensEnvironment"
+	  public explicit_return_type ""
+	  nparams 1
+	    param inout name "board" type class_ref 139522 // NQueensBoard
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 634626 "getBoard"
+	  public return_type class_ref 139522 // NQueensBoard
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 634754 "executeAction"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "agent" type class_ref 128130 // Agent
+	    param inout name "action" type class_ref 128002 // Action
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Executes the provided action and returns null.
+"
+	end
+
+	operation 634882 "getPerceptSeenBy"
+	  public return_type class_ref 128386 // Percept
+	  nparams 1
+	    param inout name "anAgent" type class_ref 128130 // Agent
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Returns null. "
+	end
+      end
+    end
+
+    class 221314 "TicTacToeApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Simple graphical Tic-tac-toe game application. It demonstrates the Minimax
+algorithm for move selection as well as alpha-beta pruning.
+
+@author Ruediger Lunde
+"
+      operation 635010 "constructApplicationFrame"
+	public explicit_return_type "JFrame"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Used for integration into the universal demo application. "
+      end
+
+      operation 635138 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Application starter. "
+      end
+
+      class 221442 "TicTacToePanel"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 276354 // <generalisation>
+	  relation 276354 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 276354 // <generalisation>
+	    b parent class_ref 216706 // JPanel
+	end
+
+	classrelation 276482 // <realization>
+	  relation 276482 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 276482 // <realization>
+	    b parent class_ref 211970 // ActionListener
+	end
+
+	attribute 255874 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 256002 "strategyCombo"
+	  package explicit_type "String"
+	  stereotype "JComboBox"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 256130 "clearButton"
+	  package explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 256258 "proposeButton"
+	  package explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 256386 "squares"
+	  package explicit_type "JButton"
+	  multiplicity "[]"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 256514 "statusBar"
+	  package explicit_type "JLabel"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 276610 // game (<unidirectional association>)
+	  relation 276610 --->
+	    a role_name "game" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 276610 // game (<unidirectional association>)
+	    b parent class_ref 140802 // TicTacToeGame
+	end
+
+	classrelation 276738 // currState (<unidirectional association>)
+	  relation 276738 --->
+	    a role_name "currState" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 276738 // currState (<unidirectional association>)
+	    b parent class_ref 140930 // TicTacToeState
+	end
+
+	classrelation 276866 // searchMetrics (<unidirectional association>)
+	  relation 276866 --->
+	    a role_name "searchMetrics" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 276866 // searchMetrics (<unidirectional association>)
+	    b parent class_ref 133634 // Metrics
+	end
+
+	operation 635266 "TicTacToePanel"
+	  package explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Standard constructor. "
+	end
+
+	operation 635394 "actionPerformed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "ae" explicit_type "ActionEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Handles all button events and updates the view. "
+	end
+
+	operation 635522 "proposeMove"
+	  private explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Uses adversarial search for selecting the next action. "
+	end
+
+	operation 635650 "updateStatus"
+	  private explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Updates the status bar. "
+	end
+      end
+    end
+  end
+
+  deploymentview 141314 "games"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 203522 "ConnectFourApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import aima.core.environment.connectfour.ConnectFourAIPlayer;
+import aima.core.environment.connectfour.ConnectFourGame;
+import aima.core.environment.connectfour.ConnectFourState;
+import aima.core.search.adversarial.AdversarialSearch;
+import aima.core.search.adversarial.AlphaBetaSearch;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.adversarial.MinimaxSearch;
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 219522 // ConnectFourApp
+      end
+    end
+
+    artifact 203650 "EightPuzzleApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+import javax.swing.JButton;
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Environment;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractEnvironment;
+import aima.core.environment.eightpuzzle.*;
+import aima.core.search.agent.SearchAgent;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.BidirectionalSearch;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.search.informed.GreedyBestFirstSearch;
+import aima.core.search.local.SimulatedAnnealingSearch;
+import aima.core.search.uninformed.BreadthFirstSearch;
+import aima.core.search.uninformed.DepthLimitedSearch;
+import aima.core.search.uninformed.IterativeDeepeningSearch;
+import aima.core.util.datastructure.XYLocation;
+import aima.gui.swing.framework.AgentAppController;
+import aima.gui.swing.framework.AgentAppEnvironmentView;
+import aima.gui.swing.framework.AgentAppFrame;
+import aima.gui.swing.framework.MessageLogger;
+import aima.gui.swing.framework.SimpleAgentApp;
+import aima.gui.swing.framework.SimulationThread;
+${definition}"
+      associated_elems
+	class_ref 220034 // EightPuzzleApp
+      end
+    end
+
+    artifact 203778 "NQueensApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Environment;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractEnvironment;
+import aima.core.environment.nqueens.NQueensBoard;
+import aima.core.environment.nqueens.NQueensFunctions;
+import aima.core.environment.nqueens.QueenAction;
+import aima.core.search.agent.SearchAgent;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.ActionsFunction;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.framework.qsearch.TreeSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.search.local.HillClimbingSearch;
+import aima.core.search.local.Scheduler;
+import aima.core.search.local.SimulatedAnnealingSearch;
+import aima.core.search.uninformed.BreadthFirstSearch;
+import aima.core.search.uninformed.DepthFirstSearch;
+import aima.core.search.uninformed.DepthLimitedSearch;
+import aima.core.search.uninformed.IterativeDeepeningSearch;
+import aima.core.util.datastructure.XYLocation;
+import aima.gui.swing.framework.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+${definition}"
+      associated_elems
+	class_ref 220674 // NQueensApp
+      end
+    end
+
+    artifact 203906 "TicTacToeApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import aima.core.environment.tictactoe.TicTacToeGame;
+import aima.core.environment.tictactoe.TicTacToeState;
+import aima.core.search.adversarial.AdversarialSearch;
+import aima.core.search.adversarial.AlphaBetaSearch;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.adversarial.MinimaxSearch;
+import aima.core.search.framework.Metrics;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 221314 // TicTacToeApp
+      end
+    end
+  end
+end

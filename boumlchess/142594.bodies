@@ -1,0 +1,28 @@
+class AgentPosition
+!!!188930.java!!!	AgentPosition(in x : int, in y : int, inout orientation : AgentPosition::Orientation)
+		this(new Room(x, y), orientation);
+!!!189058.java!!!	AgentPosition(inout room : Room, inout orientation : AgentPosition::Orientation)
+		this.room = room;
+		this.orientation = orientation;
+!!!189186.java!!!	getRoom() : Room
+		return room;
+!!!189314.java!!!	getX() : int
+		return room.getX();
+!!!189442.java!!!	getY() : int
+		return room.getY();
+!!!189570.java!!!	getOrientation() : AgentPosition::Orientation
+		return orientation;
+!!!189698.java!!!	toString() : String
+		return room.toString() + "->" + orientation.getSymbol();
+!!!189826.java!!!	equals(inout obj : Object) : boolean
+		if (obj != null && getClass() == obj.getClass()) {
+			AgentPosition other = (AgentPosition) obj;
+			return (getX() == other.getX()) && (getY() == other.getY())
+					&& (orientation == other.getOrientation());
+		}
+		return false;
+!!!189954.java!!!	hashCode() : int
+		int result = 17;
+		result = 37 * result + room.hashCode();
+		result = 43 * result + orientation.hashCode();
+		return result;

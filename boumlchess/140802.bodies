@@ -1,0 +1,24 @@
+class TicTacToeGame
+!!!179458.java!!!	getInitialState() : TicTacToeState
+		return initialState;
+!!!179586.java!!!	getPlayers() : String
+		return new String[] { TicTacToeState.X, TicTacToeState.O };
+!!!179714.java!!!	getPlayer(inout state : TicTacToeState) : String
+		return state.getPlayerToMove();
+!!!179842.java!!!	getActions(inout state : TicTacToeState) : XYLocation
+		return state.getUnMarkedPositions();
+!!!179970.java!!!	getResult(inout state : TicTacToeState, inout action : XYLocation) : TicTacToeState
+		TicTacToeState result = state.clone();
+		result.mark(action);
+		return result;
+!!!180098.java!!!	isTerminal(inout state : TicTacToeState) : boolean
+		return state.getUtility() != -1;
+!!!180226.java!!!	getUtility(inout state : TicTacToeState, in player : String) : double
+		double result = state.getUtility();
+		if (result != -1) {
+			if (Objects.equals(player, TicTacToeState.O))
+				result = 1 - result;
+		} else {
+			throw new IllegalArgumentException("State is not terminal.");
+		}
+		return result;

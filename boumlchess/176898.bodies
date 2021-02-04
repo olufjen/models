@@ -1,0 +1,24 @@
+class AssignmentProposition
+!!!429954.java!!!	AssignmentProposition(inout forVariable : RandomVariable, inout value : Object)
+		super(forVariable);
+		setValue(value);
+!!!430082.java!!!	getValue() : Object
+		return value;
+!!!430210.java!!!	setValue(inout value : Object) : void
+		if (null == value) {
+			throw new IllegalArgumentException(
+					"The value for the Random Variable must be specified.");
+		}
+		this.value = value;
+!!!430338.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return value.equals(possibleWorld.get(getTermVariable()));
+!!!430466.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getTermVariable().getName());
+			sb.append(" = ");
+			sb.append(value);
+
+			toString = sb.toString();
+		}
+		return toString;

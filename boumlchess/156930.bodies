@@ -1,0 +1,46 @@
+class SubstVisitor
+!!!273922.java!!!	subst(inout theta : Map<Variable, Term>, inout sentence : Sentence) : Sentence
+		return (Sentence) sentence.accept(this, theta);
+!!!274050.java!!!	subst(inout theta : Map<Variable, Term>, inout aTerm : Term) : Term
+		return (Term) aTerm.accept(this, theta);
+!!!274178.java!!!	subst(inout theta : Map<Variable, Term>, inout function : Function) : Function
+		return (Function) function.accept(this, theta);
+!!!274306.java!!!	subst(inout theta : Map<Variable, Term>, inout literal : Literal) : Literal
+		return literal.newInstance((AtomicSentence) literal
+				.getAtomicSentence().accept(this, theta));
+!!!274434.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		Map<Variable, Term> substitution = (Map<Variable, Term>) arg;
+		if (substitution.containsKey(variable)) {
+			return substitution.get(variable).copy();
+		}
+		return variable.copy();
+!!!274562.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+
+		Map<Variable, Term> substitution = (Map<Variable, Term>) arg;
+
+		Sentence quantified = sentence.getQuantified();
+		Sentence quantifiedAfterSubs = (Sentence) quantified.accept(this, arg);
+
+		List<Variable> variables = new ArrayList<Variable>();
+		for (Variable v : sentence.getVariables()) {
+			Term st = substitution.get(v);
+			if (null != st) {
+				if (st instanceof Variable) {
+					// Only if it is a variable to I replace it, otherwise
+					// I drop it.
+					variables.add((Variable) st.copy());
+				}
+			} else {
+				// No substitution for the quantified variable, so
+				// keep it.
+				variables.add(v.copy());
+			}
+		}
+
+		// If not variables remaining on the quantifier, then drop it
+		if (variables.size() == 0) {
+			return quantifiedAfterSubs;
+		}
+
+		return new QuantifiedSentence(sentence.getQuantifier(), variables,
+				quantifiedAfterSubs);

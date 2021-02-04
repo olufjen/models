@@ -1,0 +1,147 @@
+class HybridWumpusAgent
+!!!190082.java!!!	HybridWumpusAgent()
+		// i.e. default is a 4x4 world as depicted in figure 7.2
+		this(4, 4, new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH));
+!!!190210.java!!!	HybridWumpusAgent(in caveXDim : int, in caveYDim : int, inout start : AgentPosition)
+		this(caveXDim, caveYDim, start, new DPLLSatisfiable(), null);
+!!!190338.java!!!	HybridWumpusAgent(in caveXDim : int, in caveYDim : int, inout start : AgentPosition, inout satSolver : DPLL, inout notifier : EnvironmentViewNotifier)
+		this(caveXDim, caveYDim, start, new WumpusKnowledgeBase(caveXDim, caveYDim, start, satSolver), notifier);
+!!!190466.java!!!	HybridWumpusAgent(in caveXDim : int, in caveYDim : int, inout start : AgentPosition, inout kb : WumpusKnowledgeBase, inout notifier : EnvironmentViewNotifier)
+		this.kb = kb;
+		this.start = start;
+		this.currentPosition = start;
+		this.notifier = notifier;
+!!!190594.java!!!	getKB() : WumpusKnowledgeBase
+		return kb;
+!!!190722.java!!!	execute(inout percept : Percept) : Action
+
+		// TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+		kb.makePerceptSentence((WumpusPercept) percept, t);
+		// TELL the KB the temporal "physics" sentences for time t
+		kb.tellTemporalPhysicsSentences(t);
+
+		Set<Room> safe = null;
+		Set<Room> unvisited = null;
+
+		// Optimization: Do not ask anything during plan execution (different from pseudo-code)
+		if (plan.isEmpty()) {
+			notifyViews("Reasoning (t=" + t + ", Percept=" + percept + ") ...");
+			currentPosition = kb.askCurrentPosition(t);
+			notifyViews("Ask position -> " + currentPosition);
+			// safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+			safe = kb.askSafeRooms(t);
+			notifyViews("Ask safe -> " + safe);
+		}
+
+		// if ASK(KB, Glitter<sup>t</sup>) = true then (can only be true when plan is empty!)
+		if (plan.isEmpty() && kb.askGlitter(t)) {
+			// plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+			Set<Room> goals = new LinkedHashSet<>();
+			goals.add(start.getRoom());
+			plan.add(WumpusAction.GRAB);
+			plan.addAll(planRouteToRooms(goals, safe));
+			plan.add(WumpusAction.CLIMB);
+		}
+
+		// if plan is empty then
+		if (plan.isEmpty()) {
+			// unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
+			unvisited = kb.askUnvisitedRooms(t);
+			notifyViews("Ask unvisited -> " + unvisited);
+			// plan <- PLAN-ROUTE(current, unvisited &cap; safe, safe)
+			plan.addAll(planRouteToRooms(SetOps.intersection(unvisited, safe), safe));
+		}
+
+		// if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
+		if (plan.isEmpty() && kb.askHaveArrow(t)) {
+			// possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
+			Set<Room> possibleWumpus = kb.askPossibleWumpusRooms(t);
+			notifyViews("Ask possible Wumpus positions -> " + possibleWumpus);
+			// plan <- PLAN-SHOT(current, possible_wumpus, safe)
+			plan.addAll(planShot(possibleWumpus, safe));
+		}
+
+		// if plan is empty then //no choice but to take a risk
+		if (plan.isEmpty()) {
+			// not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+			Set<Room> notUnsafe = kb.askNotUnsafeRooms(t);
+			notifyViews("Ask not unsafe -> " + notUnsafe);
+			// plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
+			// Correction: Last argument must be not_unsafe!
+			plan.addAll(planRouteToRooms(unvisited, notUnsafe));
+		}
+
+		// if plan is empty then
+		if (plan.isEmpty()) {
+			notifyViews("Going home.");
+			// plan PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+			Set<Room> goal = new LinkedHashSet<>();
+			goal.add(start.getRoom());
+			plan.addAll(planRouteToRooms(goal, safe));
+			plan.add(WumpusAction.CLIMB);
+		}
+		// action <- POP(plan)
+		WumpusAction action = plan.remove();
+		// TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+		kb.makeActionSentence(action, t);
+		// t <- t+1
+		t = t + 1;
+		// return action
+		return action;
+!!!190850.java!!!	planRouteToRooms(inout goals : Set<Room>, inout allowed : Set<Room>) : WumpusAction
+		final Set<AgentPosition> goalPositions = new LinkedHashSet<>();
+		for (Room goalRoom : goals) {
+			int x = goalRoom.getX();
+			int y = goalRoom.getY();
+			for (AgentPosition.Orientation orientation : AgentPosition.Orientation.values())
+				goalPositions.add(new AgentPosition(x, y, orientation));
+		}
+		return planRoute(goalPositions, allowed);
+!!!190978.java!!!	planRoute(inout goals : Set<AgentPosition>, inout allowed : Set<Room>) : WumpusAction
+
+		WumpusCave cave = new WumpusCave(kb.getCaveXDimension(), kb.getCaveYDimension()).setAllowed(allowed);
+		Problem<AgentPosition, WumpusAction> problem = new GeneralProblem<>(currentPosition,
+				WumpusFunctions.createActionsFunction(cave),
+				WumpusFunctions.createResultFunction(cave), goals::contains);
+		SearchForActions<AgentPosition, WumpusAction> search =
+				new AStarSearch<>(new GraphSearch<>(), new ManhattanHeuristicFunction(goals));
+		Optional<List<WumpusAction>> actions = search.findActions(problem);
+
+		return actions.isPresent() ? actions.get() : Collections.emptyList();
+!!!191106.java!!!	planShot(inout possibleWumpus : Set<Room>, inout allowed : Set<Room>) : WumpusAction
+
+		Set<AgentPosition> shootingPositions = new LinkedHashSet<>();
+
+		for (Room p : possibleWumpus) {
+			int x = p.getX();
+			int y = p.getY();
+
+			for (int i = 1; i <= kb.getCaveXDimension(); i++) {
+				if (i < x)
+					shootingPositions.add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_EAST));
+				if (i > x)
+					shootingPositions.add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_WEST));
+			}
+			for (int i = 1; i <= kb.getCaveYDimension(); i++) {
+				if (i < y)
+					shootingPositions.add(new AgentPosition(x, i, AgentPosition.Orientation.FACING_NORTH));
+				if (i > y)
+					shootingPositions.add(new AgentPosition(x, i, AgentPosition.Orientation.FACING_SOUTH));
+			}
+		}
+
+		// Can't have a shooting position from any of the rooms the wumpus could
+		// reside
+		for (Room p : possibleWumpus)
+			for (AgentPosition.Orientation orientation : AgentPosition.Orientation.values())
+				shootingPositions.remove(new AgentPosition(p.getX(), p.getY(), orientation));
+
+		List<WumpusAction> actions = new ArrayList<>();
+		actions.addAll(planRoute(shootingPositions, allowed));
+		actions.add(WumpusAction.SHOOT);
+		return actions;
+!!!191234.java!!!	getMetrics() : Metrics
+		return kb.getMetrics();
+!!!191362.java!!!	notifyViews(in msg : String) : void
+		if (notifier != null)
+			notifier.notifyViews(msg);

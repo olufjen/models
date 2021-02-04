@@ -1,0 +1,61 @@
+class DistributeOrOverAnd
+!!!263810.java!!!	DistributeOrOverAnd()
+
+!!!263938.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		return p;
+!!!264066.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return equality;
+!!!264194.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return variable;
+!!!264322.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!264450.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return function;
+!!!264578.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		return new NotSentence((Sentence) sentence.getNegated().accept(this,
+				arg));
+!!!264706.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		// Distribute V over ^:
+
+		// This will cause flattening out of nested ^s and Vs
+		Sentence alpha = (Sentence) sentence.getFirst().accept(this, arg);
+		Sentence beta = (Sentence) sentence.getSecond().accept(this, arg);
+
+		// (alpha V (beta ^ gamma)) equivalent to
+		// ((alpha V beta) ^ (alpha V gamma))
+		if (Connectors.isOR(sentence.getConnector())
+				&& ConnectedSentence.class.isInstance(beta)) {
+			ConnectedSentence betaAndGamma = (ConnectedSentence) beta;
+			if (Connectors.isAND(betaAndGamma.getConnector())) {
+				beta = betaAndGamma.getFirst();
+				Sentence gamma = betaAndGamma.getSecond();
+				return new ConnectedSentence(Connectors.AND,
+						(Sentence) (new ConnectedSentence(Connectors.OR, alpha,
+								beta)).accept(this, arg),
+						(Sentence) (new ConnectedSentence(Connectors.OR, alpha,
+								gamma)).accept(this, arg));
+			}
+		}
+
+		// ((alpha ^ gamma) V beta) equivalent to
+		// ((alpha V beta) ^ (gamma V beta))
+		if (Connectors.isOR(sentence.getConnector())
+				&& ConnectedSentence.class.isInstance(alpha)) {
+			ConnectedSentence alphaAndGamma = (ConnectedSentence) alpha;
+			if (Connectors.isAND(alphaAndGamma.getConnector())) {
+				alpha = alphaAndGamma.getFirst();
+				Sentence gamma = alphaAndGamma.getSecond();
+				return new ConnectedSentence(Connectors.AND,
+						(Sentence) (new ConnectedSentence(Connectors.OR, alpha,
+								beta)).accept(this, arg),
+						(Sentence) (new ConnectedSentence(Connectors.OR, gamma,
+								beta)).accept(this, arg));
+			}
+		}
+
+		return new ConnectedSentence(sentence.getConnector(), alpha, beta);
+!!!264834.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		// This should not be called as should have already
+		// removed all of the quantifiers.
+		throw new IllegalStateException(
+				"All quantified sentences should have already been removed.");

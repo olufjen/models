@@ -1,0 +1,16 @@
+class PriorSample
+!!!399490.java!!!	PriorSample()
+		this(new JavaRandomizer(new Random()));
+!!!399618.java!!!	PriorSample(inout r : Randomizer)
+		this.randomizer = r;
+!!!399746.java!!!	priorSample(inout bn : BayesianNetwork) : RandomVariable
+		// x <- an event with n elements
+		Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+		for (RandomVariable Xi : bn.getVariablesInTopologicalOrder()) {
+			// x[i] <- a random sample from
+			// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+			x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+		}
+		// return x
+		return x;

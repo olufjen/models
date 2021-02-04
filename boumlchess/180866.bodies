@@ -1,0 +1,28 @@
+class AbstractFiniteDomain
+!!!411394.java!!!	AbstractFiniteDomain()
+
+!!!411522.java!!!	isFinite() : boolean
+		return true;
+!!!411650.java!!!	isInfinite() : boolean
+		return false;
+!!!412162.java!!!	getOffset(inout value : Object) : int
+		Integer idx = valueToIdx.get(value);
+		if (null == idx) {
+			throw new IllegalArgumentException("Value [" + value
+					+ "] is not a possible value of this domain.");
+		}
+		return idx.intValue();
+!!!412290.java!!!	getValueAt(in offset : int) : Object
+		return idxToValue.get(offset);
+!!!412418.java!!!	toString() : String
+		if (null == toString) {
+			toString = getPossibleValues().toString();
+		}
+		return toString;
+!!!412546.java!!!	indexPossibleValues(inout possibleValues : Set<? extends Object>) : void
+		int idx = 0;
+		for (Object value : possibleValues) {
+			valueToIdx.put(value, idx);
+			idxToValue.put(idx, value);
+			idx++;
+		}

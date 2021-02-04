@@ -1,0 +1,198 @@
+class SVGGroupParser
+!!!525954.java!!!	parse(inout input : InputStream, in groupID : String) : IGeometric2D
+		if(input == null || groupID == null) throw new NullPointerException();
+		reader = FACTORY.createXMLStreamReader(input);
+		shapes = new ArrayList<IGeometric2D>();
+		transformations.clear();
+		currentMatrix = TransformMatrix2D.UNITY_MATRIX;
+		while(reader.hasNext()) {
+		      final int event = reader.next();
+		      if (event == XMLStreamConstants.START_ELEMENT) {
+		    	  applyTransform();
+		    	  if(reader.getLocalName().equalsIgnoreCase(GROUP_ELEMENT)) {
+		    		  final String element = reader.getAttributeValue(null, ID_ATTRIBUTE);
+		    		  if(element != null) {
+		    			if(element.equalsIgnoreCase(groupID)) {
+		    				parseGroup();
+		    				break;
+		    			}
+		    		  }
+		    	  }
+		      } else if(event == XMLStreamConstants.END_ELEMENT) {
+		    	  applyTransformEnd();
+		      }
+		}
+		return shapes;
+!!!526082.java!!!	parseGroup() : void
+		int groupCounter = 1;
+		while (reader.hasNext()) {
+		      int event = reader.next();
+		      if (event == XMLStreamConstants.START_ELEMENT) {
+		    	  applyTransform();
+		    	  final String elementName = reader.getLocalName();
+		    	  if(elementName.equalsIgnoreCase(CIRCLE_ELEMENT)) parseCircle();
+		    	  else if(elementName.equalsIgnoreCase(ELLIPSE_ELEMENT)) parseEllipse();
+		    	  else if(elementName.equalsIgnoreCase(LINE_ELEMENT)) parseLine();
+		    	  else if(elementName.equalsIgnoreCase(POLYLINE_ELEMENT)) parsePolyline();
+		    	  else if(elementName.equalsIgnoreCase(POLYGON_ELEMENT)) parsePolygon();
+		    	  else if(elementName.equalsIgnoreCase(RECT_ELEMENT)) parseRect();
+		      } else if(event == XMLStreamConstants.END_ELEMENT) {
+		    	  applyTransformEnd();
+		    	  if (reader.getLocalName().equalsIgnoreCase(GROUP_ELEMENT)) {
+		    		  groupCounter--;
+		    		  if(groupCounter == 0) break;
+	 		      }
+		      }
+		}
+!!!526210.java!!!	applyTransform() : void
+		String value = reader.getAttributeValue(null, TRANSFORM_ATTRIBUTE);
+		transformations.push(currentMatrix);
+		currentMatrix = currentMatrix.multiply(parseTransform(value));
+!!!526338.java!!!	applyTransformEnd() : void
+		currentMatrix = transformations.pop();
+!!!526466.java!!!	parseTransform(in string : String) : TransformMatrix2D
+		TransformMatrix2D result = TransformMatrix2D.UNITY_MATRIX;
+		if(string != null) {
+			Matcher matcher1 = TRANSFORM_PATTERN1.matcher(string);
+			int transformCount1 = 0;
+			while(matcher1.lookingAt()) transformCount1++;
+			for(int j=1;j<=transformCount1;j++) {
+				Matcher matcher2 = TRANSFORM_PATTERN2.matcher(matcher1.group(j));
+				int transformCount2 = 0;
+				while(matcher1.lookingAt()) transformCount2++;
+				for(int i=1;i<transformCount2;) {
+					if(matcher2.group(i).equalsIgnoreCase(TRANSLATE_TRANSFORM)) {
+						double tx = parseNumber(matcher2.group(++i));
+						double ty = 0.0d;
+						i++;
+						try {
+							ty = parseNumber(matcher2.group(i));
+							i++;
+						} catch(NumberFormatException e) {
+							e.printStackTrace();
+						}
+						result = result.multiply(TransformMatrix2D.translate(tx, ty));
+					} else if(matcher2.group(i).equalsIgnoreCase(SCALE_TRANSFORM)) {
+						double sx = parseNumber(matcher2.group(++i));
+						double sy = sx;
+						i++;
+						try {
+							sy = parseNumber(matcher2.group(i));
+							i++;
+						} catch(NumberFormatException e) {
+							e.printStackTrace();
+						}
+						result = result.multiply(TransformMatrix2D.scale(sx, sy));
+					} else if(matcher2.group(i).equalsIgnoreCase(ROTATE_TRANSFORM)) {
+						double angle = Math.toRadians(parseNumber(matcher2.group(++i)));
+						double cx = 0.0d;
+						double cy = 0.0d;
+						i++;
+						try {
+							cx = parseNumber(matcher2.group(i));
+							i++;
+							cy = parseNumber(matcher2.group(i));
+							i++;
+						} catch(NumberFormatException e) {
+							e.printStackTrace();
+						}
+						if(cx != 0 && cy != 0) {
+							result = result.multiply(TransformMatrix2D.translate(cx,cy));
+						}
+						result = result.multiply(TransformMatrix2D.rotate(angle));
+						if(cx != 0 && cy != 0) {
+							result = result.multiply(TransformMatrix2D.translate(-cx,-cy));
+						}
+					} else {
+						i++;
+					}
+				}
+			}
+		}
+		return result;
+!!!526594.java!!!	parseRect() : void
+		String value = reader.getAttributeValue(null, X_ATTRIBUTE);
+	  	final double x = parseNumber(value);
+	  	value = reader.getAttributeValue(null, Y_ATTRIBUTE);
+	  	final double y = parseNumber(value);
+	  	value = reader.getAttributeValue(null, WIDTH_ATTRIBUTE);
+	  	final double width = parseNumber(value);
+	  	value = reader.getAttributeValue(null, HEIGHT_ATTRIBUTE);
+	  	final double height = parseNumber(value);
+	  	if(width != 0.0d && height != 0.0d) {
+	  		//SVG standard specifies that both width and height are forced to have a value. Otherwise the rendering for this element is disabled.
+	  		IGeometric2D rect = new Rect2D(x,y,x+width,y+height).transform(currentMatrix);
+	  		shapes.add(rect);
+	  	}
+!!!526722.java!!!	parseCircle() : void
+		String value = reader.getAttributeValue(null, CX_ATTRIBUTE);
+		final double cx = parseNumber(value);
+		value = reader.getAttributeValue(null, CY_ATTRIBUTE);
+		final double cy = parseNumber(value);
+		value = reader.getAttributeValue(null, R_ATTRIBUTE);
+		final double r = parseNumber(value);
+		if(r != 0.0d) {
+			//SVG standard specifies that the radius is forced to have a value. Otherwise the rendering for this element is disabled.
+			IGeometric2D circle = new Circle2D(new Point2D(cx,cy),r).transform(currentMatrix);
+			shapes.add(circle);
+		}
+!!!526850.java!!!	parseEllipse() : void
+		String value = reader.getAttributeValue(null, CX_ATTRIBUTE);
+		final double cx = parseNumber(value);
+		value = reader.getAttributeValue(null, CY_ATTRIBUTE);
+		final double cy = parseNumber(value);
+		value = reader.getAttributeValue(null, RX_ATTRIBUTE);
+		final double rx = parseNumber(value);
+		value = reader.getAttributeValue(null, RY_ATTRIBUTE);
+		final double ry = parseNumber(value);
+	  	if(rx != 0.0d && ry!= 0.0d) {
+	  		//SVG standard specifies that the radius is forced to have a value. Otherwise the rendering for this element is disabled.
+	  		IGeometric2D elipse = new Ellipse2D(new Point2D(cx,cy),rx,ry).transform(currentMatrix);
+	  		shapes.add(elipse);
+	  	}
+!!!526978.java!!!	parseLine() : void
+		String value = reader.getAttributeValue(null, X1_ATTRIBUTE);
+		final double x1 = parseNumber(value);
+		value = reader.getAttributeValue(null, Y1_ATTRIBUTE);
+		final double y1 = parseNumber(value);
+		value = reader.getAttributeValue(null, X2_ATTRIBUTE);
+		final double x2 = parseNumber(value);
+		value = reader.getAttributeValue(null, Y2_ATTRIBUTE);
+		final double y2 = parseNumber(value);
+		IGeometric2D line = new Line2D(x1,y1,x2,y2).transform(currentMatrix);
+		shapes.add(line);
+!!!527106.java!!!	parsePolyline() : void
+		String value = reader.getAttributeValue(null, POINTS_ATTRIBUTE);
+		if(value != null) {
+			String[] coords = value.split(POINTS_REGEX);
+			if(coords.length >= 2 && coords.length % 2 == 0) {
+				//otherwise something is wrong with the points list!
+				Point2D[] vertexes = new Point2D[coords.length / 2];
+				for(int i=0; i<coords.length; i = i + 2) {
+					vertexes[(i/2)-1] = new Point2D(parseNumber(coords[i]),parseNumber(coords[i+1]));
+				}
+    			IGeometric2D polyline = new Polyline2D(vertexes,false).transform(currentMatrix);
+    			shapes.add(polyline);
+			}
+		}
+!!!527234.java!!!	parsePolygon() : void
+		String value = reader.getAttributeValue(null, POINTS_ATTRIBUTE);
+		if(value != null) {
+			String[] coords = value.split(POINTS_REGEX);
+			if(coords.length >= 2 && coords.length % 2 == 0) {
+				//otherwise something is wrong with the points list!
+				Point2D[] vertexes = new Point2D[coords.length / 2];
+				for(int i=1; i<coords.length; i = i + 2) {
+					vertexes[(i-1)/2] = new Point2D(parseNumber(coords[i-1]),parseNumber(coords[i]));
+				}
+				IGeometric2D polygon = new Polyline2D(vertexes,true).transform(currentMatrix);
+			  	shapes.add(polygon);
+			}
+		}
+!!!527362.java!!!	parseNumber(in string : String) : double
+		if(string == null) return 0.0d;
+		Matcher matcher = NUMBER_PATTERN.matcher(string);
+		if(!matcher.lookingAt()) return 0.0d;
+		final String group = matcher.group(1);
+		if(group == null) return 0.0d;
+		return Double.valueOf(group);

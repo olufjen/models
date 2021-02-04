@@ -1,0 +1,33 @@
+class FrequencyCounter
+!!!497282.java!!!	FrequencyCounter()
+		counter = new HashMap<T, Integer>();
+		total = 0;
+!!!497410.java!!!	getCount(inout key : T) : Integer
+		Integer value = counter.get(key);
+		if (value == null) {
+			return 0;
+		}
+		return value;
+!!!497538.java!!!	incrementFor(inout key : T) : void
+		Integer value = counter.get(key);
+		if (value == null) {
+			counter.put(key, 1);
+		} else {
+			counter.put(key, value + 1);
+		}
+		// Keep track of the total
+		total++;
+!!!497666.java!!!	probabilityOf(inout key : T) : double
+		Integer value = getCount(key);
+		if (0 == total || 0 == value.intValue()) {
+			return 0.0;
+		} else {
+			return value.doubleValue() / total;
+		}
+!!!497794.java!!!	getStates() : Set<T>
+		return counter.keySet();
+!!!497922.java!!!	clear() : void
+		counter.clear();
+		total = 0;
+!!!498050.java!!!	toString() : String
+		return counter.toString();

@@ -1,0 +1,71 @@
+class RemoveQuantifiers
+!!!262658.java!!!	RemoveQuantifiers(inout parser : FOLParser)
+		this.parser = parser;
+
+		substVisitor = new SubstVisitor();
+!!!262786.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		return p;
+!!!262914.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return equality;
+!!!263042.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return variable;
+!!!263170.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!263298.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return function;
+!!!263426.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		return new NotSentence((Sentence) sentence.getNegated().accept(this,
+				arg));
+!!!263554.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		return new ConnectedSentence(sentence.getConnector(),
+				(Sentence) sentence.getFirst().accept(this, arg),
+				(Sentence) sentence.getSecond().accept(this, arg));
+!!!263682.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		Sentence quantified = sentence.getQuantified();
+		Set<Variable> universalScope = (Set<Variable>) arg;
+
+		// Skolemize: Skolemization is the process of removing existential
+		// quantifiers by elimination. This is done by introducing Skolem
+		// functions. The general rule is that the arguments of the Skolem
+		// function are all the universally quantified variables in whose
+		// scope the existential quantifier appears.
+		if (Quantifiers.isEXISTS(sentence.getQuantifier())) {
+			Map<Variable, Term> skolemSubst = new LinkedHashMap<Variable, Term>();
+			for (Variable eVar : sentence.getVariables()) {
+				if (universalScope.size() > 0) {
+					// Replace with a Skolem Function
+					String skolemFunctionName = parser.getFOLDomain()
+							.addSkolemFunction();
+					skolemSubst.put(eVar, new Function(skolemFunctionName,
+							new ArrayList<Term>(universalScope)));
+				} else {
+					// Replace with a Skolem Constant
+					String skolemConstantName = parser.getFOLDomain()
+							.addSkolemConstant();
+					skolemSubst.put(eVar, new Constant(skolemConstantName));
+				}
+			}
+
+			Sentence skolemized = substVisitor.subst(skolemSubst, quantified);
+			return skolemized.accept(this, arg);
+		}
+
+		// Drop universal quantifiers.
+		if (Quantifiers.isFORALL(sentence.getQuantifier())) {
+			// Add to the universal scope so that
+			// existential skolemization may be done correctly
+			universalScope.addAll(sentence.getVariables());
+
+			Sentence droppedUniversal = (Sentence) quantified.accept(this, arg);
+
+			// Enusre my scope is removed before moving back up
+			// the call stack when returning
+			universalScope.removeAll(sentence.getVariables());
+
+			return droppedUniversal;
+		}
+
+		// Should not reach here as have already
+		// handled the two quantifiers.
+		throw new IllegalStateException("Unhandled Quantifier:"
+				+ sentence.getQuantifier());

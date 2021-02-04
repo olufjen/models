@@ -1,0 +1,96 @@
+class EightPuzzleApp
+!!!563842.java!!!	main(inout args : String [[]]) : void
+		launch(args);
+!!!563970.java!!!	addSearchAlgorithm(in name : String, inout algo : SearchForActions) : void
+		SEARCH_NAMES.add(name);
+		SEARCH_ALGOS.add(algo);
+!!!564226.java!!!	getTitle() : String
+		return "Eight Puzzle App";
+!!!564354.java!!!	createRootPane() : Pane
+		BorderPane root = new BorderPane();
+
+		StackPane stateView = new StackPane();
+		stateViewCtrl = new EightPuzzleViewCtrl(stateView);
+
+		List<Parameter> params = createParameters();
+
+		TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
+		builder.defineParameters(params);
+		builder.defineStateView(stateView);
+		builder.defineInitMethod(this::initialize);
+		builder.defineTaskMethod(this::startExperiment);
+		simPaneCtrl = builder.getResultFor(root);
+
+		return root;
+!!!564482.java!!!	createParameters() : Parameter
+		Parameter p1 = new Parameter(PARAM_INIT_CONF, "Three Moves", "Medium", "Extreme", "Random");
+		Parameter p2 = new Parameter(PARAM_STRATEGY, (Object[]) SEARCH_NAMES.toArray());
+		return Arrays.asList(p1, p2);
+!!!564610.java!!!	initialize() : void
+		board = null;
+		switch (simPaneCtrl.getParamValueIndex(PARAM_INIT_CONF)) {
+			case 0: // three moves
+				board = new EightPuzzleBoard(new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8 });
+				break;
+			case 1: // medium
+				board = new EightPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
+				break;
+			case 2: // extreme
+				board = new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
+				break;
+			case 3: // random
+				board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
+				Random r = new Random(System.currentTimeMillis());
+				for (int i = 0; i < 200; i++) {
+					switch (r.nextInt(4)) {
+						case 0:
+							board.moveGapUp();
+							break;
+						case 1:
+							board.moveGapDown();
+							break;
+						case 2:
+							board.moveGapLeft();
+							break;
+						case 3:
+							board.moveGapRight();
+							break;
+					}
+				}
+		}
+		stateViewCtrl.initialize(board);
+!!!564738.java!!!	cleanup() : void
+		simPaneCtrl.cancelExecution();
+!!!564866.java!!!	startExperiment() : void
+		int strategyIdx = simPaneCtrl.getParamValueIndex(PARAM_STRATEGY);
+
+		Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
+		SearchForActions<EightPuzzleBoard, Action> search = SEARCH_ALGOS.get(strategyIdx);
+		Optional<List<Action>> actions = search.findActions(problem);
+		if (actions.isPresent()) {
+			for (Action action : actions.get()) {
+				if (action == EightPuzzleBoard.UP)
+					board.moveGapUp();
+				else if (action == EightPuzzleBoard.DOWN)
+					board.moveGapDown();
+				else if (action == EightPuzzleBoard.LEFT)
+					board.moveGapLeft();
+				else if (action == EightPuzzleBoard.RIGHT)
+					board.moveGapRight();
+				Metrics m = new Metrics();
+				m.set("manhattanHeuristic", EightPuzzleFunctions.createManhattanHeuristicFunction().applyAsDouble
+						(new Node<>(board)));
+				updateStateView(m);
+				if (Tasks.currIsCancelled())
+					break;
+				simPaneCtrl.waitAfterStep();
+			}
+		}
+		updateStateView(search.getMetrics());
+!!!564994.java!!!	updateStateView(inout metrics : Metrics) : void
+		Platform.runLater(() -> updateStateViewLater(metrics));
+		simPaneCtrl.waitAfterStep();
+!!!565122.java!!!	updateStateViewLater(inout metrics : Metrics) : void
+		stateViewCtrl.update();
+		if (metrics != null)
+			simPaneCtrl.setStatus(metrics.toString());

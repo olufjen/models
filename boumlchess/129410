@@ -1,0 +1,965 @@
+format 223
+"connectfour" // aima::core::environment::connectfour
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/environment/connectfour/"
+  java_package "aima.core.environment.connectfour"
+  classview 128898 "connectfour"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 132866 "ActionValuePair"
+      visibility public 
+      nformals 1
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Helper class for action ordering.
+@author Ruediger Lunde
+"
+      classrelation 134274 // <realization>
+	relation 134274 -_-|>
+	  a public
+	    java "${type}<ActionValuePair<A>>"
+	    classrelation_ref 134274 // <realization>
+	  b parent class_ref 132994 // Comparable
+      end
+
+      attribute 130050 "action"
+	private explicit_type "A"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 130178 "value"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 146050 "createFor"
+	class_operation cpp_inline public return_type class_ref 132866 // ActionValuePair
+	nparams 2
+	  param inout name "action" explicit_type "A"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<A> ${type}<A> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 146178 "ActionValuePair"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "action" explicit_type "A"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 146306 "getAction"
+	cpp_inline public explicit_return_type "A"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 146434 "getValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 146562 "compareTo"
+	cpp_inline public explicit_return_type "int"
+	nparams 1
+	  param inout name "pair" type class_ref 132866 // ActionValuePair
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 133122 "ConnectFourAIPlayer"
+      visibility public 
+      nactuals 3
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 1 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 2 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implements an iterative deepening Minimax search with alpha-beta pruning and
+a special action ordering optimized for the Connect Four game.
+
+@author Ruediger Lunde
+"
+      classrelation 134914 // <realization>
+	relation 134914 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 134914 // <realization>
+	  b parent class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+      end
+
+      operation 149378 "ConnectFourAIPlayer"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "game" type class_ref 133762 // Game
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<ConnectFourState, Integer, String> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 149506 "isSignificantlyBetter"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param in name "newUtility" explicit_type "double"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 149634 "hasSafeWinner"
+	protected explicit_return_type "boolean"
+	nparams 1
+	  param in name "resultUtility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 149762 "eval"
+	protected explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	  param in name "player" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Modifies the super implementation by making safe winner values even more
+attractive if depth is small.
+"
+      end
+
+      operation 149890 "orderActions"
+	public explicit_return_type "List<Integer>"
+	nparams 4
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	  param inout name "actions" explicit_type "List<Integer>"
+	  param in name "player" explicit_type "String"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Orders actions with respect to the number of potential win positions
+which profit from the action.
+"
+      end
+    end
+
+    class 133250 "ConnectFourState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A state of the Connect Four game is characterized by a board containing a
+grid of spaces for disks, the next player to move, and some utility
+informations. A win position for a player x is an empty space which turns a
+situation into a win situation for x if he is able to place a disk there.
+
+@author Ruediger Lunde
+
+"
+      classrelation 135298 // <realization>
+	relation 135298 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 135298 // <realization>
+	  b parent class_ref 134274 // Cloneable
+      end
+
+      attribute 131842 "cols"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 131970 "board"
+	private explicit_type "byte"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Uses special bit coding. First bit: disk of player 1, second bit: disk of
+player 2, third bit: win position for player 1, fourth bit: win position
+for player 2.
+
+"
+      end
+
+      attribute 132098 "moveCount"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 132226 "utility"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Indicates the utility of the state. 1: win for player 1, 0: win for
+player 2, 0.5: draw, -1 for all non-terminal states.
+
+"
+      end
+
+      attribute 132354 "winPositions1"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 132482 "winPositions2"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 152066 "ConnectFourState"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "rows" explicit_type "int"
+	  param in name "cols" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152194 "getRows"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152322 "getCols"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152450 "getUtility"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152578 "getPlayerNum"
+	public explicit_return_type "int"
+	nparams 2
+	  param in name "row" explicit_type "int"
+	  param in name "col" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152706 "getPlayerToMove"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152834 "getMoves"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 152962 "dropDisk"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "col" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153090 "getFreeRow"
+	private explicit_return_type "int"
+	nparams 1
+	  param in name "col" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the row of the first empty space in the specified column and -1
+if the column is full.
+"
+      end
+
+      operation 153218 "isWinMoveFor"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param in name "col" explicit_type "int"
+	  param in name "playerNum" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153346 "isWinPositionFor"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param in name "row" explicit_type "int"
+	  param in name "col" explicit_type "int"
+	  param in name "playerNum" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153474 "setWinPositionFor"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "row" explicit_type "int"
+	  param in name "col" explicit_type "int"
+	  param in name "playerNum" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153602 "analyzeWinPositions"
+	private explicit_return_type "void"
+	nparams 2
+	  param in name "moveRow" explicit_type "int"
+	  param in name "moveCol" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Assumes a disk at position <code>moveRow</code> and <code>moveCol</code>
+and analyzes the vicinity with respect to win positions.
+"
+      end
+
+      operation 153730 "analyzePotentialWinPositions"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "action" explicit_type "Integer"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153858 "clone"
+	public return_type class_ref 133250 // ConnectFourState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 153986 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 154114 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 134402 "WinPositionInfo"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 132610 "row"
+	  package explicit_type "int"
+	  init_value " -1"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 132738 "col"
+	  package explicit_type "int"
+	  init_value " -1"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 132866 "diskCount"
+	  package explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 154242 "clear"
+	  package explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 154370 "hasData"
+	  package explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 134146 "ConnectFourGame"
+      visibility public 
+      nactuals 3
+      actual class class_ref 133762 // Game
+        rank 0 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 1 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 2 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Provides an implementation of the ConnectFour game which can be used for
+experiments with the Minimax algorithm.
+
+@author Ruediger Lunde
+
+"
+      classrelation 135042 // <realization>
+	relation 135042 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 135042 // <realization>
+	  b parent class_ref 133762 // Game
+      end
+
+      attribute 131714 "players"
+	private explicit_type "String"
+	multiplicity "[]"
+	init_value " new String[] { \"red\", \"yellow\" }"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 135170 // initialState (<unidirectional association>)
+	relation 135170 --->
+	  a role_name "initialState" init_value " new ConnectFourState(6, 7)" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 135170 // initialState (<unidirectional association>)
+	  b parent class_ref 133250 // ConnectFourState
+      end
+
+      operation 150914 "getInitialState"
+	public return_type class_ref 133250 // ConnectFourState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151042 "getPlayers"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151170 "getPlayer"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151298 "getPlayer"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "playerNum" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the player corresponding to the specified player number. For
+efficiency reasons, <code>ConnectFourState</code>s use numbers
+instead of strings to identify players.
+"
+      end
+
+      operation 151426 "getPlayerNum"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "player" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the player number corresponding to the specified player. For
+efficiency reasons, <code>ConnectFourState</code>s use numbers instead of
+strings to identify players.
+"
+      end
+
+      operation 151554 "getActions"
+	public explicit_return_type "List<Integer>"
+	nparams 1
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151682 "getResult"
+	public return_type class_ref 133250 // ConnectFourState
+	nparams 2
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	  param inout name "action" explicit_type "Integer"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151810 "isTerminal"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 151938 "getUtility"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 133250 // ConnectFourState
+	  param in name "player" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 128642 "connectfour"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 132482 "ActionValuePair"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 132866 // ActionValuePair
+      end
+    end
+
+    artifact 132866 "ConnectFourAIPlayer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.search.adversarial.Game;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+${definition}"
+      associated_elems
+	class_ref 133122 // ConnectFourAIPlayer
+      end
+    end
+
+    artifact 133122 "ConnectFourGame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import aima.core.search.adversarial.Game;
+${definition}"
+      associated_elems
+	class_ref 134146 // ConnectFourGame
+      end
+    end
+
+    artifact 133250 "ConnectFourState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 133250 // ConnectFourState
+      end
+    end
+  end
+end

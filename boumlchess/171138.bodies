@@ -1,0 +1,181 @@
+class DPLLSatisfiable
+!!!359298.java!!!	dpllSatisfiable(inout s : Sentence) : boolean
+		// clauses <- the set of clauses in the CNF representation of s
+		Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
+				.getClauses();
+		// symbols <- a list of the proposition symbols in s
+		List<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
+
+		// return DPLL(clauses, symbols, {})
+		return dpll(clauses, symbols, new Model());
+!!!359426.java!!!	dpll(inout clauses : Set<Clause>, inout symbols : List<PropositionSymbol>, inout model : Model) : boolean
+		// if every clause in clauses is true in model then return true
+		if (everyClauseTrue(clauses, model))
+			return true;
+
+		// if some clause in clauses is false in model then return false
+		if (someClauseFalse(clauses, model) || Tasks.currIsCancelled())
+			return false;
+
+		// P, value <- FIND-PURE-SYMBOL(symbols, clauses, model)
+		Pair<PropositionSymbol, Boolean> pAndValue = findPureSymbol(symbols,
+				clauses, model);
+		// if P is non-null then
+		if (pAndValue != null) {
+			// return DPLL(clauses, symbols - P, model U {P = value})
+			return dpll(clauses, minus(symbols, pAndValue.getFirst()),
+					model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+		}
+
+		// P, value <- FIND-UNIT-CLAUSE(clauses, model)
+		pAndValue = findUnitClause(clauses, model);
+		// if P is non-null then
+		if (pAndValue != null) {
+			// return DPLL(clauses, symbols - P, model U {P = value})
+			return dpll(clauses, minus(symbols, pAndValue.getFirst()),
+					model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+		}
+
+		// P <- FIRST(symbols); rest <- REST(symbols)
+		PropositionSymbol p = Util.first(symbols);
+		List<PropositionSymbol> rest = Util.rest(symbols);
+		// return DPLL(clauses, rest, model U {P = true}) or
+		// ...... DPLL(clauses, rest, model U {P = false})
+		return dpll(clauses, rest, model.union(p, true))
+				|| dpll(clauses, rest, model.union(p, false));
+!!!359554.java!!!	isEntailed(inout kb : KnowledgeBase, inout alpha : Sentence) : boolean
+		// AIMA3e p.g. 260: kb |= alpha, can be done by testing
+		// unsatisfiability of kb & ~alpha.
+		Set<Clause>             kbAndNotAlpha = new LinkedHashSet<Clause>();
+		Sentence                notQuery      = new ComplexSentence(Connective.NOT, alpha);
+		Set<PropositionSymbol>  symbols       = new LinkedHashSet<PropositionSymbol>();
+		List<PropositionSymbol> querySymbols  = new ArrayList<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
+		
+		kbAndNotAlpha.addAll(kb.asCNF());
+		kbAndNotAlpha.addAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
+		symbols.addAll(querySymbols);
+		symbols.addAll(kb.getSymbols());
+
+		return !dpll(kbAndNotAlpha, new ArrayList<PropositionSymbol>(symbols), new Model());
+!!!359682.java!!!	getPropositionSymbolsInSentence(inout s : Sentence) : PropositionSymbol
+		List<PropositionSymbol> result = new ArrayList<PropositionSymbol>(
+				SymbolCollector.getSymbolsFrom(s));
+
+		return result;
+!!!359810.java!!!	findPureSymbol(inout symbols : List<PropositionSymbol>, inout clauses : Set<Clause>, inout model : Model) : Pair
+		Pair<PropositionSymbol, Boolean> result = null;
+
+		Set<PropositionSymbol> symbolsToKeep = new HashSet<PropositionSymbol>(symbols);
+		// Collect up possible positive and negative candidate sets of pure
+		// symbols
+		Set<PropositionSymbol> candidatePurePositiveSymbols = new HashSet<PropositionSymbol>();
+		Set<PropositionSymbol> candidatePureNegativeSymbols = new HashSet<PropositionSymbol>();
+		for (Clause c : clauses) {
+			// Algorithm can ignore clauses that are already known to be true
+			if (Boolean.TRUE.equals(model.determineValue(c))) {
+				continue;
+			}
+			// Collect possible candidates, removing all candidates that are
+			// not part of the input list of symbols to be considered.
+			for (PropositionSymbol p : c.getPositiveSymbols()) {
+				if (symbolsToKeep.contains(p)) {
+					candidatePurePositiveSymbols.add(p);
+				}
+			}
+			for (PropositionSymbol n : c.getNegativeSymbols()) {
+				if (symbolsToKeep.contains(n)) {
+					candidatePureNegativeSymbols.add(n);
+				}
+			}
+		}
+
+		// Determine the overlap/intersection between the positive and negative
+		// candidates
+		for (PropositionSymbol s : symbolsToKeep) {
+			// Remove the non-pure symbols
+			if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s)) {
+				candidatePurePositiveSymbols.remove(s);
+				candidatePureNegativeSymbols.remove(s);
+			}
+		}
+
+		// We have an implicit preference for positive pure symbols
+		if (candidatePurePositiveSymbols.size() > 0) {
+			result = new Pair<PropositionSymbol, Boolean>(
+					candidatePurePositiveSymbols.iterator().next(), true);
+		} // We have a negative pure symbol
+		else if (candidatePureNegativeSymbols.size() > 0) {
+			result = new Pair<PropositionSymbol, Boolean>(
+					candidatePureNegativeSymbols.iterator().next(), false);
+		}
+
+		return result;
+!!!359938.java!!!	findUnitClause(inout clauses : Set<Clause>, inout model : Model) : Pair
+		Pair<PropositionSymbol, Boolean> result = null;
+
+		for (Clause c : clauses) {
+			// if clauses value is currently unknown
+			// (i.e. means known literals are false)
+			if (model.determineValue(c) == null) {
+				Literal unassigned = null;
+				// Default definition of a unit clause is a clause
+				// with just one literal
+				if (c.isUnitClause()) {
+					unassigned = c.getLiterals().iterator().next();
+				} else {
+					// Also, a unit clause in the context of DPLL, also means a
+					// clauseF in which all literals but one are already
+					// assigned false by the model.
+					// Note: at this point we already know the clause is not
+					// true, so just need to determine if the clause has a
+					// single unassigned literal
+					for (Literal l : c.getLiterals()) {
+						Boolean value = model.getValue(l.getAtomicSentence());
+						if (value == null) {
+							// The first unassigned literal encountered.
+							if (unassigned == null) {
+								unassigned = l;
+							} else {
+								// This means we have more than 1 unassigned
+								// literal so lets skip
+								unassigned = null;
+								break;
+							}
+						}
+					}
+				}
+	
+				// if a value assigned it means we have a single
+				// unassigned literal and all the assigned literals
+				// are not true under the current model as we were
+				// unable to determine a value.
+				if (unassigned != null) {
+					result = new Pair<PropositionSymbol, Boolean>(
+							unassigned.getAtomicSentence(),
+							unassigned.isPositiveLiteral());
+					break;
+				}
+			}
+		}
+
+		return result;
+!!!360066.java!!!	everyClauseTrue(inout clauses : Set<Clause>, inout model : Model) : boolean
+		return model.satisfies(clauses);
+!!!360194.java!!!	someClauseFalse(inout clauses : Set<Clause>, inout model : Model) : boolean
+		for (Clause c : clauses) {
+			// Only 1 needs to be false
+			if (Boolean.FALSE.equals(model.determineValue(c))) {
+				return true;
+			}
+		}
+		return false;
+!!!360322.java!!!	minus(inout symbols : List<PropositionSymbol>, inout p : PropositionSymbol) : PropositionSymbol
+		List<PropositionSymbol> result = new ArrayList<PropositionSymbol>(
+				symbols.size());
+		for (PropositionSymbol s : symbols) {
+			// symbols - P
+			if (!p.equals(s)) {
+				result.add(s);
+			}
+		}
+		return result;

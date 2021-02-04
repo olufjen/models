@@ -1,0 +1,270 @@
+class MclGui
+!!!610562.java!!!	buildPanels() : void
+			setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+			setMinimumSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+			setTitle("AIMA3e-Java: Monte-Carlo-Localization");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			//leftPanel:
+			buttons = new JButton[6];
+			previousButtonState = new boolean[buttons.length];
+			buttons[0] = new JButton(IRobotGui.DEFAULT_BUTTON_STRING);
+			buttons[0].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					saveButtonState();
+					enableButtons(gui.buttonStateInit);
+					backgroundThread.execute(runInitRobot);
+				}
+			});
+			buttons[1] = new JButton("Load Map");
+			buttons[1].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					saveButtonState();
+					enableButtons(gui.buttonStateInit);
+					backgroundThread.execute(mapLoader);
+				}
+			});
+			buttons[2] = new JButton("Step");
+			buttons[2].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					enableButtons(gui.buttonStateInit);
+					backgroundThread.execute(runStep);
+				}
+			});
+			buttons[3] = new JButton(autoLocateTitle);
+			buttons[3].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if(!core.isRunning()) {
+						JButton button = (JButton) arg0.getSource();
+						button.setText(autoLocateStopTitle);
+						core.setButton(button);
+						core.setRunning(true);
+						if(md.clearResult()) {
+							core.generateParticles();
+						}
+						enableButtons(buttonStateAuto);
+						backgroundThread.execute(core);
+					} else {
+						core.setRunning(false);
+					}
+				}
+			});
+			buttons[4] = new JButton("Clear GUI");
+			buttons[4].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					enableButtons(gui.buttonStateInit);
+					backgroundThread.execute(runClean);
+				}
+			});
+			buttons[5] = new JButton("Settings");
+			buttons[5].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					settingsGui.show();
+				}
+			});
+			enableButtons(buttonStateStart);
+			localizationResult = new JLabel("<HTML>Result: <BR><BR><BR></HTML>");
+			
+			JPanel leftPanel = new JPanel();
+			leftPanel.setBorder(GuiBase.getClearanceBorder());
+			leftPanel.setLayout(new GridLayout(0,1,clearance,clearance));
+			for(JButton button:buttons) leftPanel.add(button);
+			leftPanel.add(localizationResult);
+			
+			//centerPanel:
+			md = new MapDrawer();
+			verticalScroll = new JScrollBar(JScrollBar.VERTICAL);
+            verticalScroll.setEnabled(false);
+            verticalScroll.addAdjustmentListener(scrollListener);
+            horizontalScroll = new JScrollBar(JScrollBar.HORIZONTAL);
+            horizontalScroll.setEnabled(false);
+            horizontalScroll.addAdjustmentListener(scrollListener);
+			jSliderZoom = new JSlider(1, 200);
+            jSliderZoom.setValue(1);
+            jSliderZoom.addChangeListener(new ChangeListener() { 
+            	@Override
+                public void stateChanged(ChangeEvent e) {
+            		horizontalScrollValue = horizontalScroll.getValue();
+            		verticalScrollValue = verticalScroll.getValue();
+            		md.scaleMap();
+            	}
+            });
+			
+			JPanel centerPanel = new JPanel();
+			centerPanel.setBorder(GuiBase.getClearanceBorder());
+			centerPanel.setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = 0;
+			c.gridy = 0;
+			c.weightx = 1;
+			c.weighty = 1;
+			c.fill = GridBagConstraints.BOTH;
+			centerPanel.add(md, c);
+			c.gridx = 1;
+			c.gridy = 0;
+			c.weightx = 0;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.VERTICAL;
+			centerPanel.add(verticalScroll, c);
+			c.gridx = 0;
+			c.gridy = 1;
+			c.weightx = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			centerPanel.add(horizontalScroll, c);
+			c.gridx = 0;
+			c.gridy = 2;
+			c.weightx = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			centerPanel.add(jSliderZoom, c);
+			
+			//rightPanel:
+			JLabel jLRangeReading = new JLabel("Range Reading:");
+			jtARangeReading = new JTextArea();
+			jtARangeReading.setEditable(false);
+			jtARangeReading.setLineWrap(true);
+			jtARangeReading.setWrapStyleWord(true);
+			JScrollPane rangeReadingScrollPane = new JScrollPane(jtARangeReading);
+			rangeReadingScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+			jLRangeReading.setLabelFor(rangeReadingScrollPane);
+			
+			JPanel rangeReadingPanel = new JPanel();
+			rangeReadingPanel.setLayout(new BoxLayout(rangeReadingPanel, BoxLayout.Y_AXIS));
+			rangeReadingPanel.add(jLRangeReading);
+			rangeReadingPanel.add(GuiBase.getClearanceComp());
+			rangeReadingPanel.add(rangeReadingScrollPane);
+			
+			movesModel = new ListTableModel("Moves:");
+			JLabel jLMoves = new JLabel(movesModel.getColumnName(0));
+			jTMoves = new JTable(movesModel) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected void configureEnclosingScrollPane() { }
+			};
+			movesScrollPane = new JScrollPane(jTMoves, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			jTMoves.setFillsViewportHeight(true);
+			moveRowHeight = jTMoves.getRowHeight();
+			movesScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+			jLMoves.setLabelFor(movesScrollPane);
+			
+			JPanel movesPanel = new JPanel();
+			movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
+			movesPanel.add(jLMoves);
+			movesPanel.add(GuiBase.getClearanceComp());
+			movesPanel.add(movesScrollPane);
+			
+			JPanel rightPanel = new JPanel();
+			rightPanel.setBorder(GuiBase.getClearanceBorder());
+			rightPanel.setPreferredSize(new Dimension(170,1));
+			rightPanel.setLayout(new GridLayout(0,1,clearance,clearance));
+			rightPanel.add(rangeReadingPanel);
+			rightPanel.add(movesPanel);
+			
+			//Put all panels together:
+			JPanel mainPanel = new JPanel();
+			mainPanel.setLayout(new BorderLayout());
+			mainPanel.add(leftPanel, BorderLayout.WEST);
+			mainPanel.add(centerPanel, BorderLayout.CENTER);
+			mainPanel.add(rightPanel, BorderLayout.EAST);
+			getContentPane().add(mainPanel, BorderLayout.CENTER);
+			
+			//Listen for resizes on the center panel:
+			centerPanel.addComponentListener(new ComponentListener() {
+				@Override
+				public void componentResized(ComponentEvent e) {
+					movesScrollPane.getVerticalScrollBar().setValue(movesScrollPane.getVerticalScrollBar().getMaximum()-movesScrollPane.getVerticalScrollBar().getVisibleAmount());
+					//Invalidate the values: Scrollbars only repaint on a change of these values!
+					horizontalScrollValue = horizontalScroll.getValue();
+					verticalScrollValue = verticalScroll.getValue();
+					horizontalScroll.setValues(-1, 0, -1, -1);
+					verticalScroll.setValues(-1, 0, -1, -1);
+					//Recalculate all scale Factors of the map:
+					md.scaleMap();
+				}
+				@Override
+				public void componentHidden(ComponentEvent arg0) { }
+				@Override
+				public void componentMoved(ComponentEvent arg0) { }
+				@Override
+				public void componentShown(ComponentEvent arg0) { }
+			});
+!!!610690.java!!!	enableButtons(inout buttonStates : boolean [[]]) : void
+			for(int i=0; i < buttons.length; i++) buttons[i].setEnabled(buttonStates[i]);
+!!!610818.java!!!	saveButtonState() : void
+			previousButtonState = new boolean[buttons.length];
+			for(int i=0; i < buttons.length; i++) previousButtonState[i] = buttons[i].isEnabled();
+!!!610946.java!!!	createMap() : void
+			findMapSize();
+			if(mapWidth <= 1.0 || mapHeight <= 1.0){
+				GuiBase.showMessageBox("Map size could not be calculated!");
+				return;
+			}
+			horizontalScrollValue = 0;
+			verticalScrollValue = 0;
+			md.drawMap();
+			md.scaleMap();
+			enableButtons(buttonStateNormal);
+!!!611074.java!!!	findMapSize() : void
+			Iterator<Rect2D> areaIterator = map.getAreaBoundaries();
+			Iterator<Rect2D> obstacleIterator = map.getObstacleBoundaries();
+			
+			double minX = Double.POSITIVE_INFINITY;
+			double maxX = Double.NEGATIVE_INFINITY;
+			double minY = Double.POSITIVE_INFINITY;
+			double maxY = Double.NEGATIVE_INFINITY;
+			
+			while(areaIterator.hasNext()) {
+				Rect2D rect = areaIterator.next();
+				minX = minX > rect.getLowerLeft().getX() ? rect.getLowerLeft().getX() : minX;
+				minY = minY > rect.getLowerLeft().getY() ? rect.getLowerLeft().getY() : minY;
+				maxX = maxX < rect.getUpperRight().getX() ? rect.getUpperRight().getX() : maxX;
+				maxY = maxY < rect.getUpperRight().getY() ? rect.getUpperRight().getY() : maxY;
+			}
+			while(obstacleIterator.hasNext()) {
+				Rect2D rect = obstacleIterator.next();
+				minX = minX > rect.getLowerLeft().getX() ? rect.getLowerLeft().getX() : minX;
+				minY = minY > rect.getLowerLeft().getY() ? rect.getLowerLeft().getY() : minY;
+				maxX = maxX < rect.getUpperRight().getX() ? rect.getUpperRight().getX() : maxX;
+				maxY = maxY < rect.getUpperRight().getY() ? rect.getUpperRight().getY() : maxY;
+			}
+			mapWidth  = maxX - minX;
+			mapHeight = maxY - minY;
+			final double mapBorder = 0.1d * mapWidth > mapHeight ? mapWidth : mapHeight;
+			translateX = -minX + mapBorder;
+			translateY = -minY + mapBorder;
+			
+			mapWidth += 2 * mapBorder;
+			mapHeight += 2 * mapBorder;
+!!!611202.java!!!	displayRangeReadings(inout rangeReadings : AbstractRangeReading [[]]) : void
+			StringBuilder ranges = new StringBuilder();
+			for(AbstractRangeReading rangeReading: rangeReadings) ranges.append(rangeReading.toString()).append("\n");
+			jtARangeReading.setText(ranges.toString());
+!!!611330.java!!!	displayMove(in move : M) : void
+			final int size = move.toString().split("<BR>").length;
+			final int rowHeight = (int) (size * 1.25d * moveRowHeight);
+			if(rowHeight > jTMoves.getRowHeight()) jTMoves.setRowHeight(rowHeight);
+			movesModel.add("<HTML>" + move.toString() + "</HTML>");
+			movesScrollPane.getVerticalScrollBar().setValue(movesScrollPane.getVerticalScrollBar().getMaximum()-movesScrollPane.getVerticalScrollBar().getVisibleAmount());
+!!!611458.java!!!	displaySamples(inout samples : Set<P>) : void
+	
+			md.drawParticles(samples);
+			
+!!!611586.java!!!	displayResult(inout result : P) : void
+			if(result != null) {
+				String resultOutputString = "X: " + GuiBase.getFormat().format(result.getX()) + ",<BR>Y: " + GuiBase.getFormat().format(result.getY());
+				localizationResult.setText("<HTML>Result: <BR>" + resultOutputString + "</HTML>");
+				md.showResult(result);
+			} else {
+				clearResult();
+			}
+!!!611714.java!!!	clearResult() : void
+			md.clearResult();
+			localizationResult.setText("<HTML>Result: <BR><BR><BR></HTML>");

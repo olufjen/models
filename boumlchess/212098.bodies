@@ -1,0 +1,22 @@
+class DemoStarter
+!!!589186.java!!!	DemoStarter(inout dc : Class<?>)
+			demoClass = dc;
+!!!589314.java!!!	actionPerformed(inout arg0 : ActionEvent) : void
+			try {
+				if (currPanel == textPanel)
+					textPanel.clear();
+				else {
+					if (currPanel != null)
+						getContentPane().remove(currPanel);
+					getContentPane().add(textPanel, BorderLayout.CENTER);
+					// redirect the standard output into the text area
+					System.setOut(textPanel.getPrintStream());
+					// System.setErr(panel.getPrintStream());
+					validate();
+					currPanel = textPanel;
+				}
+				Method m = demoClass.getMethod("main", String[].class);
+				m.invoke(null, (Object) new String[] {});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}

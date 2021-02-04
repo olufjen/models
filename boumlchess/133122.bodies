@@ -1,0 +1,30 @@
+class ConnectFourAIPlayer
+!!!149378.java!!!	ConnectFourAIPlayer(inout game : Game, in time : int)
+		super(game, 0.0, 1.0, time);
+!!!149506.java!!!	isSignificantlyBetter(in newUtility : double, in utility : double) : boolean
+		return newUtility - utility > (utilMax - utilMin) * 0.4;
+!!!149634.java!!!	hasSafeWinner(in resultUtility : double) : boolean
+		return Math.abs(resultUtility - (utilMin + utilMax) / 2) > 0.4 * utilMax - utilMin;
+!!!149762.java!!!	eval(inout state : ConnectFourState, in player : String) : double
+		double value = super.eval(state, player);
+		if (hasSafeWinner(value)) {
+			if (value > (utilMin + utilMax) / 2)
+				value -= state.getMoves() / 1000.0;
+			else
+				value += state.getMoves() / 1000.0;
+		}
+		return value;
+!!!149890.java!!!	orderActions(inout state : ConnectFourState, inout actions : List<Integer>, in player : String, in depth : int) : List<Integer>
+		List<Integer> result = actions;
+		if (depth == 0) {
+			List<ActionValuePair<Integer>> actionEstimates = new ArrayList<>(
+					actions.size());
+			for (Integer action : actions)
+				actionEstimates.add(ActionValuePair.createFor(action,
+						state.analyzePotentialWinPositions(action)));
+			Collections.sort(actionEstimates);
+			result = new ArrayList<>();
+			for (ActionValuePair<Integer> pair : actionEstimates)
+				result.add(pair.getAction());
+		}
+		return result;

@@ -1,0 +1,53 @@
+class ConjunctionOfClauses
+!!!368258.java!!!	ConjunctionOfClauses(inout conjunctionOfClauses : Collection<Clause>)
+		this.clauses.addAll(conjunctionOfClauses);
+		// Make immutable
+		this.clauses = Collections.unmodifiableSet(this.clauses);
+!!!368386.java!!!	getNumberOfClauses() : int
+		return clauses.size();
+!!!368514.java!!!	getClauses() : Clause
+		return clauses;
+!!!368642.java!!!	extend(inout additionalClauses : Collection<Clause>) : ConjunctionOfClauses
+		Set<Clause> extendedClauses = new LinkedHashSet<Clause>();
+		extendedClauses.addAll(clauses);
+		extendedClauses.addAll(additionalClauses);
+
+		ConjunctionOfClauses result = new ConjunctionOfClauses(extendedClauses);
+
+		return result;
+!!!368770.java!!!	toString() : String
+		if (cachedStringRep == null) {
+			StringBuilder sb = new StringBuilder();
+			boolean first = true;
+			sb.append("{");
+			for (Clause c : clauses) {
+				if (first) {
+					first = false;
+				} else {
+					sb.append(", ");
+				}
+				sb.append(c);
+			}
+			sb.append("}");
+			cachedStringRep = sb.toString();
+		}
+
+		return cachedStringRep;
+!!!368898.java!!!	hashCode() : int
+		if (cachedHashCode == -1) {
+			cachedHashCode = clauses.hashCode();
+		}
+		return cachedHashCode;
+!!!369026.java!!!	equals(inout othObj : Object) : boolean
+		if (null == othObj) {
+			return false;
+		}
+		if (this == othObj) {
+			return true;
+		}
+		if (!(othObj instanceof ConjunctionOfClauses)) {
+			return false;
+		}
+		ConjunctionOfClauses othConjunctionOfClauses = (ConjunctionOfClauses) othObj;
+
+		return othConjunctionOfClauses.clauses.equals(this.clauses);

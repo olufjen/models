@@ -1,0 +1,79 @@
+class IdentifyCandidateMatchingTerm
+!!!280706.java!!!	IdentifyCandidateMatchingTerm(inout toMatch : Term, inout expression : AtomicSentence)
+			this.toMatch = toMatch;
+			this.toMatchVariables = variableCollector
+					.collectAllVariables(toMatch);
+
+			expression.accept(this, null);
+!!!280834.java!!!	isMatch() : boolean
+			return null != matchingTerm;
+!!!280962.java!!!	getMatchingTerm() : Term
+			return matchingTerm;
+!!!281090.java!!!	getMatchingSubstitution() : Variable
+			return substitution;
+!!!281218.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+			for (Term t : p.getArgs()) {
+				// Finish processing if have found a match
+				if (null != matchingTerm) {
+					break;
+				}
+				t.accept(this, null);
+			}
+			return p;
+!!!281346.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+			for (Term t : equality.getArgs()) {
+				// Finish processing if have found a match
+				if (null != matchingTerm) {
+					break;
+				}
+				t.accept(this, null);
+			}
+			return equality;
+!!!281474.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+
+			if (null != (substitution = unifier.unify(toMatch, variable))) {
+				if (isValidMatch(toMatch, toMatchVariables, variable,
+						substitution)) {
+					matchingTerm = variable;
+				}
+			}
+
+			return variable;
+!!!281602.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+			if (null != (substitution = unifier.unify(toMatch, constant))) {
+				if (isValidMatch(toMatch, toMatchVariables, constant,
+						substitution)) {
+					matchingTerm = constant;
+				}
+			}
+
+			return constant;
+!!!281730.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+			if (null != (substitution = unifier.unify(toMatch, function))) {
+				if (isValidMatch(toMatch, toMatchVariables, function,
+						substitution)) {
+					matchingTerm = function;
+				}
+			}
+
+			if (null == matchingTerm) {
+				// Try the Function's arguments
+				for (Term t : function.getArgs()) {
+					// Finish processing if have found a match
+					if (null != matchingTerm) {
+						break;
+					}
+					t.accept(this, null);
+				}
+			}
+
+			return function;
+!!!281858.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitNotSentence() should not be called.");
+!!!281986.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitConnectedSentence() should not be called.");
+!!!282114.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitQuantifiedSentence() should not be called.");

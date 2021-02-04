@@ -1,0 +1,24 @@
+class AbstractSettingsListener
+!!!614914.java!!!	AbstractSettingsListener(inout settingsGui : Settings)
+		this.settingsGui = settingsGui;
+!!!615042.java!!!	setMap(inout map : MclCartesianPlot2D) : void
+		this.map = map;
+!!!615170.java!!!	setMcl(inout mcl : MonteCarloLocalization) : void
+		this.mcl = mcl;
+!!!615426.java!!!	registerAbstractListener() : void
+		settingsGui.registerListener(SENSOR_RANGE_KEY, this);
+		settingsGui.registerListener(MIN_WEIGHT_KEY, this);
+!!!615554.java!!!	notifySetting(in key : String, in value : String) : boolean
+		try {
+			final double valueNumber = Double.parseDouble(value);
+			if(key.equals(SENSOR_RANGE_KEY)) {
+				map.setSensorRange(valueNumber);
+			} else if(key.equals(MIN_WEIGHT_KEY)) {
+				mcl.setWeightCutOff(valueNumber);
+			} else {
+				throw new NumberFormatException();
+			}
+		} catch(NumberFormatException e) {
+			return false;
+		}
+		return true;

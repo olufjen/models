@@ -1,0 +1,54 @@
+class FunctionPlotterCtrl
+!!!583298.java!!!	FunctionPlotterCtrl(inout canvas : Canvas)
+		this.canvas = canvas;
+		canvas.widthProperty().addListener((obs, o, n) -> update());
+		canvas.heightProperty().addListener((obs, o, n) -> update());
+!!!583426.java!!!	getFunction() : Optional<Function<Double, Double>>
+		return function;
+!!!583554.java!!!	setFunction(inout function : Function<Double, Double>) : void
+		this.function = Optional.of(function);
+		update();
+!!!583682.java!!!	setLimits(in minX : double, in maxX : double, in minY : double, in maxY : double) : void
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
+
+!!!583810.java!!!	update() : void
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+		gc.setStroke(Color.GRAY);
+		gc.strokeLine(0.01 * canvas.getWidth(), yToScreen(0), canvas.getWidth() * 0.99, yToScreen(0));
+		gc.strokeLine(xToScreen(0), 0.01 * canvas.getHeight(), xToScreen(0), 0.99 * canvas.getHeight());
+		gc.strokeLine(xToScreen(1), yToScreen(0) - 5, xToScreen(1), yToScreen(0) + 5);
+		gc.strokeLine(xToScreen(0) - 5, yToScreen(1), xToScreen(0) + 5, yToScreen(1));
+
+		if (function.isPresent()) {
+			gc.setStroke(Color.BLACK);
+			double lastVal = function.get().apply(minX);
+			for (int i = 1; i < canvas.getWidth(); i++) {
+				double newVal = function.get().apply(screenToX(i));
+				gc.strokeLine(i - 1, yToScreen(lastVal), i, yToScreen(newVal));
+				lastVal = newVal;
+			}
+		}
+!!!583938.java!!!	setMarker(in x : double, inout fill : Optional<Paint>) : void
+		if (function.isPresent()) {
+			double y = function.get().apply(x);
+			GraphicsContext gc = canvas.getGraphicsContext2D();
+			gc.setStroke(Color.RED);
+			if (fill.isPresent()) {
+				gc.setFill(fill.get());
+				gc.fillOval(xToScreen(x) - 10, yToScreen(y) - 10, 20, 20);
+			} else
+				gc.strokeOval(xToScreen(x) - 10, yToScreen(y) - 10, 20, 20);
+		}
+!!!584066.java!!!	getDeltaX() : double
+		return (maxX - minX) / canvas.getWidth();
+!!!584194.java!!!	yToScreen(in y : double) : double
+		return (1.1 - (y - minY) / (maxY - minY)) * canvas.getHeight() * 0.8;
+!!!584322.java!!!	screenToX(in xScreen : double) : double
+		return xScreen / canvas.getWidth() * (maxX - minX) + minX;
+!!!584450.java!!!	xToScreen(in x : double) : double
+		return (x - minX) * canvas.getWidth() / (maxX - minX);

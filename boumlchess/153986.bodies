@@ -1,0 +1,70 @@
+class PassiveADPAgent
+!!!249218.java!!!	PassiveADPAgent(inout fixedPolicy : Map<S, A>, inout states : Set<S>, inout initialState : S, inout actionsFunction : ActionsFunction, inout policyEvaluation : PolicyEvaluation)
+		this.pi.putAll(fixedPolicy);
+		RewardFunction<S> rewardfn = (s) -> R.get(s);
+
+		this.mdp = new MDP<S, A>(states, initialState, actionsFunction,
+				new TransitionProbabilityFunction<S, A>() {
+					public double probability(S sDelta, S s, A a) {
+						Double p = P.get(new Pair<S, Pair<S, A>>(sDelta,
+								new Pair<S, A>(s, a)));
+
+						return null == p ? 0.0 : p.doubleValue();
+					}
+				}, rewardfn);
+		this.policyEvaluation = policyEvaluation;
+!!!249346.java!!!	execute(inout percept : PerceptStateReward) : A
+		// if s' is new then U[s'] <- r'; R[s'] <- r'
+		S sDelta = percept.state();
+		double rDelta = percept.reward();
+		if (!U.containsKey(sDelta)) {
+			U.put(sDelta, rDelta);
+			R.put(sDelta, rDelta);
+		}
+		// if s is not null then
+		if (null != s) {
+			// increment N<sub>sa</sub>[s,a] and N<sub>s'|sa</sub>[s',s,a]
+			Pair<S, A> sa = new Pair<S, A>(s, a);
+			Nsa.incrementFor(sa);
+			NsDelta_sa.incrementFor(new Pair<S, Pair<S, A>>(sDelta, sa));
+			// for each t such that N<sub>s'|sa</sub>[t,s,a] is nonzero do
+			for (S t : mdp.states()) {
+				Pair<S, Pair<S, A>> t_sa = new Pair<S, Pair<S, A>>(t, sa);
+				if (0 != NsDelta_sa.getCount(t_sa)) {
+					// P(t|s,a) <- N<sub>s'|sa</sub>[t,s,a] /
+					// N<sub>sa</sub>[s,a]
+					P.put(t_sa, NsDelta_sa.getCount(t_sa).doubleValue()
+							/ Nsa.getCount(sa).doubleValue());
+				}
+			}
+		}
+		// U <- POLICY-EVALUATION(&pi;, U, mdp)
+		U = policyEvaluation.evaluate(pi, U, mdp);
+		// if s'.TERMINAL? then s,a <- null else s,a <- s',&pi;[s']
+		if (isTerminal(sDelta)) {
+			s = null;
+			a = null;
+
+		} else {
+			s = sDelta;
+			a = pi.get(sDelta);
+		}
+		// return a
+		return a;
+!!!249474.java!!!	getUtility() : Map<S, Double>
+		return Collections.unmodifiableMap(U);
+!!!249602.java!!!	reset() : void
+		P.clear();
+		R.clear();
+		U = new HashMap<S, Double>();
+		Nsa.clear();
+		NsDelta_sa.clear();
+		s = null;
+		a = null;
+!!!249730.java!!!	isTerminal(inout s : S) : boolean
+		boolean terminal = false;
+		if (0 == mdp.actions(s).size()) {
+			// No actions possible in state is considered terminal.
+			terminal = true;
+		}
+		return terminal;

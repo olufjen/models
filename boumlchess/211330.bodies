@@ -1,0 +1,75 @@
+class VacuumEnvironmentViewCtrl
+!!!586754.java!!!	VacuumEnvironmentViewCtrl(inout viewRoot : StackPane)
+        this(viewRoot, action -> {
+            if (action == VacuumEnvironment.ACTION_MOVE_LEFT) return 270.0;
+            else if (action == VacuumEnvironment.ACTION_MOVE_RIGHT) return 90.0;
+            else return null;
+        });
+!!!586882.java!!!	VacuumEnvironmentViewCtrl(inout viewRoot : StackPane, inout actionToOrientationFn : Function<Action, Double>)
+        super(viewRoot, env -> ((VacuumEnvironment) env).getXDimension(),
+                env -> ((VacuumEnvironment) env).getYDimension());
+        this.actionToOrientationFn = actionToOrientationFn;
+!!!587010.java!!!	initialize(inout env : Environment) : void
+        agentsInSuckState.clear();
+        agentOrientations.clear();
+        agentSymbols.clear();
+        super.initialize(env);
+        VacuumEnvironment vEnv = (VacuumEnvironment) env;
+        for (String loc : vEnv.getLocations()) {
+            SquareButton btn = getSquareButton(vEnv.getX(loc), vEnv.getY(loc));
+            btn.getIdLabel().setText(loc);
+        }
+!!!587138.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+        if (action == VacuumEnvironment.ACTION_SUCK)
+            agentsInSuckState.add(agent);
+        else
+            agentsInSuckState.remove(agent);
+        Double orientation = actionToOrientationFn.apply(action);
+        if (orientation != null)
+            agentOrientations.put(agent, orientation);
+        super.agentActed(agent, percept, action, source);
+!!!587266.java!!!	update() : void
+        VacuumEnvironment vEnv = ((VacuumEnvironment) env);
+        for (String loc : vEnv.getLocations()) {
+            SquareButton btn = getSquareButton(vEnv.getX(loc), vEnv.getY(loc));
+            if (vEnv.getLocationState(loc).equals(LocationState.Dirty))
+                btn.getLabel().setText("Dirty");
+            else
+                btn.getLabel().setText(""); // "Clean"
+            btn.getPane().getChildren().clear();
+        }
+        for (Agent agent : vEnv.getAgents()) {
+            String loc = vEnv.getAgentLocation(agent);
+            SquareButton btn = getSquareButton(vEnv.getX(loc), vEnv.getY(loc));
+            Double orientation = agentOrientations.get(agent);
+            if (orientation == null)
+                orientation = 90.0;
+            btn.getPane().getChildren().add(getAgentSymbol(agent, orientation));
+        }
+!!!587394.java!!!	onEdit(in x : int, in y : int) : void
+        if (!isEditingEnabled)
+            perceptLabel.setText("Environment can only be edited after initialization.");
+        else {
+            VacuumEnvironment vEnv = (VacuumEnvironment) env;
+            VacuumEnvironmentState state = (VacuumEnvironmentState) vEnv.getCurrentState();
+            String loc = vEnv.getLocation(x, y);
+            state.setLocationState(loc,
+                    state.getLocationState(loc) == LocationState.Clean ? LocationState.Dirty : LocationState.Clean);
+            update();
+            perceptLabel.setText("");
+        }
+!!!587522.java!!!	getAgentSymbol(inout agent : Agent, in orientation : double) : Node
+        Arc result = agentSymbols.get(agent);
+        if (result == null) {
+            result = new Arc();
+            result.radiusXProperty().bind(squareSize.multiply(0.75 / 2));
+            result.radiusYProperty().bind(squareSize.multiply(0.75 / 2));
+            result.setStartAngle(135.0f);
+            result.setType(ArcType.ROUND);
+            result.setFill(Color.RED);
+            agentSymbols.put(agent, result);
+        }
+
+        result.setLength(agentsInSuckState.contains(agent) ? 360.0f : 270.0f);
+        result.setRotate(orientation);
+        return result;

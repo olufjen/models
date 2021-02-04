@@ -1,0 +1,62 @@
+class DecisionListLearner
+!!!230658.java!!!	DecisionListLearner(in positive : String, in negative : String, inout testFactory : DLTestFactory)
+		this.positive = positive;
+		this.negative = negative;
+		this.testFactory = testFactory;
+!!!230786.java!!!	train(inout ds : DataSet) : void
+		this.decisionList = decisionListLearning(ds);
+!!!230914.java!!!	predict(inout e : Example) : String
+		if (decisionList == null) {
+			throw new RuntimeException(
+					"learner has not been trained with dataset yet!");
+		}
+		return decisionList.predict(e);
+!!!231042.java!!!	test(inout ds : DataSet) : int
+		int[] results = new int[] { 0, 0 };
+
+		for (Example e : ds.examples) {
+			if (e.targetValue().equals(decisionList.predict(e))) {
+				results[0] = results[0] + 1;
+			} else {
+				results[1] = results[1] + 1;
+			}
+		}
+		return results;
+!!!231170.java!!!	getDecisionList() : DecisionList
+		return decisionList;
+!!!231298.java!!!	decisionListLearning(inout ds : DataSet) : DecisionList
+		if (ds.size() == 0) {
+			return new DecisionList(positive, negative);
+		}
+		List<DLTest> possibleTests = testFactory
+				.createDLTestsWithAttributeCount(ds, 1);
+		DLTest test = getValidTest(possibleTests, ds);
+		if (test == null) {
+			return new DecisionList(null, FAILURE);
+		}
+		// at this point there is a test that classifies some subset of examples
+		// with the same target value
+		DataSet matched = test.matchedExamples(ds);
+		DecisionList list = new DecisionList(positive, negative);
+		list.add(test, matched.getExample(0).targetValue());
+		return list.mergeWith(decisionListLearning(test.unmatchedExamples(ds)));
+!!!231426.java!!!	getValidTest(inout possibleTests : List<DLTest>, inout ds : DataSet) : DLTest
+		for (DLTest test : possibleTests) {
+			DataSet matched = test.matchedExamples(ds);
+			if (!(matched.size() == 0)) {
+				if (allExamplesHaveSameTargetValue(matched)) {
+					return test;
+				}
+			}
+
+		}
+		return null;
+!!!231554.java!!!	allExamplesHaveSameTargetValue(inout matched : DataSet) : boolean
+		// assumes at least i example in dataset
+		String targetValue = matched.getExample(0).targetValue();
+		for (Example e : matched.examples) {
+			if (!(e.targetValue().equals(targetValue))) {
+				return false;
+			}
+		}
+		return true;

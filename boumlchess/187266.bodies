@@ -1,0 +1,122 @@
+class MixedRadixNumber
+!!!521346.java!!!	MixedRadixNumber(in value : long, inout radices : int [[]])
+		this.value = value;
+		this.radices = new int[radices.length];
+		System.arraycopy(radices, 0, this.radices, 0, radices.length);
+		calculateMaxValue();
+!!!521474.java!!!	MixedRadixNumber(in value : long, inout radices : List<Integer>)
+		this.value = value;
+		this.radices = new int[radices.size()];
+		for (int i = 0; i < radices.size(); i++) {
+			this.radices[i] = radices.get(i);
+		}
+		calculateMaxValue();
+!!!521602.java!!!	MixedRadixNumber(inout radixValues : int [[]], inout radices : int [[]])
+		this(0, radices);
+		setCurrentValueFor(radixValues);
+!!!521730.java!!!	getCurrentValueFor(inout radixValues : int [[]]) : long
+		if (radixValues.length != radices.length) {
+			throw new IllegalArgumentException(
+					"Radix values not same size as Radices.");
+		}
+
+		long cvalue = 0;
+		long mvalue = 1;
+		for (int i = 0; i < radixValues.length; i++) {
+			if (radixValues[i] < 0 || radixValues[i] >= radices[i]) {
+				throw new IllegalArgumentException("Radix value " + i
+						+ " is out of range for radix at this position");
+			}
+			if (i > 0) {
+				mvalue *= radices[i - 1];
+			}
+			cvalue += mvalue * radixValues[i];
+		}
+		return cvalue;
+!!!521858.java!!!	setCurrentValueFor(inout radixValues : int [[]]) : void
+		this.value = getCurrentValueFor(radixValues);
+		System.arraycopy(radixValues, 0, this.currentNumeralValue, 0,
+				radixValues.length);
+		recalculate = false;
+!!!521986.java!!!	getMaxAllowedValue() : long
+		return maxValue;
+!!!522114.java!!!	increment() : boolean
+		if (value < maxValue) {
+			value++;
+			recalculate = true;
+			return true;
+		}
+
+		return false;
+!!!522242.java!!!	decrement() : boolean
+		if (value > 0) {
+			value--;
+			recalculate = true;
+			return true;
+		}
+		return false;
+!!!522370.java!!!	getCurrentNumeralValue(in atPosition : int) : int
+		if (atPosition >= 0 && atPosition < radices.length) {
+			if (recalculate) {
+				long quotient = value;
+				for (int i = 0; i < radices.length; i++) {
+					if (0 != quotient) {
+						currentNumeralValue[i] = (int) quotient % radices[i];
+						quotient = quotient / radices[i];
+					} else {
+						currentNumeralValue[i] = 0;
+					}
+
+				}
+				recalculate = false;
+			}
+			return currentNumeralValue[atPosition];
+		}
+		throw new IllegalArgumentException(
+				"Argument atPosition must be >=0 and < " + radices.length);
+!!!522498.java!!!	intValue() : int
+		return (int) longValue();
+!!!522626.java!!!	longValue() : long
+		return value;
+!!!522754.java!!!	floatValue() : float
+		return longValue();
+!!!522882.java!!!	doubleValue() : double
+		return longValue();
+!!!523010.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < radices.length; i++) {
+			sb.append("[");
+			sb.append(this.getCurrentNumeralValue(i));
+			sb.append("]");
+		}
+
+		return sb.toString();
+!!!523138.java!!!	calculateMaxValue() : void
+		if (0 == radices.length) {
+			throw new IllegalArgumentException(
+					"At least 1 radix must be defined.");
+		}
+		for (int i = 0; i < radices.length; i++) {
+			if (radices[i] < 2) {
+				throw new IllegalArgumentException(
+						"Invalid radix, must be >= 2");
+			}
+		}
+
+		// Calculate the maxValue allowed
+		maxValue = radices[0];
+		for (int i = 1; i < radices.length; i++) {
+			maxValue *= radices[i];
+		}
+		maxValue -= 1;
+
+		if (value > maxValue) {
+			throw new IllegalArgumentException(
+					"The value ["
+							+ value
+							+ "] cannot be represented with the radices provided, max value is "
+							+ maxValue);
+		}
+
+		currentNumeralValue = new int[radices.length];

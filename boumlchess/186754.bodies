@@ -1,0 +1,23 @@
+class NotProposition
+!!!432130.java!!!	NotProposition(inout prop : Proposition)
+		if (null == prop) {
+			throw new IllegalArgumentException(
+					"Proposition to be negated must be specified.");
+		}
+		// Track nested scope
+		addScope(prop.getScope());
+		addUnboundScope(prop.getUnboundScope());
+
+		proposition = prop;
+!!!432258.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return !proposition.holds(possibleWorld);
+!!!432386.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("(NOT ");
+			sb.append(proposition.toString());
+			sb.append(")");
+
+			toString = sb.toString();
+		}
+		return toString;

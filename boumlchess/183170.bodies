@@ -1,0 +1,68 @@
+class MDPFactory
+!!!418434.java!!!	createMDPForFigure17_3(in cw : CellWorld) : MarkovDecisionProcess
+
+		return new MDP<Cell<Double>, CellWorldAction>(cw.getCells(),
+				cw.getCellAt(1, 1), createActionsFunctionForFigure17_1(cw),
+				createTransitionProbabilityFunctionForFigure17_1(cw),
+				createRewardFunctionForFigure17_1());
+!!!418562.java!!!	createActionsFunctionForFigure17_1(in cw : CellWorld) : ActionsFunction
+		final Set<Cell<Double>> terminals = new HashSet<Cell<Double>>();
+		terminals.add(cw.getCellAt(4, 3));
+		terminals.add(cw.getCellAt(4, 2));
+
+		ActionsFunction<Cell<Double>, CellWorldAction> af = new ActionsFunction<Cell<Double>, CellWorldAction>() {
+
+			@Override
+			public Set<CellWorldAction> actions(Cell<Double> s) {
+				// All actions can be performed in each cell
+				// (except terminal states)
+				if (terminals.contains(s)) {
+					return Collections.emptySet();
+				}
+				return CellWorldAction.actions();
+			}
+		};
+		return af;
+!!!418690.java!!!	createTransitionProbabilityFunctionForFigure17_1(in cw : CellWorld) : TransitionProbabilityFunction
+		TransitionProbabilityFunction<Cell<Double>, CellWorldAction> tf = new TransitionProbabilityFunction<Cell<Double>, CellWorldAction>() {
+			private double[] distribution = new double[] { 0.8, 0.1, 0.1 };
+
+			@Override
+			public double probability(Cell<Double> sDelta, Cell<Double> s,
+					CellWorldAction a) {
+				double prob = 0;
+
+				List<Cell<Double>> outcomes = possibleOutcomes(s, a);
+				for (int i = 0; i < outcomes.size(); i++) {
+					if (sDelta.equals(outcomes.get(i))) {
+						// Note: You have to sum the matches to
+						// sDelta as the different actions
+						// could have the same effect (i.e.
+						// staying in place due to there being
+						// no adjacent cells), which increases
+						// the probability of the transition for
+						// that state.
+						prob += distribution[i];
+					}
+				}
+
+				return prob;
+			}
+
+			private List<Cell<Double>> possibleOutcomes(Cell<Double> c,
+					CellWorldAction a) {
+				// There can be three possible outcomes for the planned action
+				List<Cell<Double>> outcomes = new ArrayList<Cell<Double>>();
+
+				outcomes.add(cw.result(c, a));
+				outcomes.add(cw.result(c, a.getFirstRightAngledAction()));
+				outcomes.add(cw.result(c, a.getSecondRightAngledAction()));
+
+				return outcomes;
+			}
+		};
+
+		return tf;
+!!!418818.java!!!	createRewardFunctionForFigure17_1() : RewardFunction
+		RewardFunction<Cell<Double>> rewardfn = s -> s.getContent();
+		return rewardfn;

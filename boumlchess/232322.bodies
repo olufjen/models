@@ -1,0 +1,293 @@
+class Position
+!!!725634.java!!!	Position(in positionName : String, inout inUse : boolean, inout usedBy : ChessPiece)
+		super();
+		this.positionName = positionName;
+		this.inUse = inUse;
+		if (usedBy == null){
+			String[] legalMoves = {};
+			usedBy =  new ChessPiece("","x","ee",legalMoves);
+		}
+		this.column = positionName.substring(0, 1);
+		this.row = positionName.substring(1);
+		intRow = Integer.parseInt(row);
+		this.usedBy = usedBy;
+		intColumn = findColumn();
+		calculateColor();
+		int ycol = getIntRow() - 1;	// This is the correct position definition
+		int xrow = getIntColumn() - 1;
+		xyloc = new XYLocation(xrow,ycol);
+		centerleftlow = ycol == 3 && xrow == 3;
+		centerlefthigh = ycol == 3 && xrow == 4;
+		centerrightlow = ycol == 4 && xrow == 3;
+		centerrighthigh = ycol == 4 && xrow == 4;
+		removedPieces = new Stack();
+!!!725762.java!!!	Position(inout loc : XYLocation, inout inUse : boolean, inout usedBy : ChessPiece)
+		this.xyloc = loc;
+		this.usedBy = usedBy;
+		this.inUse = inUse;
+		if (usedBy == null){
+			String[] legalMoves = {};
+			usedBy =  new ChessPiece("","x","ee",legalMoves);
+		}
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		setIntRow(y+1);
+		setIntColumn(x+1);
+		String row = String.valueOf(y+1);
+		String col = findColumnletter(x);
+		this.positionName = col+row;
+		calculateColor();
+		int ycol = getIntRow() - 1;	// This is the correct position definition
+		int xrow = getIntColumn() - 1;
+		centerleftlow = ycol == 3 && xrow == 3;
+		centerlefthigh = ycol == 3 && xrow == 4;
+		centerrightlow = ycol == 4 && xrow == 3;
+		centerrighthigh = ycol == 4 && xrow == 4;
+		removedPieces = new Stack();
+!!!725890.java!!!	isCenterlefthigh() : boolean
+		return centerlefthigh;
+!!!726018.java!!!	setCenterlefthigh(inout centerlefthigh : boolean) : void
+		this.centerlefthigh = centerlefthigh;
+!!!726146.java!!!	isCenterrighthigh() : boolean
+		return centerrighthigh;
+!!!726274.java!!!	setCenterrighthigh(inout centerrighthigh : boolean) : void
+		this.centerrighthigh = centerrighthigh;
+!!!726402.java!!!	isCenterrightlow() : boolean
+		return centerrightlow;
+!!!726530.java!!!	setCenterrightlow(inout centerrightlow : boolean) : void
+		this.centerrightlow = centerrightlow;
+!!!726658.java!!!	isCenterleftlow() : boolean
+		return centerleftlow;
+!!!726786.java!!!	setCenterleftlow(inout centerleftlow : boolean) : void
+		this.centerleftlow = centerleftlow;
+!!!726914.java!!!	getXyloc() : XYLocation
+		return xyloc;
+!!!727042.java!!!	setXyloc(inout xyloc : XYLocation) : void
+		this.xyloc = xyloc;
+!!!727170.java!!!	getPieces() : HashSet<Piece>
+		return pieces;
+!!!727298.java!!!	getRemovedPieces() : ChessPiece
+		return removedPieces;
+!!!727426.java!!!	setRemovedPieces(inout removedPieces : Stack<ChessPiece>) : void
+		this.removedPieces = removedPieces;
+!!!727554.java!!!	calculateColor() : void
+		if (evenNumbers.test(intRow+intColumn)){
+			positionColor = "B";
+		}else
+			positionColor = "W";
+!!!727682.java!!!	transformValue(inout letters : List<String>, inout f : Function<List<String>, Integer>) : Integer
+			return f.apply(letters);
+!!!727810.java!!!	findColumnletter(in col : int) : String
+		List <String> letters  = Arrays.asList("a","b","c","d","e","f","g","h");
+		for (int i = 0;i<8;i++) {
+			if (i == col)
+				return letters.get(i);
+		}
+		return null;
+		
+!!!727938.java!!!	findColumn() : int
+		List <String> letters  = Arrays.asList("a","b","c","d","e","f","g","h");
+		Function<List<String>,Integer> f = (List<String> l) -> {
+			int ct = 0;
+			for (String s:letters){
+				ct++;
+				if (s.equals(column)){
+					return ct;
+				}
+	
+			}
+			return ct;
+		};
+		return transformValue(letters,f);
+!!!728066.java!!!	checkUsed() : void
+		if (inUse &&getUsedBy() == null){
+			setInUse(false);
+		}
+!!!728194.java!!!	setPieces(inout pieces : HashSet<Piece>) : void
+		this.pieces = pieces;
+		if (pieces != null){
+			Iterator<Piece> pieceIterator = pieces.iterator();
+			while (pieceIterator.hasNext()){
+				Piece piece = pieceIterator.next();
+				IRI ir = piece.getOwlIndividual().getIRI();
+				String irs = ir.toString();
+		    	char sep = '#';
+		    	String name = extractString(irs, sep,-1); 
+		    	if (name.startsWith("White")){
+		    		usedBy.setWhitePiece(piece);
+		    		if (piece != null)
+		    			checkPieceOccupation(piece);
+		    		else
+		    			System.out.println("Piece is null!! Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+		    	}
+		    	if (name.startsWith("Black")){
+		    		usedBy.setBlackPiece(piece);
+		    		if (piece != null)
+		    			checkPieceOccupation(piece);
+		    		else
+		    			System.out.println("Piece is null!! Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+		    	}
+		    	usedBy.setOntlogyName(name);
+		    	usedBy.setFullName(irs);
+		    	System.out.println("setPieces: Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+
+			}
+		} 
+!!!728322.java!!!	checkPieceOccupation(inout piece : Piece) : void
+		if (piece.getOccupies() != null){
+			HashSet<BoardPosition> whitePosset = (HashSet<BoardPosition>) piece.getOccupies();
+			Iterator<BoardPosition> whitePosIterator =  whitePosset.iterator(); // Empty after move???!!
+			while(whitePosIterator.hasNext()){
+				BoardPosition whitePos = whitePosIterator.next();
+				IRI ir = whitePos.getOwlIndividual().getIRI();
+				String irs = ir.toString();
+				char sep = '#';
+				String name = extractString(irs, sep,-1);
+				if (name.equals(positionName)){
+//					System.out.println("Occupies correct position: " + irs+ " " + name + " " +positionName);
+				}else {
+					System.out.println("Occupies wrong position: "+ irs+ " " + name + " " +positionName);
+					piece.removeOccupies((Taken) whitePos);
+					if (whiteBoardPosition != null){
+						piece.addOccupies((Taken) whiteBoardPosition);
+						System.out.println("New white position: "+ whiteBoardPosition.getOwlIndividual().getIRI().toString() + " " +positionName);
+					}
+					else if (blackBoardPosition != null){
+						piece.addOccupies((Taken) blackBoardPosition);
+						System.out.println("New black position: "+ blackBoardPosition.getOwlIndividual().getIRI().toString() + " " +positionName);
+					}
+				
+				}
+			}			
+		}else{
+			System.out.println("Piece does not occupy position: " + piece.toString()+positionName);
+		}
+			
+!!!728450.java!!!	checkWhiteOccupation(inout whitePositions : HashSet<WhiteBoardPosition>) : void
+		Iterator<WhiteBoardPosition> whitePosIterator =  whitePositions.iterator();
+	      while(whitePosIterator.hasNext()){
+	    	  WhiteBoardPosition whitePos = whitePosIterator.next();
+	    	  IRI ir = whitePos.getOwlIndividual().getIRI();
+	    	  HashSet<Piece> pieces =  (HashSet<Piece>)((Taken) whitePos).getIsOccupiedBy();
+	    	  String irs = ir.toString();
+	    	  OWLNamedIndividual wp = whitePos.getOwlIndividual();
+	    	  char sep = '#';
+	    	  String name = extractString(irs, sep,-1);
+	    	  if (name.equals(positionName) && usedBy != null){
+//	    		  CodeGenerationInference inference = usedBy.getWhitePiece().
+	    		  if (pieces.isEmpty() || pieces == null){
+	    			Piece newIsOccupiedBy = new DefaultWhitePiece(null, ir);
+					((Taken) whitePos).addIsOccupiedBy(newIsOccupiedBy );
+	    		  }
+	    		  if (pieces != null){
+	    			  Iterator<Piece> pieceIterator = pieces.iterator();
+	    			  while (pieceIterator.hasNext()){
+	    				  Piece newPiece = pieceIterator.next();
+	    				  IRI irp = newPiece.getOwlIndividual().getIRI();
+	    				  String irsp = ir.toString();
+	    				  char sepp = '#';
+	    				  String pname = extractString(irs, sepp,-1); 
+	    			  }
+	    		  }
+	    	  }
+	      }
+		
+!!!728578.java!!!	getIntColumn() : int
+		return intColumn;
+!!!728706.java!!!	setIntColumn(in intColumn : int) : void
+		this.intColumn = intColumn;
+!!!728834.java!!!	getRow() : String
+		return row;
+!!!728962.java!!!	setRow(in row : String) : void
+		this.row = row;
+!!!729090.java!!!	getIntRow() : int
+		return intRow;
+!!!729218.java!!!	setIntRow(in intRow : int) : void
+		this.intRow = intRow;
+!!!729346.java!!!	getPositionColor() : String
+		return positionColor;
+!!!729474.java!!!	setPositionColor(in positionColor : String) : void
+		this.positionColor = positionColor;
+!!!729602.java!!!	getBlackBoardPosition() : BlackBoardPosition
+		return blackBoardPosition;
+!!!729730.java!!!	setBlackBoardPosition(inout blackBoardPosition : BlackBoardPosition) : void
+		this.blackBoardPosition = blackBoardPosition;
+!!!729858.java!!!	getWhiteBoardPosition() : WhiteBoardPosition
+		return whiteBoardPosition;
+!!!729986.java!!!	setWhiteBoardPosition(inout whitePos : WhiteBoardPosition) : void
+		this.whiteBoardPosition = whitePos;
+!!!730114.java!!!	getColumn() : String
+		return column;
+!!!730242.java!!!	setColumn(in column : String) : void
+		this.column = column;
+!!!730370.java!!!	getPositionName() : String
+		return positionName;
+!!!730498.java!!!	setPositionName(in positionName : String) : void
+		this.positionName = positionName;
+!!!730626.java!!!	returnInuse() : boolean
+		return inUse;
+!!!730754.java!!!	isInUse() : boolean
+		boolean active = false;
+		if (usedBy != null && usedBy.getMyPiece() != null)
+			active = usedBy.getMyPiece().isActive();
+		if (active && inUse)
+			return inUse;
+		if (!active && usedBy != null && usedBy.getMyPiece() != null)
+			return active;
+		return inUse;
+!!!730882.java!!!	notisInUse() : boolean
+		return !inUse;
+!!!731010.java!!!	setInUse(inout inUse : boolean) : void
+		this.inUse = inUse;
+!!!731138.java!!!	getUsedBy() : ChessPiece
+		return usedBy;
+!!!731266.java!!!	getRemoved() : ChessPiece
+		return removed;
+!!!731394.java!!!	setRemoved(inout removed : ChessPiece) : void
+		this.removed = removed;
+!!!731522.java!!!	returnPiece() : void
+/*		if (removed != null) {
+			usedBy = removed;
+		}*/
+		if (removed == null && removedPieces.empty()) {
+			setUsedBy();
+		}
+		if (removedPieces != null && !removedPieces.empty()) {
+			ChessPiece removed = removedPieces.pop();
+			if (removed.isUse()) { // Added 21.04.20  The use flag is only set false in chesspiece acceptmove method
+				usedBy = removed;
+				usedBy.getMyPiece().setActive(true);
+				inUse = true; // Added 4.08.20 olj
+			}
+		}
+
+!!!731650.java!!!	returnPiece(inout piece : ChessPiece) : void
+		this.usedBy = piece;
+!!!731778.java!!!	setUsedBy() : void
+		this.usedBy = null;
+		inUse = false;
+!!!731906.java!!!	setUsedandRemoved(inout usedBy : ChessPiece) : void
+		this.usedBy = usedBy;
+		inUse = true;
+		setRemoved(usedBy);
+		removedPieces.push(removed);
+		
+!!!732034.java!!!	setUsedBy(inout usedBy : ChessPiece) : void
+		if (this.usedBy != null && this.usedBy.getMyPiece() != null && this.usedBy != usedBy) {
+			removed = this.usedBy;
+			removed.getMyPiece().setActive(false);
+			removedPieces.push(removed);
+		}
+		this.usedBy = usedBy;
+		inUse = true;
+!!!732162.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder();
+		String p = "None";
+		String gp = "Gamenone";
+		if (usedBy != null) {
+			p = usedBy.toString();
+			gp = usedBy.getMyPiece().toString();
+		}
+		
+		builder.append(positionName+ " Color "+positionColor+" Piece  "+p+" "+inUse+" gamepiece "+gp+"\n");
+		return builder.toString();

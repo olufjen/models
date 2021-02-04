@@ -1,0 +1,79 @@
+class IntegratedAppBuilder
+!!!570626.java!!!	IntegratedAppBuilder()
+		paneCtrl = new IntegratedAppPaneCtrl();
+		final DoubleProperty scale = paneCtrl.scaleProperty();
+		MenuItem incScaleItem = new MenuItem("Inc Scale");
+		incScaleItem.setOnAction(ev -> scale.set(trunc(scale.get() * 1.3)));
+		incScaleItem.setAccelerator(new KeyCodeCombination(KeyCode.PLUS, KeyCombination.CONTROL_DOWN));
+		MenuItem decScaleItem = new MenuItem("Dec Scale");
+		decScaleItem.setOnAction(ev -> scale.set(trunc(scale.get() / 1.3)));
+		decScaleItem.setAccelerator(new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN));
+		MenuItem exitItem = new MenuItem("Exit");
+		exitItem.setOnAction(ev -> Platform.exit());
+
+		Menu fileMenu = new Menu("File");
+		fileMenu.getItems().addAll(incScaleItem, decScaleItem, exitItem);
+		menuBar.getMenus().addAll(fileMenu, appsMenu, demosMenu);
+		menuBar.styleProperty().bind(Bindings.concat("-fx-font-size: ",
+				paneCtrl.scaleProperty().multiply(Font.getDefault().getSize()).asString()));
+!!!570754.java!!!	defineTitle(in title : String) : void
+		this.title = title;
+!!!570882.java!!!	registerApp(inout appClass : Class<? extends IntegrableApplication>) : void
+		final IntegratedAppPaneCtrl ctrl = paneCtrl;
+		MenuItem item = new MenuItem(appClass.getSimpleName());
+		item.setOnAction(ev -> ctrl.startApp(appClass));
+		addToMenu(appsMenu, appClass.getPackage().getName(), item);
+!!!571010.java!!!	registerDemo(inout demoClass : Class<?>) : void
+		final IntegratedAppPaneCtrl ctrl = paneCtrl;
+		MenuItem item = new MenuItem(demoClass.getSimpleName());
+		item.setOnAction(ev -> ctrl.startDemo(demoClass));
+		addToMenu(demosMenu, demoClass.getPackage().getName(), item);
+!!!571138.java!!!	defineSceneSize(in width : double, in height : double) : void
+		sceneWidth = width;
+		sceneHeight = height;
+!!!571266.java!!!	getResultFor(inout stage : Stage) : IntegratedAppPaneCtrl
+
+		// create a pane, content is affected by scale
+		final DoubleProperty scale = paneCtrl.scaleProperty();
+		BorderPane appPane = new BorderPane();
+		appPane.scaleXProperty().bind(scale);
+		appPane.scaleYProperty().bind(scale);
+
+		Pane appPaneContainer = new Pane();
+		appPaneContainer.getChildren().add(appPane);
+		appPane.prefWidthProperty().bind(appPaneContainer.widthProperty().divide(scale));
+		appPane.prefHeightProperty().bind(appPaneContainer.heightProperty().divide(scale));
+		appPane.translateXProperty()
+				.bind(appPaneContainer.widthProperty().subtract(appPane.prefWidthProperty()).divide(2));
+		appPane.translateYProperty()
+				.bind(appPaneContainer.heightProperty().subtract(appPane.prefHeightProperty()).divide(2));
+
+		paneCtrl.setContext(appPane, stage, title);
+
+		BorderPane root = new BorderPane();
+		root.setTop(menuBar);
+		root.setCenter(appPaneContainer);
+		stage.setScene(new Scene(root, sceneWidth, sceneHeight));
+		// just in case, the builder is called twice...
+		IntegratedAppPaneCtrl result = paneCtrl;
+		paneCtrl = new IntegratedAppPaneCtrl();
+		return result;
+!!!571394.java!!!	addToMenu(inout menu : Menu, in packageName : String, inout item : MenuItem) : MenuItem
+		Menu subMenu = null;
+		ObservableList<MenuItem> menuComps = menu.getItems();
+		int i;
+		for (i = 0; i < menuComps.size(); i++) {
+			Menu comp = (Menu) menuComps.get(i);
+			if (comp.getText().equals(packageName))
+				subMenu = comp;
+			else if (comp.getText().compareTo(packageName) > 0)
+				break;
+		}
+		if (subMenu == null) {
+			subMenu = new Menu(packageName);
+			menu.getItems().add(i, subMenu);
+		}
+		subMenu.getItems().add(item);
+		return item;
+!!!571522.java!!!	trunc(in num : double) : double
+		return Math.round(num * 2) / 2.0;

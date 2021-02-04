@@ -1,0 +1,42 @@
+class MoveNotInwards
+!!!386050.java!!!	moveNotsInward(inout sentence : Sentence) : Sentence
+		Sentence result = null;
+
+		MoveNotInwards moveNotsIn = new MoveNotInwards();
+		result = sentence.accept(moveNotsIn, null);
+
+		return result;
+!!!386178.java!!!	visitUnarySentence(inout s : ComplexSentence, inout arg : Object) : Sentence
+		Sentence result = null;
+
+		Sentence negated = s.getSimplerSentence(0);
+		if (negated.isPropositionSymbol()) {
+			// Already moved in fully
+			result = s;
+		} else if (negated.isNotSentence()) {
+			// ~(~&alpha;) &equiv; &alpha; (double-negation elimination)
+			Sentence alpha = negated.getSimplerSentence(0);
+			result = alpha.accept(this, arg);
+		} else if (negated.isAndSentence() || negated.isOrSentence()) {
+			Sentence alpha = negated.getSimplerSentence(0);
+			Sentence beta = negated.getSimplerSentence(1);
+
+			// This ensures double-negation elimination happens
+			Sentence notAlpha = (new ComplexSentence(Connective.NOT, alpha))
+					.accept(this, null);
+			Sentence notBeta = (new ComplexSentence(Connective.NOT, beta))
+					.accept(this, null);
+			if (negated.isAndSentence()) {
+				// ~(&alpha; & &beta;) &equiv; (~&alpha; | ~&beta;) (De Morgan)
+				result = new ComplexSentence(Connective.OR, notAlpha, notBeta);
+			} else {
+				// ~(&alpha; | &beta;) &equiv; (~&alpha; & ~&beta;) (De Morgan)
+				result = new ComplexSentence(Connective.AND, notAlpha, notBeta);
+			}
+		} else {
+			throw new IllegalArgumentException(
+					"Biconditionals and Implications should not exist in input: "
+							+ s);
+		}
+
+		return result;

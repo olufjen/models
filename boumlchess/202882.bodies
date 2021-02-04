@@ -1,0 +1,49 @@
+class Circle2D
+!!!528258.java!!!	Circle2D(inout center : Point2D, in radius : double)
+		this.center = center;
+		this.radius = radius;
+!!!528386.java!!!	Circle2D(in cx : double, in cy : double, in radius : double)
+		this.center = new Point2D(cx, cy);
+		this.radius = radius;
+!!!528514.java!!!	getCenter() : Point2D
+		return center;
+!!!528642.java!!!	getRadius() : double
+		return radius;
+!!!528770.java!!!	randomPoint() : Point2D
+		final double x = Util.generateRandomDoubleBetween(-radius,radius);
+		final double maxY = Math.sqrt(radius*radius-x*x);
+		final double y = Util.generateRandomDoubleBetween(-maxY, maxY);
+		return new Point2D(center.getX()+x,center.getY()+y);
+!!!528898.java!!!	isInside(inout point : Point2D) : boolean
+		return center.vec(point).length() < radius;
+!!!529026.java!!!	isInsideBorder(inout point : Point2D) : boolean
+		return center.vec(point).length() <= radius;
+!!!529154.java!!!	rayCast(inout ray : Ray2D) : double
+		final double divisor = ray.getDirection().getX()*ray.getDirection().getX()+ray.getDirection().getY()*ray.getDirection().getY();
+		if(Util.compareDoubles(divisor,0.0d)) return Double.POSITIVE_INFINITY;
+		final double squareRoot = Math.sqrt(ray.getDirection().getY()*(ray.getDirection().getY()*(radius*radius+ray.getStart().getX()*(2*center.getX()-ray.getStart().getX())-center.getX()*center.getX())+2*ray.getDirection().getX()*(ray.getStart().getX()*(ray.getStart().getY()-center.getY())+center.getX()*(center.getY()-ray.getStart().getY())))+ray.getDirection().getX()*ray.getDirection().getX()*(radius*radius+ray.getStart().getY()*(2*center.getY()-ray.getStart().getY())-center.getY()*center.getY()));
+		if(Util.compareDoubles(squareRoot,Double.NaN)) return Double.POSITIVE_INFINITY;
+		final double factors = ray.getDirection().getX()*(center.getX()-ray.getStart().getX())+ray.getDirection().getY()*(center.getY()-ray.getStart().getY());
+		final double result = (factors-Math.abs(squareRoot))/divisor;
+		if(result >= 0) return ray.getDirection().length() * result;
+		return Double.POSITIVE_INFINITY;
+!!!529282.java!!!	getBounds() : Rect2D
+		return new Rect2D(center.getX()-radius, center.getY()-radius, center.getX()+radius, center.getY()+radius);
+!!!529410.java!!!	transform(inout matrix : TransformMatrix2D) : IGeometric2D
+		final Point2D centerNew = matrix.multiply(center);
+		final Point2D maxXNew = matrix.multiply(new Point2D(center.getX()+radius,center.getY()));
+		final Point2D maxYNew = matrix.multiply(new Point2D(center.getX(),center.getY()+radius));
+		final Vector2D vectorXNew = centerNew.vec(maxXNew);
+		final Vector2D vectorYNew = centerNew.vec(maxYNew);
+		final double radiusXNew = vectorXNew.length();
+		final double radiusYNew = vectorYNew.length();
+		if(Util.compareDoubles(radiusXNew, radiusYNew)) {
+			//Transform let this circle stay a circle.
+			return new Circle2D(centerNew,radiusXNew);
+		}
+		if(Util.compareDoubles(maxXNew.getY(),centerNew.getY()) && Util.compareDoubles(maxYNew.getX(),centerNew.getX())) {
+			//Transform let this circle become a ellipse, but it is not rotated.
+			return new Ellipse2D(centerNew,radiusXNew,radiusYNew);
+		}
+		//Transform let this circle become a rotated ellipse.
+		return new Ellipse2D(centerNew,vectorXNew,vectorYNew);

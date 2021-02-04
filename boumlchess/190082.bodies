@@ -1,0 +1,45 @@
+class MinimaxSearch
+!!!443650.java!!!	createFor(inout game : Game) : MinimaxSearch
+        return new MinimaxSearch<>(game);
+!!!443778.java!!!	MinimaxSearch(inout game : Game)
+        this.game = game;
+!!!443906.java!!!	makeDecision(inout state : S) : A
+        metrics = new Metrics();
+        A result = null;
+        double resultValue = Double.NEGATIVE_INFINITY;
+        P player = game.getPlayer(state);
+        for (A action : game.getActions(state)) {
+            double value = minValue(game.getResult(state, action), player);
+            if (value > resultValue) {
+                result = action;
+                resultValue = value;
+            }
+        }
+        return result;
+!!!444034.java!!!	maxValue(inout state : S, inout player : P) : double
+ // returns an utility
+        // value
+        metrics.incrementInt(METRICS_NODES_EXPANDED);
+        if (game.isTerminal(state))
+            return game.getUtility(state, player);
+        double value = Double.NEGATIVE_INFINITY;
+        for (A action : game.getActions(state))
+            value = Math.max(value,
+                    minValue(game.getResult(state, action), player));
+        return value;
+!!!444162.java!!!	minValue(inout state : S, inout player : P) : double
+ // returns an utility
+        // value
+        metrics.incrementInt(METRICS_NODES_EXPANDED);
+        if (game.isTerminal(state))
+            return game.getUtility(state, player);
+        double value = Double.POSITIVE_INFINITY;
+        for (A action : game.getActions(state))
+            value = Math.min(value,
+                    maxValue(game.getResult(state, action), player));
+        return value;
+!!!444290.java!!!	getMetrics() : Metrics
+        return metrics;
+!!!444418.java!!!	setLogEnabled(inout b : boolean) : void
+		// TODO Auto-generated method stub
+		

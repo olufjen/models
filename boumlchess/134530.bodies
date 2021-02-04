@@ -1,0 +1,12 @@
+class BidirectionalEightPuzzleProblem
+!!!156930.java!!!	BidirectionalEightPuzzleProblem(inout initialState : EightPuzzleBoard)
+		super(initialState, EightPuzzleFunctions::getActions, EightPuzzleFunctions::getResult,
+				GoalTest.forState(EightPuzzleFunctions.GOAL_STATE));
+
+		reverseProblem = new GeneralProblem<>(EightPuzzleFunctions.GOAL_STATE,
+				EightPuzzleFunctions::getActions, EightPuzzleFunctions::getResult,
+				GoalTest.forState(initialState));
+!!!157058.java!!!	getOriginalProblem() : Problem
+		return this;
+!!!157186.java!!!	getReverseProblem() : Problem
+		return reverseProblem;

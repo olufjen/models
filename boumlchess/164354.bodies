@@ -1,0 +1,157 @@
+class IndexedFarParents
+!!!294402.java!!!	IndexedFarParents(inout sos : List<Chain>, inout background : List<Chain>)
+		constructInternalDataStructures(sos, background);
+!!!294530.java!!!	getNumberFarParents(inout farParent : Chain) : int
+		Literal head = farParent.getHead();
+
+		Map<String, List<Chain>> heads = null;
+		if (head.isPositiveLiteral()) {
+			heads = posHeads;
+		} else {
+			heads = negHeads;
+		}
+		String headKey = head.getAtomicSentence().getSymbolicName();
+
+		List<Chain> farParents = heads.get(headKey);
+		if (null != farParents) {
+			return farParents.size();
+		}
+		return 0;
+!!!294658.java!!!	resetNumberFarParentsTo(inout farParent : Chain, in toSize : int) : void
+		Literal head = farParent.getHead();
+		Map<String, List<Chain>> heads = null;
+		if (head.isPositiveLiteral()) {
+			heads = posHeads;
+		} else {
+			heads = negHeads;
+		}
+		String key = head.getAtomicSentence().getSymbolicName();
+		List<Chain> farParents = heads.get(key);
+		while (farParents.size() > toSize) {
+			farParents.remove(farParents.size() - 1);
+		}
+!!!294786.java!!!	getNumberCandidateFarParents(inout nearParent : Chain) : int
+		Literal nearestHead = nearParent.getHead();
+
+		Map<String, List<Chain>> candidateHeads = null;
+		if (nearestHead.isPositiveLiteral()) {
+			candidateHeads = negHeads;
+		} else {
+			candidateHeads = posHeads;
+		}
+
+		String nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
+
+		List<Chain> farParents = candidateHeads.get(nearestKey);
+		if (null != farParents) {
+			return farParents.size();
+		}
+		return 0;
+!!!294914.java!!!	attemptReduction(inout nearParent : Chain, in farParentIndex : int) : Chain
+		Chain nnpc = null;
+
+		Literal nearLiteral = nearParent.getHead();
+
+		Map<String, List<Chain>> candidateHeads = null;
+		if (nearLiteral.isPositiveLiteral()) {
+			candidateHeads = negHeads;
+		} else {
+			candidateHeads = posHeads;
+		}
+
+		AtomicSentence nearAtom = nearLiteral.getAtomicSentence();
+		String nearestKey = nearAtom.getSymbolicName();
+		List<Chain> farParents = candidateHeads.get(nearestKey);
+		if (null != farParents) {
+			Chain farParent = farParents.get(farParentIndex);
+			standardizeApart(farParent);
+			Literal farLiteral = farParent.getHead();
+			AtomicSentence farAtom = farLiteral.getAtomicSentence();
+			Map<Variable, Term> subst = unifier.unify(nearAtom, farAtom);
+
+			// If I was able to unify with one
+			// of the far heads
+			if (null != subst) {
+				// Want to always apply reduction uniformly
+				Chain topChain = farParent;
+				Literal botLit = nearLiteral;
+				Chain botChain = nearParent;
+
+				// Need to apply subst to all of the
+				// literals in the reduction
+				List<Literal> reduction = new ArrayList<Literal>();
+				for (Literal l : topChain.getTail()) {
+					AtomicSentence atom = (AtomicSentence) substVisitor.subst(
+							subst, l.getAtomicSentence());
+					reduction.add(l.newInstance(atom));
+				}
+				reduction.add(new ReducedLiteral((AtomicSentence) substVisitor
+						.subst(subst, botLit.getAtomicSentence()), botLit
+						.isNegativeLiteral()));
+				for (Literal l : botChain.getTail()) {
+					AtomicSentence atom = (AtomicSentence) substVisitor.subst(
+							subst, l.getAtomicSentence());
+					reduction.add(l.newInstance(atom));
+				}
+
+				nnpc = new Chain(reduction);
+				nnpc.setProofStep(new ProofStepChainReduction(nnpc, nearParent,
+						farParent, subst));
+			}
+		}
+
+		return nnpc;
+!!!295042.java!!!	addToIndex(inout c : Chain) : Chain
+		Chain added = null;
+		Literal head = c.getHead();
+		if (null != head) {
+			Map<String, List<Chain>> toAddTo = null;
+			if (head.isPositiveLiteral()) {
+				toAddTo = posHeads;
+			} else {
+				toAddTo = negHeads;
+			}
+
+			String key = head.getAtomicSentence().getSymbolicName();
+			List<Chain> farParents = toAddTo.get(key);
+			if (null == farParents) {
+				farParents = new ArrayList<Chain>();
+				toAddTo.put(key, farParents);
+			}
+
+			added = c;
+			farParents.add(added);
+		}
+		return added;
+!!!295170.java!!!	standardizeApart(inout c : Chain) : void
+		saIdx = StandardizeApartInPlace.standardizeApart(c, saIdx);
+!!!295298.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("#");
+		sb.append(posHeads.size());
+		for (String key : posHeads.keySet()) {
+			sb.append(",");
+			sb.append(posHeads.get(key).size());
+		}
+		sb.append(" posHeads=");
+		sb.append(posHeads.toString());
+		sb.append("\n");
+		sb.append("#");
+		sb.append(negHeads.size());
+		for (String key : negHeads.keySet()) {
+			sb.append(",");
+			sb.append(negHeads.get(key).size());
+		}
+		sb.append(" negHeads=");
+		sb.append(negHeads.toString());
+
+		return sb.toString();
+!!!295426.java!!!	constructInternalDataStructures(inout sos : List<Chain>, inout background : List<Chain>) : void
+		List<Chain> toIndex = new ArrayList<Chain>();
+		toIndex.addAll(sos);
+		toIndex.addAll(background);
+
+		for (Chain c : toIndex) {
+			addToIndex(c);
+		}

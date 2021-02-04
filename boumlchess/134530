@@ -1,0 +1,1257 @@
+format 223
+"agent" // aima::core::learning::reinforcement::agent
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/reinforcement/agent/"
+  java_package "aima.core.learning.reinforcement.agent"
+  classview 132994 "agent"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 153986 "PassiveADPAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 0 explicit_value ""
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 834.<br>
+<br>
+
+<pre>
+function PASSIVE-ADP-AGENT(percept) returns an action
+  inputs: percept, a percept indicating the current state s' and reward signal r'
+  persistent: &pi;, a fixed policy
+              mdp, an MDP with model P, rewards R, discount &gamma;
+              U, a table of utilities, initially empty
+              N<sub>sa</sub>, a table of frequencies for state-action pairs, initially zero
+              N<sub>s'|sa</sub>, a table of outcome frequencies give state-action pairs, initially zero
+              s, a, the previous state and action, initially null
+
+  if s' is new then U[s'] <- r'; R[s'] <- r'
+  if s is not null then
+       increment N<sub>sa</sub>[s,a] and N<sub>s'|sa</sub>[s',s,a]
+       for each t such that N<sub>s'|sa</sub>[t,s,a] is nonzero do
+           P(t|s,a) <-  N<sub>s'|sa</sub>[t,s,a] / N<sub>sa</sub>[s,a]
+  U <- POLICY-EVALUATION(&pi;, U, mdp)
+  if s'.TERMINAL? then s,a <- null else s,a <- s',&pi;[s']
+  return a
+</pre>
+
+Figure 21.2 A passive reinforcement learning agent based on adaptive dynamic
+programming. The POLICY-EVALUATION function solves the fixed-policy Bellman
+equations, as described on page 657.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      classrelation 160130 // <realization>
+	relation 160130 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 160130 // <realization>
+	  b parent class_ref 154114 // ReinforcementAgent
+      end
+
+      attribute 159618 "pi"
+	private explicit_type "S, A"
+	init_value " new HashMap<S, A>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " persistent: &pi;, a fixed policy
+"
+      end
+
+      classrelation 160258 // mdp (<unidirectional association>)
+	relation 160258 --->
+	  a role_name "mdp" init_value " null" private
+	    comment " mdp, an MDP with model P, rewards R, discount &gamma;
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 160258 // mdp (<unidirectional association>)
+	  b parent class_ref 154242 // MDP
+      end
+
+      classrelation 160386 // P (<unidirectional association>)
+	relation 160386 --->
+	  stereotype "Map"
+	  a role_name "P" init_value " new HashMap<Pair<S, Pair<S, A>>, Double>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, Pair<S, A>>, Double> ${name}${value};
+"
+	    classrelation_ref 160386 // P (<unidirectional association>)
+	  b parent class_ref 129026 // Pair
+      end
+
+      attribute 159746 "R"
+	private explicit_type "S, Double"
+	init_value " new HashMap<S, Double>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 160514 // policyEvaluation (<unidirectional association>)
+	relation 160514 --->
+	  a role_name "policyEvaluation" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 160514 // policyEvaluation (<unidirectional association>)
+	  b parent class_ref 154370 // PolicyEvaluation
+      end
+
+      attribute 159874 "U"
+	private explicit_type "S, Double"
+	init_value " new HashMap<S, Double>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " U, a table of utilities, initially empty
+"
+      end
+
+      classrelation 160642 // Nsa (<unidirectional association>)
+	relation 160642 --->
+	  a role_name "Nsa" init_value " new FrequencyCounter<Pair<S, A>>()" private
+	    comment " N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
+ zero
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Pair<S, A>> ${name}${value};
+"
+	    classrelation_ref 160642 // Nsa (<unidirectional association>)
+	  b parent class_ref 154498 // FrequencyCounter
+      end
+
+      classrelation 160770 // NsDelta_sa (<unidirectional association>)
+	relation 160770 --->
+	  a role_name "NsDelta_sa" init_value " new FrequencyCounter<Pair<S, Pair<S, A>>>()" private
+	    comment " N<sub>s'|sa</sub>, a table of outcome frequencies give state-action
+ pairs, initially zero
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Pair<S, Pair<S, A>>> ${name}${value};
+"
+	    classrelation_ref 160770 // NsDelta_sa (<unidirectional association>)
+	  b parent class_ref 154498 // FrequencyCounter
+      end
+
+      attribute 160002 "s"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " s, a, the previous state and action, initially null
+"
+      end
+
+      attribute 160130 "a"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 249218 "PassiveADPAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 5
+	  param inout name "fixedPolicy" explicit_type "Map<S, A>"
+	  param inout name "states" explicit_type "Set<S>"
+	  param inout name "initialState" explicit_type "S"
+	  param inout name "actionsFunction" type class_ref 154626 // ActionsFunction
+	  param inout name "policyEvaluation" type class_ref 154370 // PolicyEvaluation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3}<S, A> ${p3}, ${t4}<S, A> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param fixedPolicy
+           &pi; a fixed policy.
+@param states
+           the possible states in the world (i.e. fully observable).
+@param initialState
+           the initial state for the agent.
+@param actionsFunction
+           a function that lists the legal actions from a state.
+@param policyEvaluation
+           a function for evaluating a policy.
+"
+      end
+
+      operation 249346 "execute"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "percept" type class_ref 153730 // PerceptStateReward
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Passive reinforcement learning based on adaptive dynamic programming.
+
+@param percept
+           a percept indicating the current state s' and reward signal
+           r'.
+@return an action
+"
+      end
+
+      operation 249474 "getUtility"
+	cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 249602 "reset"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 249730 "isTerminal"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 154114 "ReinforcementAgent"
+      abstract visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An abstract base class for creating reinforcement based agents.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 160002 // <generalisation>
+	relation 160002 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 160002 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      operation 248578 "ReinforcementAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 248706 "execute"
+	abstract cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "percept" type class_ref 153730 // PerceptStateReward
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Map the given percept to an Agent action.
+
+@param percept
+           a percept indicating the current state s' and reward signal r'
+@return the action to take.
+"
+      end
+
+      operation 248834 "getUtility"
+	abstract cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a vector of the currently calculated utilities for states of type S
+in the world.
+
+@return a Map of the currently learned utility values for the states in
+        the environment (Note: this map may not contain all of the states
+        in the environment, i.e. the agent has not seen them yet).
+"
+      end
+
+      operation 248962 "reset"
+	abstract cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reset the agent back to its initial state before it has learned anything
+about its environment.
+"
+      end
+
+      operation 249090 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 154754 "PassiveTDAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 0 explicit_value ""
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 837.<br>
+<br>
+
+<pre>
+function PASSIVE-TD-AGENT(percept) returns an action
+  inputs: percept, a percept indicating the current state s' and reward signal r'
+  persistent: &pi;, a fixed policy
+              U, a table of utilities, initially empty
+              N<sub>s</sub>, a table of frequencies for states, initially zero
+              s,a,r, the previous state, action, and reward, initially null
+              
+  if s' is new then U[s'] <- r'
+  if s is not null then
+       increment N<sub>s</sub>[s]
+       U[s] <- U[s] + &alpha;(N<sub>s</sub>[s])(r + &gamma;U[s'] - U[s])
+  if s'.TERMINAL? then s,a,r <- null else s,a,r <- s',&pi;[s'],r'
+  return a
+</pre>
+
+Figure 21.4 A passive reinforcement learning agent that learns utility
+estimates using temporal differences. The step-size function &alpha;(n) is
+chosen to ensure convergence, as described in the text.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      classrelation 160898 // <realization>
+	relation 160898 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 160898 // <realization>
+	  b parent class_ref 154114 // ReinforcementAgent
+      end
+
+      attribute 160258 "pi"
+	private explicit_type "S, A"
+	init_value " new HashMap<S, A>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " persistent: &pi;, a fixed policy
+"
+      end
+
+      attribute 160386 "U"
+	private explicit_type "S, Double"
+	init_value " new HashMap<S, Double>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " U, a table of utilities, initially empty
+"
+      end
+
+      classrelation 161026 // Ns (<unidirectional association>)
+	relation 161026 --->
+	  a role_name "Ns" init_value " new FrequencyCounter<S>()" private
+	    comment " N<sub>s</sub>, a table of frequencies for states, initially zero
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S> ${name}${value};
+"
+	    classrelation_ref 161026 // Ns (<unidirectional association>)
+	  b parent class_ref 154498 // FrequencyCounter
+      end
+
+      attribute 160514 "s"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " s,a,r, the previous state, action, and reward, initially null
+"
+      end
+
+      attribute 160642 "a"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 160770 "r"
+	private explicit_type "Double"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 160898 "alpha"
+	private explicit_type "double"
+	init_value " 0.0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 161026 "gamma"
+	private explicit_type "double"
+	init_value " 0.0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 249858 "PassiveTDAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param inout name "fixedPolicy" explicit_type "Map<S, A>"
+	  param in name "alpha" explicit_type "double"
+	  param in name "gamma" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param fixedPolicy
+           &pi; a fixed policy.
+@param alpha
+           a fixed learning rate.
+@param gamma
+           discount to be used.
+"
+      end
+
+      operation 249986 "execute"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "percept" type class_ref 153730 // PerceptStateReward
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Passive reinforcement learning that learns utility estimates using
+temporal differences
+
+@param percept
+           a percept indicating the current state s' and reward signal
+           r'.
+@return an action
+"
+      end
+
+      operation 250114 "getUtility"
+	cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 250242 "reset"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 250370 "alpha"
+	cpp_inline protected explicit_return_type "double"
+	nparams 2
+	  param inout name "Ns" type class_ref 154498 // FrequencyCounter
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+
+
+AIMA3e pg. 836 'if we change &alpha; from a fixed parameter to a function
+that decreases as the number of times a state has been visited increases,
+then U<sup>&pi;</sup>(s) itself will converge to the correct value.<br>
+<br>
+<b>Note:</b> override this method to obtain the desired behavior.
+
+@param Ns
+           a frequency counter of observed states.
+@param s
+           the current state.
+@return the learning rate to use based on the frequency of the state
+        passed in.
+"
+      end
+
+      operation 250498 "isTerminal"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 154882 "QLearningAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 0 explicit_value ""
+      actual class class_ref 154114 // ReinforcementAgent
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 844.<br>
+<br>
+
+<pre>
+function Q-LEARNING-AGENT(percept) returns an action
+  inputs: percept, a percept indicating the current state s' and reward signal r'
+  persistent: Q, a table of action values indexed by state and action, initially zero
+              N<sub>sa</sub>, a table of frequencies for state-action pairs, initially zero
+              s,a,r, the previous state, action, and reward, initially null
+              
+  if TERMAINAL?(s) then Q[s,None] <- r'
+  if s is not null then
+      increment N<sub>sa</sub>[s,a]
+      Q[s,a] <- Q[s,a] + &alpha;(N<sub>sa</sub>[s,a])(r + &gamma;max<sub>a'</sub>Q[s',a'] - Q[s,a])
+  s,a,r <- s',argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a']),r'
+  return a
+</pre>
+
+Figure 21.8 An exploratory Q-learning agent. It is an active learner that
+learns the value Q(s,a) of each action in each situation. It uses the same
+exploration function f as the exploratory ADP agent, but avoids having to
+learn the transition model because the Q-value of a state can be related
+directly to those of its neighbors.<br>
+<br>
+<b>Note:</b> There appears to be two minor defects in the algorithm outlined
+in the book:<br>
+if TERMAINAL?(s) then Q[s,None] <- r'<br>
+should be:<br>
+if TERMAINAL?(s') then Q[s',None] <- r'<br>
+so that the correct value for Q[s',a'] is used in the Q[s,a] update rule when
+a terminal state is reached.<br>
+<br>
+s,a,r <- s',argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a']),r'<br>
+should be:
+
+<pre>
+if s'.TERMINAL? then s,a,r <- null else s,a,r <- s',argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a']),r'
+</pre>
+
+otherwise at the beginning of a consecutive trial, s will be the prior
+terminal state and is what will be updated in Q[s,a], which appears not to be
+correct as you did not perform an action in the terminal state and the
+initial state is not reachable from the prior terminal state. Comments
+welcome.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      classrelation 161154 // <realization>
+	relation 161154 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 161154 // <realization>
+	  b parent class_ref 154114 // ReinforcementAgent
+      end
+
+      classrelation 161282 // Q (<unidirectional association>)
+	relation 161282 --->
+	  stereotype "Map"
+	  a role_name "Q" init_value " new HashMap<Pair<S, A>, Double>()" package
+	    comment " persistent: Q, a table of action values indexed by state and action,
+ initially zero
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>, Double> ${name}${value};
+"
+	    classrelation_ref 161282 // Q (<unidirectional association>)
+	  b parent class_ref 129026 // Pair
+      end
+
+      classrelation 161410 // Nsa (<unidirectional association>)
+	relation 161410 --->
+	  a role_name "Nsa" init_value " new FrequencyCounter<Pair<S, A>>()" private
+	    comment " N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
+ zero
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Pair<S, A>> ${name}${value};
+"
+	    classrelation_ref 161410 // Nsa (<unidirectional association>)
+	  b parent class_ref 154498 // FrequencyCounter
+      end
+
+      attribute 161154 "s"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " s,a,r, the previous state, action, and reward, initially null
+"
+      end
+
+      attribute 161282 "a"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 161410 "r"
+	private explicit_type "Double"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 161538 // actionsFunction (<unidirectional association>)
+	relation 161538 --->
+	  a role_name "actionsFunction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 161538 // actionsFunction (<unidirectional association>)
+	  b parent class_ref 154626 // ActionsFunction
+      end
+
+      attribute 161538 "noneAction"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 161666 "alpha"
+	private explicit_type "double"
+	init_value " 0.0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 161794 "gamma"
+	private explicit_type "double"
+	init_value " 0.0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 161922 "Ne"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162050 "Rplus"
+	private explicit_type "double"
+	init_value " 0.0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 250626 "QLearningAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 6
+	  param inout name "actionsFunction" type class_ref 154626 // ActionsFunction
+	  param inout name "noneAction" explicit_type "A"
+	  param in name "alpha" explicit_type "double"
+	  param in name "gamma" explicit_type "double"
+	  param in name "Ne" explicit_type "int"
+	  param in name "Rplus" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param actionsFunction
+           a function that lists the legal actions from a state.
+@param noneAction
+           an action representing None, i.e. a NoOp.
+@param alpha
+           a fixed learning rate.
+@param gamma
+           discount to be used.
+@param Ne
+           is fixed parameter for use in the method f(u, n).
+@param Rplus
+           R+ is an optimistic estimate of the best possible reward
+           obtainable in any state, which is used in the method f(u, n).
+"
+      end
+
+      operation 250754 "execute"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "percept" type class_ref 153730 // PerceptStateReward
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "An exploratory Q-learning agent. It is an active learner that learns the
+value Q(s,a) of each action in each situation. It uses the same
+exploration function f as the exploratory ADP agent, but avoids having to
+learn the transition model because the Q-value of a state can be related
+directly to those of its neighbors.
+
+@param percept
+           a percept indicating the current state s' and reward signal
+           r'.
+@return an action
+"
+      end
+
+      operation 250882 "reset"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 251010 "getUtility"
+	cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 251138 "alpha"
+	cpp_inline protected explicit_return_type "double"
+	nparams 3
+	  param inout name "Nsa" type class_ref 154498 // FrequencyCounter
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Pair<S, A>> ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+
+
+AIMA3e pg. 836 'if we change &alpha; from a fixed parameter to a function
+that decreases as the number of times a state action has been observed
+increases, then U<sup>&pi;</sup>(s) itself will converge to the correct
+value.<br>
+<br>
+<b>Note:</b> override this method to obtain the desired behavior.
+
+@param Nsa
+           a frequency counter of observed state action pairs.
+@param s
+           the current state.
+@param a the current action.
+@return the learning rate to use based on the frequency of the state
+        passed in.
+"
+      end
+
+      operation 251266 "f"
+	cpp_inline protected explicit_return_type "double"
+	nparams 2
+	  param inout name "u" explicit_type "Double"
+	  param in name "n" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "AIMA3e pg. 842 'f(u, n) is called the <b>exploration function</b>. It
+determines how greed (preferences for high values of u) is traded off
+against curiosity (preferences for actions that have not been tried often
+and have low n). The function f(u, n) should be increasing in u and
+decreasing in n.
+
+
+<b>Note:</b> Override this method to obtain desired behavior.
+
+@param u
+           the currently estimated utility.
+@param n
+           the number of times this situation has been encountered.
+@return the exploration value.
+"
+      end
+
+      operation 251394 "isTerminal"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 251522 "maxAPrime"
+	cpp_inline private explicit_return_type "double"
+	nparams 1
+	  param inout name "sPrime" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 251650 "argmaxAPrime"
+	cpp_inline private explicit_return_type "A"
+	nparams 1
+	  param inout name "sPrime" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a'])"
+      end
+    end
+  end
+
+  deploymentview 131458 "agent"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 147842 "ReinforcementAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.learning.reinforcement.PerceptStateReward;
+${definition}"
+      associated_elems
+	class_ref 154114 // ReinforcementAgent
+      end
+    end
+
+    artifact 147970 "PassiveADPAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.learning.reinforcement.PerceptStateReward;
+import aima.core.probability.mdp.ActionsFunction;
+import aima.core.probability.mdp.PolicyEvaluation;
+import aima.core.probability.mdp.RewardFunction;
+import aima.core.probability.mdp.TransitionProbabilityFunction;
+import aima.core.probability.mdp.impl.MDP;
+import aima.core.util.FrequencyCounter;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 153986 // PassiveADPAgent
+      end
+    end
+
+    artifact 148098 "PassiveTDAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.learning.reinforcement.PerceptStateReward;
+import aima.core.util.FrequencyCounter;
+${definition}"
+      associated_elems
+	class_ref 154754 // PassiveTDAgent
+      end
+    end
+
+    artifact 148226 "QLearningAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.learning.reinforcement.PerceptStateReward;
+import aima.core.probability.mdp.ActionsFunction;
+import aima.core.util.FrequencyCounter;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 154882 // QLearningAgent
+      end
+    end
+  end
+end

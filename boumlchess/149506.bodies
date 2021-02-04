@@ -1,0 +1,36 @@
+class Constant
+!!!338434.java!!!	Constant(in s : String)
+		value = s;
+!!!338562.java!!!	getValue() : String
+		return value;
+!!!338690.java!!!	getSymbolicName() : String
+		return getValue();
+!!!338818.java!!!	isCompound() : boolean
+		return false;
+!!!338946.java!!!	getArgs() : Term
+		// Is not Compound, therefore should
+		// return null for its arguments
+		return null;
+!!!339074.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitConstant(this, arg);
+!!!339202.java!!!	copy() : Constant
+		return new Constant(value);
+!!!339330.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Constant)) {
+			return false;
+		}
+		Constant c = (Constant) o;
+		return c.getValue().equals(getValue());
+
+!!!339458.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + value.hashCode();
+		}
+		return hashCode;
+!!!339586.java!!!	toString() : String
+		return value;

@@ -1,0 +1,24 @@
+class ListTableModel
+!!!641282.java!!!	ListTableModel(in columnName : String)
+		this.columnName = columnName;
+!!!641410.java!!!	getColumnCount() : int
+ 
+		return 1;
+!!!641538.java!!!	getRowCount() : int
+		return data.size();
+!!!641666.java!!!	getValueAt(in row : int, in col : int) : String
+		return data.get(row);
+!!!641794.java!!!	getColumnName(in column : int) : String
+		return columnName;
+		
+!!!641922.java!!!	add(in string : String) : void
+		data.add(string);
+		this.fireTableRowsInserted(data.size()-1, data.size()-1);
+!!!642050.java!!!	removeValueAt(in index : int) : void
+		data.remove(index);
+!!!642178.java!!!	setValueAt(in index : int, in element : String) : void
+		data.set(index, element);
+!!!642306.java!!!	clear() : void
+		final int lastRow = data.size() - 1;
+		data.clear();
+		if (lastRow >= 0) this.fireTableRowsDeleted(0,lastRow);

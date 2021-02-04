@@ -1,0 +1,80 @@
+class DisjointSets
+!!!495746.java!!!	DisjointSets()
+
+!!!495874.java!!!	DisjointSets(inout initialElements : Collection<E>)
+		for (E element : initialElements) {
+			makeSet(element);
+		}
+!!!496002.java!!!	DisjointSets(inout  : E...elements)
+		for (E element : elements) {
+			makeSet(element);
+		}
+!!!496130.java!!!	makeSet(inout element : E) : void
+		if (!elementToSet.containsKey(element)) {
+			// Note: It is necessary to use an identity based hash set
+			// whose equal and hashCode method are based on the Sets
+			// identity and not its elements as we are adding
+			// this set to a set but changing its values as unions
+			// occur.
+			Set<E> set = new IdentityHashSet<E>();
+			set.add(element);
+			elementToSet.put(element, set);
+			disjointSets.add(set);
+		}
+!!!496258.java!!!	union(inout element1 : E, inout element2 : E) : void
+		Set<E> set1 = elementToSet.get(element1);
+		if (set1 == null) {
+			throw new IllegalArgumentException(
+					"element 1 is not associated with a disjoint set, call makeSet() first.");
+		}
+		Set<E> set2 = elementToSet.get(element2);
+		if (set2 == null) {
+			throw new IllegalArgumentException(
+					"element 2 is not associated with a disjoint set, call makeSet() first.");
+		}
+		if (set1 != set2) {
+			// simple weighted union heuristic
+			if (set1.size() < set2.size()) {
+				set2.addAll(set1);
+				for (E element : set1) {
+					disjointSets.remove(elementToSet.put(element, set2));
+				}
+			} 
+			else {
+				// i.e. set1 >= set2
+				set1.addAll(set2);
+				for (E element : set2) {
+					disjointSets.remove(elementToSet.put(element, set1));
+				}
+			}
+		}
+!!!496386.java!!!	find(inout element : E) : Set<E>
+		// Note: Instantiate normal sets to ensure IdentityHashSet
+		// is not exposed outside of this class.
+		// This also ensures the internal logic cannot
+		// be corrupted externally due to changing sets.
+		return new LinkedHashSet<>(elementToSet.get(element));
+!!!496514.java!!!	getElementToDisjointSet() : Map<E, Set<E>>
+		// Note: Instantiate normal sets to ensure IdentityHashSet
+		// is not exposed outside of this class.
+		// This also ensures the internal logic cannot
+		// be corrupted externally due to changing sets.
+		Map<E, Set<E>> result = new LinkedHashMap<>();
+		for (Map.Entry<E, Set<E>> entry : elementToSet.entrySet()) {
+			result.put(entry.getKey(), new LinkedHashSet<E>(entry.getValue()));
+		}
+		return result;
+!!!496642.java!!!	getDisjointSets() : Set<Set<E>>
+		// Note: Instantiate normal sets to ensure IdentityHashSet
+		// is not exposed outside of this class.
+		// This also ensures the internal logic cannot
+		// be corrupted externally due to changing sets.
+		Set<Set<E>> result = new LinkedHashSet<>();
+		for (Set<E> disjointSet : disjointSets)
+			result.add(new LinkedHashSet<>(disjointSet));
+		return result;
+!!!496770.java!!!	numberDisjointSets() : int
+		return disjointSets.size();
+!!!496898.java!!!	clear() : void
+		elementToSet.clear();
+		disjointSets.clear();

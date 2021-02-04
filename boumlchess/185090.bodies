@@ -1,0 +1,80 @@
+class POMDPValueIteration
+!!!426882.java!!!	POMDPValueIteration(inout pomdp : POMDP, in maxError : double, in maxDepth : int)
+        this.pomdp = pomdp;
+        this.maxError = maxError;
+        this.depth = maxDepth;
+!!!427010.java!!!	pomdpValueIteration() : HashMap<List<A>, List<Double>>
+
+        // local variables: U, U′, sets of plans p with associated utility vectors αp
+        HashMap<List<A>, List<Double>> uDash;
+        HashMap<List<A>, List<Double>> u = new HashMap<>();
+        List<Double> utilities = new ArrayList<>();
+
+        // U′  a set containing just the empty plan [], with α[](s) = R(s)
+        for (S state :
+                pomdp.states()) {
+            utilities.add(pomdp.reward(state));
+        }
+        uDash = new HashMap<>();
+        uDash.put(new ArrayList<>(), utilities);
+        int i = 0; // For maintaining tree depth
+
+        // repeat until MAX-DIFFERENCE OLJ This comment has been changed
+        while (maxDifference(u, uDash) < maxError * (1 - pomdp.getDiscount()) / pomdp.getDiscount() || (i <= this.depth)) {
+            // U  U′
+            u = new HashMap<>(uDash);
+            // the set of all plans consisting of an action and, for each possible next percept,
+            // a plan in U with utility vectors computed according to Equation(??)
+            uDash = increasePlanDepths(uDash);
+            uDash = removeDominatedPlans(uDash);
+            i++;
+        }
+        return u;
+!!!427138.java!!!	increasePlanDepths(inout uDash : HashMap<List<A>,
+            List<Double>>) : HashMap<List<A>, List<Double>>
+        HashMap<List<A>, List<Double>> result = new HashMap<>();
+        for (A action :
+                this.pomdp.getAllActions()) {
+            for (List<A> plan :
+                    uDash.keySet()) {
+                List<A> newPlan = new ArrayList<>(plan);
+                List<Double> newUtilities = new ArrayList<>();
+                newPlan.add(action);
+                for (S currentState :
+                        this.pomdp.states()) {
+                    double planUtility = 0.0;
+                    for (S actualState :
+                            this.pomdp.states()) {
+                        double tempUtility = 0.0;
+                        for (S observation :
+                                this.pomdp.states()) {
+                            tempUtility += this.pomdp.sensorModel(observation,
+                                    actualState) * uDash.get(plan).
+                                    get((new ArrayList<>(this.pomdp.states())).indexOf(actualState));
+                        }
+                        planUtility = tempUtility * this.pomdp.transitionProbability(actualState,
+                                currentState, action);
+                    }
+                    planUtility *= this.pomdp.getDiscount();
+                    planUtility += this.pomdp.reward(currentState);
+                    newUtilities.add(planUtility);
+                }
+                result.put(newPlan, newUtilities);
+            }
+        }
+        return result;
+!!!427266.java!!!	removeDominatedPlans(inout uDash : HashMap<List<A>, List<Double>>) : HashMap<List<A>, List<Double>>
+        return uDash;
+!!!427394.java!!!	maxDifference(inout u : HashMap<List<A>, List<Double>>, inout uDash : HashMap<List<A>, List<Double>>) : double
+        double maxUtilOne = 0.0, maxUtilTwo = 0.0;
+        for (List<A> plan :
+                u.keySet()) {
+            maxUtilOne += Collections.max(u.get(plan));
+        }
+        maxUtilOne /= u.keySet().size();
+        for (List<A> plan :
+                uDash.keySet()) {
+            maxUtilTwo += Collections.max(uDash.get(plan));
+        }
+        maxUtilTwo /= u.keySet().size();
+        return Math.abs(maxUtilOne - maxUtilTwo);

@@ -1,0 +1,44 @@
+class NQueensView
+!!!632706.java!!!	setEnvironment(inout env : Environment) : void
+			super.setEnvironment(env);
+			showState();
+!!!632834.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+			showState();
+!!!632962.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+			showState();
+			notify((agent == null ? "User: " : "") + action.toString());
+!!!633090.java!!!	showState() : void
+			NQueensBoard board = ((NQueensEnvironment) env).getBoard();
+			if (currSize != board.getSize()) {
+				currSize = board.getSize();
+				removeAll();
+				setLayout(new GridLayout(currSize, currSize));
+				squareButtons = new JButton[currSize * currSize];
+				for (int i = 0; i < currSize * currSize; i++) {
+					JButton square = new JButton("");
+					square.setMargin(new Insets(0, 0, 0, 0));
+					square.setBackground((i % currSize) % 2 == (i / currSize) % 2 ? Color.WHITE : Color.LIGHT_GRAY);
+					square.addActionListener(this);
+					squareButtons[i] = square;
+					add(square);
+				}
+			}
+			for (int i = 0; i < currSize * currSize; i++)
+				squareButtons[i].setText("");
+			Font f = new java.awt.Font(Font.SANS_SERIF, Font.PLAIN,
+					Math.min(getWidth(), getHeight()) * 3 / 4 / currSize);
+			for (XYLocation loc : board.getQueenPositions()) {
+				JButton square = squareButtons[loc.getXCoOrdinate() + loc.getYCoOrdinate() * currSize];
+				square.setForeground(board.isSquareUnderAttack(loc) ? Color.RED : Color.BLACK);
+				square.setFont(f);
+				square.setText("Q");
+			}
+			validate();
+!!!633218.java!!!	actionPerformed(inout ae : ActionEvent) : void
+			for (int i = 0; i < currSize * currSize; i++) {
+				if (ae.getSource() == squareButtons[i]) {
+					NQueensController contr = (NQueensController) getController();
+					XYLocation loc = new XYLocation(i % currSize, i / currSize);
+					contr.modifySquare(loc);
+				}
+			}

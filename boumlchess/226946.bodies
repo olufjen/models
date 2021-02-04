@@ -1,0 +1,219 @@
+class BasicMinimax
+!!!673538.java!!!	BasicMinimax()
+ 
+        this(Algorithm.NEGAMAX); 
+!!!673666.java!!!	BasicMinimax(inout algo : Minimax::Algorithm)
+ 
+        this.algo = algo; 
+!!!673794.java!!!	getBestMove(in depth : int) : M
+ 
+        if (depth <= 0) { 
+            throw new IllegalArgumentException("Search depth MUST be > 0"); 
+        } 
+        MoveWrapper<M> wrapper = new MoveWrapper<>(); 
+        switch (algo) { 
+        case MINIMAX: 
+            minimax(wrapper, depth, 1); 
+            break; 
+        case ALPHA_BETA: 
+            alphabeta(wrapper, depth, 1, -maxEvaluateValue(), maxEvaluateValue()); 
+            break; 
+        case NEGAMAX: 
+            negamax(wrapper, depth, -maxEvaluateValue(), maxEvaluateValue()); 
+            break; 
+        case NEGASCOUT: 
+        default: 
+            negascout(wrapper, depth, -maxEvaluateValue(), maxEvaluateValue()); 
+            break; 
+        } 
+        return wrapper.move; 
+!!!673922.java!!!	minimax(in wrapper : BasicMinimax::MoveWrapper, in depth : int, in who : int) : double
+ 
+        if (depth == 0 || isOver()) {
+        	if (isOver()) {
+        		System.out.println("Exit "+who+" "+who * evaluate()+" "+isOver()+" Depth "+depth+" Step "+step);
+        		step = 0;
+        	}
+        	System.out.println("Exit "+who+" "+who * evaluate()+" Depth "+depth+" Step "+step);
+            return who * evaluate(); 
+        } 
+        M bestMove = null; 
+        Collection<M> moves = getPossibleMoves(); 
+        if (moves.isEmpty()) { 
+        	System.out.println("Moves is empty ");
+         next(); 
+            double score = minimaxScore(depth, who); 
+            previous(); 
+            return score; 
+        } 
+        if (who > 0) { 
+            double score = -maxEvaluateValue(); 
+            double bestScore = -maxEvaluateValue(); 
+            for (M move : moves) { 
+//            	System.out.println("Calling minimax "+who+" "+score+" "+depth+" Move "+move+" Bestscore "+bestScore);
+                makeMove(move); 
+                score = minimaxScore(depth, who); 
+                unmakeMove(move); 
+                if (score > bestScore) { 
+                    bestScore = score; 
+                    bestMove = move; 
+                } 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return bestScore; 
+        } else { 
+            double score = maxEvaluateValue(); 
+            double bestScore = maxEvaluateValue(); 
+            for (M move : moves) { 
+//            	System.out.println("Calling minimax else "+who+" "+score+" "+depth+" Move "+move+" Bestscore "+bestScore);
+                makeMove(move); 
+                score = minimaxScore(depth, who); 
+                unmakeMove(move); 
+                if (score < bestScore) { 
+                    bestScore = score; 
+                    bestMove = move; 
+                } 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return bestScore; 
+        } 
+!!!674050.java!!!	minimaxScore(in depth : int, in who : int) : double
+ 
+    	step++;
+    	return minimax(null, depth - 1, -who); 
+!!!674178.java!!!	alphabeta(in wrapper : BasicMinimax::MoveWrapper, in depth : int, in who : int, in alpha : double, in beta : double) : double
+ 
+        if (depth == 0 || isOver()) { 
+            return who * evaluate(); 
+        } 
+        M bestMove = null; 
+        double score; 
+        Collection<M> moves = getPossibleMoves(); 
+        if (moves.isEmpty()) { 
+         next(); 
+            score = alphabetaScore(depth, who, alpha, beta); 
+            previous(); 
+            return score; 
+        } 
+        if (who > 0) { 
+            for (M move : moves) { 
+                makeMove(move); 
+                score = alphabetaScore(depth, who, alpha, beta); 
+                unmakeMove(move); 
+                if (score > alpha) { 
+                    alpha = score; 
+                    bestMove = move; 
+                    if (alpha >= beta) { 
+                        break; 
+                    } 
+                } 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return alpha; 
+        } else { 
+            for (M move : moves) { 
+                makeMove(move); 
+                score = alphabetaScore(depth, who, alpha, beta); 
+                unmakeMove(move); 
+                if (score < beta) { 
+                    beta = score; 
+                    bestMove = move; 
+                    if (alpha >= beta) { 
+                        break; 
+                    } 
+                } 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return beta; 
+        } 
+!!!674306.java!!!	alphabetaScore(in depth : int, in who : int, in alpha : double, in beta : double) : double
+ 
+  return alphabeta(null, depth - 1, -who, alpha, beta); 
+!!!674434.java!!!	negamax(in wrapper : BasicMinimax::MoveWrapper, in depth : int, in alpha : double, in beta : double) : double
+ 
+        if (depth == 0 || isOver()) { 
+            return evaluate(); 
+        } 
+        M bestMove = null; 
+        Collection<M> moves = getPossibleMoves(); 
+        if (moves.isEmpty()) { 
+         next(); 
+         double score = negamaxScore(depth, alpha, beta); 
+         previous(); 
+         return score; 
+        } else { 
+            double score = -maxEvaluateValue(); 
+            for (M move : moves) { 
+                makeMove(move); 
+                score = negamaxScore(depth, alpha, beta); 
+                unmakeMove(move); 
+                if (score > alpha) { 
+                    alpha = score; 
+                    bestMove = move; 
+                    if (alpha >= beta) { 
+                        break; 
+                    } 
+                } 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return alpha; 
+        } 
+!!!674562.java!!!	negamaxScore(in depth : int, in alpha : double, in beta : double) : double
+ 
+  return -negamax(null, depth - 1, -beta, -alpha); 
+!!!674690.java!!!	negascout(in wrapper : BasicMinimax::MoveWrapper, in depth : int, in alpha : double, in beta : double) : double
+ 
+        if (depth == 0 || isOver()) { 
+            return evaluate(); 
+        } 
+        List<M> moves = getPossibleMoves(); 
+        double b = beta; 
+        M bestMove = null; 
+        if (moves.isEmpty()) { 
+         next(); 
+            double score = negascoutScore(true, depth, alpha, beta, b); 
+            previous(); 
+            return score; 
+        } else { 
+            double score; 
+            boolean first = true; 
+            for (M move : moves) { 
+                makeMove(move); 
+                score = negascoutScore(first, depth, alpha, beta, b); 
+                unmakeMove(move); 
+                if (score > alpha) { 
+                    alpha = score; 
+                    bestMove = move; 
+                    if (alpha >= beta) { 
+                        break; 
+                    } 
+                } 
+                b = alpha + 1; 
+                first = false; 
+            } 
+            if (wrapper != null) { 
+                wrapper.move = bestMove; 
+            } 
+            return alpha; 
+        } 
+!!!674818.java!!!	negascoutScore(in first : boolean, in depth : int, in alpha : double, in beta : double, in b : double) : double
+ 
+     double score = -negascout(null, depth - 1, -b, -alpha); 
+        if (!first && alpha < score && score < beta) { 
+            // fails high... full re-search 
+            score = -negascout(null, depth - 1, -beta, -alpha); 
+        } 
+        return score; 
+!!!674946.java!!!	getAlgorithm() : Minimax::Algorithm
+ 
+        return algo; 

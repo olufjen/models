@@ -1,0 +1,59 @@
+class CNFConstructor
+!!!264962.java!!!	CNFConstructor()
+
+!!!265090.java!!!	construct(inout orDistributedOverAnd : Sentence) : CNF
+		ArgData ad = new ArgData();
+
+		orDistributedOverAnd.accept(this, ad);
+
+		return new CNF(ad.clauses);
+!!!265218.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		ArgData ad = (ArgData) arg;
+		if (ad.negated) {
+			ad.clauses.get(ad.clauses.size() - 1).addNegativeLiteral(p);
+		} else {
+			ad.clauses.get(ad.clauses.size() - 1).addPositiveLiteral(p);
+		}
+		return p;
+!!!265346.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		ArgData ad = (ArgData) arg;
+		if (ad.negated) {
+			ad.clauses.get(ad.clauses.size() - 1).addNegativeLiteral(equality);
+		} else {
+			ad.clauses.get(ad.clauses.size() - 1).addPositiveLiteral(equality);
+		}
+		return equality;
+!!!265474.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		// This should not be called
+		throw new IllegalStateException("visitVariable() should not be called.");
+!!!265602.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		// This should not be called
+		throw new IllegalStateException("visitConstant() should not be called.");
+!!!265730.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		// This should not be called
+		throw new IllegalStateException("visitFunction() should not be called.");
+!!!265858.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		ArgData ad = (ArgData) arg;
+		// Indicate that the enclosed predicate is negated
+		ad.negated = true;
+		sentence.getNegated().accept(this, arg);
+		ad.negated = false;
+
+		return sentence;
+!!!265986.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		ArgData ad = (ArgData) arg;
+		Sentence first = sentence.getFirst();
+		Sentence second = sentence.getSecond();
+
+		first.accept(this, arg);
+		if (Connectors.isAND(sentence.getConnector())) {
+			ad.clauses.add(new Clause());
+		}
+		second.accept(this, arg);
+
+		return sentence;
+!!!266114.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		// This should not be called as should have already
+		// removed all of the quantifiers.
+		throw new IllegalStateException(
+				"All quantified sentences should have already been removed.");

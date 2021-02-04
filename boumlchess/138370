@@ -1,0 +1,514 @@
+format 223
+"robotics" // aima::core::robotics
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/robotics/"
+  java_package "aima.core.robotics"
+  classview 137346 "robotics"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 187522 "IMclMap"
+      visibility public stereotype "interface"
+      nformals 4
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IMclPose<P,V,M>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines functionality for a map of an environment for a robot (agent) to perform Monte-Carlo-Localization in.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> a pose implementing {@link IMclPose}.
+@param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment.
+@param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}.
+@param <R> a range measurement, implementing {@link IMclRangeReading}.
+"
+      operation 436610 "randomPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates a random valid pose on the map.
+@return a random valid pose on the map.
+"
+      end
+
+      operation 436738 "rayCast"
+	cpp_inline public explicit_return_type "R"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the length of a ray in a direction defined by a pose.
+@param pose the pose from which the ray is to be cast.
+@return the length of the ray as a range reading.
+"
+      end
+
+      operation 436866 "isPoseValid"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Verifies whether a pose is valid, that is inside the map boundaries and not within an obstacle.
+@param pose the pose which is to be evaluated.
+@return true if the pose is valid.
+"
+      end
+    end
+
+    class 187778 "IMclRobot"
+      visibility public stereotype "interface"
+      nformals 3
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines functionality a robotic agent has to implement in order to localize itself via {@link MonteCarloLocalization}. 
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment.
+@param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}. 
+@param <R> a range measurement, implementing {@link IMclRangeReading}.
+"
+      operation 436994 "getRangeReadings"
+	cpp_inline public explicit_return_type "R"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 187906 // RobotException
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Causes a series of sensor measurements to determine the distance to various obstacles within the environment.
+@return an array of range measurements {@code <R>}. 
+@throws RobotException thrown if the range reading was not successful.
+"
+      end
+
+      operation 437122 "performMove"
+	cpp_inline public explicit_return_type "M"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 187906 // RobotException
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Causes the robot to perform a movement.
+@return the move the robot performed.
+@throws RobotException thrown if the move was not successful.
+"
+      end
+    end
+
+    class 188034 "MonteCarloLocalization"
+      visibility public 
+      nformals 4
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IMclPose<P,V,M>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
+      cpp_decl ""
+      final java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 982.<br>
+<br>
+
+<pre>
+function MONTE-CARLO-LOCALIZATION(a, z, N, P(X'|X, v, w), P(z|z*), m) returns a set of samples for the next time step
+inputs: a, robot velocities v and w
+        z, range scan z<sub>1</sub>,..., z<sub>M</sub>
+        P(X'|X,v,w), motion model
+        P(z|z*), range sensor noise model
+        m, 2D map of the environment
+persistent: S, a vector of samples of size N
+local variables: W, a vector of weights of size N
+                 S', a temporary vector of particles of size N
+</pre>
+
+Figure 25.9 A Monte-Carlo-Localization algorithm using a range-scan sensor model with independent noise.
+The Monte-Carlo-Localization is an extension of a {@link ParticleFiltering} as stated on page 982.
+This is true for the functionality but this implementation can not extend the implementation of the ParticleFiltering
+as both implementations only contain the actual algorithm as a single method.
+<br/><br/>
+The update cycle of the algorithm is executed by the method {@code localize} for the given set of samples, move and vector of range readings.
+Before calling this method, a set of samples can be generated through the method {@code generateCloud}, which represents the initialization phase of the pseudocode, for the given size N.
+This removes the need of specifying the size N on every call of {@code localize} as this information is already contained in the set itself.
+The method {@code localize} is divided into these two parts implemented each by a single method:
+<ol>
+<li>{@code applyMove} represents the first line of the update cycle. It moves all samples according to the move / motion model.</li>
+<li>{@code weightSamples} represents the second to second last line of the update cycle. A vector of weights is created by this method for the given range scans by comparing every range scan to a ray cast with the correspondent sample through the range sensor noise model.</li>
+</ol>
+The WEIGHTED-SAMPLE-WITH-REPLACEMENT is implemented by the method {@code extendedWeightedSampleWithReplacement}. This implementation contains the addition of a cutoff value. All particles having a weight below this cutoff are ignored.
+<br/><br/>
+It is possible to reduce the steps needed for the localization by tweaking the  sample count and the parameter {@code cutOff}.
+<br/><br/>
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> a pose implementing {@link IMclPose}.
+@param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment. This vector describes the angle between two rays in the environment.
+@param <M> a movement (or sequence of movements) of the robot implementing {@link IMclMove}. 
+@param <R> a range measurement implementing {@link IMclRangeReading}.
+"
+      attribute 185986 "SAMPLE_INDEXES_NAME"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"SAMPLE_INDEXES\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 223234 // map (<unidirectional association>)
+	relation 223234 --->
+	  a role_name "map" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<P,V,M,R> ${name}${value};
+"
+	    classrelation_ref 223234 // map (<unidirectional association>)
+	  b parent class_ref 187522 // IMclMap
+      end
+
+      classrelation 223362 // randomizer (<unidirectional association>)
+	relation 223362 --->
+	  a role_name "randomizer" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 223362 // randomizer (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      classrelation 223490 // sampleIndexes (<unidirectional association>)
+	relation 223490 --->
+	  a role_name "sampleIndexes" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 223490 // sampleIndexes (<unidirectional association>)
+	  b parent class_ref 181890 // RandVar
+      end
+
+      attribute 186114 "weightCutOff"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 437250 "MonteCarloLocalization"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "map" type class_ref 187522 // IMclMap
+	  param inout name "randomizer" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<P,V,M,R> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param map an instance of a class implementing {@link IMclMap}.
+@param randomizer a {@link Randomizer} that is used for re-sampling.
+"
+      end
+
+      operation 437378 "setWeightCutOff"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "cutOff" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the minimum weight of the particles.
+@param cutOff the minimum weight below which the corresponding particle gets removed during the {@code resample()} step. Set to zero when in doubt.
+"
+      end
+
+      operation 437506 "applyMove"
+	cpp_inline protected explicit_return_type "Set<P>"
+	nparams 2
+	  param inout name "samples" explicit_type "Set<P>"
+	  param inout name "move" explicit_type "M"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Applies a move to the samples, creating a new {@link Set}.
+@param samples the samples the move will be applied to.
+@param move the move to be applied to the samples.
+@return a new set of size N containing the moved samples.
+"
+      end
+
+      operation 437634 "weightSamples"
+	cpp_inline protected explicit_return_type "double"
+	nparams 2
+	  param inout name "samples" explicit_type "Set<P>"
+	  param inout name "rangeReadings" explicit_type "R"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Weights the samples by a given vector of range scans.
+@param samples the samples to be weighted.
+@param rangeReadings the vector containing all range scans.
+@return a vector of weights of size N.
+"
+      end
+
+      operation 437762 "extendedWeightedSampleWithReplacement"
+	cpp_inline protected explicit_return_type "Set<P>"
+	nparams 2
+	  param inout name "samples" explicit_type "Set<P>"
+	  param inout name "w" explicit_type "double"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+	comment "Taken {@code weightedSampleWithReplacement} out of {@link ParticleFiltering} and extended by a minimum weight.
+@param samples the samples to be re-sampled.
+@param w the probability distribution on the samples.
+@return the new set of samples.
+"
+      end
+
+      operation 437890 "generateCloud"
+	cpp_inline public explicit_return_type "Set<P>"
+	nparams 1
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method is the initialization phase of the algorithm. It has to be called to generate a set of samples of count N.
+@param N the count of samples.
+@return a set containing N samples.
+"
+      end
+
+      operation 438018 "localize"
+	cpp_inline public explicit_return_type "Set<P>"
+	nparams 3
+	  param inout name "samples" explicit_type "Set<P>"
+	  param inout name "move" explicit_type "M"
+	  param inout name "rangeReadings" explicit_type "R"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}[] ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Executes the update cycle of the Monte-Carlo-Localization for the given parameters.
+@param samples the sample cloud.
+@param move the move to be applied to the cloud.
+@param rangeReadings the range scan that has been performed after the move has ended.
+@return a new Set containing updated samples. {@code null} is returned if {@code samples} is {@code null}.
+"
+      end
+    end
+  end
+
+  package_ref 138498 // datatypes
+
+  deploymentview 136578 "robotics"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 178306 "IMclMap"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.datatypes.IMclPose;
+import aima.core.robotics.datatypes.IMclRangeReading;
+import aima.core.robotics.datatypes.IMclVector;
+${definition}"
+      associated_elems
+	class_ref 187522 // IMclMap
+      end
+    end
+
+    artifact 178434 "IMclRobot"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.datatypes.IMclRangeReading;
+import aima.core.robotics.datatypes.IMclVector;
+import aima.core.robotics.datatypes.RobotException;
+${definition}"
+      associated_elems
+	class_ref 187778 // IMclRobot
+      end
+    end
+
+    artifact 178562 "MonteCarloLocalization"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.probability.bayes.approx.ParticleFiltering;
+import aima.core.probability.domain.FiniteIntegerDomain;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.RandVar;
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.datatypes.IMclPose;
+import aima.core.robotics.datatypes.IMclRangeReading;
+import aima.core.robotics.datatypes.IMclVector;
+import aima.core.util.Randomizer;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 188034 // MonteCarloLocalization
+      end
+    end
+  end
+
+  package_ref 138626 // impl
+end

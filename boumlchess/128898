@@ -1,0 +1,622 @@
+format 223
+"aprog" // aima::core::agent::impl::aprog
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/agent/impl/aprog/"
+  java_package "aima.core.agent.impl.aprog"
+  classview 128514 "aprog"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 131074 "ModelBasedReflexAgentProgram"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.12, page
+51.<br>
+<br>
+
+<pre>
+function MODEL-BASED-REFLEX-AGENT(percept) returns an action
+  persistent: state, the agent's current conception of the world state
+              model, a description of how the next state depends on current state and action
+              rules, a set of condition-action rules
+              action, the most recent action, initially none
+              
+  state  <- UPDATE-STATE(state, action, percept, model)
+  rule   <- RULE-MATCH(state, rules)
+  action <- rule.ACTION
+  return action
+</pre>
+
+Figure 2.12 A model-based reflex agent. It keeps track of the current state
+of the world using an internal model. It then chooses an action in the same
+way as the reflex agent.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+
+"
+      classrelation 131202 // <realization>
+	relation 131202 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 131202 // <realization>
+	  b parent class_ref 128514 // AgentProgram
+      end
+
+      classrelation 131330 // state (<unidirectional association>)
+	relation 131330 --->
+	  a role_name "state" init_value " null" private
+	    comment " persistent: state, the agent's current conception of the world state
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 131330 // state (<unidirectional association>)
+	  b parent class_ref 130562 // DynamicState
+      end
+
+      classrelation 131458 // model (<unidirectional association>)
+	relation 131458 --->
+	  a role_name "model" init_value " null" private
+	    comment " model, a description of how the next state depends on current state and
+ action
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 131458 // model (<unidirectional association>)
+	  b parent class_ref 129666 // Model
+      end
+
+      classrelation 131586 // rules (<unidirectional association>)
+	relation 131586 --->
+	  stereotype "Set"
+	  a role_name "rules" init_value " null" private
+	    comment " rules, a set of condition-action rules
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 131586 // rules (<unidirectional association>)
+	  b parent class_ref 131202 // Rule
+      end
+
+      classrelation 131714 // action (<unidirectional association>)
+	relation 131714 --->
+	  a role_name "action" init_value " null" private
+	    comment " action, the most recent action, initially none
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 131714 // action (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      operation 138626 "ModelBasedReflexAgentProgram"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 138754 "setState"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "state" type class_ref 130562 // DynamicState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the agent's current conception of the world state.
+
+@param state
+           the agent's current conception of the world state.
+"
+      end
+
+      operation 138882 "setModel"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "model" type class_ref 129666 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the program's description of how the next state depends on the state
+and action.
+
+@param model
+           a description of how the next state depends on the current
+           state and action.
+"
+      end
+
+      operation 139010 "setRules"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ruleSet" explicit_type "Set<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the program's condition-action rules
+
+@param ruleSet
+           a set of condition-action rules
+"
+      end
+
+      operation 139138 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-AgentProgram
+ function MODEL-BASED-REFLEX-AGENT(percept) returns an action"
+      end
+
+      operation 139266 "init"
+	abstract protected explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-AgentProgram
+
+
+ PROTECTED METHODS
+
+
+Realizations of this class should implement the init() method so that it
+calls the setState(), setModel(), and setRules() method.
+"
+      end
+
+      operation 139394 "updateState"
+	abstract protected return_type class_ref 130562 // DynamicState
+	nparams 4
+	  param inout name "state" type class_ref 130562 // DynamicState
+	  param inout name "action" type class_ref 128002 // Action
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "model" type class_ref 129666 // Model
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 139522 "ruleMatch"
+	protected return_type class_ref 131202 // Rule
+	nparams 2
+	  param inout name "state" type class_ref 130562 // DynamicState
+	  param inout name "rules" explicit_type "Set<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 139650 "ruleAction"
+	protected return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "r" type class_ref 131202 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 131330 "SimpleReflexAgentProgram"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.10, page
+49.<br>
+<br>
+
+<pre>
+function SIMPLE-RELEX-AGENT(percept) returns an action
+  persistent: rules, a set of condition-action rules
+  
+  state  <- INTERPRET-INPUT(percept);
+  rule   <- RULE-MATCH(state, rules);
+  action <- rule.ACTION;
+  return action
+</pre>
+
+Figure 2.10 A simple reflex agent. It acts according to a rule whose
+condition matches the current state, as defined by the percept.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+
+"
+      classrelation 131842 // <realization>
+	relation 131842 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 131842 // <realization>
+	  b parent class_ref 128514 // AgentProgram
+      end
+
+      classrelation 131970 // rules (<unidirectional association>)
+	relation 131970 --->
+	  stereotype "Set"
+	  a role_name "rules" private
+	    comment " persistent: rules, a set of condition-action rules
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 131970 // rules (<unidirectional association>)
+	  b parent class_ref 131202 // Rule
+      end
+
+      operation 139778 "SimpleReflexAgentProgram"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "ruleSet" explicit_type "Set<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a SimpleReflexAgentProgram with a set of condition-action
+rules.
+
+@param ruleSet
+           a set of condition-action rules
+"
+      end
+
+      operation 139906 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-AgentProgram
+ function SIMPLE-RELEX-AGENT(percept) returns an action"
+      end
+
+      operation 140034 "interpretInput"
+	protected return_type class_ref 130178 // ObjectWithDynamicAttributes
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-AgentProgram
+
+
+ PROTECTED METHODS
+"
+      end
+
+      operation 140162 "ruleMatch"
+	protected return_type class_ref 131202 // Rule
+	nparams 2
+	  param inout name "state" type class_ref 130178 // ObjectWithDynamicAttributes
+	  param inout name "rulesSet" explicit_type "Set<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 140290 "ruleAction"
+	protected return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "r" type class_ref 131202 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 131458 "TableDrivenAgentProgram"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47.<br>
+<br>
+
+<pre>
+function TABLE-DRIVEN-AGENT(percept) returns an action
+  persistent: percepts, a sequence, initially empty
+              table, a table of actions, indexed by percept sequences, initially fully specified
+          
+  append percept to end of percepts
+  action <- LOOKUP(percepts, table)
+  return action
+</pre>
+
+Figure 2.7 The TABLE-DRIVEN-AGENT program is invoked for each new percept and
+returns an action each time. It retains the complete percept sequence in
+memory.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+
+"
+      classrelation 132098 // <realization>
+	relation 132098 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 132098 // <realization>
+	  b parent class_ref 128514 // AgentProgram
+      end
+
+      classrelation 132226 // percepts (<unidirectional association>)
+	relation 132226 --->
+	  stereotype "List"
+	  a role_name "percepts" init_value " new ArrayList<Percept>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 132226 // percepts (<unidirectional association>)
+	  b parent class_ref 128386 // Percept
+      end
+
+      classrelation 132354 // table (<unidirectional association>)
+	relation 132354 --->
+	  a role_name "table" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<List<Percept>, String, Action> ${name}${value};
+"
+	    classrelation_ref 132354 // table (<unidirectional association>)
+	  b parent class_ref 131586 // Table
+      end
+
+      attribute 128514 "ACTION"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"action\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 140418 "TableDrivenAgentProgram"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "perceptSequenceActions" explicit_type "Map<List<Percept>, Action>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " persistent: percepts, a sequence, initially empty
+ table, a table of actions, indexed by percept sequences, initially fully
+ specified
+
+Constructs a TableDrivenAgentProgram with a table of actions, indexed by
+percept sequences.
+
+@param perceptSequenceActions
+           a table of actions, indexed by percept sequences
+"
+      end
+
+      operation 140546 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-AgentProgram
+ function TABLE-DRIVEN-AGENT(percept) returns an action"
+      end
+
+      operation 140674 "lookupCurrentAction"
+	private return_type class_ref 128002 // Action
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-AgentProgram
+
+
+ PRIVATE METHODS
+"
+      end
+    end
+  end
+
+  package_ref 129026 // simplerule
+
+  deploymentview 128258 "aprog"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 130818 "ModelBasedReflexAgentProgram"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.agent.AgentProgram;
+import aima.core.agent.Model;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.DynamicState;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.agent.impl.aprog.simplerule.Rule;
+${definition}"
+      associated_elems
+	class_ref 131074 // ModelBasedReflexAgentProgram
+      end
+    end
+
+    artifact 130946 "SimpleReflexAgentProgram"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.agent.AgentProgram;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.DynamicPercept;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+import aima.core.agent.impl.aprog.simplerule.Rule;
+${definition}"
+      associated_elems
+	class_ref 131330 // SimpleReflexAgentProgram
+      end
+    end
+
+    artifact 131074 "TableDrivenAgentProgram"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.agent.AgentProgram;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.util.datastructure.Table;
+${definition}"
+      associated_elems
+	class_ref 131458 // TableDrivenAgentProgram
+      end
+    end
+  end
+end

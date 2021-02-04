@@ -1,0 +1,111 @@
+class WumpusCave
+!!!193794.java!!!	WumpusCave()
+		this(4,4);
+!!!193922.java!!!	WumpusCave(in caveXDimension : int, in caveYDimension : int)
+		if (caveXDimension < 1)
+			throw new IllegalArgumentException("Cave must have x dimension >= 1");
+		if (caveYDimension < 1)
+			throw new IllegalArgumentException("Case must have y dimension >= 1");
+		this.caveXDimension = caveXDimension;
+		this.caveYDimension = caveYDimension;
+		allowedRooms = getAllRooms();
+!!!194050.java!!!	WumpusCave(in caveXDimension : int, in caveYDimension : int, in config : String)
+		this(caveXDimension, caveYDimension);
+		if (config.length() != 2 * caveXDimension * caveYDimension)
+			throw new IllegalStateException("Wrong configuration length.");
+		for (int i = 0; i < config.length(); i++) {
+			char c = config.charAt(i);
+			Room r = new Room(i / 2 % caveXDimension + 1, caveYDimension - i / 2 / caveXDimension);
+			switch (c) {
+				case 'S': start = new AgentPosition(r.getX(), r.getY(), AgentPosition.Orientation.FACING_NORTH); break;
+				case 'W': wumpus = r; break;
+				case 'G': gold = r; break;
+				case 'P': pits.add(r); break;
+			}
+		}
+!!!194178.java!!!	setAllowed(inout allowedRooms : Set<Room>) : WumpusCave
+		this.allowedRooms.clear();
+		this.allowedRooms.addAll(allowedRooms);
+		return this;
+!!!194306.java!!!	setWumpus(inout room : Room) : void
+		wumpus = room;
+!!!194434.java!!!	setGold(inout room : Room) : void
+		gold = room;
+!!!194562.java!!!	setPit(inout room : Room, inout b : boolean) : void
+		if (!b)
+			pits.remove(room);
+		else if (!room.equals(start.getRoom()) && !room.equals(gold))
+			pits.add(room);
+!!!194690.java!!!	getCaveXDimension() : int
+		return caveXDimension;
+!!!194818.java!!!	getCaveYDimension() : int
+		return caveYDimension;
+!!!194946.java!!!	getStart() : AgentPosition
+		return start;
+!!!195074.java!!!	getWumpus() : Room
+		return wumpus;
+!!!195202.java!!!	getGold() : Room
+		return gold;
+!!!195330.java!!!	isPit(inout room : Room) : boolean
+		return pits.contains(room);
+!!!195458.java!!!	moveForward(inout position : AgentPosition) : AgentPosition
+		int x = position.getX();
+		int y = position.getY();
+		switch (position.getOrientation()) {
+			case FACING_NORTH: y++; break;
+			case FACING_SOUTH: y--; break;
+			case FACING_EAST: x++; break;
+			case FACING_WEST: x--; break;
+		}
+		Room room = new Room(x, y);
+		return allowedRooms.contains(room) ? new AgentPosition(x, y, position.getOrientation()) : position;
+!!!195586.java!!!	turnLeft(inout position : AgentPosition) : AgentPosition
+		AgentPosition.Orientation orientation = null;
+		switch (position.getOrientation()) {
+			case FACING_NORTH: orientation = AgentPosition.Orientation.FACING_WEST; break;
+			case FACING_SOUTH: orientation = AgentPosition.Orientation.FACING_EAST; break;
+			case FACING_EAST: orientation = AgentPosition.Orientation.FACING_NORTH; break;
+			case FACING_WEST: orientation = AgentPosition.Orientation.FACING_SOUTH; break;
+		}
+		return new AgentPosition(position.getX(), position.getY(), orientation);
+!!!195714.java!!!	turnRight(inout position : AgentPosition) : AgentPosition
+		AgentPosition.Orientation orientation = null;
+		switch (position.getOrientation()) {
+			case FACING_NORTH: orientation = AgentPosition.Orientation.FACING_EAST; break;
+			case FACING_SOUTH: orientation = AgentPosition.Orientation.FACING_WEST; break;
+			case FACING_EAST: orientation = AgentPosition.Orientation.FACING_SOUTH; break;
+			case FACING_WEST: orientation = AgentPosition.Orientation.FACING_NORTH; break;
+		}
+		return new AgentPosition(position.getX(), position.getY(), orientation);
+!!!195842.java!!!	getAllRooms() : Room
+		Set<Room> allowedRooms = new HashSet<>();
+		for (int x = 1; x <= caveXDimension; x++)
+			for (int y = 1; y <= caveYDimension; y++)
+				allowedRooms.add(new Room(x, y));
+		return allowedRooms;
+!!!195970.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder();
+		for (int y = caveYDimension; y >= 1; y--) {
+			for (int x = 1; x <= caveXDimension; x++) {
+				Room r = new Room(x, y);
+				String txt = "";
+				if (r.equals(start.getRoom()))
+					txt += "S";
+				if (r.equals(gold))
+					txt += "G";
+				if (r.equals(wumpus))
+					txt += "W";
+				if (isPit(r))
+					txt += "P";
+
+				if (txt.isEmpty())
+					txt = ". ";
+				else if (txt.length() == 1)
+					txt += " ";
+				else if ( txt.length() > 2) // cannot represent...
+					txt = txt.substring(0, 2);
+				builder.append(txt);
+			}
+			builder.append("\n");
+		}
+		return builder.toString();

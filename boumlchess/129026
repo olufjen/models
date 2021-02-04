@@ -1,0 +1,666 @@
+format 223
+"simplerule" // aima::core::agent::impl::aprog::simplerule
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/agent/impl/aprog/simplerule/"
+  java_package "aima.core.agent.impl.aprog.simplerule"
+  classview 128642 "simplerule"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 131202 "Rule"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A simple implementation of a \"condition-action rule\".
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 133634 // con (<unidirectional association>)
+	relation 133634 --->
+	  a role_name "con" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 133634 // con (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 133762 // action (<unidirectional association>)
+	relation 133762 --->
+	  a role_name "action" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 133762 // action (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      operation 142722 "Rule"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "con" type class_ref 131842 // Condition
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a condition-action rule.
+
+@param con
+           a condition
+@param action
+           an action
+"
+      end
+
+      operation 142850 "evaluate"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 142978 "getAction"
+	public return_type class_ref 128002 // Action
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the action of this condition-action rule.
+
+@return the action of this condition-action rule.
+"
+      end
+
+      operation 143106 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 143234 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 143362 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 131714 "ANDCondition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implementation of an AND condition.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 132482 // <generalisation>
+	relation 132482 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 132482 // <generalisation>
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 132610 // left (<unidirectional association>)
+	relation 132610 --->
+	  a role_name "left" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 132610 // left (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 132738 // right (<unidirectional association>)
+	relation 132738 --->
+	  a role_name "right" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 132738 // right (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      operation 141186 "ANDCondition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "leftCon" type class_ref 131842 // Condition
+	  param inout name "rightCon" type class_ref 131842 // Condition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 141314 "evaluate"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 141442 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 131842 "Condition"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Base abstract class for describing conditions.
+
+@author Ciaran O'Reilly
+
+"
+      operation 140802 "evaluate"
+	abstract public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 140930 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 141058 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 131970 "EQUALCondition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implementation of an EQUALity condition.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 132866 // <generalisation>
+	relation 132866 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 132866 // <generalisation>
+	  b parent class_ref 131842 // Condition
+      end
+
+      attribute 128642 "key"
+	private explicit_type "Object"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128770 "value"
+	private explicit_type "Object"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 141570 "EQUALCondition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "key" explicit_type "Object"
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 141698 "evaluate"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 141826 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 132098 "NOTCondition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implementation of a NOT condition.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 132994 // <generalisation>
+	relation 132994 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 132994 // <generalisation>
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 133122 // con (<unidirectional association>)
+	relation 133122 --->
+	  a role_name "con" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 133122 // con (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      operation 141954 "NOTCondition"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "con" type class_ref 131842 // Condition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 142082 "evaluate"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 142210 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 132226 "ORCondition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implementation of an OR condition.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 133250 // <generalisation>
+	relation 133250 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 133250 // <generalisation>
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 133378 // left (<unidirectional association>)
+	relation 133378 --->
+	  a role_name "left" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 133378 // left (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      classrelation 133506 // right (<unidirectional association>)
+	relation 133506 --->
+	  a role_name "right" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 133506 // right (<unidirectional association>)
+	  b parent class_ref 131842 // Condition
+      end
+
+      operation 142338 "ORCondition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "leftCon" type class_ref 131842 // Condition
+	  param inout name "rightCon" type class_ref 131842 // Condition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 142466 "evaluate"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 130178 // ObjectWithDynamicAttributes
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 142594 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 128386 "simplerule"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 131202 "Condition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 131842 // Condition
+      end
+    end
+
+    artifact 131330 "ANDCondition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 131714 // ANDCondition
+      end
+    end
+
+    artifact 131458 "EQUALCondition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 131970 // EQUALCondition
+      end
+    end
+
+    artifact 131586 "NOTCondition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 132098 // NOTCondition
+      end
+    end
+
+    artifact 131714 "ORCondition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 132226 // ORCondition
+      end
+    end
+
+    artifact 131842 "Rule"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.impl.ObjectWithDynamicAttributes;
+${definition}"
+      associated_elems
+	class_ref 131202 // Rule
+      end
+    end
+  end
+end

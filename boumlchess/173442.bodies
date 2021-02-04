@@ -1,0 +1,10 @@
+class BasicGatherer
+!!!383106.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : Set<T>) : Set<T>
+		return arg;
+!!!383234.java!!!	visitUnarySentence(inout s : ComplexSentence, inout arg : Set<T>) : Set<T>
+		return SetOps.union(arg, s.getSimplerSentence(0).accept(this, arg));
+!!!383362.java!!!	visitBinarySentence(inout s : ComplexSentence, inout arg : Set<T>) : Set<T>
+		Set<T> termunion = SetOps.union(
+				s.getSimplerSentence(0).accept(this, arg), s
+						.getSimplerSentence(1).accept(this, arg));
+		return SetOps.union(arg, termunion);

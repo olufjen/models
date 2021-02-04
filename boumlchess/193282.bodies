@@ -1,0 +1,84 @@
+class TreeCspSolver
+!!!455426.java!!!	useRandom(inout b : boolean) : TreeCspSolver
+        useRandom = b;
+        return this;
+!!!455554.java!!!	solve(inout csp : CSP) : Assignment
+
+        Assignment<VAR, VAL> assignment = new Assignment<>();
+        // Select a root from the List of Variables
+        VAR root = useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().get(0);
+        // Sort the variables in topological order
+        List<VAR> orderedVars = new ArrayList<>();
+        Map<VAR, Constraint<VAR, VAL>> parentConstraints = new HashMap<>();
+        topologicalSort(csp, root, orderedVars, parentConstraints);
+        if (csp.getDomain(root).isEmpty())
+            return Optional.empty(); // CSP has no solution! (needed if orderedVars.size() == 1)
+
+        // Establish arc consistency from top to bottom (starting at the bottom).
+        csp = csp.copyDomains(); // do not change the original CSP!
+        for (int i = orderedVars.size() - 1; i > 0; i--) {
+            VAR var = orderedVars.get(i);
+            Constraint<VAR, VAL> constraint = parentConstraints.get(var);
+            VAR parent = csp.getNeighbor(var, constraint);
+            if (makeArcConsistent(parent, var, constraint, csp)) {
+                fireStateChanged(csp, null, parent);
+                if (csp.getDomain(parent).isEmpty())
+                    return Optional.empty(); // CSP has no solution!
+            }
+        }
+
+        // Assign values to variables from top to bottom.
+        for (int i = 0; i < orderedVars.size(); i++) {
+            VAR var = orderedVars.get(i);
+            for (VAL value : csp.getDomain(var)) {
+                assignment.add(var, value);
+                if (assignment.isConsistent(csp.getConstraints(var))) {
+                    fireStateChanged(csp, assignment, var);
+                    break;
+                }
+            }
+        }
+        return Optional.of(assignment);
+!!!455682.java!!!	topologicalSort(inout csp : CSP, inout root : VAR, inout orderedVars : List<VAR>, inout parentConstraints : Map<VAR, Constraint<VAR, VAL>>) : void
+        orderedVars.add(root);
+        parentConstraints.put(root, null);
+        int currParentIdx = -1;
+        while (currParentIdx < orderedVars.size() - 1) {
+            currParentIdx++;
+            VAR currParent = orderedVars.get(currParentIdx);
+            int arcsPointingUpwards = 0;
+            for (Constraint<VAR, VAL> constraint : csp.getConstraints(currParent)) {
+                VAR neighbor = csp.getNeighbor(currParent, constraint);
+                if (neighbor == null)
+                    throw new IllegalArgumentException("Constraint " + constraint + " is not binary.");
+                if (parentConstraints.containsKey(neighbor)) { // faster than orderedVars.contains(neighbor)!
+                    arcsPointingUpwards++;
+                    if (arcsPointingUpwards > 1)
+                        throw new IllegalArgumentException("CSP is not tree-structured.");
+                } else {
+                    orderedVars.add(neighbor);
+                    parentConstraints.put(neighbor, constraint);
+                }
+            }
+        }
+        if (orderedVars.size() < csp.getVariables().size())
+            throw new IllegalArgumentException("Constraint graph is not connected.");
+!!!455810.java!!!	makeArcConsistent(inout xi : VAR, inout xj : VAR, inout constraint : Constraint, inout csp : CSP) : boolean
+        Domain<VAL> currDomain = csp.getDomain(xi);
+        List<VAL> newValues = new ArrayList<>(currDomain.size());
+        Assignment<VAR, VAL> assignment = new Assignment<>();
+        for (VAL vi : currDomain) {
+            assignment.add(xi, vi);
+            for (VAL vj : csp.getDomain(xj)) {
+                assignment.add(xj, vj);
+                if (constraint.isSatisfiedWith(assignment)) {
+                    newValues.add(vi);
+                    break;
+                }
+            }
+        }
+        if (newValues.size() < currDomain.size()) {
+            csp.setDomain(xi, new Domain<>(newValues));
+            return true;
+        }
+        return false;

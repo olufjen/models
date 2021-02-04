@@ -1,0 +1,40 @@
+class MapLoader
+!!!612098.java!!!	MapLoader()
+				chooser = new JFileChooser();
+				//Change the background color of the component holding the "Search in:" label.
+				for(int i=0;i<chooser.getComponentCount();i++) {
+					Component component = chooser.getComponent(i);
+					if(component instanceof JComponent) {
+						((JComponent) component).setBackground(GuiBase.getBackgroundColor());
+					}
+				}
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+			      "Map (*.svg)",  "svg");
+			    chooser.setFileFilter(filter);
+			    GuiBase.initMessageBox();
+!!!612226.java!!!	run() : void
+			    if(lastMapFile != null) chooser.setSelectedFile(lastMapFile);
+			    int returnVal = chooser.showDialog(null, null);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    	lastMapFile = chooser.getSelectedFile();
+			    	settingsGui.setSetting(AbstractSettingsListener.MAP_FILE_KEY, lastMapFile.getPath());
+			    	GuiBase.showMessageBox("Loading map, please wait...", false);
+			    	try {
+			    		loadMap();
+			    		return;
+			    	} catch (Exception e) {
+			    		GuiBase.showMessageBox(e.getMessage());
+					}
+			    }
+			    enableButtons(previousButtonState);
+!!!612354.java!!!	loadMap() : void
+				map.loadMap(new FileInputStream(lastMapFile), new FileInputStream(lastMapFile));
+				if(!map.getAreas().hasNext()) {
+					throw new Exception("Map has no valid area.");
+				}
+				else if(!map.getObstacles().hasNext()) { 
+					throw new Exception("Map has no obstacles.");
+				}
+				core.generateParticles();
+				gui.createMap();
+				GuiBase.hideMessageBox();

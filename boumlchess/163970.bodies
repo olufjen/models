@@ -1,0 +1,22 @@
+class FCAskAnswerHandler
+!!!290178.java!!!	FCAskAnswerHandler()
+
+!!!290306.java!!!	isPossiblyFalse() : boolean
+			return proofs.size() == 0;
+!!!290434.java!!!	isTrue() : boolean
+			return proofs.size() > 0;
+!!!290562.java!!!	isUnknownDueToTimeout() : boolean
+			return false;
+!!!290690.java!!!	isPartialResultDueToTimeout() : boolean
+			return false;
+!!!290818.java!!!	getProofs() : Proof
+			return proofs;
+!!!290946.java!!!	addProofStep(inout implication : Clause, inout fact : Literal, inout bindings : Map<Variable, Term>) : void
+			stepFinal = new ProofStepFoChAssertFact(implication, fact,
+					bindings, stepFinal);
+!!!291074.java!!!	addProofStep(inout step : ProofStep) : void
+			stepFinal = step;
+!!!291202.java!!!	setAnswers(inout answers : Set<Map<Variable, Term>>) : void
+			for (Map<Variable, Term> ans : answers) {
+				proofs.add(new ProofFinal(stepFinal, ans));
+			}

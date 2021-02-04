@@ -1,0 +1,43 @@
+class MapAgent
+!!!165378.java!!!	MapAgent(inout map : Map, inout search : SearchForActions, in goal : String)
+        this.map = map;
+        this.search = search;
+        goals.add(goal);
+!!!165506.java!!!	MapAgent(inout map : Map, inout search : SearchForActions, in goal : String, inout notifier : EnvironmentViewNotifier)
+        this(map, search, goal);
+        this.notifier = notifier;
+!!!165634.java!!!	MapAgent(inout map : Map, inout search : SearchForActions, inout goals : List<String>)
+        this.map = map;
+        this.search = search;
+        this.goals.addAll(goals);
+!!!165762.java!!!	MapAgent(inout map : Map, inout search : SearchForActions, inout goals : List<String>, inout notifier : EnvironmentViewNotifier)
+        this(map, search, goals);
+        this.notifier = notifier;
+!!!165890.java!!!	MapAgent(inout map : Map, inout search : SearchForActions, inout goals : List<String>, inout notifier : EnvironmentViewNotifier, inout hFnFactory : Function<String, ToDoubleFunction<Node<String, MoveToAction>>>)
+        this(map, search, goals, notifier);
+        this.hFnFactory = hFnFactory;
+!!!166018.java!!!	updateState(inout p : Percept) : void
+        DynamicPercept dp = (DynamicPercept) p;
+        state.setAttribute(DynAttributeNames.AGENT_LOCATION, dp.getAttribute(DynAttributeNames.PERCEPT_IN));
+!!!166146.java!!!	formulateGoal() : Optional<Object>
+        String goal = null;
+        if (currGoalIdx < goals.size() - 1) {
+            goal = goals.get(++currGoalIdx);
+            if (hFnFactory != null && search instanceof Informed)
+                ((Informed<String, MoveToAction>) search).setHeuristicFunction(hFnFactory.apply(goal));
+
+            if (notifier != null)
+                notifier.notifyViews("Current location: In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION)
+                        + "), Goal: In(" + goal + ")");
+        }
+        return goal != null ? Optional.of(goal) : Optional.empty();
+!!!166274.java!!!	formulateProblem(inout goal : Object) : Problem
+        return new BidirectionalMapProblem(map, (String) state.getAttribute(DynAttributeNames.AGENT_LOCATION),
+                (String) goal);
+!!!166402.java!!!	search(inout problem : Problem) : Optional<List<MoveToAction>>
+        Optional<List<MoveToAction>> result = search.findActions(problem);
+        notifyViewOfMetrics();
+        return result;
+!!!166530.java!!!	notifyViewOfMetrics() : void
+        if (notifier != null)
+            notifier.notifyViews("Search metrics: " + search.getMetrics());

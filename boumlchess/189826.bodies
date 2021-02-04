@@ -1,0 +1,99 @@
+class Rect2D
+!!!535810.java!!!	Rect2D(inout lowerLeft : Point2D, inout upperRight : Point2D)
+		this(lowerLeft.getX(), lowerLeft.getY(), upperRight.getX(), upperRight.getY());
+!!!535938.java!!!	Rect2D(in x1 : double, in y1 : double, in x2 : double, in y2 : double)
+		if(x1 < x2) {
+			if(y1 < y2) {
+				lowerLeft = new Point2D(x1, y1);
+				upperRight = new Point2D(x2, y2);
+			} else {
+				lowerLeft = new Point2D(x1, y2);
+				upperRight = new Point2D(x2, y1);
+			}
+		} else {
+			if(y1 < y2) {
+				lowerLeft = new Point2D(x2, y1);
+				upperRight = new Point2D(x1, y2);
+			} else {
+				lowerLeft = new Point2D(x2, y2);
+				upperRight = new Point2D(x1, y1);
+			}
+		}
+		lowerRight = new Point2D(upperRight.getX(), lowerLeft.getY());
+		upperLeft = new Point2D(lowerLeft.getX(), upperRight.getY());
+		
+		horizontalVector = new Vector2D(lowerRight.getX() - lowerLeft.getX(), 0.0d);
+		verticalVector = new Vector2D(0.0d, upperLeft.getY() - lowerLeft.getY());
+!!!536066.java!!!	getLowerLeft() : Point2D
+		return lowerLeft;
+!!!536194.java!!!	getUpperRight() : Point2D
+		return upperRight;
+!!!536322.java!!!	getLowerRight() : Point2D
+		return lowerRight;
+!!!536450.java!!!	getUpperLeft() : Point2D
+		return upperLeft;
+!!!536578.java!!!	randomPoint() : Point2D
+		double x = Util.generateRandomDoubleBetween(lowerLeft.getX(), upperRight.getX());
+		double y = Util.generateRandomDoubleBetween(lowerLeft.getY(), upperRight.getY());
+		return new Point2D(x,y);
+!!!536706.java!!!	isInside(inout point : Point2D) : boolean
+		return  lowerLeft.getX() < point.getX() &&
+				lowerLeft.getY() < point.getY() &&
+				upperRight.getX() > point.getX() &&
+				upperRight.getY() > point.getY();
+!!!536834.java!!!	isInsideBorder(inout point : Point2D) : boolean
+		return  lowerLeft.getX() <= point.getX() &&
+				lowerLeft.getY() <= point.getY() &&
+				upperRight.getX() >= point.getX() &&
+				upperRight.getY() >= point.getY();
+!!!536962.java!!!	rayCast(inout ray : Ray2D) : double
+		double result = Double.POSITIVE_INFINITY;
+		if(!Util.compareDoubles(ray.getDirection().getY(), 0.0d)) {
+			//check for the horizontal sides
+			final double divisor = (ray.getDirection().getY()*horizontalVector.getX());
+			if(!Util.compareDoubles(divisor,0.0d)) {
+				final double rayLen1 = (lowerLeft.getY()*horizontalVector.getX()-ray.getStart().getY()*horizontalVector.getX())/divisor;
+				if(rayLen1 > 0) {
+					final double sideLen = (ray.getDirection().getY()*ray.getStart().getX() - ray.getDirection().getY()*lowerLeft.getX() - ray.getDirection().getX()*ray.getStart().getY() + ray.getDirection().getX()*lowerLeft.getY())/divisor;
+					if(sideLen >= 0 && sideLen <= 1) result = rayLen1;
+				}
+				final double rayLen2 = (upperLeft.getY()*horizontalVector.getX()-ray.getStart().getY()*horizontalVector.getX())/divisor;
+				if(rayLen2 > 0) {
+					final double sideLen = (ray.getDirection().getY()*ray.getStart().getX() - ray.getDirection().getY()*upperLeft.getX() - ray.getDirection().getX()*ray.getStart().getY() + ray.getDirection().getX()*upperLeft.getY())/divisor;
+					if(sideLen >= 0 && sideLen <= 1) result = result > rayLen2 ? rayLen2 : result;
+				}
+			}
+		}
+		if(!Util.compareDoubles(ray.getDirection().getX(), 0.0d)) {
+			//check for the vertical sides
+			final double divisor = (-ray.getDirection().getX()*verticalVector.getY());
+			if(!Util.compareDoubles(divisor,0.0d)) {
+				final double rayLen3 = (-lowerLeft.getX()*verticalVector.getY()+ray.getStart().getX()*verticalVector.getY())/divisor;
+				if(rayLen3 > 0) {
+					final double sideLen = (ray.getDirection().getY()*ray.getStart().getX() - ray.getDirection().getY()*lowerLeft.getX() - ray.getDirection().getX()*ray.getStart().getY() + ray.getDirection().getX()*lowerLeft.getY())/divisor;
+					if(sideLen >= 0 && sideLen <= 1) result = result > rayLen3 ? rayLen3 : result;
+				}
+				final double rayLen4 = (-lowerRight.getX()*verticalVector.getY()+ray.getStart().getX()*verticalVector.getY())/divisor;
+				if(rayLen4 > 0) {
+					final double sideLen = (ray.getDirection().getY()*ray.getStart().getX() - ray.getDirection().getY()*lowerRight.getX() - ray.getDirection().getX()*ray.getStart().getY() + ray.getDirection().getX()*lowerRight.getY())/divisor;
+					if(sideLen >= 0 && sideLen <= 1) result = result > rayLen4 ? rayLen4 : result;
+				}
+			}
+		}
+		return result * ray.getDirection().length();
+!!!537090.java!!!	getBounds() : Rect2D
+		return this;
+!!!537218.java!!!	transform(inout matrix : TransformMatrix2D) : IGeometric2D
+		final Point2D lowerLeftNew = matrix.multiply(lowerLeft);
+		final Point2D upperRightNew = matrix.multiply(upperRight);
+		final Point2D upperLeftNew = matrix.multiply(upperLeft);
+		final Point2D lowerRightNew = matrix.multiply(lowerRight);
+		if(!Util.compareDoubles(lowerLeftNew.getY(),lowerRightNew.getY()) || !Util.compareDoubles(upperLeftNew.getY(),upperRightNew.getY()) || !Util.compareDoubles(lowerLeftNew.getX(),upperLeftNew.getX()) || !Util.compareDoubles(lowerRightNew.getX(),upperRightNew.getX())) {
+			Point2D[] vertexes = new Point2D[4];
+			vertexes[0] = lowerLeftNew;
+			vertexes[1] = lowerRightNew;
+			vertexes[2] = upperRightNew;
+			vertexes[3] = upperLeftNew;
+			return new Polyline2D(vertexes,true);
+		}
+		return new Rect2D(lowerLeftNew,upperRightNew);

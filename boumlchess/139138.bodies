@@ -1,0 +1,41 @@
+class SimpleProblemSolvingAgent
+!!!170626.java!!!	SimpleProblemSolvingAgent()
+		formulateGoalsIndefinitely = true;
+!!!170754.java!!!	SimpleProblemSolvingAgent(in maxGoalsToFormulate : int)
+		formulateGoalsIndefinitely = false;
+		this.maxGoalsToFormulate = maxGoalsToFormulate;
+!!!170882.java!!!	execute(inout p : Percept) : Action
+		Action action = NoOpAction.NO_OP; // return value if at goal or goal not found
+
+		// state <- UPDATE-STATE(state, percept)
+		updateState(p);
+		// if seq is empty then do
+		if (seq.isEmpty()) {
+			if (formulateGoalsIndefinitely || goalsFormulated < maxGoalsToFormulate) {
+				if (goalsFormulated > 0) {
+					notifyViewOfMetrics();
+				}
+				// goal <- FORMULATE-GOAL(state)
+				Object goal = formulateGoal();
+				goalsFormulated++;
+				// problem <- FORMULATE-PROBLEM(state, goal)
+				Problem<S, A> problem = formulateProblem(goal);
+				// seq <- SEARCH(problem)
+				Optional<List<A>> actions = search(problem);
+				if (actions.isPresent())
+					seq.addAll(actions.get());
+			} else {
+				// Agent no longer wishes to
+				// achieve any more goals
+				setAlive(false);
+				notifyViewOfMetrics();
+			}
+		}
+
+		if (seq.size() > 0) {
+			// action <- FIRST(seq)
+			// seq <- REST(seq)
+			action = seq.remove();
+		}
+
+		return action;

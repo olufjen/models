@@ -1,0 +1,72 @@
+class Sentence
+!!!377090.java!!!	getConnective() : Connective
+		return null;
+!!!377218.java!!!	getNumberSimplerSentences() : int
+		return 0;
+!!!377346.java!!!	getSimplerSentence(in offset : int) : Sentence
+		return null;
+!!!377474.java!!!	isNotSentence() : boolean
+		return hasConnective(Connective.NOT);
+!!!377602.java!!!	isAndSentence() : boolean
+		return hasConnective(Connective.AND);
+!!!377730.java!!!	isOrSentence() : boolean
+		return hasConnective(Connective.OR);
+!!!377858.java!!!	isImplicationSentence() : boolean
+		return hasConnective(Connective.IMPLICATION);
+!!!377986.java!!!	isBiconditionalSentence() : boolean
+		return hasConnective(Connective.BICONDITIONAL);
+!!!378114.java!!!	isPropositionSymbol() : boolean
+		return getConnective() == null;
+!!!378242.java!!!	isUnarySentence() : boolean
+		return hasConnective(Connective.NOT);
+!!!378370.java!!!	isBinarySentence() : boolean
+		return getConnective() != null && !hasConnective(Connective.NOT);
+!!!378498.java!!!	accept(inout plv : PLVisitor, inout arg : A) : R
+		R result = null;
+		if (isPropositionSymbol()) {
+			result = plv.visitPropositionSymbol((PropositionSymbol) this, arg);
+		} else if (isUnarySentence()) {
+			result = plv.visitUnarySentence((ComplexSentence) this, arg);
+		} else if (isBinarySentence()) {
+			result = plv.visitBinarySentence((ComplexSentence) this, arg);
+		}
+
+		return result;
+!!!378626.java!!!	bracketSentenceIfNecessary(inout parentConnective : Connective, inout childSentence : Sentence) : String
+		String result = null;
+		if (childSentence instanceof ComplexSentence) {
+			ComplexSentence cs = (ComplexSentence) childSentence;
+			if (cs.getConnective().getPrecedence() < parentConnective
+					.getPrecedence()) {
+				result = "(" + childSentence + ")";
+			}
+		}
+
+		if (result == null) {
+			result = childSentence.toString();
+		}
+
+		return result;
+!!!378754.java!!!	newDisjunction(inout  : Sentence...disjuncts) : Sentence
+		return newDisjunction(Arrays.asList(disjuncts));
+!!!378882.java!!!	newDisjunction(inout disjuncts : List<? extends Sentence>) : Sentence
+		if (disjuncts.size() == 0) {
+			return PropositionSymbol.FALSE;
+		}
+		else if (disjuncts.size() == 1) {
+			return disjuncts.get(0);
+		}
+		return new ComplexSentence(Util.first(disjuncts), Connective.OR, newDisjunction(Util.rest(disjuncts)));		
+!!!379010.java!!!	newConjunction(inout  : Sentence...conjuncts) : Sentence
+		return newConjunction(Arrays.asList(conjuncts));
+!!!379138.java!!!	newConjunction(inout conjuncts : List<? extends Sentence>) : Sentence
+		if (conjuncts.size() == 0) {
+			return PropositionSymbol.TRUE;
+		}
+		else if (conjuncts.size() == 1) {
+			return conjuncts.get(0);
+		}
+		return new ComplexSentence(Util.first(conjuncts), Connective.AND, newConjunction(Util.rest(conjuncts)));		
+!!!379266.java!!!	hasConnective(inout connective : Connective) : boolean
+		// Note: can use '==' as Connective is an enum.
+		return getConnective() == connective;

@@ -1,0 +1,493 @@
+class Matrix
+!!!514050.java!!!	createDiagonalMatrix(inout values : List<Double>) : Matrix
+		Matrix m = new Matrix(values.size(), values.size(), 0);
+		for (int i = 0; i < values.size(); i++) {
+			m.set(i, i, values.get(i));
+		}
+		return m;
+!!!514178.java!!!	Matrix(in m : int, in n : int)
+		this.m = m;
+		this.n = n;
+		A = new double[m][n];
+!!!514306.java!!!	Matrix(in m : int, in n : int, in s : double)
+		this.m = m;
+		this.n = n;
+		A = new double[m][n];
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = s;
+			}
+		}
+!!!514434.java!!!	Matrix(inout A : double [[][]])
+		m = A.length;
+		n = A[0].length;
+		for (int i = 0; i < m; i++) {
+			if (A[i].length != n) {
+				throw new IllegalArgumentException(
+						"All rows must have the same length.");
+			}
+		}
+		this.A = A;
+!!!514562.java!!!	Matrix(inout A : double [[][]], in m : int, in n : int)
+		this.A = A;
+		this.m = m;
+		this.n = n;
+!!!514690.java!!!	Matrix(inout vals : double [[]], in m : int)
+		this.m = m;
+		n = (m != 0 ? vals.length / m : 0);
+		if (m * n != vals.length) {
+			throw new IllegalArgumentException(
+					"Array length must be a multiple of m.");
+		}
+		A = new double[m][n];
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = vals[i + j * m];
+			}
+		}
+!!!514818.java!!!	constructWithCopy(inout A : double [[][]]) : Matrix
+		int m = A.length;
+		int n = A[0].length;
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			if (A[i].length != n) {
+				throw new IllegalArgumentException(
+						"All rows must have the same length.");
+			}
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j];
+			}
+		}
+		return X;
+!!!514946.java!!!	copy() : Matrix
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j];
+			}
+		}
+		return X;
+!!!515074.java!!!	clone() : Object
+		return this.copy();
+!!!515202.java!!!	getArray() : double
+		return A;
+!!!515330.java!!!	getArrayCopy() : double
+		double[][] C = new double[m][n];
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j];
+			}
+		}
+		return C;
+!!!515458.java!!!	getColumnPackedCopy() : double
+		double[] vals = new double[m * n];
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				vals[i + j * m] = A[i][j];
+			}
+		}
+		return vals;
+!!!515586.java!!!	getRowPackedCopy() : double
+		double[] vals = new double[m * n];
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				vals[i * n + j] = A[i][j];
+			}
+		}
+		return vals;
+!!!515714.java!!!	getRowDimension() : int
+		return m;
+!!!515842.java!!!	getColumnDimension() : int
+		return n;
+!!!515970.java!!!	get(in i : int, in j : int) : double
+		return A[i][j];
+!!!516098.java!!!	getMatrix(in i0 : int, in i1 : int, in j0 : int, in j1 : int) : Matrix
+		Matrix X = new Matrix(i1 - i0 + 1, j1 - j0 + 1);
+		double[][] B = X.getArray();
+		try {
+			for (int i = i0; i <= i1; i++) {
+				for (int j = j0; j <= j1; j++) {
+					B[i - i0][j - j0] = A[i][j];
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+		return X;
+!!!516226.java!!!	getMatrix(inout r : int [[]], inout c : int [[]]) : Matrix
+		Matrix X = new Matrix(r.length, c.length);
+		double[][] B = X.getArray();
+		try {
+			for (int i = 0; i < r.length; i++) {
+				for (int j = 0; j < c.length; j++) {
+					B[i][j] = A[r[i]][c[j]];
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+		return X;
+!!!516354.java!!!	getMatrix(in i0 : int, in i1 : int, inout c : int [[]]) : Matrix
+		Matrix X = new Matrix(i1 - i0 + 1, c.length);
+		double[][] B = X.getArray();
+		try {
+			for (int i = i0; i <= i1; i++) {
+				for (int j = 0; j < c.length; j++) {
+					B[i - i0][j] = A[i][c[j]];
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+		return X;
+!!!516482.java!!!	getMatrix(inout r : int [[]], in j0 : int, in j1 : int) : Matrix
+		Matrix X = new Matrix(r.length, j1 - j0 + 1);
+		double[][] B = X.getArray();
+		try {
+			for (int i = 0; i < r.length; i++) {
+				for (int j = j0; j <= j1; j++) {
+					B[i][j - j0] = A[r[i]][j];
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+		return X;
+!!!516610.java!!!	set(in i : int, in j : int, in s : double) : void
+		A[i][j] = s;
+!!!516738.java!!!	setMatrix(in i0 : int, in i1 : int, in j0 : int, in j1 : int, inout X : Matrix) : void
+		try {
+			for (int i = i0; i <= i1; i++) {
+				for (int j = j0; j <= j1; j++) {
+					A[i][j] = X.get(i - i0, j - j0);
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+!!!516866.java!!!	setMatrix(inout r : int [[]], inout c : int [[]], inout X : Matrix) : void
+		try {
+			for (int i = 0; i < r.length; i++) {
+				for (int j = 0; j < c.length; j++) {
+					A[r[i]][c[j]] = X.get(i, j);
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+!!!516994.java!!!	setMatrix(inout r : int [[]], in j0 : int, in j1 : int, inout X : Matrix) : void
+		try {
+			for (int i = 0; i < r.length; i++) {
+				for (int j = j0; j <= j1; j++) {
+					A[r[i]][j] = X.get(i, j - j0);
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+!!!517122.java!!!	setMatrix(in i0 : int, in i1 : int, inout c : int [[]], inout X : Matrix) : void
+		try {
+			for (int i = i0; i <= i1; i++) {
+				for (int j = 0; j < c.length; j++) {
+					A[i][c[j]] = X.get(i - i0, j);
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
+		}
+!!!517250.java!!!	transpose() : Matrix
+		Matrix X = new Matrix(n, m);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[j][i] = A[i][j];
+			}
+		}
+		return X;
+!!!517378.java!!!	norm1() : double
+		double f = 0;
+		for (int j = 0; j < n; j++) {
+			double s = 0;
+			for (int i = 0; i < m; i++) {
+				s += Math.abs(A[i][j]);
+			}
+			f = Math.max(f, s);
+		}
+		return f;
+!!!517506.java!!!	normInf() : double
+		double f = 0;
+		for (int i = 0; i < m; i++) {
+			double s = 0;
+			for (int j = 0; j < n; j++) {
+				s += Math.abs(A[i][j]);
+			}
+			f = Math.max(f, s);
+		}
+		return f;
+!!!517634.java!!!	uminus() : Matrix
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = -A[i][j];
+			}
+		}
+		return X;
+!!!517762.java!!!	plus(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j] + B.A[i][j];
+			}
+		}
+		return X;
+!!!517890.java!!!	plusEquals(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = A[i][j] + B.A[i][j];
+			}
+		}
+		return this;
+!!!518018.java!!!	minus(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j] - B.A[i][j];
+			}
+		}
+		return X;
+!!!518146.java!!!	minusEquals(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = A[i][j] - B.A[i][j];
+			}
+		}
+		return this;
+!!!518274.java!!!	arrayTimes(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j] * B.A[i][j];
+			}
+		}
+		return X;
+!!!518402.java!!!	arrayTimesEquals(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = A[i][j] * B.A[i][j];
+			}
+		}
+		return this;
+!!!518530.java!!!	arrayRightDivide(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = A[i][j] / B.A[i][j];
+			}
+		}
+		return X;
+!!!518658.java!!!	arrayRightDivideEquals(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = A[i][j] / B.A[i][j];
+			}
+		}
+		return this;
+!!!518786.java!!!	arrayLeftDivide(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = B.A[i][j] / A[i][j];
+			}
+		}
+		return X;
+!!!518914.java!!!	arrayLeftDivideEquals(inout B : Matrix) : Matrix
+		checkMatrixDimensions(B);
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = B.A[i][j] / A[i][j];
+			}
+		}
+		return this;
+!!!519042.java!!!	times(in s : double) : Matrix
+		Matrix X = new Matrix(m, n);
+		double[][] C = X.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				C[i][j] = s * A[i][j];
+			}
+		}
+		return X;
+!!!519170.java!!!	timesEquals(in s : double) : Matrix
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = s * A[i][j];
+			}
+		}
+		return this;
+!!!519298.java!!!	times(inout B : Matrix) : Matrix
+		if (B.m != n) {
+			throw new IllegalArgumentException(
+					"Matrix inner dimensions must agree.");
+		}
+		Matrix X = new Matrix(m, B.n);
+		double[][] C = X.getArray();
+		double[] Bcolj = new double[n];
+		for (int j = 0; j < B.n; j++) {
+			for (int k = 0; k < n; k++) {
+				Bcolj[k] = B.A[k][j];
+			}
+			for (int i = 0; i < m; i++) {
+				double[] Arowi = A[i];
+				double s = 0;
+				for (int k = 0; k < n; k++) {
+					s += Arowi[k] * Bcolj[k];
+				}
+				C[i][j] = s;
+			}
+		}
+		return X;
+!!!519426.java!!!	lu() : LUDecomposition
+		return new LUDecomposition(this);
+!!!519554.java!!!	solve(inout B : Matrix) : Matrix
+		// assumed m == n
+		return new LUDecomposition(this).solve(B);
+
+!!!519682.java!!!	solveTranspose(inout B : Matrix) : Matrix
+		return transpose().solve(B.transpose());
+!!!519810.java!!!	inverse() : Matrix
+		return solve(identity(m, m));
+!!!519938.java!!!	det() : double
+		return new LUDecomposition(this).det();
+!!!520066.java!!!	trace() : double
+		double t = 0;
+		for (int i = 0; i < Math.min(m, n); i++) {
+			t += A[i][i];
+		}
+		return t;
+!!!520194.java!!!	random(in m : int, in n : int) : Matrix
+		Matrix A = new Matrix(m, n);
+		double[][] X = A.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				X[i][j] = Math.random();
+			}
+		}
+		return A;
+!!!520322.java!!!	identity(in m : int, in n : int) : Matrix
+		Matrix A = new Matrix(m, n);
+		double[][] X = A.getArray();
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				X[i][j] = (i == j ? 1.0 : 0.0);
+			}
+		}
+		return A;
+!!!520450.java!!!	print(in w : int, in d : int) : void
+		print(new PrintWriter(System.out, true), w, d);
+!!!520578.java!!!	print(inout output : PrintWriter, in w : int, in d : int) : void
+		DecimalFormat format = new DecimalFormat();
+		format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		format.setMinimumIntegerDigits(1);
+		format.setMaximumFractionDigits(d);
+		format.setMinimumFractionDigits(d);
+		format.setGroupingUsed(false);
+		print(output, format, w + 2);
+!!!520706.java!!!	print(inout format : NumberFormat, in width : int) : void
+		print(new PrintWriter(System.out, true), format, width);
+!!!520834.java!!!	print(inout output : PrintWriter, inout format : NumberFormat, in width : int) : void
+		output.println(); // start on new line.
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				String s = format.format(A[i][j]); // format the number
+				int padding = Math.max(1, width - s.length()); // At _least_ 1
+				// space
+				for (int k = 0; k < padding; k++)
+					output.print(' ');
+				output.print(s);
+			}
+			output.println();
+		}
+		output.println(); // end with blank line.
+!!!520962.java!!!	read(inout input : BufferedReader) : Matrix
+		StreamTokenizer tokenizer = new StreamTokenizer(input);
+
+		// Although StreamTokenizer will parse numbers, it doesn't recognize
+		// scientific notation (E or D); however, Double.valueOf does.
+		// The strategy here is to disable StreamTokenizer's number parsing.
+		// We'll only get whitespace delimited words, EOL's and EOF's.
+		// These words should all be numbers, for Double.valueOf to parse.
+
+		tokenizer.resetSyntax();
+		tokenizer.wordChars(0, 255);
+		tokenizer.whitespaceChars(0, ' ');
+		tokenizer.eolIsSignificant(true);
+		java.util.Vector v = new java.util.Vector();
+
+		// Ignore initial empty lines
+		while (tokenizer.nextToken() == StreamTokenizer.TT_EOL)
+			;
+		if (tokenizer.ttype == StreamTokenizer.TT_EOF)
+			throw new java.io.IOException("Unexpected EOF on matrix read.");
+		do {
+			v.addElement(Double.valueOf(tokenizer.sval)); // Read & store 1st
+			// row.
+		} while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
+
+		int n = v.size(); // Now we've got the number of columns!
+		double row[] = new double[n];
+		for (int j = 0; j < n; j++)
+			// extract the elements of the 1st row.
+			row[j] = ((Double) v.elementAt(j)).doubleValue();
+		v.removeAllElements();
+		v.addElement(row); // Start storing rows instead of columns.
+		while (tokenizer.nextToken() == StreamTokenizer.TT_WORD) {
+			// While non-empty lines
+			v.addElement(row = new double[n]);
+			int j = 0;
+			do {
+				if (j >= n)
+					throw new java.io.IOException("Row " + v.size()
+							+ " is too long.");
+				row[j++] = Double.valueOf(tokenizer.sval).doubleValue();
+			} while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
+			if (j < n)
+				throw new java.io.IOException("Row " + v.size()
+						+ " is too short.");
+		}
+		int m = v.size(); // Now we've got the number of rows.
+		double[][] A = new double[m][];
+		v.copyInto(A); // copy the rows out of the vector
+		return new Matrix(A);
+!!!521090.java!!!	toString() : String
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < getRowDimension(); i++) {
+
+			for (int j = 0; j < getColumnDimension(); j++) {
+				buf.append(get(i, j));
+				buf.append(" ");
+			}
+			buf.append("\n");
+		}
+
+		return buf.toString();
+!!!521218.java!!!	checkMatrixDimensions(inout B : Matrix) : void
+		if (B.m != m || B.n != n) {
+			throw new IllegalArgumentException("Matrix dimensions must agree.");
+		}

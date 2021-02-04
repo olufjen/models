@@ -1,0 +1,17 @@
+class FullCPTNode
+!!!407554.java!!!	FullCPTNode(inout var : RandomVariable, inout distribution : double [[]])
+		this(var, distribution, (Node[]) null);
+!!!407682.java!!!	FullCPTNode(inout var : RandomVariable, inout values : double [[]], inout  : Node...parents)
+		super(var, parents);
+
+		RandomVariable[] conditionedOn = new RandomVariable[getParents().size()];
+		int i = 0;
+		for (Node p : getParents()) {
+			conditionedOn[i++] = p.getRandomVariable();
+		}
+
+		cpt = new CPT(var, values, conditionedOn);
+!!!407810.java!!!	getCPD() : ConditionalProbabilityDistribution
+		return getCPT();
+!!!407938.java!!!	getCPT() : ConditionalProbabilityTable
+		return cpt;

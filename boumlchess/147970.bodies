@@ -1,0 +1,39 @@
+class DLTest
+!!!219266.java!!!	DLTest()
+		attrValues = new Hashtable<String, String>();
+!!!219394.java!!!	add(in nta : String, in ntaValue : String) : void
+		attrValues.put(nta, ntaValue);
+
+!!!219522.java!!!	matches(inout e : Example) : boolean
+		for (String key : attrValues.keySet()) {
+			if (!(attrValues.get(key).equals(e.getAttributeValueAsString(key)))) {
+				return false;
+			}
+		}
+		return true;
+		// return e.targetValue().equals(targetValue);
+!!!219650.java!!!	matchedExamples(inout ds : DataSet) : DataSet
+		DataSet matched = ds.emptyDataSet();
+		for (Example e : ds.examples) {
+			if (matches(e)) {
+				matched.add(e);
+			}
+		}
+		return matched;
+!!!219778.java!!!	unmatchedExamples(inout ds : DataSet) : DataSet
+		DataSet unmatched = ds.emptyDataSet();
+		for (Example e : ds.examples) {
+			if (!(matches(e))) {
+				unmatched.add(e);
+			}
+		}
+		return unmatched;
+!!!219906.java!!!	toString() : String
+		StringBuffer buf = new StringBuffer();
+		buf.append("IF  ");
+		for (String key : attrValues.keySet()) {
+			buf.append(key + " = ");
+			buf.append(attrValues.get(key) + " ");
+		}
+		buf.append(" DECISION ");
+		return buf.toString();

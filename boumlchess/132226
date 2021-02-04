@@ -1,0 +1,804 @@
+format 223
+"parsing" // aima::core::logic::propositional::parsing
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/propositional/parsing/"
+  java_package "aima.core.logic.propositional.parsing"
+  package_ref 132354 // ast
+
+  classview 131330 "parsing"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 144898 "PLParser"
+      visibility public 
+      nactuals 1
+      actual class class_ref 156290 // Parser
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.7, page
+244.<br>
+
+Implementation of a propositional logic parser based on:
+
+<pre>
+Sentence        -> AtomicSentence : ComplexStence
+AtomicSentence  -> True : False : P : Q : R : ... // (1)
+ComplexSentence -> (Sentence) | [Sentence]
+                :  ~Sentence
+                :  Sentence & Sentence
+                :  Sentence | Sentence
+                :  Sentence => Sentence
+                :  Sentence <=> Sentence
+
+OPERATOR PRECEDENCE: ~, &, |, =>, <=> // (2)
+</pre>
+
+Figure 7.7 A BNF (Backus-Naur Form) grammar of sentences in propositional
+logic, along with operator precedences, from highest to lowest.<br>
+<br>
+Note (1): While the book states 'We use symbols that start with an upper case
+letter and may contain other letters or subscripts' in this implementation we
+allow any legal java identifier to stand in for a proposition symbol.<br>
+<br>
+Note (2): This implementation is right associative (tends to be more
+intuitive for this language), for example:<br>
+
+<pre>
+A & B & C & D 
+
+will be parsed as:
+
+(A & (B & (C & D)))
+
+</pre>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+@see SourceVersion#isIdentifier(CharSequence)
+"
+      classrelation 198402 // <realization>
+	relation 198402 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 198402 // <realization>
+	  b parent class_ref 156290 // Parser
+      end
+
+      classrelation 198530 // lexer (<unidirectional association>)
+	relation 198530 --->
+	  a role_name "lexer" init_value " new PLLexer()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 198530 // lexer (<unidirectional association>)
+	  b parent class_ref 172930 // PLLexer
+      end
+
+      operation 374786 "PLParser"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 374914 "getLexer"
+	public return_type class_ref 155650 // Lexer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 375042 "parse"
+	protected return_type class_ref 144514 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
+
+      class 173058 "ParseNode"
+	visibility private 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 178946 "node"
+	  public explicit_type "Object"
+	  init_value " null"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 198658 // token (<unidirectional association>)
+	  relation 198658 --->
+	    a role_name "token" init_value " null" public
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 198658 // token (<unidirectional association>)
+	    b parent class_ref 155778 // Token
+	end
+
+	operation 376834 "ParseNode"
+	  public explicit_return_type ""
+	  nparams 2
+	    param inout name "node" explicit_type "Object"
+	    param inout name "token" type class_ref 155778 // Token
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 376962 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 375170 "parseSentence"
+	private return_type class_ref 173058 // ParseNode
+	nparams 1
+	  param in name "level" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE
+"
+      end
+
+      operation 375298 "groupSimplerSentencesByConnective"
+	private return_type class_ref 173058 // ParseNode
+	nparams 2
+	  param inout name "connectiveToConstruct" type class_ref 173186 // Connective
+	  param inout name "parseNodes" explicit_type "List<ParseNode>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 375426 "parseLevel"
+	private return_type class_ref 173058 // ParseNode
+	nparams 1
+	  param in name "level" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 375554 "detectConnective"
+	private explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 375682 "parseConnective"
+	private return_type class_ref 173058 // ParseNode
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 375810 "detectAtomicSentence"
+	private explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 375938 "parseAtomicSentence"
+	private return_type class_ref 173058 // ParseNode
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376066 "parseTrue"
+	private return_type class_ref 173058 // ParseNode
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376194 "parseFalse"
+	private return_type class_ref 173058 // ParseNode
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376322 "parseSymbol"
+	private return_type class_ref 173058 // ParseNode
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376450 "detectBracket"
+	private explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376578 "parseBracketedSentence"
+	private return_type class_ref 173058 // ParseNode
+	nparams 1
+	  param in name "level" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 376706 "getTokens"
+	private return_type class_ref 155778 // Token
+	nparams 1
+	  param inout name "parseNodes" explicit_type "List<ParseNode>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 172546 "PLVisitor"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "<b>Propositional Logic Visitor:</b> A <a
+href=\"http://en.wikipedia.org/wiki/Visitor_pattern\">Visitor Pattern/</a> for
+traversing the abstract syntax tree structural representation of
+propositional logic used in this library. The key difference between the
+default Visitor pattern and the code here, is that in the former the visit()
+methods have a void visit(ConcreteNode) signature while the visitors used
+here have a Object visit(ConcreteNode, Object arg) signature. This simplifies
+testing and allows some recursive code that is hard with the former .
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+
+@param <A>
+           the argument type to be passed to the visitor methods.
+@param <R>
+           the return type to be returned from the visitor methods.
+"
+      operation 370434 "visitPropositionSymbol"
+	cpp_inline public explicit_return_type "R"
+	nparams 2
+	  param inout name "sentence" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "A"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Visit a proposition symbol (e.g A).
+
+@param sentence
+           a Sentence that is a propositional symbol.
+@param arg
+           optional argument to be used by the visitor.
+@return optional return value to be used by the visitor.
+"
+      end
+
+      operation 370562 "visitUnarySentence"
+	cpp_inline public explicit_return_type "R"
+	nparams 2
+	  param inout name "sentence" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "A"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Visit a unary complex sentence (e.g. ~A).
+
+@param sentence
+           a Sentence that is a unary complex sentence.
+@param arg
+           optional argument to be used by the visitor.
+@return optional return value to be used by the visitor.
+"
+      end
+
+      operation 370690 "visitBinarySentence"
+	cpp_inline public explicit_return_type "R"
+	nparams 2
+	  param inout name "sentence" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "A"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Visit a binary complex sentence (e.g. A & B).
+
+@param sentence
+           a Sentence that is a binary complex sentence.
+@param arg
+           optional argument to be used by the visitor.
+@return optional return value to be used by the visitor.
+"
+      end
+    end
+
+    class 172802 "AbstractPLVisitor"
+      abstract visibility public 
+      nformals 1
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 172546 // PLVisitor
+        rank 0 explicit_value ""
+      actual class class_ref 172546 // PLVisitor
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Abstract implementation of the PLVisitor interface that provides default
+behavior for each of the methods.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+
+@param <A>
+           the argument type to be passed to the visitor methods.
+"
+      classrelation 198146 // <realization>
+	relation 198146 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 198146 // <realization>
+	  b parent class_ref 172546 // PLVisitor
+      end
+
+      operation 373378 "visitPropositionSymbol"
+	cpp_inline public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 373506 "visitUnarySentence"
+	cpp_inline public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 373634 "visitBinarySentence"
+	cpp_inline public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 172930 "PLLexer"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A concrete implementation of a lexical analyzer for the propositional language.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 198274 // <generalisation>
+	relation 198274 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 198274 // <generalisation>
+	  b parent class_ref 155650 // Lexer
+      end
+
+      operation 373762 "PLLexer"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 373890 "PLLexer"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "inputString" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a propositional expression lexer with the specified character
+stream.
+
+@param inputString
+           a sequence of characters to be converted into a sequence of
+           tokens.
+"
+      end
+
+      operation 374018 "nextToken"
+	public return_type class_ref 155778 // Token
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Returns the next propositional token from the character stream.
+
+@return the next propositional token from the character stream.
+"
+      end
+
+      operation 374146 "connectiveDetected"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param in name "leadingChar" explicit_type "char"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 374274 "symbolDetected"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param in name "leadingChar" explicit_type "char"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 374402 "connective"
+	private return_type class_ref 155778 // Token
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 374530 "symbol"
+	private return_type class_ref 155778 // Token
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 374658 "isConnective"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param in name "aSymbol" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 133762 "parsing"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 163074 "PLVisitor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 172546 // PLVisitor
+      end
+    end
+
+    artifact 163330 "AbstractPLVisitor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 172802 // AbstractPLVisitor
+      end
+    end
+
+    artifact 163458 "PLLexer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.common.Lexer;
+import aima.core.logic.common.LexerException;
+import aima.core.logic.common.LogicTokenTypes;
+import aima.core.logic.common.Token;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 172930 // PLLexer
+      end
+    end
+
+    artifact 163586 "PLParser"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import javax.lang.model.SourceVersion;
+import aima.core.logic.common.Lexer;
+import aima.core.logic.common.LogicTokenTypes;
+import aima.core.logic.common.Parser;
+import aima.core.logic.common.ParserException;
+import aima.core.logic.common.Token;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 144898 // PLParser
+      end
+    end
+  end
+end

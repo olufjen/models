@@ -1,0 +1,74 @@
+class CellWorldAction
+!!!145154.java!!!	actions() : CellWorldAction
+		return _actions;
+!!!145282.java!!!	isNoOp() : boolean
+		if (None == this) {
+			return true;
+		}
+		return false;
+!!!145410.java!!!	getXResult(in curX : int) : int
+		int newX = curX;
+
+		switch (this) {
+		case Left:
+			newX--;
+			break;
+		case Right:
+			newX++;
+			break;
+		default:
+			break;
+		}
+
+		return newX;
+!!!145538.java!!!	getYResult(in curY : int) : int
+		int newY = curY;
+
+		switch (this) {
+		case Up:
+			newY++;
+			break;
+		case Down:
+			newY--;
+			break;
+		default:
+			break;
+		}
+
+		return newY;
+!!!145666.java!!!	getFirstRightAngledAction() : CellWorldAction
+		CellWorldAction a = null;
+
+		switch (this) {
+		case Up:
+		case Down:
+			a = Left;
+			break;
+		case Left:
+		case Right:
+			a = Down;
+			break;
+		case None:
+			a = None;
+			break;
+		}
+
+		return a;
+!!!145794.java!!!	getSecondRightAngledAction() : CellWorldAction
+		CellWorldAction a = null;
+
+		switch (this) {
+		case Up:
+		case Down:
+			a = Right;
+			break;
+		case Left:
+		case Right:
+			a = Up;
+			break;
+		case None:
+			a = None;
+			break;
+		}
+
+		return a;

@@ -1,0 +1,391 @@
+format 223
+"datatypes" // aima::core::robotics::datatypes
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/robotics/datatypes/"
+  java_package "aima.core.robotics.datatypes"
+  classview 137474 "datatypes"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 187650 "IMclVector"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interfaces is a data type for an n-1-dimensional vector, where n is the dimensionality of the environment.<br/>
+It represents an angle between two headings or directions in the environment.<br/>
+This vector is used as a transfer between an {@link IMclRangeReading} and an {@link IMclPose}.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+    end
+
+    class 187906 "RobotException"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A {@code RobotException} may be thrown by a class implementing {@link IMclRobot} during any actions invoked on the robot in case something has gone wrong and the localization should be halted.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 223746 // <generalisation>
+	relation 223746 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 223746 // <generalisation>
+	  b parent class_ref 188546 // Exception
+      end
+
+      attribute 186242 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 188162 "IMclMove"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface represents a movement or a sequence of movements that the robot performed.<br/>
+In addition it describes a method for using a movement noise model on the move.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <M> the class that is implementing this interface.
+"
+      operation 438146 "generateNoise"
+	cpp_inline public explicit_return_type "M"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates noise onto the move to mask errors in measuring the performed movements and to localize successfully with a smaller number of particles than without noise.
+@return a new move onto that noise has been added.
+"
+      end
+    end
+
+    class 188290 "IMclPose"
+      visibility public stereotype "interface"
+      nformals 3
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IMclPose<P,V,M>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A pose consists of a position in the environment and a heading in which the pose is facing.<br/>
+In a two-dimensional environment this would be an position represented through a point with {@code (x,y)} and an angle.<br/>
+In an n-dimensional environment the angle is represented through a vector.<br/>
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> the class that is implementing this interface.
+@param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment. This vector describes the angle between two rays in the environment.
+@param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}.
+"
+      classrelation 223618 // <generalisation>
+	relation 223618 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 223618 // <generalisation>
+	  b parent class_ref 134274 // Cloneable
+      end
+
+      operation 438274 "applyMovement"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "move" explicit_type "M"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Moves a pose according to a given move.<br/>
+This function should return a new object to prevent unpredictable behavior through more than one usage of the same pose.
+@param move the move to be added onto the pose.
+@return a new pose that has been moved.
+"
+      end
+
+      operation 438402 "addAngle"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "angle" explicit_type "V"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Rotates a pose by a given {@link IMclVector}.<br/>
+This function should return a new object to prevent unpredictable behavior through more than one usage of the same pose.
+@param angle the angle by which the pose should be rotated.
+@return a new pose that has been rotated.
+"
+      end
+
+      operation 438530 "clone"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Clones an object according to {@link Cloneable}.
+@return a new pose with the same position and heading.
+"
+      end
+
+      operation 438658 "distanceTo"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the length of the straight line between this pose and another pose.<br/>
+{@code x.distanceTo(y)} has to return the same value as {@code y.distanceTo(x)}.
+@param pose another pose to which the distance is calculated.
+@return the distance between the two poses.
+"
+      end
+    end
+
+    class 188418 "IMclRangeReading"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines a data type for a range measurement.
+It has to contain an {@link IMclVector} by which the robot was rotated from its original facing direction to receive the measurement.<br/>
+In addition it describes a method for using a range sensor noise model on the measurement.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <R> the class that is implementing this interface.
+@param <V> a n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment.
+"
+      operation 438786 "getAngle"
+	cpp_inline public explicit_return_type "V"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the vector by which the robot was rotated for this range reading.
+@return the vector by which the robot was rotated for this range reading.
+"
+      end
+
+      operation 438914 "calculateWeight"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "secondRange" explicit_type "R"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The range sensor noise model.
+Calculates a weight between 0 and 1 that specifies how similar the given range readings is to this range reading.
+@param secondRange the second range to be weighted against.
+@return a weight between 0 and 1.
+"
+      end
+    end
+  end
+
+  deploymentview 136706 "datatypes"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 178690 "IMclMove"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 188162 // IMclMove
+      end
+    end
+
+    artifact 178818 "IMclPose"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 188290 // IMclPose
+      end
+    end
+
+    artifact 178946 "IMclRangeReading"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 188418 // IMclRangeReading
+      end
+    end
+
+    artifact 179074 "IMclVector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 187650 // IMclVector
+      end
+    end
+
+    artifact 179202 "RobotException"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.IMclRobot;
+${definition}"
+      associated_elems
+	class_ref 187906 // RobotException
+      end
+    end
+  end
+end

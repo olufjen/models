@@ -1,0 +1,42 @@
+class LabeledGraph
+!!!504194.java!!!	LabeledGraph()
+		globalEdgeLookup = new Hashtable<VertexLabelType, Hashtable<VertexLabelType, EdgeLabelType>>();
+		vertexLabels = new ArrayList<VertexLabelType>();
+!!!504322.java!!!	addVertex(inout v : VertexLabelType) : void
+		checkForNewVertex(v);
+!!!504450.java!!!	set(inout from : VertexLabelType, inout to : VertexLabelType, inout el : EdgeLabelType) : void
+		Hashtable<VertexLabelType, EdgeLabelType> localEdgeLookup = checkForNewVertex(from);
+		localEdgeLookup.put(to, el);
+		checkForNewVertex(to);
+!!!504578.java!!!	checkForNewVertex(inout v : VertexLabelType) : Hashtable<VertexLabelType, EdgeLabelType>
+		Hashtable<VertexLabelType, EdgeLabelType> result = globalEdgeLookup
+				.get(v);
+		if (result == null) {
+			result = new Hashtable<VertexLabelType, EdgeLabelType>();
+			globalEdgeLookup.put(v, result);
+			vertexLabels.add(v);
+		}
+		return result;
+!!!504706.java!!!	remove(inout from : VertexLabelType, inout to : VertexLabelType) : void
+		Hashtable<VertexLabelType, EdgeLabelType> localEdgeLookup = globalEdgeLookup
+				.get(from);
+		if (localEdgeLookup != null)
+			localEdgeLookup.remove(to);
+!!!504834.java!!!	get(inout from : VertexLabelType, inout to : VertexLabelType) : EdgeLabelType
+		Hashtable<VertexLabelType, EdgeLabelType> localEdgeLookup = globalEdgeLookup
+				.get(from);
+		return localEdgeLookup == null ? null : localEdgeLookup.get(to);
+!!!504962.java!!!	getSuccessors(inout v : VertexLabelType) : List<VertexLabelType>
+		List<VertexLabelType> result = new ArrayList<VertexLabelType>();
+		Hashtable<VertexLabelType, EdgeLabelType> localEdgeLookup = globalEdgeLookup
+				.get(v);
+		if (localEdgeLookup != null)
+			result.addAll(localEdgeLookup.keySet());
+		return result;
+!!!505090.java!!!	getVertexLabels() : List<VertexLabelType>
+		return vertexLabels;
+!!!505218.java!!!	isVertexLabel(inout v : VertexLabelType) : boolean
+		return globalEdgeLookup.get(v) != null;
+!!!505346.java!!!	clear() : void
+		vertexLabels.clear();
+		globalEdgeLookup.clear();

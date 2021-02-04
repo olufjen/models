@@ -1,0 +1,67 @@
+class IndexedClauses
+!!!297986.java!!!	IndexedClauses(inout lightestClauseHeuristic : LightestClauseHeuristic, inout sos : Set<Clause>, inout usable : Set<Clause>)
+			this.lightestClauseHeuristic = lightestClauseHeuristic;
+			for (Clause c : sos) {
+				indexClause(c);
+			}
+			for (Clause c : usable) {
+				indexClause(c);
+			}
+!!!298114.java!!!	addClause(inout c : Clause, inout sos : Set<Clause>, inout usable : Set<Clause>) : void
+			// Perform forward subsumption elimination
+			boolean addToSOS = true;
+			for (int i = minNoLiterals; i < c.getNumberLiterals(); i++) {
+				Set<Clause> fs = clausesGroupedBySize.get(i);
+				if (null != fs) {
+					for (Clause s : fs) {
+						if (s.subsumes(c)) {
+							addToSOS = false;
+							break;
+						}
+					}
+				}
+				if (!addToSOS) {
+					break;
+				}
+			}
+
+			if (addToSOS) {
+				sos.add(c);
+				lightestClauseHeuristic.addedClauseToSOS(c);
+				indexClause(c);
+				// Have added clause, therefore
+				// perform backward subsumption elimination
+				Set<Clause> subsumed = new HashSet<Clause>();
+				for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++) {
+					subsumed.clear();
+					Set<Clause> bs = clausesGroupedBySize.get(i);
+					if (null != bs) {
+						for (Clause s : bs) {
+							if (c.subsumes(s)) {
+								subsumed.add(s);
+								if (sos.contains(s)) {
+									sos.remove(s);
+									lightestClauseHeuristic
+											.removedClauseFromSOS(s);
+								}
+								usable.remove(s);
+							}
+						}
+						bs.removeAll(subsumed);
+					}
+				}
+			}
+!!!298242.java!!!	indexClause(inout c : Clause) : void
+			int size = c.getNumberLiterals();
+			if (size < minNoLiterals) {
+				minNoLiterals = size;
+			}
+			if (size > maxNoLiterals) {
+				maxNoLiterals = size;
+			}
+			Set<Clause> cforsize = clausesGroupedBySize.get(size);
+			if (null == cforsize) {
+				cforsize = new HashSet<Clause>();
+				clausesGroupedBySize.put(size, cforsize);
+			}
+			cforsize.add(c);

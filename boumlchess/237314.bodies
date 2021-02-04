@@ -1,0 +1,131 @@
+class ChessServerResource
+!!!800002.java!!!	ChessServerResource()
+		super();
+	
+!!!800130.java!!!	getOldPos() : String
+		return oldPos;
+!!!800258.java!!!	setOldPos(in oldPos : String) : void
+		this.oldPos = oldPos;
+!!!800386.java!!!	getFenPosid() : String
+		return fenPosid;
+!!!800514.java!!!	setFenPosid(in fenPosid : String) : void
+		this.fenPosid = fenPosid;
+!!!800642.java!!!	getPositionId() : String
+		return positionId;
+!!!800770.java!!!	setPositionId(inout positionId : String [[]]) : void
+		this.positionId = positionId;
+!!!800898.java!!!	getPawnId() : String
+		return pawnId;
+!!!801026.java!!!	setPawnId(in pawnId : String) : void
+		this.pawnId = pawnId;
+!!!801154.java!!!	getMoveId() : String
+		return moveId;
+!!!801282.java!!!	setMoveId(in moveId : String) : void
+		this.moveId = moveId;
+!!!801410.java!!!	getPiece() : String
+		return piece;
+!!!801538.java!!!	setPiece(in piece : String) : void
+		this.piece = piece;
+!!!801666.java!!!	getNewPos() : String
+		return newPos;
+!!!801794.java!!!	setNewPos(in newPos : String) : void
+		this.newPos = newPos;
+!!!801922.java!!!	getPieceId() : String
+		return pieceId;
+!!!802050.java!!!	setPieceId(in pieceId : String) : void
+		this.pieceId = pieceId;
+!!!802178.java!!!	printGame(inout chessMoves : ArrayList<ChessMoves>) : String
+
+		 String headerText = "Chess moves";
+
+
+       	 /** create temporary pdf file **/
+ 		File temp = File.createTempFile("game", ".pdf"); 
+ 	    String path = temp.getAbsolutePath();
+
+ 		Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+
+ 		// Listing 2. Creation of PdfWriter object
+ 		PdfWriter writer = PdfWriter.getInstance(document,
+ 				new FileOutputStream(path));
+ 		
+ 		document.open();
+ 		PdfPTable table = createTable("Game","Game");
+ 		for (ChessMoves chessMove:chessMoves) {
+ 			String moveNr = Integer.toString(chessMove.getMoveNr());
+ 			table.addCell(moveNr+": ");
+ 			table.addCell(chessMove.getWhiteMove()+" "+ chessMove.getBlackMove());
+ 			table.completeRow();
+ 		}
+ 	
+ 		
+    	 
+
+
+    	 document.add(table);
+    	 document.close();
+    	 return path;
+
+!!!802306.java!!!	createTable(in heading : String, in nokkel : String) : PdfPTable
+			
+			if(nokkel == null){
+				nokkel ="";
+			}
+		
+	      //specify column widths
+	        float[] columnWidths = {2f, 3f};
+	     // a table with two columns
+	        PdfPTable table = new PdfPTable(columnWidths);
+	     // set table width a percentage of the page width
+	        table.setWidthPercentage(80f);
+	        
+	     // creation of paragraph object
+			Paragraph heading1 = new Paragraph();
+			
+				
+			heading1 = getHeading1(heading);
+			PdfPCell headingCell = new PdfPCell();
+			
+			headingCell.setColspan(2);
+			headingCell.addElement(heading1);
+			table.addCell(headingCell);
+			PdfPCell cellh1 = new PdfPCell();
+			PdfPCell cellh2 = new PdfPCell();
+		   if(!nokkel.isEmpty()){
+			   	String nokkelHeading ="Game";
+		        cellh1.addElement(getHeading2(nokkelHeading));
+				table.addCell(cellh1);
+				cellh2.addElement(getText(nokkel));
+				table.addCell(cellh2);
+		   }	     
+
+			int cts = 0;
+			char scount = Character.forDigit(cts, 10);
+//			String gmlhtemp = "";
+			return table;
+!!!802434.java!!!	getHeading1(in txt : String) : Paragraph
+			Paragraph p = new Paragraph();
+			Chunk chunk = new Chunk(txt);
+	        chunk.setUnderline(0.2f, -2f);
+	        Font font = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+	        chunk.setFont(font);
+	        p.setAlignment(Element.ALIGN_CENTER);
+	        p.setSpacingAfter(20);
+	        p.add(chunk);
+	        
+	        return p;
+!!!802562.java!!!	getHeading2(in txt : String) : Paragraph
+			Paragraph p = new Paragraph();
+	        Chunk chunk = new Chunk(txt,  
+	        		new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD));
+	        p.setAlignment(Element.ALIGN_LEFT);
+	        p.add(chunk);
+	        return p;
+!!!802690.java!!!	getText(in txt : String) : Paragraph
+			Paragraph p = new Paragraph();
+	        Chunk chunk = new Chunk(txt,  
+	        		new Font(Font.FontFamily.TIMES_ROMAN, 10));
+	        p.setAlignment(Element.ALIGN_LEFT);
+	        p.add(chunk);
+	        
+	        return p;

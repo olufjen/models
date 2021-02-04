@@ -1,0 +1,30 @@
+class TableDrivenAgentProgram
+!!!140418.java!!!	TableDrivenAgentProgram(inout perceptSequenceActions : Map<List<Percept>, Action>)
+
+		List<List<Percept>> rowHeaders = new ArrayList<List<Percept>>(
+				perceptSequenceActions.keySet());
+
+		List<String> colHeaders = new ArrayList<String>();
+		colHeaders.add(ACTION);
+
+		table = new Table<List<Percept>, String, Action>(rowHeaders, colHeaders);
+
+		for (List<Percept> row : rowHeaders) {
+			table.set(row, ACTION, perceptSequenceActions.get(row));
+		}
+!!!140546.java!!!	execute(inout percept : Percept) : Action
+		// append percept to end of percepts
+		percepts.add(percept);
+
+		// action <- LOOKUP(percepts, table)
+		// return action
+		return lookupCurrentAction();
+!!!140674.java!!!	lookupCurrentAction() : Action
+		Action action = null;
+
+		action = table.get(percepts, ACTION);
+		if (null == action) {
+			action = NoOpAction.NO_OP;
+		}
+
+		return action;

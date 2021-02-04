@@ -1,0 +1,19 @@
+class NondeterministicProblem
+!!!486402.java!!!	NondeterministicProblem(inout initialState : S, inout actionsFn : ActionsFunction, inout resultsFn : ResultsFunction, inout goalTest : GoalTest)
+		this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) -> 1.0);
+!!!486530.java!!!	NondeterministicProblem(inout initialState : S, inout actionsFn : ActionsFunction, inout resultsFn : ResultsFunction, inout goalTest : GoalTest, inout stepCostFn : StepCostFunction)
+		this.initialState = initialState;
+		this.actionsFn = actionsFn;
+		this.resultsFn = resultsFn;
+		this.goalTest = goalTest;
+		this.stepCostFn = stepCostFn;
+!!!486658.java!!!	getInitialState() : S
+		return initialState;
+!!!486786.java!!!	testGoal(inout state : S) : boolean
+		return goalTest.test(state);
+!!!486914.java!!!	getActions(inout state : S) : List<A>
+		return actionsFn.apply(state);
+!!!487042.java!!!	getResults(inout state : S, inout action : A) : List<S>
+		return this.resultsFn.results(state, action);
+!!!487170.java!!!	getStepCosts(inout state : S, inout action : A, inout stateDelta : S) : double
+		return stepCostFn.applyAsDouble(state, action, stateDelta);

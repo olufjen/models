@@ -1,0 +1,13 @@
+class ConvertToNNF
+!!!385154.java!!!	convert(inout s : Sentence) : Sentence
+		Sentence result = null;
+
+		Sentence biconditionalsRemoved = BiconditionalElimination.eliminate(s);
+		Sentence implicationsRemoved = ImplicationElimination
+				.eliminate(biconditionalsRemoved);
+		Sentence notsMovedIn = MoveNotInwards
+				.moveNotsInward(implicationsRemoved);
+
+		result = notsMovedIn;
+
+		return result;

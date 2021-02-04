@@ -1,0 +1,237 @@
+class AnglePanel
+!!!615682.java!!!	AnglePanel(in title : String)
+		this(DEFAULT_ANGLES_KEY, title);
+!!!615810.java!!!	AnglePanel(in key : String, in title : String)
+		anglesKey = key;
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		JLabel jLTitle = new JLabel(title);
+		jLTitle.setBorder(GuiBase.getClearanceBorder());
+		
+		//leftPanel:
+		JLabel jLAngle = new JLabel(JL_ANGLE_TEXT);
+		jTFChangeAngle = new JTextField();
+		jTFChangeAngle.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		    	if(e.getKeyCode() == KeyEvent.VK_ENTER && angles != null) {
+		    		try{
+		    			angles[selectedAngleIndex] = validateInput(jTFChangeAngle);
+		    			updateGui(selectedAngleIndex);
+		    		}
+		    		catch(NumberFormatException f) {
+		    			GuiBase.showMessageBox("Please enter a valid number!");
+		    			jTFChangeAngle.setText(angles[selectedAngleIndex] + "\u00BA");
+		    		}
+		    	}
+		    }
+		});
+		jLAngleCount = new JLabel(JL_NUMBER_OF_ANGLES_TEXT + "0");
+		JButton btnAddAngle = new JButton(BTN_ADD_ANGLE_TEXT);
+		btnAddAngle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				addAngle();
+			}
+		});
+		JButton btnDeleteAngle = new JButton(BTN_DELETE_ANGLE_TEXT);
+		btnDeleteAngle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				deleteAngle();
+			}
+		});
+		JLabel jLShiftAngle = new JLabel(TEXT_SHIFT_ANGLE);
+		jTShiftValueAngle = new JTextField();
+		JButton btnShiftAngleCreate = new JButton(BTN_ADD_ANGLE_TEXT);
+		btnShiftAngleCreate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					final double ang = validateInput(jTShiftValueAngle);
+					final double angleValue = angles[selectedAngleIndex];
+					addAngle();
+					angles[selectedAngleIndex] = angleValue + ang;
+					updateGui(selectedAngleIndex);
+				} catch(NumberFormatException e) {
+					GuiBase.showMessageBox("Please enter a valid number!");
+				}
+			}
+		});
+		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setBorder(GuiBase.getClearanceBorder());
+		//leftPanel.setPreferredSize(new Dimension(100,1));
+		leftPanel.setLayout(new GridLayout(0,1,GuiBase.getClearance(),GuiBase.getClearance()));
+		leftPanel.add(jLAngle);
+		leftPanel.add(jTFChangeAngle);
+		leftPanel.add(jLAngleCount);
+		leftPanel.add(btnAddAngle);
+		leftPanel.add(btnDeleteAngle);
+		leftPanel.add(jLShiftAngle);
+		leftPanel.add(jTShiftValueAngle);
+		leftPanel.add(btnShiftAngleCreate);
+		
+		//circlePanel:
+		circlePanel = new CirclePanel(); 
+		circlePanel.setBorder(GuiBase.getClearanceBorder());
+		
+		//rightPanel:
+		jTAngles = new JTable(angleModel);
+		jTAngles.setFillsViewportHeight(true);
+		jTAngles.getSelectionModel().addListSelectionListener( new ListSelectionListener() {
+			@Override
+		    public void valueChanged(ListSelectionEvent e) {
+		    	selectedAngleIndex = jTAngles.getSelectedRow();  
+		    	jTFChangeAngle.setText(angles[selectedAngleIndex] + "\u00BA");
+		    	repaint();
+		    }
+		});
+		
+		JScrollPane scrollPane = new JScrollPane(jTAngles, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setBorder(GuiBase.getClearanceBorder());
+		rightPanel.setPreferredSize(new Dimension(100,1));
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		rightPanel.add(scrollPane);
+		
+		//Put all panels together:
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBorder(BorderFactory.createLineBorder(GuiBase.getTextColor(), 1));
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setAlignmentX(LEFT_ALIGNMENT);
+		jLTitle.setLabelFor(mainPanel);
+		
+		mainPanel.add(leftPanel, BorderLayout.WEST);
+		mainPanel.add(circlePanel, BorderLayout.CENTER);
+		mainPanel.add(rightPanel, BorderLayout.EAST);
+		
+		add(jLTitle);
+		add(mainPanel);
+		
+		for(double angle: angles) {
+			angleModel.add(angle + "\u00BA");
+		}
+!!!615938.java!!!	validateInput(inout textField : JTextField) : double
+		//delete the degree sign if it is included in the text:
+		if(textField.getText().contains("\u00BA")) {
+			textField.setText(textField.getText().replace("\u00BA", ""));
+		}
+		//if dots and commas are in the text field a NumberFormatException will be thrown
+		if(textField.getText().contains(",") && textField.getText().contains(".")) {
+			throw new NumberFormatException();
+		}
+		//if the number contains only a comma it will be replaced with a dot
+		if(textField.getText().contains(",")) {
+			textField.setText(textField.getText().replace(",", "."));
+		}
+		double ang = Double.parseDouble(jTShiftValueAngle.getText());
+		ang = ang % 360;
+		if(ang > 180.0d) ang -= 360.0d;
+		else if(ang < -180.0d) ang += 360.0d;
+		return ang;
+!!!616066.java!!!	getAngles() : Angle
+		if(angles == null) {
+			final Angle[] result = {new Angle(0.0d)};
+			return result;
+		}
+		Angle[] result = new Angle[angles.length];
+		for(int i=0; i < angles.length; i++) {
+			result[i] = new Angle(Math.toRadians(angles[i]));
+		}
+		Arrays.sort(result);
+		return result;
+!!!616194.java!!!	notifyChangeListener() : void
+		listener.notify(getAngles());
+!!!616322.java!!!	setChangeListener(inout listener : AnglePanel::ChangeListener) : void
+		this.listener = listener;
+!!!616450.java!!!	addAngle() : void
+		if(angles == null) {
+			angles = new double[1];
+			selectedAngleIndex = 0;
+			btnDeleteAngle.setEnabled(true);
+		} else {
+			double[] tmpAngles = new double[angles.length + 1];
+			for(int i = 0 ; i < angles.length; i++) {
+				tmpAngles[i] = angles[i];
+			}
+			angles = tmpAngles;
+		}
+		angles[angles.length -1] = 0.0d;
+		angleModel.add(angles[angles.length -1] + "");
+		selectedAngleIndex = angles.length - 1;
+		jTFChangeAngle.setText(angles[selectedAngleIndex] + "\u00BA");
+		jLAngleCount.setText(JL_NUMBER_OF_ANGLES_TEXT + angles.length);
+		repaint();
+!!!616578.java!!!	deleteAngle() : void
+		if(angles == null) return;
+		if(angles.length == 1) {
+			angles = null;
+			jTFChangeAngle.setText("");
+			angleModel.removeValueAt(0);
+			jLAngleCount.setText(JL_NUMBER_OF_ANGLES_TEXT +"0");
+			btnDeleteAngle.setEnabled(false);
+		} else {
+			double[] tmpAngles = new double[angles.length -1];
+			for(int i = 0; i < angles.length - 1; i++){
+				if(i >= selectedAngleIndex) {
+					tmpAngles[i] = angles[i + 1];
+				} else {
+					tmpAngles[i] = angles[i];
+				}
+			}
+			angles = tmpAngles;
+			angleModel.removeValueAt(selectedAngleIndex);
+			selectedAngleIndex = 0;
+			jTFChangeAngle.setText(angles[selectedAngleIndex] + "\u00BA");
+			jLAngleCount.setText("Count of Angles: " + angles.length);
+		}
+		repaint();
+!!!616706.java!!!	updateGui() : void
+		angleModel.clear();
+		selectedAngleIndex = 0;
+		jTFChangeAngle.setText(GuiBase.getFormat().format(angles[selectedAngleIndex]) + "\u00BA");
+		for(int i = 0; i < angles.length; i++) angleModel.add(angles[i] + "\u00BA");
+		jLAngleCount.setText(JL_NUMBER_OF_ANGLES_TEXT + angleModel.getRowCount());
+		repaint();
+!!!616834.java!!!	updateGui(in angleIndex : int) : void
+		jTFChangeAngle.setText(GuiBase.getFormat().format(angles[angleIndex]) + "\u00BA");
+		angleModel.setValueAt(angleIndex, angles[angleIndex] + "\u00BA");
+		repaint();
+!!!616962.java!!!	loadSettings(inout values : Properties) : void
+		String saveString = values.getProperty(anglesKey);
+		if(saveString != null) {
+			try {
+				ObjectInputStream stream = new ObjectInputStream(new ByteArrayInputStream(saveString.getBytes()));
+				angles = (double[]) stream.readObject();
+				previousAngles = angles;
+				updateGui();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+!!!617090.java!!!	saveSettings(inout values : Properties) : void
+		String saveString = null;
+		try {
+			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+			ObjectOutputStream stream = new ObjectOutputStream(byteStream);
+			stream.writeObject(angles);
+			saveString = byteStream.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(saveString != null) values.put(anglesKey, saveString);
+!!!617218.java!!!	revertGui() : void
+		angles = previousAngles;
+		repaint();
+		updateGui();
+!!!617346.java!!!	saveGui() : void
+		if(listener != null) {
+			Angle[] radiantAngles = new Angle[angles.length];
+			for(int i=0; i<angles.length;i++) {
+				radiantAngles[i] = new Angle(Math.toRadians(angles[i]));
+			}
+			Arrays.sort(radiantAngles, null);
+			listener.notify(radiantAngles);
+		}
+		previousAngles = angles;

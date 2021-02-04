@@ -1,0 +1,995 @@
+format 223
+"bayes" // aima::core::probability::bayes
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/bayes/"
+  java_package "aima.core.probability.bayes"
+  classview 135298 "bayes"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 175874 "BayesianNetwork"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 510.<br>
+<br>
+Bayesian Networks are used to represent the dependencies among Random
+Variables. They can represent essentially any full joint probability
+distribution and in many cases can do so very concisely. A Bayesian network
+is a directed graph in which each node is annotated with quantitative
+probability information. The full specification is as follows:<br>
+<br>
+1. Each node corresponds to a random variable, which may be discrete or
+continuous.<br>
+<br>
+2. A set of directed links or arrows connects pairs of nodes. If there is an
+arrow from node X to node Y, X is said to be a parent of Y. The graph has no
+directed cycles (and hence is a directed acyclic graph, or <b>DAG</b>.<br>
+<br>
+3. Each node X<sub>i</sub> has a conditional probability distribution
+P(X<sub>i</sub> | Parents(X<sub>i</sub>)) that quantifies the effect of the
+parents on the node.<br>
+<br>
+The topology of the network - the set of nodes and links - specifies the
+conditional independence relationships that hold in the domain.<br>
+<br>
+A network with both discrete and continuous variables is called a <b>hybrid
+Bayesian network</b>.<br>
+<br>
+<b>Note(1)</b>: \"Bayesian Network\" is the most common name used, but there
+are many synonyms, including \"belief network\", \"probabilistic network\",
+\"causal network\", and \"knowledge map\".
+
+@author Ciaran O'Reilly
+"
+      operation 392706 "getVariablesInTopologicalOrder"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a list of the Random Variables, in topological order, contained
+        within the network.
+"
+      end
+
+      operation 392834 "getNode"
+	public return_type class_ref 177282 // Node
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the RandomVariable whose corresponding Node is to be
+           retrieved.
+@return the Node associated with the random variable in this Bayesian
+        Network.
+"
+      end
+    end
+
+    class 176002 "BayesInference"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "General interface to be implemented by Bayesian Inference algorithms.
+
+@author Ciaran O'Reilly
+"
+      operation 392962 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param X
+           the query variables.
+@param observedEvidence
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables
+@return a distribution over the query variables.
+"
+      end
+    end
+
+    class 177282 "Node"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 511.<br>
+<br>
+A node is annotated with quantitative probability information. Each node
+corresponds to a random variable, which may be discrete or continuous. If
+there is an arrow from node X to node Y in a Bayesian Network, X is said to
+be a parent of Y and Y is a child of X. Each node X<sub>i</sub> has a
+conditional probability distribution P(X<sub>i</sub> |
+Parents(X<sub>i</sub>)) that quantifies the effect of the parents on the
+node. <br>
+
+@author Ciaran O'Reilly
+"
+      operation 394754 "getRandomVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Random Variable this Node is for/on.
+"
+      end
+
+      operation 394882 "isRoot"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if this Node has no parents.
+
+@see Node#getParents()
+"
+      end
+
+      operation 395010 "getParents"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the parent Nodes for this Node.
+"
+      end
+
+      operation 395138 "getChildren"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the children Nodes for this Node.
+"
+      end
+
+      operation 395266 "getMarkovBlanket"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get this Node's Markov Blanket:<br>
+'A node is conditionally independent of all other nodes in the network,
+given its parents, children, and children's parents - that is, given its
+<b>MARKOV BLANKET</b> (AIMA3e pg, 517).
+
+@return this Node's Markov Blanket.
+"
+      end
+
+      operation 395394 "getCPD"
+	public return_type class_ref 177410 // ConditionalProbabilityDistribution
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Conditional Probability Distribution associated with this
+        Node.
+"
+      end
+    end
+
+    class 177410 "ConditionalProbabilityDistribution"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A conditional probability distribution on a RandomVariable X<sub>i</sub>:<br>
+<br>
+P(X<sub>i</sub> | Parents(X<sub>i</sub>)) that quantifies the effect of the
+parents on X<sub>i</sub>.
+
+@author Ciaran O'Reilly
+
+"
+      operation 393090 "getOn"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the Random Variable this conditional probability distribution is
+        on.
+"
+      end
+
+      operation 393218 "getParents"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the parent
+        Random Variables for this conditional distribution.
+"
+      end
+
+      operation 393346 "getFor"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A convenience method for merging the elements of getParents() and getOn()
+into a consistent ordered set (i.e. getOn() should always be the last
+Random Variable returned when iterating over the set).
+
+@return a consistent ordered Set (e.g. LinkedHashSet) of the random
+        variables this conditional probability distribution is for.
+"
+      end
+
+      operation 393474 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if the conditional distribution is for the passed in Random
+        Variable, false otherwise.
+"
+      end
+
+      operation 393602 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Object...eventValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of values for the random variables
+comprising the Conditional Distribution (ordering and size of each must
+equal getFor() and their domains must match).
+
+@param eventValues
+           the values for the random variables comprising the Conditional
+           Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Conditional Distribution.
+"
+      end
+
+      operation 393730 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...eventValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of AssignmentPropositions for the
+random variables comprising the Conditional Distribution (size of each
+must equal and their random variables must match).
+
+@param eventValues
+           the assignment propositions for the random variables
+           comprising the Conditional Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Conditional Distribution.
+"
+      end
+
+      operation 393858 "getConditioningCase"
+	public return_type class_ref 175362 // ProbabilityDistribution
+	nparams 1
+	  param inout name "" explicit_type "Object...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A conditioning case is just a possible combination of values for the
+parent nodes - a miniature possible world, if you like. The returned
+distribution must sum to 1, because the entries represent an exhaustive
+set of cases for the random variable.
+
+@param parentValues
+           for the conditioning case. The ordering and size of
+           parentValues must equal getParents() and their domains must
+           match.
+@return the Probability Distribution for the Random Variable the
+        Conditional Probability Distribution is On.
+@see ConditionalProbabilityDistribution#getOn()
+@see ConditionalProbabilityDistribution#getParents()
+"
+      end
+
+      operation 393986 "getConditioningCase"
+	public return_type class_ref 175362 // ProbabilityDistribution
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A conditioning case is just a possible combination of values for the
+parent nodes - a miniature possible world, if you like. The returned
+distribution must sum to 1, because the entries represent an exhaustive
+set of cases for the random variable.
+
+@param parentValues
+           for the conditioning case. The size of parentValues must equal
+           getParents() and their Random Variables must match.
+@return the Probability Distribution for the Random Variable the
+        Conditional Probability Distribution is On.
+@see ConditionalProbabilityDistribution#getOn()
+@see ConditionalProbabilityDistribution#getParents()
+"
+      end
+
+      operation 394114 "getSample"
+	public explicit_return_type "Object"
+	nparams 2
+	  param in name "probabilityChoice" explicit_type "double"
+	  param inout name "" explicit_type "Object...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve a specific example for the Random Variable this conditional
+distribution is on.
+
+@param probabilityChoice
+           a double value, from the range [0.0d, 1.0d), i.e. 0.0d
+           (inclusive) to 1.0d (exclusive).
+@param parentValues
+           for the conditioning case. The ordering and size of
+           parentValues must equal getParents() and their domains must
+           match.
+@return a sample value from the domain of the Random Variable this
+        distribution is on, based on the probability argument passed in.
+@see ConditionalProbabilityDistribution#getOn()
+"
+      end
+
+      operation 394242 "getSample"
+	public explicit_return_type "Object"
+	nparams 2
+	  param in name "probabilityChoice" explicit_type "double"
+	  param inout name "" explicit_type "AssignmentProposition...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve a specific example for the Random Variable this conditional
+distribution is on.
+
+@param probabilityChoice
+           a double value, from the range [0.0d, 1.0d), i.e. 0.0d
+           (inclusive) to 1.0d (exclusive).
+@param parentValues
+           for the conditioning case. The size of parentValues must equal
+           getParents() and their Random Variables must match.
+@return a sample value from the domain of the Random Variable this
+        distribution is on, based on the probability argument passed in.
+@see ConditionalProbabilityDistribution#getOn()
+"
+      end
+    end
+
+    class 177538 "ConditionalProbabilityTable"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 512.<br>
+<br>
+A Conditional Probability Table, or CPT, can be used for representing
+conditional probabilities for discrete (finite) random variables. Each row in
+a CPT contains the conditional probability of each node value for a
+<b>conditioning case</b>.
+
+@author Ciaran O'Reilly
+"
+      classrelation 202498 // <generalisation>
+	relation 202498 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 202498 // <generalisation>
+	  b parent class_ref 177410 // ConditionalProbabilityDistribution
+      end
+
+      operation 394370 "getConditioningCase"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "Object...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 394498 "getConditioningCase"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...parentValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 394626 "getFactorFor"
+	public return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...evidence"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a Factor consisting of the Random Variables from the
+Conditional Probability Table that are not part of the evidence (see
+AIMA3e pg. 524).
+
+@param evidence
+@return a Factor for the Random Variables from the Conditional
+        Probability Table that are not part of the evidence.
+"
+      end
+    end
+
+    class 177666 "ContinuousNode"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A node over a Random Variable that has a continuous domain.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 202626 // <generalisation>
+	relation 202626 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 202626 // <generalisation>
+	  b parent class_ref 177282 // Node
+      end
+    end
+
+    class 177794 "DiscreteNode"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A node over a Random Variable that has a countable domain (may be infinite).
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 202754 // <generalisation>
+	relation 202754 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 202754 // <generalisation>
+	  b parent class_ref 177282 // Node
+      end
+    end
+
+    class 177922 "DynamicBayesianNetwork"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 590.<br>
+<br>
+A <b>dynamic Bayesian network</b>, or <b>DBN</b>, is a Bayesian network that
+represents a temporal probability model. In general, each slice of a DBN can
+have any number of state variables <b>X</b><sub>t</sub< and evidence
+variables <b>E</b><sub>t</sub>. For simplicity, we assume that the variables
+and their links are exactly replicated from slice to slice and that the DBN
+represents a first-order Markov process, so that each variable can have
+parents only in its own slice or the immediately preceding slice.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 202882 // <generalisation>
+	relation 202882 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 202882 // <generalisation>
+	  b parent class_ref 175874 // BayesianNetwork
+      end
+
+      operation 395522 "getPriorNetwork"
+	public return_type class_ref 175874 // BayesianNetwork
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Bayesian Network containing just the nodes representing the
+        prior distribution (layer 0) of the dynamic bayesian network.
+"
+      end
+
+      operation 395650 "getX_0"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of state variables representing the prior distribution.
+"
+      end
+
+      operation 395778 "getX_1"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of state variables representing the first posterior slice
+        of the DBN. This along with <b>X</b><sub>0</sub> should represent
+        the transition model <b>P</b>(<b>X</b><sub>1</sub> |
+        <b>X</b><sub>0</sub>).
+"
+      end
+
+      operation 395906 "getX_1_VariablesInTopologicalOrder"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the X_1 variables in topological order.
+"
+      end
+
+      operation 396034 "getX_0_to_X_1"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, RandomVariable> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Map indicating equivalent variables between X<sub>0</sub> and
+        X<sub>1</sub>.
+"
+      end
+
+      operation 396162 "getX_1_to_X_0"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, RandomVariable> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Map indicating equivalent variables between X<sub>1</sub> and
+        X<sub>0</sub>.
+"
+      end
+
+      operation 396290 "getE_1"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of state variables representing the evidence variables
+        for the DBN. This along with <b>X</b><sub>1</sub> should
+        represent the sensor model <b>P</b>(<b>E</b><sub>1</sub> |
+        <b>X</b><sub>1</sub>).
+"
+      end
+    end
+
+    class 178050 "FiniteNode"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A node over a Random Variable that has a finite countable domain.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 203010 // <generalisation>
+	relation 203010 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 203010 // <generalisation>
+	  b parent class_ref 177794 // DiscreteNode
+      end
+
+      operation 396418 "getCPT"
+	public return_type class_ref 177538 // ConditionalProbabilityTable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Conditional Probability Table detailing the finite set of
+        probabilities for this Node.
+"
+      end
+    end
+  end
+
+  deploymentview 134274 "bayes"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 167298 "BayesianNetwork"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 175874 // BayesianNetwork
+      end
+    end
+
+    artifact 167426 "BayesInference"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 176002 // BayesInference
+      end
+    end
+
+    artifact 167554 "ConditionalProbabilityDistribution"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.probability.ProbabilityDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 177410 // ConditionalProbabilityDistribution
+      end
+    end
+
+    artifact 167682 "ConditionalProbabilityTable"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.Factor;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 177538 // ConditionalProbabilityTable
+      end
+    end
+
+    artifact 167810 "Node"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 177282 // Node
+      end
+    end
+
+    artifact 167938 "ContinuousNode"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 177666 // ContinuousNode
+      end
+    end
+
+    artifact 168066 "DiscreteNode"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 177794 // DiscreteNode
+      end
+    end
+
+    artifact 168194 "DynamicBayesianNetwork"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 177922 // DynamicBayesianNetwork
+      end
+    end
+
+    artifact 168322 "FiniteNode"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 178050 // FiniteNode
+      end
+    end
+  end
+
+  package_ref 136706 // approx
+
+  package_ref 136834 // exact
+
+  package_ref 137090 // impl
+
+  package_ref 137218 // model
+end

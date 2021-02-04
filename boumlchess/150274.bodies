@@ -1,0 +1,29 @@
+class VersionSpaceLearning
+!!!228482.java!!!	versionSpaceLearning(inout examples : List<LogicalExample>) : VersionSpace
+        // local variables: V, the version space: the set of all hypotheses
+        //  V  the set of all hypotheses OLJ: Arrow replaced !!
+        VersionSpace v = new VersionSpace();
+        // if V is not empty then V  Version-Space-Update(V, e)
+        for (LogicalExample e :
+                examples) {
+            if (v != null) {
+                v = versionSpaceUpdate(v, e);
+            }
+        }
+        //  return V
+        return v;
+!!!228610.java!!!	versionSpaceUpdate(inout v : VersionSpace, inout e : LogicalExample) : VersionSpace
+        // V  {h ∈ V : h is consistent with e}
+
+        // False negative for S i : This means S i is too specific, so we replace it by all its immediate
+        //generalizations, provided they are more specific than some member of G.
+        if (e.getGoal() && !v.predictFromSpecialisedSet(e)) {
+            v.setMostSpecificSet(v.immediateGeneralisation(v.getMostSpecificSet(), e));
+        }
+
+        //False positive for G i : This means G i is too general, so we replace it by all its immediate
+        //specializations, provided they are more general than some member of S.
+        if (!e.getGoal() && v.predictFromGeneralisedSet(e)) {
+            v.setMostGeneralSet(v.immediateSpecialisation(v.getMostGeneralSet(), e));
+        }
+        return v;

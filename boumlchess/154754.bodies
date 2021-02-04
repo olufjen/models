@@ -1,0 +1,53 @@
+class PassiveTDAgent
+!!!249858.java!!!	PassiveTDAgent(inout fixedPolicy : Map<S, A>, in alpha : double, in gamma : double)
+		this.pi.putAll(fixedPolicy);
+		this.alpha = alpha;
+		this.gamma = gamma;
+!!!249986.java!!!	execute(inout percept : PerceptStateReward) : A
+		// if s' is new then U[s'] <- r'
+		S sDelta = percept.state();
+		double rDelta = percept.reward();
+		if (!U.containsKey(sDelta)) {
+			U.put(sDelta, rDelta);
+		}
+		// if s is not null then
+		if (null != s) {
+			// increment N<sub>s</sub>[s]
+			Ns.incrementFor(s);
+			// U[s] <- U[s] + &alpha;(N<sub>s</sub>[s])(r + &gamma;U[s'] - U[s])
+			double U_s = U.get(s);
+			U.put(s, U_s + alpha(Ns, s) * (r + gamma * U.get(sDelta) - U_s));
+		}
+		// if s'.TERMINAL? then s,a,r <- null else s,a,r <- s',&pi;[s'],r'
+		if (isTerminal(sDelta)) {
+			s = null;
+			a = null;
+			r = null;
+		} else {
+			s = sDelta;
+			a = pi.get(sDelta);
+			r = rDelta;
+		}
+
+		// return a
+		return a;
+!!!250114.java!!!	getUtility() : Map<S, Double>
+		return new HashMap<S, Double>(U);
+!!!250242.java!!!	reset() : void
+		U = new HashMap<S, Double>();
+		Ns.clear();
+		s = null;
+		a = null;
+		r = null;
+!!!250370.java!!!	alpha(inout Ns : FrequencyCounter, inout s : S) : double
+		// Default implementation is just to return a fixed parameter value
+		// irrespective of the # of times a state has been encountered
+		return alpha;
+!!!250498.java!!!	isTerminal(inout s : S) : boolean
+		boolean terminal = false;
+		Action a = pi.get(s);
+		if (null == a || a.isNoOp()) {
+			// No actions possible in state is considered terminal.
+			terminal = true;
+		}
+		return terminal;

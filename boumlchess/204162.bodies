@@ -1,0 +1,38 @@
+class WumpusAgentDemo
+!!!541826.java!!!	main(inout args : String [[]]) : void
+        WumpusCave cave;
+        cave = create2x2Cave();
+        // cave = create3x3Cave();
+        // cave = create4x4Cave();
+
+        WumpusEnvironment env = new WumpusEnvironment(cave);
+        EnvironmentView view = new SimpleEnvironmentView();
+        env.addEnvironmentView(view);
+
+        HybridWumpusAgent a;
+        a = new HybridWumpusAgent
+        // a = new EfficientHybridWumpusAgent
+                (cave.getCaveXDimension(), cave.getCaveYDimension(), cave.getStart(),
+                new DPLLSatisfiable(), env);
+
+        env.notifyViews("The cave:\n" + cave.toString());
+        env.addAgent(a);
+        env.stepUntilDone();
+        env.notifyViews("Metrics: " + a.getMetrics());
+        env.notifyViews("KB:\n" + a.getKB());
+!!!541954.java!!!	create2x2Cave() : WumpusCave
+        // Caution: 2x2 caves need a wumpus - otherwise KB becomes inconsistent in step 2...
+        return new WumpusCave(2, 2, ""
+                + "W . "
+                + "S G ");
+!!!542082.java!!!	create3x3Cave() : WumpusCave
+        return new WumpusCave(3, 3, ""
+                + "P . G "
+                + ". W . "
+                + "S . P ");
+!!!542210.java!!!	create4x4Cave() : WumpusCave
+        return new WumpusCave(4, 4, ""
+                + ". . . P "
+                + "W G P . "
+                + ". . . . "
+                + "S . P . ");

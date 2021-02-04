@@ -1,0 +1,13 @@
+class WumpusActionsFunction
+!!!197506.java!!!	WumpusActionsFunction(inout cave : WumpusCave)
+			this.cave = cave;
+!!!197634.java!!!	apply(inout state : AgentPosition) : WumpusAction
+			List<WumpusAction> actions = new ArrayList<>();
+			
+			AgentPosition pos = cave.moveForward(state);
+			if (!pos.equals(state))
+				actions.add(WumpusAction.FORWARD);
+			actions.add(WumpusAction.TURN_LEFT);
+			actions.add(WumpusAction.TURN_RIGHT);
+
+			return actions;

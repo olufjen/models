@@ -1,0 +1,95 @@
+class ParticleFiltering
+!!!398722.java!!!	ParticleFiltering(in N : int, inout dbn : DynamicBayesianNetwork)
+		this(N, dbn, new JavaRandomizer());
+!!!398850.java!!!	ParticleFiltering(in N : int, inout dbn : DynamicBayesianNetwork, inout randomizer : Randomizer)
+		this.randomizer = randomizer;
+		this.priorSampler = new PriorSample(this.randomizer);
+		initPersistent(N, dbn);
+!!!398978.java!!!	particleFiltering(inout e : AssignmentProposition [[]]) : AssignmentProposition
+		// local variables: W, a vector of weights of size N
+		double[] W = new double[N];
+
+		// for i = 1 to N do
+		for (int i = 0; i < N; i++) {
+			/* step 1 */
+			// S[i] <- sample from <b>P</b>(<b>X</b><sub>1</sub> |
+			// <b>X</b><sub>0</sub> = S[i])
+			sampleFromTransitionModel(i);
+			/* step 2 */
+			// W[i] <- <b>P</b>(<b>e</b> | <b>X</b><sub>1</sub> = S[i])
+			W[i] = sensorModel.posterior(ProbUtil.constructConjunction(e),
+					S_tp1[i]);
+		}
+		/* step 3 */
+		// S <- WEIGHTED-SAMPLE-WITH-REPLACEMENT(N, S, W)
+		S = weightedSampleWithReplacement(N, S, W);
+
+		// return S
+		return S;
+!!!399106.java!!!	initPersistent(in N : int, inout dbn : DynamicBayesianNetwork) : void
+		this.N = N;
+		this.dbn = dbn;
+		// persistent: S, a vector of samples of size N, initially generated
+		// from <b>P</b>(<b>X</b><sub>0</sub>)
+		S = new AssignmentProposition[N][this.dbn.getX_0().size()];
+		S_tp1 = new AssignmentProposition[N][this.dbn.getX_0().size()];
+		Integer[] indexes = new Integer[N];
+		for (int i = 0; i < N; i++) {
+			indexes[i] = i;
+			Map<RandomVariable, Object> sample = priorSampler
+					.priorSample(this.dbn.getPriorNetwork());
+			int idx = 0;
+			for (Map.Entry<RandomVariable, Object> sa : sample.entrySet()) {
+				S[i][idx] = new AssignmentProposition(this.dbn.getX_0_to_X_1()
+						.get(sa.getKey()), sa.getValue());
+				S_tp1[i][idx] = new AssignmentProposition(this.dbn
+						.getX_0_to_X_1().get(sa.getKey()), sa.getValue());
+				idx++;
+			}
+		}
+
+		sensorModel = new FiniteBayesModel(dbn, new EliminationAsk());
+
+		sampleIndexes = new RandVar("SAMPLE_INDEXES", new FiniteIntegerDomain(
+				indexes));
+!!!399234.java!!!	sampleFromTransitionModel(in i : int) : void
+		// x <- an event initialized with S[i]
+		Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+		for (int n = 0; n < S[i].length; n++) {
+			AssignmentProposition x1 = S[i][n];
+			x.put(this.dbn.getX_1_to_X_0().get(x1.getTermVariable()),
+					x1.getValue());
+		}
+
+		// foreach variable X<sub>1<sub>i</sub></sub> in
+		// X<sub>1<sub>1</sub></sub>,...,X<sub>1<sub>n<</sub>/sub> do
+		for (RandomVariable X1_i : dbn.getX_1_VariablesInTopologicalOrder()) {
+			// x1[i] <- a random sample from
+			// <b>P</b>(X<sub>1<sub>i</sub></sub> |
+			// parents(X<sub>1<sub>i</sub></sub>))
+			x.put(X1_i, ProbUtil.randomSample(dbn.getNode(X1_i), x, randomizer));
+		}
+
+		// S[i] <- sample from <b>P</b>(<b>X</b><sub>1</sub> |
+		// <b>X</b><sub>0</sub> = S[i])
+		for (int n = 0; n < S_tp1[i].length; n++) {
+			AssignmentProposition x1 = S_tp1[i][n];
+			x1.setValue(x.get(x1.getTermVariable()));
+		}
+!!!399362.java!!!	weightedSampleWithReplacement(in N : int, inout S : AssignmentProposition [[][]], inout W : double [[]]) : AssignmentProposition
+		AssignmentProposition[][] newS = new AssignmentProposition[N][this.dbn
+				.getX_0().size()];
+
+		double[] normalizedW = Util.normalize(W);
+
+		for (int i = 0; i < N; i++) {
+			int sample = (Integer) ProbUtil.sample(randomizer.nextDouble(),
+					sampleIndexes, normalizedW);
+			for (int idx = 0; idx < S_tp1[i].length; idx++) {
+				AssignmentProposition ap = S_tp1[sample][idx];
+				newS[i][idx] = new AssignmentProposition(ap.getTermVariable(),
+						ap.getValue());
+			}
+		}
+
+		return newS;

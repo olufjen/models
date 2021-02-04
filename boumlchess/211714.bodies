@@ -1,0 +1,53 @@
+class MessageLoggerPanel
+!!!636674.java!!!	MessageLoggerPanel()
+		setLayout(new BorderLayout());
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		// Use a fixed width font to help make the output easier to read.
+		textArea.setFont(new Font(Font.MONOSPACED, textArea.getFont()
+				.getStyle(), 14));
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		add(scrollPane, BorderLayout.CENTER);
+		createPopupMenu();
+!!!636802.java!!!	setLogLater(inout b : boolean) : void
+		logLater = b;
+!!!636930.java!!!	clear() : void
+		textArea.setText("");
+!!!637058.java!!!	log(in message : String) : void
+		if (EventQueue.isDispatchThread()) {
+			printMessage(message);
+		} else {
+			Runnable r = new Runnable() {
+				@Override
+				public void run() {
+					printMessage(message);
+				}
+			};
+			try {
+				if (logLater)
+					EventQueue.invokeLater(r);
+				else
+					EventQueue.invokeAndWait(r);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+!!!637186.java!!!	printMessage(in message : String) : void
+		int start = textArea.getDocument().getLength();
+		textArea.append(message + "\n");
+		int end = textArea.getDocument().getLength();
+		textArea.setSelectionStart(start);
+		textArea.setSelectionEnd(end);
+!!!637314.java!!!	getPrintStream() : PrintStream
+		return new PrintStream(new TextAreaOutputStream());
+!!!637442.java!!!	createPopupMenu() : void
+		JPopupMenu popup = new JPopupMenu();
+		JMenuItem menuItem = new JMenuItem("Clear");
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				clear();
+			}
+		});
+		popup.add(menuItem);
+		textArea.addMouseListener(new PopupShower(popup));

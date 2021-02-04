@@ -1,0 +1,718 @@
+format 223
+"inference" // aima::core::search::csp::inference
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/csp/inference/"
+  java_package "aima.core.search.csp.inference"
+  classview 138114 "inference"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 191490 "InferenceLog"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Provides information about (1) whether changes have been performed, (2) possibly inferred empty domains , and
+(3) how to restore the CSP.
+
+@author Ruediger Lunde
+"
+      operation 458370 "isEmpty"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 458498 "inconsistencyFound"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 458626 "undo"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 458754 "emptyLog"
+	class_operation cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an empty inference log.
+"
+      end
+    end
+
+    class 193026 "InferenceStrategy"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Defines a common interface for backtracking inference strategies.
+
+@author Ruediger Lunde
+"
+      operation 457602 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Inference method which is called before backtracking is started.
+"
+      end
+
+      operation 457730 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Inference method which is called after the assignment has (recursively) been extended by a value assignment
+for <code>var</code>.
+"
+      end
+    end
+
+    class 193922 "AC3Strategy"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 193026 // InferenceStrategy
+        rank 0 explicit_value ""
+      actual class class_ref 193026 // InferenceStrategy
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.3, Page 209.<br>
+<br>
+
+<pre>
+<code>
+function AC-3(csp) returns false if an inconsistency is found and true otherwise
+   inputs: csp, a binary CSP with components (X, D, C)
+   local variables: queue, a queue of arcs, initially all the arcs in csp
+   while queue is not empty do
+      (Xi, Xj) = REMOVE-FIRST(queue)
+      if REVISE(csp, Xi, Xj) then
+         if size of Di = 0 then return false
+            for each Xk in Xi.NEIGHBORS - {Xj} do
+               add (Xk, Xi) to queue
+   return true
+
+function REVISE(csp, Xi, Xj) returns true iff we revise the domain of Xi
+   revised = false
+   for each x in Di do
+      if no value y in Dj allows (x ,y) to satisfy the constraint between Xi and Xj then
+         delete x from Di
+         revised = true
+   return revised
+</code>
+</pre>
+
+Figure 6.3 The arc-consistency algorithm AC-3. After applying AC-3, either
+every arc is arc-consistent, or some variable has an empty domain, indicating
+that the CSP cannot be solved. The name \"AC-3\" was used by the algorithm's
+inventor (Mackworth, 1977) because it's the third version developed in the
+paper.
+
+@author Ruediger Lunde
+"
+      classrelation 231426 // <realization>
+	relation 231426 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 231426 // <realization>
+	  b parent class_ref 193026 // InferenceStrategy
+      end
+
+      operation 457858 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Makes a CSP consisting of binary constraints arc-consistent.
+
+@return An object which indicates success/failure and contains data to
+        undo the operation.
+"
+      end
+
+      operation 457986 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reduces the domain of the specified variable to the specified value and
+reestablishes arc-consistency. It is assumed that the provided CSP was
+arc-consistent before the call.
+
+@return An object which indicates success/failure and contains data to
+        undo the operation.
+"
+      end
+
+      operation 458114 "reduceDomains"
+	cpp_inline private explicit_return_type "void"
+	nparams 3
+	  param inout name "queue" explicit_type "Queue<VAR>"
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "log" type class_ref 194050 // DomainLog
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2}<VAR, VAL> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For efficiency reasons the queue manages updated variables vj whereas the original AC3
+manages neighbor arcs (vi, vj). Constraints which are not binary are ignored.
+"
+      end
+
+      operation 458242 "revise"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 5
+	  param inout name "xi" explicit_type "VAR"
+	  param inout name "xj" explicit_type "VAR"
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "log" type class_ref 194050 // DomainLog
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<VAR, VAL> ${p2}, ${t3}<VAR, VAL> ${p3}, ${t4}<VAR, VAL> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Establishes arc-consistency for (xi, xj).
+@return value true if the domain of xi was reduced.
+"
+      end
+    end
+
+    class 194050 "DomainLog"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 191490 // InferenceLog
+        rank 0 explicit_value ""
+      actual class class_ref 191490 // InferenceLog
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Provides information which might be useful for a caller of a constraint
+propagation algorithm. It maintains old domains for variables and provides
+means to restore the initial state of the CSP (before domain reduction
+started). Additionally, a flag indicates whether an empty domain has been
+found during propagation.
+
+@author Ruediger Lunde
+
+"
+      classrelation 231554 // <realization>
+	relation 231554 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 231554 // <realization>
+	  b parent class_ref 191490 // InferenceLog
+      end
+
+      classrelation 231682 // savedDomains (<unidirectional association>)
+	relation 231682 --->
+	  stereotype "List"
+	  a role_name "savedDomains" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<VAR, Domain<VAL>>> ${name}${value};
+"
+	    classrelation_ref 231682 // savedDomains (<unidirectional association>)
+	  b parent class_ref 129026 // Pair
+      end
+
+      attribute 189442 "affectedVariables"
+	private explicit_type "VAR"
+	stereotype "HashSet"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189570 "emptyDomainObserved"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 458882 "DomainLog"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 459010 "clear"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 459138 "storeDomainFor"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "domain" type class_ref 191746 // Domain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAL> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Stores the specified domain for the specified variable if a domain has
+not yet been stored for the variable.
+"
+      end
+
+      operation 459266 "setEmptyDomainFound"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 459394 "compactify"
+	cpp_inline public return_type class_ref 194050 // DomainLog
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Can be called after all domain information has been collected to reduce
+storage consumption.
+
+@return this object, after removing one hashtable.
+"
+      end
+
+      operation 459522 "isEmpty"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 459650 "undo"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 459778 "inconsistencyFound"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 459906 "getSavedDomains"
+	cpp_inline private return_type class_ref 129026 // Pair
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<VAR, Domain<VAL>>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 460034 "toString"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 194178 "ForwardCheckingStrategy"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 193026 // InferenceStrategy
+        rank 0 explicit_value ""
+      actual class class_ref 193026 // InferenceStrategy
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implements forward checking. Constraints which are not binary are ignored here.
+@author Ruediger Lunde
+"
+      classrelation 231810 // <realization>
+	relation 231810 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 231810 // <realization>
+	  b parent class_ref 193026 // InferenceStrategy
+      end
+
+      operation 460162 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " The CSP is not changed at the beginning. "
+      end
+
+      operation 460290 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Removes all values from the domains of the neighbor variables of <code>var</code> in the
+constraint graph which are not consistent with the new value for <code>var</code>.
+It is called after <code>assignment</code> has (recursively) been extended with a value
+assignment for <code>var</code>.
+"
+      end
+
+      operation 460418 "revise"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 5
+	  param inout name "var" explicit_type "VAR"
+	  param inout name "constraint" type class_ref 191618 // Constraint
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "log" type class_ref 194050 // DomainLog
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2}<VAR, VAL> ${p2}, ${t3}<VAR, VAL> ${p3}, ${t4}<VAR, VAL> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes all values from the domain of <code>var</code> which are not consistent with
+<code>constraint</code> and <code>assignment</code>. Modifies the domain log accordingly so
+that all changes can be undone later on.
+"
+      end
+    end
+  end
+
+  deploymentview 137346 "inference"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 182658 "InferenceStrategy"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.Assignment;
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Variable;
+${definition}"
+      associated_elems
+	class_ref 193026 // InferenceStrategy
+      end
+    end
+
+    artifact 182786 "AC3Strategy"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import aima.core.search.csp.*;
+import aima.core.search.framework.QueueFactory;
+${definition}"
+      associated_elems
+	class_ref 193922 // AC3Strategy
+      end
+    end
+
+    artifact 182914 "InferenceLog"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Variable;
+${definition}"
+      associated_elems
+	class_ref 191490 // InferenceLog
+      end
+    end
+
+    artifact 183042 "DomainLog"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Domain;
+import aima.core.search.csp.Variable;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 194050 // DomainLog
+      end
+    end
+
+    artifact 183170 "ForwardCheckingStrategy"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.Assignment;
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Constraint;
+import aima.core.search.csp.Variable;
+${definition}"
+      associated_elems
+	class_ref 194178 // ForwardCheckingStrategy
+      end
+    end
+  end
+end

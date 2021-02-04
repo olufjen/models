@@ -1,0 +1,201 @@
+class ABishop
+!!!736770.java!!!	ABishop()
+		super();
+		reachablesqueres = new int[size][size];
+		reachablepiecePosition = new String[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablepiecePosition[i][j] = null;
+			}
+		}
+!!!736898.java!!!	ABishop(inout myPosition : Position, inout myPiece : ChessPiece)
+		super();
+		color = myPiece.getColor();
+		if (color.equals("w"))
+			localColor = pieceColor.WHITE;
+		else
+			localColor = pieceColor.BLACK;
+		this.myPiece = myPiece;
+		this.myPosition = myPosition;
+		reachablesqueres = new int[size][size];
+		reachablepiecePosition = new String[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablepiecePosition[i][j] = null;
+			}
+		}
+		getLegalmoves(myPosition);
+!!!737026.java!!!	ABishop(inout myPosition : Position)
+		super();
+		reachablesqueres = new int[size][size];
+		reachablepiecePosition = new String[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				reachablepiecePosition[i][j] = null;
+			}
+		}
+		getLegalmoves(myPosition);
+!!!737154.java!!!	getColor() : String
+		return color;
+!!!737282.java!!!	setColor(in color : String) : void
+		this.color = color;
+!!!737410.java!!!	getMyPiece() : ChessPiece
+		return myPiece;
+!!!737538.java!!!	setMyPiece(inout myPiece : ChessPiece) : void
+		this.myPiece = myPiece;
+!!!737666.java!!!	getMyPosition() : Position
+		return myPosition;
+!!!737794.java!!!	setMyPosition(inout myPosition : Position) : void
+		this.myPosition = myPosition;
+!!!737922.java!!!	checkName(in name : String) : boolean
+		// TODO Auto-generated method stub
+		return false;
+!!!738050.java!!!	test(inout piece : GamePiece) : boolean
+		return piece.getPieceType() == localType;
+!!!738178.java!!!	getSize() : int
+		return reachablesqueres.length;
+!!!738306.java!!!	clear() : void
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				reachablesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				reachablepiecePosition[i][j] = null;
+			}
+		}
+!!!738434.java!!!	getLocalType() : AbstractGamePiece::pieceType
+		return localType;
+!!!738562.java!!!	setLocalType(inout localType : AbstractGamePiece::pieceType) : void
+		this.localType = localType;
+!!!738690.java!!!	getReachablesqueres() : int
+		return reachablesqueres;
+!!!738818.java!!!	setReachablesqueres(inout reachablesqueres : int [[][]]) : void
+		this.reachablesqueres = reachablesqueres;
+!!!738946.java!!!	getReachablepiecePosition() : String
+		return reachablepiecePosition;
+!!!739074.java!!!	setReachablepiecePosition(inout reachablepiecePosition : String [[][]]) : void
+		this.reachablepiecePosition = reachablepiecePosition;
+!!!739202.java!!!	getLegalmoves(inout position : Position) : void
+		XYLocation loc = position.getXyloc();
+		String posName = position.getPositionName();
+		ABishopMoveRule moveRule = new ABishopMoveRule();
+		List<XYLocation> locations = ChessFunctions.moveRule(this, moveRule);
+		if (newPositions == null)
+			newPositions = new HashMap();
+		for (XYLocation xloc:locations) {
+			int x = xloc.getXCoOrdinate();
+			int y = xloc.getYCoOrdinate();
+			reachablesqueres[x][y] = 1;
+			reachablepiecePosition[x][y] = "P";
+			createPosition(newPositions, xloc);
+		}		
+/*		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		int j = x + 1;
+		if (j<7) {
+			for (int i = y+1;i<7;i++) {
+				reachablesqueres[j][i] = 1;
+				reachablepiecePosition[j][i] = "B";
+				createPosition(newPositions, j,i);
+				if (j<7)
+					j++;
+				else
+					break;
+			} 
+		}
+		j = x -1;
+		if (j>0) {
+			for (int i = y+1;i<7;i++) {
+				reachablesqueres[j][i] = 1;
+				reachablepiecePosition[j][i] = "B";
+				createPosition(newPositions, j,i);
+				if (j>0)
+					j--;
+				else
+					break;
+			} 
+		}
+		j = x + 1;
+		if (j <7 && y>0) {
+			for (int i = y-1;i>0;i--) {
+				reachablesqueres[j][i] = 1;
+				reachablepiecePosition[j][i] = "B";
+				createPosition(newPositions, j,i);
+				if (j<7)
+					j++;
+				else
+					break;
+			}
+		}	
+		j = x -1;
+		if (j > 0 && y>0) {
+			for (int i = y-1;i>0;i--) {
+				reachablesqueres[j][i] = 1;
+				reachablepiecePosition[j][i] = "B";
+				createPosition(newPositions, j,i);
+				if (j>0)
+					j--;
+				else
+					break;
+			}
+		}
+
+
+		*/
+!!!739330.java!!!	createPosition(inout newPositions : HashMap<String,Position>, inout newloc : XYLocation) : void
+//		XYLocation newloc = new XYLocation(x,y);
+		Position newPosxyp = new Position(newloc,false,null);
+		newPositions.put(newPosxyp.getPositionName(), newPosxyp);
+!!!739458.java!!!	getNewPositions() : Position
+		return newPositions;
+!!!739586.java!!!	getLegalmoves() : HashMap
+		return newPositions;
+		
+!!!739714.java!!!	getPieceType() : AbstractGamePiece::pieceType
+		
+		return localType;
+!!!739842.java!!!	getmyPosition() : Position
+		
+		return myPosition;
+!!!739970.java!!!	produceLegalmoves(inout position : Position) : void
+		newPositions.clear();
+		myPosition = position;
+		getLegalmoves(position);
+		createontPosition(newPositions);
+!!!740098.java!!!	createontPosition(inout newPositions : HashMap<String,Position>) : void
+//		XYLocation newloc = new XYLocation(x,y);
+		List<Position> tempPositions = new ArrayList(newPositions.values());
+		for (Position pos : tempPositions) {
+			String name = pos.getPositionName();
+			Position ontPosition = ontologyPositions.get(name);
+			if (ontPosition != null) {
+				newPositions.put(name, ontPosition);
+			}
+		}
+
+!!!740226.java!!!	getPieceColor() : AbstractGamePiece::pieceColor
+		
+		return 	localColor;
+!!!740354.java!!!	getOntologyPositions() : Position
+		
+		return this.ontologyPositions;
+!!!740482.java!!!	setOntologyPositions(inout ontologyPositions : HashMap<String, Position>) : void
+		this.ontologyPositions = ontologyPositions;
+		

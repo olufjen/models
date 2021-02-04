@@ -1,0 +1,32 @@
+class SimulationThread
+!!!638210.java!!!	SimulationThread(inout frame : AgentAppFrame, inout controller : AgentAppController, inout stepMode : boolean)
+		this.frame = frame;
+		this.controller = controller;
+		this.stepMode = stepMode;
+!!!638338.java!!!	interrupt() : void
+		cancel();
+		super.interrupt();
+!!!638466.java!!!	run() : void
+		MessageLogger logger = frame.getMessageLogger();
+		try {
+			if (!stepMode)
+				controller.run(frame.getMessageLogger());
+			else
+				controller.step(frame.getMessageLogger());
+		} catch (Exception e) {
+			logger.log
+			("Error: Something went wrong running the agent (" + e + ").");
+			e.printStackTrace(); // for debugging
+		}
+		try {
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					controller.update(SimulationThread.this);
+					frame.setSimulationThread(null);
+				}
+			});
+		} catch(Exception e) {
+			logger.log
+			("Error: Something went wrong when updating the GUI (" + e + ").");
+			e.printStackTrace(); // for debugging
+		}

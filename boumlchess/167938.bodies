@@ -1,0 +1,13 @@
+class ProofStepClauseDemodulation
+!!!310274.java!!!	ProofStepClauseDemodulation(inout demodulated : Clause, inout origClause : Clause, inout assertion : TermEquality)
+		this.demodulated = demodulated;
+		this.origClause = origClause;
+		this.assertion = assertion;
+		this.predecessors.add(origClause.getProofStep());
+!!!310402.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!310530.java!!!	getProof() : String
+		return demodulated.toString();
+!!!310658.java!!!	getJustification() : String
+		return "Demodulation: " + origClause.getProofStep().getStepNumber()
+				+ ", [" + assertion + "]";

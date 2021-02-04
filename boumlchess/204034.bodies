@@ -1,0 +1,16 @@
+class TrivialVacuumDemo
+!!!541698.java!!!	main(inout args : String [[]]) : void
+		// create environment with random state of cleaning.
+		Environment env = new VacuumEnvironment();
+		EnvironmentView view = new SimpleEnvironmentView();
+		env.addEnvironmentView(view);
+		
+		Agent a = null;
+		a = new ModelBasedReflexVacuumAgent();
+		// a = new ReflexVacuumAgent();
+		// a = new SimpleReflexVacuumAgent();
+		// a = new TableDrivenVacuumAgent();
+		
+		env.addAgent(a);
+		env.step(16);
+		env.notifyViews("Performance=" + env.getPerformanceMeasure(a));

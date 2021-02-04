@@ -1,0 +1,114 @@
+class AnswerHandler
+!!!292738.java!!!	AnswerHandler(inout kb : FOLKnowledgeBase, inout query : Sentence, in maxQueryTime : long)
+
+			finishTime = System.currentTimeMillis() + maxQueryTime;
+
+			Sentence refutationQuery = new NotSentence(query);
+
+			// Want to use an answer literal to pull
+			// query variables where necessary
+			Literal answerLiteral = kb.createAnswerLiteral(refutationQuery);
+			answerLiteralVariables = kb.collectAllVariables(answerLiteral
+					.getAtomicSentence());
+
+			// Create the Set of Support based on the Query.
+			if (answerLiteralVariables.size() > 0) {
+				Sentence refutationQueryWithAnswer = new ConnectedSentence(
+						Connectors.OR, refutationQuery, answerLiteral
+								.getAtomicSentence().copy());
+
+				sos = createChainsFromClauses(kb
+						.convertToClauses(refutationQueryWithAnswer));
+
+				answerChain.addLiteral(answerLiteral);
+			} else {
+				sos = createChainsFromClauses(kb
+						.convertToClauses(refutationQuery));
+			}
+
+			for (Chain s : sos) {
+				s.setProofStep(new ProofStepGoal(s));
+			}
+!!!292866.java!!!	isPossiblyFalse() : boolean
+			return !timedOut && proofs.size() == 0;
+!!!292994.java!!!	isTrue() : boolean
+			return proofs.size() > 0;
+!!!293122.java!!!	isUnknownDueToTimeout() : boolean
+			return timedOut && proofs.size() == 0;
+!!!293250.java!!!	isPartialResultDueToTimeout() : boolean
+			return timedOut && proofs.size() > 0;
+!!!293378.java!!!	getProofs() : Proof
+			return proofs;
+!!!293506.java!!!	getSetOfSupport() : Chain
+			return sos;
+!!!293634.java!!!	isComplete() : boolean
+			return complete;
+!!!293762.java!!!	resetMaxDepthReached() : void
+			maxDepthReached = 0;
+!!!293890.java!!!	getMaxDepthReached() : int
+			return maxDepthReached;
+!!!294018.java!!!	updateMaxDepthReached(in depth : int) : void
+			if (depth > maxDepthReached) {
+				maxDepthReached = depth;
+			}
+!!!294146.java!!!	isAnswer(inout nearParent : Chain) : boolean
+			boolean isAns = false;
+			if (answerChain.isEmpty()) {
+				if (nearParent.isEmpty()) {
+					proofs.add(new ProofFinal(nearParent.getProofStep(),
+							new HashMap<Variable, Term>()));
+					complete = true;
+					isAns = true;
+				}
+			} else {
+				if (nearParent.isEmpty()) {
+					// This should not happen
+					// as added an answer literal to sos, which
+					// implies the database (i.e. premises) are
+					// unsatisfiable to begin with.
+					throw new IllegalStateException(
+							"Generated an empty chain while looking for an answer, implies original KB is unsatisfiable");
+				}
+				if (1 == nearParent.getNumberLiterals()
+						&& nearParent
+								.getHead()
+								.getAtomicSentence()
+								.getSymbolicName()
+								.equals(answerChain.getHead()
+										.getAtomicSentence().getSymbolicName())) {
+					Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
+					List<Term> answerTerms = nearParent.getHead()
+							.getAtomicSentence().getArgs();
+					int idx = 0;
+					for (Variable v : answerLiteralVariables) {
+						answerBindings.put(v, answerTerms.get(idx));
+						idx++;
+					}
+					boolean addNewAnswer = true;
+					for (Proof p : proofs) {
+						if (p.getAnswerBindings().equals(answerBindings)) {
+							addNewAnswer = false;
+							break;
+						}
+					}
+					if (addNewAnswer) {
+						proofs.add(new ProofFinal(nearParent.getProofStep(),
+								answerBindings));
+					}
+					isAns = true;
+				}
+			}
+
+			if (System.currentTimeMillis() > finishTime) {
+				complete = true;
+				// Indicate that I have run out of query time
+				timedOut = true;
+			}
+
+			return isAns;
+!!!294274.java!!!	toString() : String
+			StringBuilder sb = new StringBuilder();
+			sb.append("isComplete=" + complete);
+			sb.append("\n");
+			sb.append("result=" + proofs);
+			return sb.toString();

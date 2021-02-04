@@ -1,0 +1,1476 @@
+format 223
+"proposition" // aima::core::probability::proposition
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/proposition/"
+  java_package "aima.core.probability.proposition"
+  classview 135426 "proposition"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 176642 "Proposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
+<br>
+Propositions describing sets of possible worlds are written in a notation
+that combines elements of propositional logic and constraint satisfaction
+notation. In the terminology of Section 2.4.7, it is a factored
+representation, in which a possible world is represented by a set of
+variable/value pairs.<br>
+<br>
+A possible world is defined to be an assignment of values to all of the
+random variables under consideration.
+
+@author Ciaran O'Reilly
+"
+      operation 427778 "getScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of RandomVariables in the World (sample space) that this
+        Proposition is applicable to.
+"
+      end
+
+      operation 427906 "getUnboundScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of RandomVariables from this propositions scope that are
+        not constrained to any particular set of values (e.g. bound =
+        P(Total = 11), while unbound = P(Total)). If a variable is
+        unbound it implies the distributions associated with the variable
+        is being sought.
+"
+      end
+
+      operation 428034 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine whether or not the proposition holds in a particular possible
+world.
+
+@param possibleWorld
+           A possible world is defined to be an assignment of values to
+           all of the random variables under consideration.
+@return true if the proposition holds in the given possible world, false
+        otherwise.
+"
+      end
+    end
+
+    class 176898 "AssignmentProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 219010 // <generalisation>
+	relation 219010 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219010 // <generalisation>
+	  b parent class_ref 185858 // AbstractTermProposition
+      end
+
+      attribute 184066 "value"
+	private explicit_type "Object"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 184194 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 429954 "AssignmentProposition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "forVariable" type class_ref 175490 // RandomVariable
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 430082 "getValue"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 430210 "setValue"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 430338 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 430466 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 185346 "AbstractDerivedProposition"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 217986 // <generalisation>
+	relation 217986 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 217986 // <generalisation>
+	  b parent class_ref 185474 // AbstractProposition
+      end
+
+      classrelation 218370 // <realization>
+	relation 218370 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218370 // <realization>
+	  b parent class_ref 185602 // DerivedProposition
+      end
+
+      attribute 183938 "name"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 429314 "AbstractDerivedProposition"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 429442 "getDerivedName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-DerivedProposition"
+      end
+    end
+
+    class 185474 "AbstractProposition"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 217602 // <realization>
+	relation 217602 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 217602 // <realization>
+	  b parent class_ref 176642 // Proposition
+      end
+
+      classrelation 217730 // scope (<unidirectional association>)
+	relation 217730 --->
+	  stereotype "LinkedHashSet"
+	  a role_name "scope" init_value " new LinkedHashSet<RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 217730 // scope (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 217858 // unboundScope (<unidirectional association>)
+	relation 217858 --->
+	  stereotype "LinkedHashSet"
+	  a role_name "unboundScope" init_value " new LinkedHashSet<RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 217858 // unboundScope (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      operation 428162 "AbstractProposition"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 428290 "getScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Proposition"
+      end
+
+      operation 428418 "getUnboundScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 428546 "holds"
+	abstract public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 428674 "addScope"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-Proposition
+
+
+ Protected Methods
+"
+      end
+
+      operation 428802 "addScope"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "vars" explicit_type "Collection<RandomVariable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 428930 "addUnboundScope"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 429058 "addUnboundScope"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "vars" explicit_type "Collection<RandomVariable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 185602 "DerivedProposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 218242 // <generalisation>
+	relation 218242 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218242 // <generalisation>
+	  b parent class_ref 185730 // SentenceProposition
+      end
+
+      operation 429186 "getDerivedName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 185730 "SentenceProposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Indicator interface used to identify Sentence Propositions.
+
+@author Ciaran O'Reilly
+"
+      classrelation 218114 // <generalisation>
+	relation 218114 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218114 // <generalisation>
+	  b parent class_ref 176642 // Proposition
+      end
+    end
+
+    class 185858 "AbstractTermProposition"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 218498 // <generalisation>
+	relation 218498 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218498 // <generalisation>
+	  b parent class_ref 185474 // AbstractProposition
+      end
+
+      classrelation 218754 // <realization>
+	relation 218754 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218754 // <realization>
+	  b parent class_ref 185986 // TermProposition
+      end
+
+      classrelation 218882 // termVariable (<unidirectional association>)
+	relation 218882 --->
+	  a role_name "termVariable" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 218882 // termVariable (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      operation 429698 "AbstractTermProposition"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 429826 "getTermVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 185986 "TermProposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A proposition on a single variable term.
+
+Note: The scope may be greater than a single variable as the term may be a
+derived variable (e.g. Total=Dice1+Dice2).
+
+@author Ciaran O'Reilly
+"
+      classrelation 218626 // <generalisation>
+	relation 218626 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 218626 // <generalisation>
+	  b parent class_ref 176642 // Proposition
+      end
+
+      operation 429570 "getTermVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return The Term's Variable.
+"
+      end
+    end
+
+    class 186114 "BinarySentenceProposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Indicator interface used to identify binary sentences.
+
+@author Ciaran O'Reilly
+"
+      classrelation 219138 // <generalisation>
+	relation 219138 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219138 // <generalisation>
+	  b parent class_ref 185730 // SentenceProposition
+      end
+    end
+
+    class 186242 "ConjunctiveProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 219266 // <generalisation>
+	relation 219266 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219266 // <generalisation>
+	  b parent class_ref 185474 // AbstractProposition
+      end
+
+      classrelation 219394 // <realization>
+	relation 219394 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219394 // <realization>
+	  b parent class_ref 186114 // BinarySentenceProposition
+      end
+
+      classrelation 219522 // left (<unidirectional association>)
+	relation 219522 --->
+	  a role_name "left" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 219522 // left (<unidirectional association>)
+	  b parent class_ref 176642 // Proposition
+      end
+
+      classrelation 219650 // right (<unidirectional association>)
+	relation 219650 --->
+	  a role_name "right" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 219650 // right (<unidirectional association>)
+	  b parent class_ref 176642 // Proposition
+      end
+
+      attribute 184322 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 430594 "ConjunctiveProposition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "left" type class_ref 176642 // Proposition
+	  param inout name "right" type class_ref 176642 // Proposition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 430722 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 430850 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 186370 "DisjunctiveProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Formula 13.4, page
+489.<br>
+<br>
+
+We can also derive the well-known formula for the probability of a
+disjunction, sometimes called the <b>inclusion-exclusion principle:</b><br>
+<br>
+P(a OR b) = P(a) + P(b) - P(a AND b).<br>
+
+@author Ciaran O'Reilly
+"
+      classrelation 219778 // <generalisation>
+	relation 219778 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219778 // <generalisation>
+	  b parent class_ref 185474 // AbstractProposition
+      end
+
+      classrelation 219906 // <realization>
+	relation 219906 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 219906 // <realization>
+	  b parent class_ref 186114 // BinarySentenceProposition
+      end
+
+      classrelation 220034 // left (<unidirectional association>)
+	relation 220034 --->
+	  a role_name "left" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 220034 // left (<unidirectional association>)
+	  b parent class_ref 176642 // Proposition
+      end
+
+      classrelation 220162 // right (<unidirectional association>)
+	relation 220162 --->
+	  a role_name "right" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 220162 // right (<unidirectional association>)
+	  b parent class_ref 176642 // Proposition
+      end
+
+      attribute 184450 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 430978 "DisjunctiveProposition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "left" type class_ref 176642 // Proposition
+	  param inout name "right" type class_ref 176642 // Proposition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 431106 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 431234 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 186498 "EquivalentProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 220290 // <generalisation>
+	relation 220290 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 220290 // <generalisation>
+	  b parent class_ref 185346 // AbstractDerivedProposition
+      end
+
+      attribute 184578 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 431362 "EquivalentProposition"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "" explicit_type "RandomVariable...equivs"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 431490 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Proposition"
+      end
+
+      operation 431618 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Proposition
+"
+      end
+    end
+
+    class 186626 "IntegerSumProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 220418 // <generalisation>
+	relation 220418 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 220418 // <generalisation>
+	  b parent class_ref 185346 // AbstractDerivedProposition
+      end
+
+      classrelation 220546 // sumsDomain (<unidirectional association>)
+	relation 220546 --->
+	  a role_name "sumsDomain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 220546 // sumsDomain (<unidirectional association>)
+	  b parent class_ref 181378 // FiniteIntegerDomain
+      end
+
+      classrelation 220674 // sumVars (<unidirectional association>)
+	relation 220674 --->
+	  stereotype "List"
+	  a role_name "sumVars" init_value " new ArrayList<RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 220674 // sumVars (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      attribute 184706 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 431746 "IntegerSumProposition"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "name" explicit_type "String"
+	  param inout name "sumsDomain" type class_ref 181378 // FiniteIntegerDomain
+	  param inout name "" explicit_type "RandomVariable...sums"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 431874 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Proposition"
+      end
+
+      operation 432002 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Proposition
+"
+      end
+    end
+
+    class 186754 "NotProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 220802 // <generalisation>
+	relation 220802 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 220802 // <generalisation>
+	  b parent class_ref 185474 // AbstractProposition
+      end
+
+      classrelation 221058 // <realization>
+	relation 221058 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 221058 // <realization>
+	  b parent class_ref 186882 // UnarySentenceProposition
+      end
+
+      classrelation 221186 // proposition (<unidirectional association>)
+	relation 221186 --->
+	  a role_name "proposition" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 221186 // proposition (<unidirectional association>)
+	  b parent class_ref 176642 // Proposition
+      end
+
+      attribute 184834 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 432130 "NotProposition"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "prop" type class_ref 176642 // Proposition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 432258 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 432386 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 186882 "UnarySentenceProposition"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Indicator interface used to identify unary sentences.
+
+@author Ciaran O'Reilly
+"
+      classrelation 220930 // <generalisation>
+	relation 220930 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 220930 // <generalisation>
+	  b parent class_ref 185730 // SentenceProposition
+      end
+    end
+
+    class 187010 "SubsetProposition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 221314 // <generalisation>
+	relation 221314 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 221314 // <generalisation>
+	  b parent class_ref 185346 // AbstractDerivedProposition
+      end
+
+      classrelation 221442 // subsetDomain (<unidirectional association>)
+	relation 221442 --->
+	  a role_name "subsetDomain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 221442 // subsetDomain (<unidirectional association>)
+	  b parent class_ref 180994 // FiniteDomain
+      end
+
+      classrelation 221570 // varSubsetOf (<unidirectional association>)
+	relation 221570 --->
+	  a role_name "varSubsetOf" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 221570 // varSubsetOf (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      attribute 184962 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 432514 "SubsetProposition"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "name" explicit_type "String"
+	  param inout name "subsetDomain" type class_ref 180994 // FiniteDomain
+	  param inout name "ofVar" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 432642 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Proposition"
+      end
+
+      operation 432770 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Proposition
+"
+      end
+    end
+  end
+
+  deploymentview 136194 "proposition"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 175874 "Proposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 176642 // Proposition
+      end
+    end
+
+    artifact 176002 "AbstractProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 185474 // AbstractProposition
+      end
+    end
+
+    artifact 176130 "SentenceProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 185730 // SentenceProposition
+      end
+    end
+
+    artifact 176258 "DerivedProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 185602 // DerivedProposition
+      end
+    end
+
+    artifact 176386 "AbstractDerivedProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 185346 // AbstractDerivedProposition
+      end
+    end
+
+    artifact 176514 "TermProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 185986 // TermProposition
+      end
+    end
+
+    artifact 176642 "AbstractTermProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 185858 // AbstractTermProposition
+      end
+    end
+
+    artifact 176770 "AssignmentProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 176898 // AssignmentProposition
+      end
+    end
+
+    artifact 176898 "BinarySentenceProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 186114 // BinarySentenceProposition
+      end
+    end
+
+    artifact 177026 "ConjunctiveProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 186242 // ConjunctiveProposition
+      end
+    end
+
+    artifact 177154 "DisjunctiveProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 186370 // DisjunctiveProposition
+      end
+    end
+
+    artifact 177282 "EquivalentProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Iterator;
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 186498 // EquivalentProposition
+      end
+    end
+
+    artifact 177410 "IntegerSumProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.domain.FiniteIntegerDomain;
+${definition}"
+      associated_elems
+	class_ref 186626 // IntegerSumProposition
+      end
+    end
+
+    artifact 177538 "UnarySentenceProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 186882 // UnarySentenceProposition
+      end
+    end
+
+    artifact 177666 "NotProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+${definition}"
+      associated_elems
+	class_ref 186754 // NotProposition
+      end
+    end
+
+    artifact 177794 "SubsetProposition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.domain.FiniteDomain;
+${definition}"
+      associated_elems
+	class_ref 187010 // SubsetProposition
+      end
+    end
+  end
+end

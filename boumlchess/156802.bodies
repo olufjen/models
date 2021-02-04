@@ -1,0 +1,190 @@
+class FOLParser
+!!!332162.java!!!	FOLParser(inout lexer : FOLLexer)
+		this.lexer = lexer;
+		lookAheadBuffer = new Token[lookAhead];
+!!!332290.java!!!	FOLParser(inout domain : FOLDomain)
+		this(new FOLLexer(domain));
+!!!332418.java!!!	getFOLDomain() : FOLDomain
+		return lexer.getFOLDomain();
+!!!332546.java!!!	parse(in s : String) : Sentence
+		setUpToParse(s);
+		return parseSentence();
+!!!332674.java!!!	setUpToParse(in s : String) : void
+		lookAheadBuffer = new Token[1];
+		lexer.setInput(s);
+		fillLookAheadBuffer();
+
+!!!332802.java!!!	parseTerm() : Term
+		Token t = lookAhead(1);
+		int tokenType = t.getType();
+		if (tokenType == LogicTokenTypes.CONSTANT) {
+			return parseConstant();
+		} else if (tokenType == LogicTokenTypes.VARIABLE) {
+			return parseVariable();
+		} else if (tokenType == LogicTokenTypes.FUNCTION) {
+			return parseFunction();
+		}
+
+		else {
+			return null;
+		}
+!!!332930.java!!!	parseVariable() : Term
+		Token t = lookAhead(1);
+		String value = t.getText();
+		consume();
+		return new Variable(value);
+!!!333058.java!!!	parseConstant() : Term
+		Token t = lookAhead(1);
+		String value = t.getText();
+		consume();
+		return new Constant(value);
+!!!333186.java!!!	parseFunction() : Term
+		Token t = lookAhead(1);
+		String functionName = t.getText();
+		List<Term> terms = processTerms();
+		return new Function(functionName, terms);
+!!!333314.java!!!	parsePredicate() : Sentence
+		Token t = lookAhead(1);
+		String predicateName = t.getText();
+		List<Term> terms = processTerms();
+		return new Predicate(predicateName, terms);
+!!!333442.java!!!	processTerms() : Term
+		consume();
+		List<Term> terms = new ArrayList<Term>();
+		match("(");
+		Term term = parseTerm();
+		terms.add(term);
+
+		while (lookAhead(1).getType() == LogicTokenTypes.COMMA) {
+			match(",");
+			term = parseTerm();
+			terms.add(term);
+		}
+		match(")");
+		return terms;
+!!!333570.java!!!	parseTermEquality() : Sentence
+		Term term1 = parseTerm();
+		match("=");
+		// System.out.println("=");
+		Term term2 = parseTerm();
+		return new TermEquality(term1, term2);
+!!!333698.java!!!	parseNotSentence() : Sentence
+		match("NOT");
+		return new NotSentence(parseSentence());
+!!!333826.java!!!	lookAhead(in i : int) : Token
+		return lookAheadBuffer[i - 1];
+!!!333954.java!!!	consume() : void
+		// System.out.println("consuming" +lookAheadBuffer[0].getText());
+		loadNextTokenFromInput();
+		// System.out.println("next token " +lookAheadBuffer[0].getText());
+!!!334082.java!!!	loadNextTokenFromInput() : void
+
+		boolean eoiEncountered = false;
+		for (int i = 0; i < lookAhead - 1; i++) {
+
+			lookAheadBuffer[i] = lookAheadBuffer[i + 1];
+			if (isEndOfInput(lookAheadBuffer[i])) {
+				eoiEncountered = true;
+				break;
+			}
+		}
+		if (!eoiEncountered) {
+			try {
+				lookAheadBuffer[lookAhead - 1] = lexer.nextToken();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+!!!334210.java!!!	isEndOfInput(inout t : Token) : boolean
+		return (t.getType() == LogicTokenTypes.EOI);
+!!!334338.java!!!	fillLookAheadBuffer() : void
+		for (int i = 0; i < lookAhead; i++) {
+			lookAheadBuffer[i] = lexer.nextToken();
+		}
+!!!334466.java!!!	match(in terminalSymbol : String) : void
+		if (lookAhead(1).getText().equals(terminalSymbol)) {
+			consume();
+		} else {
+			throw new RuntimeException(
+					"Syntax error detected at match. Expected "
+							+ terminalSymbol + " but got "
+							+ lookAhead(1).getText());
+		}
+
+!!!334594.java!!!	parseSentence() : Sentence
+		Token t = lookAhead(1);
+		if (lParen(t)) {
+			return parseParanthizedSentence();
+		} else if ((lookAhead(1).getType() == LogicTokenTypes.QUANTIFIER)) {
+
+			return parseQuantifiedSentence();
+		} else if (notToken(t)) {
+			return parseNotSentence();
+		} else if (predicate(t)) {
+			return parsePredicate();
+		} else if (term(t)) {
+			return parseTermEquality();
+		}
+
+		throw new RuntimeException("parse failed with Token " + t.getText());
+!!!334722.java!!!	parseQuantifiedSentence() : Sentence
+		String quantifier = lookAhead(1).getText();
+		consume();
+		List<Variable> variables = new ArrayList<Variable>();
+		Variable var = (Variable) parseVariable();
+		variables.add(var);
+		while (lookAhead(1).getType() == LogicTokenTypes.COMMA) {
+			consume();
+			var = (Variable) parseVariable();
+			variables.add(var);
+		}
+		Sentence sentence = parseSentence();
+		return new QuantifiedSentence(quantifier, variables, sentence);
+!!!334850.java!!!	parseParanthizedSentence() : Sentence
+		match("(");
+		Sentence sen = parseSentence();
+		while (binaryConnector(lookAhead(1))) {
+			String connector = lookAhead(1).getText();
+			consume();
+			Sentence other = parseSentence();
+			sen = new ConnectedSentence(connector, sen, other);
+		}
+		match(")");
+		return sen; /* new ParanthizedSentence */
+
+!!!334978.java!!!	binaryConnector(inout t : Token) : boolean
+		if ((t.getType() == LogicTokenTypes.CONNECTIVE)
+				&& (!(t.getText().equals("NOT")))) {
+			return true;
+		} else {
+			return false;
+		}
+!!!335106.java!!!	lParen(inout t : Token) : boolean
+		if (t.getType() == LogicTokenTypes.LPAREN) {
+			return true;
+		} else {
+			return false;
+		}
+!!!335234.java!!!	term(inout t : Token) : boolean
+		if ((t.getType() == LogicTokenTypes.FUNCTION)
+				|| (t.getType() == LogicTokenTypes.CONSTANT)
+				|| (t.getType() == LogicTokenTypes.VARIABLE)) {
+			return true;
+		} else {
+			return false;
+		}
+
+!!!335362.java!!!	predicate(inout t : Token) : boolean
+		if ((t.getType() == LogicTokenTypes.PREDICATE)) {
+			return true;
+		} else {
+			return false;
+		}
+!!!335490.java!!!	notToken(inout t : Token) : boolean
+		if ((t.getType() == LogicTokenTypes.CONNECTIVE)
+				&& (t.getText().equals("NOT"))) {
+			return true;
+		} else {
+			return false;
+		}

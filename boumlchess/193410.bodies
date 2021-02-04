@@ -1,0 +1,14 @@
+class DiffNotEqualConstraint
+!!!456578.java!!!	DiffNotEqualConstraint(inout var1 : Variable, inout var2 : Variable, in diff : int)
+		this.var1 = var1;
+		this.var2 = var2;
+		this.diff = diff;
+		scope = new ArrayList<Variable>(2);
+		scope.add(var1);
+		scope.add(var2);
+!!!456706.java!!!	getScope() : Variable
+		return scope;
+!!!456834.java!!!	isSatisfiedWith(inout assignment : Assignment) : boolean
+		Integer value1 = assignment.getValue(var1);
+		Integer value2 = assignment.getValue(var2);
+		return (value1 == null || value2 == null || Math.abs(value1 - value2) != diff);

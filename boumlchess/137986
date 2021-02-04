@@ -1,0 +1,337 @@
+format 223
+"impl" // aima::core::probability::hmm::impl
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/hmm/impl/"
+  java_package "aima.core.probability.hmm.impl"
+  classview 136962 "impl"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 184322 "HMM"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Default implementation of the HiddenMarkovModel interface.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 215554 // <realization>
+	relation 215554 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 215554 // <realization>
+	  b parent class_ref 183042 // HiddenMarkovModel
+      end
+
+      classrelation 215682 // stateVariable (<unidirectional association>)
+	relation 215682 --->
+	  a role_name "stateVariable" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 215682 // stateVariable (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 215810 // stateVariableDomain (<unidirectional association>)
+	relation 215810 --->
+	  a role_name "stateVariableDomain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 215810 // stateVariableDomain (<unidirectional association>)
+	  b parent class_ref 180994 // FiniteDomain
+      end
+
+      classrelation 215938 // transitionModel (<unidirectional association>)
+	relation 215938 --->
+	  a role_name "transitionModel" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 215938 // transitionModel (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 216066 // sensorModel (<unidirectional association>)
+	relation 216066 --->
+	  stereotype "Map"
+	  a role_name "sensorModel" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<Object, ${type}> ${name}${value};
+"
+	    classrelation_ref 216066 // sensorModel (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 216194 // prior (<unidirectional association>)
+	relation 216194 --->
+	  a role_name "prior" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 216194 // prior (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      operation 422274 "HMM"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "stateVariable" type class_ref 175490 // RandomVariable
+	  param inout name "transitionModel" type class_ref 152194 // Matrix
+	  param inout name "sensorModel" explicit_type "Map<Object, Matrix>"
+	  param inout name "prior" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Instantiate a Hidden Markov Model.
+
+@param stateVariable
+           the single discrete random variable used to describe the
+           process states 1,...,S.
+@param transitionModel
+           the transition model:<br>
+           <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>)<br>
+           is represented by an S * S matrix <b>T</b> where<br>
+           <b>T</b><sub>ij</sub> = P(X<sub>t</sub> = j | X<sub>t-1</sub>
+           = i).
+@param sensorModel
+           the sensor model in matrix form:<br>
+           P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i. For
+           mathematical convenience we place each of these values into an
+           S * S diagonal matrix.
+@param prior
+           the prior distribution represented as a column vector in
+           Matrix form.
+"
+      end
+
+      operation 422402 "getStateVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-HiddenMarkovModel"
+      end
+
+      operation 422530 "getTransitionModel"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 422658 "getSensorModel"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<Object, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 422786 "getPrior"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 422914 "getEvidence"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "evidence" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 423042 "createUnitMessage"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 423170 "convert"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "fromCD" type class_ref 175106 // CategoricalDistribution
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 423298 "convert"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "fromMessage" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 423426 "convert"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "matrixs" explicit_type "List<Matrix>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 423554 "normalize"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 135682 "impl"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 174082 "HMM"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.domain.FiniteDomain;
+import aima.core.probability.hmm.HiddenMarkovModel;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbabilityTable;
+import aima.core.util.Util;
+import aima.core.util.math.Matrix;
+${definition}"
+      associated_elems
+	class_ref 184322 // HMM
+      end
+    end
+  end
+end

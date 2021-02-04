@@ -1,0 +1,25 @@
+class BiconditionalElimination
+!!!383490.java!!!	eliminate(inout sentence : Sentence) : Sentence
+		BiconditionalElimination eliminator = new BiconditionalElimination();
+
+		Sentence result = sentence.accept(eliminator, null);
+
+		return result;
+!!!383618.java!!!	visitBinarySentence(inout s : ComplexSentence, inout arg : Object) : Sentence
+		Sentence result = null;
+		if (s.isBiconditionalSentence()) {
+			// Eliminate <=>, replace &alpha; <=> &beta;
+			// with (&alpha; => &beta;) & (&beta; => &alpha;)
+			Sentence alpha = s.getSimplerSentence(0).accept(this, arg);
+			Sentence beta = s.getSimplerSentence(1).accept(this, arg);
+			Sentence alphaImpliesBeta = new ComplexSentence(
+					Connective.IMPLICATION, alpha, beta);
+			Sentence betaImpliesAlpha = new ComplexSentence(
+					Connective.IMPLICATION, beta, alpha);
+
+			result = new ComplexSentence(Connective.AND, alphaImpliesBeta,
+					betaImpliesAlpha);
+		} else {
+			result = super.visitBinarySentence(s, arg);
+		}
+		return result;

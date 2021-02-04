@@ -1,0 +1,33 @@
+class DomainLog
+!!!458882.java!!!	DomainLog()
+		savedDomains = new ArrayList<>();
+		affectedVariables = new HashSet<>();
+!!!459010.java!!!	clear() : void
+		savedDomains.clear();
+		affectedVariables.clear();
+!!!459138.java!!!	storeDomainFor(inout var : VAR, inout domain : Domain) : void
+		if (!affectedVariables.contains(var)) {
+			savedDomains.add(new Pair<>(var, domain));
+			affectedVariables.add(var);
+		}
+!!!459266.java!!!	setEmptyDomainFound(inout b : boolean) : void
+		emptyDomainObserved = b;
+!!!459394.java!!!	compactify() : DomainLog
+		affectedVariables = null;
+		return this;
+!!!459522.java!!!	isEmpty() : boolean
+		return savedDomains.isEmpty();
+!!!459650.java!!!	undo(inout csp : CSP) : void
+		for (Pair<VAR, Domain<VAL>> pair : getSavedDomains())
+			csp.setDomain(pair.getFirst(), pair.getSecond());
+!!!459778.java!!!	inconsistencyFound() : boolean
+		return emptyDomainObserved;
+!!!459906.java!!!	getSavedDomains() : Pair
+		return savedDomains;
+!!!460034.java!!!	toString() : String
+		StringBuilder result = new StringBuilder();
+		for (Pair<VAR, Domain<VAL>> pair : savedDomains)
+			result.append(pair.getFirst()).append("=").append(pair.getSecond()).append(" ");
+		if (emptyDomainObserved)
+			result.append("!");
+		return result.toString();

@@ -1,0 +1,10 @@
+class ProofStepClauseClausifySentence
+!!!309762.java!!!	ProofStepClauseClausifySentence(inout clausified : Clause, inout origSentence : Sentence)
+		this.clausified = clausified;
+		this.predecessors.add(new ProofStepPremise(origSentence));
+!!!309890.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!310018.java!!!	getProof() : String
+		return clausified.toString();
+!!!310146.java!!!	getJustification() : String
+		return "Clausified " + predecessors.get(0).getStepNumber();

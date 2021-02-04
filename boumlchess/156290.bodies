@@ -1,0 +1,54 @@
+class Parser
+!!!255490.java!!!	parse(in input : String) : S
+		return parse(new StringReader(input));
+!!!255618.java!!!	parse(inout inputReader : Reader) : S
+		S result = null;
+
+		try {
+			getLexer().setInput(inputReader);
+			initializeLookAheadBuffer();
+
+			result = parse();
+		} catch (LexerException le) {
+			throw new ParserException("Lexer Exception thrown during parsing at position "+le.getCurrentPositionInInputExceptionThrown(), le);
+		}
+
+		return result;
+!!!255874.java!!!	lookAhead(in i : int) : Token
+		return lookAheadBuffer[i - 1];
+!!!256002.java!!!	consume() : void
+		loadNextTokenFromInput();
+!!!256130.java!!!	match(in toMatchSymbol : String) : void
+		if (lookAhead(1).getText().equals(toMatchSymbol)) {
+			consume();
+		} else {
+			throw new ParserException(
+					"Parser: Syntax error detected at match. Expected "
+							+ toMatchSymbol + " but got "
+							+ lookAhead(1).getText(), lookAhead(1));
+		}
+
+!!!256258.java!!!	initializeLookAheadBuffer() : void
+		lookAheadBuffer = new Token[lookAheadBufferSize];
+		for (int i = 0; i < lookAheadBufferSize; i++) {
+			// Now fill the buffer (if possible) from the input.
+			lookAheadBuffer[i] = getLexer().nextToken();
+			if (isEndOfInput(lookAheadBuffer[i])) {
+				// The input is smaller than the buffer size
+				break;
+			}
+		}
+!!!256386.java!!!	loadNextTokenFromInput() : void
+		boolean eoiEncountered = false;
+		for (int i = 0; i < lookAheadBufferSize - 1; i++) {
+			lookAheadBuffer[i] = lookAheadBuffer[i + 1];
+			if (isEndOfInput(lookAheadBuffer[i])) {
+				eoiEncountered = true;
+				break;
+			}
+		}
+		if (!eoiEncountered) {
+			lookAheadBuffer[lookAheadBufferSize - 1] = getLexer().nextToken();
+		}
+!!!256514.java!!!	isEndOfInput(inout t : Token) : boolean
+		return (t == null || t.getType() == LogicTokenTypes.EOI);

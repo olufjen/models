@@ -1,0 +1,13 @@
+class Tasks
+!!!499586.java!!!	executeInBackground(inout task : Runnable) : Thread
+        return startThreadFn.apply(task);
+!!!499714.java!!!	cancel(inout thread : Thread) : void
+        cancelFn.accept(thread);
+!!!499842.java!!!	currIsCancelled() : boolean
+        return isCancelledFn.get();
+!!!499970.java!!!	setStartThreadFn(inout startThreadFn : Function<Runnable, Thread>) : void
+        Tasks.startThreadFn = startThreadFn;
+!!!500098.java!!!	setCancelFn(inout cancelFn : Consumer<Thread>) : void
+        Tasks.cancelFn = cancelFn;
+!!!500226.java!!!	setIsCancelledFn(inout isCancelledFn : Supplier<Boolean>) : void
+        Tasks.isCancelledFn = isCancelledFn;

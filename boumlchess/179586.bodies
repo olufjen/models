@@ -1,0 +1,63 @@
+class AbstractNode
+!!!402562.java!!!	AbstractNode(inout var : RandomVariable)
+		this(var, (Node[]) null);
+!!!402690.java!!!	AbstractNode(inout var : RandomVariable, inout  : Node...parents)
+		if (null == var) {
+			throw new IllegalArgumentException(
+					"Random Variable for Node must be specified.");
+		}
+		this.variable = var;
+		this.parents = new LinkedHashSet<Node>();
+		if (null != parents) {
+			for (Node p : parents) {
+				((AbstractNode) p).addChild(this);
+				this.parents.add(p);
+			}
+		}
+		this.parents = Collections.unmodifiableSet(this.parents);
+		this.children = Collections.unmodifiableSet(new LinkedHashSet<Node>());
+!!!402818.java!!!	getRandomVariable() : RandomVariable
+		return variable;
+!!!402946.java!!!	isRoot() : boolean
+		return 0 == getParents().size();
+!!!403074.java!!!	getParents() : Node
+		return parents;
+!!!403202.java!!!	getChildren() : Node
+		return children;
+!!!403330.java!!!	getMarkovBlanket() : Node
+		LinkedHashSet<Node> mb = new LinkedHashSet<Node>();
+		// Given its parents,
+		mb.addAll(getParents());
+		// children,
+		mb.addAll(getChildren());
+		// and children's parents
+		for (Node cn : getChildren()) {
+			mb.addAll(cn.getParents());
+		}
+
+		return mb;
+!!!403586.java!!!	toString() : String
+		return getRandomVariable().getName();
+!!!403714.java!!!	equals(inout o : Object) : boolean
+		if (null == o) {
+			return false;
+		}
+		if (o == this) {
+			return true;
+		}
+
+		if (o instanceof Node) {
+			Node n = (Node) o;
+
+			return getRandomVariable().equals(n.getRandomVariable());
+		}
+
+		return false;
+!!!403842.java!!!	hashCode() : int
+		return variable.hashCode();
+!!!403970.java!!!	addChild(inout childNode : Node) : void
+		children = new LinkedHashSet<Node>(children);
+
+		children.add(childNode);
+
+		children = Collections.unmodifiableSet(children);

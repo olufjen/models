@@ -1,0 +1,40 @@
+class IntegerSumProposition
+!!!431746.java!!!	IntegerSumProposition(in name : String, inout sumsDomain : FiniteIntegerDomain, inout  : RandomVariable...sums)
+		super(name);
+
+		if (null == sumsDomain) {
+			throw new IllegalArgumentException("Sum Domain must be specified.");
+		}
+		if (null == sums || 0 == sums.length) {
+			throw new IllegalArgumentException(
+					"Sum variables must be specified.");
+		}
+		this.sumsDomain = sumsDomain;
+		for (RandomVariable rv : sums) {
+			addScope(rv);
+			sumVars.add(rv);
+		}
+!!!431874.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		Integer sum = new Integer(0);
+
+		for (RandomVariable rv : sumVars) {
+			Object o = possibleWorld.get(rv);
+			if (o instanceof Integer) {
+				sum += ((Integer) o);
+			} else {
+				throw new IllegalArgumentException(
+						"Possible World does not contain a Integer value for the sum variable:"
+								+ rv);
+			}
+		}
+
+		return sumsDomain.getPossibleValues().contains(sum);
+!!!432002.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getDerivedName());
+			sb.append(" = ");
+			sb.append(sumsDomain.toString());
+			toString = sb.toString();
+		}
+		return toString;

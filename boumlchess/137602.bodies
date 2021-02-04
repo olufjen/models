@@ -1,0 +1,35 @@
+class ProblemSolvingAgent
+!!!164610.java!!!	execute(inout p : Percept) : Action
+		Action action = NoOpAction.NO_OP;
+		// state <- UPDATE-STATE(state, percept)
+		updateState(p);
+		// if plan is empty then do
+		while (plan.isEmpty()) {
+			// state.goal <- FORMULATE-GOAL(state)
+			Optional<Object> goal = formulateGoal();
+			if (goal.isPresent()) {
+				// problem <- FORMULATE-PROBLEM(state, goal)
+				Problem<S, A> problem = formulateProblem(goal.get());
+				// state.plan <- SEARCH(problem)
+				Optional<List<A>> actions = search(problem);
+				if (actions.isPresent())
+					plan.addAll(actions.get());
+				else if (!tryWithAnotherGoal()) {
+					// unable to identify a path
+					setAlive(false);
+					break;
+				}
+			} else {
+				// no further goal to achieve
+				setAlive(false);
+				break;
+			}
+		}
+		if (!plan.isEmpty()) {
+			// action <- FIRST(plan)
+			// plan <- REST(plan)
+			action = plan.remove();
+		}
+		return action;
+!!!164738.java!!!	tryWithAnotherGoal() : boolean
+		return false;

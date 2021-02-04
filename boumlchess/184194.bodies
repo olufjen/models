@@ -1,0 +1,33 @@
+class HMMForwardBackwardConstantSpace
+!!!421890.java!!!	HMMForwardBackwardConstantSpace(inout hmm : HiddenMarkovModel)
+		super(hmm);
+!!!422018.java!!!	forwardBackward(inout ev : List<List<AssignmentProposition>>, inout prior : CategoricalDistribution) : CategoricalDistribution
+		// local variables: f, the forward message <- prior
+		Matrix f = hmm.convert(prior);
+		// b, a representation of the backward message, initially all 1s
+		Matrix b = hmm.createUnitMessage();
+		// sv, a vector of smoothed estimates for steps 1,...,t
+		List<Matrix> sv = new ArrayList<Matrix>(ev.size());
+
+		// for i = 1 to t do
+		for (int i = 0; i < ev.size(); i++) {
+			// fv[i] <- FORWARD(fv[i-1], ev[i])
+			f = forward(f, hmm.getEvidence(ev.get(i)));
+		}
+		// for i = t downto 1 do
+		for (int i = ev.size() - 1; i >= 0; i--) {
+			// sv[i] <- NORMALIZE(fv[i] * b)
+			sv.add(0, hmm.normalize(f.arrayTimes(b)));
+			Matrix e = hmm.getEvidence(ev.get(i));
+			// b <- BACKWARD(b, ev[i])
+			b = backward(b, e);
+			// f1:t <-
+			// NORMALIZE((T<sup>T<sup>)<sup>-1</sup>O<sup>-1</sup><sub>t+1</sub>f<sub>1:t+1</sub>)
+			f = forwardRecover(e, f);
+		}
+
+		// return sv
+		return hmm.convert(sv);
+!!!422146.java!!!	forwardRecover(inout O_tp1 : Matrix, inout f1_tp1 : Matrix) : Matrix
+		return hmm.normalize(hmm.getTransitionModel().transpose().inverse()
+				.times(O_tp1.inverse()).times(f1_tp1));

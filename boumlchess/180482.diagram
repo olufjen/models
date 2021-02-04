@@ -1,0 +1,103 @@
+format 223
+
+classinstance 128002 class_ref 143234 // WumpusKnowledgeBase
+ name ""  xyz 470 319 2000
+classinstance 128130 class_ref 143106 // HybridWumpusAgent
+ name ""  xyz 22 311 2000
+textcanvas 129282 "TELL the KB the atemporal \"physics\" sentences (used to initialize the KB).
+  Atemporal rules about breeze and stench
+  For each square, the agent knows that the square is breezy
+  if and only if a neighboring square has a pit; and a square
+  is smelly if and only if a neighboring square has a wumpus.
+This creates the intiial knowledge base.
+P. 247:
+R2 = B(1,1) <=> (P(1,2) V P((2,1)
+
+ tell(new ComplexSentence
+                        (newSymbol(BREEZE, x, y), Connective.BICONDITIONAL, Sentence.newDisjunction(pitsIn)));"
+  xyzwh 460 493 2000 329 226
+textcanvas 129922 "When the agent performs the execute function:"
+  xyzwh 2 262 2000 240 14
+textcanvas 130818 "Add to KB sentences that describe the perception p at time t"
+  xyzwh 227 220 2000 290 14
+textcanvas 131074 "TELL the KB the temporal \"physics\" sentences for time t.
+ As in this version, the agent does not communicate its current
+
+ position to the knowledge base, general navigation axioms are needed,
+ which entail the current position. Therefore, navigation sentences are always added,
+ independent of the value of t.
+
+Given the agent position and time t,
+
+we can tell the knowledge base that the agent is at LOCATION x,y
+ and that this location is LOCATION_VISITED.
+We can also tell the knowledge base
+that the given location implies a PERCEPT of BREEZE if and only if
+
+there is a BREEZE at this location."
+  xyzwh 30 431 2000 1198 242
+textcanvas 131842 "A blueprint for knowledge base and agent"
+  xyzwh 140 27 2000 209 14
+linkcanvas 128258 decenter_end 866
+  from ref 128002 z 2001 to point 532 215
+  line 128386 z 2001 to point 589 216
+  line 128642 z 2001 to ref 128002
+dirscanvas 128514 z 1000 linkcanvas_ref 128258
+  
+  backward_label "1 WumpusKnowledgeBase()" xyz 554 263 3000
+linkcanvas 128770 decenter_end 800
+  from ref 128002 z 2001 to point 538 396
+  line 128898 z 2001 to point 579 396
+  line 129026 z 2001 to ref 128002
+dirscanvas 129154 z 1000 linkcanvas_ref 128898
+  
+  backward_label "2 tellAtemporalPhysicsSentences()" xyz 476 416 3000
+linkcanvas 130050
+  from ref 128130 z 2001 to ref 128002
+dirscanvas 130178 z 1000 linkcanvas_ref 130050
+  
+  forward_label "3 makePerceptSentence()" xyz 242 296 3000
+linkcanvas 130306 decenter_end 209
+  from ref 128130 z 2001 to point 75 392
+  line 130434 z 2001 to point 493 393
+  line 130562 z 2001 to ref 128002
+dirscanvas 130690 z 1000 linkcanvas_ref 130434
+  
+  forward_label "4 tellTemporalPhysicsSentences()" xyz 205 364 3000
+linkcanvas 131970 decenter_begin 934 decenter_end 904
+  from ref 128002 z 2001 to point 652 305
+  line 132098 z 2001 to point 650 368
+  line 132226 z 2001 to point 592 367
+  line 132354 z 2001 to ref 128002
+dirscanvas 132482 z 1000 linkcanvas_ref 131970
+  
+  backward_label "5 tellCommonTemporalPhysicsSentences()
+6 tellSuccessorStateLocationAxiom()" xyz 617 288 3000
+msgs
+  msg operation_ref 199810 // "WumpusKnowledgeBase(in caveXDim : int, in caveYDim : int, inout start : AgentPosition, inout dpll : DPLL)"
+    backward ranks 1 "1" dirscanvas_ref 128514
+    no_msg
+  msg operation_ref 201858 // "tellAtemporalPhysicsSentences() : void"
+    backward ranks 2 "2" dirscanvas_ref 129154
+    no_msg
+  msg operation_ref 201602 // "makePerceptSentence(inout p : WumpusPercept, in time : int) : void"
+    forward ranks 3 "3" dirscanvas_ref 130178
+    no_msg
+  msg operation_ref 201986 // "tellTemporalPhysicsSentences(in t : int) : void"
+    forward ranks 4 "4" dirscanvas_ref 130690
+    msgs
+      msg operation_ref 202242 // "tellCommonTemporalPhysicsSentences(in t : int) : void"
+	backward ranks 5 "4.1" dirscanvas_ref 132482
+	no_msg
+      msg operation_ref 202370 // "tellSuccessorStateLocationAxiom(in t : int, in x : int, in y : int) : void"
+	backward ranks 6 "4.2" dirscanvas_ref 132482
+	no_msg
+    msgsend
+msgsend
+line 129794 -_-_
+  from ref 129282 z 2002 to ref 128898
+line 131202 -_-_ decenter_begin 185
+  from ref 131074 z 2002 to ref 130434
+line 131714 -_-_
+  from ref 130818 z 2002 to ref 130050
+end

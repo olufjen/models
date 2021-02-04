@@ -1,0 +1,67 @@
+class Demodulation
+!!!283650.java!!!	apply(inout assertion : TermEquality, inout clExpression : Clause) : Clause
+		Clause altClExpression = null;
+
+		for (Literal l1 : clExpression.getLiterals()) {
+			AtomicSentence altExpression = apply(assertion,
+					l1.getAtomicSentence());
+			if (null != altExpression) {
+				// I have an alternative, create a new clause
+				// with the alternative and return
+				List<Literal> newLits = new ArrayList<Literal>();
+				for (Literal l2 : clExpression.getLiterals()) {
+					if (l1.equals(l2)) {
+						newLits.add(l1.newInstance(altExpression));
+					} else {
+						newLits.add(l2);
+					}
+				}
+				// Only apply demodulation at most once on
+				// each call.
+				altClExpression = new Clause(newLits);
+				altClExpression.setProofStep(new ProofStepClauseDemodulation(
+						altClExpression, clExpression, assertion));
+				if (clExpression.isImmutable()) {
+					altClExpression.setImmutable();
+				}
+				if (!clExpression.isStandardizedApartCheckRequired()) {
+					altClExpression.setStandardizedApartCheckNotRequired();
+				}
+				break;
+			}
+		}
+
+		return altClExpression;
+!!!283778.java!!!	apply(inout assertion : TermEquality, inout expression : AtomicSentence) : AtomicSentence
+		AtomicSentence altExpression = null;
+
+		IdentifyCandidateMatchingTerm icm = getMatchingSubstitution(
+				assertion.getTerm1(), expression);
+
+		if (null != icm) {
+			Term replaceWith = substVisitor.subst(
+					icm.getMatchingSubstitution(), assertion.getTerm2());
+			// Want to ignore reflexivity axiom situation, i.e. x = x
+			if (!icm.getMatchingTerm().equals(replaceWith)) {
+				ReplaceMatchingTerm rmt = new ReplaceMatchingTerm();
+
+				// Only apply demodulation at most once on each call.
+				altExpression = rmt.replace(expression, icm.getMatchingTerm(),
+						replaceWith);
+			}
+		}
+
+		return altExpression;
+!!!283906.java!!!	isValidMatch(inout toMatch : Term, inout toMatchVariables : Set<Variable>, inout possibleMatch : Term, inout substitution : Map<Variable, Term>) : boolean
+		// Demodulation only allows substitution in the equation only,
+		// if the substitution contains variables not in the toMatch
+		// side of the equation (i.e. left hand side), then
+		// it is not a legal demodulation match.
+		// Note: see:
+		// http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
+		// slide 23 for an example.
+		if (toMatchVariables.containsAll(substitution.keySet())) {
+			return true;
+		}
+
+		return false;

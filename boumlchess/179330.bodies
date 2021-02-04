@@ -1,0 +1,59 @@
+class EnumerationAsk
+!!!401538.java!!!	EnumerationAsk()
+
+!!!401666.java!!!	enumerationAsk(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork) : CategoricalDistribution
+
+		// Q(X) <- a distribution over X, initially empty
+		final ProbabilityTable Q = new ProbabilityTable(X);
+		final ObservedEvidence e = new ObservedEvidence(X, observedEvidence, bn);
+		// for each value x<sub>i</sub> of X do
+		ProbabilityTable.Iterator di = new ProbabilityTable.Iterator() {
+			int cnt = 0;
+
+			/**
+			 * <pre>
+			 * Q(x<sub>i</sub>) <- ENUMERATE-ALL(bn.VARS, e<sub>x<sub>i</sub></sub>)
+			 *   where e<sub>x<sub>i</sub></sub> is e extended with X = x<sub>i</sub>
+			 * </pre>
+			 */
+			public void iterate(Map<RandomVariable, Object> possibleWorld,
+					double probability) {
+				for (int i = 0; i < X.length; i++) {
+					e.setExtendedValue(X[i], possibleWorld.get(X[i]));
+				}
+				Q.setValue(cnt,
+						enumerateAll(bn.getVariablesInTopologicalOrder(), e));
+				cnt++;
+			}
+		};
+		Q.iterateOverTable(di);
+
+		// return NORMALIZE(Q(X))
+		return Q.normalize();
+!!!401794.java!!!	ask(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork) : CategoricalDistribution
+		return this.enumerationAsk(X, observedEvidence, bn);
+!!!401922.java!!!	enumerateAll(inout vars : List<RandomVariable>, inout e : EnumerationAsk::ObservedEvidence) : double
+		// if EMPTY?(vars) then return 1.0
+		if (0 == vars.size()) {
+			return 1;
+		}
+		// Y <- FIRST(vars)
+		RandomVariable Y = Util.first(vars);
+		// if Y has value y in e
+		if (e.containsValue(Y)) {
+			// then return P(y | parents(Y)) * ENUMERATE-ALL(REST(vars), e)
+			return e.posteriorForParents(Y) * enumerateAll(Util.rest(vars), e);
+		}
+		/**
+		 * <pre>
+		 *  else return &sum;<sub>y</sub> P(y | parents(Y)) * ENUMERATE-ALL(REST(vars), e<sub>y</sub>)
+		 *       where e<sub>y</sub> is e extended with Y = y
+		 * </pre>
+		 */
+		double sum = 0;
+		for (Object y : ((FiniteDomain) Y.getDomain()).getPossibleValues()) {
+			e.setExtendedValue(Y, y);
+			sum += e.posteriorForParents(Y) * enumerateAll(Util.rest(vars), e);
+		}
+
+		return sum;

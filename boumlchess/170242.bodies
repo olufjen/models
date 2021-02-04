@@ -1,0 +1,38 @@
+class State
+!!!356226.java!!!	State(inout fluents : List<Literal>)
+        this.fluents = fluents;
+!!!356354.java!!!	State(in fluents : String)
+        this(Utils.parse(fluents));
+!!!356482.java!!!	result(inout a : ActionSchema) : State
+        if (this.isApplicable(a)) {
+            for (Literal fluent :
+                    a.getEffectsNegativeLiterals()) {
+                Literal tempFluent = new Literal(fluent.getAtomicSentence());
+                this.fluents.remove(tempFluent);
+            }
+            this.fluents.addAll(a.getEffectsPositiveLiterals());
+        }
+        return this;
+!!!356610.java!!!	result(inout actions : List<ActionSchema>) : State
+        State resultState = new State(new ArrayList<>(this.getFluents()));
+        for (ActionSchema action :
+                actions) {
+            resultState = resultState.result(action);
+        }
+        return resultState;
+!!!356738.java!!!	isApplicable(inout a : ActionSchema) : boolean
+        return this.getFluents().containsAll(a.getPrecondition());
+!!!356866.java!!!	getFluents() : Literal
+        return fluents;
+!!!356994.java!!!	equals(inout obj : Object) : boolean
+        if (!(obj instanceof State))
+            return false;
+        return this.fluents.containsAll(((State) obj).getFluents())
+                && ((State) obj).getFluents().containsAll(this.getFluents());
+!!!357122.java!!!	hashCode() : int
+        hashCode = 17;
+        for (Literal fluent :
+                getFluents()) {
+            hashCode = 37 * hashCode + fluent.hashCode();
+        }
+        return hashCode;

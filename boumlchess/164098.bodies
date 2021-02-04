@@ -1,0 +1,174 @@
+class FOLModelElimination
+!!!291330.java!!!	FOLModelElimination()
+
+!!!291458.java!!!	FOLModelElimination(in maxQueryTime : long)
+		setMaxQueryTime(maxQueryTime);
+!!!291586.java!!!	FOLModelElimination(inout tracer : FOLModelEliminationTracer)
+		this.tracer = tracer;
+!!!291714.java!!!	FOLModelElimination(inout tracer : FOLModelEliminationTracer, in maxQueryTime : long)
+		this.tracer = tracer;
+		setMaxQueryTime(maxQueryTime);
+!!!291842.java!!!	getMaxQueryTime() : long
+		return maxQueryTime;
+!!!291970.java!!!	setMaxQueryTime(in maxQueryTime : long) : void
+		this.maxQueryTime = maxQueryTime;
+!!!292098.java!!!	ask(inout kb : FOLKnowledgeBase, inout query : Sentence) : InferenceResult
+		//
+		// Get the background knowledge - are assuming this is satisfiable
+		// as using Set of Support strategy.
+		Set<Clause> bgClauses = new LinkedHashSet<Clause>(kb.getAllClauses());
+		bgClauses.removeAll(SubsumptionElimination
+				.findSubsumedClauses(bgClauses));
+		List<Chain> background = createChainsFromClauses(bgClauses);
+
+		// Collect the information necessary for constructing
+		// an answer (supports use of answer literals).
+		AnswerHandler ansHandler = new AnswerHandler(kb, query, maxQueryTime);
+
+		IndexedFarParents ifps = new IndexedFarParents(
+				ansHandler.getSetOfSupport(), background);
+
+		// Iterative deepening to be used
+		for (int maxDepth = 1; maxDepth < Integer.MAX_VALUE; maxDepth++) {
+			// Track the depth actually reached
+			ansHandler.resetMaxDepthReached();
+
+			if (null != tracer) {
+				tracer.reset();
+			}
+
+			for (Chain nearParent : ansHandler.getSetOfSupport()) {
+				recursiveDLS(maxDepth, 0, nearParent, ifps, ansHandler);
+				if (ansHandler.isComplete()) {
+					return ansHandler;
+				}
+			}
+			// This means the search tree
+			// has bottomed out (i.e. finite).
+			// Return what I know based on exploring everything.
+			if (ansHandler.getMaxDepthReached() < maxDepth) {
+				return ansHandler;
+			}
+		}
+
+		return ansHandler;
+!!!292226.java!!!	createChainsFromClauses(inout clauses : Set<Clause>) : Chain
+		List<Chain> chains = new ArrayList<Chain>();
+
+		for (Clause c : clauses) {
+			Chain chn = new Chain(c.getLiterals());
+			chn.setProofStep(new ProofStepChainFromClause(chn, c));
+			chains.add(chn);
+			chains.addAll(chn.getContrapositives());
+		}
+
+		return chains;
+!!!292354.java!!!	recursiveDLS(in maxDepth : int, in currentDepth : int, inout nearParent : Chain, inout indexedFarParents : IndexedFarParents, inout ansHandler : FOLModelElimination::AnswerHandler) : void
+
+		// Keep track of the maximum depth reached.
+		ansHandler.updateMaxDepthReached(currentDepth);
+
+		if (currentDepth == maxDepth) {
+			return;
+		}
+
+		int noCandidateFarParents = indexedFarParents
+				.getNumberCandidateFarParents(nearParent);
+		if (null != tracer) {
+			tracer.increment(currentDepth, noCandidateFarParents);
+		}
+		indexedFarParents.standardizeApart(nearParent);
+		for (int farParentIdx = 0; farParentIdx < noCandidateFarParents; farParentIdx++) {
+			// If have a complete answer, don't keep
+			// checking candidate far parents
+			if (ansHandler.isComplete()) {
+				break;
+			}
+
+			// Reduction
+			Chain nextNearParent = indexedFarParents.attemptReduction(
+					nearParent, farParentIdx);
+
+			if (null == nextNearParent) {
+				// Unable to remove the head via reduction
+				continue;
+			}
+
+			// Handle Canceling and Dropping
+			boolean cancelled = false;
+			boolean dropped = false;
+			do {
+				cancelled = false;
+				Chain nextParent = null;
+				while (nextNearParent != (nextParent = tryCancellation(nextNearParent))) {
+					nextNearParent = nextParent;
+					cancelled = true;
+				}
+
+				dropped = false;
+				while (nextNearParent != (nextParent = tryDropping(nextNearParent))) {
+					nextNearParent = nextParent;
+					dropped = true;
+				}
+			} while (dropped || cancelled);
+
+			// Check if have answer before
+			// going to the next level
+			if (!ansHandler.isAnswer(nextNearParent)) {
+				// Keep track of the current # of
+				// far parents that are possible for the next near parent.
+				int noNextFarParents = indexedFarParents
+						.getNumberFarParents(nextNearParent);
+				// Add to indexed far parents
+				nextNearParent = indexedFarParents.addToIndex(nextNearParent);
+
+				// Check the next level
+				recursiveDLS(maxDepth, currentDepth + 1, nextNearParent,
+						indexedFarParents, ansHandler);
+
+				// Reset the number of far parents possible
+				// when recursing back up.
+				indexedFarParents.resetNumberFarParentsTo(nextNearParent,
+						noNextFarParents);
+			}
+		}
+!!!292482.java!!!	tryCancellation(inout c : Chain) : Chain
+		Literal head = c.getHead();
+		if (null != head && !(head instanceof ReducedLiteral)) {
+			for (Literal l : c.getTail()) {
+				if (l instanceof ReducedLiteral) {
+					// if they can be resolved
+					if (head.isNegativeLiteral() != l.isNegativeLiteral()) {
+						Map<Variable, Term> subst = unifier
+								.unify(head.getAtomicSentence(),
+										l.getAtomicSentence());
+						if (null != subst) {
+							// I have a cancellation
+							// Need to apply subst to all of the
+							// literals in the cancellation
+							List<Literal> cancLits = new ArrayList<Literal>();
+							for (Literal lfc : c.getTail()) {
+								AtomicSentence a = (AtomicSentence) substVisitor
+										.subst(subst, lfc.getAtomicSentence());
+								cancLits.add(lfc.newInstance(a));
+							}
+							Chain cancellation = new Chain(cancLits);
+							cancellation
+									.setProofStep(new ProofStepChainCancellation(
+											cancellation, c, subst));
+							return cancellation;
+						}
+					}
+				}
+			}
+		}
+		return c;
+!!!292610.java!!!	tryDropping(inout c : Chain) : Chain
+		Literal head = c.getHead();
+		if (null != head && (head instanceof ReducedLiteral)) {
+			Chain dropped = new Chain(c.getTail());
+			dropped.setProofStep(new ProofStepChainDropped(dropped, c));
+			return dropped;
+		}
+
+		return c;

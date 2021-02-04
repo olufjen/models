@@ -1,0 +1,186 @@
+class ChessActionImpl
+!!!1709698.java!!!	ChessActionImpl(inout positions : HashMap<String, Position>, inout chessPiece : AgamePiece, inout player : APlayer)
+		super();
+		this.positions = positions;
+		this.chessPiece = chessPiece;
+		this.player = player;
+		this.availablePositions = getActions(); // The positionRemoved are also created and filled. They are positions occupied by other pieces owned by the player
+		String name = this.chessPiece.getMyPiece().getPieceName();
+		actionName = this.chessPiece.getMyPiece().getOntlogyName();
+		pn = this.chessPiece.getMyPosition().getIntRow()*10;
+		pny = this.chessPiece.getMyPosition().getIntColumn();
+		Integer prn = new Integer(pn+pny);
+		PreferredMoveProcessor pr = new PreferredMoveProcessor(prn,name);
+		myProcessor = pr;
+		possibleMove = ChessFunctions.processChessgame(this,chessPiece, pr); // The processor can be replaced by a lambda expression?
+		if (possibleMove != null)
+			preferredPosition = possibleMove.getToPosition();
+//		preferredPosition = player.calculatePreferredPosition(chessPiece,this);      
+		player.getHeldPositions().add(pr.getHeldPosition()); // This is the position held by the piece under consideration
+!!!1709826.java!!!	getMoveNumber() : Integer
+		return moveNumber;
+!!!1709954.java!!!	setMoveNumber(inout moveNumber : Integer) : void
+		this.moveNumber = moveNumber;
+!!!1710082.java!!!	getActionName() : String
+		return actionName;
+!!!1710210.java!!!	setActionName(in actionName : String) : void
+		this.actionName = actionName;
+!!!1710338.java!!!	getActionValue() : Integer
+		return actionValue;
+!!!1710466.java!!!	setActionValue(inout actionValue : Integer) : void
+		this.actionValue = actionValue;
+!!!1710594.java!!!	processPositions() : void
+		possibleMove = ChessFunctions.processChessgame(this,chessPiece, myProcessor);
+!!!1710722.java!!!	getAttackedPositions() : List<Position>
+		return attackedPositions;
+!!!1710850.java!!!	setAttackedPositions(inout attackedPositions : List<Position>) : void
+		this.attackedPositions = attackedPositions;
+!!!1710978.java!!!	getNotAttackedPos() : List<Position>
+		return notAttackedPos;
+!!!1711106.java!!!	setNotAttackedPos(inout notAttackedPos : List<Position>) : void
+		this.notAttackedPos = notAttackedPos;
+!!!1711234.java!!!	getNotProtected() : List<Position>
+		return notProtected;
+!!!1711362.java!!!	setNotProtected(inout notProtected : List<Position>) : void
+		this.notProtected = notProtected;
+!!!1711490.java!!!	getProtectedPositions() : List<Position>
+		return protectedPositions;
+!!!1711618.java!!!	setProtectedPositions(inout protectedPositions : List<Position>) : void
+		this.protectedPositions = protectedPositions;
+!!!1711746.java!!!	getAttacked() : AgamePiece
+		return attacked;
+!!!1711874.java!!!	setAttacked(inout attacked : List<AgamePiece>) : void
+		this.attacked = attacked;
+!!!1712002.java!!!	getOtherattackedPositions() : List<Position>
+		return otherattackedPositions;
+!!!1712130.java!!!	setOtherattackedPositions(inout otherattackedPositions : List<Position>) : void
+		this.otherattackedPositions = otherattackedPositions;
+!!!1712258.java!!!	getOtherprotectedPositions() : List<Position>
+		return otherprotectedPositions;
+!!!1712386.java!!!	setOtherprotectedPositions(inout otherprotectedPositions : List<Position>) : void
+		this.otherprotectedPositions = otherprotectedPositions;
+!!!1712514.java!!!	getSentence() : Sentence
+		return sentence;
+!!!1712642.java!!!	setSentence(inout sentence : Sentence) : void
+		this.sentence = sentence;
+!!!1712770.java!!!	isBlocked() : boolean
+		return blocked;
+!!!1712898.java!!!	setBlocked(inout blocked : boolean) : void
+		this.blocked = blocked;
+!!!1713026.java!!!	getStrikePosition() : Position
+		return strikePosition;
+!!!1713154.java!!!	setStrikePosition(inout strikePosition : Position) : void
+		this.strikePosition = strikePosition;
+!!!1713282.java!!!	isStrike() : boolean
+		return strike;
+!!!1713410.java!!!	setStrike(inout strike : boolean) : void
+		this.strike = strike;
+!!!1713538.java!!!	getPossibleMove() : ApieceMove
+		return possibleMove;
+!!!1713666.java!!!	setPossibleMove(inout possibleMove : ApieceMove) : void
+		this.possibleMove = possibleMove;
+!!!1713794.java!!!	getPositionRemoved() : List<Position>
+		return positionRemoved;
+!!!1713922.java!!!	setPositionRemoved(inout positionRemoved : List<Position>) : void
+		this.positionRemoved = positionRemoved;
+!!!1714050.java!!!	getPlayer() : APlayer
+		return player;
+!!!1714178.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!1714306.java!!!	getChessPiece() : AgamePiece
+		return chessPiece;
+!!!1714434.java!!!	setChessPiece(inout chessPiece : AgamePiece) : void
+		this.chessPiece = chessPiece;
+!!!1714562.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!1714690.java!!!	getPositions() : HashMap<String,Position>
+		return positions;
+!!!1714818.java!!!	getAvailablePositions() : List<Position>
+		return availablePositions;
+!!!1714946.java!!!	setAvailablePositions(inout availablePositions : List<Position>) : void
+		this.availablePositions = availablePositions;
+!!!1715074.java!!!	getPreferredPosition() : Position
+		if (preferredPosition == null) {
+			preferredPosition = player.calculatePreferredPosition(chessPiece,this);
+		}
+		return preferredPosition;
+!!!1715202.java!!!	setPreferredPosition(inout preferredPosition : Position) : void
+		this.preferredPosition = preferredPosition;
+!!!1715330.java!!!	getActions() : List<Position>
+		if (availablePositions != null) {
+			availablePositions.clear();
+			availablePositions = null;
+		}
+		if (positionRemoved != null) {
+			positionRemoved.clear();
+			positionRemoved = null;
+		}
+		availablePositions = new ArrayList(positions.values());
+		positionRemoved = new ArrayList();
+		List<AgamePiece> pieces = player.getMygamePieces(); 
+		for (Position position:availablePositions) {
+			for (AgamePiece otherPiece:pieces) {
+				boolean inuse = otherPiece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
+				if (inuse && otherPiece.isActive() && otherPiece != chessPiece) { // Added 31.07.20 Check if piece is active
+					Position pos = otherPiece.getMyPosition();
+					if (pos != null) {
+						if (pos.isInUse()) { // OBS: Added 14.05.20 Are never active !! ??
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								positionRemoved.add(position);
+							}
+						}else {
+							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
+						}
+					}
+				}
+			}
+
+		
+		}
+		return availablePositions;
+		
+!!!1715458.java!!!	getActions(inout theplayer : APlayer) : List<Position>
+
+		List<AgamePiece> pieces = theplayer.getMygamePieces(); 
+		if (theplayer == player) {
+			if (availablePositions != null) {
+				availablePositions.clear();
+				availablePositions = null;
+			}
+			if (positionRemoved != null) {
+				positionRemoved.clear();
+				positionRemoved = null;
+			}
+			availablePositions = new ArrayList(positions.values());
+			positionRemoved = new ArrayList();
+			for (Position position:availablePositions) {
+				for (AgamePiece otherPiece:pieces) {
+					if (otherPiece != chessPiece) {
+						Position pos = otherPiece.getMyPosition();
+						if (pos != null) {
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								positionRemoved.add(position);
+							}
+
+						}
+					}
+				}
+
+			
+			}
+		}
+
+		return availablePositions;
+		
+!!!1715586.java!!!	toString() : String
+		String posName = "Unknown";
+		String pMove = " === No move ===";
+		if (possibleMove != null)
+			pMove = possibleMove.toString();
+		if (preferredPosition != null)
+			posName = preferredPosition.getPositionName();
+		StringBuffer logText = new StringBuffer("ChessAction: Preferred Position " + posName+ " Piece " + chessPiece.toString()+" Possible move "+pMove);
+		return logText.toString();
+!!!1715714.java!!!	isNoOp() : boolean
+		// TODO Auto-generated method stub
+		return false;

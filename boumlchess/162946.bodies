@@ -1,0 +1,262 @@
+class FOLKnowledgeBase
+!!!315266.java!!!	FOLKnowledgeBase(inout domain : FOLDomain)
+		// Default to Full Resolution if not set.
+		this(domain, new FOLOTTERLikeTheoremProver());
+!!!315394.java!!!	FOLKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure)
+		this(domain, inferenceProcedure, new Unifier());
+!!!315522.java!!!	FOLKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure, inout unifier : Unifier)
+		this.parser = new FOLParser(new FOLDomain(domain));
+		this.inferenceProcedure = inferenceProcedure;
+		this.unifier = unifier;
+		//
+		this.substVisitor = new SubstVisitor();
+		this.variableCollector = new VariableCollector();
+		this.standardizeApart = new StandardizeApart(variableCollector,
+				substVisitor);
+		this.cnfConverter = new CNFConverter(parser);
+!!!315650.java!!!	clear() : void
+		this.originalSentences.clear();
+		this.clauses.clear();
+		this.allDefiniteClauses.clear();
+		this.implicationDefiniteClauses.clear();
+		this.indexFacts.clear();
+!!!315778.java!!!	getInferenceProcedure() : InferenceProcedure
+		return inferenceProcedure;
+!!!315906.java!!!	setInferenceProcedure(inout inferenceProcedure : InferenceProcedure) : void
+		if (null != inferenceProcedure) {
+			this.inferenceProcedure = inferenceProcedure;
+		}
+!!!316034.java!!!	tell(in sentence : String) : Sentence
+		Sentence s = parser.parse(sentence);
+		tell(s);
+		return s;
+!!!316162.java!!!	tell(inout sentences : List<? extends Sentence>) : void
+		for (Sentence s : sentences) {
+			tell(s);
+		}
+!!!316290.java!!!	tell(inout sentence : Sentence) : void
+		store(sentence);
+!!!316418.java!!!	ask(in querySentence : String) : InferenceResult
+		return ask(parser.parse(querySentence));
+!!!316546.java!!!	ask(inout query : Sentence) : InferenceResult
+		// Want to standardize apart the query to ensure
+		// it does not clash with any of the sentences
+		// in the database
+		StandardizeApartResult saResult = standardizeApart.standardizeApart(
+				query, queryIndexical);
+
+		// Need to map the result variables (as they are standardized apart)
+		// to the original queries variables so that the caller can easily
+		// understand and use the returned set of substitutions
+		InferenceResult infResult = getInferenceProcedure().ask(this,
+				saResult.getStandardized());
+		for (Proof p : infResult.getProofs()) {
+			Map<Variable, Term> im = p.getAnswerBindings();
+			Map<Variable, Term> em = new LinkedHashMap<Variable, Term>();
+			for (Variable rev : saResult.getReverseSubstitution().keySet()) {
+				em.put((Variable) saResult.getReverseSubstitution().get(rev),
+						im.get(rev));
+			}
+			p.replaceAnswerBindings(em);
+		}
+
+		return infResult;
+!!!316674.java!!!	getNumberFacts() : int
+		return allDefiniteClauses.size() - implicationDefiniteClauses.size();
+!!!316802.java!!!	getNumberRules() : int
+		return clauses.size() - getNumberFacts();
+!!!316930.java!!!	getOriginalSentences() : Sentence
+		return Collections.unmodifiableList(originalSentences);
+!!!317058.java!!!	getAllDefiniteClauses() : Clause
+		return Collections.unmodifiableList(allDefiniteClauses);
+!!!317186.java!!!	getAllDefiniteClauseImplications() : Clause
+		return Collections.unmodifiableList(implicationDefiniteClauses);
+!!!317314.java!!!	getAllClauses() : Clause
+		return Collections.unmodifiableSet(clauses);
+!!!317442.java!!!	fetch(inout l : Literal) : Set<Map<Variable, Term>>
+		// Get all of the substitutions in the KB that p unifies with
+		Set<Map<Variable, Term>> allUnifiers = new LinkedHashSet<Map<Variable, Term>>();
+
+		List<Literal> matchingFacts = fetchMatchingFacts(l);
+		if (null != matchingFacts) {
+			for (Literal fact : matchingFacts) {
+				Map<Variable, Term> substitution = unifier.unify(
+						l.getAtomicSentence(), fact.getAtomicSentence());
+				if (null != substitution) {
+					allUnifiers.add(substitution);
+				}
+			}
+		}
+
+		return allUnifiers;
+!!!317570.java!!!	fetch(inout literals : List<Literal>) : Set<Map<Variable, Term>>
+		Set<Map<Variable, Term>> possibleSubstitutions = new LinkedHashSet<Map<Variable, Term>>();
+
+		if (literals.size() > 0) {
+			Literal first = literals.get(0);
+			List<Literal> rest = literals.subList(1, literals.size());
+
+			recursiveFetch(new LinkedHashMap<Variable, Term>(), first, rest,
+					possibleSubstitutions);
+		}
+
+		return possibleSubstitutions;
+!!!317698.java!!!	unify(inout x : FOLNode, inout y : FOLNode) : Variable
+		return unifier.unify(x, y);
+!!!317826.java!!!	subst(inout theta : Map<Variable, Term>, inout aSentence : Sentence) : Sentence
+		return substVisitor.subst(theta, aSentence);
+!!!317954.java!!!	subst(inout theta : Map<Variable, Term>, inout l : Literal) : Literal
+		return substVisitor.subst(theta, l);
+!!!318082.java!!!	subst(inout theta : Map<Variable, Term>, inout term : Term) : Term
+		return substVisitor.subst(theta, term);
+!!!318210.java!!!	standardizeApart(inout sentence : Sentence) : Sentence
+		return standardizeApart.standardizeApart(sentence, variableIndexical)
+				.getStandardized();
+!!!318338.java!!!	standardizeApart(inout clause : Clause) : Clause
+		return standardizeApart.standardizeApart(clause, variableIndexical);
+!!!318466.java!!!	standardizeApart(inout chain : Chain) : Chain
+		return standardizeApart.standardizeApart(chain, variableIndexical);
+!!!318594.java!!!	collectAllVariables(inout sentence : Sentence) : Variable
+		return variableCollector.collectAllVariables(sentence);
+!!!318722.java!!!	convertToCNF(inout sentence : Sentence) : CNF
+		return cnfConverter.convertToCNF(sentence);
+!!!318850.java!!!	convertToClauses(inout sentence : Sentence) : Clause
+		CNF cnf = cnfConverter.convertToCNF(sentence);
+
+		return new LinkedHashSet<Clause>(cnf.getConjunctionOfClauses());
+!!!318978.java!!!	createAnswerLiteral(inout forQuery : Sentence) : Literal
+		String alName = parser.getFOLDomain().addAnswerLiteral();
+		List<Term> terms = new ArrayList<Term>();
+
+		Set<Variable> vars = variableCollector.collectAllVariables(forQuery);
+		for (Variable v : vars) {
+			// Ensure copies of the variables are used.
+			terms.add(v.copy());
+		}
+
+		return new Literal(new Predicate(alName, terms));
+!!!319106.java!!!	isRenaming(inout l : Literal) : boolean
+		List<Literal> possibleMatches = fetchMatchingFacts(l);
+		if (null != possibleMatches) {
+			return isRenaming(l, possibleMatches);
+		}
+
+		return false;
+!!!319234.java!!!	isRenaming(inout l : Literal, inout possibleMatches : List<Literal>) : boolean
+
+		for (Literal q : possibleMatches) {
+			if (l.isPositiveLiteral() != q.isPositiveLiteral()) {
+				continue;
+			}
+			Map<Variable, Term> subst = unifier.unify(l.getAtomicSentence(),
+					q.getAtomicSentence());
+			if (null != subst) {
+				int cntVarTerms = 0;
+				for (Term t : subst.values()) {
+					if (t instanceof Variable) {
+						cntVarTerms++;
+					}
+				}
+				// If all the substitutions, even if none, map to Variables
+				// then this is a renaming
+				if (subst.size() == cntVarTerms) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+!!!319362.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+		for (Sentence s : originalSentences) {
+			sb.append(s.toString());
+			sb.append("\n");
+		}
+		return sb.toString();
+!!!319490.java!!!	getParser() : FOLParser
+		return parser;
+!!!319618.java!!!	store(inout sentence : Sentence) : void
+		originalSentences.add(sentence);
+
+		// Convert the sentence to CNF
+		CNF cnfOfOrig = cnfConverter.convertToCNF(sentence);
+		for (Clause c : cnfOfOrig.getConjunctionOfClauses()) {
+			c.setProofStep(new ProofStepClauseClausifySentence(c, sentence));
+			if (c.isEmpty()) {
+				// This should not happen, if so the user
+				// is trying to add an unsatisfiable sentence
+				// to the KB.
+				throw new IllegalArgumentException(
+						"Attempted to add unsatisfiable sentence to KB, orig=["
+								+ sentence + "] CNF=" + cnfOfOrig);
+			}
+
+			// Ensure all clauses added to the KB are Standardized Apart.
+			c = standardizeApart.standardizeApart(c, variableIndexical);
+
+			// Will make all clauses immutable
+			// so that they cannot be modified externally.
+			c.setImmutable();
+			if (clauses.add(c)) {
+				// If added keep track of special types of
+				// clauses, as useful for query purposes
+				if (c.isDefiniteClause()) {
+					allDefiniteClauses.add(c);
+				}
+				if (c.isImplicationDefiniteClause()) {
+					implicationDefiniteClauses.add(c);
+				}
+				if (c.isUnitClause()) {
+					indexFact(c.getLiterals().iterator().next());
+				}
+			}
+		}
+!!!319746.java!!!	indexFact(inout fact : Literal) : void
+		String factKey = getFactKey(fact);
+		if (!indexFacts.containsKey(factKey)) {
+			indexFacts.put(factKey, new ArrayList<Literal>());
+		}
+
+		indexFacts.get(factKey).add(fact);
+!!!319874.java!!!	recursiveFetch(inout theta : Map<Variable, Term>, inout l : Literal, inout remainingLiterals : List<Literal>, inout possibleSubstitutions : Set<Map<Variable, Term>>) : void
+
+		// Find all substitutions for current predicate based on the
+		// substitutions of prior predicates in the list (i.e. SUBST with
+		// theta).
+		Set<Map<Variable, Term>> pSubsts = fetch(subst(theta, l));
+
+		// No substitutions, therefore cannot continue
+		if (null == pSubsts) {
+			return;
+		}
+
+		for (Map<Variable, Term> psubst : pSubsts) {
+			// Ensure all prior substitution information is maintained
+			// along the chain of predicates (i.e. for shared variables
+			// across the predicates).
+			psubst.putAll(theta);
+			if (remainingLiterals.size() == 0) {
+				// This means I am at the end of the chain of predicates
+				// and have found a valid substitution.
+				possibleSubstitutions.add(psubst);
+			} else {
+				// Need to move to the next link in the chain of substitutions
+				Literal first = remainingLiterals.get(0);
+				List<Literal> rest = remainingLiterals.subList(1,
+						remainingLiterals.size());
+
+				recursiveFetch(psubst, first, rest, possibleSubstitutions);
+			}
+		}
+!!!320002.java!!!	fetchMatchingFacts(inout l : Literal) : Literal
+		return indexFacts.get(getFactKey(l));
+!!!320130.java!!!	getFactKey(inout l : Literal) : String
+		StringBuilder key = new StringBuilder();
+		if (l.isPositiveLiteral()) {
+			key.append("+");
+		} else {
+			key.append("-");
+		}
+		key.append(l.getAtomicSentence().getSymbolicName());
+
+		return key.toString();

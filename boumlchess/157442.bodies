@@ -1,0 +1,63 @@
+class Predicate
+!!!342402.java!!!	Predicate(in predicateName : String, inout terms : List<Term>)
+		this.predicateName = predicateName;
+		this.terms.addAll(terms);
+!!!342530.java!!!	getPredicateName() : String
+		return predicateName;
+!!!342658.java!!!	getTerms() : Term
+		return Collections.unmodifiableList(terms);
+!!!342786.java!!!	getSymbolicName() : String
+		return getPredicateName();
+!!!342914.java!!!	isCompound() : boolean
+		return true;
+!!!343042.java!!!	getArgs() : Term
+		return getTerms();
+!!!343170.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitPredicate(this, arg);
+!!!343298.java!!!	copy() : Predicate
+		List<Term> copyTerms = new ArrayList<Term>();
+		for (Term t : terms) {
+			copyTerms.add(t.copy());
+		}
+		return new Predicate(predicateName, copyTerms);
+!!!343426.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Predicate)) {
+			return false;
+		}
+		Predicate p = (Predicate) o;
+		return p.getPredicateName().equals(getPredicateName())
+				&& p.getTerms().equals(getTerms());
+!!!343554.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + predicateName.hashCode();
+			for (Term t : terms) {
+				hashCode = 37 * hashCode + t.hashCode();
+			}
+		}
+		return hashCode;
+!!!343682.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(predicateName);
+			sb.append("(");
+
+			boolean first = true;
+			for (Term t : terms) {
+				if (first) {
+					first = false;
+				} else {
+					sb.append(",");
+				}
+				sb.append(t.toString());
+			}
+
+			sb.append(")");
+			stringRep = sb.toString();
+		}
+
+		return stringRep;

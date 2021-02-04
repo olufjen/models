@@ -1,0 +1,62 @@
+class QuantifiedSentence
+!!!343810.java!!!	QuantifiedSentence(in quantifier : String, inout variables : List<Variable>, inout quantified : Sentence)
+		this.quantifier = quantifier;
+		this.variables.addAll(variables);
+		this.quantified = quantified;
+		this.args.addAll(variables);
+		this.args.add(quantified);
+!!!343938.java!!!	getQuantifier() : String
+		return quantifier;
+!!!344066.java!!!	getVariables() : Variable
+		return Collections.unmodifiableList(variables);
+!!!344194.java!!!	getQuantified() : Sentence
+		return quantified;
+!!!344322.java!!!	getSymbolicName() : String
+		return getQuantifier();
+!!!344450.java!!!	isCompound() : boolean
+		return true;
+!!!344578.java!!!	getArgs() : FOLNode
+		return Collections.unmodifiableList(args);
+!!!344706.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitQuantifiedSentence(this, arg);
+!!!344834.java!!!	copy() : QuantifiedSentence
+		List<Variable> copyVars = new ArrayList<Variable>();
+		for (Variable v : variables) {
+			copyVars.add(v.copy());
+		}
+		return new QuantifiedSentence(quantifier, copyVars, quantified.copy());
+!!!344962.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		QuantifiedSentence cs = (QuantifiedSentence) o;
+		return cs.quantifier.equals(quantifier)
+				&& cs.variables.equals(variables)
+				&& cs.quantified.equals(quantified);
+!!!345090.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + quantifier.hashCode();
+			for (Variable v : variables) {
+				hashCode = 37 * hashCode + v.hashCode();
+			}
+			hashCode = hashCode * 37 + quantified.hashCode();
+		}
+		return hashCode;
+!!!345218.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(quantifier);
+			sb.append(" ");
+			for (Variable v : variables) {
+				sb.append(v.toString());
+				sb.append(" ");
+			}
+			sb.append(quantified.toString());
+			stringRep = sb.toString();
+		}
+		return stringRep;

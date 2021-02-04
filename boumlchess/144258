@@ -1,0 +1,4184 @@
+format 223
+"chess" // no::games::chess
+  revision 4
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no/games/chess/"
+  java_package "no.games.chess"
+  classview 142082 "chess"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 223106 "AbstractChessGame"
+      abstract visibility public 
+      nactuals 3
+      actual class class_ref 223362 // ChessGame
+        rank 0 explicit_value ""
+      actual class class_ref 223362 // ChessGame
+        rank 1 explicit_value ""
+      actual class class_ref 223362 // ChessGame
+        rank 2 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment " The implementation of this class must create an initial state containing board positions and their pieces
+ based on a a chosen ontology game.
+ The current state also determines who's turn it is to play.
+ It implements a getResult method that returns a new state based on the current 
+ state and the action chosen by the search algorithm.
+ A description of what a particular action does is a transition model (p. 67 AIMA)
+ It is also a successor state from the current state after performing action a.
+"
+      classrelation 279298 // <realization>
+	relation 279298 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 279298 // <realization>
+	  b parent class_ref 223362 // ChessGame
+      end
+
+      attribute 262274 "squares"
+	protected explicit_type "int"
+	multiplicity "[][]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "X---> increases left to right with zero based index Y increases top to
+bottom with zero based index | | V
+This is a simplified version of the chessboard
+
+"
+      end
+
+      attribute 262402 "piecePosition"
+	protected explicit_type "String"
+	multiplicity "[][]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 262530 "movedPiece"
+	protected explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Name of piece that has been moved"
+      end
+
+      classrelation 279426 // chessState (<unidirectional association>)
+	relation 279426 --->
+	  a role_name "chessState" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GameBoard> ${name}${value};
+"
+	    classrelation_ref 279426 // chessState (<unidirectional association>)
+	  b parent class_ref 223618 // ChessState
+      end
+
+      classrelation 279554 // chessAction (<unidirectional association>)
+	relation 279554 --->
+	  a role_name "chessAction" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?, ?, ?,  GamePiece<?>, ?> ${name}${value};
+"
+	    classrelation_ref 279554 // chessAction (<unidirectional association>)
+	  b parent class_ref 223234 // ChessAction
+      end
+
+      classrelation 279682 // whitePlayer (<unidirectional association>)
+	relation 279682 --->
+	  a role_name "whitePlayer" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece<?>, PieceMove<?,?>> ${name}${value};
+"
+	    classrelation_ref 279682 // whitePlayer (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      classrelation 279810 // blackPlayer (<unidirectional association>)
+	relation 279810 --->
+	  a role_name "blackPlayer" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece<?>, PieceMove<?,?>> ${name}${value};
+"
+	    classrelation_ref 279810 // blackPlayer (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      operation 649346 "AbstractChessGame"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "size" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a aima chessboard with <code>size</code> rows and size columns. Column and
+row indices start with 0.
+"
+      end
+
+      operation 649474 "getMovedPiece"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649602 "setMovedPiece"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "movedPiece" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649730 "getChessAction"
+	public return_type class_ref 223234 // ChessAction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649858 "setChessAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "chessAction" type class_ref 223234 // ChessAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649986 "getWhitePlayer"
+	public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece<?>, PieceMove<?, ?>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 650114 "setWhitePlayer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "whitePlayer" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<GamePiece<?>, PieceMove<?,?>> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 650242 "getBlackPlayer"
+	public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece<?>, PieceMove<?, ?>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 650370 "setBlackPlayer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "blackPlayer" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<GamePiece<?>, PieceMove<?,?>> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 650498 "getSize"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The following methods are used to create and manipulate the aima chessboard.
+@return
+"
+      end
+
+      operation 650626 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "clear
+This method clears the aima chessboard
+"
+      end
+
+      operation 650754 "getSquares"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 650882 "setSquares"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "squares" explicit_type "int"
+	multiplicity "[][]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651010 "getPiecePosition"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651138 "setPiecePosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "piecePosition" explicit_type "String"
+	multiplicity "[][]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651266 "setPiecesAt"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "locations" explicit_type "List<XYLocation>"
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651394 "addPieceAt"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Column and row indices start with 0! "
+      end
+
+      operation 651522 "addPieceAtPos"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "l" type class_ref 135938 // XYLocation
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651650 "removePieceFrom"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 651778 "movePieceTo"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Moves the Piece in the specified column (x-value of <code>l</code>) to
+the specified row (y-value of <code>l</code>). 
+"
+      end
+
+      operation 651906 "movePiece"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "from" type class_ref 135938 // XYLocation
+	  param inout name "to" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652034 "PieceExistsAt"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652162 "PieceExistsAt"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652290 "pieceAt"
+	private explicit_return_type "String"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652418 "getNumberOfPiecesOnBoard"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652546 "getPiecePositions"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652674 "getNumberOfAttackingPairs"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652802 "getNumberOfAttacksOn"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 652930 "isSquareUnderAttack"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653058 "isSquareHorizontallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653186 "isSquareVerticallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653314 "isSquareDiagonallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653442 "numberOfHorizontalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653570 "numberOfVerticalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653698 "numberOfDiagonalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 653826 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 653954 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 654082 "print"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654210 "getBoardPic"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654338 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Implemented methods from Game
+(non-Javadoc)
+@see java.lang.Object#toString()
+"
+      end
+
+      operation 654466 "getInitialState"
+	abstract public return_type class_ref 223618 // ChessState
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GameBoard> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654594 "getPlayers"
+	abstract public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece, PieceMove>[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654722 "getPlayer"
+	abstract public return_type class_ref 223874 // ChessPlayer
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece, PieceMove> ${name}${(}${t0}<GameBoard> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654850 "getActions"
+	abstract public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0}<GameBoard> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 654978 "getResult"
+	abstract public return_type class_ref 223618 // ChessState
+	nparams 2
+	  param inout name "chessState" type class_ref 223618 // ChessState
+	  param inout name "action" type class_ref 223234 // ChessAction
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GameBoard> ${name}${(}${t0}<GameBoard> ${p0}, ${t1}<?, ?, ?, GamePiece<?>, ?> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "getResult
+This method returns a new state based on the current state and the
+action chosen by the search algorithm
+@param state The current state
+@param action The action chosen by the search algorithm
+@return
+"
+      end
+
+      operation 655106 "isTerminal"
+	abstract public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<GameBoard> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 655234 "getUtility"
+	abstract public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?> ${p0}, ${t1}<GamePiece, PieceMove> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 655362 "analyzePieceandPosition"
+	abstract public explicit_return_type "double"
+	nparams 1
+	  param inout name "action" type class_ref 223234 // ChessAction
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?, ?, ?,GamePiece<?>, ?> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 223234 "ChessAction"
+      visibility public stereotype "interface"
+      nformals 5
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "PR" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "GamePiece" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "PP" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author oluf
+This interface represent the ChessAction in a game of chess
+
+@param <P> Contains the positions of the game and whether they are occupied or not
+@param <A> Contains available positions
+@param <PR> Contains positions removed
+@param <GamePiece> Represent a ChessPiece
+@param <PP> Represent the preferred position
+"
+      classrelation 280706 // <generalisation>
+	relation 280706 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 280706 // <generalisation>
+	  b parent class_ref 128002 // Action
+      end
+
+      operation 662658 "getPositions"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662786 "getAvailablePositions"
+	cpp_inline public explicit_return_type "A"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662914 "getPositionRemoved"
+	cpp_inline public explicit_return_type "PR"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 663042 "getChessPiece"
+	cpp_inline public explicit_return_type "GamePiece"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 663170 "getPreferredPosition"
+	cpp_inline public explicit_return_type "PP"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 663298 "setPreferredPosition"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "p" explicit_type "PP"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 223362 "ChessGame"
+      abstract visibility public stereotype "interface"
+      nformals 3
+      formal name "ChessState" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessAction" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessPlayer" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 3
+      actual class class_ref 133762 // Game
+        rank 0 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 1 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 2 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface represent a ChessGame
+It extends the Game interface
+The Game intrerface has three type parameters:
+<S> A type representing the states of the game
+<A> A type representing the actions of the game
+<P> A type representing the playeers of the game
+In the ChessGame interface these types are represented by the
+ChessState, 
+ChessAction, and
+ChessPlayer interfaces
+The <ChessState, ChessAction, ChessPlayer> type definition for the ChessGame interface is
+necessary for defining the ChessState, ChessAction, ChessPlayer interfaces in the Game extend definition.
+@author oluf
+
+"
+      classrelation 279170 // <realization>
+	relation 279170 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 279170 // <realization>
+	  b parent class_ref 133762 // Game
+      end
+
+      operation 648834 "getActions"
+	cpp_inline public explicit_return_type "List<ChessAction>"
+	nparams 1
+	  param inout name "state" explicit_type "ChessState"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 648962 "getResult"
+	abstract cpp_inline public explicit_return_type "ChessState"
+	nparams 2
+	  param inout name "chessState" explicit_type "ChessState"
+	  param inout name "action" explicit_type "ChessAction"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649090 "analyzePieceandPosition"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "action" explicit_type "ChessAction"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 649218 "analyzeState"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "state" explicit_type "ChessState"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 223490 "GameBoard"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interace represent the AIMA gameboard
+@author oluf
+
+"
+    end
+
+    class 223618 "ChessState"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "GameBoard" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author oluf
+
+This interface represent the state current state in the game of chess
+@param <GameBoard> Represent the chess board in a game of chess
+"
+      classrelation 282114 // <generalisation>
+	relation 282114 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 282114 // <generalisation>
+	  b parent class_ref 128386 // Percept
+      end
+
+      operation 670082 "getBoard"
+	cpp_inline public explicit_return_type "GameBoard"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670210 "getActions"
+	cpp_inline public return_type class_ref 223234 // ChessAction
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670338 "getAction"
+	cpp_inline public return_type class_ref 223234 // ChessAction
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670466 "getPlayerTomove"
+	cpp_inline public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670594 "returnMyplayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670722 "emptyMovements"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670850 "clearMovements"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "piece" type class_ref 223746 // GamePiece
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 670978 "setAction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "action" type class_ref 223234 // ChessAction
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 671106 "getUtility"
+	cpp_inline public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 671234 "setUtility"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "utility" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 223746 "GamePiece"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface represent a general chesspiece capable of determining its own legal moves
+<P> A type representing positions
+@author oluf
+
+"
+      operation 656898 "getLegalmoves"
+	cpp_inline public explicit_return_type "HashMap<String,P>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657026 "getLegalmoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657154 "produceLegalmoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657282 "getPieceType"
+	cpp_inline public return_type class_ref 224258 // pieceType
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657410 "getPieceColor"
+	cpp_inline public return_type class_ref 224386 // pieceColor
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657538 "setMyPosition"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPosition" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657666 "getNewPositions"
+	cpp_inline public explicit_return_type "HashMap<String, P>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657794 "getOntologyPositions"
+	cpp_inline public explicit_return_type "HashMap<String, P>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 657922 "setOntologyPositions"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "ontologyPositions" explicit_type "HashMap<String, P>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 223874 "ChessPlayer"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "GamePiece" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "PieceMove" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author oluf
+This interface represent a chessPlayer in a game of chess
+@param <GamePiece> Contains the ChessPieces owned by the player
+@param <PieceMove> Represent a Move made by a Piece
+"
+      operation 659842 "getPieces"
+	cpp_inline public explicit_return_type "HashMap<String,GamePiece>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 659970 "getMyPieces"
+	cpp_inline public explicit_return_type "HashMap<String,GamePiece>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660098 "setMyPieces"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPieces" explicit_type "HashMap<String, GamePiece>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660226 "getMyMoves"
+	cpp_inline public explicit_return_type "HashMap<String, PieceMove>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660354 "setMyMoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myMoves" explicit_type "HashMap<String,PieceMove>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660482 "getCurrentMove"
+	cpp_inline public explicit_return_type "PieceMove"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660610 "setCurrentMove"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "currentMove" explicit_type "PieceMove"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660738 "getMygamePieces"
+	cpp_inline public explicit_return_type "ArrayList<GamePiece>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660866 "setMygamePieces"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "mygamePieces" explicit_type "ArrayList<GamePiece>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 660994 "getPlayerName"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661122 "setPlayerName"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "playerName" type class_ref 224898 // player
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661250 "getWhitePlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661378 "setWhitePlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "whitePlayer" type class_ref 224898 // player
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661506 "getBlackPlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661634 "setBlackPlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "blackPlayer" type class_ref 224898 // player
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 224002 "AbstractgameBoard"
+      abstract visibility public 
+      nformals 1
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This is a abstract Game board in chess.
+And make abstract methods to be implemented by subclasses
+A game board is represented by a set of positions held in a HashMap
+A position is either occupied by a chesspiece or vacant. 
+@author oluf
+@param <P> P represents a Position class
+
+"
+      classrelation 279938 // <realization>
+	relation 279938 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 279938 // <realization>
+	  b parent class_ref 223490 // GameBoard
+      end
+
+      attribute 262658 "positions"
+	protected explicit_type "String,P"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 262786 "usedPositionlist"
+	protected explicit_type "P"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 262914 "notusedPositionlist"
+	protected explicit_type "P"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 263042 "availablePositionlist"
+	protected explicit_type "P"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 263170 "positionlist"
+	protected explicit_type "P"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " THe original HashMap of positions as a list"
+      end
+
+      operation 655490 "getPositions"
+	cpp_inline public explicit_return_type "HashMap<String, P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 655618 "setPositions"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "positions" explicit_type "HashMap<String, P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 655746 "getUsedPositionlist"
+	cpp_inline public explicit_return_type "List<P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 655874 "setUsedPositionlist"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "usedPositionlist" explicit_type "List<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656002 "getNotusedPositionlist"
+	cpp_inline public explicit_return_type "List<P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656130 "setNotusedPositionlist"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "notusedPositionlist" explicit_type "List<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656258 "getAvailablePositionlist"
+	cpp_inline public explicit_return_type "List<P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656386 "setAvailablePositionlist"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "availablePositionlist" explicit_type "List<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656514 "getPositionlist"
+	cpp_inline public explicit_return_type "List<P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656642 "setPositionlist"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "positionlist" explicit_type "List<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 656770 "AbstractgameBoard"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "positions" explicit_type "HashMap<String, P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 224130 "AbstractGamePiece"
+      abstract visibility public 
+      nformals 1
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 1
+      actual class class_ref 223746 // GamePiece
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class represent the abstract gamepiece of a game of chess.
+
+@author oluf
+@param <P> REpresent the position for the piece
+
+"
+      class 224258 "pieceType"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 263426 "PAWN"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 263554 "ROOK"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 263682 "BISHOP"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 263810 "KNIGHT"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 263938 "KING"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 264066 "QUEEN"
+	  public type class_ref 224258 // pieceType
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      class 224386 "pieceColor"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 264194 "BLACK"
+	  public type class_ref 224386 // pieceColor
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 264322 "WHITE"
+	  public type class_ref 224386 // pieceColor
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      classrelation 280066 // <realization>
+	relation 280066 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280066 // <realization>
+	  b parent class_ref 223746 // GamePiece
+      end
+
+      attribute 263298 "name"
+	protected explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Name of piece"
+      end
+
+      attribute 264450 "value"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 264578 "orgValue"
+	protected explicit_type "int"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 658050 "getmyPosition"
+	abstract cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658178 "getLegalmoves"
+	abstract cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658306 "setMyPosition"
+	abstract cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPosition" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658434 "produceLegalmoves"
+	abstract cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658562 "getName"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "	public abstract void setNewPosition(P myPosition);"
+      end
+
+      operation 658690 "setName"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658818 "getValue"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 658946 "setValue"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 224514 "AbstractPieceMove"
+      abstract visibility public 
+      nformals 2
+      formal name "F" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 224642 // PieceMove
+        rank 0 explicit_value ""
+      actual class class_ref 224642 // PieceMove
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "AbstractPieceMove represent a move made by a player.
+It contains a fromposition and a toposition.
+
+@author oluf
+
+@param <F> The from position
+@param <T> The to position
+"
+      classrelation 280194 // <realization>
+	relation 280194 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280194 // <realization>
+	  b parent class_ref 224642 // PieceMove
+      end
+
+      attribute 264706 "moveNumber"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 264834 "moveNotation"
+	protected explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Contains the algebraic notation of the move"
+      end
+
+      operation 659330 "getMoveNumber"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 659458 "setMoveNumber"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "moveNumber" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 659586 "getMoveNotation"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 659714 "setMoveNotation"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "moveNotation" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 224642 "PieceMove"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "F" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface represent a PieceMove made by a Player.
+It contains a fromPosition and
+a toPosition
+@author oluf
+
+@param <F>
+@param <T>
+"
+      operation 659074 "getFromPosition"
+	cpp_inline public explicit_return_type "F"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 659202 "getToPosition"
+	cpp_inline public explicit_return_type "T"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 224770 "AbstractPlayer"
+      abstract visibility public 
+      nformals 2
+      formal name "GamePiece" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "PieceMove" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 223874 // ChessPlayer
+        rank 0 explicit_value ""
+      actual class class_ref 223874 // ChessPlayer
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "AbstractPlayer represent a general Chess player
+The AbstractPlayer has an enumeration that indicate if the player is black or white
+@author oluf
+
+@param <GamePiece>
+@param <PieceMove>
+"
+      class 224898 "player"
+	visibility protected stereotype "enum"
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 264962 "WHITE"
+	  public type class_ref 224898 // player
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 265090 "BLACK"
+	  public type class_ref 224898 // player
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      classrelation 280322 // <realization>
+	relation 280322 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280322 // <realization>
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      classrelation 280450 // whitePlayer (<unidirectional association>)
+	relation 280450 --->
+	  a role_name "whitePlayer" init_value " player.WHITE" class_relation protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 280450 // whitePlayer (<unidirectional association>)
+	  b parent class_ref 224898 // player
+      end
+
+      classrelation 280578 // blackPlayer (<unidirectional association>)
+	relation 280578 --->
+	  a role_name "blackPlayer" init_value " player.BLACK" class_relation protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 280578 // blackPlayer (<unidirectional association>)
+	  b parent class_ref 224898 // player
+      end
+
+      attribute 265218 "playerId"
+	protected explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 661762 "collectmyPieces"
+	abstract cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 661890 "getWhitePlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662018 "setWhitePlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "whitePlayer" type class_ref 224898 // player
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662146 "getBlackPlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662274 "setBlackPlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "blackPlayer" type class_ref 224898 // player
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662402 "getPlayerId"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 662530 "setPlayerId"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "playerId" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 225026 "ChessAlphaBetaSearch"
+      visibility public 
+      nactuals 5
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 1 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 2 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessAlphaBetaSearch is a subclass of IterativeDeepeningAlphaBetaSearch
+and performs, through its makeDecision method, an iterative deepening Minimax search with alpha-beta pruning and
+action ordering of Chess states and Chess actions. Maximal computation time is specified in seconds.
+This object is created and called for every new call to the proposemove method of PlayGame
+
+@author Oluf
+
+@param <S> The type representing chess states
+@param <A> The type representing chess actions
+@param <P> The type representing chess players
+"
+      classrelation 280834 // <realization>
+	relation 280834 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280834 // <realization>
+	  b parent class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+      end
+
+      classrelation 280962 // <realization>
+	relation 280962 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280962 // <realization>
+	  b parent class_ref 133506 // AdversarialSearch
+      end
+
+      classrelation 281090 // player (<unidirectional association>)
+	relation 281090 --->
+	  a role_name "player" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece, PieceMove> ${name}${value};
+"
+	    classrelation_ref 281090 // player (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      classrelation 281218 // xstate (<unidirectional association>)
+	relation 281218 --->
+	  a role_name "xstate" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GameBoard> ${name}${value};
+"
+	    classrelation_ref 281218 // xstate (<unidirectional association>)
+	  b parent class_ref 223618 // ChessState
+      end
+
+      classrelation 281346 // action (<unidirectional association>)
+	relation 281346 --->
+	  a role_name "action" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?, ?, ?, GamePiece, ?> ${name}${value};
+"
+	    classrelation_ref 281346 // action (<unidirectional association>)
+	  b parent class_ref 223234 // ChessAction
+      end
+
+      attribute 265346 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\logs.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 265474 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 265602 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 265730 "timecount"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 225154 "Timer"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 265858 "duration"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 265986 "startTime"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 664450 "Timer"
+	  package explicit_return_type ""
+	  nparams 1
+	    param in name "maxSeconds" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 664578 "start"
+	  package explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 664706 "timeOutOccurred"
+	  package explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 281474 // timer (<unidirectional association>)
+	relation 281474 --->
+	  a role_name "timer" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 281474 // timer (<unidirectional association>)
+	  b parent class_ref 225154 // Timer
+      end
+
+      operation 663426 "ChessAlphaBetaSearch"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "game" type class_ref 133762 // Game
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<ChessState<GameBoard>, ChessAction<?, ?, ?, GamePiece<?>, ?>, ChessPlayer<GamePiece, PieceMove>> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 663554 "createFor"
+	class_operation public return_type class_ref 225026 // ChessAlphaBetaSearch
+	nparams 4
+	  param inout name "game" type class_ref 223362 // ChessGame
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<ChessState,ChessAction,ChessPlayer> ${type} ${name}${(}${t0}<ChessState,ChessAction,ChessPlayer> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 663682 "makeDecision"
+	public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "makeDecision
+This method is controlling the search. It is based on iterative
+deepening and tries to make to a good decision in limited time. 
+The type S for state is casted to the correct interface
+
+@param <ChessState> The state of the game
+@return A ChessAction
+"
+      end
+
+      operation 663810 "orderActions"
+	public return_type class_ref 223234 // ChessAction
+	nparams 4
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "list" explicit_type "List<ChessAction>"
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "orderActions
+This method orders the actions such that actions containing preferred positions comes first.
+This method should order the actions the same way as chessGame.analyzePieceandPosition(action);
+The type A for action is casted to ChessAction interface
+@author Oluf
+"
+      end
+
+      operation 663938 "maxValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 664066 "minValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " returns an utility value"
+      end
+
+      operation 664194 "updateMetrics"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 664322 "eval"
+	protected explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "When overriding, first call the super implementation???!
+This overided version of eval must produce:
+- When the state is not terminal:
+A utility value that is max for a central position on the board + the value (rank) 
+of the piece
+@since January 2020
+This method attempts to analyze the various features of the current state
+This method can only be used for active player, not the opponent player
+
+
+"
+      end
+
+      class 225282 "ActionStore"
+	visibility private 
+	nformals 1
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 266114 "actions"
+	  private explicit_type "A"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 266242 "utilValues"
+	  private explicit_type "Double"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 664834 "add"
+	  cpp_inline package explicit_return_type "void"
+	  nparams 2
+	    param inout name "action" explicit_type "A"
+	    param in name "utilValue" explicit_type "double"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 664962 "size"
+	  cpp_inline package explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 665090 "toString"
+	  cpp_inline public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 665218 "incrementDepthLimit"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is called at the beginning of one depth limited
+search step. This implementation increments the current depth limit by
+one.
+"
+      end
+
+      operation 665346 "isSignificantlyBetter"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param in name "newUtility" explicit_type "double"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a clear best action exists. This implementation returns
+false if both utilities are 0.
+Otherwise it returns true. This makes sure that the returned action belongs to the gameplayer and not the opponent
+"
+      end
+
+      operation 665474 "hasSafeWinner"
+	protected explicit_return_type "boolean"
+	nparams 1
+	  param in name "resultUtility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a safe winner has been identified. This implementation
+returns true if the given value (for the currently preferred action
+result is the highest or lowest utility value possible.
+@since 05.05.20
+The resultutlity is divided by 100 since utilMax  is 1 and utilmin is 0.
+"
+      end
+    end
+
+    class 225410 "ChessFunctions"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessFunctions
+This class contains useful functional interfaces used in lambda expressions
+A functional interface is an interface with one abstract method.
+This method describes the signature of the lambda expression (see p. 53 in Java 8)
+@author oluf
+
+"
+      operation 665602 "findpieceType"
+	class_operation public explicit_return_type "P"
+	nparams 2
+	  param inout name "p" explicit_type "Q"
+	  param inout name "pr" explicit_type "Predicate<Q>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,Q> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 665730 "filterMove"
+	class_operation public explicit_return_type "List<T>"
+	nparams 3
+	  param inout name "l" explicit_type "List<T>"
+	  param inout name "p" explicit_type "P"
+	  param inout name "pr" explicit_type "Predicate<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,P> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "filterMove
+A filter method to be used to return:
+1. What pieces protect a given position?
+2. What pieces attack a given position
+@param l - a list of pieces?
+@param p - a given position?
+@param pr - the predicate
+@return
+"
+      end
+
+      operation 665858 "filterPiece"
+	class_operation public explicit_return_type "List<T>"
+	nparams 2
+	  param inout name "list" explicit_type "List<T>"
+	  param inout name "pr" explicit_type "Predicate<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "filterPiece
+A filter method to be used to return:
+1. What pieces protect a given position?
+2. What pieces attack a given position
+@param l - a list of pieces?
+@param pr - the predicate
+@return
+"
+      end
+
+      operation 665986 "processChessgame"
+	class_operation public explicit_return_type "R"
+	nparams 3
+	  param inout name "p" explicit_type "P"
+	  param inout name "q" explicit_type "Q"
+	  param inout name "processor" type class_ref 225538 // ChessProcessor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P, Q, R> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "processChessgame
+This is a chess game processor
+The parameters are chess game objects and the gameprocessor is of type 
+ChessProcessor
+The function descriptor is (P,Q) -> R
+@param p
+@param q
+@param processor
+@return A modified chess object
+"
+      end
+
+      operation 666114 "createType"
+	class_operation public explicit_return_type "M"
+	nparams 3
+	  param inout name "p" explicit_type "P"
+	  param inout name "a" explicit_type "A"
+	  param inout name "f" explicit_type "BiFunction<P,A,M>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,A,M> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "createType
+This functional interface creates a new possible Type
+based on the Types P and A
+The function descriptor is (P,A) -> M
+@param p Any type of chess game object
+@param a Any type of chess game object
+@param f The create function
+@return THe chess object m must have a constructor of type m(P,A)
+"
+      end
+
+      operation 666242 "moveRule"
+	class_operation public return_type class_ref 135938 // XYLocation
+	nparams 2
+	  param inout name "t" explicit_type "T"
+	  param inout name "r" type class_ref 225666 // MoveRule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,L> List<${type}> ${name}${(}${t0} ${p0}, ${t1}<T,L> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "moveRule
+This is a moveRuler. Based on chess piece type it calculates a list of available
+Positions
+@param t The chess piece
+@param r The functional interface
+@return a List<P> of positions.
+"
+      end
+
+      operation 666370 "moveCalculation"
+	class_operation public explicit_return_type "List<P>"
+	nparams 3
+	  param inout name "t" explicit_type "T"
+	  param inout name "pr" explicit_type "Predicate<T>"
+	  param inout name "r" type class_ref 225794 // MoveCalculator
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,P> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<T,P> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 666498 "calculateMoves"
+	class_operation public explicit_return_type "List<T>"
+	nparams 2
+	  param inout name "p" explicit_type "P"
+	  param inout name "pr" explicit_type "Predicate<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 225538 "ChessProcessor"
+      visibility public stereotype "interface"
+      nformals 3
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "Q" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessProcessor
+Implementations of this interface process chess objects
+P,Q,R represent all kinds of chess objects in this structure.
+@author oluf
+
+"
+      operation 666882 "processChessObject"
+	cpp_inline public explicit_return_type "R"
+	nparams 2
+	  param inout name "p" explicit_type "P"
+	  param inout name "q" explicit_type "Q"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 225666 "MoveRule"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "L" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "MoveRule
+This functional interface creates a List of XYLocations
+that determine available positions for the piece t.
+
+@author oluf
+
+"
+      operation 671490 "calculateRule"
+	cpp_inline public return_type class_ref 135938 // XYLocation
+	nparams 1
+	  param inout name "t" explicit_type "T"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 225794 "MoveCalculator"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "MoveRule
+This functional interface creates a List of positions 
+that determine available positions for the piece t.
+
+@author oluf
+
+"
+      operation 671362 "calculatePositions"
+	cpp_inline public explicit_return_type "P"
+	nparams 2
+	  param inout name "t" explicit_type "T"
+	  param inout name "p" explicit_type "Predicate<T>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 225922 "ChessPieceType"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface is used to determine what type of chesspiece
+the implemented chesspiece represent
+<P> The type argument has been removed
+@author oluf
+
+"
+      operation 666626 "test"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "piece" type class_ref 223746 // GamePiece
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 666754 "checkName"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 226050 "ChessSearch"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 667010 "makeDecision"
+	public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667138 "getMetrics"
+	public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667266 "setLogEnabled"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667394 "maxValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667522 "minValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667650 "eval"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 226178 "ChessSearchImpl"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 281602 // <realization>
+	relation 281602 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 281602 // <realization>
+	  b parent class_ref 226050 // ChessSearch
+      end
+
+      attribute 266370 "METRICS_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 266498 "METRICS_MAX_DEPTH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"maxDepth\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 281730 // game (<unidirectional association>)
+	relation 281730 --->
+	  a role_name "game" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<ChessState<?>, ChessAction<?, ?, ?, ?, ?>, ChessPlayer<?,?>> ${name}${value};
+"
+	    classrelation_ref 281730 // game (<unidirectional association>)
+	  b parent class_ref 223362 // ChessGame
+      end
+
+      attribute 266626 "utilMax"
+	protected explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 266754 "utilMin"
+	protected explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 266882 "currDepthLimit"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 267010 "heuristicEvaluationUsed"
+	protected explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " indicates that non-terminal"
+      end
+
+      class 226306 "Timer"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 267266 "duration"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 267394 "startTime"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 669442 "Timer"
+	  package explicit_return_type ""
+	  nparams 1
+	    param in name "maxSeconds" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 669570 "start"
+	  package explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 669698 "timeOutOccurred"
+	  package explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 281858 // timer (<unidirectional association>)
+	relation 281858 --->
+	  a role_name "timer" private
+	    comment " nodes
+ have been evaluated.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 281858 // timer (<unidirectional association>)
+	  b parent class_ref 226306 // Timer
+      end
+
+      attribute 267138 "logEnabled"
+	protected explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 281986 // metrics (<unidirectional association>)
+	relation 281986 --->
+	  a role_name "metrics" init_value " new Metrics()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 281986 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 667778 "ChessSearchImpl"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "game" type class_ref 223362 // ChessGame
+	  param in name "utilMax" explicit_type "double"
+	  param in name "utilMin" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<ChessState<?>, ChessAction<?, ?, ?, ?, ?>, ChessPlayer<?,?>> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 667906 "createFor"
+	class_operation public return_type class_ref 226178 // ChessSearchImpl
+	nparams 4
+	  param inout name "game" type class_ref 223362 // ChessGame
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<ChessState<?>, ChessAction<?, ?, ?, ?, ?>, ChessPlayer<?,?>> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 668034 "makeDecision"
+	public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 668162 "incrementDepthLimit"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is called at the beginning of one depth limited
+search step. This implementation increments the current depth limit by
+one.
+"
+      end
+
+      operation 668290 "isSignificantlyBetter"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param in name "newUtility" explicit_type "double"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a clear best action exists. This implementation returns
+always false.
+"
+      end
+
+      operation 668418 "hasSafeWinner"
+	protected explicit_return_type "boolean"
+	nparams 1
+	  param in name "resultUtility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a safe winner has been identified. This implementation
+returns true if the given value (for the currently preferred action
+result) is the highest or lowest utility value possible.
+"
+      end
+
+      operation 668546 "getMetrics"
+	public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 668674 "setLogEnabled"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 668802 "orderActions"
+	public return_type class_ref 223234 // ChessAction
+	nparams 4
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "actions" explicit_type "List<ChessAction<?, ?, ?, ?, ?>>"
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "orderActions
+This method orders the actions such that actions containing preferred positions comes first.
+This method should order the actions the same way as chessGame.analyzePieceandPosition(action);
+The type A for action is casted to ChessAction interface
+@author Oluf
+"
+      end
+
+      operation 668930 "updateMetrics"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 669058 "maxValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 669186 "minValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 669314 "eval"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 226434 "ActionStore"
+	visibility private 
+	nformals 1
+	formal name "ChessAction" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 267522 "actions"
+	  private explicit_type "ChessAction"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 267650 "utilValues"
+	  private explicit_type "Double"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 669826 "add"
+	  cpp_inline package explicit_return_type "void"
+	  nparams 2
+	    param inout name "action" explicit_type "ChessAction"
+	    param in name "utilValue" explicit_type "double"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 669954 "size"
+	  cpp_inline package explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 226562 "FilterMove"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+  end
+
+  deploymentview 141826 "chess"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 205698 "ChessGame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.search.adversarial.Game;
+${definition}"
+      associated_elems
+	class_ref 223362 // ChessGame
+      end
+    end
+
+    artifact 205826 "AbstractChessGame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.adversarial.Game;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 223106 // AbstractChessGame
+      end
+    end
+
+    artifact 205954 "GameBoard"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 223490 // GameBoard
+      end
+    end
+
+    artifact 206082 "AbstractgameBoard"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+${definition}"
+      associated_elems
+	class_ref 224002 // AbstractgameBoard
+      end
+    end
+
+    artifact 206210 "GamePiece"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import no.games.chess.AbstractGamePiece.pieceColor;
+import no.games.chess.AbstractGamePiece.pieceType;
+${definition}"
+      associated_elems
+	class_ref 223746 // GamePiece
+      end
+    end
+
+    artifact 206338 "AbstractGamePiece"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+${definition}"
+      associated_elems
+	class_ref 224130 // AbstractGamePiece
+      end
+    end
+
+    artifact 206466 "PieceMove"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 224642 // PieceMove
+      end
+    end
+
+    artifact 206594 "AbstractPieceMove"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 224514 // AbstractPieceMove
+      end
+    end
+
+    artifact 206722 "ChessPlayer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import no.games.chess.AbstractPlayer.player;
+${definition}"
+      associated_elems
+	class_ref 223874 // ChessPlayer
+      end
+    end
+
+    artifact 206850 "AbstractPlayer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 224770 // AbstractPlayer
+      end
+    end
+
+    artifact 206978 "ChessAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.agent.Action;
+${definition}"
+      associated_elems
+	class_ref 223234 // ChessAction
+      end
+    end
+
+    artifact 207106 "ChessAlphaBetaSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.adversarial.AdversarialSearch;
+import aima.core.search.adversarial.Game;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.framework.Metrics;
+import no.games.chess.ChessAction;
+import no.games.chess.ChessState;
+import no.games.chess.ChessPlayer;
+${definition}"
+      associated_elems
+	class_ref 225026 // ChessAlphaBetaSearch
+      end
+    end
+
+    artifact 207234 "ChessFunctions"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 225410 // ChessFunctions
+      end
+    end
+
+    artifact 207362 "ChessPieceType"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+${definition}"
+      associated_elems
+	class_ref 225922 // ChessPieceType
+      end
+    end
+
+    artifact 207490 "ChessProcessor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 225538 // ChessProcessor
+      end
+    end
+
+    artifact 207618 "ChessSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 226050 // ChessSearch
+      end
+    end
+
+    artifact 207746 "ChessSearchImpl"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.adversarial.Game;
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 226178 // ChessSearchImpl
+      end
+    end
+
+    artifact 207874 "ChessState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.agent.Percept;
+${definition}"
+      associated_elems
+	class_ref 223618 // ChessState
+      end
+    end
+
+    artifact 208002 "FilterMove"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 226562 // FilterMove
+      end
+    end
+
+    artifact 208130 "MoveCalculator"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.function.Predicate;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 225794 // MoveCalculator
+      end
+    end
+
+    artifact 208258 "MoveRule"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.function.Predicate;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 225666 // MoveRule
+      end
+    end
+  end
+
+  package_ref 190978 // fol
+
+  package_ref 197506 // planning
+end

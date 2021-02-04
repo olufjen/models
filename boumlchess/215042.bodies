@@ -1,0 +1,30 @@
+class RouteFindingAgentFrame
+!!!603650.java!!!	RouteFindingAgentFrame()
+			setTitle("RFA - the Route Finding Agent");
+			setSelectorItems(SCENARIO_SEL, new String[] {
+					"Romania, from Arad", "Romania, from Lugoj",
+					"Romania, from Fagaras",
+					"Australia, from Sydney",
+					"Australia, from Random" }, 0);
+			setSelectorItems(Q_SEARCH_IMPL_SEL, SearchFactory.getInstance()
+					.getQSearchImplNames(), 1); // change the default!
+			setSelectorItems(HEURISTIC_SEL, new String[] { "=0", "SLD" }, 1);
+!!!603778.java!!!	selectionChanged(in changedSelector : String) : void
+			SelectionState state = getSelection();
+			int scenarioIdx = state.getIndex(MapAgentFrame.SCENARIO_SEL);
+			RouteFindingAgentFrame.MapType mtype = (scenarioIdx < 3) ? MapType.ROMANIA
+					: MapType.AUSTRALIA;
+			if (mtype != usedMap) {
+				usedMap = mtype;
+				String[] items = null;
+				switch (mtype) {
+				case ROMANIA:
+					items = ROMANIA_DESTS;
+					break;
+				case AUSTRALIA:
+					items = AUSTRALIA_DESTS;
+					break;
+				}
+				setSelectorItems(DESTINATION_SEL, items, 0);
+			}
+			super.selectionChanged(changedSelector);

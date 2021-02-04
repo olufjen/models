@@ -1,0 +1,62 @@
+class BayesNet
+!!!404098.java!!!	BayesNet(inout  : Node...rootNodes)
+		if (null == rootNodes) {
+			throw new IllegalArgumentException(
+					"Root Nodes need to be specified.");
+		}
+		for (Node n : rootNodes) {
+			this.rootNodes.add(n);
+		}
+		if (this.rootNodes.size() != rootNodes.length) {
+			throw new IllegalArgumentException(
+					"Duplicate Root Nodes Passed in.");
+		}
+		// Ensure is a DAG
+		checkIsDAGAndCollectVariablesInTopologicalOrder();
+		variables = Collections.unmodifiableList(variables);
+!!!404226.java!!!	getVariablesInTopologicalOrder() : RandomVariable
+		return variables;
+!!!404354.java!!!	getNode(inout rv : RandomVariable) : Node
+		return varToNodeMap.get(rv);
+!!!404482.java!!!	checkIsDAGAndCollectVariablesInTopologicalOrder() : void
+
+		// Topological sort based on logic described at:
+		// http://en.wikipedia.org/wiki/Topoligical_sorting
+		Set<Node> seenAlready = new HashSet<Node>();
+		Map<Node, List<Node>> incomingEdges = new HashMap<Node, List<Node>>();
+		Set<Node> s = new LinkedHashSet<Node>();
+		for (Node n : this.rootNodes) {
+			walkNode(n, seenAlready, incomingEdges, s);
+		}
+		while (!s.isEmpty()) {
+			Node n = s.iterator().next();
+			s.remove(n);
+			variables.add(n.getRandomVariable());
+			varToNodeMap.put(n.getRandomVariable(), n);
+			for (Node m : n.getChildren()) {
+				List<Node> edges = incomingEdges.get(m);
+				edges.remove(n);
+				if (edges.isEmpty()) {
+					s.add(m);
+				}
+			}
+		}
+
+		for (List<Node> edges : incomingEdges.values()) {
+			if (!edges.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Network contains at least one cycle in it, must be a DAG.");
+			}
+		}
+!!!404610.java!!!	walkNode(inout n : Node, inout seenAlready : Set<Node>, inout incomingEdges : Map<Node, List<Node>>, inout rootNodes : Set<Node>) : void
+		if (!seenAlready.contains(n)) {
+			seenAlready.add(n);
+			// Check if has no incoming edges
+			if (n.isRoot()) {
+				rootNodes.add(n);
+			}
+			incomingEdges.put(n, new ArrayList<Node>(n.getParents()));
+			for (Node c : n.getChildren()) {
+				walkNode(c, seenAlready, incomingEdges, rootNodes);
+			}
+		}

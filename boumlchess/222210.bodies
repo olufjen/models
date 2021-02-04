@@ -1,0 +1,65 @@
+class GuiBase
+!!!639490.java!!!	activateSystemStyle() : void
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JFrame.setDefaultLookAndFeelDecorated(true);
+!!!639618.java!!!	setUIColors() : void
+		 UIManager.put("OptionPane.background",BACKGROUND_COLOR);
+		 UIManager.put("ScrollPane.background",BACKGROUND_COLOR);
+		 UIManager.put("Panel.background",BACKGROUND_COLOR);
+		 UIManager.put("Slider.background",BACKGROUND_COLOR);
+		 UIManager.put("OptionPane.messageForeground",TEXT_COLOR);
+		 UIManager.put("Label.foreground", TEXT_COLOR);
+!!!639746.java!!!	getFormat() : DecimalFormat
+		return FORMAT;
+!!!639874.java!!!	getTextColor() : Color
+		return TEXT_COLOR;
+!!!640002.java!!!	getBackgroundColor() : Color
+		return BACKGROUND_COLOR;
+!!!640130.java!!!	getAreaColor() : Color
+		return AREA_COLOR;
+!!!640258.java!!!	getClearance() : int
+		return CLEARANCE;
+!!!640386.java!!!	getClearanceComp() : Component
+		return Box.createRigidArea(new Dimension(CLEARANCE,CLEARANCE));
+!!!640514.java!!!	getClearanceBorder() : Border
+		return BorderFactory.createEmptyBorder(CLEARANCE,CLEARANCE,CLEARANCE,CLEARANCE);
+!!!640642.java!!!	initMessageBox() : void
+		MESSAGE_BOX = new JOptionPane().createDialog("MCL");
+		final JPanel panel = new JPanel();
+		panel.setBounds(5, 5, 345, 95);
+		MESSAGE_LABEL = new JLabel("", JLabel.CENTER);
+		Dimension dimension = new Dimension(350,100);
+		panel.setLayout(new BorderLayout());
+		panel.add(MESSAGE_LABEL, BorderLayout.CENTER);
+		MESSAGE_OK_BUTTON = new JButton("OK");
+		MESSAGE_OK_BUTTON.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MESSAGE_BOX.setVisible(false);
+			}
+		});
+		panel.add(MESSAGE_OK_BUTTON, BorderLayout.SOUTH);
+		MESSAGE_BOX.add(panel);
+		MESSAGE_BOX.setContentPane(panel);
+		MESSAGE_BOX.setMinimumSize(dimension);
+		MESSAGE_BOX.setResizable(false);
+		MESSAGE_BOX.setAlwaysOnTop(true);
+		MESSAGE_BOX.pack();
+		MESSAGE_BOX.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		MESSAGE_BOX.setModalityType(JDialog.ModalityType.MODELESS);
+!!!640770.java!!!	showMessageBox(in message : String) : void
+		showMessageBox(message,true);
+!!!640898.java!!!	showMessageBox(in message : String, inout buttonVisible : boolean) : void
+		if(MESSAGE_BOX == null) initMessageBox();
+		MESSAGE_BOX.setVisible(false);
+		MESSAGE_LABEL.setText(message);
+		MESSAGE_OK_BUTTON.setVisible(buttonVisible);
+		MESSAGE_BOX.setVisible(true);
+!!!641026.java!!!	showOKButtonMessageBox() : void
+		MESSAGE_OK_BUTTON.setVisible(true);
+!!!641154.java!!!	hideMessageBox() : void
+		MESSAGE_BOX.setVisible(false);

@@ -1,0 +1,24 @@
+class QueensEnvironment
+!!!732290.java!!!	QueensEnvironment(inout board : NQueensBoard)
+		super();
+		this.board = board;
+!!!732418.java!!!	executeAction(inout agent : Agent, inout action : Action) : void
+		if (action instanceof QueenAction) {
+			QueenAction act = (QueenAction) action;
+			XYLocation loc = new XYLocation(act.getX(), act.getY());
+			if (act.getName() == QueenAction.PLACE_QUEEN)
+				board.addQueenAt(loc);
+			else if (act.getName() == QueenAction.REMOVE_QUEEN)
+				board.removeQueenFrom(loc);
+			else if (act.getName() == QueenAction.MOVE_QUEEN)
+				board.moveQueenTo(loc);
+		}
+
+!!!732546.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+		// TODO Auto-generated method stub
+		
+		return null;
+!!!732674.java!!!	getBoard() : NQueensBoard
+		return board;
+!!!732802.java!!!	setBoard(inout board : NQueensBoard) : void
+		this.board = board;

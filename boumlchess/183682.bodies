@@ -1,0 +1,38 @@
+class HMMForwardBackward
+!!!421122.java!!!	HMMForwardBackward(inout hmm : HiddenMarkovModel)
+		this.hmm = hmm;
+!!!421250.java!!!	forwardBackward(inout ev : List<List<AssignmentProposition>>, inout prior : CategoricalDistribution) : CategoricalDistribution
+		// local variables: fv, a vector of forward messages for steps 0,...,t
+		List<Matrix> fv = new ArrayList<Matrix>(ev.size() + 1);
+		// b, a representation of the backward message, initially all 1s
+		Matrix b = hmm.createUnitMessage();
+		// sv, a vector of smoothed estimates for steps 1,...,t
+		List<Matrix> sv = new ArrayList<Matrix>(ev.size());
+
+		// fv[0] <- prior
+		fv.add(hmm.convert(prior));
+		// for i = 1 to t do
+		for (int i = 0; i < ev.size(); i++) {
+			// fv[i] <- FORWARD(fv[i-1], ev[i])
+			fv.add(forward(fv.get(i), hmm.getEvidence(ev.get(i))));
+		}
+		// for i = t downto 1 do
+		for (int i = ev.size() - 1; i >= 0; i--) {
+			// sv[i] <- NORMALIZE(fv[i] * b)
+			sv.add(0, hmm.normalize(fv.get(i + 1).arrayTimes(b)));
+			// b <- BACKWARD(b, ev[i])
+			b = backward(b, hmm.getEvidence(ev.get(i)));
+		}
+
+		// return sv
+		return hmm.convert(sv);
+!!!421378.java!!!	forward(inout f1_t : CategoricalDistribution, inout e_tp1 : List<AssignmentProposition>) : CategoricalDistribution
+		return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
+!!!421506.java!!!	backward(inout b_kp2t : CategoricalDistribution, inout e_kp1 : List<AssignmentProposition>) : CategoricalDistribution
+		return hmm
+				.convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));
+!!!421634.java!!!	forward(inout f1_t : Matrix, inout O_tp1 : Matrix) : Matrix
+		return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose()
+				.times(f1_t)));
+!!!421762.java!!!	backward(inout b_kp2t : Matrix, inout O_kp1 : Matrix) : Matrix
+		return hmm.getTransitionModel().times(O_kp1).times(b_kp2t);

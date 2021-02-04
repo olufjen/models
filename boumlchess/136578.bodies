@@ -1,0 +1,14 @@
+class BidirectionalMapProblem
+!!!161282.java!!!	BidirectionalMapProblem(inout map : Map, in initialState : String, in goalState : String)
+		this(map, initialState, goalState, GoalTest.forState(goalState));
+!!!161410.java!!!	BidirectionalMapProblem(inout map : Map, in initialState : String, in goalState : String, inout goalTest : GoalTest)
+		super(initialState, MapFunctions.createActionsFunction(map), MapFunctions.createResultFunction(),
+				goalTest, MapFunctions.createDistanceStepCostFunction(map));
+
+		reverseProblem = new GeneralProblem<>(goalState, MapFunctions.createReverseActionsFunction(map),
+				MapFunctions.createResultFunction(), GoalTest.forState(initialState),
+				MapFunctions.createDistanceStepCostFunction(map));
+!!!161538.java!!!	getOriginalProblem() : Problem
+		return this;
+!!!161666.java!!!	getReverseProblem() : Problem
+		return reverseProblem;

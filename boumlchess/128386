@@ -1,0 +1,1455 @@
+format 223
+"impl" // aima::core::agent::impl
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/agent/impl/"
+  java_package "aima.core.agent.impl"
+  classview 128130 "impl"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 128770 "AbstractAgent"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 128130 // <realization>
+	relation 128130 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 128130 // <realization>
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 128258 // program (<unidirectional association>)
+	relation 128258 --->
+	  a role_name "program" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 128258 // program (<unidirectional association>)
+	  b parent class_ref 128514 // AgentProgram
+      end
+
+      attribute 128002 "alive"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 128642 "AbstractAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 128770 "AbstractAgent"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "aProgram" type class_ref 128514 // AgentProgram
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs an Agent with the specified AgentProgram.
+
+@param aProgram
+           the Agent's program, which maps any given percept sequences to
+           an action.
+"
+      end
+
+      operation 128898 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "p" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Agent"
+      end
+
+      operation 129026 "isAlive"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 129154 "setAlive"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "alive" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 129922 "AbstractEnvironment"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 128898 // <realization>
+	relation 128898 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 128898 // <realization>
+	  b parent class_ref 129154 // Environment
+      end
+
+      classrelation 129026 // <realization>
+	relation 129026 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 129026 // <realization>
+	  b parent class_ref 129538 // EnvironmentViewNotifier
+      end
+
+      classrelation 129154 // envObjects (<unidirectional association>)
+	relation 129154 --->
+	  stereotype "Set"
+	  a role_name "envObjects" init_value " new LinkedHashSet<>()" protected
+	    comment " Note: Use LinkedHashSet's in order to ensure order is respected as
+ provide
+ access to these elements via List interface.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 129154 // envObjects (<unidirectional association>)
+	  b parent class_ref 128258 // EnvironmentObject
+      end
+
+      classrelation 129282 // agents (<unidirectional association>)
+	relation 129282 --->
+	  stereotype "Set"
+	  a role_name "agents" init_value " new LinkedHashSet<>()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 129282 // agents (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 129410 // views (<unidirectional association>)
+	relation 129410 --->
+	  stereotype "Set"
+	  a role_name "views" init_value " new LinkedHashSet<>()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 129410 // views (<unidirectional association>)
+	  b parent class_ref 129282 // EnvironmentView
+      end
+
+      classrelation 129538 // performanceMeasures (<unidirectional association>)
+	relation 129538 --->
+	  stereotype "Map"
+	  a role_name "performanceMeasures" init_value " new LinkedHashMap<>()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Double> ${name}${value};
+"
+	    classrelation_ref 129538 // performanceMeasures (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      operation 131970 "executeAction"
+	abstract public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "action" type class_ref 128002 // Action
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+
+
+ Methods to be implemented by subclasses."
+      end
+
+      operation 132098 "getPerceptSeenBy"
+	abstract public return_type class_ref 128386 // Percept
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 132226 "createExogenousChange"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Method for implementing dynamic environments in which not all changes are
+directly caused by agent action execution. The default implementation
+does nothing.
+"
+      end
+
+      operation 132354 "getAgents"
+	public return_type class_ref 128130 // Agent
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Environment"
+      end
+
+      operation 132482 "addAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 132610 "removeAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 132738 "getEnvironmentObjects"
+	public return_type class_ref 128258 // EnvironmentObject
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 132866 "addEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 132994 "removeEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133122 "step"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Central template method for controlling agent simulation. The concrete
+behavior is determined by the primitive operations
+{@link #getPerceptSeenBy(Agent)}, {@link #executeAction(Agent, Action)},
+and {@link #createExogenousChange()}.
+"
+      end
+
+      operation 133250 "step"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "n" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133378 "stepUntilDone"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133506 "isDone"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133634 "getPerformanceMeasure"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "forAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133762 "addEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 133890 "removeEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 134018 "notifyViews"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 134146 "updatePerformanceMeasure"
+	protected explicit_return_type "void"
+	nparams 2
+	  param inout name "forAgent" type class_ref 128130 // Agent
+	  param in name "addTo" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-Environment
+
+
+ PROTECTED METHODS
+"
+      end
+
+      operation 134274 "notifyEnvironmentViews"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 134402 "notifyEnvironmentViews"
+	protected explicit_return_type "void"
+	nparams 3
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 130050 "DynamicAction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 129666 // <generalisation>
+	relation 129666 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 129666 // <generalisation>
+	  b parent class_ref 130178 // ObjectWithDynamicAttributes
+      end
+
+      classrelation 129794 // <realization>
+	relation 129794 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 129794 // <realization>
+	  b parent class_ref 128002 // Action
+      end
+
+      attribute 128258 "ATTRIBUTE_NAME"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"name\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 135810 "DynamicAction"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 135938 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the value of the name attribute.
+
+@return the value of the name attribute.
+"
+      end
+
+      operation 136066 "isNoOp"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Action"
+      end
+
+      operation 136194 "describeType"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Action
+"
+      end
+    end
+
+    class 130178 "ObjectWithDynamicAttributes"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      attribute 128130 "attributes"
+	private explicit_type "Object, Object"
+	init_value " new LinkedHashMap<>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 134530 "describeType"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+
+
+By default, returns the simple name of the underlying class as given in
+the source code.
+
+@return the simple name of the underlying class
+"
+      end
+
+      operation 134658 "describeAttributes"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a string representation of the object's current attributes
+
+@return a string representation of the object's current attributes
+"
+      end
+
+      operation 134786 "getKeySet"
+	public explicit_return_type "Set<Object>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an unmodifiable view of the object's key set
+
+@return an unmodifiable view of the object's key set
+"
+      end
+
+      operation 134914 "setAttribute"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "key" explicit_type "Object"
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Associates the specified value with the specified attribute key. If the
+ObjectWithDynamicAttributes previously contained a mapping for the
+attribute key, the old value is replaced.
+
+@param key
+           the attribute key
+@param value
+           the attribute value
+"
+      end
+
+      operation 135042 "getAttribute"
+	public explicit_return_type "Object"
+	nparams 1
+	  param inout name "key" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the value of the specified attribute key, or null if the
+attribute was not found.
+
+@param key
+           the attribute key
+
+@return the value of the specified attribute name, or null if not found.
+"
+      end
+
+      operation 135170 "removeAttribute"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "key" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes the attribute with the specified key from this
+ObjectWithDynamicAttributes.
+
+@param key
+           the attribute key
+"
+      end
+
+      operation 135298 "copy"
+	public return_type class_ref 130178 // ObjectWithDynamicAttributes
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates and returns a copy of this ObjectWithDynamicAttributes
+"
+      end
+
+      operation 135426 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 135554 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 135682 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 130306 "DynamicEnvironmentState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 129922 // <generalisation>
+	relation 129922 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 129922 // <generalisation>
+	  b parent class_ref 130178 // ObjectWithDynamicAttributes
+      end
+
+      classrelation 130050 // <realization>
+	relation 130050 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130050 // <realization>
+	  b parent class_ref 129410 // EnvironmentState
+      end
+
+      operation 136322 "DynamicEnvironmentState"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 136450 "describeType"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 130434 "DynamicPercept"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 130178 // <generalisation>
+	relation 130178 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130178 // <generalisation>
+	  b parent class_ref 130178 // ObjectWithDynamicAttributes
+      end
+
+      classrelation 130306 // <realization>
+	relation 130306 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130306 // <realization>
+	  b parent class_ref 128386 // Percept
+      end
+
+      operation 136578 "DynamicPercept"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 136706 "DynamicPercept"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "key1" explicit_type "Object"
+	  param inout name "value1" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a DynamicPercept with one attribute
+
+@param key1
+           the attribute key
+@param value1
+           the attribute value
+"
+      end
+
+      operation 136834 "DynamicPercept"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "key1" explicit_type "Object"
+	  param inout name "value1" explicit_type "Object"
+	  param inout name "key2" explicit_type "Object"
+	  param inout name "value2" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a DynamicPercept with two attributes
+
+@param key1
+           the first attribute key
+@param value1
+           the first attribute value
+@param key2
+           the second attribute key
+@param value2
+           the second attribute value
+"
+      end
+
+      operation 136962 "DynamicPercept"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "keys" explicit_type "Object"
+	multiplicity "[]"
+	  param inout name "values" explicit_type "Object"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a DynamicPercept with an array of attributes
+
+@param keys
+           the array of attribute keys
+@param values
+           the array of attribute values
+"
+      end
+
+      operation 137090 "describeType"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 130562 "DynamicState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+"
+      classrelation 130434 // <generalisation>
+	relation 130434 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130434 // <generalisation>
+	  b parent class_ref 130178 // ObjectWithDynamicAttributes
+      end
+
+      classrelation 130562 // <realization>
+	relation 130562 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130562 // <realization>
+	  b parent class_ref 129794 // State
+      end
+
+      operation 137218 "DynamicState"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 137346 "describeType"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 130690 "NoOpAction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+"
+      classrelation 130690 // <generalisation>
+	relation 130690 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130690 // <generalisation>
+	  b parent class_ref 130050 // DynamicAction
+      end
+
+      classrelation 130818 // NO_OP (<unidirectional association>)
+	relation 130818 --->
+	  a role_name "NO_OP" init_value " new NoOpAction()" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 130818 // NO_OP (<unidirectional association>)
+	  b parent class_ref 130690 // NoOpAction
+      end
+
+      operation 137474 "isNoOp"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Action"
+      end
+
+      operation 137602 "NoOpAction"
+	private explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-Action
+"
+      end
+    end
+
+    class 130818 "SimpleActionTracker"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Environment view implementation which logs performed action and
+provides a comma-separated String with all actions performed so far.
+
+@author Ruediger Lunde
+"
+      classrelation 130946 // <realization>
+	relation 130946 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 130946 // <realization>
+	  b parent class_ref 129282 // EnvironmentView
+      end
+
+      attribute 128386 "actions"
+	const_attribute protected explicit_type "StringBuilder"
+	init_value " new StringBuilder()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 137730 "getActions"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 137858 "notify"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 137986 "agentAdded"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 138114 "agentActed"
+	public explicit_return_type "void"
+	nparams 4
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "action" type class_ref 128002 // Action
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 130946 "SimpleEnvironmentView"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Simple environment view which uses the standard output stream to inform about
+relevant events.
+
+@author Ruediger Lunde
+"
+      classrelation 131074 // <realization>
+	relation 131074 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 131074 // <realization>
+	  b parent class_ref 129282 // EnvironmentView
+      end
+
+      operation 138242 "notify"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 138370 "agentAdded"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 138498 "agentActed"
+	public explicit_return_type "void"
+	nparams 4
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "action" type class_ref 128002 // Action
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 128130 "impl"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 128514 "AbstractAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.AgentProgram;
+import aima.core.agent.Percept;
+${definition}"
+      associated_elems
+	class_ref 128770 // AbstractAgent
+      end
+    end
+
+    artifact 129666 "AbstractEnvironment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Environment;
+import aima.core.agent.EnvironmentObject;
+import aima.core.agent.EnvironmentView;
+import aima.core.agent.EnvironmentViewNotifier;
+import aima.core.agent.Percept;
+import aima.core.util.Tasks;
+${definition}"
+      associated_elems
+	class_ref 129922 // AbstractEnvironment
+      end
+    end
+
+    artifact 129794 "ObjectWithDynamicAttributes"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 130178 // ObjectWithDynamicAttributes
+      end
+    end
+
+    artifact 129922 "DynamicAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+${definition}"
+      associated_elems
+	class_ref 130050 // DynamicAction
+      end
+    end
+
+    artifact 130050 "DynamicEnvironmentState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.EnvironmentState;
+${definition}"
+      associated_elems
+	class_ref 130306 // DynamicEnvironmentState
+      end
+    end
+
+    artifact 130178 "DynamicPercept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Percept;
+${definition}"
+      associated_elems
+	class_ref 130434 // DynamicPercept
+      end
+    end
+
+    artifact 130306 "DynamicState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.State;
+${definition}"
+      associated_elems
+	class_ref 130562 // DynamicState
+      end
+    end
+
+    artifact 130434 "NoOpAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 130690 // NoOpAction
+      end
+    end
+
+    artifact 130562 "SimpleActionTracker"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.*;
+${definition}"
+      associated_elems
+	class_ref 130818 // SimpleActionTracker
+      end
+    end
+
+    artifact 130690 "SimpleEnvironmentView"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.*;
+${definition}"
+      associated_elems
+	class_ref 130946 // SimpleEnvironmentView
+      end
+    end
+  end
+
+  package_ref 128898 // aprog
+end

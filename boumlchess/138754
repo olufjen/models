@@ -1,0 +1,455 @@
+format 223
+"datatypes" // aima::core::robotics::impl::datatypes
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/robotics/impl/datatypes/"
+  java_package "aima.core.robotics.impl.datatypes"
+  classview 137602 "datatypes"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 188674 "AbstractRangeReading"
+      abstract visibility public 
+      nactuals 2
+      actual class class_ref 188418 // IMclRangeReading
+        rank 0 explicit_value ""
+      actual class class_ref 188418 // IMclRangeReading
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class implements a single linear reading of a range.<br/>
+In addition to the range it stores an {@link Angle} by which the heading was rotated for the measurement of the range.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 223874 // <realization>
+	relation 223874 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 223874 // <realization>
+	  b parent class_ref 188418 // IMclRangeReading
+      end
+
+      attribute 186370 "value"
+	const_attribute private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 224002 // angle (<unidirectional association>)
+	relation 224002 --->
+	  a role_name "angle" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 224002 // angle (<unidirectional association>)
+	  b parent class_ref 188802 // Angle
+      end
+
+      operation 439042 "AbstractRangeReading"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor for a range reading with an angle assumed to be zero.
+@param value the actual range that was measured.
+"
+      end
+
+      operation 439170 "AbstractRangeReading"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "value" explicit_type "double"
+	  param inout name "angle" type class_ref 188802 // Angle
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param value the actual range that was measured.
+@param angle the angle by which the heading was rotated for the measurement.
+"
+      end
+
+      operation 439298 "getValue"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the range that was measured.
+@return the range that was measured.
+"
+      end
+
+      operation 439426 "getAngle"
+	public return_type class_ref 188802 // Angle
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 439554 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 188802 "Angle"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class stores an angle as a {@code double}. It is used to pass on the angle from the {@link IMclRangeReading} to the {@link IPose2D}.<br/>
+This implementation can be used for angles in radians. The context of this unit is that {@link IPose2D} has to use radian angles.<br/>
+Please note, that all classes that are interacting with the MCL somehow should use radian angles, too.<br/>
+Use {@code degreeAngle()}, {@code getDegreeValue()}, {@code Math.toDegrees()} and {@code Math.toRadians()} if you need or have degree angles.
+ 
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 224130 // <realization>
+	relation 224130 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 224130 // <realization>
+	  b parent class_ref 187650 // IMclVector
+      end
+
+      classrelation 224258 // <realization>
+	relation 224258 -_-|>
+	  a public
+	    java "${type}<Angle>"
+	    classrelation_ref 224258 // <realization>
+	  b parent class_ref 132994 // Comparable
+      end
+
+      classrelation 224386 // ZERO_ANGLE (<unidirectional association>)
+	relation 224386 --->
+	  a role_name "ZERO_ANGLE" init_value " new Angle(0.0d)" class_relation const_relation public
+	    comment "
+The zero angle represents {@code 0.0} radians.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 224386 // ZERO_ANGLE (<unidirectional association>)
+	  b parent class_ref 188802 // Angle
+      end
+
+      attribute 186498 "value"
+	const_attribute private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 439682 "Angle"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param value the radian value of the angle.
+"
+      end
+
+      operation 439810 "degreeAngle"
+	class_operation public return_type class_ref 188802 // Angle
+	nparams 1
+	  param in name "value" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new angle based on a degree value.
+@param value the degree value of the angle.
+@return the new angle.
+"
+      end
+
+      operation 439938 "getValue"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the radian value of the angle.
+"
+      end
+
+      operation 440066 "getDegreeValue"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the degree value of the angle.
+"
+      end
+
+      operation 440194 "compareTo"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "o" type class_ref 188802 // Angle
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 188930 "IPose2D"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IPose2D<P,M>"
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      nactuals 3
+      actual class class_ref 188290 // IMclPose
+        rank 0 explicit_value ""
+      actual class class_ref 188290 // IMclPose
+        rank 1 explicit_value ""
+      actual class class_ref 188290 // IMclPose
+        rank 2 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface describes functionality for a pose in a two-dimensional Cartesian plot.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> the pose implementing {@code IPose2D}.
+@param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}. 
+"
+      classrelation 224514 // <realization>
+	relation 224514 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 224514 // <realization>
+	  b parent class_ref 188290 // IMclPose
+      end
+
+      operation 440322 "getX"
+	cpp_inline public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the X coordinate of the pose.
+"
+      end
+
+      operation 440450 "getY"
+	cpp_inline public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the Y coordinate of the pose.
+"
+      end
+
+      operation 440578 "getHeading"
+	cpp_inline public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the heading of the pose in radians.
+"
+      end
+    end
+  end
+
+  deploymentview 136834 "datatypes"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 179330 "AbstractRangeReading"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclRangeReading;
+${definition}"
+      associated_elems
+	class_ref 188674 // AbstractRangeReading
+      end
+    end
+
+    artifact 179458 "Angle"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclRangeReading;
+import aima.core.robotics.datatypes.IMclVector;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 188802 // Angle
+      end
+    end
+
+    artifact 179586 "IPose2D"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.datatypes.IMclPose;
+${definition}"
+      associated_elems
+	class_ref 188930 // IPose2D
+      end
+    end
+  end
+end

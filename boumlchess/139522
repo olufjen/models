@@ -1,0 +1,1157 @@
+format 223
+"informed" // aima::core::search::informed
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/informed/"
+  java_package "aima.core.search.informed"
+  classview 138498 "informed"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 196226 "AStarSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 196354 // BestFirstSearch
+        rank 0 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 93.<br>
+<br>
+The most widely known form of best-first search is called A* Search
+(pronounced \"A-star search\"). It evaluates nodes by combining g(n), the cost
+to reach the node, and h(n), the cost to get from the node to the goal:<br>
+f(n) = g(n) + h(n).<br>
+<br>
+Since g(n) gives the path cost from the start node to node n, and h(n) is the
+estimated cost of the cheapest path from n to the goal, we have<br>
+f(n) = estimated cost of the cheapest solution through n.
+
+@author Ruediger Lunde
+@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 234626 // <realization>
+	relation 234626 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 234626 // <realization>
+	  b parent class_ref 196354 // BestFirstSearch
+      end
+
+      operation 474370 "AStarSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "impl" type class_ref 194690 // QueueSearch
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs an A* search from a specified search space exploration
+strategy and a heuristic function.
+
+@param impl a search space exploration strategy (e.g. TreeSearch, GraphSearch).
+@param h   a heuristic function <em>h(n)</em>, which estimates the cost
+            of the cheapest path from the state at node <em>n</em> to a
+            goal state.
+"
+      end
+
+      class 196610 "EvalFunction"
+	visibility public 
+	nformals 2
+	formal name "S" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 235010 // <realization>
+	  relation 235010 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 235010 // <realization>
+	    b parent class_ref 196738 // HeuristicEvaluationFunction
+	end
+
+	classrelation 235138 // g (<unidirectional association>)
+	  relation 235138 --->
+	    stereotype "ToDoubleFunction"
+	    a role_name "g" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 235138 // g (<unidirectional association>)
+	    b parent class_ref 135170 // Node
+	end
+
+	operation 474754 "EvalFunction"
+	  cpp_inline public explicit_return_type ""
+	  nparams 1
+	    param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 474882 "applyAsDouble"
+	  cpp_inline public explicit_return_type "double"
+	  nparams 1
+	    param inout name "n" type class_ref 135170 // Node
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Returns <em>g(n)</em> the cost to reach the node, plus <em>h(n)</em> the
+heuristic cost to get from the specified node to the goal.
+
+@param n a node
+@return g(n) + h(n)
+"
+	end
+      end
+    end
+
+    class 196354 "BestFirstSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
+      actual class class_ref 194434 // QueueBasedSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194434 // QueueBasedSearch
+        rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 0 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 92.<br>
+<br>
+Best-first search is an instance of the general TREE-SEARCH or GRAPH-SEARCH
+algorithm in which a node is selected for expansion based on an evaluation
+function, f(n). The evaluation function is construed as a cost estimate, so
+the node with the lowest evaluation is expanded first. The implementation of
+best-first graph search is identical to that for uniform-cost search (Figure
+3.14), except for the use of f instead of g to order the priority queue.
+
+@author Ruediger Lunde
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 234242 // <realization>
+	relation 234242 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 234242 // <realization>
+	  b parent class_ref 194434 // QueueBasedSearch
+      end
+
+      classrelation 234370 // <realization>
+	relation 234370 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 234370 // <realization>
+	  b parent class_ref 196482 // Informed
+      end
+
+      classrelation 234498 // evalFn (<unidirectional association>)
+	relation 234498 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "evalFn" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 234498 // evalFn (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      operation 474114 "BestFirstSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "impl" type class_ref 194690 // QueueSearch
+	  param in name "evalFn" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, final ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a best first search from a specified search problem and
+evaluation function.
+
+@param impl
+           a search space exploration strategy.
+@param evalFn
+           an evaluation function, which returns a number purporting to
+           describe the desirability (or lack thereof) of expanding a
+           node.
+"
+      end
+
+      operation 474242 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. "
+      end
+    end
+
+    class 196482 "Informed"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Search algorithms which make use of heuristics to guide the search
+are expected to implement this interface.
+
+@author Ruediger Lunde
+"
+      operation 473986 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 196738 "HeuristicEvaluationFunction"
+      abstract visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Super class for all evaluation functions which make use of heuristics.
+Informed search algorithms use heuristics to estimate remaining costs to
+reach a goal state from a given node. Their evaluation functions only differ
+in the way how they combine the estimated remaining costs with the costs of
+the already known path to the node.
+
+@author Ruediger Lunde
+
+"
+      classrelation 234754 // <realization>
+	relation 234754 -_-|>
+	  a public
+	    java "${type}<Node<S, A>>"
+	    classrelation_ref 234754 // <realization>
+	  b parent class_ref 136322 // ToDoubleFunction
+      end
+
+      classrelation 234882 // h (<unidirectional association>)
+	relation 234882 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "h" init_value " node -> 0.0" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 234882 // h (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      operation 474498 "getHeuristicFunction"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<S, A>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 474626 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 196866 "GreedyBestFirstSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 196354 // BestFirstSearch
+        rank 0 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 92.<br>
+<br>
+Greedy best-first search tries to expand the node that is closest to the
+goal, on the grounds that this is likely to lead to a solution quickly. Thus,
+it evaluates nodes by using just the heuristic function; that is, f(n) = h(n)
+
+@author Ruediger Lunde
+@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 235266 // <realization>
+	relation 235266 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 235266 // <realization>
+	  b parent class_ref 196354 // BestFirstSearch
+      end
+
+      operation 475010 "GreedyBestFirstSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "impl" type class_ref 194690 // QueueSearch
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a greedy best-first search from a specified search space
+exploration strategy and a heuristic function.
+
+@param impl
+           a search space exploration strategy (e.g. TreeSearch,
+           GraphSearch).
+@param h
+           a heuristic function <em>h(n)</em>, which estimates the
+           cheapest path from the state at node <em>n</em> to a goal
+           state.
+"
+      end
+
+      class 196994 "EvalFunction"
+	visibility public 
+	nformals 2
+	formal name "S" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 235394 // <realization>
+	  relation 235394 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 235394 // <realization>
+	    b parent class_ref 196738 // HeuristicEvaluationFunction
+	end
+
+	operation 475138 "EvalFunction"
+	  cpp_inline public explicit_return_type ""
+	  nparams 1
+	    param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 475266 "applyAsDouble"
+	  cpp_inline public explicit_return_type "double"
+	  nparams 1
+	    param inout name "n" type class_ref 135170 // Node
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Returns the heuristic cost <em>h(n)</em> to get from the specified node to the goal.
+
+@param n a node
+@return h(n)
+"
+	end
+      end
+    end
+
+    class 197122 "RecursiveBestFirstSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
+      actual class class_ref 137730 // SearchForActions
+        rank 0 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 0 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.26, page
+99.<br>
+<br>
+<p>
+<pre>
+function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or failure
+  return RBFS(problem, MAKE-NODE(problem.INITIAL-STATE), infinity)
+
+function RBFS(problem, node, f_limit) returns a solution, or failure and a new f-cost limit
+  if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
+  successors &lt;- []
+  for each action in problem.ACTION(node.STATE) do
+      add CHILD-NODE(problem, node, action) into successors
+  if successors is empty then return failure, infinity
+  for each s in successors do // update f with value from previous search, if any
+    s.f &lt;- max(s.g + s.h, node.f)
+  repeat
+    best &lt;- the lowest f-value node in successors
+    if best.f &gt; f_limit then return failure, best.f
+    alternative &lt;- the second-lowest f-value among successors
+    result, best.f &lt;- RBFS(problem, best, min(f_limit, alternative))
+    if result != failure then return result
+</pre>
+<p>
+Figure 3.26 The algorithm for recursive best-first search.
+<p>
+<br>
+This version additionally provides an option to avoid loops. States on the
+current path are stored in a hash set if the loop avoidance option is enabled.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      classrelation 235522 // <realization>
+	relation 235522 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 235522 // <realization>
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 235650 // <realization>
+	relation 235650 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 235650 // <realization>
+	  b parent class_ref 196482 // Informed
+      end
+
+      attribute 192514 "METRIC_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 192642 "METRIC_MAX_RECURSIVE_DEPTH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"maxRecursiveDepth\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 192770 "METRIC_PATH_COST"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"pathCost\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 192898 "INFINITY"
+	class_attribute const_attribute private explicit_type "Double"
+	init_value " Double.MAX_VALUE"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 235778 // evalFn (<unidirectional association>)
+	relation 235778 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "evalFn" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 235778 // evalFn (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      attribute 193026 "avoidLoops"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 235906 // nodeExpander (<unidirectional association>)
+	relation 235906 --->
+	  a role_name "nodeExpander" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 235906 // nodeExpander (<unidirectional association>)
+	  b parent class_ref 194306 // NodeExpander
+      end
+
+      attribute 193154 "explored"
+	private explicit_type "S"
+	init_value " new HashSet<>()"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " stores the states on the current path if avoidLoops is true.
+"
+      end
+
+      classrelation 236034 // metrics (<unidirectional association>)
+	relation 236034 --->
+	  a role_name "metrics" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 236034 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 475394 "RecursiveBestFirstSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "evalFn" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 475522 "RecursiveBestFirstSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "evalFn" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  param inout name "avoidLoops" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor which allows to enable the loop avoidance strategy.
+"
+      end
+
+      operation 475650 "RecursiveBestFirstSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param inout name "evalFn" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  param inout name "avoidLoops" explicit_type "boolean"
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<S, A> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 475778 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}.
+"
+      end
+
+      operation 475906 "findActions"
+	cpp_inline public explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or
+ failure"
+      end
+
+      operation 476034 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Returns all the search metrics.
+"
+      end
+
+      operation 476162 "clearMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets all metrics to zero.
+"
+      end
+
+      operation 476290 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 476418 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 197250 "SearchResult"
+	visibility private 
+	nformals 2
+	formal name "S" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 236162 // solNode (<unidirectional association>)
+	  relation 236162 --->
+	    a role_name "solNode" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	      classrelation_ref 236162 // solNode (<unidirectional association>)
+	    b parent class_ref 135170 // Node
+	end
+
+	attribute 193282 "fCostLimit"
+	  const_attribute private explicit_type "double"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 477314 "SearchResult"
+	  cpp_inline public explicit_return_type ""
+	  nparams 2
+	    param inout name "solutionNode" type class_ref 135170 // Node
+	    param in name "fCostLimit" explicit_type "double"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 477442 "hasSolution"
+	  cpp_inline public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 477570 "getSolutionNode"
+	  cpp_inline public return_type class_ref 135170 // Node
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 477698 "getFCostLimit"
+	  cpp_inline public explicit_return_type "Double"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 476546 "rbfs"
+	cpp_inline private return_type class_ref 197250 // SearchResult
+	nparams 5
+	  param inout name "p" type class_ref 134914 // Problem
+	  param inout name "node" type class_ref 135170 // Node
+	  param in name "node_f" explicit_type "double"
+	  param in name "fLimit" explicit_type "double"
+	  param in name "recursiveDepth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+ function RBFS(problem, node, f_limit) returns a solution, or failure and
+ a new f-cost limit"
+      end
+
+      operation 476674 "getBestFValueIndex"
+	cpp_inline private explicit_return_type "int"
+	nparams 1
+	  param inout name "f" explicit_type "double"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " the lowest f-value node"
+      end
+
+      operation 476802 "getNextBestFValueIndex"
+	cpp_inline private explicit_return_type "int"
+	nparams 2
+	  param inout name "f" explicit_type "double"
+	multiplicity "[]"
+	  param in name "bestIndex" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " the second-lowest f-value"
+      end
+
+      operation 476930 "expandNode"
+	cpp_inline private return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "node" type class_ref 135170 // Node
+	  param inout name "problem" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 477058 "getResult"
+	cpp_inline private return_type class_ref 197250 // SearchResult
+	nparams 3
+	  param inout name "currNode" type class_ref 135170 // Node
+	  param inout name "solutionNode" type class_ref 135170 // Node
+	  param in name "fCostLimit" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 477186 "updateMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 1
+	  param in name "recursiveDepth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Increases the maximum recursive depth if the specified depth is greater
+than the current maximum.
+
+@param recursiveDepth the depth of the current path
+"
+      end
+    end
+  end
+
+  deploymentview 137730 "informed"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 185090 "Informed"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 196482 // Informed
+      end
+    end
+
+    artifact 185218 "BestFirstSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.QueueBasedSearch;
+import aima.core.search.framework.QueueFactory;
+import aima.core.search.framework.qsearch.QueueSearch;
+import java.util.Comparator;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 196354 // BestFirstSearch
+      end
+    end
+
+    artifact 185346 "HeuristicEvaluationFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 196738 // HeuristicEvaluationFunction
+      end
+    end
+
+    artifact 185474 "AStarSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.qsearch.QueueSearch;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 196226 // AStarSearch
+      end
+    end
+
+    artifact 185602 "GreedyBestFirstSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.qsearch.QueueSearch;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 196866 // GreedyBestFirstSearch
+      end
+    end
+
+    artifact 185730 "RecursiveBestFirstSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.*;
+import aima.core.search.framework.problem.Problem;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.Collectors;
+${definition}"
+      associated_elems
+	class_ref 197122 // RecursiveBestFirstSearch
+      end
+    end
+  end
+end

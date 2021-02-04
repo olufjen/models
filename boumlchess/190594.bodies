@@ -1,0 +1,24 @@
+class SearchAgent
+!!!445314.java!!!	SearchAgent(inout p : Problem, inout search : SearchForActions)
+		Optional<List<A>> actions = search.findActions(p);
+		actionList = new ArrayList<>();
+		if (actions.isPresent())
+			actionList.addAll(actions.get());
+
+		actionIterator = actionList.iterator();
+		searchMetrics = search.getMetrics();
+!!!445442.java!!!	execute(inout p : Percept) : Action
+		if (actionIterator.hasNext())
+			return actionIterator.next();
+		return NoOpAction.NO_OP; // no success or at goal
+!!!445570.java!!!	isDone() : boolean
+		return !actionIterator.hasNext();
+!!!445698.java!!!	getActions() : Action
+		return actionList;
+!!!445826.java!!!	getInstrumentation() : Properties
+		Properties result = new Properties();
+		for (String key : searchMetrics.keySet()) {
+			String value = searchMetrics.get(key);
+			result.setProperty(key, value);
+		}
+		return result;

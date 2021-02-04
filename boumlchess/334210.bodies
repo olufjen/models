@@ -1,0 +1,454 @@
+class AchessGame
+!!!1660546.java!!!	AchessGame(in size : int, inout positions : HashMap<String, Position>, inout frontBoard : ChessBoard)
+		super(size);
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));		
+		gameBoard = new AgameBoard(positions); // Represents the chess gameboard with aima board positions
+		this.positions = positions;
+		allPositions = new ArrayList(positions.values());
+		
+		piecesonBoard = new ArrayList();
+//		createStart();
+		tranferBoard(); // transfers piece positions to the aima chessboard
+
+
+!!!1660674.java!!!	createInitialState() : void
+		chessState = new ChessStateImpl(this, gameBoard,localwhitePlayer,localblackPlayer);
+		playerTomove = (APlayer) chessState.getPlayerTomove();
+!!!1660802.java!!!	restorePositions() : void
+		for (Position position:allPositions) {
+			restoreposition(position);
+		}
+		createStart();
+!!!1660930.java!!!	createStart() : void
+		orgPositions = null;
+		orgPositions = new ArrayList();
+		for (Position position:allPositions) {
+			Position orgPos = new Position(position.getPositionName(),position.isInUse(),position.getUsedBy());
+			orgPositions.add(orgPos);
+		}
+!!!1661058.java!!!	restoreposition(inout pos : Position) : void
+		for (Position position:orgPositions) {
+			String posName = position.getPositionName();
+			boolean inUse = position.returnInuse();
+			ChessPiece piece = position.getUsedBy();
+			if (pos.getPositionName().equals(posName)) {
+				pos.setInUse(inUse);
+				pos.returnPiece(piece);
+				break;
+			}
+			
+		}
+!!!1661186.java!!!	findPiece(inout location : XYLocation) : AgamePiece
+		APlayer activePlayer = null;
+		AgamePiece activePiece = null;
+		APlayer blackPlayer = getLocalblackPlayer();
+		APlayer whitePlayer = getLocalwhitePlayer();
+		boolean whiteTurn = whitePlayer.isActive();
+		boolean blackTurn = blackPlayer.isActive();
+		if (whiteTurn)
+			activePlayer = whitePlayer;
+		else
+			activePlayer = blackPlayer;
+		List<AgamePiece> pieces = activePlayer.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			Position position = piece.getMyPosition();
+			if (position != null && piece.isActive()) {
+				opponentPositions.add(position);
+				XYLocation xyloc = position.getXyloc();
+				int x = xyloc.getXCoOrdinate();
+				int y = xyloc.getYCoOrdinate();
+				int tx = location.getXCoOrdinate();
+				int ty = location.getYCoOrdinate();
+				if (x == tx && y == ty && piece.isActive()) {
+					writer.println("*** Active piece found **** "+piece.toString()+" "+piece.getMyPiece().toString()+"\n");
+					activePiece = piece;
+				}
+			}
+		}
+		return activePiece;
+!!!1661314.java!!!	getMovements() : ApieceMove
+		return movements;
+!!!1661442.java!!!	setMovements(inout movements : List<ApieceMove>) : void
+		this.movements = movements;
+!!!1661570.java!!!	getAllPositions() : List<Position>
+		return allPositions;
+!!!1661698.java!!!	setAllPositions(inout allPositions : List<Position>) : void
+		this.allPositions = allPositions;
+!!!1661826.java!!!	getOpponentPositions() : List<Position>
+		return opponentPositions;
+!!!1661954.java!!!	setOpponentPositions(inout opponentPositions : List<Position>) : void
+		this.opponentPositions = opponentPositions;
+!!!1662082.java!!!	getLocalwhitePlayer() : APlayer
+		return localwhitePlayer;
+!!!1662210.java!!!	setLocalwhitePlayer(inout localwhitePlayer : APlayer) : void
+		this.localwhitePlayer = localwhitePlayer;
+!!!1662338.java!!!	getLocalblackPlayer() : APlayer
+		return localblackPlayer;
+!!!1662466.java!!!	setLocalblackPlayer(inout localblackPlayer : APlayer) : void
+		this.localblackPlayer = localblackPlayer;
+!!!1662594.java!!!	setChosenPlayer() : void
+		chessState.returnMyplayer();
+!!!1662722.java!!!	tranferBoard() : void
+		usedPositionlist = (ArrayList<Position>) gameBoard.getUsedPositionlist();
+		StringBuilder builder = new StringBuilder();
+		builder.append("Chessgame From transferBoard\n");
+		localwhitePlayer = new APlayer();
+		localwhitePlayer.setPlayerName( localwhitePlayer.getWhitePlayer());
+		localblackPlayer = new APlayer();
+//		writer.println("One "+localwhitePlayer.toString());
+		localblackPlayer.setPlayerName(localblackPlayer.getBlackPlayer());
+		whitePlayer = (ChessPlayer)localwhitePlayer;
+		blackPlayer = (ChessPlayer)localblackPlayer;
+//		writer.println("Two "+localwhitePlayer.toString());
+//		writer.println(localblackPlayer.toString());
+		setBlackPlayer(blackPlayer);
+		setWhitePlayer(whitePlayer);
+		writer.println(localwhitePlayer.toString());
+		writer.println(localblackPlayer.toString());
+//		whitePlayer = (ChessPlayer<GamePiece<?>, PieceMove<?, ?>>) localwhitePlayer;
+//		blackPlayer = (ChessPlayer<?, ?>) localblackPlayer;
+		for (Position position:usedPositionlist) {
+			XYLocation loc = position.getXyloc();
+			String pieceName = position.getUsedBy().getName();
+			ChessPiece piece = position.getUsedBy();
+			AgamePiece gamePiece = new AgamePiece(position,piece);
+			piece.setMyPiece(gamePiece);
+			gamePiece.setPredicate(piece.getPredicate());
+			gamePiece.setOntologyPositions(positions);
+			
+			if(gamePiece.getColor().equals("w")) {
+				localwhitePlayer.getMygamePieces().add(gamePiece);
+//				ArrayList<GamePiece<Position>> x = (ArrayList<GamePiece<Position>>) whitePlayer.getMygamePieces();
+//				x.add(gamePiece);
+			}
+			if(gamePiece.getColor().equals("b")) {
+				localblackPlayer.getMygamePieces().add(gamePiece);
+//				ArrayList<GamePiece> y = (ArrayList<GamePiece>) whitePlayer.getMygamePieces();
+//				y.add(gamePiece);
+				
+			}
+			piecesonBoard.add(gamePiece);
+			addPieceAt(loc);
+			addPieceAtPos(loc, pieceName);
+			builder.append(gamePiece.toString());
+			builder.append("\n");
+		}
+/*
+ * Collect all ontology pieces and their rank to the players		
+ */
+		localwhitePlayer.collectOntlogyPieces();
+		localblackPlayer.collectOntlogyPieces();
+		builder.append("End transferBoard\n");
+		writer.println(getBoardPic());
+		writer.println(builder.toString());
+		writer.flush();
+!!!1662850.java!!!	createNewboard() : void
+		gameBoard.getUsedPositionlist().clear();
+		gameBoard.getNotusedPositionlist().clear();
+		gameBoard.setusedunused();
+//		gameBoard.setUsedPositionlist(usedPositionlist);
+		usedPositionlist = (ArrayList<Position>) gameBoard.getUsedPositionlist();
+		for (Position position:usedPositionlist) {
+			XYLocation loc = position.getXyloc();
+			if (position.isInUse()) {
+				String pieceName = position.getUsedBy().getName();
+//				ChessPiece piece = position.getUsedBy();
+//				AgamePiece gamePiece = new AgamePiece(position,piece);
+				addPieceAt(loc);
+				addPieceAtPos(loc, pieceName);
+			}else {
+				writer.println("AchessGame: Used position not in use !!! \n"+position.toString());
+			}
+
+	//		builder.append(gamePiece.toString());
+	//		builder.append("\n");
+		}
+!!!1662978.java!!!	getGamePlayer() : PlayGame
+		return gamePlayer;
+!!!1663106.java!!!	setGamePlayer(inout gamePlayer : PlayGame) : void
+		this.gamePlayer = gamePlayer;
+		createInitialState();
+!!!1663234.java!!!	movePiece(inout piece : AgamePiece, inout to : Position) : void
+		boolean removed = false;
+		writer.println("To move Piece ===================="+" Chessstate"+"\n"+piece.toString());
+		XYLocation from = piece.getMyPosition().getXyloc();
+		if (piece.getHeldPosition() != null) {
+			writer.println("From position collected from heldPosition\n"+piece.getHeldPosition().toString());
+		    from = piece.getHeldPosition().getXyloc();
+		}
+
+		XYLocation xyto = to.getXyloc();
+
+/*
+ * This event does not occur here ojn 13.08.20		
+ */
+		
+		boolean same = false;		
+		ChessPiece chessPiece = to.getUsedBy();
+		if (chessPiece != null) {
+			AgamePiece otherPiece = chessPiece.getMyPiece();
+			if (otherPiece == piece) {
+				writer.println("Same piece occupies from and to position "+piece.toString());
+				same = true;
+			}
+				
+		}
+		
+		if (piece != null && !same)
+			removed = removePiece(piece,xyto);
+		if (!removed)
+			pieceMove(piece,xyto);
+		movePiece(from,to.getXyloc());
+!!!1663362.java!!!	movePiece(inout piece : AgamePiece, inout to : Position, in source : String) : void
+		writer.println("To move Piece ===================="+source+"\n"+piece.toString());
+		boolean removed = false;
+		XYLocation xyto = to.getXyloc();
+		Position heldPosition = piece.getHeldPosition();
+		Position fromPos = piece.getmyPosition();
+		if (fromPos == heldPosition) {
+			writer.println("From position and To position are the same !! "+piece.toString());
+		}
+		
+		boolean same = false;		
+		ChessPiece chessPiece = to.getUsedBy();
+		
+		if (chessPiece != null) {
+			AgamePiece otherPiece = chessPiece.getMyPiece();
+			if (otherPiece == piece) {
+				writer.println("Same piece occupies from and to position "+source+" "+piece.toString()+"\n Position: "+to.toString());
+				same = false;
+			}
+				
+		}
+		
+		
+		if (heldPosition == null)
+			heldPosition = piece.getmyPosition();
+		if (piece != null && !same)
+			removed = removePiece(piece,xyto);
+		if (!removed)
+			pieceMove(piece,xyto);
+		movePiece(heldPosition.getXyloc(),to.getXyloc());
+//		ChessStateImpl localState = (ChessStateImpl) chessState;
+		// Return to original utility value
+!!!1663490.java!!!	movePiece(inout from : XYLocation, inout to : XYLocation) : void
+//		boolean removed = false;
+		writer.println("Move from to ====================\n");
+		writer.println("From "+from.toString()+ " To "+to.toString());
+//		AgamePiece activePiece = findPiece(from);
+//		position.setUsedBy(activePiece.getMyPiece());
+/*		if (activePiece != null)
+			removed = removePiece(activePiece,to);
+		if (!removed)
+			pieceMove(activePiece,to);*/
+		super.movePiece(from, to);
+		writer.flush();
+		gameBoard.setusedunused();
+!!!1663618.java!!!	pieceMove(inout piece : AgamePiece, inout to : XYLocation) : void
+		if (piece != null) {
+			Position mypos = piece.getMyPosition();
+			for (Position pos: allPositions) {
+				XYLocation loc = pos.getXyloc();
+				int x = loc.getXCoOrdinate();
+				int y = loc.getYCoOrdinate();
+				int tx = to.getXCoOrdinate();
+				int ty = to.getYCoOrdinate();
+				if (x == tx && y == ty ) {
+					pos.setUsedBy(piece.getMyPiece());
+					piece.setMyPosition(pos); // When a piece is moved using the position.setUsedBy method, then 
+					// the piece position must be set accordingly. The piece.setMyposition pushes the former position to stack of held positions.
+					writer.println("*** Active piece moved **** "+piece.toString()+"\n");
+				}
+			}
+			writer.println("*** Moved from **** "+mypos.toString()+"\n");
+		}
+		
+!!!1663746.java!!!	removePiece(inout activePiece : AgamePiece, inout to : XYLocation) : boolean
+		APlayer opponent = null;
+		Position moveTo = null;
+		boolean removed = false;
+		APlayer blackPlayer = getLocalblackPlayer();
+		APlayer whitePlayer = getLocalwhitePlayer();
+		boolean whiteTurn = whitePlayer.isActive();
+		boolean blackTurn = blackPlayer.isActive();
+		opponentPositions.clear();
+		if (whiteTurn)
+			opponent = blackPlayer;
+		else
+			opponent = whitePlayer;
+		List<AgamePiece> pieces = opponent.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			Position position = piece.getMyPosition();
+			if (position != null && piece.isActive()) {
+				opponentPositions.add(position);
+				XYLocation xyloc = position.getXyloc();
+				int x = xyloc.getXCoOrdinate();
+				int y = xyloc.getYCoOrdinate();
+				int tx = to.getXCoOrdinate();
+				int ty = to.getYCoOrdinate();
+				if (x == tx && y == ty && piece.isActive()) {
+					writer.println("*** Opponent piece Taken **** "+piece.toString()+" "+piece.getMyPiece().toString()+"\n");
+					removed = true;
+					position.setUsedBy(activePiece.getMyPiece());
+					activePiece.setMyPosition(position); // When a piece is moved using the position.setUsedBy method, then 
+					// the piece position must be set accordingly.
+//					piece.setActive(false);
+//					piece.setValue(-1);
+//					piece.setMypositionEmpty(null);
+				}
+			}
+		}
+		return removed;
+!!!1663874.java!!!	getMyFrontBoard() : ChessBoard
+		return myFrontBoard;
+!!!1664002.java!!!	setMyFrontBoard(inout myFrontBoard : ChessBoard) : void
+		this.myFrontBoard = myFrontBoard;
+!!!1664130.java!!!	getGameBoard() : AgameBoard
+		return gameBoard;
+!!!1664258.java!!!	setGameBoard(inout gameBoard : AgameBoard) : void
+		this.gameBoard = gameBoard;
+!!!1664386.java!!!	getPositions() : HashMap<String, Position>
+		return positions;
+!!!1664514.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!1664642.java!!!	getUsedPositionlist() : ArrayList<Position>
+		return usedPositionlist;
+!!!1664770.java!!!	setUsedPositionlist(inout usedPositionlist : ArrayList<Position>) : void
+		this.usedPositionlist = usedPositionlist;
+!!!1664898.java!!!	getResult(inout chessState : ChessState, inout action : ChessAction) : ChessState
+		((ChessStateImpl) chessState).mark(action);
+		return chessState;
+!!!1665026.java!!!	getUtility(inout state : ChessState, inout player : ChessPlayer) : double
+		
+		return state.getUtility();
+!!!1665154.java!!!	isTerminal(inout state : ChessState) : boolean
+		
+		return state.getUtility() == 1 || state.getUtility() == 0;
+!!!1665282.java!!!	analyzePieceandPosition(inout action : ChessAction) : double
+		List<ApieceMove> movements = null;
+/*		fw = null;
+		writer = null;*/
+/*		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	      writer = new PrintWriter(new BufferedWriter(fw));		*/
+		playerTomove = (APlayer) chessState.getPlayerTomove();
+		boolean opponentToplay = false;
+//		playerTomove.checkPreferredPosition(action);
+		StringBuilder builder = new StringBuilder();
+		builder.append("Analyzepieceandposition\n");
+		if(playerTomove.getPlayerName() == playerTomove.getBlackPlayer()) {
+//			opponent = localState.getMyPlayer();
+//			opponentPieces = opponent.getMygamePieces(); // Added 01.05.20: If opponent to play, then the opponent pieces are my pieces?
+			opponentToplay = true;
+			builder.append("Opponent to play "+localblackPlayer.getPlayerName()+"\n");
+		}
+		builder.append("Analyzing action: "+action.toString()+"\n");
+		
+		Integer pNumber = new Integer(pn);
+		pn++;
+		AgamePiece piece = (AgamePiece) action.getChessPiece();
+		String name = piece.getMyPiece().getPieceName();
+		ActionProcessor actionProcessor = new ActionProcessor(pNumber,name);
+		Double d  = ChessFunctions.processChessgame(action, gamePlayer,actionProcessor);
+		opponentPositions = actionProcessor.getOpponentPositions();
+		builder.append("Evaluation value "+ d.toString()+"\n");
+		writer.println(builder.toString());
+		builder = null;
+		writer.flush();
+		return d.doubleValue();
+		
+
+!!!1665410.java!!!	getActions(inout state : ChessState) : ChessAction
+		List<ChessAction> actions = state.getActions();
+		return actions;
+!!!1665538.java!!!	getInitialState() : ChessState
+	
+		return (ChessState<GameBoard>) chessState;
+!!!1665666.java!!!	getPlayers() : ChessPlayer
+		return null;
+!!!1665794.java!!!	getPlayer(inout state : ChessState) : ChessPlayer
+		return state.getPlayerTomove();
+/*		if (localwhitePlayer.isActive())
+			return (ChessPlayer) localwhitePlayer;
+		if (localblackPlayer.isActive())
+			return (ChessPlayer)localblackPlayer;
+		
+		return null;*/
+!!!1665922.java!!!	analyzeState(inout state : ChessState) : double
+		StringBuilder builder = new StringBuilder();
+		builder.append(" ** Analyzing state ***\n");
+		boolean opponentToplay = false;
+		double evaluation = 0;
+		ChessStateImpl localState = (ChessStateImpl) state;
+		APlayer playerTomove = localState.getPlayerTomove();
+		APlayer opponent = localState.getBlackPlayer();
+		APlayer gamePlayer = localState.getWhitePlayer();
+		List<AgamePiece> myPieces = gamePlayer.getMygamePieces();
+//		List<AgamePiece> myPieces =  localState.getPlayerTomove().getMygamePieces();
+		List<AgamePiece> opponentPieces = opponent.getMygamePieces();
+		if(playerTomove.getPlayerName() == playerTomove.getBlackPlayer()) {
+//			opponent = localState.getMyPlayer();
+//			opponentPieces = opponent.getMygamePieces(); // Added 01.05.20: If opponent to play, then the opponent pieces are my pieces?
+			opponentToplay = true;
+			builder.append("Opponent to play "+opponent.getPlayerName()+"\n");
+			return 0;
+// 			
+		}
+		int myFeatures = analyzeFeatures(myPieces);
+		int opponentFeatures = analyzeFeatures(opponentPieces);
+		int myCount= countPieces(myPieces);
+		int opponentCount= countPieces(opponentPieces);		
+		builder.append("My features "+myFeatures+" Opponent features "+opponentFeatures+ " state utility "+localState.getUtility()+" No of pieces white "+myCount+" No of pieces black "+opponentCount );
+		writer.println(builder.toString());
+//		writer.flush();
+		evaluation = myFeatures - opponentFeatures; 
+		int pieceCount = myCount - opponentCount;
+		if (evaluation < 0)
+			evaluation = 0;
+		evaluation = evaluation + localState.getUtility() + pieceCount;
+		return evaluation;
+!!!1666050.java!!!	countPieces(inout myPieces : List<AgamePiece>) : int
+		int nofPieces = 0;
+		for (AgamePiece piece:myPieces) {
+			boolean active = piece.isActive();
+			if (active) {
+				nofPieces++;
+			}
+		}
+		return nofPieces;
+		
+!!!1666178.java!!!	analyzeFeatures(inout myPieces : List<AgamePiece>) : int
+		int nofOfactivePieces = 0;
+		int featureValue = 0;
+		for (AgamePiece piece:myPieces) {
+			boolean active = piece.isActive();
+			int pieceValue = 0;
+			int posValue = 0;
+			if (active) {
+				posValue = 1;
+				nofOfactivePieces++;
+				pieceValue = piece.getMyPiece().getValue();
+				Position position = piece.getMyPosition();
+				boolean leftHigh = position.isCenterlefthigh();
+				boolean rightHigh = position.isCenterrighthigh();
+				boolean leftLow = position.isCenterleftlow();
+				boolean rightLow = position.isCenterrightlow();
+				if (leftHigh || leftLow || rightHigh || rightLow) {
+					posValue = 4;
+					featureValue++;
+				}
+			}
+			featureValue = featureValue + pieceValue + posValue;
+			
+		}
+		return featureValue;

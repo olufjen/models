@@ -1,0 +1,28 @@
+class GraphSearch
+!!!470786.java!!!	GraphSearch()
+		this(new NodeExpander<>());
+!!!470914.java!!!	GraphSearch(inout nodeExpander : NodeExpander)
+		super(nodeExpander);
+!!!471042.java!!!	findNode(inout problem : Problem, inout frontier : Queue<Node<S, A>>) : Node
+		// initialize the explored set to be empty
+		explored.clear();
+		return super.findNode(problem, frontier);
+!!!471170.java!!!	addToFrontier(inout node : Node) : void
+		if (!explored.contains(node.getState())) {
+			frontier.add(node);
+			updateMetrics(frontier.size());
+		}
+!!!471298.java!!!	removeFromFrontier() : Node
+		cleanUpFrontier(); // not really necessary because isFrontierEmpty
+							// should be called before...
+		Node<S, A> result = frontier.remove();
+		explored.add(result.getState());
+		updateMetrics(frontier.size());
+		return result;
+!!!471426.java!!!	isFrontierEmpty() : boolean
+		cleanUpFrontier();
+		updateMetrics(frontier.size());
+		return frontier.isEmpty();
+!!!471554.java!!!	cleanUpFrontier() : void
+		while (!frontier.isEmpty() && explored.contains(frontier.element().getState()))
+			frontier.remove();

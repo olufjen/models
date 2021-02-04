@@ -1,0 +1,1438 @@
+format 223
+"vacuum" // aima::core::environment::vacuum
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/environment/vacuum/"
+  java_package "aima.core.environment.vacuum"
+  classview 130434 "vacuum"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 141058 "LocalVacuumEnvironmentPercept"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents a local percept in the vacuum environment (i.e. details the
+agent's location and the state of the square the agent is currently at).
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Andrew Brown
+"
+      classrelation 143106 // <generalisation>
+	relation 143106 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143106 // <generalisation>
+	  b parent class_ref 130434 // DynamicPercept
+      end
+
+      attribute 144898 "ATTRIBUTE_AGENT_LOCATION"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"agentLocation\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 145026 "ATTRIBUTE_STATE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"state\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 182658 "LocalVacuumEnvironmentPercept"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "agentLocation" explicit_type "String"
+	  param inout name "state" type class_ref 141314 // LocationState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a vacuum environment percept from the agent's perception of the
+current location and state.
+
+@param agentLocation
+           the agent's perception of the current location.
+@param state
+           the agent's perception of the current state.
+"
+      end
+
+      operation 182786 "getAgentLocation"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the agent's perception of the current location, which is either A
+or B.
+
+@return the agent's perception of the current location, which is either A
+        or B.
+"
+      end
+
+      operation 182914 "getLocationState"
+	public return_type class_ref 141314 // LocationState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the agent's perception of the current state, which is either
+<em>Clean</em> or <em>Dirty</em>.
+
+@return the agent's perception of the current state, which is either
+        <em>Clean</em> or <em>Dirty</em>.
+"
+      end
+
+      operation 183042 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Return string representation of this percept.
+
+@return a string representation of this percept.
+"
+      end
+    end
+
+    class 141186 "VacuumEnvironment"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pg 58.<br>
+<br>
+Let the world contain just two locations. Each location may or may not
+contain dirt, and the agent may be in one location or the other. There are 8
+possible world states, as shown in Figure 3.2. The agent has three possible
+actions in this version of the vacuum world: <em>Left</em>, <em>Right</em>,
+and <em>Suck</em>. Assume for the moment, that sucking is 100% effective. The
+goal is to clean up all the dirt.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      class 141314 "LocationState"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 145922 "Clean"
+	  public type class_ref 141314 // LocationState
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 146050 "Dirty"
+	  public type class_ref 141314 // LocationState
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      classrelation 143362 // <generalisation>
+	relation 143362 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143362 // <generalisation>
+	  b parent class_ref 129922 // AbstractEnvironment
+      end
+
+      classrelation 143490 // ACTION_MOVE_LEFT (<unidirectional association>)
+	relation 143490 --->
+	  a role_name "ACTION_MOVE_LEFT" init_value " new DynamicAction(\"Left\")" class_relation const_relation public
+	    comment " Allowable Actions within the Vacuum Environment
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143490 // ACTION_MOVE_LEFT (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 143618 // ACTION_MOVE_RIGHT (<unidirectional association>)
+	relation 143618 --->
+	  a role_name "ACTION_MOVE_RIGHT" init_value " new DynamicAction(\"Right\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143618 // ACTION_MOVE_RIGHT (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 143746 // ACTION_SUCK (<unidirectional association>)
+	relation 143746 --->
+	  a role_name "ACTION_SUCK" init_value " new DynamicAction(\"Suck\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143746 // ACTION_SUCK (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      attribute 145666 "LOCATION_A"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"A\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 145794 "LOCATION_B"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"B\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 146178 "locations"
+	const_attribute private explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 143874 // envState (<unidirectional association>)
+	relation 143874 --->
+	  a role_name "envState" init_value " null" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 143874 // envState (<unidirectional association>)
+	  b parent class_ref 141698 // VacuumEnvironmentState
+      end
+
+      attribute 146306 "isDone"
+	protected explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 183426 "VacuumEnvironment"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a vacuum environment with two locations A and B, in which dirt is
+placed at random.
+"
+      end
+
+      operation 183554 "VacuumEnvironment"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "locAState" type class_ref 141314 // LocationState
+	  param inout name "locBState" type class_ref 141314 // LocationState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a vacuum environment with two locations A and B, in which dirt is
+placed as specified.
+
+@param locAState
+           the initial state of location A, which is either
+           <em>Clean</em> or <em>Dirty</em>.
+@param locBState
+           the initial state of location B, which is either
+           <em>Clean</em> or <em>Dirty</em>.
+"
+      end
+
+      operation 183682 "VacuumEnvironment"
+	protected explicit_return_type ""
+	nparams 2
+	  param inout name "locations" explicit_type "List<String>"
+	  param inout name "" explicit_type "LocationState...locStates"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor which allows subclasses to define a vacuum environment with an arbitrary number
+of squares. Two-dimensional grid environments can be defined by additionally overriding
+{@link #getXDimension()} and {@link #getYDimension()}.
+"
+      end
+
+      operation 183810 "getLocations"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 183938 "getCurrentState"
+	public return_type class_ref 129410 // EnvironmentState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 184066 "getLocationState"
+	public return_type class_ref 141314 // LocationState
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 184194 "getAgentLocation"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 184322 "addAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 184450 "addAgent"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a" type class_ref 128130 // Agent
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 184578 "getPerceptSeenBy"
+	public return_type class_ref 128386 // Percept
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 184706 "executeAction"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a" type class_ref 128130 // Agent
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 184834 "isDone"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 184962 "getXDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Information for grid views..."
+      end
+
+      operation 185090 "getYDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 185218 "getX"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " 1 means left"
+      end
+
+      operation 185346 "getY"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " 1 means bottom"
+      end
+
+      operation 185474 "getLocation"
+	public explicit_return_type "String"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " (1, 1) is bottom left"
+      end
+    end
+
+    class 141442 "ModelBasedReflexVacuumAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 143234 // <generalisation>
+	relation 143234 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 143234 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      attribute 145154 "ATTRIBUTE_CURRENT_LOCATION"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"currentLocation\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 145282 "ATTRIBUTE_CURRENT_STATE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"currentState\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 145410 "ATTRIBUTE_STATE_LOCATION_A"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"stateLocationA\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 145538 "ATTRIBUTE_STATE_LOCATION_B"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"stateLocationB\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 183170 "ModelBasedReflexVacuumAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 183298 "getRuleSet"
+	class_operation private return_type class_ref 131202 // Rule
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 141570 "NondeterministicVacuumEnvironment"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Create the erratic vacuum world from page 134, AIMA3e. In the erratic vacuum
+world, the Suck action works as follows: 1) when applied to a dirty square
+the action cleans the square and sometimes cleans up dirt in an adjacent
+square too; 2) when applied to a clean square the action sometimes deposits
+dirt on the carpet.
+
+@author Andrew Brown
+"
+      classrelation 144002 // <generalisation>
+	relation 144002 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144002 // <generalisation>
+	  b parent class_ref 141186 // VacuumEnvironment
+      end
+
+      operation 185602 "NondeterministicVacuumEnvironment"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a vacuum environment with two locations, in which dirt is
+placed at random.
+"
+      end
+
+      operation 185730 "NondeterministicVacuumEnvironment"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "locAState" type class_ref 141314 // LocationState
+	  param inout name "locBState" type class_ref 141314 // LocationState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a vacuum environment with two locations, in which dirt is
+placed as specified.
+
+@param locAState the initial state of location A, which is either
+<em>Clean</em> or <em>Dirty</em>.
+@param locBState the initial state of location B, which is either
+<em>Clean</em> or <em>Dirty</em>.
+"
+      end
+
+      operation 185858 "executeAction"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a" type class_ref 128130 // Agent
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Execute the agent action
+"
+      end
+    end
+
+    class 141698 "VacuumEnvironmentState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents a state in the Vacuum World
+
+@author Ciaran O'Reilly
+@author Andrew Brown
+@author Ruediger Lunde
+"
+      classrelation 144514 // <realization>
+	relation 144514 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144514 // <realization>
+	  b parent class_ref 129410 // EnvironmentState
+      end
+
+      classrelation 144642 // <realization>
+	relation 144642 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144642 // <realization>
+	  b parent class_ref 128386 // Percept
+      end
+
+      classrelation 144770 // <realization>
+	relation 144770 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144770 // <realization>
+	  b parent class_ref 134274 // Cloneable
+      end
+
+      classrelation 144898 // state (<unidirectional association>)
+	relation 144898 --->
+	  stereotype "Map"
+	  a role_name "state" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String, ${type}> ${name}${value};
+"
+	    classrelation_ref 144898 // state (<unidirectional association>)
+	  b parent class_ref 141314 // LocationState
+      end
+
+      classrelation 145026 // agentLocations (<unidirectional association>)
+	relation 145026 --->
+	  stereotype "Map"
+	  a role_name "agentLocations" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, String> ${name}${value};
+"
+	    classrelation_ref 145026 // agentLocations (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      operation 186754 "VacuumEnvironmentState"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor
+"
+      end
+
+      operation 186882 "getAgentLocation"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "a" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 187010 "setAgentLocation"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a" type class_ref 128130 // Agent
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the agent location
+"
+      end
+
+      operation 187138 "getLocationState"
+	public return_type class_ref 141314 // LocationState
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 187266 "setLocationState"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "location" explicit_type "String"
+	  param inout name "s" type class_ref 141314 // LocationState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the location state
+"
+      end
+
+      operation 187394 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 187522 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Override hashCode()
+
+@return the hash code for this object.
+"
+      end
+
+      operation 187650 "clone"
+	public return_type class_ref 141698 // VacuumEnvironmentState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 187778 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Returns a string representation of the environment
+
+@return a string representation of the environment
+"
+      end
+    end
+
+    class 141826 "ReflexVacuumAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8, page 48.<br>
+<br>
+
+<pre>
+function REFLEX-VACUUM-AGENT([location, status]) returns an action
+  
+  if status = Dirty then return Suck
+  else if location = A then return Right
+  else if location = B then return Left
+</pre>
+
+Figure 2.8 The agent program for a simple reflex agent in the two-state
+vacuum environment. This program implements the action function tabulated in
+Figure 2.3.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 144130 // <generalisation>
+	relation 144130 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144130 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      operation 185986 "ReflexVacuumAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 141954 "SimpleReflexVacuumAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 144258 // <generalisation>
+	relation 144258 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144258 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      operation 186114 "SimpleReflexVacuumAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 186242 "getRuleSet"
+	class_operation private return_type class_ref 131202 // Rule
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 142082 "TableDrivenVacuumAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.3, page 36.<br>
+<br>
+Figure 2.3 Partial tabulation of a simple agent function for the
+vacuum-cleaner world shown in Figure 2.2.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 144386 // <generalisation>
+	relation 144386 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 144386 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      operation 186370 "TableDrivenVacuumAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 186498 "getPerceptSequenceActions"
+	class_operation private return_type class_ref 128002 // Action
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<List<Percept>, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 186626 "createPerceptSequence"
+	class_operation private return_type class_ref 128386 // Percept
+	nparams 1
+	  param inout name "" explicit_type "Percept...percepts"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 142210 "VacuumWorldFunctions"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Contains useful functions for the vacuum cleaner world.
+
+@author Ruediger Lunde
+@author Andrew Brown
+"
+      operation 187906 "getActions"
+	class_operation public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "state" type class_ref 141698 // VacuumEnvironmentState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Specifies the actions available to the agent at state s
+"
+      end
+
+      operation 188034 "testGoal"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 141698 // VacuumEnvironmentState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 188162 "createResultsFunction"
+	class_operation public return_type class_ref 142338 // ResultsFunction
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VacuumEnvironmentState, Action> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 142466 "VacuumWorldResults"
+	visibility private 
+	nactuals 2
+	actual class class_ref 142338 // ResultsFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 142338 // ResultsFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 145154 // <realization>
+	  relation 145154 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 145154 // <realization>
+	    b parent class_ref 142338 // ResultsFunction
+	end
+
+	classrelation 145282 // agent (<unidirectional association>)
+	  relation 145282 --->
+	    a role_name "agent" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 145282 // agent (<unidirectional association>)
+	    b parent class_ref 128130 // Agent
+	end
+
+	operation 188418 "VacuumWorldResults"
+	  package explicit_return_type ""
+	  nparams 1
+	    param inout name "agent" type class_ref 128130 // Agent
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 188546 "results"
+	  public return_type class_ref 141698 // VacuumEnvironmentState
+	  nparams 2
+	    param inout name "state" type class_ref 141698 // VacuumEnvironmentState
+	    param inout name "action" type class_ref 128002 // Action
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Returns a list of possible results for a given state and action.
+"
+	end
+      end
+    end
+  end
+
+  deploymentview 129794 "vacuum"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 137602 "LocalVacuumEnvironmentPercept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Agent;
+import aima.core.agent.impl.DynamicPercept;
+${definition}"
+      associated_elems
+	class_ref 141058 // LocalVacuumEnvironmentPercept
+      end
+    end
+
+    artifact 137730 "ModelBasedReflexVacuumAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.agent.Model;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.DynamicState;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.agent.impl.aprog.ModelBasedReflexAgentProgram;
+import aima.core.agent.impl.aprog.simplerule.ANDCondition;
+import aima.core.agent.impl.aprog.simplerule.EQUALCondition;
+import aima.core.agent.impl.aprog.simplerule.Rule;
+${definition}"
+      associated_elems
+	class_ref 141442 // ModelBasedReflexVacuumAgent
+      end
+    end
+
+    artifact 137858 "VacuumEnvironment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.EnvironmentState;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractEnvironment;
+import aima.core.agent.impl.DynamicAction;
+import aima.core.search.agent.NondeterministicSearchAgent;
+import aima.core.util.Util;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+${definition}"
+      associated_elems
+	class_ref 141186 // VacuumEnvironment
+      end
+    end
+
+    artifact 137986 "NondeterministicVacuumEnvironment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+${definition}"
+      associated_elems
+	class_ref 141570 // NondeterministicVacuumEnvironment
+      end
+    end
+
+    artifact 138114 "ReflexVacuumAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.AgentProgram;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import java.util.Objects;
+${definition}"
+      associated_elems
+	class_ref 141826 // ReflexVacuumAgent
+      end
+    end
+
+    artifact 138242 "SimpleReflexVacuumAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.aprog.SimpleReflexAgentProgram;
+import aima.core.agent.impl.aprog.simplerule.EQUALCondition;
+import aima.core.agent.impl.aprog.simplerule.Rule;
+${definition}"
+      associated_elems
+	class_ref 141954 // SimpleReflexVacuumAgent
+      end
+    end
+
+    artifact 138370 "TableDrivenVacuumAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.aprog.TableDrivenAgentProgram;
+${definition}"
+      associated_elems
+	class_ref 142082 // TableDrivenVacuumAgent
+      end
+    end
+
+    artifact 138498 "VacuumEnvironmentState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Agent;
+import aima.core.agent.EnvironmentState;
+import aima.core.agent.Percept;
+import java.util.LinkedHashMap;
+import java.util.Map;
+${definition}"
+      associated_elems
+	class_ref 141698 // VacuumEnvironmentState
+      end
+    end
+
+    artifact 138754 "VacuumWorldFunctions"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.search.nondeterministic.ResultsFunction;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 142210 // VacuumWorldFunctions
+      end
+    end
+  end
+end

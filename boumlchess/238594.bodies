@@ -1,0 +1,16 @@
+class Tracer
+!!!808962.java!!!	Tracer(inout context : Context)
+        super(context);
+!!!809090.java!!!	Tracer()
+    	super();
+!!!809218.java!!!	handle(inout request : Request, inout response : Response) : void
+        String entity = "Method       : " + request.getMethod()
+                + "\nResource URI : " 
+                + request.getResourceRef()
+                + "\nIP address   : " 
+                + request.getClientInfo().getAddress()
+                + "\nAgent name   : " 
+                + request.getClientInfo().getAgentName()
+                + "\nAgent version: "
+                + request.getClientInfo().getAgentVersion();
+        response.setEntity(entity, MediaType.TEXT_PLAIN);

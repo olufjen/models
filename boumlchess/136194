@@ -1,0 +1,1114 @@
+format 223
+"visitors" // aima::core::logic::propositional::visitors
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/propositional/visitors/"
+  java_package "aima.core.logic.propositional.visitors"
+  classview 135170 "visitors"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 173442 "BasicGatherer"
+      abstract visibility public 
+      nformals 1
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 172546 // PLVisitor
+        rank 0 explicit_value ""
+      actual class class_ref 172546 // PLVisitor
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Super class of Visitors that are \"read only\" and gather information from an
+existing parse tree .
+
+@author Ravi Mohan
+
+@param <T>
+           the type of elements to be gathered.
+"
+      classrelation 199810 // <realization>
+	relation 199810 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 199810 // <realization>
+	  b parent class_ref 172546 // PLVisitor
+      end
+
+      operation 383106 "visitPropositionSymbol"
+	cpp_inline public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 383234 "visitUnarySentence"
+	cpp_inline public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 383362 "visitBinarySentence"
+	cpp_inline public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 173570 "BiconditionalElimination"
+      visibility public 
+      nactuals 1
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
+<br>
+Eliminate <=>, replacing &alpha; <=> &beta;<br>
+with (&alpha; => &beta;) & (&beta; => &alpha;)
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 199938 // <realization>
+	relation 199938 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 199938 // <realization>
+	  b parent class_ref 172802 // AbstractPLVisitor
+      end
+
+      operation 383490 "eliminate"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Eliminate the biconditionals from a sentence.
+
+@param sentence
+           a propositional logic sentence.
+@return an equivalent Sentence to the input with all biconditionals
+        eliminated.
+"
+      end
+
+      operation 383618 "visitBinarySentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 173698 "ClauseCollector"
+      visibility public 
+      nactuals 1
+      actual class class_ref 173442 // BasicGatherer
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Utility class for collecting clauses from CNF Sentences.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 200066 // <realization>
+	relation 200066 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200066 // <realization>
+	  b parent class_ref 173442 // BasicGatherer
+      end
+
+      operation 383746 "getClausesFrom"
+	class_operation public return_type class_ref 145026 // Clause
+	nparams 1
+	  param inout name "" explicit_type "Sentence...cnfSentences"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Collect a set of clauses from a list of given sentences.
+
+@param cnfSentences
+           a list of CNF sentences from which to collect clauses.
+@return a set of all contained clauses.
+@throws IllegalArgumentException
+            if any of the given sentences are not in CNF.
+"
+      end
+
+      operation 383874 "visitPropositionSymbol"
+	public return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 384002 "visitUnarySentence"
+	public return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 384130 "visitBinarySentence"
+	public return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 173826 "LiteralCollector"
+	visibility private 
+	nactuals 1
+	actual class class_ref 173442 // BasicGatherer
+	  rank 0 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 200194 // <realization>
+	  relation 200194 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 200194 // <realization>
+	    b parent class_ref 173442 // BasicGatherer
+	end
+
+	operation 384258 "getLiterals"
+	  class_operation private return_type class_ref 172418 // Literal
+	  nparams 1
+	    param inout name "disjunctiveSentence" type class_ref 144514 // Sentence
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 384386 "visitPropositionSymbol"
+	  public return_type class_ref 172418 // Literal
+	  nparams 2
+	    param inout name "s" type class_ref 144770 // PropositionSymbol
+	    param inout name "arg" explicit_type "Set<Literal>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 384514 "visitUnarySentence"
+	  public return_type class_ref 172418 // Literal
+	  nparams 2
+	    param inout name "s" type class_ref 172674 // ComplexSentence
+	    param inout name "arg" explicit_type "Set<Literal>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 384642 "visitBinarySentence"
+	  public return_type class_ref 172418 // Literal
+	  nparams 2
+	    param inout name "s" type class_ref 172674 // ComplexSentence
+	    param inout name "arg" explicit_type "Set<Literal>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 173954 "ConvertToCNF"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Convert a Sentence into an equivalent Conjunctive Normal Form (CNF) Sentence.
+A Sentence is in CNF if it is a conjunction of disjunction of literals.
+
+@author Ciaran O'Reilly
+"
+      operation 384770 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent conjunctive
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        conjunctive normal form.
+"
+      end
+    end
+
+    class 174082 "ConvertToConjunctionOfClauses"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
+<br>
+A sentence expression as a conjunction of clauses is said to be in
+<b>conjunctive normal form</b> or <b>CNF</b>.<br>
+
+<pre>
+CNFSentence -> Clause_1 & ... & Clause_n
+     Clause -> Literal_1 | ... | Literal_m
+    Literal -> Symbol : ~Symbol
+     Symbol -> P : Q : R : ... // (1)
+</pre>
+
+Figure 7.14 A grammar for conjunctive normal form.<br>
+<br>
+Note (1): While the book states 'We use symbols that start with an upper case
+letter and may contain other letters or subscripts' in this implementation we
+allow any legal java identifier to stand in for a proposition symbol.<br>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 384898 "convert"
+	class_operation public return_type class_ref 144642 // ConjunctionOfClauses
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent conjunction of
+clauses.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        conjunction of clauses.
+"
+      end
+    end
+
+    class 174210 "ConvertToDNF"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Convert a Sentence into an equivalent Disjunctive Normal Form (DNF) Sentence.
+A Sentence is in DNF if it is a disjunction of conjunction of literals.
+
+@author Ciaran O'Reilly
+"
+      operation 385026 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent disjunction
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        disjunction normal form.
+"
+      end
+    end
+
+    class 174338 "ConvertToNNF"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Convert a Sentence into an equivalent Negation Normal Form (NNF) Sentence. A
+Sentence is in NNF if negation is allowed only over atoms, and conjunction,
+disjunction, and negation are the only allowed boolean connectives
+
+@author Ciaran O'Reilly
+
+"
+      operation 385154 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent negation
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        negation normal form.
+"
+      end
+    end
+
+    class 174466 "DistributeAndOverOr"
+      visibility public 
+      nactuals 1
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 249.<br>
+<br>
+Distributivity of & over |:<br>
+(&alpha; & (&beta; | &gamma;))<br>
+&equiv;<br>
+((&alpha; & &beta;) | (&alpha; & &gamma;))<br>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 200322 // <realization>
+	relation 200322 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200322 // <realization>
+	  b parent class_ref 172802 // AbstractPLVisitor
+      end
+
+      operation 385282 "distribute"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Distribute and (&) over or (|).
+
+@param sentence
+           a propositional logic sentence. This sentence should already
+           have biconditionals, and implications removed and negations
+           moved inwards.
+@return an equivalent Sentence to the input with and's distributed over
+        or's.
+"
+      end
+
+      operation 385410 "visitBinarySentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 174594 "DistributeOrOverAnd"
+      visibility public 
+      nactuals 1
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 249.<br>
+<br>
+Distributivity of | over &:<br>
+(&alpha; | (&beta; & &gamma;))<br>
+&equiv;<br>
+((&alpha; | &beta;) & (&alpha; | &gamma;))<br>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 200450 // <realization>
+	relation 200450 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200450 // <realization>
+	  b parent class_ref 172802 // AbstractPLVisitor
+      end
+
+      operation 385538 "distribute"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Distribute or (|) over and (&).
+
+@param sentence
+           a propositional logic sentence. This sentence should already
+           have biconditionals, and implications removed and negations
+           moved inwards.
+@return an equivalent Sentence to the input with or's distributed over
+        and's.
+"
+      end
+
+      operation 385666 "visitBinarySentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 174722 "ImplicationElimination"
+      visibility public 
+      nactuals 1
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
+<br>
+Eliminate =>, replacing &alpha; => &beta;<br>
+with ~&alpha; | &beta;
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 200578 // <realization>
+	relation 200578 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200578 // <realization>
+	  b parent class_ref 172802 // AbstractPLVisitor
+      end
+
+      operation 385794 "eliminate"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Eliminate the implications from a sentence.
+
+@param sentence
+           a propositional logic sentence.
+@return an equivalent Sentence to the input with all implications
+        eliminated.
+"
+      end
+
+      operation 385922 "visitBinarySentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 174850 "MoveNotInwards"
+      visibility public 
+      nactuals 1
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 254.<br>
+<br>
+Move ~ inwards by repeated application of the following equivalences:<br>
+~(~&alpha;) &equiv; &alpha; (double-negation elimination)<br>
+~(&alpha; & &beta;) &equiv; (~&alpha; | ~&beta;) (De Morgan)<br>
+~(&alpha; | &beta;) &equiv; (~&alpha; & ~&beta;) (De Morgan)<br>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 200706 // <realization>
+	relation 200706 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200706 // <realization>
+	  b parent class_ref 172802 // AbstractPLVisitor
+      end
+
+      operation 386050 "moveNotsInward"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Move ~ inwards.
+
+@param sentence
+           a propositional logic sentence that has had it biconditionals
+           and implications removed.
+@return an equivalent Sentence to the input with all negations moved
+        inwards.
+@throws IllegalArgumentException
+            if a biconditional or implication is encountered in the
+            input.
+"
+      end
+
+      operation 386178 "visitUnarySentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 2
+	  param inout name "s" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 174978 "SymbolCollector"
+      visibility public 
+      nactuals 1
+      actual class class_ref 173442 // BasicGatherer
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Utility class for collecting propositional symbols from sentences. Will
+exclude the always false and true symbols.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 200834 // <realization>
+	relation 200834 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 200834 // <realization>
+	  b parent class_ref 173442 // BasicGatherer
+      end
+
+      operation 386306 "getSymbolsFrom"
+	class_operation public return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "" explicit_type "Sentence...sentences"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Collect a set of propositional symbols from a list of given sentences.
+
+@param sentences
+           a list of sentences from which to collect symbols.
+@return a set of all the proposition symbols that are not always true or
+        false contained within the input sentences.
+"
+      end
+
+      operation 386434 "visitPropositionSymbol"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "Set<PropositionSymbol>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 134018 "visitors"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 164354 "BasicGatherer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.logic.propositional.parsing.PLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.util.SetOps;
+${definition}"
+      associated_elems
+	class_ref 173442 // BasicGatherer
+      end
+    end
+
+    artifact 164482 "BiconditionalElimination"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.AbstractPLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 173570 // BiconditionalElimination
+      end
+    end
+
+    artifact 164610 "ClauseCollector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Literal;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 173698 // ClauseCollector
+      end
+    end
+
+    artifact 164738 "ConvertToCNF"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 173954 // ConvertToCNF
+      end
+    end
+
+    artifact 164866 "ConvertToConjunctionOfClauses"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.ConjunctionOfClauses;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174082 // ConvertToConjunctionOfClauses
+      end
+    end
+
+    artifact 164994 "ConvertToDNF"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174210 // ConvertToDNF
+      end
+    end
+
+    artifact 165122 "ConvertToNNF"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174338 // ConvertToNNF
+      end
+    end
+
+    artifact 165250 "DistributeAndOverOr"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.AbstractPLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174466 // DistributeAndOverOr
+      end
+    end
+
+    artifact 165378 "DistributeOrOverAnd"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.AbstractPLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174594 // DistributeOrOverAnd
+      end
+    end
+
+    artifact 165506 "ImplicationElimination"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.AbstractPLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174722 // ImplicationElimination
+      end
+    end
+
+    artifact 165634 "MoveNotInwards"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.AbstractPLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 174850 // MoveNotInwards
+      end
+    end
+
+    artifact 165762 "SymbolCollector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 174978 // SymbolCollector
+      end
+    end
+  end
+end

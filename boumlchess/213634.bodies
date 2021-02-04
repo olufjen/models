@@ -1,0 +1,53 @@
+class FrameActionListener
+!!!594818.java!!!	actionPerformed(inout evt : ActionEvent) : void
+			String err = "";
+			try {
+				if (controller != null) {
+					setStatus("");
+					Object source = evt.getSource();
+					if (source == clearButton) {
+						// additionally clear the text area
+						err = "when clearing the views ";
+						messageLogger.clear();
+						statusLabel.setText("");
+						controller.clear();
+					} else if (source == prepareButton) {
+						err = "when preparing simulation ";
+						controller.prepare(null);
+					} else if (source == runButton) {
+						err = "when running simulation ";
+						setStatus("");
+						setSimulationThread(new SimulationThread(
+								AgentAppFrame.this, controller, false));
+						getSimulationThread().start();
+					} else if (source == stepButton) {
+						err = "when executing simulation step ";
+						setStatus("");
+						setSimulationThread(new SimulationThread(
+								AgentAppFrame.this, controller, true));
+						getSimulationThread().start();
+					} else if (source == cancelButton) {
+						err = "when canceling simulation ";
+						SimulationThread at = getSimulationThread();
+						if (at != null) {
+							if (!at.isCancelled()) {
+								at.interrupt();
+							} else {
+								// agent has ignored the interrupt
+								at.stop();
+								setStatus("Task stopped.");
+								setSimulationThread(null);
+							}
+						}
+					} else if (selectors.combos.contains(source)) {
+						err = "when preparing the agent ";
+						selectionChanged(selectors
+								.getName((JComboBox<Object>) source));
+					}
+				}
+			} catch (Exception e) {
+				messageLogger.log("Error: Something went wrong " + err + "("
+						+ e + ").");
+				e.printStackTrace();
+			}
+			updateEnabledState();

@@ -1,0 +1,60 @@
+class DepthLimitedSearch
+!!!491650.java!!!	DepthLimitedSearch(in limit : int)
+		this(limit, new NodeExpander<>());
+!!!491778.java!!!	DepthLimitedSearch(in limit : int, inout nodeExpander : NodeExpander)
+		this.limit = limit;
+		this.nodeExpander = nodeExpander;
+!!!491906.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+		nodeExpander.useParentLinks(true);
+		Optional<Node<S, A>> node = findNode(p);
+		return !isCutoffResult(node) ? SearchUtils.toActions(node) : Optional.empty();
+!!!492034.java!!!	findState(inout p : Problem) : Optional<S>
+		nodeExpander.useParentLinks(false);
+		Optional<Node<S, A>> node = findNode(p);
+		return !isCutoffResult(node) ? SearchUtils.toState(node) : Optional.empty();
+!!!492162.java!!!	findNode(inout p : Problem) : Node
+		clearMetrics();
+		// return RECURSIVE-DLS(MAKE-NODE(INITIAL-STATE[problem]), problem,
+		// limit)
+		Node<S, A> node = recursiveDLS(nodeExpander.createRootNode(p.getInitialState()), p, limit);
+		return node != null ? Optional.of(node) : Optional.empty();
+!!!492290.java!!!	recursiveDLS(inout node : Node, inout problem : Problem, in limit : int) : Node
+		// if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
+		if (problem.testSolution(node)) {
+			metrics.set(METRIC_PATH_COST, node.getPathCost());
+			return node;
+		} else if (0 == limit || Tasks.currIsCancelled()) {
+			// else if limit = 0 then return cutoff
+			return cutoffNode;
+		} else {
+			// else
+			// cutoff_occurred? <- false
+			boolean cutoffOccurred = false;
+			// for each action in problem.ACTIONS(node.STATE) do
+			metrics.incrementInt(METRIC_NODES_EXPANDED);
+			for (Node<S, A> child : nodeExpander.expand(node, problem)) {
+				// child <- CHILD-NODE(problem, node, action)
+				// result <- RECURSIVE-DLS(child, problem, limit - 1)
+				Node<S, A> result = recursiveDLS(child, problem, limit - 1);
+				// if result = cutoff then cutoff_occurred? <- true
+				if (result == cutoffNode) {
+					cutoffOccurred = true;
+				} else if (result != null) {
+					// else if result != failure then return result
+					return result;
+				}
+			}
+			// if cutoff_occurred? then return cutoff else return failure
+			return cutoffOccurred ? cutoffNode : null;
+		}
+!!!492418.java!!!	isCutoffResult(inout node : Optional<Node<S, A>>) : boolean
+		return node.isPresent() && node.get() == cutoffNode;
+!!!492546.java!!!	getMetrics() : Metrics
+		return metrics;
+!!!492674.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+		nodeExpander.addNodeListener(listener);
+!!!492802.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+		return nodeExpander.removeNodeListener(listener);
+!!!492930.java!!!	clearMetrics() : void
+		metrics.set(METRIC_NODES_EXPANDED, 0);
+		metrics.set(METRIC_PATH_COST, 0);

@@ -1,0 +1,113 @@
+class MiniMax
+!!!643202.java!!!	getTree() : Tree
+        return tree;
+!!!643330.java!!!	getstates() : Node
+		return states;
+!!!643458.java!!!	setstates(inout states : List<Node>) : void
+		this.states = states;
+!!!643586.java!!!	getWinningGame() : Node
+		return winningGame;
+!!!643714.java!!!	setWinningGame(inout winningGame : List<Node>) : void
+		this.winningGame = winningGame;
+!!!643842.java!!!	constructTree(in noOfBones : int) : void
+        tree = new Tree();
+        
+        Node root = new Node(noOfBones, true);
+        root.setParent(null);
+        root.setNodeId(letters[0]);
+        tree.setRoot(root);
+        System.out.println("Constructing root Player 1 to play "+ root.toString());
+        constructTree(root);
+!!!643970.java!!!	constructTree(inout parentNode : Node) : void
+        List<Integer> listofPossibleHeaps = GameOfBones.getPossibleStates(parentNode.getNoOfBones());
+        System.out.println("Possible heaps "+ listofPossibleHeaps);
+        boolean isChildMaxPlayer = !parentNode.isMaxPlayer();
+        listofPossibleHeaps.forEach(n -> {
+            Node newNode = new Node(n, isChildMaxPlayer);
+            if (pos >= maxletter) {
+               	aLetter = letters[newPos]+letters[newPos];
+               	newPos++;
+               	if (newPos >= maxletter)
+               		newPos = 1;
+            }else
+            	aLetter = letters[pos];
+            newNode.setNodeId(aLetter);
+            pos++;
+            parentNode.addChild(newNode);
+            newNode.setParent(parentNode);
+            newNode.setNodeValue(0);
+            int player = isChildMaxPlayer ? 1 : 2;
+//            System.out.println("Adding child Player to play: "+player+" "+ newNode.toString());
+            if (newNode.getNoOfBones() > 0) {
+                constructTree(newNode);
+            }
+        });
+//        System.out.println("Tree construction complete "+parentNode.toString());
+!!!644098.java!!!	findWinninggame() : void
+        Node root = tree.getRoot();
+        winningGame = new ArrayList<Node>();
+        winningGame.add(root);
+//        winningGame =  new ArrayList<Node>();
+        findWinninggame(root);
+!!!644226.java!!!	findLosinggame() : void
+        Node root = tree.getRoot();
+        findLosinggame(root);
+        root.cleanChildren();
+!!!644354.java!!!	findLosinggame(inout node : Node) : void
+        List<Node> children = node.getChildren();
+        boolean isMaxPlayer = node.isMaxPlayer();
+        children.forEach(child -> {
+            if (!child.winningGame()) {
+            	node.moveChild(child);
+
+            	System.out.println("Losing game moved: "+node.toString()+" Terminal node: "+child.toString()); 
+            }else if (!child.terminalNode()) {
+            	findLosinggame(child);
+            }
+            });
+!!!644482.java!!!	findWinninggame(inout node : Node) : void
+        List<Node> children = node.getChildren();
+        boolean isMaxPlayer = node.isMaxPlayer();
+        children.forEach(child -> {
+            if (child.winningGame()) {
+            	winningGame.add(node);
+            	winningGame.add(child);
+            	System.out.println("Winning game: "+node.toString()+" Terminal node: "+child.toString()); 
+            }else if (!child.terminalNode()) {
+            	findWinninggame(child);
+            }
+            });
+!!!644610.java!!!	checkWin() : boolean
+        Node root = tree.getRoot();
+        states = new ArrayList<Node>();
+        states.add(root);
+        checkWin(root);
+        return root.getScore() == 1;
+!!!644738.java!!!	checkWin(inout node : Node) : void
+        List<Node> children = node.getChildren();
+        boolean isMaxPlayer = node.isMaxPlayer();
+        children.forEach(child -> {
+            if (child.getNoOfBones() == 0) {
+                child.setScore(isMaxPlayer ? -1 : 1); // Changed from 1 : -1 to -1 : 1 !!!! If it is the maxplayer turn when noofbones = 0, then maxplayer has lost
+            } else {
+                checkWin(child);
+            }
+        });
+        Node bestChild = findBestChild(isMaxPlayer, children);
+        node.setScore(bestChild.getScore());
+        states.add(bestChild);
+//        System.out.println("Player "+isMaxPlayer+" Best child "+bestChild.toString());
+!!!644866.java!!!	findBestChild(inout isMaxPlayer : boolean, inout children : List<Node>) : Node
+        Comparator<Node> byScoreComparator = Comparator.comparing(Node::getScore);
+//          .max(isMaxPlayer ? byScoreComparator : byScoreComparator.reversed())
+//        .max(isMaxPlayer ? byScoreComparator.reversed() : byScoreComparator) // reversed !!!
+        return children.stream()
+        	.max(isMaxPlayer ? byScoreComparator : byScoreComparator.reversed())
+          .orElseThrow(NoSuchElementException::new);
+!!!644994.java!!!	findBestMove(in nodeValue : int, inout terminalNodes : List<Node>) : Node
+
+    return terminalNodes.stream()
+    		.filter(n -> n.getNodeValue() < nodeValue).limit(3).collect(Collectors.toList());
+      
+!!!645122.java!!!	toString() : String
+        return tree.toString();

@@ -1,0 +1,24 @@
+class GraphSearchBFS
+!!!471682.java!!!	GraphSearchBFS()
+		this(new NodeExpander<>());
+!!!471810.java!!!	GraphSearchBFS(inout nodeExpander : NodeExpander)
+		super(nodeExpander);
+!!!471938.java!!!	findNode(inout problem : Problem, inout frontier : Queue<Node<S, A>>) : Node
+		// Initialize the explored set to be empty
+		explored.clear();
+		frontierStates.clear();
+		return super.findNode(problem, frontier);
+!!!472066.java!!!	addToFrontier(inout node : Node) : void
+		if (!explored.contains(node.getState()) && !frontierStates.contains(node.getState())) {
+			frontier.add(node);
+			frontierStates.add(node.getState());
+			updateMetrics(frontier.size());
+		}
+!!!472194.java!!!	removeFromFrontier() : Node
+		Node<S, A> result = frontier.remove();
+		explored.add(result.getState());
+		frontierStates.remove(result.getState());
+		updateMetrics(frontier.size());
+		return result;
+!!!472322.java!!!	isFrontierEmpty() : boolean
+		return frontier.isEmpty();

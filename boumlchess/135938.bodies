@@ -1,0 +1,53 @@
+class XYLocation
+!!!508930.java!!!	XYLocation(in x : int, in y : int)
+		xCoOrdinate = x;
+		yCoOrdinate = y;
+!!!509058.java!!!	getXCoOrdinate() : int
+		return xCoOrdinate;
+!!!509186.java!!!	getYCoOrdinate() : int
+		return yCoOrdinate;
+!!!509314.java!!!	west() : XYLocation
+		return new XYLocation(xCoOrdinate - 1, yCoOrdinate);
+!!!509442.java!!!	east() : XYLocation
+		return new XYLocation(xCoOrdinate + 1, yCoOrdinate);
+!!!509570.java!!!	north() : XYLocation
+		return new XYLocation(xCoOrdinate, yCoOrdinate - 1);
+!!!509698.java!!!	south() : XYLocation
+		return new XYLocation(xCoOrdinate, yCoOrdinate + 1);
+!!!509826.java!!!	left() : XYLocation
+		return west();
+!!!509954.java!!!	right() : XYLocation
+		return east();
+!!!510082.java!!!	up() : XYLocation
+		return north();
+!!!510210.java!!!	down() : XYLocation
+		return south();
+!!!510338.java!!!	locationAt(inout direction : XYLocation::Direction) : XYLocation
+		if (direction.equals(Direction.North)) {
+			return north();
+		}
+		if (direction.equals(Direction.South)) {
+			return south();
+		}
+		if (direction.equals(Direction.East)) {
+			return east();
+		}
+		if (direction.equals(Direction.West)) {
+			return west();
+		} else {
+			throw new RuntimeException("Unknown direction " + direction);
+		}
+!!!510466.java!!!	equals(inout o : Object) : boolean
+		if (null == o || !(o instanceof XYLocation)) {
+			return super.equals(o);
+		}
+		XYLocation anotherLoc = (XYLocation) o;
+		return ((anotherLoc.getXCoOrdinate() == xCoOrdinate) && (anotherLoc
+				.getYCoOrdinate() == yCoOrdinate));
+!!!510594.java!!!	toString() : String
+		return "(" + xCoOrdinate + ", " + yCoOrdinate + ")";
+!!!510722.java!!!	hashCode() : int
+		int result = 17;
+		result = 37 * result + xCoOrdinate;
+		result = 43 * result + yCoOrdinate;
+		return result;

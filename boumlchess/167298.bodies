@@ -1,0 +1,11 @@
+class ProofStepChainDropped
+!!!307714.java!!!	ProofStepChainDropped(inout dropped : Chain, inout droppedOff : Chain)
+		this.dropped = dropped;
+		this.droppedOff = droppedOff;
+		this.predecessors.add(droppedOff.getProofStep());
+!!!307842.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!307970.java!!!	getProof() : String
+		return dropped.toString();
+!!!308098.java!!!	getJustification() : String
+		return "Dropped: " + droppedOff.getProofStep().getStepNumber();

@@ -1,0 +1,16 @@
+class ActionStore
+!!!664834.java!!!	add(inout action : A, in utilValue : double) : void
+            int idx = 0;
+            while (idx < actions.size() && utilValue <= utilValues.get(idx))
+                idx++;
+            actions.add(idx, action);
+            utilValues.add(idx, utilValue);
+!!!664962.java!!!	size() : int
+            return actions.size();
+!!!665090.java!!!	toString() : String
+        	 StringBuffer logText = new StringBuffer("Ordered actions: \n");
+        	 for (A action:actions) {
+        		 ChessAction localAction = (ChessAction) action;
+        		 logText.append(localAction.toString()+"\n");
+        	 }
+        	return logText.toString();

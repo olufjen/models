@@ -1,0 +1,63 @@
+class DecisionTree
+!!!215810.java!!!	DecisionTree()
+
+!!!215938.java!!!	DecisionTree(in attributeName : String)
+		this.attributeName = attributeName;
+		nodes = new Hashtable<String, DecisionTree>();
+
+!!!216066.java!!!	addLeaf(in attributeValue : String, in decision : String) : void
+		nodes.put(attributeValue, new ConstantDecisonTree(decision));
+!!!216194.java!!!	addNode(in attributeValue : String, inout tree : DecisionTree) : void
+		nodes.put(attributeValue, tree);
+!!!216322.java!!!	predict(inout e : Example) : Object
+		String attrValue = e.getAttributeValueAsString(attributeName);
+		if (nodes.containsKey(attrValue)) {
+			return nodes.get(attrValue).predict(e);
+		} else {
+			throw new RuntimeException("no node exists for attribute value "
+					+ attrValue);
+		}
+!!!216450.java!!!	getStumpFor(inout ds : DataSet, in attributeName : String, in attributeValue : String, in returnValueIfMatched : String, inout unmatchedValues : List<String>, in returnValueIfUnmatched : String) : DecisionTree
+		DecisionTree dt = new DecisionTree(attributeName);
+		dt.addLeaf(attributeValue, returnValueIfMatched);
+		for (String unmatchedValue : unmatchedValues) {
+			dt.addLeaf(unmatchedValue, returnValueIfUnmatched);
+		}
+		return dt;
+!!!216578.java!!!	getStumpsFor(inout ds : DataSet, in returnValueIfMatched : String, in returnValueIfUnmatched : String) : DecisionTree
+		List<String> attributes = ds.getNonTargetAttributes();
+		List<DecisionTree> trees = new ArrayList<DecisionTree>();
+		for (String attribute : attributes) {
+			List<String> values = ds.getPossibleAttributeValues(attribute);
+			for (String value : values) {
+				List<String> unmatchedValues = Util.removeFrom(
+						ds.getPossibleAttributeValues(attribute), value);
+
+				DecisionTree tree = getStumpFor(ds, attribute, value,
+						returnValueIfMatched, unmatchedValues,
+						returnValueIfUnmatched);
+				trees.add(tree);
+
+			}
+		}
+		return trees;
+!!!216706.java!!!	getAttributeName() : String
+		return attributeName;
+!!!216834.java!!!	toString() : String
+		return toString(1, new StringBuffer());
+!!!216962.java!!!	toString(in depth : int, inout buf : StringBuffer) : String
+
+		if (attributeName != null) {
+			buf.append(Util.ntimes("\t", depth));
+			buf.append(Util.ntimes("***", 1));
+			buf.append(attributeName + " \n");
+			for (String attributeValue : nodes.keySet()) {
+				buf.append(Util.ntimes("\t", depth + 1));
+				buf.append("+" + attributeValue);
+				buf.append("\n");
+				DecisionTree child = nodes.get(attributeValue);
+				buf.append(child.toString(depth + 1, new StringBuffer()));
+			}
+		}
+
+		return buf.toString();

@@ -1,0 +1,21 @@
+class AgameBoard
+!!!751490.java!!!	AgameBoard(inout positions : HashMap<String, Position>)
+		super((HashMap<String, Position>) positions);
+		this.allPositions = positions;
+		positionlist = new ArrayList(positions.values());
+		setusedunused();
+		availablePositions = new HashMap();
+		availablePositionlist = new ArrayList();
+!!!751618.java!!!	setusedunused() : void
+		usedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::isInUse).collect(Collectors.toList());
+		notusedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::notisInUse).collect(Collectors.toList());
+
+//		notusedPositions = (List<Position>) ((List<Position>) positions).stream().filter(board.queenExistsAt(position.getXyloc())).collect(Collectors.toList());
+!!!751746.java!!!	getAvailablePositions() : Position
+		return availablePositions;
+!!!751874.java!!!	setAvailablePositions(inout availablePositions : HashMap<String, Position>) : void
+		this.availablePositions = availablePositions;
+!!!752002.java!!!	getAllPositions() : Position
+		return allPositions;
+!!!752130.java!!!	setAllPositions(inout allPositions : HashMap<String, Position>) : void
+		this.allPositions = allPositions;

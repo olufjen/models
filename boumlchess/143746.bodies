@@ -1,0 +1,15 @@
+class ManhattanHeuristicFunction
+!!!192258.java!!!	ManhattanHeuristicFunction(inout goals : Set<AgentPosition>)
+		this.goals.addAll(goals);
+!!!192386.java!!!	applyAsDouble(inout node : Node) : double
+		AgentPosition pos = node.getState();
+		int nearestGoalDist = Integer.MAX_VALUE;
+		for (AgentPosition g : goals) {
+			int tmp = evaluateManhattanDistanceOf(pos.getX(), pos.getY(), g.getX(), g.getY());
+			if (tmp < nearestGoalDist)
+				nearestGoalDist = tmp;
+		}
+		return (double) nearestGoalDist;
+!!!192514.java!!!	evaluateManhattanDistanceOf(in x1 : int, in y1 : int, in x2 : int, in y2 : int) : int
+		
+		return Math.abs(x1-x2) + Math.abs(y1-y2); 

@@ -1,0 +1,2611 @@
+format 223
+"neural" // aima::core::learning::neural
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/neural/"
+  java_package "aima.core.learning.neural"
+  classview 132610 "neural"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 151170 "ActivationFunction"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      operation 234242 "activation"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 234370 "deriv"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 151298 "BackPropLearning"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 155650 // <realization>
+	relation 155650 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 155650 // <realization>
+	  b parent class_ref 151426 // NNTrainingScheme
+      end
+
+      attribute 157826 "learningRate"
+	const_attribute private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 157954 "momentum"
+	const_attribute private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 155778 // hiddenLayer (<unidirectional association>)
+	relation 155778 --->
+	  a role_name "hiddenLayer" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 155778 // hiddenLayer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      classrelation 155906 // outputLayer (<unidirectional association>)
+	relation 155906 --->
+	  a role_name "outputLayer" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 155906 // outputLayer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      classrelation 156034 // hiddenSensitivity (<unidirectional association>)
+	relation 156034 --->
+	  a role_name "hiddenSensitivity" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 156034 // hiddenSensitivity (<unidirectional association>)
+	  b parent class_ref 152066 // LayerSensitivity
+      end
+
+      classrelation 156162 // outputSensitivity (<unidirectional association>)
+	relation 156162 --->
+	  a role_name "outputSensitivity" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 156162 // outputSensitivity (<unidirectional association>)
+	  b parent class_ref 152066 // LayerSensitivity
+      end
+
+      operation 234882 "BackPropLearning"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "learningRate" explicit_type "double"
+	  param in name "momentum" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235010 "setNeuralNetwork"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fapp" type class_ref 151810 // FunctionApproximator
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235138 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235266 "processError"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235394 "calculateWeightUpdates"
+	public return_type class_ref 152194 // Matrix
+	nparams 4
+	  param inout name "layerSensitivity" type class_ref 152066 // LayerSensitivity
+	  param inout name "previousLayerActivationOrInput" type class_ref 151554 // Vector
+	  param in name "alpha" explicit_type "double"
+	  param in name "momentum" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235522 "calculateWeightUpdates"
+	class_operation public return_type class_ref 152194 // Matrix
+	nparams 3
+	  param inout name "layerSensitivity" type class_ref 152066 // LayerSensitivity
+	  param inout name "previousLayerActivationOrInput" type class_ref 151554 // Vector
+	  param in name "alpha" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235650 "calculateBiasUpdates"
+	public return_type class_ref 151554 // Vector
+	nparams 3
+	  param inout name "layerSensitivity" type class_ref 152066 // LayerSensitivity
+	  param in name "alpha" explicit_type "double"
+	  param in name "momentum" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 235778 "calculateBiasUpdates"
+	class_operation public return_type class_ref 151554 // Vector
+	nparams 2
+	  param inout name "layerSensitivity" type class_ref 152066 // LayerSensitivity
+	  param in name "alpha" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 151426 "NNTrainingScheme"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      operation 234498 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 234626 "processError"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 234754 "setNeuralNetwork"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ffnn" type class_ref 151810 // FunctionApproximator
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 151682 "FeedForwardNeuralNetwork"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 156290 // <realization>
+	relation 156290 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 156290 // <realization>
+	  b parent class_ref 151810 // FunctionApproximator
+      end
+
+      attribute 158082 "UPPER_LIMIT_WEIGHTS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"upper_limit_weights\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 158210 "LOWER_LIMIT_WEIGHTS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"lower_limit_weights\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 158338 "NUMBER_OF_OUTPUTS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"number_of_outputs\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 158466 "NUMBER_OF_HIDDEN_NEURONS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"number_of_hidden_neurons\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 158594 "NUMBER_OF_INPUTS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"number_of_inputs\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 156418 // hiddenLayer (<unidirectional association>)
+	relation 156418 --->
+	  a role_name "hiddenLayer" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 156418 // hiddenLayer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      classrelation 156546 // outputLayer (<unidirectional association>)
+	relation 156546 --->
+	  a role_name "outputLayer" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 156546 // outputLayer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      classrelation 156674 // trainingScheme (<unidirectional association>)
+	relation 156674 --->
+	  a role_name "trainingScheme" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 156674 // trainingScheme (<unidirectional association>)
+	  b parent class_ref 151426 // NNTrainingScheme
+      end
+
+      operation 236162 "FeedForwardNeuralNetwork"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "config" type class_ref 152322 // NNConfig
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "constructor to be used for non testing code.
+"
+      end
+
+      operation 236290 "FeedForwardNeuralNetwork"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "hiddenLayerWeights" type class_ref 152194 // Matrix
+	  param inout name "hiddenLayerBias" type class_ref 151554 // Vector
+	  param inout name "outputLayerWeights" type class_ref 152194 // Matrix
+	  param inout name "outputLayerBias" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "ONLY for testing to set up a network with known weights in future use to
+deserialize networks after adding variables for pen weightupdate,
+lastnput etc
+"
+      end
+
+      operation 236418 "processError"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 236546 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 236674 "trainOn"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "innds" type class_ref 152450 // NNDataSet
+	  param in name "numberofEpochs" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 236802 "predict"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "nne" type class_ref 152578 // NNExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 236930 "testOnDataSet"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "nnds" type class_ref 152450 // NNDataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237058 "testOn"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ds" type class_ref 146178 // DataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237186 "getHiddenLayerWeights"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237314 "getHiddenLayerBias"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237442 "getOutputLayerWeights"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237570 "getOutputLayerBias"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237698 "getHiddenLayer"
+	public return_type class_ref 151938 // Layer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237826 "getOutputLayer"
+	public return_type class_ref 151938 // Layer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 237954 "setTrainingScheme"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "trainingScheme" type class_ref 151426 // NNTrainingScheme
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 151810 "FunctionApproximator"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 235906 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the output values for the specified input values
+
+@param input
+           the input values
+
+@return the output values for the specified input values
+"
+      end
+
+      operation 236034 "processError"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Accept an error and change the parameters to accommodate it
+
+@param error
+           an error vector
+"
+      end
+    end
+
+    class 151938 "Layer"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 729<br>
+<br>
+
+Feed-forward networks are usually arranged in layers, such that each unit
+receives input only from units in the immediately preceding layer.
+
+@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 157442 // weightMatrix (<unidirectional association>)
+	relation 157442 --->
+	  a role_name "weightMatrix" const_relation private
+	    comment " vectors are represented by n * 1 matrices;
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157442 // weightMatrix (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 157570 // biasVector (<unidirectional association>)
+	relation 157570 --->
+	  a role_name "biasVector" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157570 // biasVector (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 157698 // lastBiasUpdateVector (<unidirectional association>)
+	relation 157698 --->
+	  a role_name "lastBiasUpdateVector" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157698 // lastBiasUpdateVector (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 157826 // activationFunction (<unidirectional association>)
+	relation 157826 --->
+	  a role_name "activationFunction" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157826 // activationFunction (<unidirectional association>)
+	  b parent class_ref 151170 // ActivationFunction
+      end
+
+      classrelation 157954 // lastActivationValues (<unidirectional association>)
+	relation 157954 --->
+	  a role_name "lastActivationValues" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 157954 // lastActivationValues (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 158082 // lastInducedField (<unidirectional association>)
+	relation 158082 --->
+	  a role_name "lastInducedField" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158082 // lastInducedField (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 158210 // lastWeightUpdateMatrix (<unidirectional association>)
+	relation 158210 --->
+	  a role_name "lastWeightUpdateMatrix" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158210 // lastWeightUpdateMatrix (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 158338 // penultimateWeightUpdateMatrix (<unidirectional association>)
+	relation 158338 --->
+	  a role_name "penultimateWeightUpdateMatrix" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158338 // penultimateWeightUpdateMatrix (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 158466 // penultimateBiasUpdateVector (<unidirectional association>)
+	relation 158466 --->
+	  a role_name "penultimateBiasUpdateVector" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158466 // penultimateBiasUpdateVector (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 158594 // lastInput (<unidirectional association>)
+	relation 158594 --->
+	  a role_name "lastInput" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158594 // lastInput (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      operation 241410 "Layer"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "weightMatrix" type class_ref 152194 // Matrix
+	  param inout name "biasVector" type class_ref 151554 // Vector
+	  param inout name "af" type class_ref 151170 // ActivationFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241538 "Layer"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "numberOfNeurons" explicit_type "int"
+	  param in name "numberOfInputs" explicit_type "int"
+	  param in name "lowerLimitForWeights" explicit_type "double"
+	  param in name "upperLimitForWeights" explicit_type "double"
+	  param inout name "af" type class_ref 151170 // ActivationFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241666 "feedForward"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "inputVector" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241794 "getWeightMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241922 "getBiasVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242050 "numberOfNeurons"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242178 "numberOfInputs"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242306 "getLastActivationValues"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242434 "getLastInducedField"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242562 "getLastWeightUpdateMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242690 "setLastWeightUpdateMatrix"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242818 "getPenultimateWeightUpdateMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 242946 "setPenultimateWeightUpdateMatrix"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243074 "getLastBiasUpdateVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243202 "setLastBiasUpdateVector"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "v" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243330 "getPenultimateBiasUpdateVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243458 "setPenultimateBiasUpdateVector"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "v" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243586 "updateWeights"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243714 "updateBiases"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243842 "getLastInputValues"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 243970 "getActivationFunction"
+	public return_type class_ref 151170 // ActivationFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244098 "acceptNewWeightUpdate"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "weightUpdate" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244226 "acceptNewBiasUpdate"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "biasUpdate" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244354 "errorVectorFrom"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "target" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244482 "initializeMatrix"
+	class_operation private explicit_return_type "void"
+	nparams 3
+	  param inout name "aMatrix" type class_ref 152194 // Matrix
+	  param in name "lowerLimit" explicit_type "double"
+	  param in name "upperLimit" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 244610 "initializeVector"
+	class_operation private explicit_return_type "void"
+	nparams 3
+	  param inout name "aVector" type class_ref 151554 // Vector
+	  param in name "lowerLimit" explicit_type "double"
+	  param in name "upperLimit" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152066 "LayerSensitivity"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 158722 // sensitivityMatrix (<unidirectional association>)
+	relation 158722 --->
+	  a role_name "sensitivityMatrix" private
+	    comment "
+contains sensitivity matrices and related calculations for each layer.
+Used for backprop learning
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158722 // sensitivityMatrix (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 158850 // layer (<unidirectional association>)
+	relation 158850 --->
+	  a role_name "layer" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 158850 // layer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      operation 244738 "LayerSensitivity"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "layer" type class_ref 151938 // Layer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244866 "getSensitivityMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 244994 "sensitivityMatrixFromErrorMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "errorVector" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 245122 "sensitivityMatrixFromSucceedingLayer"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "nextLayerSensitivity" type class_ref 152066 // LayerSensitivity
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 245250 "getLayer"
+	public return_type class_ref 151938 // Layer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 245378 "createDerivativeMatrix"
+	private return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "lastInducedField" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 152322 "NNConfig"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A holder for config data for neural networks and possibly for other learning
+systems.
+
+@author Ravi Mohan
+
+"
+      attribute 159234 "hash"
+	const_attribute private explicit_type "String, Object"
+	stereotype "Hashtable"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 245762 "NNConfig"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "hash" explicit_type "Hashtable<String, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 245890 "NNConfig"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246018 "getParameterAsDouble"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246146 "getParameterAsInteger"
+	public explicit_return_type "int"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246274 "setConfig"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param inout name "value" explicit_type "Double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246402 "setConfig"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param in name "value" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152450 "NNDataSet"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 157058 // dataset (<unidirectional association>)
+	relation 157058 --->
+	  stereotype "List"
+	  a role_name "dataset" private
+	    comment "This class represents a source of examples to the rest of the nn
+framework. Assumes only one function approximator works on an instance at
+a given point in time
+
+
+the parsed and preprocessed form of the dataset.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 157058 // dataset (<unidirectional association>)
+	  b parent class_ref 152578 // NNExample
+      end
+
+      classrelation 157186 // presentlyProcessed (<unidirectional association>)
+	relation 157186 --->
+	  stereotype "List"
+	  a role_name "presentlyProcessed" init_value " new ArrayList<NNExample>()" private
+	    comment "a copy from which examples are drawn.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 157186 // presentlyProcessed (<unidirectional association>)
+	  b parent class_ref 152578 // NNExample
+      end
+
+      attribute 158722 "means"
+	private explicit_type "Double"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "list of mean Values for all components of raw data set
+
+"
+      end
+
+      attribute 158850 "stdevs"
+	private explicit_type "Double"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "list of stdev Values for all components of raw data set
+
+"
+      end
+
+      attribute 158978 "nds"
+	protected explicit_type "List<Double>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "the normalized data set
+
+"
+      end
+
+      attribute 159106 "targetColumnNumbers"
+	protected explicit_type "Integer"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "the column numbers of the \"target\"
+
+"
+      end
+
+      operation 239106 "setTargetColumns"
+	abstract public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "population delegated to subclass because only subclass knows which
+column(s) is target
+"
+      end
+
+      operation 239234 "createNormalizedDataFromFile"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "filename" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "create a normalized data \"table\" from the data in the file. At this
+stage, the data isnot split into input pattern and tragets
+"
+      end
+
+      operation 239362 "createNormalizedDataFromDataSet"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param inout name "numerizer" type class_ref 152962 // Numerizer
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "create a normalized data \"table\" from the DataSet using numerizer. At
+this stage, the data isnot split into input pattern and targets TODO
+remove redundancy of recreating the target columns. the numerizer has
+already isolated the targets
+"
+      end
+
+      operation 239490 "getExampleAtRandom"
+	public return_type class_ref 152578 // NNExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Gets (and removes) a random example from the 'presentlyProcessed'
+"
+      end
+
+      operation 239618 "getExample"
+	public return_type class_ref 152578 // NNExample
+	nparams 1
+	  param in name "index" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Gets (and removes) a random example from the 'presentlyProcessed'
+"
+      end
+
+      operation 239746 "hasMoreExamples"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "check if any more examples remain to be processed
+"
+      end
+
+      operation 239874 "howManyExamplesLeft"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "check how many examples remain to be processed
+"
+      end
+
+      operation 240002 "refreshDataset"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "refreshes the presentlyProcessed dataset so it can be used for a new
+epoch of training.
+"
+      end
+
+      operation 240130 "createExamplesFromFile"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "filename" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "method called by clients to set up data set and make it ready for
+processing
+"
+      end
+
+      operation 240258 "createExamplesFromDataSet"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param inout name "numerizer" type class_ref 152962 // Numerizer
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "method called by clients to set up data set and make it ready for
+processing
+"
+      end
+
+      operation 240386 "getNormalizedData"
+	public explicit_return_type "List<List<Double>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 240514 "getMeans"
+	public explicit_return_type "List<Double>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 240642 "getStdevs"
+	public explicit_return_type "List<Double>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 240770 "createExamples"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+
+create Example instances from a normalized data \"table\".
+"
+      end
+
+      operation 240898 "normalize"
+	private explicit_return_type "List<List<Double>>"
+	nparams 1
+	  param inout name "rds" explicit_type "List<List<Double>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241026 "exampleFromString"
+	private explicit_return_type "List<Double>"
+	nparams 2
+	  param in name "line" explicit_type "String"
+	  param in name "separator" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 241154 "rawExamplesFromDataSet"
+	private explicit_return_type "List<List<Double>>"
+	nparams 2
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param inout name "numerizer" type class_ref 152962 // Numerizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152578 "NNExample"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 159362 "normalizedInput"
+	const_attribute private explicit_type "Double"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 159490 "normalizedTarget"
+	const_attribute private explicit_type "Double"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 246530 "NNExample"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "normalizedInput" explicit_type "List<Double>"
+	  param inout name "normalizedTarget" explicit_type "List<Double>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246658 "copyExample"
+	public return_type class_ref 152578 // NNExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246786 "getInput"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 246914 "getTarget"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 247042 "isCorrect"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "prediction" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152706 "HardLimitActivationFunction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 156802 // <realization>
+	relation 156802 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 156802 // <realization>
+	  b parent class_ref 151170 // ActivationFunction
+      end
+
+      operation 238082 "activation"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 238210 "deriv"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152834 "IrisDataSetNumerizer"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 156930 // <realization>
+	relation 156930 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 156930 // <realization>
+	  b parent class_ref 152962 // Numerizer
+      end
+
+      operation 238594 "numerize"
+	public return_type class_ref 129026 // Pair
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<List<Double>, List<Double>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 238722 "denumerize"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "outputValue" explicit_type "List<Double>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 238850 "round"
+	private explicit_return_type "double"
+	nparams 1
+	  param inout name "d" explicit_type "Double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 238978 "convertCategoryToListOfDoubles"
+	private explicit_return_type "List<Double>"
+	nparams 1
+	  param in name "plant_category_string" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 152962 "Numerizer"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Numerizer understands how to convert an example from a particular data set
+into a <code>Pair</code> of lists of doubles. The first represents the input
+to the neural network, and the second represents the desired output. See
+<code>IrisDataSetNumerizer</code> for a concrete example
+
+@author Ravi Mohan
+
+"
+      operation 238338 "numerize"
+	public return_type class_ref 129026 // Pair
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<List<Double>, List<Double>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 238466 "denumerize"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "outputValue" explicit_type "List<Double>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 153090 "IrisNNDataSet"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 157314 // <generalisation>
+	relation 157314 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 157314 // <generalisation>
+	  b parent class_ref 152450 // NNDataSet
+      end
+
+      operation 241282 "setTargetColumns"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 153218 "LogSigActivationFunction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 158978 // <realization>
+	relation 158978 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 158978 // <realization>
+	  b parent class_ref 151170 // ActivationFunction
+      end
+
+      operation 245506 "activation"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 245634 "deriv"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 153346 "Perceptron"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 159106 // <realization>
+	relation 159106 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 159106 // <realization>
+	  b parent class_ref 151810 // FunctionApproximator
+      end
+
+      classrelation 159234 // layer (<unidirectional association>)
+	relation 159234 --->
+	  a role_name "layer" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 159234 // layer (<unidirectional association>)
+	  b parent class_ref 151938 // Layer
+      end
+
+      classrelation 159362 // lastInput (<unidirectional association>)
+	relation 159362 --->
+	  a role_name "lastInput" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 159362 // lastInput (<unidirectional association>)
+	  b parent class_ref 151554 // Vector
+      end
+
+      operation 247170 "Perceptron"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "numberOfNeurons" explicit_type "int"
+	  param in name "numberOfInputs" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 247298 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 247426 "processError"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 247554 "trainOn"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "innds" type class_ref 152450 // NNDataSet
+	  param in name "numberofEpochs" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Induces the layer of this perceptron from the specified set of examples
+
+@param innds
+           a set of training examples for constructing the layer of this
+           perceptron.
+@param numberofEpochs
+           the number of training epochs to be used.
+"
+      end
+
+      operation 247682 "predict"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "nne" type class_ref 152578 // NNExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the outcome predicted for the specified example
+
+@param nne
+           an example
+
+@return the outcome predicted for the specified example
+"
+      end
+
+      operation 247810 "testOnDataSet"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "nnds" type class_ref 152450 // NNDataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the accuracy of the hypothesis on the specified set of examples
+
+@param nnds
+           the neural network data set to be tested on.
+
+@return the accuracy of the hypothesis on the specified set of examples
+"
+      end
+    end
+
+    class 153474 "PureLinearActivationFunction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 159490 // <realization>
+	relation 159490 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 159490 // <realization>
+	  b parent class_ref 151170 // ActivationFunction
+      end
+
+      operation 247938 "activation"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 248066 "deriv"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 153602 "RabbitEyeDataSet"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 159618 // <generalisation>
+	relation 159618 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 159618 // <generalisation>
+	  b parent class_ref 152450 // NNDataSet
+      end
+
+      operation 248194 "setTargetColumns"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 131202 "neural"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 145282 "ActivationFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 151170 // ActivationFunction
+      end
+    end
+
+    artifact 145410 "NNTrainingScheme"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 151426 // NNTrainingScheme
+      end
+    end
+
+    artifact 145538 "BackPropLearning"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.Matrix;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 151298 // BackPropLearning
+      end
+    end
+
+    artifact 145666 "FunctionApproximator"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 151810 // FunctionApproximator
+      end
+    end
+
+    artifact 145794 "FeedForwardNeuralNetwork"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.learning.framework.DataSet;
+import aima.core.util.math.Matrix;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 151682 // FeedForwardNeuralNetwork
+      end
+    end
+
+    artifact 145922 "HardLimitActivationFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 152706 // HardLimitActivationFunction
+      end
+    end
+
+    artifact 146050 "Numerizer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.learning.framework.Example;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 152962 // Numerizer
+      end
+    end
+
+    artifact 146178 "IrisDataSetNumerizer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import aima.core.learning.framework.Example;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 152834 // IrisDataSetNumerizer
+      end
+    end
+
+    artifact 146306 "NNDataSet"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import aima.core.learning.data.DataResource;
+import aima.core.learning.framework.DataSet;
+import aima.core.learning.framework.Example;
+import aima.core.util.Util;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 152450 // NNDataSet
+      end
+    end
+
+    artifact 146434 "IrisNNDataSet"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+${definition}"
+      associated_elems
+	class_ref 153090 // IrisNNDataSet
+      end
+    end
+
+    artifact 146562 "Layer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.Util;
+import aima.core.util.math.Matrix;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 151938 // Layer
+      end
+    end
+
+    artifact 146690 "LayerSensitivity"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.util.math.Matrix;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 152066 // LayerSensitivity
+      end
+    end
+
+    artifact 146818 "LogSigActivationFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 153218 // LogSigActivationFunction
+      end
+    end
+
+    artifact 146946 "NNConfig"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Hashtable;
+${definition}"
+      associated_elems
+	class_ref 152322 // NNConfig
+      end
+    end
+
+    artifact 147074 "NNExample"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 152578 // NNExample
+      end
+    end
+
+    artifact 147202 "Perceptron"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.Matrix;
+import aima.core.util.math.Vector;
+${definition}"
+      associated_elems
+	class_ref 153346 // Perceptron
+      end
+    end
+
+    artifact 147330 "PureLinearActivationFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 153474 // PureLinearActivationFunction
+      end
+    end
+
+    artifact 147458 "RabbitEyeDataSet"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+${definition}"
+      associated_elems
+	class_ref 153602 // RabbitEyeDataSet
+      end
+    end
+  end
+end

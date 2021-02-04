@@ -1,0 +1,3966 @@
+format 223
+"inference" // aima::core::logic::fol::inference
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/fol/inference/"
+  java_package "aima.core.logic.fol.inference"
+  classview 134018 "inference"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 161922 "AbstractModulation"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Abstract base class for Demodulation and Paramodulation algorithms.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 167426 // variableCollector (<unidirectional association>)
+	relation 167426 --->
+	  a role_name "variableCollector" init_value " new VariableCollector()" protected
+	    comment " PROTECTED ATTRIBUTES
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 167426 // variableCollector (<unidirectional association>)
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 167554 // unifier (<unidirectional association>)
+	relation 167554 --->
+	  a role_name "unifier" init_value " new Unifier()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 167554 // unifier (<unidirectional association>)
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 167682 // substVisitor (<unidirectional association>)
+	relation 167682 --->
+	  a role_name "substVisitor" init_value " new SubstVisitor()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 167682 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 280450 "isValidMatch"
+	abstract protected explicit_return_type "boolean"
+	nparams 4
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "toMatchVariables" explicit_type "Set<Variable>"
+	  param inout name "possibleMatch" type class_ref 160770 // Term
+	  param inout name "substitution" explicit_type "Map<Variable, Term>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METODS
+"
+      end
+
+      class 162050 "IdentifyCandidateMatchingTerm"
+	visibility protected 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 167810 // <realization>
+	  relation 167810 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 167810 // <realization>
+	    b parent class_ref 157314 // FOLVisitor
+	end
+
+	classrelation 167938 // toMatch (<unidirectional association>)
+	  relation 167938 --->
+	    a role_name "toMatch" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 167938 // toMatch (<unidirectional association>)
+	    b parent class_ref 160770 // Term
+	end
+
+	classrelation 168066 // toMatchVariables (<unidirectional association>)
+	  relation 168066 --->
+	    stereotype "Set"
+	    a role_name "toMatchVariables" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 168066 // toMatchVariables (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	classrelation 168194 // matchingTerm (<unidirectional association>)
+	  relation 168194 --->
+	    a role_name "matchingTerm" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 168194 // matchingTerm (<unidirectional association>)
+	    b parent class_ref 160770 // Term
+	end
+
+	classrelation 168322 // substitution (<unidirectional association>)
+	  relation 168322 --->
+	    stereotype "Map"
+	    a role_name "substitution" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	      classrelation_ref 168322 // substitution (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	operation 280706 "IdentifyCandidateMatchingTerm"
+	  public explicit_return_type ""
+	  nparams 2
+	    param inout name "toMatch" type class_ref 160770 // Term
+	    param inout name "expression" type class_ref 162178 // AtomicSentence
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 280834 "isMatch"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 280962 "getMatchingTerm"
+	  public return_type class_ref 160770 // Term
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281090 "getMatchingSubstitution"
+	  public return_type class_ref 157698 // Variable
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281218 "visitPredicate"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "p" type class_ref 157442 // Predicate
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-FOLVisitor"
+	end
+
+	operation 281346 "visitTermEquality"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "equality" type class_ref 157570 // TermEquality
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281474 "visitVariable"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "variable" type class_ref 157698 // Variable
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281602 "visitConstant"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "constant" type class_ref 149506 // Constant
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281730 "visitFunction"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "function" type class_ref 157826 // Function
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281858 "visitNotSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 157954 // NotSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 281986 "visitConnectedSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 282114 "visitQuantifiedSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 280578 "getMatchingSubstitution"
+	protected return_type class_ref 162050 // IdentifyCandidateMatchingTerm
+	nparams 2
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "expression" type class_ref 162178 // AtomicSentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 162306 "ReplaceMatchingTerm"
+	visibility protected 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 168450 // <realization>
+	  relation 168450 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 168450 // <realization>
+	    b parent class_ref 157314 // FOLVisitor
+	end
+
+	classrelation 168578 // toReplace (<unidirectional association>)
+	  relation 168578 --->
+	    a role_name "toReplace" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 168578 // toReplace (<unidirectional association>)
+	    b parent class_ref 160770 // Term
+	end
+
+	classrelation 168706 // replaceWith (<unidirectional association>)
+	  relation 168706 --->
+	    a role_name "replaceWith" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 168706 // replaceWith (<unidirectional association>)
+	    b parent class_ref 160770 // Term
+	end
+
+	attribute 168194 "replaced"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 282242 "ReplaceMatchingTerm"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 282370 "replace"
+	  public return_type class_ref 162178 // AtomicSentence
+	  nparams 3
+	    param inout name "expression" type class_ref 162178 // AtomicSentence
+	    param inout name "toReplace" type class_ref 160770 // Term
+	    param inout name "replaceWith" type class_ref 160770 // Term
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 282498 "visitPredicate"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "p" type class_ref 157442 // Predicate
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-FOLVisitor"
+	end
+
+	operation 282626 "visitTermEquality"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "equality" type class_ref 157570 // TermEquality
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 282754 "visitVariable"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "variable" type class_ref 157698 // Variable
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 282882 "visitConstant"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "constant" type class_ref 149506 // Constant
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 283010 "visitFunction"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "function" type class_ref 157826 // Function
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 283138 "visitNotSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 157954 // NotSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 283266 "visitConnectedSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 283394 "visitQuantifiedSentence"
+	  public explicit_return_type "Object"
+	  nparams 2
+	    param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	    param inout name "arg" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 162434 "Demodulation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 354.<br>
+<br>
+Demodulation: For any terms x, y, and z, where z appears somewhere in literal
+m<sub>i</sub> and where UNIFY(x,z) = &theta;:<br>
+
+<pre>
+                x=y,    m<sub>1</sub> OR ... OR m<sub>n</sub>[z]
+    ------------------------------------------------------------
+    SUB(SUBST(&theta;,x), SUBST(&theta;,y), m<sub>1</sub> OR ... OR m<sub>n</sub>)
+</pre>
+
+where SUBST is the usual substitution of a binding list, and SUB(x,y,m) means
+to replace x with y everywhere that x occurs within m.<br>
+<br>
+Some additional restrictions/clarifications highlighted in:<br>
+<a href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf\"
+>Demodulation Restrictions</a> <br>
+1. Unit Equations Only.<br>
+2. Variables substituted in Equation Only.<br>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 168834 // <generalisation>
+	relation 168834 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 168834 // <generalisation>
+	  b parent class_ref 161922 // AbstractModulation
+      end
+
+      operation 283522 "Demodulation"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 283650 "apply"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "assertion" type class_ref 157570 // TermEquality
+	  param inout name "clExpression" type class_ref 148610 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 283778 "apply"
+	public return_type class_ref 162178 // AtomicSentence
+	nparams 2
+	  param inout name "assertion" type class_ref 157570 // TermEquality
+	  param inout name "expression" type class_ref 162178 // AtomicSentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 283906 "isValidMatch"
+	protected explicit_return_type "boolean"
+	nparams 4
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "toMatchVariables" explicit_type "Set<Variable>"
+	  param inout name "possibleMatch" type class_ref 160770 // Term
+	  param inout name "substitution" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+"
+      end
+    end
+
+    class 162562 "FOLBCAsk"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.6, page
+338.<br>
+<br>
+
+<pre>
+function FOL-BC-ASK(KB, query) returns a generator of substitutions
+ *   return FOL-BC-OR(KB, query, { })
+
+generator FOL-BC-OR(KB, goal, θ) yields a substitution
+ *   for each rule (lhs ⇒ rhs) in FETCH-RULES-FOR-GOAL(KB, goal) do
+ *        (lhs, rhs) ← STANDARDIZE-VARIABLES((lhs, rhs))
+ *  	  for each θ' in FOL-BC-AND(KB, lhs, UNIFY(rhs, goal, θ)) do
+ *    	       yield θ'
+
+generator FOL-BC-AND(KB, goals, θ) yields a substitution
+ *   if θ = failure then return
+ *   else if LENGTH(goals) = 0 then yield θ
+ *   else do
+ *        first, rest ← FIRST(goals), REST(goals)
+ *        for each θ' in FOL-BC-OR(KB, SUBST(θ, first), θ) do
+ *             for each θ'' in FOL-BC-AND(KB, rest, θ') do
+ *                  yield θ'
+</pre>
+
+Figure 9.6 A simple backward-chaining algorithm for first-order knowledge bases.
+
+@author samagra
+@author Ritwik Sharma
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 168962 // <realization>
+	relation 168962 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 168962 // <realization>
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      attribute 168322 "finalAnswer"
+	package explicit_type "List<Literal>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " to store the final result"
+      end
+
+      classrelation 169090 // substitutedLiterals (<unidirectional association>)
+	relation 169090 --->
+	  stereotype "List"
+	  a role_name "substitutedLiterals" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 169090 // substitutedLiterals (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      attribute 168450 "finalList"
+	package explicit_type "HashMap<Variable,Term>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 163074 "BCASKHandler"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 169346 // <realization>
+	  relation 169346 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 169346 // <realization>
+	    b parent class_ref 162818 // InferenceResult
+	end
+
+	classrelation 169474 // stepFinal (<unidirectional association>)
+	  relation 169474 --->
+	    a role_name "stepFinal" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 169474 // stepFinal (<unidirectional association>)
+	    b parent class_ref 163330 // ProofStep
+	end
+
+	classrelation 169602 // proofs (<unidirectional association>)
+	  relation 169602 --->
+	    stereotype "List"
+	    a role_name "proofs" init_value " new ArrayList<>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 169602 // proofs (<unidirectional association>)
+	    b parent class_ref 163202 // Proof
+	end
+
+	operation 285826 "BCASKHandler"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 285954 "isPossiblyFalse"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 286082 "isTrue"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 286210 "isUnknownDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 286338 "isPartialResultDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 286466 "getProofs"
+	  public return_type class_ref 163202 // Proof
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 286594 "addProofStep"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "step" type class_ref 163330 // ProofStep
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 169218 // bcaskHandler (<unidirectional association>)
+	relation 169218 --->
+	  a role_name "bcaskHandler" init_value " new BCASKHandler()" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 169218 // bcaskHandler (<unidirectional association>)
+	  b parent class_ref 163074 // BCASKHandler
+      end
+
+      attribute 168578 "maybeFalse"
+	public explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 284162 "FOLBCAsk"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 284290 "getSubstitutedLiterals"
+	public return_type class_ref 148738 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 284418 "folBcAsk"
+	public explicit_return_type "List<HashMap<Variable,Term>>"
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-InferenceProcedure
+
+Returns a set of substitutions
+function FOL-BC-ASK(KB, query) returns a generator of substitutions
+@param kb
+           a knowledge base
+@param query
+           goals, a list of conjuncts forming a query
+
+@return a set of substitutions
+"
+      end
+
+      operation 284546 "folBcOr"
+	private explicit_return_type "List<HashMap<Variable, Term>>"
+	nparams 3
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "goal" type class_ref 148738 // Literal
+	  param inout name "theta" explicit_type "HashMap<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "generator FOL-BC-OR(KB, goal, θ) yields a substitution
+@param kb
+			The knowleadge base
+@param goal
+			The goals at the or node to be achieved
+@param theta
+			Substitution
+@return
+		a list of substitutions
+"
+      end
+
+      operation 284674 "folBcAnd"
+	private explicit_return_type "List<HashMap<Variable, Term>>"
+	nparams 3
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "goals" explicit_type "List<Literal>"
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "generator FOL-BC-AND(KB, goals, θ) yields a substitution
+@param kb
+@param goals
+@param theta
+@return
+"
+      end
+
+      operation 284802 "fetchRulesForGoal"
+	private return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "goal" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Fetches all those implication clauses whose rhs meet with the goal
+@param kb
+@param goal
+@return
+"
+      end
+
+      operation 284930 "getFinalAnswer"
+	public explicit_return_type "List<List<Literal>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 285058 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 163458 "BCProof"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 169730 // <realization>
+	  relation 169730 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 169730 // <realization>
+	    b parent class_ref 163202 // Proof
+	end
+
+	classrelation 169858 // proofSteps (<unidirectional association>)
+	  relation 169858 --->
+	    stereotype "List"
+	    a role_name "proofSteps" init_value " new ArrayList<>()" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 169858 // proofSteps (<unidirectional association>)
+	    b parent class_ref 163330 // ProofStep
+	end
+
+	classrelation 169986 // answerBindings (<unidirectional association>)
+	  relation 169986 --->
+	    stereotype "Map"
+	    a role_name "answerBindings" init_value " new HashMap<>()" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	      classrelation_ref 169986 // answerBindings (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	operation 287106 "BCProof"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 287234 "addProofStep"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "step" type class_ref 163330 // ProofStep
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 287362 "getSteps"
+	  public return_type class_ref 163330 // ProofStep
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 287490 "getAnswerBindings"
+	  public return_type class_ref 157698 // Variable
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 287618 "replaceAnswerBindings"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "updatedBindings" explicit_type "Map<Variable, Term>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 163586 "BCProofStep"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 170242 // <generalisation>
+	  relation 170242 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 170242 // <generalisation>
+	    b parent class_ref 163714 // AbstractProofStep
+	end
+
+	classrelation 170370 // predecessors (<unidirectional association>)
+	  relation 170370 --->
+	    stereotype "List"
+	    a role_name "predecessors" init_value " new ArrayList<>()" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 170370 // predecessors (<unidirectional association>)
+	    b parent class_ref 163330 // ProofStep
+	end
+
+	classrelation 170498 // implication (<unidirectional association>)
+	  relation 170498 --->
+	    a role_name "implication" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 170498 // implication (<unidirectional association>)
+	    b parent class_ref 148610 // Clause
+	end
+
+	classrelation 170626 // goal (<unidirectional association>)
+	  relation 170626 --->
+	    a role_name "goal" package
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 170626 // goal (<unidirectional association>)
+	    b parent class_ref 148738 // Literal
+	end
+
+	operation 289154 "BCProofStep"
+	  public explicit_return_type ""
+	  nparams 3
+	    param inout name "implication" type class_ref 148610 // Clause
+	    param inout name "predecessors" explicit_type "List<ProofStep>"
+	    param inout name "goal" type class_ref 148738 // Literal
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 289282 "getPredecessorSteps"
+	  public return_type class_ref 163330 // ProofStep
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 289410 "getProof"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 289538 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 289666 "getJustification"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 162690 "InferenceProcedure"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 284034 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param kb
+           the knowledge base against which the query is to be made.
+@param query
+           the query to be answered.
+@return an InferenceResult.
+"
+      end
+    end
+
+    class 162818 "InferenceResult"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 285186 "isPossiblyFalse"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the query is not entailed from the premises. This just
+        means the query is not entailed, the query itself may be true.
+"
+      end
+
+      operation 285314 "isTrue"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the query is entailed from the premises (Note: can get
+        partial results if the original query contains variables
+        indicating that there can possibly be more than 1 proof/bindings
+        for the query, see: isPartialResultDueToTimeout()).
+"
+      end
+
+      operation 285442 "isUnknownDueToTimeout"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the inference procedure ran for a length of time and
+        found no proof one way or the other before it timed out.
+"
+      end
+
+      operation 285570 "isPartialResultDueToTimeout"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the inference procedure found a proof for a query
+        containing variables (i.e. possibly more than 1 proof can be
+        returned) and the inference procedure was still looking for other
+        possible answers before it timed out.
+"
+      end
+
+      operation 285698 "getProofs"
+	public return_type class_ref 163202 // Proof
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a list of 0 or more proofs (multiple proofs can be returned if
+        the original query contains variables).
+"
+      end
+    end
+
+    class 163842 "FOLFCAsk"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.3, page
+332.<br>
+<br>
+
+<pre>
+function FOL-FC-ASK(KB, alpha) returns a substitution or false
+  inputs: KB, the knowledge base, a set of first order definite clauses
+          alpha, the query, an atomic sentence
+  local variables: new, the new sentences inferred on each iteration
+  
+  repeat until new is empty
+     new &lt;- {}
+     for each rule in KB do
+         (p1 &circ; ... &circ; pn =&gt; q) &lt;- STANDARDIZE-VARAIBLES(rule)
+         for each theta such that SUBST(theta, p1 &circ; ... &circ; pn) = SUBST(theta, p'1 &circ; ... &circ; p'n)
+                        for some p'1,...,p'n in KB
+             q' &lt;- SUBST(theta, q)
+             if q' does not unify with some sentence already in KB or new then
+                  add q' to new
+                  theta &lt;- UNIFY(q', alpha)
+                  if theta is not fail then return theta
+     add new to KB
+  return false
+</pre>
+
+Figure 9.3 A conceptually straightforward, but very inefficient
+forward-chaining algo- rithm. On each iteration, it adds to KB all the atomic
+sentences that can be inferred in one step from the implication sentences and
+the atomic sentences already in KB. The function STANDARDIZE-VARIABLES
+replaces all variables in its arguments with new ones that have not been used
+before.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 170754 // <realization>
+	relation 170754 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 170754 // <realization>
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      operation 289794 "FOLFCAsk"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 289922 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "KB" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-InferenceProcedure
+
+FOL-FC-ASK returns a substitution or false.
+
+@param KB
+           the knowledge base, a set of first order definite clauses
+@param query
+           the query, an atomic sentence
+
+@return a substitution or false
+"
+      end
+
+      operation 290050 "invert"
+	private return_type class_ref 148738 // Literal
+	nparams 1
+	  param inout name "lits" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-InferenceProcedure
+
+
+ PRIVATE METHODS
+"
+      end
+
+      class 163970 "FCAskAnswerHandler"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 170882 // <realization>
+	  relation 170882 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 170882 // <realization>
+	    b parent class_ref 162818 // InferenceResult
+	end
+
+	classrelation 171010 // stepFinal (<unidirectional association>)
+	  relation 171010 --->
+	    a role_name "stepFinal" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 171010 // stepFinal (<unidirectional association>)
+	    b parent class_ref 163330 // ProofStep
+	end
+
+	classrelation 171138 // proofs (<unidirectional association>)
+	  relation 171138 --->
+	    stereotype "List"
+	    a role_name "proofs" init_value " new ArrayList<Proof>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 171138 // proofs (<unidirectional association>)
+	    b parent class_ref 163202 // Proof
+	end
+
+	operation 290178 "FCAskAnswerHandler"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 290306 "isPossiblyFalse"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-InferenceResult"
+	end
+
+	operation 290434 "isTrue"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 290562 "isUnknownDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 290690 "isPartialResultDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 290818 "getProofs"
+	  public return_type class_ref 163202 // Proof
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 290946 "addProofStep"
+	  public explicit_return_type "void"
+	  nparams 3
+	    param inout name "implication" type class_ref 148610 // Clause
+	    param inout name "fact" type class_ref 148738 // Literal
+	    param inout name "bindings" explicit_type "Map<Variable, Term>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " END-InferenceResult
+"
+	end
+
+	operation 291074 "addProofStep"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "step" type class_ref 163330 // ProofStep
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 291202 "setAnswers"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "answers" explicit_type "Set<Map<Variable, Term>>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 164098 "FOLModelElimination"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Based on lecture notes from:<br>
+<a
+href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture13.pdf\">
+http://logic.stanford.edu/classes/cs157/2008/lectures/lecture13.pdf</a>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 171266 // <realization>
+	relation 171266 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 171266 // <realization>
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      attribute 168834 "maxQueryTime"
+	private explicit_type "long"
+	init_value " 10 * 1000"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Ten seconds is default maximum query time permitted
+"
+      end
+
+      classrelation 171394 // tracer (<unidirectional association>)
+	relation 171394 --->
+	  a role_name "tracer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 171394 // tracer (<unidirectional association>)
+	  b parent class_ref 164226 // FOLModelEliminationTracer
+      end
+
+      classrelation 171522 // unifier (<unidirectional association>)
+	relation 171522 --->
+	  a role_name "unifier" init_value " new Unifier()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 171522 // unifier (<unidirectional association>)
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 171650 // substVisitor (<unidirectional association>)
+	relation 171650 --->
+	  a role_name "substVisitor" init_value " new SubstVisitor()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 171650 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 291330 "FOLModelElimination"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 291458 "FOLModelElimination"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 291586 "FOLModelElimination"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "tracer" type class_ref 164226 // FOLModelEliminationTracer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 291714 "FOLModelElimination"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "tracer" type class_ref 164226 // FOLModelEliminationTracer
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 291842 "getMaxQueryTime"
+	public explicit_return_type "long"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 291970 "setMaxQueryTime"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 292098 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-InferenceProcedure"
+      end
+
+      operation 292226 "createChainsFromClauses"
+	private return_type class_ref 160002 // Chain
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-InferenceProcedure
+
+
+ PRIVATE METHODS
+"
+      end
+
+      operation 292354 "recursiveDLS"
+	private explicit_return_type "void"
+	nparams 5
+	  param in name "maxDepth" explicit_type "int"
+	  param in name "currentDepth" explicit_type "int"
+	  param inout name "nearParent" type class_ref 160002 // Chain
+	  param inout name "indexedFarParents" type class_ref 164354 // IndexedFarParents
+	  param inout name "ansHandler" type class_ref 164482 // AnswerHandler
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Recursive Depth Limited Search"
+      end
+
+      class 164482 "AnswerHandler"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 171778 // <realization>
+	  relation 171778 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 171778 // <realization>
+	    b parent class_ref 162818 // InferenceResult
+	end
+
+	classrelation 171906 // answerChain (<unidirectional association>)
+	  relation 171906 --->
+	    a role_name "answerChain" init_value " new Chain()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 171906 // answerChain (<unidirectional association>)
+	    b parent class_ref 160002 // Chain
+	end
+
+	classrelation 172034 // answerLiteralVariables (<unidirectional association>)
+	  relation 172034 --->
+	    stereotype "Set"
+	    a role_name "answerLiteralVariables" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 172034 // answerLiteralVariables (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	classrelation 172162 // sos (<unidirectional association>)
+	  relation 172162 --->
+	    stereotype "List"
+	    a role_name "sos" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 172162 // sos (<unidirectional association>)
+	    b parent class_ref 160002 // Chain
+	end
+
+	attribute 168962 "complete"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 169090 "finishTime"
+	  private explicit_type "long"
+	  init_value " 0L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 169218 "maxDepthReached"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 172290 // proofs (<unidirectional association>)
+	  relation 172290 --->
+	    stereotype "List"
+	    a role_name "proofs" init_value " new ArrayList<Proof>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 172290 // proofs (<unidirectional association>)
+	    b parent class_ref 163202 // Proof
+	end
+
+	attribute 169346 "timedOut"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 292738 "AnswerHandler"
+	  public explicit_return_type ""
+	  nparams 3
+	    param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	    param inout name "query" type class_ref 149634 // Sentence
+	    param in name "maxQueryTime" explicit_type "long"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 292866 "isPossiblyFalse"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-InferenceResult"
+	end
+
+	operation 292994 "isTrue"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293122 "isUnknownDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293250 "isPartialResultDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293378 "getProofs"
+	  public return_type class_ref 163202 // Proof
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293506 "getSetOfSupport"
+	  public return_type class_ref 160002 // Chain
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " END-InferenceResult
+"
+	end
+
+	operation 293634 "isComplete"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293762 "resetMaxDepthReached"
+	  public explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 293890 "getMaxDepthReached"
+	  public explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 294018 "updateMaxDepthReached"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param in name "depth" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 294146 "isAnswer"
+	  public explicit_return_type "boolean"
+	  nparams 1
+	    param inout name "nearParent" type class_ref 160002 // Chain
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 294274 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 292482 "tryCancellation"
+	private return_type class_ref 160002 // Chain
+	nparams 1
+	  param inout name "c" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns c if no cancellation occurred"
+      end
+
+      operation 292610 "tryDropping"
+	private return_type class_ref 160002 // Chain
+	nparams 1
+	  param inout name "c" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns c if no dropping occurred"
+      end
+    end
+
+    class 164354 "IndexedFarParents"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 169474 "saIdx"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 172418 // unifier (<unidirectional association>)
+	relation 172418 --->
+	  a role_name "unifier" init_value " new Unifier()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 172418 // unifier (<unidirectional association>)
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 172546 // substVisitor (<unidirectional association>)
+	relation 172546 --->
+	  a role_name "substVisitor" init_value " new SubstVisitor()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 172546 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      attribute 169602 "posHeads"
+	private explicit_type "String, List<Chain>"
+	init_value " new LinkedHashMap<String, List<Chain>>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 169730 "negHeads"
+	private explicit_type "String, List<Chain>"
+	init_value " new LinkedHashMap<String, List<Chain>>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 294402 "IndexedFarParents"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "sos" explicit_type "List<Chain>"
+	  param inout name "background" explicit_type "List<Chain>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 294530 "getNumberFarParents"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "farParent" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 294658 "resetNumberFarParentsTo"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "farParent" type class_ref 160002 // Chain
+	  param in name "toSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 294786 "getNumberCandidateFarParents"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "nearParent" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 294914 "attemptReduction"
+	public return_type class_ref 160002 // Chain
+	nparams 2
+	  param inout name "nearParent" type class_ref 160002 // Chain
+	  param in name "farParentIndex" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295042 "addToIndex"
+	public return_type class_ref 160002 // Chain
+	nparams 1
+	  param inout name "c" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295170 "standardizeApart"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "c" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295298 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 295426 "constructInternalDataStructures"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "sos" explicit_type "List<Chain>"
+	  param inout name "background" explicit_type "List<Chain>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 164610 "FOLOTTERLikeTheoremProver"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (2nd Edition): Figure 9.14, page
+307.<br>
+<br>
+
+<pre>
+procedure OTTER(sos, usable)
+  inputs: sos, a set of support-clauses defining the problem (a global variable)
+  usable, background knowledge potentially relevant to the problem
+  
+  repeat
+     clause <- the lightest member of sos
+     move clause from sos to usable
+     PROCESS(INFER(clause, usable), sos)
+  until sos = [] or a refutation has been found
+
+--------------------------------------------------------------------------------
+
+function INFER(clause, usable) returns clauses
+  
+  resolve clause with each member of usable
+  return the resulting clauses after applying filter
+  
+--------------------------------------------------------------------------------
+
+procedure PROCESS(clauses, sos)
+
+  for each clause in clauses do
+      clause <- SIMPLIFY(clause)
+      merge identical literals
+      discard clause if it is a tautology
+      sos <- [clause | sos]
+      if clause has no literals then a refutation has been found
+      if clause has one literal then look for unit refutation
+</pre>
+
+Figure 9.14 Sketch of the OTTER theorem prover. Heuristic control is applied
+in the selection of the \"lightest\" clause and in the FILTER function that
+eliminates uninteresting clauses from consideration.<br>
+<br>
+<b>Note:</b> The original implementation of OTTER has been retired but its
+successor, <b>Prover9</b>, can be found at:<br>
+<a href=\"http://www.prover9.org/\">http://www.prover9.org/</a><br>
+or<br>
+<a href=\"http://www.cs.unm.edu/~mccune/mace4/\">http://www.cs.unm.edu/~mccune/
+mace4/</a><br>
+Should you wish to play with a mature implementation of a theorem prover :-)<br>
+<br>
+For lots of interesting problems to play with, see <b>The TPTP Problem
+Library for Automated Theorem Proving</b>:<br>
+<a href=\"http://www.cs.miami.edu/~tptp/\">http://www.cs.miami.edu/~tptp/</a><br>
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 172674 // <realization>
+	relation 172674 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 172674 // <realization>
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      attribute 169858 "maxQueryTime"
+	private explicit_type "long"
+	init_value " 10 * 1000"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Ten seconds is default maximum query time permitted
+"
+      end
+
+      attribute 169986 "useParamodulation"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 172802 // lightestClauseHeuristic (<unidirectional association>)
+	relation 172802 --->
+	  a role_name "lightestClauseHeuristic" init_value " new DefaultLightestClauseHeuristic()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 172802 // lightestClauseHeuristic (<unidirectional association>)
+	  b parent class_ref 164738 // LightestClauseHeuristic
+      end
+
+      classrelation 172930 // clauseFilter (<unidirectional association>)
+	relation 172930 --->
+	  a role_name "clauseFilter" init_value " new DefaultClauseFilter()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 172930 // clauseFilter (<unidirectional association>)
+	  b parent class_ref 164866 // ClauseFilter
+      end
+
+      classrelation 173058 // clauseSimplifier (<unidirectional association>)
+	relation 173058 --->
+	  a role_name "clauseSimplifier" init_value " new DefaultClauseSimplifier()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 173058 // clauseSimplifier (<unidirectional association>)
+	  b parent class_ref 164994 // ClauseSimplifier
+      end
+
+      classrelation 173186 // paramodulation (<unidirectional association>)
+	relation 173186 --->
+	  a role_name "paramodulation" init_value " new Paramodulation()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 173186 // paramodulation (<unidirectional association>)
+	  b parent class_ref 165122 // Paramodulation
+      end
+
+      operation 295554 "FOLOTTERLikeTheoremProver"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295682 "FOLOTTERLikeTheoremProver"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295810 "FOLOTTERLikeTheoremProver"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "useParamodulation" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 295938 "FOLOTTERLikeTheoremProver"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "maxQueryTime" explicit_type "long"
+	  param inout name "useParamodulation" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296066 "getMaxQueryTime"
+	public explicit_return_type "long"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296194 "setMaxQueryTime"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296322 "isUseParamodulation"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296450 "setUseParamodulation"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "useParamodulation" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296578 "getLightestClauseHeuristic"
+	public return_type class_ref 164738 // LightestClauseHeuristic
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296706 "setLightestClauseHeuristic"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "lightestClauseHeuristic" type class_ref 164738 // LightestClauseHeuristic
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296834 "getClauseFilter"
+	public return_type class_ref 164866 // ClauseFilter
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 296962 "setClauseFilter"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "clauseFilter" type class_ref 164866 // ClauseFilter
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 297090 "getClauseSimplifier"
+	public return_type class_ref 164994 // ClauseSimplifier
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 297218 "setClauseSimplifier"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "clauseSimplifier" type class_ref 164994 // ClauseSimplifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 297346 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "KB" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "alpha" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-InferenceProcedure"
+      end
+
+      operation 297474 "otter"
+	private return_type class_ref 162818 // InferenceResult
+	nparams 4
+	  param inout name "ansHandler" type class_ref 165250 // OTTERAnswerHandler
+	  param inout name "idxdClauses" type class_ref 165378 // IndexedClauses
+	  param inout name "sos" explicit_type "Set<Clause>"
+	  param inout name "usable" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-InferenceProcedure
+
+
+<pre>
+procedure OTTER(sos, usable) 
+  inputs: sos, a set of support-clauses defining the problem (a global variable) 
+  usable, background knowledge potentially relevant to the problem
+</pre>
+"
+      end
+
+      class 165250 "OTTERAnswerHandler"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 173442 // <realization>
+	  relation 173442 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 173442 // <realization>
+	    b parent class_ref 162818 // InferenceResult
+	end
+
+	classrelation 173570 // answerLiteral (<unidirectional association>)
+	  relation 173570 --->
+	    a role_name "answerLiteral" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 173570 // answerLiteral (<unidirectional association>)
+	    b parent class_ref 148738 // Literal
+	end
+
+	classrelation 173698 // answerLiteralVariables (<unidirectional association>)
+	  relation 173698 --->
+	    stereotype "Set"
+	    a role_name "answerLiteralVariables" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 173698 // answerLiteralVariables (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	classrelation 173826 // answerClause (<unidirectional association>)
+	  relation 173826 --->
+	    a role_name "answerClause" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 173826 // answerClause (<unidirectional association>)
+	    b parent class_ref 148610 // Clause
+	end
+
+	attribute 170498 "finishTime"
+	  private explicit_type "long"
+	  init_value " 0L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 170626 "complete"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 173954 // proofs (<unidirectional association>)
+	  relation 173954 --->
+	    stereotype "List"
+	    a role_name "proofs" init_value " new ArrayList<Proof>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 173954 // proofs (<unidirectional association>)
+	    b parent class_ref 163202 // Proof
+	end
+
+	attribute 170754 "timedOut"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 298370 "OTTERAnswerHandler"
+	  public explicit_return_type ""
+	  nparams 4
+	    param inout name "answerLiteral" type class_ref 148738 // Literal
+	    param inout name "answerLiteralVariables" explicit_type "Set<Variable>"
+	    param inout name "answerClause" type class_ref 148610 // Clause
+	    param in name "maxQueryTime" explicit_type "long"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 298498 "isPossiblyFalse"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-InferenceResult"
+	end
+
+	operation 298626 "isTrue"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 298754 "isUnknownDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 298882 "isPartialResultDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 299010 "getProofs"
+	  public return_type class_ref 163202 // Proof
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 299138 "isComplete"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " END-InferenceResult
+"
+	end
+
+	operation 299266 "isLookingForAnswerLiteral"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 299394 "isCheckForUnitRefutation"
+	  public explicit_return_type "boolean"
+	  nparams 1
+	    param inout name "clause" type class_ref 148610 // Clause
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 299522 "isAnswer"
+	  public explicit_return_type "boolean"
+	  nparams 1
+	    param inout name "clause" type class_ref 148610 // Clause
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 299650 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 165378 "IndexedClauses"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 173314 // lightestClauseHeuristic (<unidirectional association>)
+	  relation 173314 --->
+	    a role_name "lightestClauseHeuristic" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 173314 // lightestClauseHeuristic (<unidirectional association>)
+	    b parent class_ref 164738 // LightestClauseHeuristic
+	end
+
+	attribute 170114 "clausesGroupedBySize"
+	  private explicit_type "Integer, Set<Clause>"
+	  init_value " new HashMap<Integer, Set<Clause>>()"
+	  stereotype "Map"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment " Group the clauses by their # of literals.
+"
+	end
+
+	attribute 170242 "minNoLiterals"
+	  private explicit_type "int"
+	  init_value " Integer.MAX_VALUE"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment " Keep track of the min and max # of literals.
+"
+	end
+
+	attribute 170370 "maxNoLiterals"
+	  private explicit_type "int"
+	  init_value " 0"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 297986 "IndexedClauses"
+	  public explicit_return_type ""
+	  nparams 3
+	    param inout name "lightestClauseHeuristic" type class_ref 164738 // LightestClauseHeuristic
+	    param inout name "sos" explicit_type "Set<Clause>"
+	    param inout name "usable" explicit_type "Set<Clause>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 298114 "addClause"
+	  public explicit_return_type "void"
+	  nparams 3
+	    param inout name "c" type class_ref 148610 // Clause
+	    param inout name "sos" explicit_type "Set<Clause>"
+	    param inout name "usable" explicit_type "Set<Clause>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 298242 "indexClause"
+	  private explicit_return_type "void"
+	  nparams 1
+	    param inout name "c" type class_ref 148610 // Clause
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " PRIVATE METHODS
+"
+	end
+      end
+
+      operation 297602 "infer"
+	private return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "clause" type class_ref 148610 // Clause
+	  param inout name "usable" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<pre>
+function INFER(clause, usable) returns clauses
+"
+      end
+
+      operation 297730 "process"
+	private explicit_return_type "void"
+	nparams 5
+	  param inout name "ansHandler" type class_ref 165250 // OTTERAnswerHandler
+	  param inout name "idxdClauses" type class_ref 165378 // IndexedClauses
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "sos" explicit_type "Set<Clause>"
+	  param inout name "usable" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " procedure PROCESS(clauses, sos)"
+      end
+
+      operation 297858 "lookForUnitRefutation"
+	private explicit_return_type "void"
+	nparams 5
+	  param inout name "ansHandler" type class_ref 165250 // OTTERAnswerHandler
+	  param inout name "idxdClauses" type class_ref 165378 // IndexedClauses
+	  param inout name "clause" type class_ref 148610 // Clause
+	  param inout name "sos" explicit_type "Set<Clause>"
+	  param inout name "usable" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 165122 "Paramodulation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3r Edition): page 354.<br>
+<br>
+<b>Paramodulation</b>: For any terms x, y, and z, where z appears somewhere
+in literal m<sub>i</sub>, and where UNIFY(x,z) = &theta;,<br>
+
+<pre>
+                         l<sub>1</sub> OR ... OR l<sub>k</sub> OR x=y,     m<sub>1</sub> OR ... OR m<sub>n</sub>
+    ------------------------------------------------------------------------
+    SUB(SUBST(&theta;,x), SUBST(&theta;,y), SUBST(&theta;, l<sub>1</sub> OR ... OR l<sub>k</sub> OR m<sub>1</sub> OR ... OR m<sub>n</sub>))
+</pre>
+
+Paramodulation yields a complete inference procedure for first-order logic
+with equality.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 174978 // <generalisation>
+	relation 174978 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 174978 // <generalisation>
+	  b parent class_ref 161922 // AbstractModulation
+      end
+
+      classrelation 175106 // _saIndexical (<unidirectional association>)
+	relation 175106 --->
+	  a role_name "_saIndexical" init_value " StandardizeApartIndexicalFactory
+			.newStandardizeApartIndexical('p')" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 175106 // _saIndexical (<unidirectional association>)
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      classrelation 175234 // _emptyLiteralList (<unidirectional association>)
+	relation 175234 --->
+	  stereotype "List"
+	  a role_name "_emptyLiteralList" init_value " new ArrayList<Literal>()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 175234 // _emptyLiteralList (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 175362 // sApart (<unidirectional association>)
+	relation 175362 --->
+	  a role_name "sApart" init_value " new StandardizeApart()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 175362 // sApart (<unidirectional association>)
+	  b parent class_ref 159618 // StandardizeApart
+      end
+
+      operation 302082 "Paramodulation"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 302210 "apply"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "c1" type class_ref 148610 // Clause
+	  param inout name "c2" type class_ref 148610 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 302338 "apply"
+	public return_type class_ref 148610 // Clause
+	nparams 3
+	  param inout name "c1" type class_ref 148610 // Clause
+	  param inout name "c2" type class_ref 148610 // Clause
+	  param inout name "standardizeApart" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 302466 "isValidMatch"
+	protected explicit_return_type "boolean"
+	nparams 4
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "toMatchVariables" explicit_type "Set<Variable>"
+	  param inout name "possibleMatch" type class_ref 160770 // Term
+	  param inout name "substitution" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+"
+      end
+    end
+
+    class 165506 "FOLTFMResolution"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 347.<br>
+<br>
+The algorithmic approach is identical to the propositional case, described in
+Figure 7.12.<br>
+<br>
+However, this implementation will use the T)wo F)inger M)ethod for looking
+for resolvents between clauses, which is very inefficient.<br>
+<br>
+see:<br>
+<a
+href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf\">
+http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf</a>,
+slide 21 for the propositional case. In addition, an Answer literal will be
+used so that queries with Variables may be answered (see pg. 350 of AIMA3e).
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 174082 // <realization>
+	relation 174082 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 174082 // <realization>
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      attribute 170882 "maxQueryTime"
+	private explicit_type "long"
+	init_value " 10 * 1000"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 174210 // tracer (<unidirectional association>)
+	relation 174210 --->
+	  a role_name "tracer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 174210 // tracer (<unidirectional association>)
+	  b parent class_ref 165634 // FOLTFMResolutionTracer
+      end
+
+      operation 299778 "FOLTFMResolution"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 299906 "FOLTFMResolution"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300034 "FOLTFMResolution"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "tracer" type class_ref 165634 // FOLTFMResolutionTracer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300162 "getMaxQueryTime"
+	public explicit_return_type "long"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300290 "setMaxQueryTime"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "maxQueryTime" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300418 "getTracer"
+	public return_type class_ref 165634 // FOLTFMResolutionTracer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300546 "setTracer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "tracer" type class_ref 165634 // FOLTFMResolutionTracer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 300674 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "KB" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "alpha" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-InferenceProcedure"
+      end
+
+      class 165762 "TFMAnswerHandler"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 174338 // <realization>
+	  relation 174338 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 174338 // <realization>
+	    b parent class_ref 162818 // InferenceResult
+	end
+
+	classrelation 174466 // answerLiteral (<unidirectional association>)
+	  relation 174466 --->
+	    a role_name "answerLiteral" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 174466 // answerLiteral (<unidirectional association>)
+	    b parent class_ref 148738 // Literal
+	end
+
+	classrelation 174594 // answerLiteralVariables (<unidirectional association>)
+	  relation 174594 --->
+	    stereotype "Set"
+	    a role_name "answerLiteralVariables" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 174594 // answerLiteralVariables (<unidirectional association>)
+	    b parent class_ref 157698 // Variable
+	end
+
+	classrelation 174722 // answerClause (<unidirectional association>)
+	  relation 174722 --->
+	    a role_name "answerClause" init_value " null" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 174722 // answerClause (<unidirectional association>)
+	    b parent class_ref 148610 // Clause
+	end
+
+	attribute 171010 "finishTime"
+	  private explicit_type "long"
+	  init_value " 0L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 171138 "complete"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 174850 // proofs (<unidirectional association>)
+	  relation 174850 --->
+	    stereotype "List"
+	    a role_name "proofs" init_value " new ArrayList<Proof>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 174850 // proofs (<unidirectional association>)
+	    b parent class_ref 163202 // Proof
+	end
+
+	attribute 171266 "timedOut"
+	  private explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 300802 "TFMAnswerHandler"
+	  public explicit_return_type ""
+	  nparams 4
+	    param inout name "answerLiteral" type class_ref 148738 // Literal
+	    param inout name "answerLiteralVariables" explicit_type "Set<Variable>"
+	    param inout name "answerClause" type class_ref 148610 // Clause
+	    param in name "maxQueryTime" explicit_type "long"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 300930 "isPossiblyFalse"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " START-InferenceResult"
+	end
+
+	operation 301058 "isTrue"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 301186 "isUnknownDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 301314 "isPartialResultDueToTimeout"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 301442 "getProofs"
+	  public return_type class_ref 163202 // Proof
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 301570 "isComplete"
+	  public explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " END-InferenceResult
+"
+	end
+
+	operation 301698 "checkForPossibleAnswers"
+	  private explicit_return_type "void"
+	  nparams 1
+	    param inout name "resolvents" explicit_type "Set<Clause>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 301826 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 165890 "InferenceResultPrinter"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 301954 "printInferenceResult"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "ir" type class_ref 162818 // InferenceResult
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Utility method for outputting InferenceResults in a formatted textual
+representation.
+
+@param ir
+           an InferenceResult
+@return a String representation of the InferenceResult.
+"
+      end
+    end
+  end
+
+  deploymentview 132098 "inference"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 152322 "AbstractModulation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.SubstVisitor;
+import aima.core.logic.fol.Unifier;
+import aima.core.logic.fol.VariableCollector;
+import aima.core.logic.fol.parsing.FOLVisitor;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 161922 // AbstractModulation
+      end
+    end
+
+    artifact 152450 "Demodulation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.inference.proof.ProofStepClauseDemodulation;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 162434 // Demodulation
+      end
+    end
+
+    artifact 152578 "InferenceProcedure"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 162690 // InferenceProcedure
+      end
+    end
+
+    artifact 152706 "InferenceResult"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.logic.fol.inference.proof.Proof;
+${definition}"
+      associated_elems
+	class_ref 162818 // InferenceResult
+      end
+    end
+
+    artifact 153218 "FOLBCAsk"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+import aima.core.logic.fol.Unifier;
+import aima.core.logic.fol.inference.proof.*;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+${definition}"
+      associated_elems
+	class_ref 162562 // FOLBCAsk
+      end
+    end
+
+    artifact 153346 "FOLFCAsk"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofFinal;
+import aima.core.logic.fol.inference.proof.ProofStep;
+import aima.core.logic.fol.inference.proof.ProofStepFoChAlreadyAFact;
+import aima.core.logic.fol.inference.proof.ProofStepFoChAssertFact;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 163842 // FOLFCAsk
+      end
+    end
+
+    artifact 153474 "FOLModelElimination"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.Connectors;
+import aima.core.logic.fol.StandardizeApartInPlace;
+import aima.core.logic.fol.SubstVisitor;
+import aima.core.logic.fol.SubsumptionElimination;
+import aima.core.logic.fol.Unifier;
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofFinal;
+import aima.core.logic.fol.inference.proof.ProofStepChainCancellation;
+import aima.core.logic.fol.inference.proof.ProofStepChainDropped;
+import aima.core.logic.fol.inference.proof.ProofStepChainFromClause;
+import aima.core.logic.fol.inference.proof.ProofStepChainReduction;
+import aima.core.logic.fol.inference.proof.ProofStepGoal;
+import aima.core.logic.fol.inference.trace.FOLModelEliminationTracer;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.kb.data.ReducedLiteral;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 164098 // FOLModelElimination
+	class_ref 164354 // IndexedFarParents
+      end
+    end
+
+    artifact 153602 "FOLOTTERLikeTheoremProver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.Connectors;
+import aima.core.logic.fol.SubsumptionElimination;
+import aima.core.logic.fol.inference.otter.ClauseFilter;
+import aima.core.logic.fol.inference.otter.ClauseSimplifier;
+import aima.core.logic.fol.inference.otter.LightestClauseHeuristic;
+import aima.core.logic.fol.inference.otter.defaultimpl.DefaultClauseFilter;
+import aima.core.logic.fol.inference.otter.defaultimpl.DefaultClauseSimplifier;
+import aima.core.logic.fol.inference.otter.defaultimpl.DefaultLightestClauseHeuristic;
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofFinal;
+import aima.core.logic.fol.inference.proof.ProofStepGoal;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 164610 // FOLOTTERLikeTheoremProver
+      end
+    end
+
+    artifact 153730 "FOLTFMResolution"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.Connectors;
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofFinal;
+import aima.core.logic.fol.inference.proof.ProofStepGoal;
+import aima.core.logic.fol.inference.trace.FOLTFMResolutionTracer;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 165506 // FOLTFMResolution
+      end
+    end
+
+    artifact 153858 "InferenceResultPrinter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofPrinter;
+${definition}"
+      associated_elems
+	class_ref 165890 // InferenceResultPrinter
+      end
+    end
+
+    artifact 153986 "Paramodulation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.StandardizeApart;
+import aima.core.logic.fol.StandardizeApartIndexical;
+import aima.core.logic.fol.StandardizeApartIndexicalFactory;
+import aima.core.logic.fol.inference.proof.ProofStepClauseParamodulation;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 165122 // Paramodulation
+      end
+    end
+  end
+
+  package_ref 135298 // proof
+
+  package_ref 135426 // trace
+
+  package_ref 135554 // otter
+end

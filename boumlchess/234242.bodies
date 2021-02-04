@@ -1,0 +1,173 @@
+class ChessActionImpl
+!!!784386.java!!!	ChessActionImpl(inout positions : HashMap<String, Position>, inout chessPiece : AgamePiece, inout player : APlayer)
+		super();
+		this.positions = positions;
+		this.chessPiece = chessPiece;
+		this.player = player;
+		this.availablePositions = getActions(); // The positionRemoved are also created and filled. They are positions occupied by other pieces owned by the player
+		String name = this.chessPiece.getMyPiece().getPieceName();
+		pn = this.chessPiece.getMyPosition().getIntRow()*10;
+		pny = this.chessPiece.getMyPosition().getIntColumn();
+		Integer prn = new Integer(pn+pny);
+		PreferredMoveProcessor pr = new PreferredMoveProcessor(prn,name);
+		myProcessor = pr;
+		possibleMove = ChessFunctions.processChessgame(this,chessPiece, pr); // The processor can be replaced by a lambda expression?
+		if (possibleMove != null)
+			preferredPosition = possibleMove.getToPosition();
+//		preferredPosition = player.calculatePreferredPosition(chessPiece,this);      
+		player.getHeldPositions().add(pr.getHeldPosition()); // This is the position held by the piece under consideration
+!!!964994.java!!!	processPositions() : void
+		possibleMove = ChessFunctions.processChessgame(this,chessPiece, myProcessor);
+!!!784514.java!!!	getAttackedPositions() : Position
+		return attackedPositions;
+!!!784642.java!!!	setAttackedPositions(inout attackedPositions : List<Position>) : void
+		this.attackedPositions = attackedPositions;
+!!!784770.java!!!	getNotAttackedPos() : Position
+		return notAttackedPos;
+!!!784898.java!!!	setNotAttackedPos(inout notAttackedPos : List<Position>) : void
+		this.notAttackedPos = notAttackedPos;
+!!!785026.java!!!	getNotProtected() : Position
+		return notProtected;
+!!!785154.java!!!	setNotProtected(inout notProtected : List<Position>) : void
+		this.notProtected = notProtected;
+!!!785282.java!!!	getProtectedPositions() : Position
+		return protectedPositions;
+!!!785410.java!!!	setProtectedPositions(inout protectedPositions : List<Position>) : void
+		this.protectedPositions = protectedPositions;
+!!!785538.java!!!	getAttacked() : AgamePiece
+		return attacked;
+!!!785666.java!!!	setAttacked(inout attacked : List<AgamePiece>) : void
+		this.attacked = attacked;
+!!!785794.java!!!	getOtherattackedPositions() : Position
+		return otherattackedPositions;
+!!!785922.java!!!	setOtherattackedPositions(inout otherattackedPositions : List<Position>) : void
+		this.otherattackedPositions = otherattackedPositions;
+!!!786050.java!!!	getOtherprotectedPositions() : Position
+		return otherprotectedPositions;
+!!!786178.java!!!	setOtherprotectedPositions(inout otherprotectedPositions : List<Position>) : void
+		this.otherprotectedPositions = otherprotectedPositions;
+!!!786306.java!!!	getSentence() : Sentence
+		return sentence;
+!!!786434.java!!!	setSentence(inout sentence : Sentence) : void
+		this.sentence = sentence;
+!!!786562.java!!!	isBlocked() : boolean
+		return blocked;
+!!!786690.java!!!	setBlocked(inout blocked : boolean) : void
+		this.blocked = blocked;
+!!!786818.java!!!	getStrikePosition() : Position
+		return strikePosition;
+!!!786946.java!!!	setStrikePosition(inout strikePosition : Position) : void
+		this.strikePosition = strikePosition;
+!!!787074.java!!!	isStrike() : boolean
+		return strike;
+!!!787202.java!!!	setStrike(inout strike : boolean) : void
+		this.strike = strike;
+!!!787330.java!!!	getPossibleMove() : ApieceMove
+		return possibleMove;
+!!!787458.java!!!	setPossibleMove(inout possibleMove : ApieceMove) : void
+		this.possibleMove = possibleMove;
+!!!787586.java!!!	getPositionRemoved() : Position
+		return positionRemoved;
+!!!787714.java!!!	setPositionRemoved(inout positionRemoved : List<Position>) : void
+		this.positionRemoved = positionRemoved;
+!!!787842.java!!!	getPlayer() : APlayer
+		return player;
+!!!787970.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!788098.java!!!	getChessPiece() : AgamePiece
+		return chessPiece;
+!!!788226.java!!!	setChessPiece(inout chessPiece : AgamePiece) : void
+		this.chessPiece = chessPiece;
+!!!788354.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!788482.java!!!	getPositions() : Position
+		return positions;
+!!!788610.java!!!	getAvailablePositions() : Position
+		return availablePositions;
+!!!788738.java!!!	setAvailablePositions(inout availablePositions : List<Position>) : void
+		this.availablePositions = availablePositions;
+!!!788866.java!!!	getPreferredPosition() : Position
+		if (preferredPosition == null) {
+			preferredPosition = player.calculatePreferredPosition(chessPiece,this);
+		}
+		return preferredPosition;
+!!!788994.java!!!	setPreferredPosition(inout preferredPosition : Position) : void
+		this.preferredPosition = preferredPosition;
+!!!789122.java!!!	getActions() : Position
+		if (availablePositions != null) {
+			availablePositions.clear();
+			availablePositions = null;
+		}
+		if (positionRemoved != null) {
+			positionRemoved.clear();
+			positionRemoved = null;
+		}
+		availablePositions = new ArrayList(positions.values());
+		positionRemoved = new ArrayList();
+		List<AgamePiece> pieces = player.getMygamePieces(); 
+		for (Position position:availablePositions) {
+			for (AgamePiece otherPiece:pieces) {
+				boolean inuse = otherPiece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
+				if (inuse && otherPiece.isActive() && otherPiece != chessPiece) { // Added 31.07.20 Check if piece is active
+					Position pos = otherPiece.getMyPosition();
+					if (pos != null) {
+						if (pos.isInUse()) { // OBS: Added 14.05.20 Are never active !! ??
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								positionRemoved.add(position);
+							}
+						}else {
+							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
+						}
+					}
+				}
+			}
+
+		
+		}
+		return availablePositions;
+		
+!!!789250.java!!!	getActions(inout theplayer : APlayer) : Position
+
+		List<AgamePiece> pieces = theplayer.getMygamePieces(); 
+		if (theplayer == player) {
+			if (availablePositions != null) {
+				availablePositions.clear();
+				availablePositions = null;
+			}
+			if (positionRemoved != null) {
+				positionRemoved.clear();
+				positionRemoved = null;
+			}
+			availablePositions = new ArrayList(positions.values());
+			positionRemoved = new ArrayList();
+			for (Position position:availablePositions) {
+				for (AgamePiece otherPiece:pieces) {
+					if (otherPiece != chessPiece) {
+						Position pos = otherPiece.getMyPosition();
+						if (pos != null) {
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								positionRemoved.add(position);
+							}
+
+						}
+					}
+				}
+
+			
+			}
+		}
+
+		return availablePositions;
+		
+!!!789378.java!!!	toString() : String
+		String posName = "Unknown";
+		String pMove = " === No move ===";
+		if (possibleMove != null)
+			pMove = possibleMove.toString();
+		if (preferredPosition != null)
+			posName = preferredPosition.getPositionName();
+		StringBuffer logText = new StringBuffer("ChessAction: Preferred Position " + posName+ " Piece " + chessPiece.toString()+" Possible move "+pMove);
+		return logText.toString();
+!!!789506.java!!!	isNoOp() : boolean
+		// TODO Auto-generated method stub
+		return false;

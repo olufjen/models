@@ -1,0 +1,15 @@
+class DegHeuristic
+!!!451330.java!!!	apply(inout csp : CSP, inout vars : List<VAR>) : List<VAR>
+            List<VAR> result = new ArrayList<>();
+            int maxDegree = -1;
+            for (VAR var : vars) {
+                int degree = csp.getConstraints(var).size();
+                if (degree >= maxDegree) {
+                    if (degree > maxDegree) {
+                        result.clear();
+                        maxDegree = degree;
+                    }
+                    result.add(var);
+                }
+            }
+            return result;

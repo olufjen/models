@@ -1,0 +1,63 @@
+class Chain
+!!!321154.java!!!	Chain()
+		// i.e. the empty chain
+!!!321282.java!!!	Chain(inout literals : List<Literal>)
+		this.literals.addAll(literals);
+!!!321410.java!!!	Chain(inout literals : Set<Literal>)
+		this.literals.addAll(literals);
+!!!321538.java!!!	getProofStep() : ProofStep
+		if (null == proofStep) {
+			// Assume was a premise
+			proofStep = new ProofStepPremise(this);
+		}
+		return proofStep;
+!!!321666.java!!!	setProofStep(inout proofStep : ProofStep) : void
+		this.proofStep = proofStep;
+!!!321794.java!!!	isEmpty() : boolean
+		return literals.size() == 0;
+!!!321922.java!!!	addLiteral(inout literal : Literal) : void
+		literals.add(literal);
+!!!322050.java!!!	getHead() : Literal
+		if (0 == literals.size()) {
+			return null;
+		}
+		return literals.get(0);
+!!!322178.java!!!	getTail() : Literal
+		if (0 == literals.size()) {
+			return _emptyLiteralsList;
+		}
+		return Collections
+				.unmodifiableList(literals.subList(1, literals.size()));
+!!!322306.java!!!	getNumberLiterals() : int
+		return literals.size();
+!!!322434.java!!!	getLiterals() : Literal
+		return Collections.unmodifiableList(literals);
+!!!322562.java!!!	getContrapositives() : Chain
+		List<Chain> contrapositives = new ArrayList<Chain>();
+		List<Literal> lits = new ArrayList<Literal>();
+
+		for (int i = 1; i < literals.size(); i++) {
+			lits.clear();
+			lits.add(literals.get(i));
+			lits.addAll(literals.subList(0, i));
+			lits.addAll(literals.subList(i + 1, literals.size()));
+			Chain cont = new Chain(lits);
+			cont.setProofStep(new ProofStepChainContrapositive(cont, this));
+			contrapositives.add(cont);
+		}
+
+		return contrapositives;
+!!!322690.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+		sb.append("<");
+
+		for (int i = 0; i < literals.size(); i++) {
+			if (i > 0) {
+				sb.append(",");
+			}
+			sb.append(literals.get(i).toString());
+		}
+
+		sb.append(">");
+
+		return sb.toString();

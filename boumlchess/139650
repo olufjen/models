@@ -1,0 +1,705 @@
+format 223
+"online" // aima::core::search::online
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/online/"
+  java_package "aima.core.search.online"
+  classview 138626 "online"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 198786 "LRTAStarAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.24, page
+152.<br>
+<br>
+
+<pre>
+function LRTA*-AGENT(s') returns an action
+  inputs: s', a percept that identifies the current state
+  persistent: result, a table, indexed by state and action, initially empty
+              H, a table of cost estimates indexed by state, initially empty
+              s, a, the previous state and action, initially null
+          
+  if GOAL-TEST(s') then return stop
+  if s' is a new state (not in H) then H[s'] &lt;- h(s')
+  if s is not null
+    result[s, a] &lt;- s'
+    H[s] &lt;-        min LRTA*-COST(s, b, result[s, b], H)
+            b (element of) ACTIONS(s)
+  a &lt;- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b, result[s', b], H)
+  s &lt;- s'
+  return a
+  
+function LRTA*-COST(s, a, s', H) returns a cost estimate
+  if s' is undefined then return h(s)
+  else return c(s, a, s') + H[s']
+</pre>
+
+Figure 4.24 LRTA*-AGENT selects an action according to the value of
+neighboring states, which are updated as the agent moves about the state
+space.<br>
+<br>
+<b>Note:</b> This algorithm fails to exit if the goal does not exist (e.g.
+A<->B Goal=X), this could be an issue with the implementation. Comments
+welcome.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      classrelation 239362 // <generalisation>
+	relation 239362 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 239362 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 239490 // problem (<unidirectional association>)
+	relation 239490 --->
+	  a role_name "problem" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 239490 // problem (<unidirectional association>)
+	  b parent class_ref 135042 // OnlineSearchProblem
+      end
+
+      classrelation 239618 // ptsFn (<unidirectional association>)
+	relation 239618 --->
+	  stereotype "Function"
+	  a role_name "ptsFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, S> ${name}${value};
+"
+	    classrelation_ref 239618 // ptsFn (<unidirectional association>)
+	  b parent class_ref 128386 // Percept
+      end
+
+      attribute 197250 "h"
+	private explicit_type "S"
+	stereotype "ToDoubleFunction"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 239746 // result (<unidirectional association>)
+	relation 239746 --->
+	  a role_name "result" init_value " new TwoKeyHashMap<>()" const_relation private
+	    comment " persistent: result, a table, indexed by state and action, initially empty
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A, S> ${name}${value};
+"
+	    classrelation_ref 239746 // result (<unidirectional association>)
+	  b parent class_ref 198914 // TwoKeyHashMap
+      end
+
+      attribute 197378 "H"
+	const_attribute private explicit_type "S, Double"
+	init_value " new HashMap<>()"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " H, a table of cost estimates indexed by state, initially empty
+"
+      end
+
+      attribute 197506 "s"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " s, a, the previous state and action, initially null
+"
+      end
+
+      attribute 197634 "a"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 489090 "LRTAStarAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param inout name "problem" type class_ref 135042 // OnlineSearchProblem
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	  param inout name "h" explicit_type "ToDoubleFunction<S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a LRTA* agent with the specified search problem, percept to
+state function, and heuristic function.
+
+@param problem
+           an online search problem for this agent to solve.
+@param ptsFn
+           a function which returns the problem state associated with a
+           given Percept.
+@param h
+           heuristic function <em>h(n)</em>, which estimates the cost of
+           the cheapest path from the state at node <em>n</em> to a goal
+           state.
+"
+      end
+
+      operation 489218 "getProblem"
+	cpp_inline public return_type class_ref 135042 // OnlineSearchProblem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the search problem of this agent.
+
+@return the search problem of this agent.
+"
+      end
+
+      operation 489346 "setProblem"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "problem" type class_ref 135042 // OnlineSearchProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the search problem for this agent to solve.
+
+@param problem
+           the search problem for this agent to solve.
+"
+      end
+
+      operation 489474 "getPerceptToStateFunction"
+	cpp_inline public return_type class_ref 128386 // Percept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Function<${type}, S> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the percept to state function of this agent.
+
+@return the percept to state function of this agent.
+"
+      end
+
+      operation 489602 "setPerceptToStateFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the percept to state function of this agent.
+
+@param ptsFn
+           a function which returns the problem state associated with a
+           given Percept.
+"
+      end
+
+      operation 489730 "getHeuristicFunction"
+	cpp_inline public explicit_return_type "ToDoubleFunction<S>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the heuristic function of this agent.
+"
+      end
+
+      operation 489858 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the heuristic function of this agent.
+
+@param h
+           heuristic function <em>h(n)</em>, which estimates the cost of
+           the cheapest path from the state at node <em>n</em> to a goal
+           state.
+"
+      end
+
+      operation 489986 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "psPrimed" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " function LRTA*-AGENT(s') returns an action
+ inputs: s', a percept that identifies the current state"
+      end
+
+      operation 490114 "init"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 490242 "lrtaCost"
+	cpp_inline private explicit_return_type "double"
+	nparams 3
+	  param inout name "s" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	  param inout name "sDelta" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function LRTA*-COST(s, a, s', H) returns a cost estimate"
+      end
+    end
+
+    class 199042 "OnlineDFSAgent"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.21, page
+150.<br>
+<br>
+
+<pre>
+function ONLINE-DFS-AGENT(s') returns an action
+  inputs: s', a percept that identifies the current state
+  persistent: result, a table, indexed by state and action, initially empty
+              untried, a table that lists, for each state, the actions not yet tried
+              unbacktracked, a table that lists, for each state, the backtracks not yet tried
+              s, a, the previous state and action, initially null
+   
+  if GOAL-TEST(s') then return stop
+  if s' is a new state (not in untried) then untried[s'] &lt;- ACTIONS(s')
+  if s is not null then
+      result[s, a] &lt;- s'
+      add s to the front of the unbacktracked[s']
+  if untried[s'] is empty then
+      if unbacktracked[s'] is empty then return stop
+      else a &lt;- an action b such that result[s', b] = POP(unbacktracked[s'])
+  else a &lt;- POP(untried[s'])
+  s &lt;- s'
+  return a
+</pre>
+
+Figure 4.21 An online search agent that uses depth-first exploration. The
+agent is applicable only in state spaces in which every action can be
+\"undone\" by some other action.<br>
+
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+
+"
+      classrelation 239874 // <generalisation>
+	relation 239874 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 239874 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 240002 // problem (<unidirectional association>)
+	relation 240002 --->
+	  a role_name "problem" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 240002 // problem (<unidirectional association>)
+	  b parent class_ref 135042 // OnlineSearchProblem
+      end
+
+      classrelation 240130 // ptsFn (<unidirectional association>)
+	relation 240130 --->
+	  stereotype "Function"
+	  a role_name "ptsFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, S> ${name}${value};
+"
+	    classrelation_ref 240130 // ptsFn (<unidirectional association>)
+	  b parent class_ref 128386 // Percept
+      end
+
+      classrelation 240258 // result (<unidirectional association>)
+	relation 240258 --->
+	  a role_name "result" init_value " new TwoKeyHashMap<>()" const_relation private
+	    comment " persistent: result, a table, indexed by state and action, initially empty
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A, S> ${name}${value};
+"
+	    classrelation_ref 240258 // result (<unidirectional association>)
+	  b parent class_ref 198914 // TwoKeyHashMap
+      end
+
+      attribute 197762 "untried"
+	const_attribute private explicit_type "S, List<A>"
+	init_value " new HashMap<>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " untried, a table that lists, for each state, the actions not yet tried
+"
+      end
+
+      attribute 197890 "unbacktracked"
+	const_attribute private explicit_type "S, List<S>"
+	init_value " new HashMap<>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " unbacktracked, a table that lists,
+ for each state, the backtracks not yet tried
+"
+      end
+
+      attribute 198018 "s"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " s, a, the previous state and action, initially null
+"
+      end
+
+      attribute 198146 "a"
+	private explicit_type "A"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 490370 "OnlineDFSAgent"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "problem" type class_ref 135042 // OnlineSearchProblem
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs an online DFS agent with the specified search problem and
+percept to state function.
+
+@param problem
+           an online search problem for this agent to solve
+@param ptsFn
+           a function which returns the problem state associated with a
+           given Percept.
+"
+      end
+
+      operation 490498 "getProblem"
+	cpp_inline public return_type class_ref 135042 // OnlineSearchProblem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the search problem for this agent.
+
+@return the search problem for this agent.
+"
+      end
+
+      operation 490626 "setProblem"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "problem" type class_ref 135042 // OnlineSearchProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the search problem for this agent to solve.
+
+@param problem
+           the search problem for this agent to solve.
+"
+      end
+
+      operation 490754 "getPerceptToStateFunction"
+	cpp_inline public return_type class_ref 128386 // Percept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Function<${type}, S> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the percept to state function of this agent.
+
+@return the percept to state function of this agent.
+"
+      end
+
+      operation 490882 "setPerceptToStateFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "ptsFn" explicit_type "Function<Percept, S>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the percept to state functino of this agent.
+
+@param ptsFn
+           a function which returns the problem state associated with a
+           given Percept.
+"
+      end
+
+      operation 491010 "execute"
+	cpp_inline public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "psPrimed" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " function ONLINE-DFS-AGENT(s') returns an action
+ inputs: s', a percept that identifies the current state"
+      end
+
+      operation 491138 "init"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+  end
+
+  deploymentview 137858 "online"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 187138 "LRTAStarAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.framework.problem.OnlineSearchProblem;
+import aima.core.util.datastructure.TwoKeyHashMap;
+${definition}"
+      associated_elems
+	class_ref 198786 // LRTAStarAgent
+      end
+    end
+
+    artifact 187266 "OnlineDFSAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.agent.impl.NoOpAction;
+import aima.core.search.framework.problem.OnlineSearchProblem;
+import aima.core.util.datastructure.Pair;
+import aima.core.util.datastructure.TwoKeyHashMap;
+${definition}"
+      associated_elems
+	class_ref 199042 // OnlineDFSAgent
+      end
+    end
+  end
+end

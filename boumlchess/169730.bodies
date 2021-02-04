@@ -1,0 +1,19 @@
+class Graph
+!!!350594.java!!!	Graph(inout problem : Problem, inout initialLevel : Level)
+        this.problem = problem;
+        levels = new ArrayList<>();
+        levels.add(initialLevel);
+        propositionalisedActions = problem.getPropositionalisedActions();
+!!!350722.java!!!	numLevels() : int
+        return levels.size();
+!!!350850.java!!!	getLevels() : Level
+        return levels;
+!!!350978.java!!!	getProblem() : Problem
+        return problem;
+!!!351106.java!!!	getPropositionalisedActions() : ActionSchema
+        return propositionalisedActions;
+!!!351234.java!!!	addLevel() : Graph
+        Level lastLevel = levels.get(levels.size() - 1);
+        Level level = new Level(lastLevel, this.problem);
+        this.levels.add(level);
+        return this;

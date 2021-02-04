@@ -1,0 +1,30 @@
+class Point2D
+!!!532610.java!!!	Point2D(in x : double, in y : double)
+		this.x = x;
+		this.y = y;
+!!!532738.java!!!	getX() : double
+		return x;
+!!!532866.java!!!	getY() : double
+		return y;
+!!!532994.java!!!	distance(inout pt : Point2D) : double
+		// Distance Between X Coordinates
+		final double x_distance = (pt.getX() - x) * (pt.getX() - x);
+		// Distance Between Y Coordinates
+		final double y_distance = (pt.getY()-y)*(pt.getY()-y) ;
+		// Distance Between 2d Points
+		return Math.sqrt(x_distance + y_distance) ;
+!!!533122.java!!!	add(inout op2 : Vector2D) : Point2D
+		return new Point2D(this.x + op2.getX(), this.y + op2.getY());
+!!!533250.java!!!	sub(inout op2 : Vector2D) : Point2D
+		return new Point2D(this.x - op2.getX(), this.y - op2.getY());
+!!!533378.java!!!	vec(inout target : Point2D) : Vector2D
+		return new Vector2D(target.getX() - this.x, target.getY() - this.y);
+!!!533506.java!!!	equals(inout op2 : Point2D) : boolean
+		if(op2 == null) return false;
+		return Util.compareDoubles(this.x,op2.x) && Util.compareDoubles(this.y,op2.y);
+!!!533634.java!!!	equals(inout o : Object) : boolean
+		 if(o instanceof Point2D)
+			 return this.equals((Point2D) o);
+		 return false;
+!!!533762.java!!!	clone() : Point2D
+		return new Point2D(this.x,this.y);

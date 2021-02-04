@@ -1,0 +1,15 @@
+class MrvHeuristic
+!!!451202.java!!!	apply(inout csp : CSP, inout vars : List<VAR>) : List<VAR>
+            List<VAR> result = new ArrayList<>();
+            int mrv = Integer.MAX_VALUE;
+            for (VAR var : vars) {
+                int rv = csp.getDomain(var).size();
+                if (rv <= mrv) {
+                    if (rv < mrv) {
+                        result.clear();
+                        mrv = rv;
+                    }
+                    result.add(var);
+                }
+            }
+            return result;

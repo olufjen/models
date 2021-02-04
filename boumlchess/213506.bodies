@@ -1,0 +1,47 @@
+class SelectorContainer
+!!!594946.java!!!	setSelectors(inout selectorNames : String [[]], inout tooltips : String [[]]) : void
+			this.selectorNames = selectorNames;
+			this.selectorDefaults = new int[selectorNames.length];
+			for (JComboBox<Object> combo : combos)
+				toolbar.remove(combo);
+			combos.clear();
+			for (int i = 0; i < selectorNames.length; i++) {
+				JComboBox<Object> combo = new JComboBox<Object>();
+				combo.addActionListener(actionListener);
+				combo.setVisible(false);
+				combos.add(combo);
+				toolbar.add(combo, i);
+				if (tooltips != null)
+					combo.setToolTipText(tooltips[i]);
+			}
+!!!595074.java!!!	setSelectorItems(in selectorName : String, inout items : Object [[]], in defaultIdx : int) : void
+			JComboBox<Object> combo = getCombo(selectorName);
+			combo.removeAllItems();
+			for (Object item : items) {
+				combo.addItem(item);
+			}
+			selectorDefaults[combos.indexOf(combo)] = defaultIdx;
+			combo.setVisible(items.length > 0);
+!!!595202.java!!!	setDefaults() : void
+			for (int i = 0; i < selectorDefaults.length; i++) {
+				if (combos.get(i).getItemCount() > 0)
+					combos.get(i).setSelectedIndex(selectorDefaults[i]);
+			}
+!!!595330.java!!!	getSelection() : AgentAppFrame::SelectionState
+			SelectionState result = new SelectionState(selectorNames);
+			for (int i = 0; i < result.size(); i++) {
+				result.setState(i, combos.get(i).getSelectedIndex(), combos
+						.get(i).getSelectedItem());
+			}
+			return result;
+!!!595458.java!!!	getCombo(in selectorName : String) : JComboBox<Object>
+			for (int i = 0; i < selectorNames.length; i++)
+				if (selectorNames[i].equals(selectorName))
+					return combos.get(i);
+			return null;
+!!!595586.java!!!	getName(inout combo : JComboBox<Object>) : String
+			int idx = combos.indexOf(combo);
+			if (idx != -1)
+				return selectorNames[idx];
+			else
+				return null;

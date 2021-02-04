@@ -1,0 +1,930 @@
+format 223
+"kb" // aima::core::logic::fol::kb
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/fol/kb/"
+  java_package "aima.core.logic.fol.kb"
+  package_ref 133762 // data
+
+  classview 134146 "kb"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 162946 "FOLKnowledgeBase"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A First Order Logic (FOL) Knowledge Base.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 186370 // parser (<unidirectional association>)
+	relation 186370 --->
+	  a role_name "parser" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 186370 // parser (<unidirectional association>)
+	  b parent class_ref 156802 // FOLParser
+      end
+
+      classrelation 186498 // inferenceProcedure (<unidirectional association>)
+	relation 186498 --->
+	  a role_name "inferenceProcedure" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 186498 // inferenceProcedure (<unidirectional association>)
+	  b parent class_ref 162690 // InferenceProcedure
+      end
+
+      classrelation 186626 // unifier (<unidirectional association>)
+	relation 186626 --->
+	  a role_name "unifier" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 186626 // unifier (<unidirectional association>)
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 186754 // substVisitor (<unidirectional association>)
+	relation 186754 --->
+	  a role_name "substVisitor" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 186754 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      classrelation 186882 // variableCollector (<unidirectional association>)
+	relation 186882 --->
+	  a role_name "variableCollector" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 186882 // variableCollector (<unidirectional association>)
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 187010 // standardizeApart (<unidirectional association>)
+	relation 187010 --->
+	  a role_name "standardizeApart" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 187010 // standardizeApart (<unidirectional association>)
+	  b parent class_ref 159618 // StandardizeApart
+      end
+
+      classrelation 187138 // cnfConverter (<unidirectional association>)
+	relation 187138 --->
+	  a role_name "cnfConverter" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 187138 // cnfConverter (<unidirectional association>)
+	  b parent class_ref 156674 // CNFConverter
+      end
+
+      classrelation 187266 // originalSentences (<unidirectional association>)
+	relation 187266 --->
+	  stereotype "List"
+	  a role_name "originalSentences" init_value " new ArrayList<Sentence>()" private
+	    comment " Persistent data structures
+
+ Keeps track of the Sentences in their original form as added to the
+ Knowledge base.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 187266 // originalSentences (<unidirectional association>)
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 187394 // clauses (<unidirectional association>)
+	relation 187394 --->
+	  stereotype "Set"
+	  a role_name "clauses" init_value " new LinkedHashSet<Clause>()" private
+	    comment " The KB in clause form
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 187394 // clauses (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 187522 // allDefiniteClauses (<unidirectional association>)
+	relation 187522 --->
+	  stereotype "List"
+	  a role_name "allDefiniteClauses" init_value " new ArrayList<Clause>()" private
+	    comment " Keep track of all of the definite clauses in the database
+ along with those that represent implications.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 187522 // allDefiniteClauses (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 187650 // implicationDefiniteClauses (<unidirectional association>)
+	relation 187650 --->
+	  stereotype "List"
+	  a role_name "implicationDefiniteClauses" init_value " new ArrayList<Clause>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 187650 // implicationDefiniteClauses (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      attribute 171778 "indexFacts"
+	private explicit_type "String, List<Literal>"
+	init_value " new HashMap<String, List<Literal>>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " All the facts in the KB indexed by Atomic Sentence name (Note: pg. 279)
+"
+      end
+
+      classrelation 187778 // variableIndexical (<unidirectional association>)
+	relation 187778 --->
+	  a role_name "variableIndexical" init_value " StandardizeApartIndexicalFactory
+			.newStandardizeApartIndexical('v')" private
+	    comment " Keep track of indexical keys for uniquely standardizing apart sentences
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 187778 // variableIndexical (<unidirectional association>)
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      classrelation 187906 // queryIndexical (<unidirectional association>)
+	relation 187906 --->
+	  a role_name "queryIndexical" init_value " StandardizeApartIndexicalFactory
+			.newStandardizeApartIndexical('q')" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 187906 // queryIndexical (<unidirectional association>)
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      operation 315266 "FOLKnowledgeBase"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "domain" type class_ref 148994 // FOLDomain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+"
+      end
+
+      operation 315394 "FOLKnowledgeBase"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "domain" type class_ref 148994 // FOLDomain
+	  param inout name "inferenceProcedure" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 315522 "FOLKnowledgeBase"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "domain" type class_ref 148994 // FOLDomain
+	  param inout name "inferenceProcedure" type class_ref 162690 // InferenceProcedure
+	  param inout name "unifier" type class_ref 161026 // Unifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 315650 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 315778 "getInferenceProcedure"
+	public return_type class_ref 162690 // InferenceProcedure
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 315906 "setInferenceProcedure"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "inferenceProcedure" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316034 "tell"
+	public return_type class_ref 149634 // Sentence
+	nparams 1
+	  param in name "sentence" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316162 "tell"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "sentences" explicit_type "List<? extends Sentence>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316290 "tell"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316418 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 1
+	  param in name "querySentence" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param querySentence
+@return an InferenceResult.
+"
+      end
+
+      operation 316546 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 1
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316674 "getNumberFacts"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316802 "getNumberRules"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 316930 "getOriginalSentences"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317058 "getAllDefiniteClauses"
+	public return_type class_ref 148610 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317186 "getAllDefiniteClauseImplications"
+	public return_type class_ref 148610 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317314 "getAllClauses"
+	public return_type class_ref 148610 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317442 "fetch"
+	public explicit_return_type "Set<Map<Variable, Term>>"
+	nparams 1
+	  param inout name "l" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent synchronized java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: pg 278, FETCH(q) concept."
+      end
+
+      operation 317570 "fetch"
+	public explicit_return_type "Set<Map<Variable, Term>>"
+	nparams 1
+	  param inout name "literals" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: To support FOL-FC-Ask"
+      end
+
+      operation 317698 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 2
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "y" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317826 "subst"
+	public return_type class_ref 149634 // Sentence
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "aSentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 317954 "subst"
+	public return_type class_ref 148738 // Literal
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "l" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318082 "subst"
+	public return_type class_ref 160770 // Term
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "term" type class_ref 160770 // Term
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318210 "standardizeApart"
+	public return_type class_ref 149634 // Sentence
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see page 277."
+      end
+
+      operation 318338 "standardizeApart"
+	public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "clause" type class_ref 148610 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318466 "standardizeApart"
+	public return_type class_ref 160002 // Chain
+	nparams 1
+	  param inout name "chain" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318594 "collectAllVariables"
+	public return_type class_ref 157698 // Variable
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318722 "convertToCNF"
+	public return_type class_ref 157058 // CNF
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318850 "convertToClauses"
+	public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 318978 "createAnswerLiteral"
+	public return_type class_ref 148738 // Literal
+	nparams 1
+	  param inout name "forQuery" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 319106 "isRenaming"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "l" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see pg. 281"
+      end
+
+      operation 319234 "isRenaming"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "l" type class_ref 148738 // Literal
+	  param inout name "possibleMatches" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see pg. 281"
+      end
+
+      operation 319362 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 319490 "getParser"
+	protected return_type class_ref 156802 // FOLParser
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+"
+      end
+
+      operation 319618 "store"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent synchronized java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+ Note: pg 278, STORE(s) concept."
+      end
+
+      operation 319746 "indexFact"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "fact" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Only if it is a unit clause does it get indexed as a fact
+ see pg. 279 for general idea."
+      end
+
+      operation 319874 "recursiveFetch"
+	private explicit_return_type "void"
+	nparams 4
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "l" type class_ref 148738 // Literal
+	  param inout name "remainingLiterals" explicit_type "List<Literal>"
+	  param inout name "possibleSubstitutions" explicit_type "Set<Map<Variable, Term>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320002 "fetchMatchingFacts"
+	private return_type class_ref 148738 // Literal
+	nparams 1
+	  param inout name "l" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320130 "getFactKey"
+	private explicit_return_type "String"
+	nparams 1
+	  param inout name "l" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 168962 "FOLKnowledgeBaseFactory"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 320258 "createKingsKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 1
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320386 "createWeaponsKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 1
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320514 "createLovesAnimalKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 1
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320642 "createRingOfThievesKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 1
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 320770 "createABCEqualityKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 2
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	  param inout name "includeEqualityAxioms" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see -
+ http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
+ slide 12 for where this test example was taken from."
+      end
+
+      operation 320898 "createABCDEqualityAndSubstitutionKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 2
+	  param inout name "infp" type class_ref 162690 // InferenceProcedure
+	  param inout name "includeEqualityAxioms" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see -
+ http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
+ slide 16,17, and 18 for where this test example was taken from."
+      end
+
+      operation 321026 "familyKnowledgeBase"
+	class_operation public return_type class_ref 162946 // FOLKnowledgeBase
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132738 "kb"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 157442 "FOLKnowledgeBase"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.CNFConverter;
+import aima.core.logic.fol.StandardizeApart;
+import aima.core.logic.fol.StandardizeApartIndexical;
+import aima.core.logic.fol.StandardizeApartIndexicalFactory;
+import aima.core.logic.fol.StandardizeApartResult;
+import aima.core.logic.fol.SubstVisitor;
+import aima.core.logic.fol.Unifier;
+import aima.core.logic.fol.VariableCollector;
+import aima.core.logic.fol.domain.FOLDomain;
+import aima.core.logic.fol.inference.FOLOTTERLikeTheoremProver;
+import aima.core.logic.fol.inference.InferenceProcedure;
+import aima.core.logic.fol.inference.InferenceResult;
+import aima.core.logic.fol.inference.proof.Proof;
+import aima.core.logic.fol.inference.proof.ProofStepClauseClausifySentence;
+import aima.core.logic.fol.kb.data.CNF;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.FOLParser;
+import aima.core.logic.fol.parsing.ast.FOLNode;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 162946 // FOLKnowledgeBase
+      end
+    end
+
+    artifact 157570 "FOLKnowledgeBaseFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.domain.DomainFactory;
+import aima.core.logic.fol.domain.FOLDomain;
+import aima.core.logic.fol.inference.InferenceProcedure;
+${definition}"
+      associated_elems
+	class_ref 168962 // FOLKnowledgeBaseFactory
+      end
+    end
+  end
+end

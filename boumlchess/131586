@@ -1,0 +1,3201 @@
+format 223
+"wumpusworld" // aima::core::environment::wumpusworld
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/environment/wumpusworld/"
+  java_package "aima.core.environment.wumpusworld"
+  classview 130690 "wumpusworld"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 142594 "AgentPosition"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Representation of an Agent's [x,y] position and orientation [up, down, right, or left] within a Wumpus World cave.
+
+@author Federico Baron
+@author Alessandro Daniele
+@author Ciaran O'Reilly
+"
+      class 142722 "Orientation"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 146434 "FACING_NORTH"
+	  public type class_ref 142722 // Orientation
+	  cpp_decl ""
+	  java_decl "  ${@}${name}(\"FacingNorth\"),${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 146562 "FACING_SOUTH"
+	  public type class_ref 142722 // Orientation
+	  cpp_decl ""
+	  java_decl "  ${@}${name}(\"FacingSouth\"),${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 146690 "FACING_EAST"
+	  public type class_ref 142722 // Orientation
+	  cpp_decl ""
+	  java_decl "  ${@}${name}(\"FacingEast\"),${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 146818 "FACING_WEST"
+	  public type class_ref 142722 // Orientation
+	  cpp_decl ""
+	  java_decl "  ${@}${name}(\"FacingWest\"),${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 188674 "getSymbol"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	attribute 146946 "symbol"
+	  const_attribute private explicit_type "String"
+	  stereotype "attribute"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 188802 "Orientation"
+	  package explicit_return_type ""
+	  nparams 1
+	    param in name "sym" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 145410 // room (<unidirectional association>)
+	relation 145410 --->
+	  a role_name "room" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145410 // room (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      classrelation 145538 // orientation (<unidirectional association>)
+	relation 145538 --->
+	  a role_name "orientation" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145538 // orientation (<unidirectional association>)
+	  b parent class_ref 142722 // Orientation
+      end
+
+      operation 188930 "AgentPosition"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	  param inout name "orientation" type class_ref 142722 // Orientation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189058 "AgentPosition"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "room" type class_ref 142850 // Room
+	  param inout name "orientation" type class_ref 142722 // Orientation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189186 "getRoom"
+	public return_type class_ref 142850 // Room
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189314 "getX"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189442 "getY"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189570 "getOrientation"
+	public return_type class_ref 142722 // Orientation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 189698 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 189826 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 189954 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 142850 "Room"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 236.<br>
+<br>
+The <b>wumpus world</b> is a cave consisting of rooms connected by
+passageways. Rooms are labeled [x,y], for example [1,1] would indicate the
+room in the bottom left, and is also the room the agent always starts in. See
+Figure 7.2 for an example room layout representing a wumpus's cave.
+
+@author Ciaran O'Reilly
+"
+      attribute 147202 "x"
+	private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 147330 "y"
+	private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 192642 "Room"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param x
+           the room's x location.
+@param y
+           the room's y location.
+"
+      end
+
+      operation 192770 "getX"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the room's x location.
+"
+      end
+
+      operation 192898 "getY"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the room's y location.
+"
+      end
+
+      operation 193026 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 193154 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 193282 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 142978 "EfficientHybridWumpusAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 270.<br>
+<br>
+
+<pre>
+<code>
+function HYBRID-WUMPUS-AGENT(percept) returns an action
+  inputs: percept, a list, [stench, breeze, glitter, bump, scream]
+  persistent: KB, a knowledge base, initially the temporal \"wumpus physics\"
+              t, a counter, initially 0, indicating time
+              plan, an action sequence, initially empty
+
+  TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+  TELL the KB the temporal \"physics\" sentences for time t
+  safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+  if ASK(KB, Glitter<sup>t</sup>) = true then
+     plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+  if plan is empty then
+     unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
+     plan <- PLAN-ROUTE(current, unvisited &cap; safe, safe)
+  if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
+     possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
+     plan <- PLAN-SHOT(current, possible_wumpus, safe)
+  if plan is empty then //no choice but to take a risk
+     not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+     plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
+  if plan is empty then
+     plan <- PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+  action <- POP(plan)
+  TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+  t <- t+1
+  return action
+
+--------------------------------------------------------------------------------
+
+function PLAN-ROUTE(current, goals, allowed) returns an action sequence
+  inputs: current, the agent's current position
+          goals, a set of squares; try to plan a route to one of them
+          allowed, a set of squares that can form part of the route
+
+  problem <- ROUTE-PROBLEM(current, goals, allowed)
+  return A*-GRAPH-SEARCH(problem)
+</code>
+</pre>
+
+Figure 7.20 A hybrid agent program for the wumpus world. It uses a
+propositional knowledge base to infer the state of the world, and a
+combination of problem-solving search and domain-specific code to decide what
+actions to take.<br><br>
+
+This is a tuned version of the {@link HybridWumpusAgent}. It uses a model cave
+not only for routing but also for position and visited location tracking.
+The knowledge base grows significant slower than in the original version
+and response times are much faster.
+
+@author Ruediger Lunde
+"
+      classrelation 146434 // <generalisation>
+	relation 146434 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 146434 // <generalisation>
+	  b parent class_ref 143106 // HybridWumpusAgent
+      end
+
+      classrelation 146562 // modelCave (<unidirectional association>)
+	relation 146562 --->
+	  a role_name "modelCave" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 146562 // modelCave (<unidirectional association>)
+	  b parent class_ref 143618 // WumpusCave
+      end
+
+      classrelation 146690 // visitedRooms (<unidirectional association>)
+	relation 146690 --->
+	  stereotype "Set"
+	  a role_name "visitedRooms" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 146690 // visitedRooms (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      operation 191490 "EfficientHybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 191618 "EfficientHybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	  param inout name "satSolver" type class_ref 143490 // DPLL
+	  param inout name "notifier" type class_ref 129538 // EnvironmentViewNotifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 191746 "EfficientHybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	  param inout name "kb" type class_ref 143234 // WumpusKnowledgeBase
+	  param inout name "notifier" type class_ref 129538 // EnvironmentViewNotifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 191874 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "function HYBRID-WUMPUS-AGENT(percept) returns an action<br>
+
+@param percept
+           a list, [stench, breeze, glitter, bump, scream]
+
+@return an action the agent should take.
+"
+      end
+
+      operation 192002 "planRoute"
+	public return_type class_ref 143362 // WumpusAction
+	nparams 2
+	  param inout name "goals" explicit_type "Set<AgentPosition>"
+	  param inout name "allowed" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a sequence of actions using A* Search.
+
+@param goals
+           a set of agent positions; try to plan a route to one of them
+@param allowed
+           a set of squares that can form part of the route
+
+@return the best sequence of actions that the agent have to do to reach a
+        goal from the current position.
+"
+      end
+
+      operation 192130 "updateAgentPosition"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "action" type class_ref 143362 // WumpusAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Uses the model cave to update the current agent position.
+"
+      end
+    end
+
+    class 143106 "HybridWumpusAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 270.<br>
+<br>
+
+<pre>
+<code>
+function HYBRID-WUMPUS-AGENT(percept) returns an action
+  inputs: percept, a list, [stench, breeze, glitter, bump, scream]
+  persistent: KB, a knowledge base, initially the temporal \"wumpus physics\"
+              t, a counter, initially 0, indicating time
+              plan, an action sequence, initially empty
+
+  TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+  TELL the KB the temporal \"physics\" sentences for time t
+  safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+  if ASK(KB, Glitter<sup>t</sup>) = true then
+     plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+  if plan is empty then
+     unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
+     plan <- PLAN-ROUTE(current, unvisited &cap; safe, safe)
+  if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
+     possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
+     plan <- PLAN-SHOT(current, possible_wumpus, safe)
+  if plan is empty then //no choice but to take a risk
+     not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+     plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
+  if plan is empty then
+     plan <- PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+  action <- POP(plan)
+  TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+  t <- t+1
+  return action
+
+--------------------------------------------------------------------------------
+
+function PLAN-ROUTE(current, goals, allowed) returns an action sequence
+  inputs: current, the agent's current position
+          goals, a set of squares; try to plan a route to one of them
+          allowed, a set of squares that can form part of the route 
+   
+  problem <- ROUTE-PROBLEM(current, goals, allowed)
+  return A*-GRAPH-SEARCH(problem)
+</code>
+</pre>
+
+Figure 7.20 A hybrid agent program for the wumpus world. It uses a
+propositional knowledge base to infer the state of the world, and a
+combination of problem-solving search and domain-specific code to decide what
+actions to take
+
+@author Federico Baron
+@author Alessandro Daniele
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+"
+      classrelation 145666 // <generalisation>
+	relation 145666 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 145666 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 145794 // kb (<unidirectional association>)
+	relation 145794 --->
+	  a role_name "kb" init_value " null" private
+	    comment " persistent: KB, a knowledge base, initially the atemporal
+ \"wumpus physics\"
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145794 // kb (<unidirectional association>)
+	  b parent class_ref 143234 // WumpusKnowledgeBase
+      end
+
+      classrelation 145922 // start (<unidirectional association>)
+	relation 145922 --->
+	  a role_name "start" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 145922 // start (<unidirectional association>)
+	  b parent class_ref 142594 // AgentPosition
+      end
+
+      classrelation 146050 // currentPosition (<unidirectional association>)
+	relation 146050 --->
+	  a role_name "currentPosition" protected
+	    comment " The agent's current position. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 146050 // currentPosition (<unidirectional association>)
+	  b parent class_ref 142594 // AgentPosition
+      end
+
+      attribute 147074 "t"
+	protected explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " t, a counter, initially 0, indicating time
+"
+      end
+
+      classrelation 146178 // plan (<unidirectional association>)
+	relation 146178 --->
+	  stereotype "Queue"
+	  a role_name "plan" init_value " new LinkedList<>()" protected
+	    comment " plan, an action sequence, initially empty
+ FIFOQueue"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 146178 // plan (<unidirectional association>)
+	  b parent class_ref 143362 // WumpusAction
+      end
+
+      classrelation 146306 // notifier (<unidirectional association>)
+	relation 146306 --->
+	  a role_name "notifier" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 146306 // notifier (<unidirectional association>)
+	  b parent class_ref 129538 // EnvironmentViewNotifier
+      end
+
+      operation 190082 "HybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 190210 "HybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 190338 "HybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	  param inout name "satSolver" type class_ref 143490 // DPLL
+	  param inout name "notifier" type class_ref 129538 // EnvironmentViewNotifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 190466 "HybridWumpusAgent"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	  param inout name "kb" type class_ref 143234 // WumpusKnowledgeBase
+	  param inout name "notifier" type class_ref 129538 // EnvironmentViewNotifier
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 190594 "getKB"
+	public return_type class_ref 143234 // WumpusKnowledgeBase
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 190722 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "function HYBRID-WUMPUS-AGENT(percept) returns an action<br>
+
+@param percept
+           a list, [stench, breeze, glitter, bump, scream]
+
+@return an action the agent should take.
+"
+      end
+
+      operation 190850 "planRouteToRooms"
+	public return_type class_ref 143362 // WumpusAction
+	nparams 2
+	  param inout name "goals" explicit_type "Set<Room>"
+	  param inout name "allowed" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a sequence of actions using A* Search.
+
+@param goals
+           a set of squares; try to plan a route to one of them
+@param allowed
+           a set of squares that can form part of the route
+
+@return the best sequence of actions that the agent have to do to reach a
+        goal from the current position.
+"
+      end
+
+      operation 190978 "planRoute"
+	public return_type class_ref 143362 // WumpusAction
+	nparams 2
+	  param inout name "goals" explicit_type "Set<AgentPosition>"
+	  param inout name "allowed" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a sequence of actions using A* Search.
+
+@param goals
+           a set of agent positions; try to plan a route to one of them
+@param allowed
+           a set of squares that can form part of the route
+
+@return the best sequence of actions that the agent have to do to reach a
+        goal from the current position.
+"
+      end
+
+      operation 191106 "planShot"
+	public return_type class_ref 143362 // WumpusAction
+	nparams 2
+	  param inout name "possibleWumpus" explicit_type "Set<Room>"
+	  param inout name "allowed" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param possibleWumpus
+           a set of squares where we don't know that there isn't the
+           wumpus.
+@param allowed
+           a set of squares that can form part of the route
+
+@return the sequence of actions to reach the nearest square that is in
+        line with a possible wumpus position. The last action is a shot.
+"
+      end
+
+      operation 191234 "getMetrics"
+	public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 191362 "notifyViews"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 143234 "WumpusKnowledgeBase"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Knowledge base tailored to the Wumpus World environment.
+
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+@author Federico Baron
+@author Alessandro Daniele
+"
+      classrelation 149634 // <generalisation>
+	relation 149634 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 149634 // <generalisation>
+	  b parent class_ref 144386 // KnowledgeBase
+      end
+
+      attribute 148866 "LOCATION"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"L\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 148994 "LOCATION_VISITED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"LV\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " tuning..."
+      end
+
+      attribute 149122 "BREEZE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"B\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149250 "STENCH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"S\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149378 "PIT"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"P\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149506 "WUMPUS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"W\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149634 "WUMPUS_ALIVE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"WumpusAlive\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149762 "HAVE_ARROW"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"HaveArrow\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 149890 "FACING_NORTH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " AgentPosition.Orientation.FACING_NORTH.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150018 "FACING_SOUTH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " AgentPosition.Orientation.FACING_SOUTH.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150146 "FACING_EAST"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " AgentPosition.Orientation.FACING_EAST.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150274 "FACING_WEST"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " AgentPosition.Orientation.FACING_WEST.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150402 "PERCEPT_STENCH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"Stench\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150530 "PERCEPT_BREEZE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"Breeze\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150658 "PERCEPT_GLITTER"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"Glitter\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150786 "PERCEPT_BUMP"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"Bump\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 150914 "PERCEPT_SCREAM"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"Scream\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151042 "ACTION_FORWARD"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " WumpusAction.FORWARD.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151170 "ACTION_SHOOT"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " WumpusAction.SHOOT.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151298 "ACTION_TURN_LEFT"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " WumpusAction.TURN_LEFT.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151426 "ACTION_TURN_RIGHT"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " WumpusAction.TURN_RIGHT.getSymbol()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151554 "OK_TO_MOVE_INTO"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"OK\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151682 "caveXDimension"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 151810 "caveYDimension"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 149762 // start (<unidirectional association>)
+	relation 149762 --->
+	  a role_name "start" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 149762 // start (<unidirectional association>)
+	  b parent class_ref 142594 // AgentPosition
+      end
+
+      classrelation 149890 // dpll (<unidirectional association>)
+	relation 149890 --->
+	  a role_name "dpll" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 149890 // dpll (<unidirectional association>)
+	  b parent class_ref 143490 // DPLL
+      end
+
+      attribute 151938 "disableNavSentences"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 152066 "reasoningTime"
+	private explicit_type "long"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " in milliseconds"
+      end
+
+      operation 199554 "WumpusKnowledgeBase"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 199682 "WumpusKnowledgeBase"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "dpll" type class_ref 143490 // DPLL
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 199810 "WumpusKnowledgeBase"
+	public explicit_return_type ""
+	nparams 4
+	  param in name "caveXDim" explicit_type "int"
+	  param in name "caveYDim" explicit_type "int"
+	  param inout name "start" type class_ref 142594 // AgentPosition
+	  param inout name "dpll" type class_ref 143490 // DPLL
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a Knowledge Base that contains the atemporal \"wumpus physics\".
+
+@param dpll     the SAT solver implementation to use for answering 'ask' queries.
+@param caveXDim x dimensions of the wumpus world's cave.
+@param caveYDim y dimensions of the wumpus world's cave.
+"
+      end
+
+      operation 199938 "getCaveXDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 200066 "getCaveYDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 200194 "disableNavSentences"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Disables creation of computational expensive temporal navigation sentences.
+"
+      end
+
+      operation 200322 "askCurrentPosition"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 200450 "askSafeRooms"
+	public return_type class_ref 142850 // Room
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}"
+      end
+
+      operation 200578 "askSafeRooms"
+	public return_type class_ref 142850 // Room
+	nparams 2
+	  param in name "t" explicit_type "int"
+	  param inout name "visited" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+ Optimization: In this version, the agent can provide information about already visited rooms.
+ There is no need to check again."
+      end
+
+      operation 200706 "askNotUnsafeRooms"
+	public return_type class_ref 142850 // Room
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}"
+      end
+
+      operation 200834 "askNotUnsafeRooms"
+	public return_type class_ref 142850 // Room
+	nparams 2
+	  param in name "t" explicit_type "int"
+	  param inout name "visited" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+ Optimization: In this version, the agent can provide information about already visited rooms.
+ There is no need to check again."
+      end
+
+      operation 200962 "askGlitter"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 201090 "askHaveArrow"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 201218 "askPossibleWumpusRooms"
+	public return_type class_ref 142850 // Room
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}"
+      end
+
+      operation 201346 "askUnvisitedRooms"
+	public return_type class_ref 142850 // Room
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}"
+      end
+
+      operation 201474 "ask"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "query" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 201602 "makePerceptSentence"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "p" type class_ref 145154 // WumpusPercept
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add to KB sentences that describe the perception p
+(only about the current time).
+
+@param p    perception that must be added to KB
+@param time current time
+"
+      end
+
+      operation 201730 "makeActionSentence"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "a" type class_ref 143362 // WumpusAction
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add to KB sentences that describe the action a
+
+@param a    action that must be added to KB
+@param time current time
+"
+      end
+
+      operation 201858 "tellAtemporalPhysicsSentences"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "TELL the KB the atemporal \"physics\" sentences (used to initialize the KB).
+"
+      end
+
+      operation 201986 "tellTemporalPhysicsSentences"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "TELL the KB the temporal \"physics\" sentences for time t.
+As in this version, the agent does not communicate its current position
+to the knowledge base, general navigation axioms are needed, which
+entail the current position. Therefore, navigation sentences are always
+added, independent of the value of {@link #disableNavSentences}.
+
+@param t current time step.
+"
+      end
+
+      operation 202114 "tellTemporalPhysicsSentences"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "t" explicit_type "int"
+	  param inout name "agentPosition" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "TELL the KB the temporal \"physics\" sentences for time t.
+This version profits from the agent's knowledge about its current position.
+Verbosity of the created sentences depends on the value of {@link #disableNavSentences}.
+
+@param t current time step.
+"
+      end
+
+      operation 202242 "tellCommonTemporalPhysicsSentences"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 202370 "tellSuccessorStateLocationAxiom"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "t" explicit_type "int"
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 202498 "tellSuccessorStateOrientationAxioms"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 202626 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 202754 "newSymbol"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param in name "prefix" explicit_type "String"
+	  param in name "timeStep" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 202882 "newSymbol"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 3
+	  param in name "prefix" explicit_type "String"
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203010 "newSymbol"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 4
+	  param in name "prefix" explicit_type "String"
+	  param in name "timeStep" explicit_type "int"
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203138 "getMetrics"
+	public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 143362 "WumpusAction"
+      visibility public stereotype "enum"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
+<br>
+The agent can move Forward, TurnLeft by 90 degree, or TurnRight by 90 degree. The
+agent dies a miserable death if it enters a square containing a pit or a live wumpus.
+If an agent tries to move
+forward and bumps into a wall, then the agent does not move. The action Grab can be
+used to pick up the gold if it is in the same square as the agent. The action Shoot can
+be used to fire an arrow in a straight line in the direction the agent is facing. The arrow
+continues until it either hits (and hence kills) the wumpus or hits a wall. The agent has
+only one arrow, so only the first Shoot action has any effect. Finally, the action Climb
+can be used to climb out of the cave, but only from square [1,1].
+
+@author Ruediger Lunde
+"
+      classrelation 147074 // <realization>
+	relation 147074 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 147074 // <realization>
+	  b parent class_ref 128002 // Action
+      end
+
+      attribute 147458 "FORWARD"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"Forward\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 147586 "TURN_LEFT"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"TurnLeft\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 147714 "TURN_RIGHT"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"TurnRight\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 147842 "GRAB"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"Grab\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 147970 "SHOOT"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"Shoot\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 148098 "CLIMB"
+	public type class_ref 143362 // WumpusAction
+	cpp_decl ""
+	java_decl "  ${@}${name}(\"Climb\"),${comment}"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 193410 "getSymbol"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 193538 "isNoOp"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      attribute 148226 "symbol"
+	private explicit_type "String"
+	stereotype "attribute"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 193666 "WumpusAction"
+	package explicit_return_type ""
+	nparams 1
+	  param in name "sym" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 143618 "WumpusCave"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 236.<br>
+<br>
+The <b>wumpus world</b> is a cave consisting of rooms connected by
+passageways. The rooms are always organized into a grid. See Figure 7.2 for
+an example.
+
+@author Ruediger Lunde
+@author Federico Baron
+@author Alessandro Daniele
+@author Ciaran O'Reilly
+"
+      attribute 148354 "caveXDimension"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " starts bottom left -> right"
+      end
+
+      attribute 148482 "caveYDimension"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " starts bottom left ^ up"
+      end
+
+      classrelation 147202 // start (<unidirectional association>)
+	relation 147202 --->
+	  a role_name "start" init_value " new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH)" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 147202 // start (<unidirectional association>)
+	  b parent class_ref 142594 // AgentPosition
+      end
+
+      classrelation 147330 // wumpus (<unidirectional association>)
+	relation 147330 --->
+	  a role_name "wumpus" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 147330 // wumpus (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      classrelation 147458 // gold (<unidirectional association>)
+	relation 147458 --->
+	  a role_name "gold" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 147458 // gold (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      classrelation 147586 // pits (<unidirectional association>)
+	relation 147586 --->
+	  stereotype "Set"
+	  a role_name "pits" init_value " new LinkedHashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 147586 // pits (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      classrelation 147714 // allowedRooms (<unidirectional association>)
+	relation 147714 --->
+	  stereotype "Set"
+	  a role_name "allowedRooms" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 147714 // allowedRooms (<unidirectional association>)
+	  b parent class_ref 142850 // Room
+      end
+
+      operation 193794 "WumpusCave"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor. Create a Wumpus Case of default dimensions 4x4.
+"
+      end
+
+      operation 193922 "WumpusCave"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "caveXDimension" explicit_type "int"
+	  param in name "caveYDimension" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a grid of rooms of dimensions x and y, representing the wumpus's cave.
+
+@param caveXDimension
+           the cave's x dimension.
+@param caveYDimension
+           the cave's y dimension.
+"
+      end
+
+      operation 194050 "WumpusCave"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "caveXDimension" explicit_type "int"
+	  param in name "caveYDimension" explicit_type "int"
+	  param in name "config" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a grid of rooms of dimensions x and y, representing the wumpus's cave.
+
+@param caveXDimension
+           the cave's x dimension.
+@param caveYDimension
+           the cave's y dimension.
+@param config
+           cave specification - two character per square (unfortunately a Wumpus can reside on top of a pit),
+           first line first, then second line etc. Mapping: S=start, W=Wumpus, G=gold, P=pit.
+"
+      end
+
+      operation 194178 "setAllowed"
+	public return_type class_ref 143618 // WumpusCave
+	nparams 1
+	  param inout name "allowedRooms" explicit_type "Set<Room>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Limits possible movement within the cave (for search).
+@param allowedRooms
+           the set of legal rooms that can be reached within the cave.
+"
+      end
+
+      operation 194306 "setWumpus"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "room" type class_ref 142850 // Room
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 194434 "setGold"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "room" type class_ref 142850 // Room
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 194562 "setPit"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "room" type class_ref 142850 // Room
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 194690 "getCaveXDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 194818 "getCaveYDimension"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 194946 "getStart"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195074 "getWumpus"
+	public return_type class_ref 142850 // Room
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195202 "getGold"
+	public return_type class_ref 142850 // Room
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195330 "isPit"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "room" type class_ref 142850 // Room
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195458 "moveForward"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 1
+	  param inout name "position" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195586 "turnLeft"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 1
+	  param inout name "position" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195714 "turnRight"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 1
+	  param inout name "position" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195842 "getAllRooms"
+	public return_type class_ref 142850 // Room
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 195970 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 143746 "ManhattanHeuristicFunction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Heuristic for calculating the Manhattan distance between two rooms within a Wumpus World cave.
+
+@author Federico Baron
+@author Alessandro Daniele
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+"
+      classrelation 146818 // <realization>
+	relation 146818 -_-|>
+	  a public
+	    java "${type}<Node<AgentPosition, WumpusAction>>"
+	    classrelation_ref 146818 // <realization>
+	  b parent class_ref 136322 // ToDoubleFunction
+      end
+
+      classrelation 146946 // goals (<unidirectional association>)
+	relation 146946 --->
+	  stereotype "List"
+	  a role_name "goals" init_value " new ArrayList<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 146946 // goals (<unidirectional association>)
+	  b parent class_ref 142594 // AgentPosition
+      end
+
+      operation 192258 "ManhattanHeuristicFunction"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "goals" explicit_type "Set<AgentPosition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 192386 "applyAsDouble"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<AgentPosition, WumpusAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 192514 "evaluateManhattanDistanceOf"
+	private explicit_return_type "int"
+	nparams 4
+	  param in name "x1" explicit_type "int"
+	  param in name "y1" explicit_type "int"
+	  param in name "x2" explicit_type "int"
+	  param in name "y2" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE
+"
+      end
+    end
+
+    class 143874 "WumpusEnvironment"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implements an environment for the Wumpus World.
+@author Ruediger Lunde
+"
+      classrelation 147842 // <generalisation>
+	relation 147842 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 147842 // <generalisation>
+	  b parent class_ref 129922 // AbstractEnvironment
+      end
+
+      classrelation 147970 // cave (<unidirectional association>)
+	relation 147970 --->
+	  a role_name "cave" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 147970 // cave (<unidirectional association>)
+	  b parent class_ref 143618 // WumpusCave
+      end
+
+      attribute 148610 "isWumpusAlive"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 148738 "isGoldGrabbed"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 148098 // agentPositions (<unidirectional association>)
+	relation 148098 --->
+	  stereotype "Map"
+	  a role_name "agentPositions" init_value " new HashMap<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, AgentPosition> ${name}${value};
+"
+	    classrelation_ref 148098 // agentPositions (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 148226 // bumpedAgents (<unidirectional association>)
+	relation 148226 --->
+	  stereotype "Set"
+	  a role_name "bumpedAgents" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 148226 // bumpedAgents (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 148354 // agentsHavingArrow (<unidirectional association>)
+	relation 148354 --->
+	  stereotype "Set"
+	  a role_name "agentsHavingArrow" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 148354 // agentsHavingArrow (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 148482 // agentJustKillingWumpus (<unidirectional association>)
+	relation 148482 --->
+	  a role_name "agentJustKillingWumpus" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 148482 // agentJustKillingWumpus (<unidirectional association>)
+	  b parent class_ref 128130 // Agent
+      end
+
+      operation 196098 "WumpusEnvironment"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "cave" type class_ref 143618 // WumpusCave
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 196226 "getCave"
+	public return_type class_ref 143618 // WumpusCave
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 196354 "isWumpusAlive"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 196482 "isGoalGrabbed"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 196610 "getAgentPosition"
+	public return_type class_ref 142594 // AgentPosition
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 196738 "addAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 196866 "executeAction"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 196994 "isAgentFacingWumpus"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pos" type class_ref 142594 // AgentPosition
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 197122 "getPerceptSeenBy"
+	public return_type class_ref 128386 // Percept
+	nparams 1
+	  param inout name "anAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 144002 "WumpusFunctions"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Factory class for constructing functions for use in the Wumpus World environment.
+
+@author Ruediger Lunde
+"
+      operation 197250 "createActionsFunction"
+	class_operation public return_type class_ref 135298 // ActionsFunction
+	nparams 1
+	  param inout name "cave" type class_ref 143618 // WumpusCave
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<AgentPosition, WumpusAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 197378 "createResultFunction"
+	class_operation public return_type class_ref 135426 // ResultFunction
+	nparams 1
+	  param inout name "cave" type class_ref 143618 // WumpusCave
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<AgentPosition, WumpusAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 144130 "WumpusActionsFunction"
+	visibility private 
+	nactuals 2
+	actual class class_ref 135298 // ActionsFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 135298 // ActionsFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 148610 // <realization>
+	  relation 148610 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 148610 // <realization>
+	    b parent class_ref 135298 // ActionsFunction
+	end
+
+	classrelation 148738 // cave (<unidirectional association>)
+	  relation 148738 --->
+	    a role_name "cave" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 148738 // cave (<unidirectional association>)
+	    b parent class_ref 143618 // WumpusCave
+	end
+
+	operation 197506 "WumpusActionsFunction"
+	  private explicit_return_type ""
+	  nparams 1
+	    param inout name "cave" type class_ref 143618 // WumpusCave
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 197634 "apply"
+	  public return_type class_ref 143362 // WumpusAction
+	  nparams 1
+	    param inout name "state" type class_ref 142594 // AgentPosition
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 144258 "WumpusResultFunction"
+	visibility private 
+	nactuals 2
+	actual class class_ref 135426 // ResultFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 135426 // ResultFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 148866 // <realization>
+	  relation 148866 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 148866 // <realization>
+	    b parent class_ref 135426 // ResultFunction
+	end
+
+	classrelation 148994 // cave (<unidirectional association>)
+	  relation 148994 --->
+	    a role_name "cave" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 148994 // cave (<unidirectional association>)
+	    b parent class_ref 143618 // WumpusCave
+	end
+
+	operation 197762 "WumpusResultFunction"
+	  private explicit_return_type ""
+	  nparams 1
+	    param inout name "cave" type class_ref 143618 // WumpusCave
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 197890 "apply"
+	  public return_type class_ref 142594 // AgentPosition
+	  nparams 2
+	    param inout name "state" type class_ref 142594 // AgentPosition
+	    param inout name "action" type class_ref 143362 // WumpusAction
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 145154 "WumpusPercept"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
+<br>
+The agent has five sensors, each of which gives a single bit of information:
+<ul>
+<li>In the square containing the wumpus and in the directly (not diagonally)
+adjacent squares, the agent will perceive a Stench.</li>
+<li>In the squares directly adjacent to a pit, the agent will perceive a
+Breeze.</li>
+<li>In the square where the gold is, the agent will perceive a Glitter.</li>
+<li>When an agent walks into a wall, it will perceive a Bump.</li>
+<li>When the wumpus is killed, it emits a woeful Scream that can be perceived
+anywhere in the cave.</li>
+</ul>
+
+@author Federico Baron
+@author Alessandro Daniele
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+"
+      classrelation 150018 // <realization>
+	relation 150018 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 150018 // <realization>
+	  b parent class_ref 128386 // Percept
+      end
+
+      attribute 152194 "stench"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 152322 "breeze"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 152450 "glitter"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 152578 "bump"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 152706 "scream"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 203266 "setStench"
+	public return_type class_ref 145154 // WumpusPercept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203394 "setBreeze"
+	public return_type class_ref 145154 // WumpusPercept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203522 "setGlitter"
+	public return_type class_ref 145154 // WumpusPercept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203650 "setBump"
+	public return_type class_ref 145154 // WumpusPercept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203778 "setScream"
+	public return_type class_ref 145154 // WumpusPercept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 203906 "isStench"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 204034 "isBreeze"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 204162 "isGlitter"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 204290 "isBump"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 204418 "isScream"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 204546 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 130050 "wumpusworld"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 138882 "AgentPosition"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 142594 // AgentPosition
+      end
+    end
+
+    artifact 139010 "HybridWumpusAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.EnvironmentViewNotifier;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.logic.propositional.inference.DPLL;
+import aima.core.logic.propositional.inference.DPLLSatisfiable;
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.util.SetOps;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 143106 // HybridWumpusAgent
+      end
+    end
+
+    artifact 139138 "EfficientHybridWumpusAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.EnvironmentViewNotifier;
+import aima.core.agent.Percept;
+import aima.core.logic.propositional.inference.DPLL;
+import aima.core.logic.propositional.inference.DPLLSatisfiable;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.util.SetOps;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 142978 // EfficientHybridWumpusAgent
+      end
+    end
+
+    artifact 139266 "ManhattanHeuristicFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 143746 // ManhattanHeuristicFunction
+      end
+    end
+
+    artifact 139394 "Room"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 142850 // Room
+      end
+    end
+
+    artifact 139522 "WumpusAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+${definition}"
+      associated_elems
+	class_ref 143362 // WumpusAction
+      end
+    end
+
+    artifact 139650 "WumpusCave"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 143618 // WumpusCave
+      end
+    end
+
+    artifact 139778 "WumpusEnvironment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractEnvironment;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 143874 // WumpusEnvironment
+      end
+    end
+
+    artifact 139906 "WumpusFunctions"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.problem.ActionsFunction;
+import aima.core.search.framework.problem.ResultFunction;
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 144002 // WumpusFunctions
+      end
+    end
+
+    artifact 140162 "WumpusKnowledgeBase"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.inference.DPLL;
+import aima.core.logic.propositional.inference.OptimizedDPLL;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.search.framework.Metrics;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 143234 // WumpusKnowledgeBase
+      end
+    end
+
+    artifact 140290 "WumpusPercept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Percept;
+${definition}"
+      associated_elems
+	class_ref 145154 // WumpusPercept
+      end
+    end
+  end
+end

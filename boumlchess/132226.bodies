@@ -1,0 +1,14 @@
+class ORCondition
+!!!142338.java!!!	ORCondition(inout leftCon : Condition, inout rightCon : Condition)
+		assert (null != leftCon);
+		assert (null != rightCon);
+
+		left = leftCon;
+		right = rightCon;
+!!!142466.java!!!	evaluate(inout p : ObjectWithDynamicAttributes) : boolean
+		return (left.evaluate(p) || right.evaluate(p));
+!!!142594.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+
+		return sb.append("[").append(left).append(" || ").append(right)
+				.append("]").toString();

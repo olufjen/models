@@ -1,0 +1,13 @@
+class ProofStepChainCancellation
+!!!306690.java!!!	ProofStepChainCancellation(inout cancellation : Chain, inout cancellationOf : Chain, inout subst : Map<Variable, Term>)
+		this.cancellation = cancellation;
+		this.cancellationOf = cancellationOf;
+		this.subst = subst;
+		this.predecessors.add(cancellationOf.getProofStep());
+!!!306818.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!306946.java!!!	getProof() : String
+		return cancellation.toString();
+!!!307074.java!!!	getJustification() : String
+		return "Cancellation: " + cancellationOf.getProofStep().getStepNumber()
+				+ " " + subst;

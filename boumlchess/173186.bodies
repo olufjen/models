@@ -1,0 +1,42 @@
+class Connective
+!!!380546.java!!!	getSymbol() : String
+		return symbol;
+!!!380674.java!!!	getPrecedence() : int
+		return precedence;
+!!!380802.java!!!	toString() : String
+		return getSymbol();
+!!!380930.java!!!	isConnective(in symbol : String) : boolean
+		if (NOT.getSymbol().equals(symbol)) {
+			return true;
+		} else if (AND.getSymbol().equals(symbol)) {
+			return true;
+		} else if (OR.getSymbol().equals(symbol)) {
+			return true;
+		} else if (IMPLICATION.getSymbol().equals(symbol)) {
+			return true;
+		} else if (BICONDITIONAL.getSymbol().equals(symbol)) {
+			return true;
+		}
+		return false;
+!!!381058.java!!!	get(in symbol : String) : Connective
+		if (NOT.getSymbol().equals(symbol)) {
+			return NOT;
+		} else if (AND.getSymbol().equals(symbol)) {
+			return AND;
+		} else if (OR.getSymbol().equals(symbol)) {
+			return OR;
+		} else if (IMPLICATION.getSymbol().equals(symbol)) {
+			return IMPLICATION;
+		} else if (BICONDITIONAL.getSymbol().equals(symbol)) {
+			return BICONDITIONAL;
+		}
+
+		throw new IllegalArgumentException(
+				"Not a valid symbol for a connective: " + symbol);
+!!!381186.java!!!	isConnectiveIdentifierStart(in ch : char) : boolean
+		return _connectiveLeadingChars.contains(ch);
+!!!381314.java!!!	isConnectiveIdentifierPart(in ch : char) : boolean
+		return _connectiveChars.contains(ch);
+!!!381442.java!!!	Connective(in symbol : String, in precedence : int)
+		this.symbol = symbol;
+		this.precedence = precedence;

@@ -1,0 +1,1982 @@
+format 223
+"local" // aima::core::search::local
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/local/"
+  java_package "aima.core.search.local"
+  classview 130178 "local"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 140162 "FitnessFunction"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
+<br>
+Each state is rated by the objective function, or (in Genetic Algorithm
+terminology) the fitness function. A fitness function should return higher
+values for better states.
+<br>
+Here, we assume that all values are greater or equal to zero.
+
+@author Ciaran O'Reilly
+
+@param <A>
+           the type of the alphabet used in the representation of the
+           individuals in the population (this is to provide flexibility in
+           terms of how a problem can be encoded).
+"
+      operation 178178 "apply"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "individual" type class_ref 140290 // Individual
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param individual
+           the individual whose fitness is to be accessed.
+@return the individual's fitness value (the higher the better).
+"
+      end
+    end
+
+    class 140290 "Individual"
+      visibility public 
+      nformals 1
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
+<br>
+A state in a genetic algorithm is represented as an individual from the
+population.
+
+@author Ciaran O'Reilly
+
+@param <A>
+           the type of the alphabet used in the representation of the
+           individuals in the population (this is to provide flexibility in
+           terms of how a problem can be encoded).
+"
+      attribute 195202 "representation"
+	private explicit_type "A"
+	init_value " new ArrayList<>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 195330 "descendants"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " for debugging!"
+      end
+
+      operation 482690 "Individual"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "representation" explicit_type "List<A>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct an individual using the provided representation.
+
+@param representation
+           the individual's representation.
+"
+      end
+
+      operation 482818 "getRepresentation"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the individual's representation.
+"
+      end
+
+      operation 482946 "length"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the length of the individual's representation.
+"
+      end
+
+      operation 483074 "incDescendants"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Should be called by the genetic algorithm whenever the individual is
+selected to produce a descendant.
+"
+      end
+
+      operation 483202 "getDescendants"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns the number of descendants for this individual. "
+      end
+
+      operation 483330 "toString"
+	cpp_inline public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 197378 "GeneticAlgorithm"
+      visibility public 
+      nformals 1
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
+129.<br>
+<br>
+
+<pre>
+function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
+  inputs: population, a set of individuals
+          FITNESS-FN, a function that measures the fitness of an individual
+          
+  repeat
+    new_population &lt;- empty set
+    for i = 1 to SIZE(population) do
+      x &lt;- RANDOM-SELECTION(population, FITNESS-FN)
+      y &lt;- RANDOM-SELECTION(population, FITNESS-FN)
+      child &lt;- REPRODUCE(x, y)
+      if (small random probability) then child &lt;- MUTATE(child)
+      add child to new_population
+    population &lt;- new_population
+  until some individual is fit enough, or enough time has elapsed
+  return the best individual in population, according to FITNESS-FN
+--------------------------------------------------------------------------------
+function REPRODUCE(x, y) returns an individual
+  inputs: x, y, parent individuals
+  
+  n &lt;- LENGTH(x); c &lt;- random number from 1 to n
+  return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
+</pre>
+
+Figure 4.8 A genetic algorithm. The algorithm is the same as the one
+diagrammed in Figure 4.6, with one variation: in this more popular version,
+each mating of two parents produces only one offspring, not two.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+
+@param <A>
+           the type of the alphabet used in the representation of the
+           individuals in the population (this is to provide flexibility in
+           terms of how a problem can be encoded).
+"
+      attribute 193410 "POPULATION_SIZE"
+	class_attribute const_attribute protected explicit_type "String"
+	init_value " \"populationSize\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 193538 "ITERATIONS"
+	class_attribute const_attribute protected explicit_type "String"
+	init_value " \"iterations\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 193666 "TIME_IN_MILLISECONDS"
+	class_attribute const_attribute protected explicit_type "String"
+	init_value " \"timeInMSec\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 236290 // metrics (<unidirectional association>)
+	relation 236290 --->
+	  a role_name "metrics" init_value " new Metrics()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 236290 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      attribute 193794 "individualLength"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 193922 "finiteAlphabet"
+	protected explicit_type "A"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 194050 "mutationProbability"
+	protected explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 194178 "random"
+	protected explicit_type "Random"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 197506 "ProgressTracker"
+	visibility public stereotype "interface"
+	nformals 1
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 480258 "trackProgress"
+	  cpp_inline public explicit_return_type "void"
+	  nparams 2
+	    param in name "itCount" explicit_type "int"
+	    param inout name "population" explicit_type "Collection<Individual<A>>"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 236418 // progressTrackers (<unidirectional association>)
+	relation 236418 --->
+	  stereotype "List"
+	  a role_name "progressTrackers" init_value " new ArrayList<ProgressTracker<A>>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<A>> ${name}${value};
+"
+	    classrelation_ref 236418 // progressTrackers (<unidirectional association>)
+	  b parent class_ref 197506 // ProgressTracker
+      end
+
+      operation 477826 "GeneticAlgorithm"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param in name "individualLength" explicit_type "int"
+	  param inout name "finiteAlphabet" explicit_type "Collection<A>"
+	  param in name "mutationProbability" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 477954 "GeneticAlgorithm"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param in name "individualLength" explicit_type "int"
+	  param inout name "finiteAlphabet" explicit_type "Collection<A>"
+	  param in name "mutationProbability" explicit_type "double"
+	  param inout name "random" explicit_type "Random"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 478082 "addProgressTracer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "pTracer" type class_ref 197506 // ProgressTracker
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Progress tracers can be used to display progress information. "
+      end
+
+      operation 478210 "geneticAlgorithm"
+	cpp_inline public return_type class_ref 140290 // Individual
+	nparams 3
+	  param inout name "initPopulation" explicit_type "Collection<Individual<A>>"
+	  param inout name "fitnessFn" type class_ref 140162 // FitnessFunction
+	  param in name "maxIterations" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0} ${p0}, ${t1}<A> ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Starts the genetic algorithm and stops after a specified number of
+iterations.
+"
+      end
+
+      operation 478338 "geneticAlgorithm"
+	cpp_inline public return_type class_ref 140290 // Individual
+	nparams 4
+	  param inout name "initPopulation" explicit_type "Collection<Individual<A>>"
+	  param inout name "fitnessFn" type class_ref 140162 // FitnessFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	  param in name "maxTimeMilliseconds" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0} ${p0}, ${t1}<A> ${p1}, ${t2}<Individual<A>> ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Template method controlling search. It returns the best individual in the
+specified population, according to the specified FITNESS-FN and goal
+test.
+
+@param initPopulation
+           a set of individuals
+@param fitnessFn
+           a function that measures the fitness of an individual
+@param goalTest
+           test determines whether a given individual is fit enough to
+           return. Can be used in subclasses to implement additional
+           termination criteria, e.g. maximum number of iterations.
+@param maxTimeMilliseconds
+           the maximum time in milliseconds that the algorithm is to run
+           for (approximate). Only used if > 0L.
+@return the best individual in the specified population, according to the
+        specified FITNESS-FN and goal test.
+
+ function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
+ inputs: population, a set of individuals
+ FITNESS-FN, a function that measures the fitness of an individual"
+      end
+
+      operation 478466 "retrieveBestIndividual"
+	cpp_inline public return_type class_ref 140290 // Individual
+	nparams 2
+	  param inout name "population" explicit_type "Collection<Individual<A>>"
+	  param inout name "fitnessFn" type class_ref 140162 // FitnessFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0} ${p0}, ${t1}<A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 478594 "clearInstrumentation"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the population size and number of iterations to zero.
+"
+      end
+
+      operation 478722 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the metrics of the genetic algorithm.
+
+@return all the metrics of the genetic algorithm.
+"
+      end
+
+      operation 478850 "getPopulationSize"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the population size.
+
+@return the population size.
+"
+      end
+
+      operation 478978 "getIterations"
+	cpp_inline public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the number of iterations of the genetic algorithm.
+
+@return the number of iterations of the genetic algorithm.
+"
+      end
+
+      operation 479106 "getTimeInMilliseconds"
+	cpp_inline public explicit_return_type "long"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the time in milliseconds that the genetic algorithm took.
+"
+      end
+
+      operation 479234 "updateMetrics"
+	cpp_inline protected explicit_return_type "void"
+	nparams 3
+	  param inout name "population" explicit_type "Collection<Individual<A>>"
+	  param in name "itCount" explicit_type "int"
+	  param in name "time" explicit_type "long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Updates statistic data collected during search.
+
+@param itCount
+           the number of iterations.
+@param time
+           the time in milliseconds that the genetic algorithm took.
+"
+      end
+
+      operation 479362 "nextGeneration"
+	cpp_inline protected return_type class_ref 140290 // Individual
+	nparams 2
+	  param inout name "population" explicit_type "List<Individual<A>>"
+	  param inout name "fitnessFn" type class_ref 140162 // FitnessFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<A>> ${name}${(}${t0} ${p0}, ${t1}<A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+
+ Note: Override these protected methods to create your own desired
+ behavior.
+
+
+Primitive operation which is responsible for creating the next
+generation. Override to get progress information!
+"
+      end
+
+      operation 479490 "randomSelection"
+	cpp_inline protected return_type class_ref 140290 // Individual
+	nparams 2
+	  param inout name "population" explicit_type "List<Individual<A>>"
+	  param inout name "fitnessFn" type class_ref 140162 // FitnessFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0} ${p0}, ${t1}<A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " RANDOM-SELECTION(population, FITNESS-FN)"
+      end
+
+      operation 479618 "reproduce"
+	cpp_inline protected return_type class_ref 140290 // Individual
+	nparams 2
+	  param inout name "x" type class_ref 140290 // Individual
+	  param inout name "y" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0}<A> ${p0}, ${t1}<A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function REPRODUCE(x, y) returns an individual
+ inputs: x, y, parent individuals"
+      end
+
+      operation 479746 "mutate"
+	cpp_inline protected return_type class_ref 140290 // Individual
+	nparams 1
+	  param inout name "child" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<A> ${name}${(}${t0}<A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 479874 "randomOffset"
+	cpp_inline protected explicit_return_type "int"
+	nparams 1
+	  param in name "length" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 480002 "validatePopulation"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "population" explicit_type "Collection<Individual<A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 480130 "notifyProgressTrackers"
+	cpp_inline private explicit_return_type "void"
+	nparams 2
+	  param in name "itCount" explicit_type "int"
+	  param inout name "generation" explicit_type "Collection<Individual<A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 197634 "GeneticAlgorithmForNumbers"
+      visibility public 
+      nactuals 1
+      actual class class_ref 197378 // GeneticAlgorithm
+        rank 0 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Variant of the genetic algorithm which uses double numbers from a fixed
+interval instead of symbols from a finite alphabet in the representations of
+individuals. Reproduction uses values somewhere between the values of the
+parents. Mutation adds some random offset. Progress tracer implementations
+can be used to get informed about the running iterations. <br>
+A typical use case for this genetic algorithm version is finding maximums in
+a given mathematical (fitness) function.
+
+@author Ruediger Lunde
+
+"
+      classrelation 236546 // <realization>
+	relation 236546 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 236546 // <realization>
+	  b parent class_ref 197378 // GeneticAlgorithm
+      end
+
+      attribute 194306 "minimum"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 194434 "maximum"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 480386 "GeneticAlgorithmForNumbers"
+	public explicit_return_type ""
+	nparams 4
+	  param in name "individualLength" explicit_type "int"
+	  param in name "min" explicit_type "double"
+	  param in name "max" explicit_type "double"
+	  param in name "mutationProbability" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param individualLength
+           vector length used for the representations of individuals. Use
+           1 for analysis of functions f(x).
+@param min
+           minimal value to be used in vector elements.
+@param max
+           maximal value to be used in vector elements.
+@param mutationProbability
+           probability of mutations.
+"
+      end
+
+      operation 480514 "createRandomIndividual"
+	public return_type class_ref 140290 // Individual
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Convenience method. "
+      end
+
+      operation 480642 "reproduce"
+	protected return_type class_ref 140290 // Individual
+	nparams 2
+	  param inout name "x" type class_ref 140290 // Individual
+	  param inout name "y" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${t0}<Double> ${p0}, ${t1}<Double> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Produces for each number in the descendant's representation a random
+value between the corresponding values of its parents.
+"
+      end
+
+      operation 480770 "mutate"
+	protected return_type class_ref 140290 // Individual
+	nparams 1
+	  param inout name "child" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Double> ${name}${(}${t0}<Double> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Changes each component in the representation by random. The maximum
+change is +- (maximum - minimum) / 4, but smaller changes have a higher
+likelihood.
+"
+      end
+    end
+
+    class 197762 "HillClimbingSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 6
+      actual class class_ref 137730 // SearchForActions
+        rank 0 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 0 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 0 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.2, page
+122.<br>
+<br>
+<p>
+<pre>
+function HILL-CLIMBING(problem) returns a state that is a local maximum
+
+  current &lt;- MAKE-NODE(problem.INITIAL-STATE)
+  loop do
+    neighbor &lt;- a highest-valued successor of current
+    if neighbor.VALUE &lt;= current.VALUE then return current.STATE
+    current &lt;- neighbor
+</pre>
+<p>
+Figure 4.2 The hill-climbing search algorithm, which is the most basic local
+search technique. At each step the current node is replaced by the best
+neighbor; in this version, that means the neighbor with the highest VALUE,
+but if a heuristic cost estimate h is used, we would find the neighbor with
+the lowest h.
+
+@author Ravi Mohan
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      classrelation 236674 // <realization>
+	relation 236674 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 236674 // <realization>
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 236802 // <realization>
+	relation 236802 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 236802 // <realization>
+	  b parent class_ref 194562 // SearchForStates
+      end
+
+      classrelation 236930 // <realization>
+	relation 236930 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 236930 // <realization>
+	  b parent class_ref 196482 // Informed
+      end
+
+      class 197890 "SearchOutcome"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 194562 "FAILURE"
+	  public type class_ref 197890 // SearchOutcome
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 194690 "SOLUTION_FOUND"
+	  public type class_ref 197890 // SearchOutcome
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      attribute 194818 "METRIC_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 194946 "METRIC_NODE_VALUE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodeValue\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 237058 // h (<unidirectional association>)
+	relation 237058 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "h" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 237058 // h (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      classrelation 237186 // nodeExpander (<unidirectional association>)
+	relation 237186 --->
+	  a role_name "nodeExpander" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 237186 // nodeExpander (<unidirectional association>)
+	  b parent class_ref 194306 // NodeExpander
+      end
+
+      classrelation 237314 // outcome (<unidirectional association>)
+	relation 237314 --->
+	  a role_name "outcome" init_value " SearchOutcome.FAILURE" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 237314 // outcome (<unidirectional association>)
+	  b parent class_ref 197890 // SearchOutcome
+      end
+
+      attribute 195074 "lastState"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 237442 // metrics (<unidirectional association>)
+	relation 237442 --->
+	  a role_name "metrics" init_value " new Metrics()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 237442 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 480898 "HillClimbingSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a hill-climbing search from the specified heuristic function.
+
+@param h a heuristic function
+"
+      end
+
+      operation 481026 "HillClimbingSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<S, A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 481154 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 481282 "findActions"
+	cpp_inline public explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 481410 "findState"
+	cpp_inline public explicit_return_type "Optional<S>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 481538 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a node corresponding to a local maximum or empty if the search was
+cancelled by the user.
+
+@param p the search problem
+@return a node or empty
+
+ function HILL-CLIMBING(problem) returns a state that is a local maximum"
+      end
+
+      operation 481666 "getOutcome"
+	cpp_inline public return_type class_ref 197890 // SearchOutcome
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns SOLUTION_FOUND if the local maximum is a goal state, or FAILURE
+if the local maximum is not a goal state.
+
+@return SOLUTION_FOUND if the local maximum is a goal state, or FAILURE
+if the local maximum is not a goal state.
+"
+      end
+
+      operation 481794 "getLastSearchState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the last state from which the hill climbing search found the
+local maximum.
+
+@return the last state from which the hill climbing search found the
+local maximum.
+"
+      end
+
+      operation 481922 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the search metrics.
+"
+      end
+
+      operation 482050 "clearMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets all metrics to zero.
+"
+      end
+
+      operation 482178 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 482306 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 482434 "getHighestValuedNodeFrom"
+	cpp_inline private return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "children" explicit_type "List<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 482562 "getValue"
+	cpp_inline private explicit_return_type "double"
+	nparams 1
+	  param inout name "n" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 198018 "Scheduler"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 195458 "k"
+	const_attribute private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 195586 "limit"
+	const_attribute private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 195714 "lam"
+	const_attribute private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 483458 "Scheduler"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "k" explicit_type "int"
+	  param in name "lam" explicit_type "double"
+	  param in name "limit" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 483586 "Scheduler"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 483714 "getTemp"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 198146 "SimulatedAnnealingSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
+      actual class class_ref 137730 // SearchForActions
+        rank 0 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 0 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.5, page
+126.<br>
+<br>
+
+<pre>
+function SIMULATED-ANNEALING(problem, schedule) returns a solution state
+                   
+  current &lt;- MAKE-NODE(problem.INITIAL-STATE)
+  for t = 1 to INFINITY do
+    T &lt;- schedule(t)
+    if T = 0 then return current
+    next &lt;- a randomly selected successor of current
+    /\\E &lt;- next.VALUE - current.value
+    if /\\E &gt; 0 then current &lt;- next
+    else current &lt;- next only with probability e&circ;(/\\E/T)
+</pre>
+
+Figure 4.5 The simulated annealing search algorithm, a version of stochastic
+hill climbing where some downhill moves are allowed. Downhill moves are
+accepted readily early in the annealing schedule and then less often as time
+goes on. The schedule input determines the value of the temperature T as a
+function of time.
+
+@author Ravi Mohan
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      classrelation 237570 // <realization>
+	relation 237570 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 237570 // <realization>
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 237698 // <realization>
+	relation 237698 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 237698 // <realization>
+	  b parent class_ref 194562 // SearchForStates
+      end
+
+      class 198274 "SearchOutcome"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 195842 "FAILURE"
+	  public type class_ref 198274 // SearchOutcome
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 195970 "SOLUTION_FOUND"
+	  public type class_ref 198274 // SearchOutcome
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      attribute 196098 "METRIC_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 196226 "METRIC_TEMPERATURE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"temp\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 196354 "METRIC_NODE_VALUE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodeValue\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 237826 // h (<unidirectional association>)
+	relation 237826 --->
+	  stereotype "ToDoubleFunction"
+	  a role_name "h" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 237826 // h (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      classrelation 237954 // scheduler (<unidirectional association>)
+	relation 237954 --->
+	  a role_name "scheduler" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 237954 // scheduler (<unidirectional association>)
+	  b parent class_ref 198018 // Scheduler
+      end
+
+      classrelation 238082 // nodeExpander (<unidirectional association>)
+	relation 238082 --->
+	  a role_name "nodeExpander" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 238082 // nodeExpander (<unidirectional association>)
+	  b parent class_ref 194306 // NodeExpander
+      end
+
+      classrelation 238210 // outcome (<unidirectional association>)
+	relation 238210 --->
+	  a role_name "outcome" init_value " SearchOutcome.FAILURE" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 238210 // outcome (<unidirectional association>)
+	  b parent class_ref 198274 // SearchOutcome
+      end
+
+      attribute 196482 "lastState"
+	private explicit_type "S"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 238338 // metrics (<unidirectional association>)
+	relation 238338 --->
+	  a role_name "metrics" init_value " new Metrics()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 238338 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 483842 "SimulatedAnnealingSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a simulated annealing search from the specified heuristic
+function and a default scheduler.
+
+@param h
+           a heuristic function
+"
+      end
+
+      operation 483970 "SimulatedAnnealingSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  param inout name "scheduler" type class_ref 198018 // Scheduler
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a simulated annealing search from the specified heuristic
+function and scheduler.
+
+@param h
+           a heuristic function
+@param scheduler
+           a mapping from time to \"temperature\"
+"
+      end
+
+      operation 484098 "SimulatedAnnealingSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	  param inout name "scheduler" type class_ref 198018 // Scheduler
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<S, A> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 484226 "findActions"
+	cpp_inline public explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 484354 "findState"
+	cpp_inline public explicit_return_type "Optional<S>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 484482 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function SIMULATED-ANNEALING(problem, schedule) returns a solution state"
+      end
+
+      operation 484610 "probabilityOfAcceptance"
+	cpp_inline public explicit_return_type "double"
+	nparams 2
+	  param in name "temperature" explicit_type "double"
+	  param in name "deltaE" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns <em>e</em><sup>&delta<em>E / T</em></sup>
+
+@param temperature
+           <em>T</em>, a \"temperature\" controlling the probability of
+           downward steps
+@param deltaE
+           VALUE[<em>next</em>] - VALUE[<em>current</em>]
+@return <em>e</em><sup>&delta<em>E / T</em></sup>
+"
+      end
+
+      operation 484738 "getOutcome"
+	cpp_inline public return_type class_ref 198274 // SearchOutcome
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 484866 "getLastSearchState"
+	cpp_inline public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the last state from which the simulated annealing search found a
+solution state.
+
+@return the last state from which the simulated annealing search found a
+        solution state.
+"
+      end
+
+      operation 484994 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Returns all the search metrics.
+"
+      end
+
+      operation 485122 "updateMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 2
+	  param in name "temperature" explicit_type "double"
+	  param in name "value" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 485250 "clearMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets all metrics to zero.
+"
+      end
+
+      operation 485378 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 485506 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 485634 "shouldAccept"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 2
+	  param in name "temperature" explicit_type "double"
+	  param in name "deltaE" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+ if /\\E > 0 then current <- next
+ else current <- next only with probability e^(/\\E/T)"
+      end
+
+      operation 485762 "getValue"
+	cpp_inline private explicit_return_type "double"
+	nparams 1
+	  param inout name "n" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 129538 "local"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 136834 "FitnessFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 140162 // FitnessFunction
+      end
+    end
+
+    artifact 185858 "GeneticAlgorithm"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.problem.GoalTest;
+import aima.core.util.Tasks;
+import aima.core.util.Util;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+${definition}"
+      associated_elems
+	class_ref 197378 // GeneticAlgorithm
+      end
+    end
+
+    artifact 185986 "GeneticAlgorithmForNumbers"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 197634 // GeneticAlgorithmForNumbers
+      end
+    end
+
+    artifact 186114 "HillClimbingSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.*;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.informed.Informed;
+import aima.core.util.Tasks;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 197762 // HillClimbingSearch
+      end
+    end
+
+    artifact 186242 "Individual"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 140290 // Individual
+      end
+    end
+
+    artifact 186370 "Scheduler"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 198018 // Scheduler
+      end
+    end
+
+    artifact 186498 "SimulatedAnnealingSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.*;
+import aima.core.search.framework.problem.Problem;
+import aima.core.util.Tasks;
+import aima.core.util.Util;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 198146 // SimulatedAnnealingSearch
+      end
+    end
+  end
+end

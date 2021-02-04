@@ -1,0 +1,30 @@
+class ModifiedPolicyEvaluation
+!!!426242.java!!!	ModifiedPolicyEvaluation(in k : int, in gamma : double)
+		if (gamma > 1.0 || gamma <= 0.0) {
+			throw new IllegalArgumentException("Gamma must be > 0 and <= 1.0");
+		}
+		this.k = k;
+		this.gamma = gamma;
+!!!426370.java!!!	evaluate(inout pi_i : Map<S, A>, inout U : Map<S, Double>, inout mdp : MarkovDecisionProcess) : Map<S, Double>
+		Map<S, Double> U_i = new HashMap<S, Double>(U);
+		Map<S, Double> U_ip1 = new HashMap<S, Double>(U);
+		// repeat k times to produce the next utility estimate
+		for (int i = 0; i < k; i++) {
+			// U<sub>i+1</sub>(s) <- R(s) +
+			// &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
+			for (S s : U.keySet()) {
+				A ap_i = pi_i.get(s);
+				double aSum = 0;
+				// Handle terminal states (i.e. no actions)
+				if (null != ap_i) {
+					for (S sDelta : U.keySet()) {
+						aSum += mdp.transitionProbability(sDelta, s, ap_i)
+								* U_i.get(sDelta);
+					}
+				}
+				U_ip1.put(s, mdp.reward(s) + gamma * aSum);
+			}
+
+			U_i.putAll(U_ip1);
+		}
+		return U_ip1;

@@ -1,0 +1,121 @@
+class Clause
+!!!365570.java!!!	Clause()
+		// i.e. the empty clause
+		this(new ArrayList<Literal>());
+!!!365698.java!!!	Clause(inout  : Literal...literals)
+		this(Arrays.asList(literals));
+!!!365826.java!!!	Clause(inout literals : Collection<Literal>)
+		for (Literal l : literals) {
+			if (l.isAlwaysFalse()) {
+				// Don't add literals of the form
+				// False | ~True
+				continue;
+			}
+			if (this.literals.add(l)) {
+				// Only add to caches if not already added
+				if (l.isPositiveLiteral()) {
+					this.cachedPositiveSymbols.add(l.getAtomicSentence());
+				} else {
+					this.cachedNegativeSymbols.add(l.getAtomicSentence());
+				}
+			}
+		}
+		
+		cachedSymbols.addAll(cachedPositiveSymbols);
+		cachedSymbols.addAll(cachedNegativeSymbols);
+
+		// Make immutable
+		this.literals = Collections.unmodifiableSet(this.literals);
+		cachedSymbols = Collections.unmodifiableSet(cachedSymbols);
+		cachedPositiveSymbols = Collections
+				.unmodifiableSet(cachedPositiveSymbols);
+		cachedNegativeSymbols = Collections
+				.unmodifiableSet(cachedNegativeSymbols);
+!!!365954.java!!!	isFalse() : boolean
+		return isEmpty();
+!!!366082.java!!!	isEmpty() : boolean
+		return literals.size() == 0;
+!!!366210.java!!!	isUnitClause() : boolean
+		return literals.size() == 1;
+!!!366338.java!!!	isDefiniteClause() : boolean
+		return cachedPositiveSymbols.size() == 1;
+!!!366466.java!!!	isImplicationDefiniteClause() : boolean
+		return isDefiniteClause() && cachedNegativeSymbols.size() >= 1;
+!!!366594.java!!!	isHornClause() : boolean
+		return !isEmpty() && cachedPositiveSymbols.size() <= 1;
+!!!366722.java!!!	isGoalClause() : boolean
+		return !isEmpty() && cachedPositiveSymbols.size() == 0;
+!!!366850.java!!!	isTautology() : boolean
+		if (cachedIsTautologyResult == null) {
+			for (Literal l : literals) {
+				if (l.isAlwaysTrue()) {
+					// {..., True, ...} is a tautology.
+					// {..., ~False, ...} is a tautology
+					cachedIsTautologyResult = true;
+				}
+			}
+			// If we still don't know
+			if (cachedIsTautologyResult == null) {
+				if (SetOps.intersection(cachedPositiveSymbols, cachedNegativeSymbols)
+						.size() > 0) {
+					// We have:
+					// P | ~P
+					// which is always true.
+					cachedIsTautologyResult = true;
+				}
+				else {
+					cachedIsTautologyResult = false;
+				}
+			}
+		}
+
+		return cachedIsTautologyResult;
+!!!366978.java!!!	getNumberLiterals() : int
+		return literals.size();
+!!!367106.java!!!	getNumberPositiveLiterals() : int
+		return cachedPositiveSymbols.size();
+!!!367234.java!!!	getNumberNegativeLiterals() : int
+		return cachedNegativeSymbols.size();
+!!!367362.java!!!	getLiterals() : Literal
+		return literals;
+!!!367490.java!!!	getSymbols() : PropositionSymbol
+		return cachedSymbols;
+!!!367618.java!!!	getPositiveSymbols() : PropositionSymbol
+		return cachedPositiveSymbols;
+!!!367746.java!!!	getNegativeSymbols() : PropositionSymbol
+		return cachedNegativeSymbols;
+!!!367874.java!!!	toString() : String
+		if (cachedStringRep == null) {
+			StringBuilder sb = new StringBuilder();
+			boolean first = true;
+			sb.append("{");
+			for (Literal l : literals) {
+				if (first) {
+					first = false;
+				} else {
+					sb.append(", ");
+				}
+				sb.append(l);
+			}
+			sb.append("}");
+			cachedStringRep = sb.toString();
+		}
+		return cachedStringRep;
+!!!368002.java!!!	equals(inout othObj : Object) : boolean
+		if (null == othObj) {
+			return false;
+		}
+		if (this == othObj) {
+			return true;
+		}
+		if (!(othObj instanceof Clause)) {
+			return false;
+		}
+		Clause othClause = (Clause) othObj;
+
+		return othClause.literals.equals(this.literals);
+!!!368130.java!!!	hashCode() : int
+		if (cachedHashCode == -1) {
+			cachedHashCode = literals.hashCode();
+		}
+		return cachedHashCode;

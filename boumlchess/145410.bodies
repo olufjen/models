@@ -1,0 +1,52 @@
+class XYEnvironment
+!!!204674.java!!!	XYEnvironment(in width : int, in height : int)
+		assert (width > 0);
+		assert (height > 0);
+
+		envState = new XYEnvironmentState(width, height);
+!!!204930.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+		return new DynamicPercept();
+!!!205058.java!!!	addObjectToLocation(inout eo : EnvironmentObject, inout loc : XYLocation) : void
+		moveObjectToAbsoluteLocation(eo, loc);
+!!!205186.java!!!	moveObjectToAbsoluteLocation(inout eo : EnvironmentObject, inout loc : XYLocation) : void
+		// Ensure the object is not already at a location
+		envState.moveObjectToAbsoluteLocation(eo, loc);
+
+		// Ensure is added to the environment
+		addEnvironmentObject(eo);
+!!!205314.java!!!	moveObject(inout eo : EnvironmentObject, inout direction : XYLocation::Direction) : void
+		XYLocation presentLocation = envState.getCurrentLocationFor(eo);
+
+		if (null != presentLocation) {
+			XYLocation locationToMoveTo = presentLocation.locationAt(direction);
+			if (!(isBlocked(locationToMoveTo))) {
+				moveObjectToAbsoluteLocation(eo, locationToMoveTo);
+			}
+		}
+!!!205442.java!!!	getCurrentLocationFor(inout eo : EnvironmentObject) : XYLocation
+		return envState.getCurrentLocationFor(eo);
+!!!205570.java!!!	getObjectsAt(inout loc : XYLocation) : EnvironmentObject
+		return envState.getObjectsAt(loc);
+!!!205698.java!!!	getObjectsNear(inout agent : Agent, in radius : int) : EnvironmentObject
+		return envState.getObjectsNear(agent, radius);
+!!!205826.java!!!	isBlocked(inout loc : XYLocation) : boolean
+		for (EnvironmentObject eo : envState.getObjectsAt(loc)) {
+			if (eo instanceof Wall) {
+				return true;
+			}
+		}
+		return false;
+!!!205954.java!!!	makePerimeter() : void
+		for (int i = 0; i < envState.width; i++) {
+			XYLocation loc = new XYLocation(i, 0);
+			XYLocation loc2 = new XYLocation(i, envState.height - 1);
+			envState.moveObjectToAbsoluteLocation(new Wall(), loc);
+			envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
+		}
+
+		for (int i = 0; i < envState.height; i++) {
+			XYLocation loc = new XYLocation(0, i);
+			XYLocation loc2 = new XYLocation(envState.width - 1, i);
+			envState.moveObjectToAbsoluteLocation(new Wall(), loc);
+			envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
+		}

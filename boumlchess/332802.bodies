@@ -1,0 +1,62 @@
+class ChessSearchAlgorithm
+!!!1653634.java!!!	heirarchicalSearch(inout problem : Problem) : ActionSchema
+        // frontier ← a FIFO queue with [Act] as the only element
+        Queue<List<ActionSchema>> frontier = new LinkedList<>();
+        frontier.add(new ArrayList<>(Collections.singletonList(PlanningProblemFactory.getHlaAct(problem))));
+        // loop do
+        while (true) {
+            // if EMPTY?(frontier) then return failure
+            if (frontier.isEmpty())
+                return null;
+            // plan ← POP(frontier) /* chooses the shallowest plan in frontier */
+            List<ActionSchema> plan = frontier.poll();
+            // hla ← the first HLA in plan, or null if none
+            int i = 0;
+            ActionSchema hla;
+            while (i < plan.size() && !(plan.get(i) instanceof ChessHighLevelAction))
+                i++;
+            if (i < plan.size())
+                hla = plan.get(i);
+            else
+                hla = null;
+            // prefix,suffix ← the action subsequences before and after hla in plan
+            List<ActionSchema> prefix = new ArrayList<>();
+            List<ActionSchema> suffix = new ArrayList<>();
+            for (int j = 0; j < i; j++) {
+                prefix.add(plan.get(j));
+            }
+            for (int j = i + 1; j < plan.size(); j++) {
+                suffix.add(plan.get(j));
+            }
+            // outcome ← RESULT(problem.INITIAL-STATE, prefix)
+            State outcome = problem.getInitialState().result(prefix);
+            // if hla is null then /* so plan is primitive and outcome is its result */
+            if (hla == null) {
+                // if outcome satisfies problem.GOAL then return plan
+                if (outcome.getFluents().containsAll(problem.getGoalState().getFluents()))
+                    return plan;
+            } else {
+                List<ActionSchema> tempInsertionList = new ArrayList<>();
+                // else for each sequence in REFINEMENTS(hla, outcome, hierarchy) do
+                for (List<ActionSchema> sequence :
+                        refinements(hla, outcome)) {
+                    // frontier ← INSERT(APPEND(prefix, sequence, suffix), frontier)
+                    tempInsertionList.clear();
+                    tempInsertionList.addAll(prefix);
+                    tempInsertionList.addAll(sequence);
+                    tempInsertionList.addAll(suffix);
+                    ((LinkedList<List<ActionSchema>>) frontier).addLast(new ArrayList<>(tempInsertionList));
+                }
+            }
+        }
+!!!1653762.java!!!	refinements(inout hla : ActionSchema, inout outcome : State) : List<List<ActionSchema>>
+        List<List<ActionSchema>> result = new ArrayList<>();
+        for (List<ActionSchema> refinement :
+                ((ChessHighLevelAction) hla).getRefinements()) {
+            if (refinement.size() > 0) {
+                if (outcome.isApplicable(refinement.get(0)))
+                    result.add(refinement);
+            } else
+                result.add(refinement);
+        }
+        return result;

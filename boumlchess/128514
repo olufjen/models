@@ -1,0 +1,1702 @@
+format 223
+"probability" // aima::core::probability
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/"
+  java_package "aima.core.probability"
+  classview 128258 "probability"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 128898 "BeliefState"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "Action" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "Percept" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 386562 "update"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "action" explicit_type "Action"
+	  param inout name "percept" explicit_type "Percept"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 175106 "CategoricalDistribution"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
+<br>
+A probability distribution for discrete random variables with a finite set of
+values. <br>
+<b>Note:</b> This definition corresponds to that given in AIMA3e pg. 487, for
+a Probability Distribution.
+
+@see <a href=\"http://en.wikipedia.org/wiki/Probability_distribution\"
+     >Probability Distribution</a>
+
+@author Ciaran O'Reilly
+"
+      classrelation 201090 // <generalisation>
+	relation 201090 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 201090 // <generalisation>
+	  b parent class_ref 175234 // ProbabilityMass
+      end
+
+      class 175618 "Iterator"
+	visibility public stereotype "interface"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 387202 "iterate"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "possibleAssignment" explicit_type "Map<RandomVariable, Object>"
+	    param in name "probability" explicit_type "double"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Called for each possible assignment for the Random Variables
+comprising this CategoricalDistribution.
+
+@param possibleAssignment
+           a possible assignment, &omega;, of variable/value pairs.
+@param probability
+           the probability associated with &omega;
+"
+	end
+      end
+
+      operation 387330 "getValues"
+	public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>Note:</b> Do not modify the double[] returned by this method directly.
+Instead use setValue() as this method is intended to be for read only
+purposes.
+
+@return the double[] used to represent the CategoricalDistribution.
+
+@see CategoricalDistribution#setValue(int, double)
+"
+      end
+
+      operation 387458 "setValue"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "idx" explicit_type "int"
+	  param in name "value" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the value at a specified index within the distribution.
+
+@param idx
+@param value
+"
+      end
+
+      operation 387586 "getSum"
+	public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the summation of all of the elements within the Distribution.
+"
+      end
+
+      operation 387714 "normalize"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Normalize the values comprising this distribution.
+
+@return this instance with its values normalized.
+"
+      end
+
+      operation 387842 "getIndex"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "" explicit_type "Object...values"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve the index into the CategoricalDistribution for the provided set
+of values for the random variables comprising the Distribution.
+
+@param values
+           an ordered set of values for the random variables comprising
+           the Distribution (<b>Note:</b> the order must match the order
+           of the random variables describing the distribution)
+@return the index within the Distribution for the values specified.
+
+@see CategoricalDistribution#getValues()
+@see ProbabilityDistribution#getFor()
+"
+      end
+
+      operation 387970 "marginal"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "RandomVariable...vars"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the marginal probability for the provided variables from this
+Distribution creating a new Distribution of the remaining variables with
+their values updated with the summed out random variables.<br>
+<br>
+see: AIMA3e page 492.<br>
+<br>
+
+@param vars
+           the random variables to marginalize/sum out.
+@return a new Distribution containing any remaining random variables not
+        summed out and a new set of values updated with the summed out
+        values.
+"
+      end
+
+      operation 388098 "divideBy"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "divisor" type class_ref 175106 // CategoricalDistribution
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Divide the dividend (this) CategoricalDistribution by the divisor to
+create a new CategoricalDistribution representing the quotient. The
+variables comprising the divisor distribution must be a subset of the
+dividend. However, ordering of variables does not matter as the quotient
+contains the same variables as the dividend and the internal
+implementation logic should handle iterating through the two
+distributions correctly, irrespective of the order of their variables.
+
+@param divisor
+@return a new Distribution representing the quotient of the dividend
+        (this) divided by the divisor.
+@throws IllegalArgumentException
+            if the variables of the divisor distribution are not a subset
+            of the dividend.
+"
+      end
+
+      operation 388226 "multiplyBy"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "multiplier" type class_ref 175106 // CategoricalDistribution
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Multiplication of this Distribution by a given multiplier, creating a new
+Distribution representing the product of the two. <b>Note:</b> Is
+equivalent to pointwise product calculation on factors.<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Note: Default Distribution multiplication is not commutative. The reason
+is because the order of the variables comprising a Distribution dictate
+the ordering of the values for that distribution. For example (the
+General case of Baye's rule, AIMA3e pg. 496), using this API method:<br>
+<br>
+<b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y))/<b>P</b>(X)<br>
+<br>
+is NOT true, due to multiplication of distributions not being
+commutative. However:<br>
+<br>
+<b>P</b>(Y | X) = (<b>P</b>(Y)<b>P</b>(X | Y))/<b>P</b>(X)<br>
+<br>
+is true, using this API.<br>
+<br>
+The default order of the variable of the Distribution returned is the
+order of the variables as they are seen, as read from the left to right
+term, for e.g.: <br>
+<br>
+<b>P</b>(Y)<b>P</b>(X | Y)<br>
+<br>
+would give a Distribution of the following form: <br>
+Y, X<br>
+<br>
+i.e. an ordered union of the variables from the two distributions. <br>
+To override the default order of the product use multiplyByPOS().
+
+@param multiplier
+
+@return a new Distribution representing the product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product distribution is the ordered union of the left term (this)
+        and the right term (multiplier).
+
+@see CategoricalDistribution#multiplyByPOS(CategoricalDistribution,
+     RandomVariable...)
+"
+      end
+
+      operation 388354 "multiplyByPOS"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "multiplier" type class_ref 175106 // CategoricalDistribution
+	  param inout name "" explicit_type "RandomVariable...prodVarOrder"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Multiplication - Product Order Specified (POS). <b>Note:</b> Is
+equivalent to pointwise product calculation.<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Multiplication of this Distribution by a given multiplier, creating a new
+Distribution representing the product of the two. The order of the
+variables comprising the product will match those specified. For example
+(the General case of Baye's rule, AIMA3e pg. 496), using this API method:<br>
+<br>
+<b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y), [Y, X])/<b>P</b>(X)<br>
+<br>
+is true when the correct product order is specified.
+
+@param multiplier
+@param prodVarOrder
+           the order the variables comprising the product are to be in.
+
+@return a new Distribution representing the product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product distribution is the order specified.
+
+@see CategoricalDistribution#multiplyBy(CategoricalDistribution)
+"
+      end
+
+      operation 388482 "iterateOver"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "cdi" type class_ref 175618 // Iterator
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all the possible value assignments for the Random Variables
+comprising this CategoricalDistribution.
+
+@param cdi
+           the CategoricalDistribution Iterator to iterate.
+"
+      end
+
+      operation 388610 "iterateOver"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "cdi" type class_ref 175618 // Iterator
+	  param inout name "" explicit_type "AssignmentProposition...fixedValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all possible values assignments for the Random Variables
+comprising this CategoricalDistribution that are not in the fixed set of
+values. This allows you to iterate over a subset of possible
+combinations.
+
+@param cdi
+           the CategoricalDistribution Iterator to iterate
+@param fixedValues
+           Fixed values for a subset of the Random Variables comprising
+           this CategoricalDistribution.
+"
+      end
+    end
+
+    class 175234 "ProbabilityMass"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
+<br>
+A probability distribution for discrete random variables.
+
+@see <a href=\"http://en.wikipedia.org/wiki/Probability_distribution\"
+     >Probability Distribution</a>
+
+@author Ciaran O'Reilly
+"
+      classrelation 200962 // <generalisation>
+	relation 200962 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 200962 // <generalisation>
+	  b parent class_ref 175362 // ProbabilityDistribution
+      end
+    end
+
+    class 175362 "ProbabilityDistribution"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
+<br>
+A probability distribution is a function that assigns probabilities to events
+(sets of possible worlds).<br>
+<br>
+<b>Note:</b> This definition is slightly different than that given in AIMA3e
+pg. 487, which in this API corresponds to a CategoricalDistribution.
+
+@see <a href=\"http://en.wikipedia.org/wiki/Probability_distribution\"
+     >Probability Distribution</a>
+
+@author Ciaran O'Reilly
+"
+      operation 386690 "getFor"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the random
+        variables this probability distribution is for.
+"
+      end
+
+      operation 386818 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if this Distribution is for the passed in Random Variable,
+        false otherwise.
+"
+      end
+
+      operation 386946 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Object...eventValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of values for the random variables
+comprising the Distribution (ordering and size of each must equal and
+their domains must match).
+
+@param eventValues
+           the values for the random variables comprising the
+           Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Distribution.
+"
+      end
+
+      operation 387074 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...eventValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of AssignmentPropositions for the
+random variables comprising the Distribution (size of each must equal and
+their random variables must match).
+
+@param eventValues
+           the assignment propositions for the random variables
+           comprising the Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Distribution.
+"
+      end
+    end
+
+    class 175490 "RandomVariable"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
+<br>
+Variables in probability theory are called random variables and their names
+begin with an uppercase letter. Every random variable has a domain - the set
+of possible values it can take on.
+
+@author Ciaran O'Reilly
+"
+      operation 392450 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the name used to uniquely identify this variable.
+"
+      end
+
+      operation 392578 "getDomain"
+	public return_type class_ref 177154 // Domain
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of possible values the Random Variable can take on.
+"
+      end
+    end
+
+    class 175746 "DecisionNetwork"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 626.<br>
+<br>
+Decision networks combine Bayesian networks
+with additional node types for actions and utilities.<br>
+<p>
+In its most general form, a decision network represents information about the agent’s current
+state, its possible actions, the state that will result from the agent’s action, and the utility of
+that state.
+
+@author samagra
+"
+      classrelation 201218 // network (<unidirectional association>)
+	relation 201218 --->
+	  a role_name "network" private
+	    comment " The underlying Bayesian network
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 201218 // network (<unidirectional association>)
+	  b parent class_ref 175874 // BayesianNetwork
+      end
+
+      classrelation 201346 // action (<unidirectional association>)
+	relation 201346 --->
+	  a role_name "action" private
+	    comment " The single decision node
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 201346 // action (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 201474 // inferenceProcedure (<unidirectional association>)
+	relation 201474 --->
+	  a role_name "inferenceProcedure" private
+	    comment " To calculate various conditional probabilities
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 201474 // inferenceProcedure (<unidirectional association>)
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      operation 388738 "DecisionNetwork"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "network" type class_ref 175874 // BayesianNetwork
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "inferenceProcedure" type class_ref 176002 // BayesInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor for the decision network.
+
+@param network            The underlying Bayesian Network.
+@param action             The decision node .
+@param inferenceProcedure The inference procedure to be utilised for probability calculations.
+"
+      end
+
+      operation 388866 "getUtilityForAction"
+	abstract public explicit_return_type "double"
+	nparams 2
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "value" explicit_type "Object"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns the utility for a particular state"
+      end
+
+      operation 388994 "getExpectedUtility"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "evidence" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the expected utility of an action in the presence of a certain random variable.
+
+@param action   Action for which the utility is to be calculated.
+@param evidence The available information.
+@return
+"
+      end
+
+      operation 389122 "getBestAction"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Currently the decision network supports only a single decision node and hence returns
+the same action.
+
+@return
+"
+      end
+
+      operation 389250 "getNetwork"
+	public return_type class_ref 175874 // BayesianNetwork
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the underlying Bayesian Network.
+
+@return
+"
+      end
+    end
+
+    class 176130 "Factor"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 524.<br>
+<br>
+Each factor is a matrix indexed by its argument variables.
+
+@author Ciaran O'Reilly
+
+"
+      class 176258 "Iterator"
+	visibility public stereotype "interface"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 389378 "iterate"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "possibleAssignment" explicit_type "Map<RandomVariable, Object>"
+	    param in name "value" explicit_type "double"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Called for each possible assignment for the Random Variables
+comprising this Factor.
+
+@param possibleAssignment
+           a possible assignment, &omega;, of variable/value pairs.
+@param value
+           the value associated with &omega;
+"
+	end
+      end
+
+      operation 389506 "getArgumentVariables"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the argument
+        variables for this Factor.
+"
+      end
+
+      operation 389634 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if this Factor contains the passed in Random Variable, false
+        otherwise.
+"
+      end
+
+      operation 389762 "getValues"
+	public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>Note:</b> Do not modify the double[] returned by this method directly
+as it is intended to be read only.
+
+@return the double[] used to represent the Factor.
+"
+      end
+
+      operation 389890 "sumOut"
+	public return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "" explicit_type "RandomVariable...vars"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sum out the provided variables from this Factor creating a new Factor of
+the remaining variables with their values updated with the summed out
+random variables.<br>
+<br>
+see: AIMA3e page 527.<br>
+<br>
+
+@param vars
+           the random variables to sum out.
+@return a new Factor containing any remaining random variables not summed
+        out and a new set of values updated with the summed out values.
+"
+      end
+
+      operation 390018 "pointwiseProduct"
+	public return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "multiplier" type class_ref 176130 // Factor
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Pointwise multiplication of this Factor by a given multiplier, creating a
+new Factor representing the product of the two.<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Note: Default Factor multiplication is not commutative. The reason is
+because the order of the variables comprising a Factor dictate the
+ordering of the values for that factor. The default order of the
+variables of the Factor returned is the order of the variables as they
+are seen, as read from the left to right term, for e.g.: <br>
+<br>
+f<sub>1</sub>(Y)f<sub>2</sub>(X, Y)<br>
+<br>
+would give a Factor of the following form: <br>
+Y, X<br>
+<br>
+i.e. an ordered union of the variables from the two factors. <br>
+To override the default order of the product use pointwiseProductPOS().
+
+@param multiplier
+
+@return a new Factor representing the pointwise product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product factor is the ordered union of the left term (this) and
+        the right term (multiplier).
+
+@see Factor#pointwiseProductPOS(Factor, RandomVariable...)
+"
+      end
+
+      operation 390146 "pointwiseProductPOS"
+	public return_type class_ref 176130 // Factor
+	nparams 2
+	  param inout name "multiplier" type class_ref 176130 // Factor
+	  param inout name "" explicit_type "RandomVariable...prodVarOrder"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Pointwise Multiplication - Product Order Specified (POS).<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Pointwise multiplication of this Factor by a given multiplier, creating a
+new Factor representing the product of the two. The order of the
+variables comprising the product will match those specified.
+
+@param multiplier
+@param prodVarOrder
+           the order the variables comprising the product are to be in.
+
+@return a new Factor representing the pointwise product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product distribution is the order specified.
+
+@see Factor#pointwiseProduct(Factor)
+"
+      end
+
+      operation 390274 "iterateOver"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fi" type class_ref 176258 // Iterator
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all the possible value assignments for the Random Variables
+comprising this Factor.
+
+@param fi
+           the Factor Iterator to iterate.
+"
+      end
+
+      operation 390402 "iterateOver"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "fi" type class_ref 176258 // Iterator
+	  param inout name "" explicit_type "AssignmentProposition...fixedValues"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all possible values assignments for the Random Variables
+comprising this Factor that are not in the fixed set of values. This
+allows you to iterate over a subset of possible combinations.
+
+@param fi
+           the Factor Iterator to iterate
+@param fixedValues
+           Fixed values for a subset of the Random Variables comprising
+           this Factor.
+"
+      end
+    end
+
+    class 176386 "FiniteProbabilityModel"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
+<br>
+A probability model on a discrete, countable set of worlds. The proper
+treatment of the continuous case brings in certain complications that are
+less relevant for most purposes in AI.
+
+@author Ciaran O'Reilly
+"
+      classrelation 201602 // <generalisation>
+	relation 201602 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 201602 // <generalisation>
+	  b parent class_ref 176514 // ProbabilityModel
+      end
+
+      operation 391042 "priorDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "Proposition...phi"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>P</b>(X,...)<br>
+
+@param phi
+           the propositions of interest.
+@return all the possible values of the propositions &phi;. This is a
+        Vector of numbers, where we assume a predefined ordering of the
+        domain of the relevant random variables.
+"
+      end
+
+      operation 391170 "posteriorDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "phi" type class_ref 176642 // Proposition
+	  param inout name "" explicit_type "Proposition...evidence"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a conditional distribution. Example:<br>
+<br>
+<b>P</b>(X | Y) gives the values of P(X = x<sub>i</sub> | Y =
+y<sub>j</sub>) for each possible i, j pair.
+
+@param phi
+           the proposition for which a probability distribution is to be
+           returned.
+@param evidence
+           information we already have.
+@return the conditional distribution for <b>P</b>(&phi; | evidence).
+"
+      end
+
+      operation 391298 "jointDistribution"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "" explicit_type "Proposition...propositions"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a distribution on multiple variables. Example, the product rule:<br>
+<br>
+<b>P</b>(X, Y) gives the values of P(X = x<sub>i</sub> | Y =
+y<sub>j</sub>)P(Y = y<sub>j</sub>) for each possible i, j pair.
+
+@param propositions
+           the propositions for which a joint probability distribution is
+           to be returned.
+@return the joint distribution for <b>P</b>(X, Y, ...).
+"
+      end
+    end
+
+    class 176514 "ProbabilityModel"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
+<br>
+A fully specified probability model associates a numerical probability
+P(&omega;) with each possible world. The set of all possible worlds is called
+the sample space &Omega;.
+
+@author Ciaran O'Reilly
+"
+      attribute 180866 "DEFAULT_ROUNDING_THRESHOLD"
+	const_attribute public explicit_type "double"
+	init_value " 1e-8"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "The default threshold for rounding errors. Example, to test if
+probabilities sum to 1:<br>
+<br>
+Math.abs(1 - probabilitySum) <
+ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+
+"
+      end
+
+      operation 390530 "isValid"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if 0 <= P(&omega;) <= 1 for every &omega; and
+        &sum;<sub>&omega; &isin; &Omega;</sub> P(&omega;) = 1 (Equation
+        13.1 pg. 484 AIMA3e), false otherwise.
+"
+      end
+
+      operation 390658 "prior"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Proposition...phi"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For any proposition &phi;, P(&phi;) = &sum;<sub>&omega; &isin;
+&phi;</sub> P(&omega;). Refer to equation 13.2 page 485 of AIMA3e.
+Probabilities such as P(Total = 11) and P(doubles) are called
+unconditional or prior probabilities (and sometimes just \"priors\" for
+short); they refer to degrees of belief in propositions in the absence of
+any other information.
+
+@param phi
+           the propositional terms for which a probability value is to be
+           returned.
+@return the probability of the proposition &phi;.
+"
+      end
+
+      operation 390786 "posterior"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "phi" type class_ref 176642 // Proposition
+	  param inout name "" explicit_type "Proposition...evidence"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Unlike unconditional or prior probabilities, most of the time we have
+some information, usually called evidence, that has already been
+revealed. This is the conditional or posterior probability (or just
+\"posterior\" for short). Mathematically speaking, conditional
+probabilities are defined in terms of unconditional probabilities as
+follows, for any propositions a and b, we have:<br>
+<br>
+P(a | b) = P(a AND b)/P(b)<br>
+<br>
+which holds whenever P(b) > 0. Refer to equation 13.3 page 485 of AIMA3e.
+This can be rewritten in a different form called the <b>product rule</b>: <br>
+<br>
+P(a AND b) = P(a | b)P(b)<br>
+<br>
+and also as:<br>
+<br>
+P(a AND b) = P(b | a)P(a)<br>
+<br>
+whereby, equating the two right-hand sides and dividing by P(a) gives you
+Bayes' rule:<br>
+<br>
+P(b | a) = (P(a | b)P(b))/P(a) - i.e. (likelihood * prior)/evidence
+
+@param phi
+           the proposition for which a probability value is to be
+           returned.
+@param evidence
+           information we already have.
+@return the probability of the proposition &phi; given evidence.
+"
+      end
+
+      operation 390914 "getRepresentation"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the random
+        variables describing the atomic variable/value pairs this
+        probability model can take on. Refer to pg. 486 AIMA3e.
+"
+      end
+    end
+
+    class 176770 "InformationGatheringAgent"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 16.9, page 632.<br>
+</br>
+<pre>
+
+function INFORMATION-GATHERING-AGENT(percept) returns an action
+ persistent: D, a decision network
+
+integrate percept into D
+ j ← the value that maximizes VPI(Ej) / Cost(Ej)
+ if VPI(Ej) > Cost(Ej)
+   return REQUEST(Ej)
+ else return the best action from D
+
+    </pre>
+<p>
+Figure ?? Design of a simple information-gathering agent.
+The agent works by repeatedly selecting the observation with
+the highest information value, until the cost of the next
+observation is greater than its expected benefit.
+
+@author samagra
+"
+      classrelation 201730 // <realization>
+	relation 201730 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 201730 // <realization>
+	  b parent class_ref 128130 // Agent
+      end
+
+      classrelation 201858 // inferenceMethod (<unidirectional association>)
+	relation 201858 --->
+	  a role_name "inferenceMethod" private
+	    comment " To carry out conditional probability calculations
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 201858 // inferenceMethod (<unidirectional association>)
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      classrelation 201986 // decisionNetwork (<unidirectional association>)
+	relation 201986 --->
+	  a role_name "decisionNetwork" private
+	    comment " persistent: D, a decision network
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 201986 // decisionNetwork (<unidirectional association>)
+	  b parent class_ref 175746 // DecisionNetwork
+      end
+
+      classrelation 202114 // observedEvidence (<unidirectional association>)
+	relation 202114 --->
+	  stereotype "List"
+	  a role_name "observedEvidence" private
+	    comment " To store the information collected till now
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 202114 // observedEvidence (<unidirectional association>)
+	  b parent class_ref 176898 // AssignmentProposition
+      end
+
+      classrelation 202242 // randomVars (<unidirectional association>)
+	relation 202242 --->
+	  stereotype "List"
+	  a role_name "randomVars" private
+	    comment " To store the scope of information that can be collected
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 202242 // randomVars (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      operation 391426 "InformationGatheringAgent"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "decisionNetwork" type class_ref 175746 // DecisionNetwork
+	  param inout name "inferenceMethod" type class_ref 176002 // BayesInference
+	  param inout name "initialEvidence" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor for the agent.
+
+@param decisionNetwork The decision network which represents the problem
+                       for which the information is to be collected
+@param inferenceMethod To carry out various conditional probability calculations
+@param initialEvidence The information which is available beforehand to the agent.
+"
+      end
+
+      operation 391554 "InformationGatheringAgent"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "decisionNetwork" type class_ref 175746 // DecisionNetwork
+	  param inout name "inferenceMethod" type class_ref 176002 // BayesInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 391682 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "function INFORMATION-GATHERING-AGENT(percept) returns an action
+
+@param percept The current percept of a sequence perceived by the Agent.
+@return action to be executed by the agent
+"
+      end
+
+      operation 391810 "request"
+	abstract protected return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "randomVar" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "We assume that the result of
+the action Request (Ej ) is that the next percept provides the value of Ej .
+
+@param randomVar The random variable for which the information is needed.
+@return The action which leads to the agent to the value of Ej.
+"
+      end
+
+      operation 391938 "vpiPerUnitCost"
+	private explicit_return_type "List<Double>"
+	nparams 1
+	  param inout name "variablesInTopologicalOrder" explicit_type "List<RandomVariable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the vpi (value of perfect information) per unit cost
+for all the random variables.
+
+@param variablesInTopologicalOrder The variables for which information is required.
+@return A list of vpi values.
+"
+      end
+
+      operation 392066 "getCost"
+	abstract package explicit_return_type "double"
+	nparams 1
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the cost of obtaining information for
+a particular variable.
+
+@param var
+@return
+"
+      end
+
+      operation 392194 "getVpi"
+	package explicit_return_type "double"
+	nparams 1
+	  param inout name "var" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates VPI for a particular random variable.
+
+@param var
+@return
+"
+      end
+
+      operation 392322 "integratePercept"
+	abstract package return_type class_ref 176898 // AssignmentProposition
+	nparams 2
+	  param inout name "observedEvidence" explicit_type "List<AssignmentProposition>"
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Extracts the information from the percepts and adds ot to our observed evidence.
+
+@param observedEvidence
+@param percept
+@return
+"
+      end
+    end
+
+    class 177026 "ProbabilityDensity"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
+<br>
+A probability distribution for continuous random variables.
+
+@see <a href=\"http://en.wikipedia.org/wiki/Probability_distribution\"
+     >Probability Distribution</a>
+
+@author Ciaran O'Reilly
+"
+      classrelation 202370 // <generalisation>
+	relation 202370 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 202370 // <generalisation>
+	  b parent class_ref 175362 // ProbabilityDistribution
+      end
+    end
+  end
+
+  package_ref 134658 // mdp
+
+  deploymentview 134146 "probability"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 165890 "BeliefState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128898 // BeliefState
+      end
+    end
+
+    artifact 166018 "ProbabilityDistribution"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 175362 // ProbabilityDistribution
+      end
+    end
+
+    artifact 166146 "ProbabilityMass"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 175234 // ProbabilityMass
+      end
+    end
+
+    artifact 166274 "CategoricalDistribution"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 175106 // CategoricalDistribution
+      end
+    end
+
+    artifact 166402 "DecisionNetwork"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.domain.FiniteDomain;
+import aima.core.probability.proposition.AssignmentProposition;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 175746 // DecisionNetwork
+      end
+    end
+
+    artifact 166530 "Factor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 176130 // Factor
+      end
+    end
+
+    artifact 166658 "ProbabilityModel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.probability.proposition.Proposition;
+${definition}"
+      associated_elems
+	class_ref 176514 // ProbabilityModel
+      end
+    end
+
+    artifact 166786 "FiniteProbabilityModel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.proposition.Proposition;
+${definition}"
+      associated_elems
+	class_ref 176386 // FiniteProbabilityModel
+      end
+    end
+
+    artifact 166914 "InformationGatheringAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Agent;
+import aima.core.agent.Percept;
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.domain.FiniteDomain;
+import aima.core.probability.proposition.AssignmentProposition;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 176770 // InformationGatheringAgent
+      end
+    end
+
+    artifact 167042 "ProbabilityDensity"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 177026 // ProbabilityDensity
+      end
+    end
+
+    artifact 167170 "RandomVariable"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.domain.Domain;
+${definition}"
+      associated_elems
+	class_ref 175490 // RandomVariable
+      end
+    end
+  end
+
+  package_ref 136322 // bayes
+
+  package_ref 136450 // proposition
+
+  package_ref 136578 // domain
+
+  package_ref 136962 // util
+
+  package_ref 137346 // example
+
+  package_ref 137474 // full
+
+  package_ref 137602 // hmm
+
+  package_ref 137858 // temporal
+end

@@ -1,0 +1,20 @@
+class QueueBasedSearch
+!!!464898.java!!!	QueueBasedSearch(inout impl : QueueSearch, inout queue : Queue<Node<S, A>>)
+		this.impl = impl;
+		this.frontier = queue;
+!!!465026.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+		impl.getNodeExpander().useParentLinks(true);
+		frontier.clear();
+		Optional<Node<S, A>> node = impl.findNode(p, frontier);
+		return SearchUtils.toActions(node);
+!!!465154.java!!!	findState(inout p : Problem) : Optional<S>
+		impl.getNodeExpander().useParentLinks(false);
+		frontier.clear();
+		Optional<Node<S, A>> node = impl.findNode(p, frontier);
+		return SearchUtils.toState(node);
+!!!465282.java!!!	getMetrics() : Metrics
+		return impl.getMetrics();
+!!!465410.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+		impl.getNodeExpander().addNodeListener(listener);
+!!!465538.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+		return impl.getNodeExpander().removeNodeListener(listener);

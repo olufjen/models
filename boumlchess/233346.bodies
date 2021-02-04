@@ -1,0 +1,91 @@
+class MoveMent
+!!!717826.java!!!	MoveMent(inout board : NQueensBoard, inout positions : HashMap<String, Position>)
+		super();
+		this.board = board;
+		this.positions = positions;
+		positionlist = new ArrayList(positions.values());
+		setusedunused();
+		availablePositions = new HashMap();
+		availablePositionlist = new ArrayList();
+!!!717954.java!!!	getUsedPositions() : Position
+		return usedPositions;
+!!!718082.java!!!	setUsedPositions(inout usedPositions : HashMap<String, Position>) : void
+		this.usedPositions = usedPositions;
+!!!718210.java!!!	getNotusedPositions() : Position
+		return notusedPositions;
+!!!718338.java!!!	setNotusedPositions(inout notusedPositions : HashMap<String, Position>) : void
+		this.notusedPositions = notusedPositions;
+!!!718466.java!!!	getAvailablePositions() : Position
+		return availablePositions;
+!!!718594.java!!!	setAvailablePositions(inout availablePositions : HashMap<String, Position>) : void
+		this.availablePositions = availablePositions;
+!!!718722.java!!!	getUsedPositionlist() : Position
+		return usedPositionlist;
+!!!718850.java!!!	setUsedPositionlist(inout usedPositionlist : List<Position>) : void
+		this.usedPositionlist = usedPositionlist;
+!!!718978.java!!!	getNotusedPositionlist() : Position
+		return notusedPositionlist;
+!!!719106.java!!!	setNotusedPositionlist(inout notusedPositionlist : List<Position>) : void
+		this.notusedPositionlist = notusedPositionlist;
+!!!719234.java!!!	getAvailablePositionlist() : Position
+		return availablePositionlist;
+!!!719362.java!!!	setAvailablePositionlist(inout availablePositionlist : List<Position>) : void
+		this.availablePositionlist = availablePositionlist;
+!!!719490.java!!!	getPositionlist() : Position
+		return positionlist;
+!!!719618.java!!!	setPositionlist(inout positionlist : List<Position>) : void
+		this.positionlist = positionlist;
+!!!719746.java!!!	getPositions() : Position
+		return positions;
+!!!719874.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!720002.java!!!	getBoard() : NQueensBoard
+		return board;
+!!!720130.java!!!	setBoard(inout board : NQueensBoard) : void
+		this.board = board;
+!!!720258.java!!!	getMovedblackPieces() : HashSet<BlackPiece>
+		return movedblackPieces;
+!!!720386.java!!!	setMovedblackPieces(inout movedblackPieces : HashSet<BlackPiece>) : void
+		this.movedblackPieces = movedblackPieces;
+!!!720514.java!!!	getMovedwhitePieces() : HashSet<WhitePiece>
+		return movedwhitePieces;
+!!!720642.java!!!	setMovedwhitePieces(inout movedwhitePieces : HashSet<WhitePiece>) : void
+		this.movedwhitePieces = movedwhitePieces;
+!!!720770.java!!!	setusedunused() : void
+		usedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::isInUse).collect(Collectors.toList());
+		notusedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::notisInUse).collect(Collectors.toList());
+
+//		notusedPositions = (List<Position>) ((List<Position>) positions).stream().filter(board.queenExistsAt(position.getXyloc())).collect(Collectors.toList());
+!!!720898.java!!!	setQueensPositions() : void
+		StringBuilder result = new StringBuilder();
+		for (Position position:usedPositionlist) {
+			if (!board.queenExistsAt(position.getXyloc())) {
+				availablePositionlist.add(position);
+				position.checkUsed();
+			}
+			
+		}
+		int i = 0;
+		int max = availablePositionlist.size();
+		for (Position position:notusedPositionlist) {
+			if (board.queenExistsAt(position.getXyloc()) && i <= max) {
+				Position available = availablePositionlist.get(i);
+				position.setUsedBy(available.getUsedBy());
+				position.setPieces( available.getPieces());
+				position.setInUse(true);
+				available.setPieces(null);
+				available.setUsedBy();
+//				available.setInUse(false);
+				available.checkUsed();
+				position.checkUsed();
+				i++;
+				result.append("\n From position ").append(available.getPositionName()).append(" To ").append(position.getPositionName());
+			}else {
+				position.checkUsed();
+			}
+			if (i>max) {
+				result.append("\n No more available positions ").append(i).append(" max: ").append(max);
+			}
+		}
+		System.out.println(result.toString());
+		

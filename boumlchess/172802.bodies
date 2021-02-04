@@ -1,0 +1,15 @@
+class AbstractPLVisitor
+!!!373378.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : A) : Sentence
+		// default behavior is to treat propositional symbols as atomic
+		// and leave unchanged.
+		return s;
+!!!373506.java!!!	visitUnarySentence(inout s : ComplexSentence, inout arg : A) : Sentence
+		// a new Complex Sentence with the same connective but possibly
+		// with its simpler sentence replaced by the visitor.
+		return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0)
+				.accept(this, arg));
+!!!373634.java!!!	visitBinarySentence(inout s : ComplexSentence, inout arg : A) : Sentence
+		// a new Complex Sentence with the same connective but possibly
+		// with its simpler sentences replaced by the visitor.
+		return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0)
+				.accept(this, arg), s.getSimplerSentence(1).accept(this, arg));

@@ -1,0 +1,156 @@
+class GeneticAlgorithm
+!!!477826.java!!!	GeneticAlgorithm(in individualLength : int, inout finiteAlphabet : Collection<A>, in mutationProbability : double)
+		this(individualLength, finiteAlphabet, mutationProbability, new Random());
+!!!477954.java!!!	GeneticAlgorithm(in individualLength : int, inout finiteAlphabet : Collection<A>, in mutationProbability : double, inout random : Random)
+		this.individualLength = individualLength;
+		this.finiteAlphabet = new ArrayList<A>(finiteAlphabet);
+		this.mutationProbability = mutationProbability;
+		this.random = random;
+
+		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
+!!!478082.java!!!	addProgressTracer(inout pTracer : GeneticAlgorithm::ProgressTracker) : void
+		progressTrackers.add(pTracer);
+!!!478210.java!!!	geneticAlgorithm(inout initPopulation : Collection<Individual<A>>, inout fitnessFn : FitnessFunction, in maxIterations : int) : Individual
+		GoalTest<Individual<A>> goalTest = state -> getIterations() >= maxIterations;
+		return geneticAlgorithm(initPopulation, fitnessFn, goalTest, 0L);
+!!!478338.java!!!	geneticAlgorithm(inout initPopulation : Collection<Individual<A>>, inout fitnessFn : FitnessFunction, inout goalTest : GoalTest, in maxTimeMilliseconds : long) : Individual
+		Individual<A> bestIndividual = null;
+
+		// Create a local copy of the population to work with
+		List<Individual<A>> population = new ArrayList<>(initPopulation);
+		// Validate the population and setup the instrumentation
+		validatePopulation(population);
+		updateMetrics(population, 0, 0L);
+
+		long startTime = System.currentTimeMillis();
+
+		// repeat
+		int itCount = 0;
+		do {
+			population = nextGeneration(population, fitnessFn);
+			bestIndividual = retrieveBestIndividual(population, fitnessFn);
+
+			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
+
+			// until some individual is fit enough, or enough time has elapsed
+			if (maxTimeMilliseconds > 0L && (System.currentTimeMillis() - startTime) > maxTimeMilliseconds)
+				break;
+			if (Tasks.currIsCancelled())
+				break;
+		} while (!goalTest.test(bestIndividual));
+
+		notifyProgressTrackers(itCount, population);
+		// return the best individual in population, according to FITNESS-FN
+		return bestIndividual;
+!!!478466.java!!!	retrieveBestIndividual(inout population : Collection<Individual<A>>, inout fitnessFn : FitnessFunction) : Individual
+		Individual<A> bestIndividual = null;
+		double bestSoFarFValue = Double.NEGATIVE_INFINITY;
+
+		for (Individual<A> individual : population) {
+			double fValue = fitnessFn.apply(individual);
+			if (fValue > bestSoFarFValue) {
+				bestIndividual = individual;
+				bestSoFarFValue = fValue;
+			}
+		}
+
+		return bestIndividual;
+!!!478594.java!!!	clearInstrumentation() : void
+		updateMetrics(new ArrayList<Individual<A>>(), 0, 0L);
+!!!478722.java!!!	getMetrics() : Metrics
+		return metrics;
+!!!478850.java!!!	getPopulationSize() : int
+		return metrics.getInt(POPULATION_SIZE);
+!!!478978.java!!!	getIterations() : int
+		return metrics.getInt(ITERATIONS);
+!!!479106.java!!!	getTimeInMilliseconds() : long
+		return metrics.getLong(TIME_IN_MILLISECONDS);
+!!!479234.java!!!	updateMetrics(inout population : Collection<Individual<A>>, in itCount : int, in time : long) : void
+		metrics.set(POPULATION_SIZE, population.size());
+		metrics.set(ITERATIONS, itCount);
+		metrics.set(TIME_IN_MILLISECONDS, time);
+!!!479362.java!!!	nextGeneration(inout population : List<Individual<A>>, inout fitnessFn : FitnessFunction) : Individual
+		// new_population <- empty set
+		List<Individual<A>> newPopulation = new ArrayList<Individual<A>>(population.size());
+		// for i = 1 to SIZE(population) do
+		for (int i = 0; i < population.size(); i++) {
+			// x <- RANDOM-SELECTION(population, FITNESS-FN)
+			Individual<A> x = randomSelection(population, fitnessFn);
+			// y <- RANDOM-SELECTION(population, FITNESS-FN)
+			Individual<A> y = randomSelection(population, fitnessFn);
+			// child <- REPRODUCE(x, y)
+			Individual<A> child = reproduce(x, y);
+			// if (small random probability) then child <- MUTATE(child)
+			if (random.nextDouble() <= mutationProbability) {
+				child = mutate(child);
+			}
+			// add child to new_population
+			newPopulation.add(child);
+		}
+		notifyProgressTrackers(getIterations(), population);
+		return newPopulation;
+!!!479490.java!!!	randomSelection(inout population : List<Individual<A>>, inout fitnessFn : FitnessFunction) : Individual
+		// Default result is last individual
+		// (just to avoid problems with rounding errors)
+		Individual<A> selected = population.get(population.size() - 1);
+
+		// Determine all of the fitness values
+		double[] fValues = new double[population.size()];
+		for (int i = 0; i < population.size(); i++) {
+			fValues[i] = fitnessFn.apply(population.get(i));
+		}
+		// Normalize the fitness values
+		fValues = Util.normalize(fValues);
+		double prob = random.nextDouble();
+		double totalSoFar = 0.0;
+		for (int i = 0; i < fValues.length; i++) {
+			// Are at last element so assign by default
+			// in case there are rounding issues with the normalized values
+			totalSoFar += fValues[i];
+			if (prob <= totalSoFar) {
+				selected = population.get(i);
+				break;
+			}
+		}
+
+		selected.incDescendants();
+		return selected;
+!!!479618.java!!!	reproduce(inout x : Individual, inout y : Individual) : Individual
+		// n <- LENGTH(x);
+		// Note: this is = this.individualLength
+		// c <- random number from 1 to n
+		int c = randomOffset(individualLength);
+		// return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
+		List<A> childRepresentation = new ArrayList<A>();
+		childRepresentation.addAll(x.getRepresentation().subList(0, c));
+		childRepresentation.addAll(y.getRepresentation().subList(c, individualLength));
+
+		return new Individual<A>(childRepresentation);
+!!!479746.java!!!	mutate(inout child : Individual) : Individual
+		int mutateOffset = randomOffset(individualLength);
+		int alphaOffset = randomOffset(finiteAlphabet.size());
+
+		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
+
+		mutatedRepresentation.set(mutateOffset, finiteAlphabet.get(alphaOffset));
+
+		return new Individual<A>(mutatedRepresentation);
+!!!479874.java!!!	randomOffset(in length : int) : int
+		return random.nextInt(length);
+!!!480002.java!!!	validatePopulation(inout population : Collection<Individual<A>>) : void
+		// Require at least 1 individual in population in order
+		// for algorithm to work
+		if (population.size() < 1) {
+			throw new IllegalArgumentException("Must start with at least a population of size 1");
+		}
+		// String lengths are assumed to be of fixed size,
+		// therefore ensure initial populations lengths correspond to this
+		for (Individual<A> individual : population) {
+			if (individual.length() != this.individualLength) {
+				throw new IllegalArgumentException("Individual [" + individual
+						+ "] in population is not the required length of " + this.individualLength);
+			}
+		}
+!!!480130.java!!!	notifyProgressTrackers(in itCount : int, inout generation : Collection<Individual<A>>) : void
+		for (ProgressTracker<A> tracer : progressTrackers)
+			tracer.trackProgress(getIterations(), generation);

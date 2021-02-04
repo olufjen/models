@@ -1,0 +1,41 @@
+class Perceptron
+!!!247170.java!!!	Perceptron(in numberOfNeurons : int, in numberOfInputs : int)
+
+		this.layer = new Layer(numberOfNeurons, numberOfInputs, 2.0, -2.0,
+				new HardLimitActivationFunction());
+
+!!!247298.java!!!	processInput(inout input : Vector) : Vector
+		lastInput = input;
+		return layer.feedForward(input);
+!!!247426.java!!!	processError(inout error : Vector) : void
+		Matrix weightUpdate = error.times(lastInput.transpose());
+		layer.acceptNewWeightUpdate(weightUpdate);
+
+		Vector biasUpdate = layer.getBiasVector().plus(error);
+		layer.acceptNewBiasUpdate(biasUpdate);
+
+!!!247554.java!!!	trainOn(inout innds : NNDataSet, in numberofEpochs : int) : void
+		for (int i = 0; i < numberofEpochs; i++) {
+			innds.refreshDataset();
+			while (innds.hasMoreExamples()) {
+				NNExample nne = innds.getExampleAtRandom();
+				processInput(nne.getInput());
+				Vector error = layer.errorVectorFrom(nne.getTarget());
+				processError(error);
+			}
+		}
+!!!247682.java!!!	predict(inout nne : NNExample) : Vector
+		return processInput(nne.getInput());
+!!!247810.java!!!	testOnDataSet(inout nnds : NNDataSet) : int
+		int[] result = new int[] { 0, 0 };
+		nnds.refreshDataset();
+		while (nnds.hasMoreExamples()) {
+			NNExample nne = nnds.getExampleAtRandom();
+			Vector prediction = predict(nne);
+			if (nne.isCorrect(prediction)) {
+				result[0] = result[0] + 1;
+			} else {
+				result[1] = result[1] + 1;
+			}
+		}
+		return result;

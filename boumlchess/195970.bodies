@@ -1,0 +1,40 @@
+class GraphSearchReducedFrontier
+!!!472450.java!!!	GraphSearchReducedFrontier()
+		this(new NodeExpander<>());
+!!!472578.java!!!	GraphSearchReducedFrontier(inout nodeExpander : NodeExpander)
+		super(nodeExpander);
+!!!472706.java!!!	findNode(inout problem : Problem, inout frontier : Queue<Node<S, A>>) : Node
+		// initialize the explored set to be empty
+		if (frontier instanceof PriorityQueue<?>)
+			nodeComparator = ((PriorityQueue<Node<S, A>>) frontier).comparator();
+		explored.clear();
+		frontierNodeLookup.clear();
+		return super.findNode(problem, frontier);
+!!!472834.java!!!	getNodeComparator() : Comparator<? super Node<S, A>>
+		return nodeComparator;
+!!!472962.java!!!	addToFrontier(inout node : Node) : void
+		if (!explored.contains(node.getState())) {
+			Node<S, A> frontierNode = frontierNodeLookup.get(node.getState());
+			if (frontierNode == null) {
+				// child.STATE is not in frontier and not yet explored
+				frontier.add(node);
+				frontierNodeLookup.put(node.getState(), node);
+				updateMetrics(frontier.size());
+			} else if (nodeComparator != null && nodeComparator.compare(node, frontierNode) < 0) {
+				// child.STATE is in frontier with higher cost
+				// replace that frontier node with child
+				if (frontier.remove(frontierNode))
+					frontierNodeLookup.remove(frontierNode.getState());
+				frontier.add(node);
+				frontierNodeLookup.put(node.getState(), node);
+			}
+		}
+!!!473090.java!!!	removeFromFrontier() : Node
+		Node<S, A> result = frontier.remove();
+		frontierNodeLookup.remove(result.getState());
+		// add the node to the explored set
+		explored.add(result.getState());
+		updateMetrics(frontier.size());
+		return result;
+!!!473218.java!!!	isFrontierEmpty() : boolean
+		return frontier.isEmpty();

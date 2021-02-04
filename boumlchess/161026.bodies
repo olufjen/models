@@ -1,0 +1,106 @@
+class Unifier
+!!!274818.java!!!	Unifier()
+
+!!!274946.java!!!	unify(inout x : FOLNode, inout y : FOLNode) : Variable
+		return unify(x, y, new LinkedHashMap<Variable, Term>());
+!!!275074.java!!!	unify(inout x : FOLNode, inout y : FOLNode, inout theta : Map<Variable, Term>) : Variable
+		// if theta = failure then return failure
+		if (theta == null) {
+			return null;
+		} else if (x.equals(y)) {
+			// else if x = y then return theta
+			return theta;
+		} else if (x instanceof Variable) {
+			// else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
+			return unifyVar((Variable) x, y, theta);
+		} else if (y instanceof Variable) {
+			// else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
+			return unifyVar((Variable) y, x, theta);
+		} else if (isCompound(x) && isCompound(y)) {
+			// else if COMPOUND?(x) and COMPOUND?(y) then
+			// return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
+			return unify(args(x), args(y), unifyOps(op(x), op(y), theta));
+		} else {
+			// else return failure
+			return null;
+		}
+!!!275202.java!!!	unify(inout x : List<? extends FOLNode>, inout y : List<? extends FOLNode>, inout theta : Map<Variable, Term>) : Variable
+		if (theta == null) {
+			return null;
+		} else if (x.size() != y.size()) {
+			return null;
+		} else if (x.size() == 0 && y.size() == 0) {
+			return theta;
+		} else if (x.size() == 1 && y.size() == 1) {
+			return unify(x.get(0), y.get(0), theta);
+		} else {
+			return unify(x.subList(1, x.size()), y.subList(1, y.size()),
+					unify(x.get(0), y.get(0), theta));
+		}
+!!!275330.java!!!	occurCheck(inout theta : Map<Variable, Term>, inout var : Variable, inout x : FOLNode) : boolean
+		// ((equal var x) t)
+		if (var.equals(x)) {
+			return true;
+			// ((bound? x subst)
+		} else if (theta.containsKey(x)) {
+			// (occurs-in? var (lookup x subst) subst))
+			return occurCheck(theta, var, theta.get(x));
+			// ((consp x) (or (occurs-in? var (first x) subst) (occurs-in? var
+			// (rest x) subst)))
+		} else if (x instanceof Function) {
+			// (or (occurs-in? var (first x) subst) (occurs-in? var (rest x)
+			// subst)))
+			Function fx = (Function) x;
+			for (Term fxt : fx.getArgs()) {
+				if (occurCheck(theta, var, fxt)) {
+					return true;
+				}
+			}
+		}
+		return false;
+!!!275458.java!!!	unifyVar(inout var : Variable, inout x : FOLNode, inout theta : Map<Variable, Term>) : Variable
+
+		if (!Term.class.isInstance(x)) {
+			return null;
+		} else if (theta.keySet().contains(var)) {
+			// if {var/val} E theta then return UNIFY(val, x, theta)
+			return unify(theta.get(var), x, theta);
+		} else if (theta.keySet().contains(x)) {
+			// else if {x/val} E theta then return UNIFY(var, val, theta)
+			return unify(var, theta.get(x), theta);
+		} else if (occurCheck(theta, var, x)) {
+			// else if OCCUR-CHECK?(var, x) then return failure
+			return null;
+		} else {
+			// else return add {var/x} to theta
+			cascadeSubstitution(theta, var, (Term) x);
+			return theta;
+		}
+!!!275586.java!!!	unifyOps(in x : String, in y : String, inout theta : Map<Variable, Term>) : Variable
+		if (theta == null) {
+			return null;
+		} else if (x.equals(y)) {
+			return theta;
+		} else {
+			return null;
+		}
+!!!275714.java!!!	args(inout x : FOLNode) : List<? extends FOLNode>
+		return x.getArgs();
+!!!275842.java!!!	op(inout x : FOLNode) : String
+		return x.getSymbolicName();
+!!!275970.java!!!	isCompound(inout x : FOLNode) : boolean
+		return x.isCompound();
+!!!276098.java!!!	cascadeSubstitution(inout theta : Map<Variable, Term>, inout var : Variable, inout x : Term) : Variable
+		theta.put(var, x);
+		for (Variable v : theta.keySet()) {
+			theta.put(v, _substVisitor.subst(theta, theta.get(v)));
+		}
+		// Ensure Function Terms are correctly updates by passing over them
+		// again. Fix for testBadCascadeSubstitution_LCL418_1()
+		for (Variable v : theta.keySet()) {
+			Term t = theta.get(v);
+			if (t instanceof Function) {
+				theta.put(v, _substVisitor.subst(theta, t));
+			}
+		}
+		return theta;

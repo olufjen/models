@@ -1,0 +1,123 @@
+class RecursiveBestFirstSearch
+!!!475394.java!!!	RecursiveBestFirstSearch(inout evalFn : ToDoubleFunction<Node<S, A>>)
+        this(evalFn, false);
+!!!475522.java!!!	RecursiveBestFirstSearch(inout evalFn : ToDoubleFunction<Node<S, A>>, inout avoidLoops : boolean)
+        this(evalFn, avoidLoops, new NodeExpander<>());
+!!!475650.java!!!	RecursiveBestFirstSearch(inout evalFn : ToDoubleFunction<Node<S, A>>, inout avoidLoops : boolean, inout nodeExpander : NodeExpander)
+        this.evalFn = evalFn;
+        this.avoidLoops = avoidLoops;
+        this.nodeExpander = nodeExpander;
+        nodeExpander.addNodeListener((node) -> metrics.incrementInt(METRIC_NODES_EXPANDED));
+        metrics = new Metrics();
+!!!475778.java!!!	setHeuristicFunction(inout h : ToDoubleFunction<Node<S, A>>) : void
+        if (evalFn instanceof HeuristicEvaluationFunction)
+            ((HeuristicEvaluationFunction<S, A>) evalFn).setHeuristicFunction(h);
+!!!475906.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+        explored.clear();
+        clearMetrics();
+
+        // RBFS(problem, MAKE-NODE(INITIAL-STATE[problem]), infinity)
+        Node<S, A> n = nodeExpander.createRootNode(p.getInitialState());
+        SearchResult<S, A> sr = rbfs(p, n, evalFn.applyAsDouble(n), INFINITY, 0);
+        if (sr.hasSolution()) {
+            Node<S, A> s = sr.getSolutionNode();
+            metrics.set(METRIC_PATH_COST, s.getPathCost());
+            return Optional.of(SearchUtils.getSequenceOfActions(s));
+        }
+        return Optional.empty();
+!!!476034.java!!!	getMetrics() : Metrics
+        return metrics;
+!!!476162.java!!!	clearMetrics() : void
+        metrics.set(METRIC_NODES_EXPANDED, 0);
+        metrics.set(METRIC_MAX_RECURSIVE_DEPTH, 0);
+        metrics.set(METRIC_PATH_COST, 0.0);
+!!!476290.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+        nodeExpander.addNodeListener(listener);
+!!!476418.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+        return nodeExpander.removeNodeListener(listener);
+!!!476546.java!!!	rbfs(inout p : Problem, inout node : Node, in node_f : double, in fLimit : double, in recursiveDepth : int) : RecursiveBestFirstSearch::SearchResult
+        updateMetrics(recursiveDepth);
+
+        // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
+        if (p.testSolution(node))
+            return getResult(null, node, fLimit);
+
+        // successors <- []
+        // for each action in problem.ACTION(node.STATE) do
+        // add CHILD-NODE(problem, node, action) into successors
+        List<Node<S, A>> successors = expandNode(node, p);
+
+        // if successors is empty then return failure, infinity
+        if (successors.isEmpty())
+            return getResult(node, null, INFINITY);
+
+        double[] f = new double[successors.size()];
+        // for each s in successors do
+        // update f with value from previous search, if any
+        int size = successors.size();
+        for (int s = 0; s < size; s++) {
+            // s.f <- max(s.g + s.h, node.f)
+            f[s] = Math.max(evalFn.applyAsDouble(successors.get(s)), node_f);
+        }
+
+        // repeat
+        while (true) {
+            // best <- the lowest f-value node in successors
+            int bestIndex = getBestFValueIndex(f);
+            // if best.f > f_limit then return failure, best.f
+            if (f[bestIndex] > fLimit) {
+                return getResult(node, null, f[bestIndex]);
+            }
+            // if best.f > f_limit then return failure, best.f
+            int altIndex = getNextBestFValueIndex(f, bestIndex);
+            // result, best.f <- RBFS(problem, best, min(f_limit, alternative))
+            SearchResult<S, A> sr = rbfs(p, successors.get(bestIndex), f[bestIndex], Math.min(fLimit, f[altIndex]),
+                    recursiveDepth + 1);
+            f[bestIndex] = sr.getFCostLimit();
+            // if result != failure then return result
+            if (sr.hasSolution()) {
+                return getResult(node, sr.getSolutionNode(), sr.getFCostLimit());
+            }
+        }
+!!!476674.java!!!	getBestFValueIndex(inout f : double [[]]) : int
+        int lidx = 0;
+        Double lowestSoFar = INFINITY;
+
+        for (int i = 0; i < f.length; i++) {
+            if (f[i] < lowestSoFar) {
+                lowestSoFar = f[i];
+                lidx = i;
+            }
+        }
+
+        return lidx;
+!!!476802.java!!!	getNextBestFValueIndex(inout f : double [[]], in bestIndex : int) : int
+        // Array may only contain 1 item (i.e. no alternative),
+        // therefore default to bestIndex initially
+        int lidx = bestIndex;
+        Double lowestSoFar = INFINITY;
+
+        for (int i = 0; i < f.length; i++) {
+            if (i != bestIndex && f[i] < lowestSoFar) {
+                lowestSoFar = f[i];
+                lidx = i;
+            }
+        }
+
+        return lidx;
+!!!476930.java!!!	expandNode(inout node : Node, inout problem : Problem) : Node
+        List<Node<S, A>> result = nodeExpander.expand(node, problem);
+        if (avoidLoops) {
+            explored.add(node.getState());
+            result = result.stream().filter(n -> !explored.contains(n.getState())).collect(Collectors.toList());
+        }
+        return result;
+!!!477058.java!!!	getResult(inout currNode : Node, inout solutionNode : Node, in fCostLimit : double) : RecursiveBestFirstSearch::SearchResult
+        if (avoidLoops && currNode != null)
+            explored.remove(currNode.getState());
+        return new SearchResult<>(solutionNode, fCostLimit);
+!!!477186.java!!!	updateMetrics(in recursiveDepth : int) : void
+        int maxRdepth = metrics.getInt(METRIC_MAX_RECURSIVE_DEPTH);
+        if (recursiveDepth > maxRdepth) {
+            metrics.set(METRIC_MAX_RECURSIVE_DEPTH, recursiveDepth);
+        }

@@ -1,0 +1,18 @@
+class NQueensEnvironment
+!!!634498.java!!!	NQueensEnvironment(inout board : NQueensBoard)
+			this.board = board;
+!!!634626.java!!!	getBoard() : NQueensBoard
+			return board;
+!!!634754.java!!!	executeAction(inout agent : Agent, inout action : Action) : void
+			if (action instanceof QueenAction) {
+				QueenAction act = (QueenAction) action;
+				XYLocation loc = new XYLocation(act.getX(), act.getY());
+				if (act.getName() == QueenAction.PLACE_QUEEN)
+					board.addQueenAt(loc);
+				else if (act.getName() == QueenAction.REMOVE_QUEEN)
+					board.removeQueenFrom(loc);
+				else if (act.getName() == QueenAction.MOVE_QUEEN)
+					board.moveQueenTo(loc);
+			}
+!!!634882.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+			return null;

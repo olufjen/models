@@ -1,0 +1,104 @@
+class Settings
+!!!605058.java!!!	buildGui() : void
+		gui.buildPanels();
+!!!605186.java!!!	show() : void
+		gui.showGui();
+!!!605314.java!!!	loadSettings(inout file : File) : void
+		if(!file.canRead()) return;
+		FileInputStream input = null;
+		try {
+			input = new FileInputStream(file);
+			values.load(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+!!!605442.java!!!	saveSettings(inout file : File) : void
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(!file.canWrite()) return;
+		for(SpecialSetting special: specials.values()) {
+			special.saveSettings(values);
+		}
+		FileOutputStream output = null;
+		try {
+			output = new FileOutputStream(file);
+			values.store(output,null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+!!!605570.java!!!	registerSetting(in key : String, in name : String, in defaultValue : String) : void
+		if(!values.containsKey(key)) {
+			values.setProperty(key, defaultValue);
+			SettingsListenerList list = listeners.get(key);
+			if(list != null) list.notify(key, defaultValue);
+		}
+		if(!order.contains(key)) {
+			names.put(key, name);
+			order.add(key);
+		}
+!!!605698.java!!!	setSetting(in key : String, in value : String) : void
+		values.setProperty(key, value);
+		SettingsListenerList list = listeners.get(key);
+		if(list != null) list.notify(key, value);
+!!!605826.java!!!	existsSetting(in key : String) : boolean
+		return values.containsKey(key);
+!!!605954.java!!!	isSettingDisplayed(in key : String) : boolean
+		return order.contains(key);
+!!!606082.java!!!	getSetting(in key : String) : String
+		return values.getProperty(key);
+!!!606210.java!!!	getSetting(in key : String, in defaultValue : String) : String
+		String result = values.getProperty(key);
+		return result == null ? defaultValue : result;
+!!!606338.java!!!	registerSpecialSetting(in key : String, inout fragment : Settings::SpecialSetting) : void
+		specials.put(key, fragment);
+		order.add(key);
+		fragment.loadSettings(values);
+!!!606466.java!!!	getSpecialSetting(in key : String) : Settings::SpecialSetting
+		return specials.get(key);
+!!!606594.java!!!	registerListener(in key : String, inout listener : Settings::ISettingsListener) : void
+		SettingsListenerList list = listeners.get(key);
+		if(list == null) {
+			list = new SettingsListenerList();
+			listeners.put(key,list);
+		}
+		list.add(listener);
+!!!606722.java!!!	removeListener(in key : String, inout listener : Settings::ISettingsListener) : void
+		SettingsListenerList list = listeners.get(key);
+		if(list != null) {
+			list.remove(listener);
+		}
+!!!606850.java!!!	notifyAllListeners() : void
+		for(Entry<String, SettingsListenerList> entry: listeners.entrySet()) {
+			entry.getValue().notify(entry.getKey(),values.getProperty(entry.getKey()));
+		}
+		for(SpecialSetting special:specials.values()) {
+			special.notifyChangeListener();
+		}
+!!!606978.java!!!	updateGuiSetting(in key : String) : void
+		gui.revertSetting(key);
+!!!607106.java!!!	enableGuiButtons() : void
+		gui.enableButtons();
+!!!607234.java!!!	disableGuiButtons() : void
+		gui.disableButtons();

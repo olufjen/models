@@ -1,0 +1,12 @@
+class ReinforcementAgent
+!!!249090.java!!!	execute(inout p : Percept) : Action
+		if (p instanceof PerceptStateReward<?>) {
+			Action a = execute((PerceptStateReward<S>) p);
+			if (null == a) {
+				a = NoOpAction.NO_OP;
+				setAlive(false);
+			}
+			return a;
+		}
+		throw new IllegalArgumentException(
+				"Percept passed in must be a PerceptStateReward");

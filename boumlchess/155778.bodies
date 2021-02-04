@@ -1,0 +1,30 @@
+class Token
+!!!257026.java!!!	Token(in type : int, in text : String, in startCharPositionInInput : int)
+		this.type = type;
+		this.text = text;
+		this.startCharPositionInInput = startCharPositionInInput;
+!!!257154.java!!!	getText() : String
+		return text;
+!!!257282.java!!!	getType() : int
+		return type;
+!!!257410.java!!!	getStartCharPositionInInput() : int
+		return startCharPositionInInput;
+!!!257538.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		
+		Token other = (Token) o;
+		return ((other.type == type) && (other.text.equals(text)) && (other.startCharPositionInInput == startCharPositionInInput));
+!!!257666.java!!!	hashCode() : int
+		int result = 17;
+		result = 37 * result + type;
+		result = 37 * result + text.hashCode();
+		result = 37 * result + startCharPositionInInput;
+		return result;
+!!!257794.java!!!	toString() : String
+		return "[ " + type + " " + text + " " + startCharPositionInInput + " ]";

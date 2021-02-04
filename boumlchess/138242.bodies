@@ -1,0 +1,11 @@
+class MapActionsFunction
+!!!168962.java!!!	MapActionsFunction(inout map : Map, inout reverseMode : boolean)
+            this.map = map;
+            this.reverseMode = reverseMode;
+!!!169090.java!!!	apply(in state : String) : MoveToAction
+            List<MoveToAction> actions = new ArrayList<>();
+
+            List<String> linkedLocations = reverseMode ? map.getPossiblePrevLocations(state)
+                    : map.getPossibleNextLocations(state);
+            actions.addAll(linkedLocations.stream().map(MoveToAction::new).collect(Collectors.toList()));
+            return actions;

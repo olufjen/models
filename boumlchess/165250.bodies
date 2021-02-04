@@ -1,0 +1,104 @@
+class OTTERAnswerHandler
+!!!298370.java!!!	OTTERAnswerHandler(inout answerLiteral : Literal, inout answerLiteralVariables : Set<Variable>, inout answerClause : Clause, in maxQueryTime : long)
+			this.answerLiteral = answerLiteral;
+			this.answerLiteralVariables = answerLiteralVariables;
+			this.answerClause = answerClause;
+			//
+			this.finishTime = System.currentTimeMillis() + maxQueryTime;
+!!!298498.java!!!	isPossiblyFalse() : boolean
+			return !timedOut && proofs.size() == 0;
+!!!298626.java!!!	isTrue() : boolean
+			return proofs.size() > 0;
+!!!298754.java!!!	isUnknownDueToTimeout() : boolean
+			return timedOut && proofs.size() == 0;
+!!!298882.java!!!	isPartialResultDueToTimeout() : boolean
+			return timedOut && proofs.size() > 0;
+!!!299010.java!!!	getProofs() : Proof
+			return proofs;
+!!!299138.java!!!	isComplete() : boolean
+			return complete;
+!!!299266.java!!!	isLookingForAnswerLiteral() : boolean
+			return !answerClause.isEmpty();
+!!!299394.java!!!	isCheckForUnitRefutation(inout clause : Clause) : boolean
+
+			if (isLookingForAnswerLiteral()) {
+				if (2 == clause.getNumberLiterals()) {
+					for (Literal t : clause.getLiterals()) {
+						if (t.getAtomicSentence()
+								.getSymbolicName()
+								.equals(answerLiteral.getAtomicSentence()
+										.getSymbolicName())) {
+							return true;
+						}
+					}
+				}
+			} else {
+				return clause.isUnitClause();
+			}
+
+			return false;
+!!!299522.java!!!	isAnswer(inout clause : Clause) : boolean
+			boolean isAns = false;
+
+			if (answerClause.isEmpty()) {
+				if (clause.isEmpty()) {
+					proofs.add(new ProofFinal(clause.getProofStep(),
+							new HashMap<Variable, Term>()));
+					complete = true;
+					isAns = true;
+				}
+			} else {
+				if (clause.isEmpty()) {
+					// This should not happen
+					// as added an answer literal to sos, which
+					// implies the database (i.e. premises) are
+					// unsatisfiable to begin with.
+					throw new IllegalStateException(
+							"Generated an empty clause while looking for an answer, implies original KB or usable is unsatisfiable");
+				}
+
+				if (clause.isUnitClause()
+						&& clause.isDefiniteClause()
+						&& clause
+								.getPositiveLiterals()
+								.get(0)
+								.getAtomicSentence()
+								.getSymbolicName()
+								.equals(answerLiteral.getAtomicSentence()
+										.getSymbolicName())) {
+					Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
+					List<Term> answerTerms = clause.getPositiveLiterals()
+							.get(0).getAtomicSentence().getArgs();
+					int idx = 0;
+					for (Variable v : answerLiteralVariables) {
+						answerBindings.put(v, answerTerms.get(idx));
+						idx++;
+					}
+					boolean addNewAnswer = true;
+					for (Proof p : proofs) {
+						if (p.getAnswerBindings().equals(answerBindings)) {
+							addNewAnswer = false;
+							break;
+						}
+					}
+					if (addNewAnswer) {
+						proofs.add(new ProofFinal(clause.getProofStep(),
+								answerBindings));
+					}
+					isAns = true;
+				}
+			}
+
+			if (System.currentTimeMillis() > finishTime) {
+				complete = true;
+				// Indicate that I have run out of query time
+				timedOut = true;
+			}
+
+			return isAns;
+!!!299650.java!!!	toString() : String
+			StringBuilder sb = new StringBuilder();
+			sb.append("isComplete=" + complete);
+			sb.append("\n");
+			sb.append("result=" + proofs);
+			return sb.toString();

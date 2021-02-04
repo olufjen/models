@@ -1,0 +1,54 @@
+class MinConflictsSolver
+!!!454658.java!!!	MinConflictsSolver(in maxSteps : int)
+		this.maxSteps = maxSteps;
+!!!454786.java!!!	solve(inout csp : CSP) : Assignment
+		Assignment<VAR, VAL> current = generateRandomAssignment(csp);
+		fireStateChanged(csp, current, null);
+		for (int i = 0; i < maxSteps && !Tasks.currIsCancelled(); i++) {
+			if (current.isSolution(csp)) {
+				return Optional.of(current);
+			} else {
+				Set<VAR> vars = getConflictedVariables(current, csp);
+				VAR var = Util.selectRandomlyFromSet(vars);
+				VAL value = getMinConflictValueFor(var, current, csp);
+				current.add(var, value);
+				fireStateChanged(csp, current, var);
+			}
+		}
+		return Optional.empty();
+!!!454914.java!!!	generateRandomAssignment(inout csp : CSP) : Assignment
+		Assignment<VAR, VAL> result = new Assignment<>();
+		for (VAR var : csp.getVariables()) {
+			VAL randomValue = Util.selectRandomlyFromList(csp.getDomain(var).asList());
+			result.add(var, randomValue);
+		}
+		return result;
+!!!455042.java!!!	getConflictedVariables(inout assignment : Assignment, inout csp : CSP) : Set<VAR>
+		Set<VAR> result = new LinkedHashSet<>();
+		csp.getConstraints().stream().filter(constraint -> !constraint.isSatisfiedWith(assignment)).
+				forEach(constraint -> constraint.getScope().stream().filter(var -> !result.contains(var)).
+						forEach(result::add));
+		return result;
+!!!455170.java!!!	getMinConflictValueFor(inout var : VAR, inout assignment : Assignment, inout csp : CSP) : VAL
+		List<Constraint<VAR, VAL>> constraints = csp.getConstraints(var);
+		Assignment<VAR, VAL> testAssignment = assignment.clone();
+		int minConflict = Integer.MAX_VALUE;
+		List<VAL> resultCandidates = new ArrayList<>();
+		for (VAL value : csp.getDomain(var)) {
+			testAssignment.add(var, value);
+			int currConflict = countConflicts(testAssignment, constraints);
+			if (currConflict <= minConflict) {
+				if (currConflict < minConflict) {
+					resultCandidates.clear();
+					minConflict = currConflict;
+				}
+				resultCandidates.add(value);
+			}
+		}
+		 return (!resultCandidates.isEmpty()) ? Util.selectRandomlyFromList(resultCandidates) : null;
+!!!455298.java!!!	countConflicts(inout assignment : Assignment, inout constraints : List<Constraint<VAR, VAL>>) : int
+		int result = 0;
+		for (Constraint<VAR, VAL> constraint : constraints)
+			if (!constraint.isSatisfiedWith(assignment))
+				result++;
+		return result;

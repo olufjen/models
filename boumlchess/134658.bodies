@@ -1,0 +1,122 @@
+class EightPuzzleBoard
+!!!157314.java!!!	EightPuzzleBoard()
+		state = new int[] { 5, 4, 0, 6, 1, 8, 7, 3, 2 };
+!!!157442.java!!!	EightPuzzleBoard(inout state : int [[]])
+		this.state = new int[state.length];
+		System.arraycopy(state, 0, this.state, 0, state.length);
+!!!157570.java!!!	EightPuzzleBoard(inout copyBoard : EightPuzzleBoard)
+		this(copyBoard.getState());
+!!!157698.java!!!	getState() : int
+		return state;
+!!!157826.java!!!	getValueAt(inout loc : XYLocation) : int
+		return getValueAt(loc.getXCoOrdinate(), loc.getYCoOrdinate());
+!!!157954.java!!!	getLocationOf(in val : int) : XYLocation
+		int absPos = getPositionOf(val);
+		return new XYLocation(getXCoord(absPos), getYCoord(absPos));
+!!!158082.java!!!	moveGapRight() : void
+		int gapPos = getGapPosition();
+		int x = getXCoord(gapPos);
+		int ypos = getYCoord(gapPos);
+		if (!(ypos == 2)) {
+			int valueOnRight = getValueAt(x, ypos + 1);
+			setValue(x, ypos, valueOnRight);
+			setValue(x, ypos + 1, 0);
+		}
+!!!158210.java!!!	moveGapLeft() : void
+		int gapPos = getGapPosition();
+		int x = getXCoord(gapPos);
+		int ypos = getYCoord(gapPos);
+		if (!(ypos == 0)) {
+			int valueOnLeft = getValueAt(x, ypos - 1);
+			setValue(x, ypos, valueOnLeft);
+			setValue(x, ypos - 1, 0);
+		}
+!!!158338.java!!!	moveGapDown() : void
+		int gapPos = getGapPosition();
+		int x = getXCoord(gapPos);
+		int y = getYCoord(gapPos);
+		if (!(x == 2)) {
+			int valueOnBottom = getValueAt(x + 1, y);
+			setValue(x, y, valueOnBottom);
+			setValue(x + 1, y, 0);
+		}
+
+!!!158466.java!!!	moveGapUp() : void
+		int gapPos = getGapPosition();
+		int x = getXCoord(gapPos);
+		int y = getYCoord(gapPos);
+		if (!(x == 0)) {
+			int valueOnTop = getValueAt(x - 1, y);
+			setValue(x, y, valueOnTop);
+			setValue(x - 1, y, 0);
+		}
+!!!158594.java!!!	getPositions() : XYLocation
+		ArrayList<XYLocation> retVal = new ArrayList<>();
+		for (int i = 0; i < 9; i++) {
+			int absPos = getPositionOf(i);
+			XYLocation loc = new XYLocation(getXCoord(absPos),
+					getYCoord(absPos));
+			retVal.add(loc);
+
+		}
+		return retVal;
+!!!158722.java!!!	setBoard(inout locs : List<XYLocation>) : void
+		int count = 0;
+		for (XYLocation loc : locs) {
+			this.setValue(loc.getXCoOrdinate(), loc.getYCoOrdinate(), count);
+			count = count + 1;
+		}
+!!!158850.java!!!	canMoveGap(inout where : Action) : boolean
+		boolean retVal = true;
+		int absPos = getPositionOf(0);
+		if (where.equals(LEFT))
+			retVal = (getYCoord(absPos) != 0);
+		else if (where.equals(RIGHT))
+			retVal = (getYCoord(absPos) != 2);
+		else if (where.equals(UP))
+			retVal = (getXCoord(absPos) != 0);
+		else if (where.equals(DOWN))
+			retVal = (getXCoord(absPos) != 2);
+		return retVal;
+!!!158978.java!!!	equals(inout o : Object) : boolean
+		if (this == o)
+			return true;
+		if (o != null && getClass() == o.getClass()) {
+			EightPuzzleBoard aBoard = (EightPuzzleBoard) o;
+			for (int i = 0; i < 8; i++) {
+				if (this.getPositionOf(i) != aBoard.getPositionOf(i))
+					return false;
+			}
+			return true;
+		}
+		return false;
+!!!159106.java!!!	hashCode() : int
+		int result = 17;
+		for (int i = 0; i < 8; i++) {
+			int position = this.getPositionOf(i);
+			result = 37 * result + position;
+		}
+		return result;
+!!!159234.java!!!	toString() : String
+		return state[0] + " " + state[1] + " " + state[2] + "\n"
+				+ state[3] + " " + state[4] + " " + state[5] + " " + "\n"
+				+ state[6] + " " + state[7] + " " + state[8];
+!!!159362.java!!!	getXCoord(in absPos : int) : int
+		return absPos / 3;
+!!!159490.java!!!	getYCoord(in absPos : int) : int
+		return absPos % 3;
+!!!159618.java!!!	getAbsPosition(in x : int, in y : int) : int
+		return x * 3 + y;
+!!!159746.java!!!	getValueAt(in x : int, in y : int) : int
+		// refactor this use either case or a div/mod soln
+		return state[getAbsPosition(x, y)];
+!!!159874.java!!!	getGapPosition() : int
+		return getPositionOf(0);
+!!!160002.java!!!	getPositionOf(in val : int) : int
+		for (int i = 0; i < 9; i++)
+			if (state[i] == val)
+				return i;
+		return -1;
+!!!160130.java!!!	setValue(in x : int, in y : int, in val : int) : void
+		int absPos = getAbsPosition(x, y);
+		state[absPos] = val;

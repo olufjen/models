@@ -1,0 +1,114 @@
+class FOLGamesBCAsk
+!!!1751170.java!!!	FOLGamesBCAsk()
+		finalAnswer = new ArrayList<>();
+		substitutedLiterals = new ArrayList<>();
+!!!1751298.java!!!	getSubstitutedLiterals() : Literal
+		return substitutedLiterals;
+!!!1751426.java!!!	folBcAsk(inout kb : FOLKnowledgeBase, inout query : Literal) : List<HashMap<Variable,Term>>
+		//return FOL-BC-OR(KB, query, { })
+		return folBcOr(kb,query, new HashMap<>());
+!!!1751554.java!!!	folBcOr(inout kb : FOLKnowledgeBase, inout goal : Literal, inout theta : HashMap<Variable, Term>) : List<HashMap<Variable, Term>>
+		List<HashMap<Variable,Term>> result = new ArrayList<>();
+		finalAnswer.add(new ArrayList<>(Collections.singletonList(goal)));
+		HashMap<Variable,Term> temp;
+		if (fetchRulesForGoal(kb,goal).isEmpty())
+			maybeFalse = true;
+		// for each rule (lhs ⇒ rhs) in FETCH-RULES-FOR-GOAL(KB, goal) do
+		for (Clause rule :
+				fetchRulesForGoal(kb,goal)) {
+			//(lhs, rhs) ← STANDARDIZE-VARIABLES((lhs, rhs))
+			Clause tempClause = kb.standardizeApart(rule);
+			temp = new HashMap<>(theta);
+			Literal rhs = tempClause.getPositiveLiterals().get(0);
+			List<Literal> lhs = new ArrayList<>();
+			for (Literal literal :
+					tempClause.getNegativeLiterals() ){
+				lhs.add(new Literal(literal.getAtomicSentence(),!literal.isNegativeLiteral()));
+			}
+			//for each θ' in FOL-BC-AND(KB, lhs, UNIFY(rhs, goal, θ)) do
+			// yield θ'
+			result.addAll(folBcAnd(kb, lhs, new Unifier().unify(rhs.getAtomicSentence(), goal.getAtomicSentence(), temp)));
+		}
+		return result;
+!!!1751682.java!!!	folBcAnd(inout kb : FOLKnowledgeBase, inout goals : List<Literal>, inout theta : Map<Variable, Term>) : List<HashMap<Variable, Term>>
+		List<HashMap<Variable,Term>> result = new ArrayList<>();
+		finalAnswer.add(new ArrayList<>(goals));
+		// if θ = failure then return
+		if (theta==null)
+			return result;
+			// else if LENGTH(goals) = 0 then yield θ
+		else if (goals.size()==0){
+			result.add((HashMap<Variable, Term>) theta);
+			return result;
+		}
+		// else do
+		else {
+			// first, rest ← FIRST(goals), REST(goals)
+			Literal first = goals.get(0);
+			List<Literal> rest = new ArrayList<>(goals);
+			rest.remove(0);
+			// for each θ' in FOL-BC-OR(KB, SUBST(θ, first), θ) do
+			for (HashMap<Variable, Term> thetaPrime :
+					folBcOr(kb,kb.subst(theta,first),(HashMap<Variable,Term>)theta)) {
+				substitutedLiterals.add(kb.subst(theta,first));
+				// for each θ'' in FOL-BC-AND(KB, rest, θ') do
+				// yield θ'
+				result.addAll(folBcAnd(kb, rest, thetaPrime));
+			}
+		}
+		return result;
+!!!1751810.java!!!	fetchRulesForGoal(inout kb : FOLKnowledgeBase, inout goal : Literal) : Clause
+		List<Clause> result = new ArrayList<>();
+		for (Clause clause :
+				kb.getAllDefiniteClauseImplications()) {
+			Literal rhs = clause.getPositiveLiterals().get(0);
+			if (rhs.getAtomicSentence().getSymbolicName().equals(goal.getAtomicSentence().getSymbolicName())){
+				result.add(clause);
+			}
+		}
+		for (Clause clause :
+				kb.getAllClauses()) {
+			if (clause.isUnitClause()){
+				for (Literal l :
+						clause.getLiterals()) {
+					if (l.getAtomicSentence().getSymbolicName().equals(goal.getAtomicSentence().getSymbolicName())) {
+						result.add(clause);
+					}
+				}
+			}
+		}
+		for (Clause clause :
+				result) {
+			ProofStep step = new BCProofStep(clause,this.bcaskHandler.getProofs().get(0).getSteps(),goal);
+			this.bcaskHandler.addProofStep(step);
+		}
+		return result;
+!!!1751938.java!!!	getFinalAnswer() : List<List<Literal>>
+		return finalAnswer;
+!!!1752066.java!!!	clearLists() : void
+		finalAnswer.clear();// to store the final result
+		substitutedLiterals.clear();
+		if (finalList != null)
+			finalList.clear();;
+!!!1752194.java!!!	ask(inout kb : FOLKnowledgeBase, inout query : Sentence) : InferenceResult
+		clearLists();
+		this.bcaskHandler.clearLists();
+		Literal l = new Literal(((AtomicSentence) query));
+		List<HashMap<Variable, Term>> substitutes = this.folBcAsk(kb, l);
+		this.finalList = substitutes;
+		if (l.getAtomicSentence().getArgs().get(0) instanceof Variable) {
+			Variable x = (Variable) l.getAtomicSentence().getArgs().get(0);
+			for (HashMap<Variable, Term> subs :
+					substitutes) {
+				HashMap<Variable, Term> toadd = new HashMap<>();
+				toadd.put(new Variable(x.getValue()), subs.get(x));
+				Proof proof = new BCProof();
+				proof.replaceAnswerBindings(new HashMap<>(toadd));
+				((BCProof) proof).proofSteps = new ArrayList<>(this.bcaskHandler.getProofs().get(0).getSteps());
+				this.bcaskHandler.getProofs().add(proof);
+			}
+		}
+		if (this.bcaskHandler.getProofs().size()>1)
+			this.bcaskHandler.getProofs().remove(0);
+		this.bcaskHandler.setFinalList(finalList);
+		return this.bcaskHandler;

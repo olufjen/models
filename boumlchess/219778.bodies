@@ -1,0 +1,26 @@
+class GridElement
+!!!628098.java!!!	GridElement(in row : int, in col : int)
+				this.row = row;
+				this.col = col;
+				setBackground(Color.BLUE);
+!!!628226.java!!!	paintComponent(inout g : Graphics) : void
+				super.paintComponent(g); // should have look and feel of a
+											// button...
+				int playerNum = currState.getPlayerNum(row, col);
+				if (playerNum != 0) {
+					drawDisk(g, playerNum); // draw disk on top!
+				}
+				for (int pNum = 1; pNum <= 2; pNum++)
+					if (currState.isWinPositionFor(row, col, pNum))
+						drawWinSituation(g, pNum);
+!!!628354.java!!!	drawDisk(inout g : Graphics, in playerNum : int) : void
+				int size = Math.min(getWidth(), getHeight());
+				g.setColor(playerNum == 1 ? Color.RED : Color.YELLOW);
+				g.fillOval((getWidth() - size) / 2, (getHeight() - size) / 2,
+						size, size);
+!!!628482.java!!!	drawWinSituation(inout g : Graphics, in playerNum : int) : void
+				int size = Math.min(getWidth(), getHeight());
+				g.setColor(playerNum == 1 ? Color.RED : Color.YELLOW);
+				g.drawOval((getWidth() - size) / 2 + playerNum,
+						(getHeight() - size) / 2 + playerNum, size - 2
+								* playerNum, size - 2 * playerNum);

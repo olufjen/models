@@ -1,0 +1,82 @@
+class LRTAStarAgent
+!!!489090.java!!!	LRTAStarAgent(inout problem : OnlineSearchProblem, inout ptsFn : Function<Percept, S>, inout h : ToDoubleFunction<S>)
+		setProblem(problem);
+		setPerceptToStateFunction(ptsFn);
+		setHeuristicFunction(h);
+!!!489218.java!!!	getProblem() : OnlineSearchProblem
+		return problem;
+!!!489346.java!!!	setProblem(inout problem : OnlineSearchProblem) : void
+		this.problem = problem;
+		init();
+!!!489474.java!!!	getPerceptToStateFunction() : Percept
+		return ptsFn;
+!!!489602.java!!!	setPerceptToStateFunction(inout ptsFn : Function<Percept, S>) : void
+		this.ptsFn = ptsFn;
+!!!489730.java!!!	getHeuristicFunction() : ToDoubleFunction<S>
+		return h;
+!!!489858.java!!!	setHeuristicFunction(inout h : ToDoubleFunction<S>) : void
+		this.h = h;
+!!!489986.java!!!	execute(inout psPrimed : Percept) : Action
+		S sPrimed = ptsFn.apply(psPrimed);
+		// if GOAL-TEST(s') then return stop
+		if (problem.testGoal(sPrimed)) {
+			a = null;
+		} else {
+			// if s' is a new state (not in H) then H[s'] <- h(s')
+			if (!H.containsKey(sPrimed)) {
+				H.put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
+			}
+			// if s is not null
+			if (null != s) {
+				// result[s, a] <- s'
+				result.put(s, a, sPrimed);
+
+				// H[s] <- min LRTA*-COST(s, b, result[s, b], H)
+				// b (element of) ACTIONS(s)
+				double min = Double.MAX_VALUE;
+				for (A b : problem.getActions(s)) {
+					double cost = lrtaCost(s, b, result.get(s, b));
+					if (cost < min) {
+						min = cost;
+					}
+				}
+				H.put(s, min);
+			}
+			// a <- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b,
+			// result[s', b], H)
+			double min = Double.MAX_VALUE;
+			// Just in case no actions
+			a = null;
+			for (A b : problem.getActions(sPrimed)) {
+				double cost = lrtaCost(sPrimed, b, result.get(sPrimed, b));
+				if (cost < min) {
+					min = cost;
+					a = b;
+				}
+			}
+		}
+
+		// s <- s'
+		s = sPrimed;
+
+		if (a == null) {
+			// I'm either at the Goal or can't get to it,
+			// which in either case I'm finished so just die.
+			setAlive(false);
+		}
+		// return a
+		return a != null ? a : NoOpAction.NO_OP;
+!!!490114.java!!!	init() : void
+		setAlive(true);
+		result.clear();
+		H.clear();
+		s = null;
+		a = null;
+!!!490242.java!!!	lrtaCost(inout s : S, inout action : A, inout sDelta : S) : double
+		// if s' is undefined then return h(s)
+		if (null == sDelta) {
+			return h.applyAsDouble(s);
+		}
+		// else return c(s, a, s') + H[s']
+		return problem.getStepCosts(s, action, sDelta)
+				+ H.get(sDelta);

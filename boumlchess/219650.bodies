@@ -1,0 +1,109 @@
+class ConnectFourPanel
+!!!627586.java!!!	ConnectFourPanel()
+			game = new ConnectFourGame();
+			currState = game.getInitialState();
+			setLayout(new BorderLayout());
+			setBackground(Color.BLUE);
+
+			JToolBar toolBar = new JToolBar();
+			toolBar.setFloatable(false);
+			strategyCombo = new JComboBox<String>(new String[] {
+					"Minimax (not recommended)",
+					"Alpha-Beta (not recommended)",
+					"Iterative Deepening Alpha-Beta", "Advanced Alpha-Beta",
+					"Advanced Alpha-Beta (log)" });
+			strategyCombo.setSelectedIndex(3);
+			toolBar.add(strategyCombo);
+			timeCombo = new JComboBox<String>(new String[] { "5sec", "10sec", "15sec",
+					"20sec" });
+			timeCombo.setSelectedIndex(0);
+			toolBar.add(timeCombo);
+			toolBar.add(Box.createHorizontalGlue());
+			clearButton = new JButton("Clear");
+			clearButton.addActionListener(this);
+			toolBar.add(clearButton);
+			proposeButton = new JButton("Propose Move");
+			proposeButton.addActionListener(this);
+			toolBar.add(proposeButton);
+			add(toolBar, BorderLayout.NORTH);
+
+			int rows = currState.getRows();
+			int cols = currState.getCols();
+			JPanel boardPanel = new JPanel();
+			boardPanel.setLayout(new GridLayout(rows, cols, 5, 5));
+			boardPanel.setBorder(BorderFactory.createEtchedBorder());
+			boardPanel.setBackground(Color.BLUE);
+			for (int i = 0; i < rows * cols; i++) {
+				GridElement element = new GridElement(i / cols, i % cols);
+				boardPanel.add(element);
+				element.addActionListener(this);
+			}
+			add(boardPanel, BorderLayout.CENTER);
+
+			statusBar = new JLabel(" ");
+			statusBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+			add(statusBar, BorderLayout.SOUTH);
+
+			updateStatus();
+!!!627714.java!!!	actionPerformed(inout e : ActionEvent) : void
+			searchMetrics = null;
+			if (e == null || e.getSource() == clearButton) {
+				currState = game.getInitialState();
+			} else if (!game.isTerminal(currState)) {
+				if (e.getSource() == proposeButton) {
+					proposeMove();
+				} else if (e.getSource() instanceof GridElement) {
+					GridElement el = (GridElement) e.getSource();
+					currState = game.getResult(currState, el.col); // take next
+																	// turn
+				}
+			}
+			repaint(); // paint all disks!
+			updateStatus();
+!!!627842.java!!!	proposeMove() : void
+			Integer action;
+			int time = (timeCombo.getSelectedIndex() + 1) * 5;
+			AdversarialSearch<ConnectFourState, Integer> search;
+			switch (strategyCombo.getSelectedIndex()) {
+			case 0:
+				search = MinimaxSearch.createFor(game);
+				break;
+			case 1:
+				search = AlphaBetaSearch.createFor(game);
+				break;
+			case 2:
+				search = IterativeDeepeningAlphaBetaSearch.createFor(game, 0.0,
+						1.0, time);
+				break;
+			case 3:
+				search = new ConnectFourAIPlayer(game, time);
+				break;
+			default:
+				search = new ConnectFourAIPlayer(game, time);
+				((ConnectFourAIPlayer) search).setLogEnabled(true);
+			}
+			action = search.makeDecision(currState);
+			searchMetrics = search.getMetrics();
+			currState = game.getResult(currState, action);
+!!!627970.java!!!	updateStatus() : void
+			String statusText;
+			if (!game.isTerminal(currState)) {
+				String toMove = (String) game.getPlayer(currState);
+				statusText = "Next move: " + toMove;
+				statusBar.setForeground(toMove.equals("red") ? Color.RED
+						: Color.YELLOW);
+			} else {
+				String winner = null;
+				for (int i = 0; i < 2; i++)
+					if (game.getUtility(currState, game.getPlayers()[i]) == 1)
+						winner = game.getPlayers()[i];
+				if (winner != null)
+					statusText = "Color " + winner
+							+ " has won. Congratulations!";
+				else
+					statusText = "No winner :-(";
+				statusBar.setForeground(Color.WHITE);
+			}
+			if (searchMetrics != null)
+				statusText += "    " + searchMetrics;
+			statusBar.setText(statusText);

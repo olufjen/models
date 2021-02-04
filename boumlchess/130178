@@ -1,0 +1,902 @@
+format 223
+"problem" // aima::core::search::framework::problem
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/framework/problem/"
+  java_package "aima.core.search.framework.problem"
+  classview 129538 "problem"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 134786 "GeneralProblem"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 134914 // Problem
+        rank 0 explicit_value ""
+      actual class class_ref 134914 // Problem
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Configurable problem which uses objects to explicitly represent the required
+functions.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 135554 // <realization>
+	relation 135554 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 135554 // <realization>
+	  b parent class_ref 134914 // Problem
+      end
+
+      attribute 132994 "initialState"
+	private explicit_type "S"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 135682 // actionsFn (<unidirectional association>)
+	relation 135682 --->
+	  a role_name "actionsFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 135682 // actionsFn (<unidirectional association>)
+	  b parent class_ref 135298 // ActionsFunction
+      end
+
+      classrelation 135810 // resultFn (<unidirectional association>)
+	relation 135810 --->
+	  a role_name "resultFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 135810 // resultFn (<unidirectional association>)
+	  b parent class_ref 135426 // ResultFunction
+      end
+
+      classrelation 135938 // goalTest (<unidirectional association>)
+	relation 135938 --->
+	  a role_name "goalTest" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S> ${name}${value};
+"
+	    classrelation_ref 135938 // goalTest (<unidirectional association>)
+	  b parent class_ref 135554 // GoalTest
+      end
+
+      classrelation 136066 // stepCostFn (<unidirectional association>)
+	relation 136066 --->
+	  a role_name "stepCostFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 136066 // stepCostFn (<unidirectional association>)
+	  b parent class_ref 135682 // StepCostFunction
+      end
+
+      operation 155778 "GeneralProblem"
+	cpp_inline public explicit_return_type ""
+	nparams 5
+	  param inout name "initialState" explicit_type "S"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultFn" type class_ref 135426 // ResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	  param inout name "stepCostFn" type class_ref 135682 // StepCostFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<S, A> ${p1}, ${t2}<S, A> ${p2}, ${t3}<S> ${p3}, ${t4}<S, A> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a problem with the specified components, which includes a step
+cost function.
+
+@param initialState
+           the initial state of the agent.
+@param actionsFn
+           a description of the possible actions available to the agent.
+@param resultFn
+           a description of what each action does; the formal name for
+           this is the transition model, specified by a function
+           RESULT(s, a) that returns the state that results from doing
+           action a in state s.
+@param goalTest
+           test determines whether a given state is a goal state.
+@param stepCostFn
+           a path cost function that assigns a numeric cost to each path.
+           The problem-solving-agent chooses a cost function that
+           reflects its own performance measure.
+"
+      end
+
+      operation 155906 "GeneralProblem"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "initialState" explicit_type "S"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultFn" type class_ref 135426 // ResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<S, A> ${p1}, ${t2}<S, A> ${p2}, ${t3}<S> ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a problem with the specified components, and a default step
+cost function (i.e. 1 per step).
+
+@param initialState
+           the initial state that the agent starts in.
+@param actionsFn
+           a description of the possible actions available to the agent.
+@param resultFn
+           a description of what each action does; the formal name for
+           this is the transition model, specified by a function
+           RESULT(s, a) that returns the state that results from doing
+           action a in state s.
+@param goalTest
+           test determines whether a given state is a goal state.
+"
+      end
+
+      operation 156034 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 156162 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 156290 "getResult"
+	cpp_inline public explicit_return_type "S"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 156418 "testGoal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 156546 "getStepCosts"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	  param inout name "statePrimed" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 134914 "Problem"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 0 explicit_value ""
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 66.<br>
+<br>
+A problem can be defined formally by five components: <br>
+<ul>
+<li>The <b>initial state</b> that the agent starts in.</li>
+<li>A description of the possible <b>actions</b> available to the agent.
+Given a particular state s, ACTIONS(s) returns the set of actions that can be
+executed in s.</li>
+<li>A description of what each action does; the formal name for this is the
+<b>transition model, specified by a function RESULT(s, a) that returns the
+state that results from doing action a in state s.</b></li>
+<li>The <b>goal test</b>, which determines whether a given state is a goal
+state.</li>
+<li>A <b>path cost</b> function that assigns a numeric cost to each path. The
+problem-solving agent chooses a cost function that reflects its own
+performance measure. The <b>step cost</b> of taking action a in state s to
+reach state s' is denoted by c(s,a,s')</li>
+</ul>
+
+This implementation provides an additional solution test. It can be used to
+compute more than one solution or to formulate acceptance criteria for the
+sequence of actions.
+
+@param <S> The type used to represent states: a Type parameter see p. 36 and chapter 3 in Java 8 in action
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+@author Mike Stampone
+"
+      classrelation 135426 // <realization>
+	relation 135426 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 135426 // <realization>
+	  b parent class_ref 135042 // OnlineSearchProblem
+      end
+
+      operation 155010 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the initial state of the agent.
+"
+      end
+
+      operation 155138 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the description of the possible actions available to the agent.
+"
+      end
+
+      operation 155266 "getResult"
+	cpp_inline public explicit_return_type "S"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the description of what each action does.
+"
+      end
+
+      operation 155394 "testGoal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determines whether a given state is a goal state.
+"
+      end
+
+      operation 155522 "getStepCosts"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	  param inout name "stateDelta" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state
+<code>stateDelta</code> denoted by c(s, a, s').
+"
+      end
+
+      operation 155650 "testSolution"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent default java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Tests whether a node represents an acceptable solution. The default implementation
+delegates the check to the goal test. Other implementations could make use of the additional
+information given by the node (e.g. the sequence of actions leading to the node). A
+solution tester implementation could for example always return false and internally collect
+the paths of all nodes whose state passes the goal test. Search implementations should always
+access the goal test via this method to support solution acceptance testing.
+"
+      end
+    end
+
+    class 135042 "OnlineSearchProblem"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 147.<br>
+<br>
+An online search problem must be solved by an agent executing actions, rather
+than by pure computation. We assume a deterministic and fully observable
+environment (Chapter 17 relaxes these assumptions), but we stipulate that the
+agent knows only the following: <br>
+<ul>
+<li>ACTIONS(s), which returns a list of actions allowed in state s;</li>
+<li>The step-cost function c(s, a, s') - note that this cannot be used until
+the agent knows that s' is the outcome; and</li>
+<li>GOAL-TEST(s).</li>
+</ul>
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      operation 154498 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the initial state of the agent.
+"
+      end
+
+      operation 154626 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the description of the possible actions available to the agent.
+"
+      end
+
+      operation 154754 "testGoal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determines whether a given state is a goal state.
+"
+      end
+
+      operation 154882 "getStepCosts"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	  param inout name "stateDelta" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state
+<code>stateDelta</code> denoted by c(s, a, s').
+"
+      end
+    end
+
+    class 135298 "ActionsFunction"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>
+<br>
+Given a particular state s, ACTIONS(s) returns the set of actions that can be
+executed in s. We say that each of these actions is <b>applicable</b> in s.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 139778 // <realization>
+	relation 139778 -_-|>
+	  a public
+	    java "${type}<S, List<A>>"
+	    classrelation_ref 139778 // <realization>
+	  b parent class_ref 138370 // Function
+      end
+    end
+
+    class 135426 "ResultFunction"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>
+<br>
+A description of what each action does; the formal name for this is the
+transition model, specified by a function RESULT(s, a) that returns the state
+that results from doing action a in state s. We also use the term successor
+to refer to any state reachable from a given state by a single action.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 140162 // <realization>
+	relation 140162 -_-|>
+	  a public
+	    java "${type}<S, A, S>"
+	    classrelation_ref 140162 // <realization>
+	  b parent class_ref 138626 // BiFunction
+      end
+    end
+
+    class 135554 "GoalTest"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>
+<br>
+The goal test, which determines whether a given state is a goal state.
+
+@param <S> The type used to represent states
+
+@author Ruediger Lunde
+"
+      classrelation 142210 // <realization>
+	relation 142210 -_-|>
+	  a public
+	    java "${type}<S>"
+	    classrelation_ref 142210 // <realization>
+	  b parent class_ref 140674 // Predicate
+      end
+
+      operation 178434 "forState"
+	class_operation cpp_inline public return_type class_ref 135554 // GoalTest
+	nparams 1
+	  param inout name "targetRef" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type}<T> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a predicate that tests if two arguments are equal according
+to {@link Objects#equals(Object, Object)}.
+
+@param <T> the type of arguments to the predicate
+@param targetRef the object reference with which to compare for equality,
+              which may be {@code null}
+@return a predicate that tests if two arguments are equal according
+to {@link Objects#equals(Object, Object)}
+"
+      end
+
+      operation 178562 "or"
+	cpp_inline public return_type class_ref 135554 // GoalTest
+	nparams 1
+	  param inout name "other" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent default java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S> ${name}${(}${t0}<? super S> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a composed predicate that represents a short-circuiting logical
+OR of this predicate and another.  When evaluating the composed
+predicate, if this predicate is {@code true}, then the {@code other}
+predicate is not evaluated.
+
+<p>Any exceptions thrown during evaluation of either predicate are relayed
+to the caller; if evaluation of this predicate throws an exception, the
+{@code other} predicate will not be evaluated.
+
+@param other a predicate that will be logically-ORed with this
+             predicate
+@return a composed predicate that represents the short-circuiting logical
+OR of this predicate and the {@code other} predicate
+@throws NullPointerException if other is null
+"
+      end
+    end
+
+    class 135682 "StepCostFunction"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 68.<br>
+<br>
+The <b>step cost</b> of taking action a in state s to reach state s' is
+denoted by c(s, a, s').
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      operation 169346 "applyAsDouble"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	  param inout name "sDelta" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 135810 "BidirectionalProblem"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 134914 // Problem
+        rank 0 explicit_value ""
+      actual class class_ref 134914 // Problem
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An interface describing a problem that can be tackled from both directions at
+once (i.e InitialState<->Goal).
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+
+"
+      classrelation 136322 // <realization>
+	relation 136322 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 136322 // <realization>
+	  b parent class_ref 134914 // Problem
+      end
+
+      operation 156674 "getOriginalProblem"
+	cpp_inline public return_type class_ref 134914 // Problem
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 156802 "getReverseProblem"
+	cpp_inline public return_type class_ref 134914 // Problem
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 128898 "problem"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 133378 "OnlineSearchProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 135042 // OnlineSearchProblem
+      end
+    end
+
+    artifact 133506 "Problem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 134914 // Problem
+      end
+    end
+
+    artifact 133634 "GeneralProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 134786 // GeneralProblem
+      end
+    end
+
+    artifact 133762 "BidirectionalProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 135810 // BidirectionalProblem
+      end
+    end
+
+    artifact 135298 "ActionsFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.function.Function;
+${definition}"
+      associated_elems
+	class_ref 135298 // ActionsFunction
+      end
+    end
+
+    artifact 135426 "ResultFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.function.BiFunction;
+${definition}"
+      associated_elems
+	class_ref 135426 // ResultFunction
+      end
+    end
+
+    artifact 135554 "StepCostFunction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 135682 // StepCostFunction
+      end
+    end
+
+    artifact 136962 "GoalTest"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Objects;
+import java.util.function.Predicate;
+${definition}"
+      associated_elems
+	class_ref 135554 // GoalTest
+      end
+    end
+  end
+end

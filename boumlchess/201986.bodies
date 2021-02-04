@@ -1,0 +1,60 @@
+class Interval
+!!!510850.java!!!	Interval()
+
+!!!510978.java!!!	Interval(inout lower : Comparable<C>, inout upper : Comparable<C>)
+		setLower(lower);
+		setUpper(upper);
+!!!511106.java!!!	Interval(inout lower : Comparable<C>, inout lowerInclusive : boolean, inout upper : Comparable<C>, inout upperInclusive : boolean)
+		setLower(lower);
+		setLowerInclusive(lowerInclusive);
+		setUpper(upper);
+		setUpperInclusive(upperInclusive);
+!!!511234.java!!!	isInInterval(inout o : C) : boolean
+		if (null == lower || null == upper) {
+			return false;
+		}
+
+		boolean in = true;
+
+		if (isLowerInclusive()) {
+			in = lower.compareTo(o) <= 0;
+		} else {
+			in = lower.compareTo(o) < 0;
+		}
+
+		if (in) {
+			if (isUpperInclusive()) {
+				in = upper.compareTo(o) >= 0;
+			} else {
+				in = upper.compareTo(o) > 0;
+			}
+		}
+
+		return in;
+!!!511362.java!!!	isLowerInclusive() : boolean
+		return lowerInclusive;
+!!!511490.java!!!	isLowerExclusive() : boolean
+		return !lowerInclusive;
+!!!511618.java!!!	setLowerInclusive(inout inclusive : boolean) : void
+		this.lowerInclusive = inclusive;
+!!!511746.java!!!	setLowerExclusive(inout exclusive : boolean) : void
+		this.lowerInclusive = !exclusive;
+!!!511874.java!!!	getLower() : Comparable<C>
+		return lower;
+!!!512002.java!!!	setLower(inout lower : Comparable<C>) : void
+		this.lower = lower;
+!!!512130.java!!!	isUpperInclusive() : boolean
+		return upperInclusive;
+!!!512258.java!!!	isUpperExclusive() : boolean
+		return !upperInclusive;
+!!!512386.java!!!	setUpperInclusive(inout inclusive : boolean) : void
+		this.upperInclusive = inclusive;
+!!!512514.java!!!	setUpperExclusive(inout exclusive : boolean) : void
+		this.upperInclusive = !exclusive;
+!!!512642.java!!!	getUpper() : Comparable<C>
+		return upper;
+!!!512770.java!!!	setUpper(inout upper : Comparable<C>) : void
+		this.upper = upper;
+!!!512898.java!!!	toString() : String
+		return (lowerInclusive ? "[" : "(") + lower + ", " + upper
+				+ (upperInclusive ? "]" : ")");

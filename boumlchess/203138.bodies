@@ -1,0 +1,37 @@
+class Vector2D
+!!!538626.java!!!	Vector2D(in x : double, in y : double)
+		this.x = x;
+		this.y = y;
+!!!538754.java!!!	calculateFromPolar(in length : double, in heading : double) : Vector2D
+		final double x = length * Math.cos(heading);
+		final double y = length * Math.sin(heading);
+		return new Vector2D(x,y);
+!!!538882.java!!!	getX() : double
+		return x;
+!!!539010.java!!!	getY() : double
+		return y;
+!!!539138.java!!!	add(inout op2 : Vector2D) : Vector2D
+		return new Vector2D(this.x + op2.x, this.y + op2.y);
+!!!539266.java!!!	sub(inout op2 : Vector2D) : Vector2D
+		return new Vector2D(this.x - op2.x, this.y - op2.y);
+!!!539394.java!!!	multiply(in n : double) : Vector2D
+		return new Vector2D(this.x*n,this.y*n);
+!!!539522.java!!!	invert() : Vector2D
+		return new Vector2D(-this.x,-this.y);
+!!!539650.java!!!	isAbsoluteParallel(inout op2 : Vector2D) : boolean
+		return (this.y*op2.getX() - this.x * op2.getY() == 0);
+!!!539778.java!!!	isParallel(inout op2 : Vector2D) : boolean
+		final double angle = angleTo(op2);
+		return Util.compareDoubles(angle, 0.0d) || Util.compareDoubles(angle, Math.PI);
+!!!539906.java!!!	angleTo(inout op2 : Vector2D) : double
+		final double result = Math.atan2(op2.getY(), op2.getX()) - Math.atan2(this.y, this.x);
+		return result < 0 ? result + 2* Math.PI : result;
+!!!540034.java!!!	length() : double
+		return Math.sqrt(this.x*this.x+this.y*this.y);
+!!!540162.java!!!	equals(inout op2 : Vector2D) : boolean
+		if(op2 == null) return false;
+		return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);
+!!!540290.java!!!	equals(inout o : Object) : boolean
+		 if(o instanceof Vector2D)
+			 return this.equals((Vector2D) o);
+		 return false;

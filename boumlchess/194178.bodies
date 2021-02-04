@@ -1,0 +1,30 @@
+class ForwardCheckingStrategy
+!!!460162.java!!!	apply(inout csp : CSP) : InferenceLog
+        return InferenceLog.emptyLog();
+!!!460290.java!!!	apply(inout csp : CSP, inout assignment : Assignment, inout var : VAR) : InferenceLog
+        DomainLog<VAR, VAL> log = new DomainLog<>();
+        for (Constraint<VAR, VAL> constraint : csp.getConstraints(var)) {
+            VAR neighbor = csp.getNeighbor(var, constraint);
+            if (neighbor != null && !assignment.contains(neighbor)) {
+                if (revise(neighbor, constraint, assignment, csp, log)) {
+                    if (csp.getDomain(neighbor).isEmpty()) {
+                        log.setEmptyDomainFound(true);
+                        return log;
+                    }
+                }
+            }
+        }
+        return log;
+!!!460418.java!!!	revise(inout var : VAR, inout constraint : Constraint, inout assignment : Assignment, inout csp : CSP, inout log : DomainLog) : boolean
+
+        boolean revised = false;
+        for (VAL value : csp.getDomain(var)) {
+            assignment.add(var, value);
+            if (!constraint.isSatisfiedWith(assignment)) {
+                log.storeDomainFor(var, csp.getDomain(var));
+                csp.removeValueFromDomain(var, value);
+                revised = true;
+            }
+            assignment.remove(var);
+        }
+        return revised;

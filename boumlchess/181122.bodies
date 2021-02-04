@@ -1,0 +1,34 @@
+class ArbitraryTokenDomain
+!!!412674.java!!!	ArbitraryTokenDomain(inout  : Object...pValues)
+		this(false, pValues);
+!!!412802.java!!!	ArbitraryTokenDomain(inout ordered : boolean, inout  : Object...pValues)
+		this.ordered = ordered;
+		// Keep consistent order
+		possibleValues = new LinkedHashSet<Object>();
+		for (Object v : pValues) {
+			possibleValues.add(v);
+		}
+		// Ensure cannot be modified
+		possibleValues = Collections.unmodifiableSet(possibleValues);
+
+		indexPossibleValues(possibleValues);
+!!!412930.java!!!	size() : int
+		return possibleValues.size();
+!!!413058.java!!!	isOrdered() : boolean
+		return ordered;
+!!!413186.java!!!	getPossibleValues() : Set<Object>
+		return possibleValues;
+!!!413314.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof ArbitraryTokenDomain)) {
+			return false;
+		}
+
+		ArbitraryTokenDomain other = (ArbitraryTokenDomain) o;
+
+		return this.possibleValues.equals(other.possibleValues);
+!!!413442.java!!!	hashCode() : int
+		return possibleValues.hashCode();

@@ -1,0 +1,58 @@
+class CartesianPlot2D
+!!!524418.java!!!	CartesianPlot2D(inout parser : IGroupParser)
+		this.parser = parser;
+!!!524546.java!!!	setRayRange(in rayRange : double) : void
+		this.rayRange = rayRange;
+!!!524674.java!!!	setShapes(inout shapes : ArrayList<IGeometric2D>) : void
+		this.shapes = shapes;
+		boundaries = new ArrayList<Rect2D>(shapes.size());
+		for(IGeometric2D shape: shapes) {
+			boundaries.add(shape.getBounds());
+		}
+!!!524802.java!!!	loadMap(inout input : InputStream, in groupID : String) : void
+		shapes = parser.parse(input, groupID);
+		boundaries = new ArrayList<Rect2D>(shapes.size());
+		for(IGeometric2D shape: shapes) {
+			boundaries.add(shape.getBounds());
+		}
+!!!524930.java!!!	getShapes() : IGeometric2D
+		return shapes.iterator();
+!!!525058.java!!!	getBoundaries() : Rect2D
+		return boundaries.iterator();
+!!!525186.java!!!	isEmpty() : boolean
+		return shapes == null ? true : shapes.isEmpty();
+!!!525314.java!!!	randomPoint() : Point2D
+		IGeometric2D shape = Util.selectRandomlyFromList(shapes);
+		return shape.randomPoint();
+!!!525442.java!!!	rayCast(inout ray : Ray2D) : double
+		double result = Double.POSITIVE_INFINITY;
+		Rect2D rayBounding = new Rect2D(ray.getStart().getX() - rayRange,ray.getStart().getY() - rayRange, ray.getStart().getX() + rayRange, ray.getStart().getY() + rayRange);
+		for(int i=0;i < shapes.size(); i++) {
+			Rect2D bounding = boundaries.get(i);
+			if( rayBounding.isInsideBorder(bounding.getLowerLeft()) ||
+				rayBounding.isInsideBorder(bounding.getUpperLeft()) || 
+				rayBounding.isInsideBorder(bounding.getLowerRight()) || 
+				rayBounding.isInsideBorder(bounding.getUpperRight())) {
+				final double tmp = shapes.get(i).rayCast(ray);
+				result = tmp < result ? tmp : result;
+			}
+		}
+		return result;
+!!!525570.java!!!	isPointInsideBorderShape(inout point : Point2D) : boolean
+		for(int i=0;i < shapes.size();i++) {
+			if(boundaries.get(i).isInsideBorder(point)) {
+				if(shapes.get(i).isInsideBorder(point)) {
+					return true;
+				}
+			}
+		}
+		return false;
+!!!525698.java!!!	isPointInsideShape(inout point : Point2D) : boolean
+		for(int i=0;i < shapes.size();i++) {
+			if(boundaries.get(i).isInside(point)) {
+				if(shapes.get(i).isInside(point)) {
+					return true;
+				}
+			}
+		}
+		return false;

@@ -1,0 +1,114 @@
+class QLearningAgent
+!!!250626.java!!!	QLearningAgent(inout actionsFunction : ActionsFunction, inout noneAction : A, in alpha : double, in gamma : double, in Ne : int, in Rplus : double)
+		this.actionsFunction = actionsFunction;
+		this.noneAction = noneAction;
+		this.alpha = alpha;
+		this.gamma = gamma;
+		this.Ne = Ne;
+		this.Rplus = Rplus;
+!!!250754.java!!!	execute(inout percept : PerceptStateReward) : A
+
+		S sPrime = percept.state();
+		double rPrime = percept.reward();
+
+		// if TERMAINAL?(s') then Q[s',None] <- r'
+		if (isTerminal(sPrime)) {
+			Q.put(new Pair<S, A>(sPrime, noneAction), rPrime);
+		}
+
+		// if s is not null then
+		if (null != s) {
+			// increment N<sub>sa</sub>[s,a]
+			Pair<S, A> sa = new Pair<S, A>(s, a);
+			Nsa.incrementFor(sa);
+			// Q[s,a] <- Q[s,a] + &alpha;(N<sub>sa</sub>[s,a])(r +
+			// &gamma;max<sub>a'</sub>Q[s',a'] - Q[s,a])
+			Double Q_sa = Q.get(sa);
+			if (null == Q_sa) {
+				Q_sa = 0.0;
+			}
+			Q.put(sa, Q_sa + alpha(Nsa, s, a)
+					* (r + gamma * maxAPrime(sPrime) - Q_sa));
+		}
+		// if s'.TERMINAL? then s,a,r <- null else
+		// s,a,r <- s',argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a']),r'
+		if (isTerminal(sPrime)) {
+			s = null;
+			a = null;
+			r = null;
+		} else {
+			s = sPrime;
+			a = argmaxAPrime(sPrime);
+			r = rPrime;
+		}
+
+		// return a
+		return a;
+!!!250882.java!!!	reset() : void
+		Q.clear();
+		Nsa.clear();
+		s = null;
+		a = null;
+		r = null;
+!!!251010.java!!!	getUtility() : Map<S, Double>
+		// Q-values are directly related to utility values as follows
+		// (AIMA3e pg. 843 - 21.6) :
+		// U(s) = max<sub>a</sub>Q(s,a).
+		Map<S, Double> U = new HashMap<S, Double>();
+		for (Pair<S, A> sa : Q.keySet()) {
+			Double q = Q.get(sa);
+			Double u = U.get(sa.getFirst());
+			if (null == u || u < q) {
+				U.put(sa.getFirst(), q);
+			}
+		}
+
+		return U;
+!!!251138.java!!!	alpha(inout Nsa : FrequencyCounter, inout s : S, inout a : A) : double
+		// Default implementation is just to return a fixed parameter value
+		// irrespective of the # of times a state action has been encountered
+		return alpha;
+!!!251266.java!!!	f(inout u : Double, in n : int) : double
+		// A Simple definition of f(u, n):
+		if (null == u || n < Ne) {
+			return Rplus;
+		}
+		return u;
+!!!251394.java!!!	isTerminal(inout s : S) : boolean
+		boolean terminal = false;
+		if (null != s && actionsFunction.actions(s).size() == 0) {
+			// No actions possible in state is considered terminal.
+			terminal = true;
+		}
+		return terminal;
+!!!251522.java!!!	maxAPrime(inout sPrime : S) : double
+		double max = Double.NEGATIVE_INFINITY;
+		if (actionsFunction.actions(sPrime).size() == 0) {
+			// a terminal state
+			max = Q.get(new Pair<S, A>(sPrime, noneAction));
+		} else {
+			for (A aPrime : actionsFunction.actions(sPrime)) {
+				Double Q_sPrimeAPrime = Q.get(new Pair<S, A>(sPrime, aPrime));
+				if (null != Q_sPrimeAPrime && Q_sPrimeAPrime > max) {
+					max = Q_sPrimeAPrime;
+				}
+			}
+		}
+		if (max == Double.NEGATIVE_INFINITY) {
+			// Assign 0 as the mimics Q being initialized to 0 up front.
+			max = 0.0;
+		}
+		return max;
+!!!251650.java!!!	argmaxAPrime(inout sPrime : S) : A
+		A a = null;
+		double max = Double.NEGATIVE_INFINITY;
+		for (A aPrime : actionsFunction.actions(sPrime)) {
+			Pair<S, A> sPrimeAPrime = new Pair<S, A>(sPrime, aPrime);
+			double explorationValue = f(Q.get(sPrimeAPrime), Nsa
+					.getCount(sPrimeAPrime));
+			if (explorationValue > max) {
+				max = explorationValue;
+				a = aPrime;
+			}
+		}
+		return a;

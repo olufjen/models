@@ -1,0 +1,112 @@
+class Node
+!!!645250.java!!!	Node(in noOfBones : int, inout isMaxPlayer : boolean)
+        this.noOfBones = noOfBones;
+        this.isMaxPlayer = isMaxPlayer;
+        children = new ArrayList<>();
+        parent = null;
+!!!645378.java!!!	getNodeValue() : int
+		return nodeValue;
+!!!645506.java!!!	terminalNode() : boolean
+    	return noOfBones == 0;
+!!!645634.java!!!	winningGame() : boolean
+    	return terminalNode() && !isMaxPlayer;
+!!!645762.java!!!	moveChild(inout node : Node) : void
+    	lostChildren = new ArrayList<Node>();
+    	children.forEach(child -> {
+    		if (node == child) {
+    			lostChildren.add(node);
+    		}
+    	});
+    	
+!!!645890.java!!!	cleanChildren() : void
+    	if (lostChildren != null) {
+    		lostChildren.forEach(child -> {
+    			children.forEach(node ->{
+        			if (node == child) {
+        				children.remove(i);
+        			}
+    			});
+    			i++;
+    		});
+    	}
+!!!646018.java!!!	setNodeValue(in nodeValue : int) : void
+    	int ct = 0;
+    	Node localParent = parent;
+    	while (ct < 100 && localParent !=null) {
+    		localParent = localParent.getParent();
+    		ct++;
+    	}
+    	nodeValue = ct;
+		this.nodeValue = nodeValue;
+!!!646146.java!!!	getParent() : Node
+		if (parent != null)
+			return parent;
+		return null;
+!!!646274.java!!!	setParent(inout parent : Node) : void
+		this.parent = parent;
+!!!646402.java!!!	setChildren(inout children : List<Node>) : void
+		this.children = children;
+!!!646530.java!!!	getNodeId() : String
+		return nodeId;
+!!!646658.java!!!	setNodeId(in nodeId : String) : void
+		this.nodeId = nodeId;
+!!!646786.java!!!	getLeafNode() : String
+		return leafNode;
+!!!646914.java!!!	setLeafNode(in leafNode : String) : void
+		this.leafNode = leafNode;
+!!!647042.java!!!	getGameStatus() : String
+		return gameStatus;
+!!!647170.java!!!	setGameStatus(in gameStatus : String) : void
+		this.gameStatus = gameStatus;
+!!!647298.java!!!	getNoOfBones() : int
+        return noOfBones;
+!!!647426.java!!!	isMaxPlayer() : boolean
+        return isMaxPlayer;
+!!!647554.java!!!	getScore() : int
+        return score;
+!!!647682.java!!!	setScore(in score : int) : void
+        if (isMaxPlayer && noOfBones == 0) {
+        	score = -1;
+        }
+        if (!isMaxPlayer && noOfBones == 0) {
+        	score = 1;
+        }
+        this.score = score;
+!!!647810.java!!!	getChildren() : Node
+        return children;
+!!!647938.java!!!	addChild(inout newNode : Node) : void
+        children.add(newNode);
+!!!648066.java!!!	showParent() : String
+    	StringBuilder sb = new StringBuilder();
+    	Node localParent = parent;
+    	int ct = 0;
+    	while (ct < 100 && localParent !=null) {
+    		sb.append(localParent.toString());
+    		localParent = localParent.getParent();
+    		ct++;
+    	}
+    	sb.append(" Node value "+nodeValue);
+     	return sb.toString();
+!!!648194.java!!!	toString() : String
+        StringBuilder sb = new StringBuilder();
+        leafNode = "";
+        gameStatus = "";
+        if (noOfBones == 0) {
+        	leafNode = " Leaf Node ";
+        }
+        if (isMaxPlayer && noOfBones == 0) {
+        	gameStatus = " Lost game";
+        }
+        if (!isMaxPlayer && noOfBones == 0) {
+        	gameStatus = " Winning game";
+        }
+        
+        sb.append("Node name "+nodeId+" Node value "+nodeValue+"\n No of bones: "+Integer.toString(noOfBones)+" No of Nodes "+Integer.toString(children.size())+" Score "+score+leafNode+gameStatus+ " Max player "+isMaxPlayer);
+        int ix = 0;
+        for (Node node:children) {
+        	ix++;
+        	sb.append("\n  |\n  |\n Child: of "+ nodeId+"\n "+node.toString());
+        }
+        sb.append(" ID "+super.toString());
+        sb.append("\n");
+        return sb.toString();

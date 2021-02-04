@@ -1,0 +1,20 @@
+class MapFunctions
+!!!168066.java!!!	createActionsFunction(inout map : Map) : ActionsFunction
+        return new MapActionsFunction(map, false);
+!!!168194.java!!!	createReverseActionsFunction(inout map : Map) : ActionsFunction
+        return new MapActionsFunction(map, true);
+!!!168322.java!!!	createResultFunction() : ResultFunction
+        return new MapResultFunction();
+!!!168450.java!!!	createDistanceStepCostFunction(inout map : Map) : StepCostFunction
+        return new DistanceStepCostFunction(map);
+!!!168578.java!!!	createPerceptToStateFunction() : Percept
+        return  p -> (String) ((DynamicPercept) p).getAttribute(DynAttributeNames.PERCEPT_IN);
+!!!168706.java!!!	createSLDHeuristicFunction(in goal : String, inout map : Map) : Node
+        return node -> getSLD(node.getState(), goal, map);
+!!!168834.java!!!	getSLD(in loc1 : String, in loc2 : String, inout map : Map) : double
+        double result = 0.0;
+        Point2D pt1 = map.getPosition(loc1);
+        Point2D pt2 = map.getPosition(loc2);
+        if (pt1 != null && pt2 != null)
+            result = pt1.distance(pt2);
+        return result;

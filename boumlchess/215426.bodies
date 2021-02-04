@@ -1,0 +1,28 @@
+class GenericMonteCarloLocalization2DApp
+!!!604546.java!!!	GenericMonteCarloLocalization2DApp(inout mcl : MonteCarloLocalization, inout map : MclCartesianPlot2D, inout robot : IMclRobot, inout robotGui : IRobotGui, inout settingsGui : Settings)
+		this.mcl = mcl;
+		this.map = map;
+		this.robot = robot;
+		this.robotGui = robotGui;
+		this.settingsGui = settingsGui;
+		this.core = new MclCore();
+		this.gui = new MclGui();
+		String mapPath = settingsGui.getSetting(AbstractSettingsListener.MAP_FILE_KEY);
+		if(mapPath != null) this.lastMapFile = new File(mapPath);
+		this.settingsGui.registerListener(AbstractSettingsListener.PARTICLE_COUNT_KEY, this.core);
+		this.settingsGui.registerListener(AbstractSettingsListener.MAX_DISTANCE_KEY, this.core);
+!!!604674.java!!!	show() : void
+		gui.setVisible(true);
+!!!604802.java!!!	constructApplicationFrame() : JFrame
+		gui.buildPanels();
+		return gui;
+!!!604930.java!!!	runInBackground(in runnable : Runnable) : void
+		gui.saveButtonState();
+		gui.enableButtons(gui.buttonStateInit);
+		backgroundThread.execute(new Runnable() {
+			@Override
+			public void run() {
+				runnable.run();
+				gui.enableButtons(gui.previousButtonState);
+			}
+		});

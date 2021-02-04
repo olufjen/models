@@ -1,0 +1,18 @@
+class DecisionNetwork
+!!!388738.java!!!	DecisionNetwork(inout network : BayesianNetwork, inout action : RandomVariable, inout inferenceProcedure : BayesInference)
+        this.network = network;
+        this.action = action;
+        this.inferenceProcedure = inferenceProcedure;
+!!!388994.java!!!	getExpectedUtility(inout action : RandomVariable, inout evidence : List<AssignmentProposition>) : double
+        double utility = 0;
+        CategoricalDistribution distribution = inferenceProcedure.ask((new RandomVariable[]{action}),
+                ((AssignmentProposition[]) evidence.toArray()), this.getNetwork());
+        for (Object value :
+                ((FiniteDomain) action.getDomain()).getPossibleValues()) {
+            utility += distribution.getValue(value) * this.getUtilityForAction(action, value);
+        }
+        return utility;
+!!!389122.java!!!	getBestAction() : Object
+        return action;
+!!!389250.java!!!	getNetwork() : BayesianNetwork
+        return network;

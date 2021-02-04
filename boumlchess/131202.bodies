@@ -1,0 +1,23 @@
+class Rule
+!!!142722.java!!!	Rule(inout con : Condition, inout action : Action)
+		assert (null != con);
+		assert (null != action);
+
+		this.con = con;
+		this.action = action;
+!!!142850.java!!!	evaluate(inout p : ObjectWithDynamicAttributes) : boolean
+		return (con.evaluate(p));
+!!!142978.java!!!	getAction() : Action
+		return action;
+!!!143106.java!!!	equals(inout o : Object) : boolean
+		if (o == null || !(o instanceof Rule)) {
+			return super.equals(o);
+		}
+		return (toString().equals(((Rule) o).toString()));
+!!!143234.java!!!	hashCode() : int
+		return toString().hashCode();
+!!!143362.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+
+		return sb.append("if ").append(con).append(" then ").append(action)
+				.append(".").toString();

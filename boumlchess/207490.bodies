@@ -1,0 +1,169 @@
+class MapColoringCspApp
+!!!555650.java!!!	main(inout args : String [[]]) : void
+        launch(args);
+!!!555906.java!!!	getTitle() : String
+        return "Map Coloring CSP App";
+!!!556034.java!!!	createRootPane() : Pane
+        BorderPane root = new BorderPane();
+
+        StackPane stateView = new StackPane();
+        stateViewCtrl = new CspViewCtrl<>(stateView);
+
+        List<Parameter> params = createParameters();
+
+        TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
+        builder.defineParameters(params);
+        builder.defineStateView(stateView);
+        builder.defineInitMethod(this::initialize);
+        builder.defineTaskMethod(this::startExperiment);
+        taskPaneCtrl = builder.getResultFor(root);
+
+        return root;
+!!!556162.java!!!	createParameters() : Parameter
+        Parameter p1 = new Parameter(PARAM_MAP, "Map of Australia", "Tree-Structured Map");
+        Parameter p2 = new Parameter(PARAM_STRATEGY, "Backtracking",
+                "Backtracking + MRV",
+                "Backtracking + DEG",
+                "Backtracking + LCV",
+                "Backtracking + Forward Checking",
+                "Backtracking + Forward Checking + MRV&DEG",
+                "Backtracking + AC3",
+                "Backtracking + AC3 + MRV&DEG + LCV",
+                "Min-Conflicts (50)",
+                "Tree-CSP-Solver",
+                "Tree-CSP-Solver with Random Root");
+        return Arrays.asList(p1, p2);
+!!!556290.java!!!	initialize() : void
+        csp = null;
+        switch (taskPaneCtrl.getParamValueIndex(PARAM_MAP)) {
+            case 0:
+                initMapOfAustraliaCsp();
+                break;
+            case 1:
+                initTreeCsp();
+                break;
+        }
+
+
+        switch (taskPaneCtrl.getParamValueIndex(PARAM_STRATEGY)) {
+            case 0:
+                strategy = new FlexibleBacktrackingSolver<>();
+                break;
+            case 1: // MRV
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(CspHeuristics.mrv());
+                break;
+            case 2: // DEG
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(CspHeuristics.deg());
+                break;
+            case 3: // LCV
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(CspHeuristics.lcv());
+                break;
+            case 4: // FC
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(new ForwardCheckingStrategy<>());
+                break;
+            case 5: // FC + MRV&DEG
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(CspHeuristics.mrvDeg())
+                        .set(new ForwardCheckingStrategy<>());
+                break;
+            case 6: // AC3
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().set(new AC3Strategy<>());
+                break;
+            case 7: // AC3 + MRV&DEG + LCV
+                strategy = new FlexibleBacktrackingSolver<Variable, String>().setAll();
+                break;
+            case 8:
+                strategy = new MinConflictsSolver<>(50);
+                break;
+            case 9:
+                strategy = new TreeCspSolver<>();
+                break;
+            case 10:
+                strategy = new TreeCspSolver<Variable, String>().useRandom(true);
+                break;
+        }
+
+        strategy.addCspListener((csp1, assignment, var) -> {
+            stepCounter++;
+            updateStateView(csp1, assignment, var);
+        });
+
+        stateViewCtrl.initialize(csp);
+!!!556418.java!!!	cleanup() : void
+        taskPaneCtrl.cancelExecution();
+!!!556546.java!!!	startExperiment() : void
+        try {
+            stepCounter = 0;
+            strategy.solve(csp);
+        } catch (RuntimeException ex) { // If TreeCspSolver is applied to non-tree-structured CSP
+            taskPaneCtrl.setStatus(ex.getClass().getSimpleName() + ": " + ex.getMessage());
+        }
+!!!556674.java!!!	updateStateView(inout csp : CSP, inout assignment : Assignment, inout var : Variable) : void
+        Platform.runLater(() -> updateStateViewLater(csp, assignment, var));
+        taskPaneCtrl.waitAfterStep();
+!!!556802.java!!!	updateStateViewLater(inout csp : CSP, inout assignment : Assignment, inout var : Variable) : void
+        stateViewCtrl.update(csp, assignment);
+        String txt1 = "Step " + stepCounter + ": ";
+        String txt2 = "Domain reduced";
+        if (assignment != null) {
+            if (var != null)
+                txt2 = "Assignment changed, " + var + " = " + assignment.getValue(var);
+            else
+                txt2 = "Assignment changed, " + assignment.toString();
+            if (assignment.isSolution(csp))
+                txt2 += " (Solution)";
+        } else {
+            txt2 = "Domain reduced" + (var != null ? ", Dom(" + var + ") = " + csp.getDomain(var) + ")": "");
+        }
+        taskPaneCtrl.setStatus(txt1 + txt2);
+!!!556930.java!!!	initMapOfAustraliaCsp() : void
+        csp = new MapCSP();
+        int c = 15;
+        stateViewCtrl.clearMappings();
+        stateViewCtrl.setPositionMapping(MapCSP.WA, c*5, c*10);
+        stateViewCtrl.setPositionMapping(MapCSP.NT, c*15, c*3);
+        stateViewCtrl.setPositionMapping(MapCSP.SA, c*20, c*15);
+        stateViewCtrl.setPositionMapping(MapCSP.Q, c*30, c*5);
+        stateViewCtrl.setPositionMapping(MapCSP.NSW, c*35, c*15);
+        stateViewCtrl.setPositionMapping(MapCSP.V, c*30, c*23);
+        stateViewCtrl.setPositionMapping(MapCSP.T, c*33, c*30);
+
+        stateViewCtrl.setColorMapping(MapCSP.RED, Color.RED);
+        stateViewCtrl.setColorMapping(MapCSP.GREEN, Color.GREEN);
+        stateViewCtrl.setColorMapping(MapCSP.BLUE, Color.BLUE);
+!!!557058.java!!!	initTreeCsp() : void
+        List<Variable> vars = new ArrayList<>();
+        for (int i = 0; i < 8; i++)
+            vars.add(new Variable("V" + i));
+        csp = new CSP<>(vars);
+
+        csp.setDomain(vars.get(0), new Domain<>(MapCSP.RED, MapCSP.GREEN, MapCSP.BLUE));
+        csp.setDomain(vars.get(1), new Domain<>(MapCSP.RED, MapCSP.GREEN, MapCSP.BLUE));
+        csp.setDomain(vars.get(2), new Domain<>(MapCSP.RED));
+        csp.setDomain(vars.get(3), new Domain<>(MapCSP.RED, MapCSP.GREEN, MapCSP.BLUE));
+        csp.setDomain(vars.get(4), new Domain<>(MapCSP.GREEN));
+        csp.setDomain(vars.get(5), new Domain<>(MapCSP.RED, MapCSP.GREEN, MapCSP.BLUE));
+        csp.setDomain(vars.get(6), new Domain<>(MapCSP.RED));
+        csp.setDomain(vars.get(7), new Domain<>(MapCSP.GREEN));
+
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(0), vars.get(1)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(1), vars.get(2)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(1), vars.get(3)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(1), vars.get(4)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(3), vars.get(5)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(5), vars.get(6)));
+        csp.addConstraint(new NotEqualConstraint<>(vars.get(5), vars.get(7)));
+
+        int c = 15;
+        stateViewCtrl.clearMappings();
+        stateViewCtrl.setPositionMapping(vars.get(0), c*5, c*10);
+        stateViewCtrl.setPositionMapping(vars.get(1), c*15, c*3);
+        stateViewCtrl.setPositionMapping(vars.get(2), c*20, c*15);
+        stateViewCtrl.setPositionMapping(vars.get(3), c*35, c*15);
+        stateViewCtrl.setPositionMapping(vars.get(4), c*30, c*5);
+        stateViewCtrl.setPositionMapping(vars.get(5), c*30, c*23);
+        stateViewCtrl.setPositionMapping(vars.get(6), c*20, c*30);
+        stateViewCtrl.setPositionMapping(vars.get(7), c*33, c*30);
+
+        stateViewCtrl.setColorMapping(MapCSP.RED, Color.RED);
+        stateViewCtrl.setColorMapping(MapCSP.GREEN, Color.GREEN);
+        stateViewCtrl.setColorMapping(MapCSP.BLUE, Color.BLUE);

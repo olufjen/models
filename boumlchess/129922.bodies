@@ -1,0 +1,76 @@
+class AbstractEnvironment
+!!!132354.java!!!	getAgents() : Agent
+		// Return as a List but also ensures the caller cannot modify
+		return new ArrayList<Agent>(agents);
+!!!132482.java!!!	addAgent(inout a : Agent) : void
+		addEnvironmentObject(a);
+!!!132610.java!!!	removeAgent(inout a : Agent) : void
+		removeEnvironmentObject(a);
+!!!132738.java!!!	getEnvironmentObjects() : EnvironmentObject
+		// Return as a List but also ensures the caller cannot modify
+		return new ArrayList<EnvironmentObject>(envObjects);
+!!!132866.java!!!	addEnvironmentObject(inout eo : EnvironmentObject) : void
+		envObjects.add(eo);
+		if (eo instanceof Agent) {
+			Agent a = (Agent) eo;
+			if (!agents.contains(a)) {
+				agents.add(a);
+				notifyEnvironmentViews(a);
+			}
+		}
+!!!132994.java!!!	removeEnvironmentObject(inout eo : EnvironmentObject) : void
+		envObjects.remove(eo);
+		agents.remove(eo);
+!!!133122.java!!!	step() : void
+		for (Agent agent : agents) {
+			if (agent.isAlive()) {
+				Percept percept = getPerceptSeenBy(agent);
+				Action anAction = agent.execute(percept);
+				executeAction(agent, anAction);
+				notifyEnvironmentViews(agent, percept, anAction);
+			}
+		}
+		createExogenousChange();
+!!!133250.java!!!	step(in n : int) : void
+		for (int i = 0; i < n; i++) {
+			step();
+		}
+!!!133378.java!!!	stepUntilDone() : void
+		while (!isDone())
+			step();
+!!!133506.java!!!	isDone() : boolean
+		if (Tasks.currIsCancelled())
+			return true;
+
+		for (Agent agent : agents)
+			if (agent.isAlive())
+				return false;
+
+		return true;
+!!!133634.java!!!	getPerformanceMeasure(inout forAgent : Agent) : double
+		Double pm = performanceMeasures.get(forAgent);
+		if (null == pm) {
+			pm = 0.0;
+			performanceMeasures.put(forAgent, pm);
+		}
+
+		return pm;
+!!!133762.java!!!	addEnvironmentView(inout ev : EnvironmentView) : void
+		views.add(ev);
+!!!133890.java!!!	removeEnvironmentView(inout ev : EnvironmentView) : void
+		views.remove(ev);
+!!!134018.java!!!	notifyViews(in msg : String) : void
+		for (EnvironmentView ev : views) {
+			ev.notify(msg);
+		}
+!!!134146.java!!!	updatePerformanceMeasure(inout forAgent : Agent, in addTo : double) : void
+		performanceMeasures.put(forAgent, getPerformanceMeasure(forAgent)
+				+ addTo);
+!!!134274.java!!!	notifyEnvironmentViews(inout agent : Agent) : void
+		for (EnvironmentView view : views) {
+			view.agentAdded(agent, this);
+		}
+!!!134402.java!!!	notifyEnvironmentViews(inout agent : Agent, inout percept : Percept, inout action : Action) : void
+		for (EnvironmentView view : views) {
+			view.agentActed(agent, percept, action, this);
+		}

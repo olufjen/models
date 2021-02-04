@@ -1,0 +1,121 @@
+class TicTacToeTranspositionMinimax
+!!!689410.java!!!	TicTacToeTranspositionMinimax(inout algo : Minimax::Algorithm)
+        super(algo);
+        this.grid = new int[GRID_SIZE][GRID_SIZE];
+        newGame();
+!!!689538.java!!!	newGame() : void
+    	hash = 0;
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                grid[i][j] = FREE;
+            }
+        }
+        // X start to play
+        currentPlayer = PLAYER_X;
+        turn = 0;
+!!!689666.java!!!	isOver() : boolean
+        return hasWon(PLAYER_O) || hasWon(PLAYER_X) || turn == 9;
+!!!689794.java!!!	hasWon(in player : int) : boolean
+        return 
+            (player == grid[0][1] && player == grid[0][2] && player == grid[0][0])
+            ||
+            (player == grid[1][1] && player == grid[1][2] && player == grid[1][0])
+            ||
+            (player == grid[2][1] && player == grid[2][2] && player == grid[2][0])
+            ||
+            (player == grid[1][0] && player == grid[2][0] && player == grid[0][0])
+            ||
+            (player == grid[1][1] && player == grid[2][1] && player == grid[0][1])
+            ||
+            (player == grid[1][2] && player == grid[2][2] && player == grid[0][2])
+            ||
+            (player == grid[1][1] && player == grid[2][2] && player == grid[0][0])
+            ||
+            (player == grid[1][1] && player == grid[2][0] && player == grid[0][2]);
+!!!689922.java!!!	makeMove(inout move : TicTacToeMove) : void
+        grid[move.getX()][move.getY()] = move.getPlayer();
+        hash = hash ^ (move.getPlayer() << ((move.getX() + GRID_SIZE * move.getY()) * 2));
+        turn++;
+        next();
+!!!690050.java!!!	unmakeMove(inout move : TicTacToeMove) : void
+        grid[move.getX()][move.getY()] = FREE;
+        hash = hash ^ (move.getPlayer() << ((move.getX() + GRID_SIZE * move.getY()) * 2));
+        turn--;
+        previous();
+!!!690178.java!!!	getPossibleMoves() : TicTacToeMove
+        List<TicTacToeMove> moves = new ArrayList<>(9);
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                if (grid[i][j] == FREE) {
+                    moves.add(new TicTacToeMove(i, j, currentPlayer));
+                }
+            }
+        }
+        // moves can be sorted to optimize alpha-beta pruning
+        // {1,1} is always the best move when available
+        return moves;
+!!!690306.java!!!	evaluate() : double
+        int eval = 0;
+        if (hasWon(currentPlayer)) {
+            // 2 for the win
+            eval = 2;
+        } else if (hasWon(3 - currentPlayer)) {
+            // -2 for loosing
+            eval = -2;
+        } else if (grid[1][1] == currentPlayer) {
+            // 1 for {1,1}
+            eval = 1;
+        } else if (grid[1][1] == 3 - currentPlayer) {
+            // -1 for opponent {1,1}
+            eval = -1;
+        }
+        return eval;
+!!!690434.java!!!	maxEvaluateValue() : double
+        // evaluate return either -2, -1, 0, 1 or 2
+        return 3;
+!!!690562.java!!!	next() : void
+        currentPlayer = 3 - currentPlayer;
+!!!690690.java!!!	previous() : void
+        currentPlayer = 3 - currentPlayer;
+!!!690818.java!!!	getTransposition() : Integer
+		return hash;
+!!!690946.java!!!	getGroup() : Integer
+		// as moves increase over turns
+		// we don't need to keep transposition from previous turns
+		return turn;
+!!!691074.java!!!	clearGroupsAfterSearch() : boolean
+		// remove useless transposition after search
+		// groups reflect turns and as players can't
+		// go back on a move in the next turn, 
+		// transpositions from previous turns are useless
+    	return true;
+!!!691202.java!!!	getBestMove(in depth : int) : TicTacToeMove
+		TicTacToeMove move = super.getBestMove(depth);
+		// clear the content of the transposition table
+		// unless it reached the max depth... if not
+		// using a known transposition value will lead to a loss
+		// of search depth as we will use the result of an evaluation
+		// with a lower depth of prediction !
+		// we may have used informations from the transposition table
+		// to order available moves as an optimization for alpha-beta cut-off
+		if (turn + depth < MAX_TURN) {
+			// use with caution
+			super.clearTranspositionTable();
+		}
+//		super.clearTranspositionTable();
+		return move;
+!!!691330.java!!!	toString() : String
+        StringBuilder sb = new StringBuilder();
+        sb.append(grid[0][0] == FREE ? " " : (grid[0][0] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[1][0] == FREE ? " " : (grid[1][0] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[2][0] == FREE ? " " : (grid[2][0] == PLAYER_O ? "O" : "X"));
+        sb.append("\n");
+        sb.append(grid[0][1] == FREE ? " " : (grid[0][1] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[1][1] == FREE ? " " : (grid[1][1] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[2][1] == FREE ? " " : (grid[2][1] == PLAYER_O ? "O" : "X"));
+        sb.append("\n");
+        sb.append(grid[0][2] == FREE ? " " : (grid[0][2] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[1][2] == FREE ? " " : (grid[1][2] == PLAYER_O ? "O" : "X"));
+        sb.append(grid[2][2] == FREE ? " " : (grid[2][2] == PLAYER_O ? "O" : "X"));
+        sb.append("\n");
+        return sb.toString();

@@ -1,0 +1,43 @@
+class Vector
+!!!523266.java!!!	Vector(in size : int)
+		super(size, 1);
+!!!523394.java!!!	Vector(inout lst : List<Double>)
+		super(lst.size(), 1);
+		for (int i = 0; i < lst.size(); i++) {
+			setValue(i, lst.get(i));
+		}
+!!!523522.java!!!	getValue(in i : int) : double
+		return super.get(i, 0);
+!!!523650.java!!!	setValue(in index : int, in value : double) : void
+		super.set(index, 0, value);
+!!!523778.java!!!	copyVector() : Vector
+		Vector result = new Vector(getRowDimension());
+		for (int i = 0; i < getRowDimension(); i++) {
+			result.setValue(i, getValue(i));
+		}
+		return result;
+!!!523906.java!!!	size() : int
+		return getRowDimension();
+!!!524034.java!!!	minus(inout v : Vector) : Vector
+		Vector result = new Vector(size());
+		for (int i = 0; i < size(); i++) {
+			result.setValue(i, getValue(i) - v.getValue(i));
+		}
+		return result;
+!!!524162.java!!!	plus(inout v : Vector) : Vector
+		Vector result = new Vector(size());
+		for (int i = 0; i < size(); i++) {
+			result.setValue(i, getValue(i) + v.getValue(i));
+		}
+		return result;
+!!!524290.java!!!	indexHavingMaxValue() : int
+		if (size() <= 0) {
+			throw new RuntimeException("can't perform this op on empty vector");
+		}
+		int res = 0;
+		for (int i = 0; i < size(); i++) {
+			if (getValue(i) > getValue(res)) {
+				res = i;
+			}
+		}
+		return res;

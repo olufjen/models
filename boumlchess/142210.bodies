@@ -1,0 +1,13 @@
+class VacuumWorldFunctions
+!!!187906.java!!!	getActions(inout state : VacuumEnvironmentState) : Action
+        List<Action> actions = new ArrayList<>();
+        actions.add(VacuumEnvironment.ACTION_SUCK);
+        actions.add(VacuumEnvironment.ACTION_MOVE_LEFT);
+        actions.add(VacuumEnvironment.ACTION_MOVE_RIGHT);
+        // Ensure cannot be modified.
+       return Collections.unmodifiableList(actions);
+!!!188034.java!!!	testGoal(inout state : VacuumEnvironmentState) : boolean
+        return state.getLocationState(VacuumEnvironment.LOCATION_A) == VacuumEnvironment.LocationState.Clean
+                && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
+!!!188162.java!!!	createResultsFunction(inout agent : Agent) : ResultsFunction
+        return new VacuumWorldResults(agent);

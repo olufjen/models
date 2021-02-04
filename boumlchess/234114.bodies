@@ -1,0 +1,186 @@
+class ChessKnowledgeBase
+!!!789634.java!!!	ChessKnowledgeBase()
+		super();
+		dpll = new OptimizedDPLL();
+		officers = new ArrayList<String>();
+		
+!!!789762.java!!!	getOwnKnight() : String
+		return ownKnight;
+!!!789890.java!!!	setOwnKnight(in ownKnight : String) : void
+		if (this.ownKnight != null) {
+			this.ownKnight1 = ownKnight;
+			officers.add(ownKnight);
+			return;
+		}
+		this.ownKnight = ownKnight;
+		officers.add(ownKnight);
+!!!790018.java!!!	getOwnBishop() : String
+		return ownBishop;
+!!!790146.java!!!	setOwnBishop(in ownBishop : String) : void
+		if (this.ownBishop != null) {
+			this.ownBishop1 = ownBishop;
+			officers.add(ownBishop);
+			return;
+		}
+		this.ownBishop = ownBishop;
+		officers.add(ownBishop);
+!!!790274.java!!!	getOwnRook() : String
+		return ownRook;
+!!!790402.java!!!	setOwnRook(in ownRook : String) : void
+		if (this.ownRook != null) {
+			this.ownRook1 = ownRook;
+			officers.add(ownRook);
+			return;
+		}
+		this.ownRook = ownRook;
+		officers.add(ownRook);
+!!!790530.java!!!	getOwnQueen() : String
+		return ownQueen;
+!!!790658.java!!!	setOwnQueen(in ownQueen : String) : void
+		officers.add(ownQueen);
+		this.ownQueen = ownQueen;
+!!!790786.java!!!	getOwnKing() : String
+		return ownKing;
+!!!790914.java!!!	setOwnKing(in ownKing : String) : void
+		this.ownKing = ownKing;
+!!!964098.java!!!	getOpponentPieces() : List<String>
+		return opponentPieces;
+!!!964226.java!!!	setOpponentPieces(inout opponentPieces : List<String>) : void
+		this.opponentPieces = opponentPieces;
+!!!791042.java!!!	ask(inout query : Sentence) : boolean
+        long tStart = System.currentTimeMillis();
+        boolean result = dpll.isEntailed(this, query);
+        reasoningTime += System.currentTimeMillis() - tStart;
+        return result;
+!!!791170.java!!!	newSymbol(in prefix : String, in timeStep : int) : PropositionSymbol
+        return new PropositionSymbol(prefix + "_" + timeStep);
+!!!791298.java!!!	getAsCNF() : ConjunctionOfClauses
+		return getAsCNF();
+!!!791426.java!!!	getStateImpl() : ChessStateImpl
+		return stateImpl;
+!!!791554.java!!!	setStateImpl(inout stateImpl : ChessStateImpl) : void
+		this.stateImpl = stateImpl;
+		opponent = this.stateImpl.getOpponent();
+		myPlayer = this.stateImpl.getMyPlayer();
+!!!791682.java!!!	findSymbol(in name : String) : PropositionSymbol
+		PropositionSymbol sample = new PropositionSymbol(name);
+		Set<PropositionSymbol> mySymbols = getSymbols();
+		return mySymbols.stream().filter(sample::equals).findAny().orElse(null);
+!!!964354.java!!!	tellCaptureRules(in t : int, in pos : String, in myName : String) : void
+		for (String name:opponentPieces) {
+			tell(new ComplexSentence(newSymbol(CAPTURE+name+"_AT"+pos,t),Connective.BICONDITIONAL,new ComplexSentence(newSymbol(ATTACKED+myName+"_"+pos,t),
+					Connective.AND,newSymbol(name+"_AT"+pos,t))));
+		}
+!!!791810.java!!!	tellmoveRule(inout first : PropositionSymbol, in posName : String, in t : int) : void
+		Sentence sentence =  newSymbol(posName+"_", t);
+		
+		ComplexSentence move = new ComplexSentence(first, Connective.BICONDITIONAL, sentence);
+		tell(move);
+!!!791938.java!!!	askPossibleAction(inout action : Action, in t : int) : Action
+		ChessActionImpl localAction = (ChessActionImpl) action;
+		String name = localAction.getChessPiece().getMyPiece().getOntlogyName();
+		localAction.processPositions();//This method recalculates removed positions for this action. Why is this necessary?
+		AgamePiece piece = localAction.getChessPiece();
+		String position = piece.getmyPosition().getPositionName();
+		List<Position> removedList = localAction.getPositionRemoved();
+		List<Position> availableList = localAction.getAvailablePositions();
+		ApieceMove move = localAction.getPossibleMove();
+		List<Position> preferredPositions = move.getPreferredPositions();
+		String toPos = move.getToPosition().getPositionName();
+		Position toPosition = move.getToPosition();
+		int i = name.indexOf("WhitePawn");
+		if (t>=4 && i == -1) {
+			for (Position availablePos:availableList) {
+				if (!checkRemoved(availablePos,removedList)) {
+					boolean officerMove = checkOfficers(name,position,toPos,t);
+					if(officerMove)
+						return localAction;
+					toPos = availablePos.getPositionName();
+					move.setToPosition(availablePos);
+					localAction.setPreferredPosition(availablePos);
+				}
+			}			
+		}
+		boolean center = toPosition.isCenterlefthigh()||toPosition.isCenterleftlow()||toPosition.isCenterrighthigh()||toPosition.isCenterrightlow();
+		String moveNotation = move.getMoveNotation();
+		if (moveNotation == null || moveNotation.equals(""))
+			moveNotation ="MOV";
+		
+		Sentence sentence = newSymbol(ACTION+name+"_"+"AT"+position, t);
+		boolean answer = ask(sentence);
+		if (center && answer)
+			return localAction;
+		return null;
+!!!792066.java!!!	checkOfficers(in name : String, in fromPos : String, in toPos : String, in t : int) : boolean
+		boolean possible = false;
+		if (t < 4)
+			return possible;
+		List<AgamePiece> pieces = myPlayer.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			String pieceName = piece.getMyPiece().getOntlogyName();
+			Position position = piece.getmyPosition();
+			if (!pieceName.equals(name)) {
+				Sentence pieceProtected =  newSymbol(PROTECTED+pieceName+"_"+toPos,t);
+				possible = ask(pieceProtected);
+				if (possible)
+					return possible;
+			}
+
+		}	
+
+		Sentence selfProtected = newSymbol(PROTECTED+name+"_"+toPos,t);
+		ComplexSentence meProtected = new ComplexSentence(Connective.NOT,selfProtected);
+		Sentence sentence = newSymbol(ACTION+name+"_"+"AT"+fromPos, t);
+		Sentence posProtected = newSymbol(simpleProtected+"_"+toPos,t);
+		boolean action = ask(sentence);
+		boolean sProtected = ask(posProtected);
+		boolean ownProtected = ask(meProtected);
+		possible = action && sProtected && ownProtected;
+		return possible;
+!!!964482.java!!!	checkRemoved(inout pos : Position, inout removedList : List<Position>) : boolean
+		boolean removed = false;
+		for (Position rpos:removedList) {
+			if (rpos.equals(pos))
+				return true;
+			
+		}
+		return removed;
+!!!964610.java!!!	newtoPosition(inout availableList : List<Position>, inout removedList : List<Position>) : Position
+		
+		return null;
+!!!792194.java!!!	checkOpponentavailable(inout availableList : List<Position>, inout removedList : List<Position>, in t : int) : boolean
+		List<AgamePiece> pieces = opponent.getMygamePieces();
+		boolean avail = false;
+		boolean removed = false;
+		for (Position available:availableList) {
+			for (AgamePiece piece:pieces) {
+				String name = piece.getMyPiece().getOntlogyName();
+				Position position = piece.getmyPosition();
+				if (position == available) {
+					String posname = piece.getmyPosition().getPositionName();
+					Sentence sentence = newSymbol(name+"_"+"AT"+posname, t);
+					boolean answer = ask(sentence);
+					avail = answer;
+					break;
+				}
+
+			}			
+		}
+		if (avail) {
+			for (Position notavailable:removedList) {
+				for (AgamePiece piece:pieces) {
+					String name = piece.getMyPiece().getOntlogyName();
+					Position position = piece.getmyPosition();
+					if (position == notavailable) {
+						String posname = piece.getmyPosition().getPositionName();
+						Sentence sentence = newSymbol(name+"_"+"AT"+posname, t);
+						boolean answer = ask(sentence);
+						removed = answer;
+						break;
+					}
+
+				}	
+		}
+
+	  }
+		return avail && !removed;

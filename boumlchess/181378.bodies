@@ -1,0 +1,31 @@
+class FiniteIntegerDomain
+!!!414338.java!!!	FiniteIntegerDomain(inout  : Integer...pValues)
+		// Keep consistent order
+		possibleValues = new LinkedHashSet<Integer>();
+		for (Integer v : pValues) {
+			possibleValues.add(v);
+		}
+		// Ensure cannot be modified
+		possibleValues = Collections.unmodifiableSet(possibleValues);
+
+		indexPossibleValues(possibleValues);
+!!!414466.java!!!	size() : int
+		return possibleValues.size();
+!!!414594.java!!!	isOrdered() : boolean
+		return true;
+!!!414722.java!!!	getPossibleValues() : Set<Integer>
+		return possibleValues;
+!!!414850.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof FiniteIntegerDomain)) {
+			return false;
+		}
+
+		FiniteIntegerDomain other = (FiniteIntegerDomain) o;
+
+		return this.possibleValues.equals(other.possibleValues);
+!!!414978.java!!!	hashCode() : int
+		return possibleValues.hashCode();

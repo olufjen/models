@@ -1,0 +1,41 @@
+class NotSentence
+!!!341122.java!!!	NotSentence(inout negated : Sentence)
+		this.negated = negated;
+		args.add(negated);
+!!!341250.java!!!	getNegated() : Sentence
+		return negated;
+!!!341378.java!!!	getSymbolicName() : String
+		return Connectors.NOT;
+!!!341506.java!!!	isCompound() : boolean
+		return true;
+!!!341634.java!!!	getArgs() : Sentence
+		return Collections.unmodifiableList(args);
+!!!341762.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitNotSentence(this, arg);
+!!!341890.java!!!	copy() : NotSentence
+		return new NotSentence(negated.copy());
+!!!342018.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		NotSentence ns = (NotSentence) o;
+		return (ns.negated.equals(negated));
+!!!342146.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + negated.hashCode();
+		}
+		return hashCode;
+!!!342274.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("NOT(");
+			sb.append(negated.toString());
+			sb.append(")");
+			stringRep = sb.toString();
+		}
+		return stringRep;

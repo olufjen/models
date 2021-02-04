@@ -1,0 +1,1628 @@
+format 223
+"qsearch" // aima::core::search::framework::qsearch
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/framework/qsearch/"
+  java_package "aima.core.search.framework.qsearch"
+  classview 138370 "qsearch"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 194690 "QueueSearch"
+      abstract visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Base class for queue-based search implementations, especially for
+{@link TreeSearch}, {@link GraphSearch}, and {@link BidirectionalSearch}. It
+provides a template method for controlling search execution and defines
+primitive methods encapsulating frontier access. Tree search implementations
+will implement frontier access straight-forward. Graph search implementations
+will add node filtering mechanisms to avoid that nodes of already explored
+states are selected for expansion.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      attribute 190594 "METRIC_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 190722 "METRIC_QUEUE_SIZE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"queueSize\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 190850 "METRIC_MAX_QUEUE_SIZE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"maxQueueSize\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 190978 "METRIC_PATH_COST"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"pathCost\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 232834 // nodeExpander (<unidirectional association>)
+	relation 232834 --->
+	  a role_name "nodeExpander" const_relation protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 232834 // nodeExpander (<unidirectional association>)
+	  b parent class_ref 194306 // NodeExpander
+      end
+
+      classrelation 232962 // frontier (<unidirectional association>)
+	relation 232962 --->
+	  stereotype "Queue"
+	  a role_name "frontier" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 232962 // frontier (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      attribute 191106 "earlyGoalTest"
+	protected explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 233090 // metrics (<unidirectional association>)
+	relation 233090 --->
+	  a role_name "metrics" init_value " new Metrics()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 233090 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 467330 "QueueSearch"
+	cpp_inline protected explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Stores the provided node expander and adds a node listener to it. "
+      end
+
+      operation 467458 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Receives a problem and a queue implementing the search strategy and
+computes a node referencing a goal state, if such a state was found.
+This template method provides a base for tree and graph search
+implementations. It can be customized by overriding some primitive
+operations, especially {@link #addToFrontier(Node)},
+{@link #removeFromFrontier()}, and {@link #isFrontierEmpty()}.
+
+@param problem
+           the search problem
+@param frontier
+           the data structure for nodes that are waiting to be expanded
+
+@return a node referencing a goal state, if the goal was found, otherwise empty;
+"
+      end
+
+      operation 467586 "addToFrontier"
+	abstract cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which inserts the node at the tail of the frontier.
+"
+      end
+
+      operation 467714 "removeFromFrontier"
+	abstract cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which removes and returns the node at the head of the
+frontier.
+
+@return the node at the head of the frontier.
+"
+      end
+
+      operation 467842 "isFrontierEmpty"
+	abstract cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which checks whether the frontier contains not yet
+expanded nodes.
+"
+      end
+
+      operation 467970 "setEarlyGoalTest"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Enables optimization for FIFO queue based search, especially breadth
+first search.
+"
+      end
+
+      operation 468098 "getNodeExpander"
+	cpp_inline public return_type class_ref 194306 // NodeExpander
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 468226 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the search metrics.
+"
+      end
+
+      operation 468354 "clearMetrics"
+	cpp_inline protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets all metrics to zero.
+"
+      end
+
+      operation 468482 "updateMetrics"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param in name "queueSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 468610 "getSolution"
+	cpp_inline private return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 195458 "BidirectionalSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 90.<br>
+<br>
+Bidirectional search.<br>
+<br>
+The strategy of this search implementation is inspired by the description of
+the bidirectional search algorithm i.e. 'Bidirectional search is implemented
+by replacing the goal test with a check to see whether the frontiers of the
+two searches intersect;'. But to gain some worst-case guarantees with respect
+to solution quality (see below), the goal test of the original and the
+reverse problem are replaced by a check, whether the node's state was already
+explored in the other problem. Only one frontier is used which allows to use
+the same queue search interface as known from other search implementations.
+This implementation can be combined with many abstractions of search, e.g.
+BreadthFirstSearch, UniformCostSearch, or even AStarSearch.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 233218 // <realization>
+	relation 233218 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 233218 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      attribute 191234 "ORG_P_IDX"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 191362 "REV_P_IDX"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 191490 "isReverseActionTestEnabled"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Controls whether all actions of the reverse problem are tested to be
+reversible. This shouldn't be necessary for a correctly implemented
+bidirectional problem. But in case this is not guaranteed, the test is
+helpful to avoid failures.
+
+"
+      end
+
+      attribute 191618 "explored"
+	private explicit_type "Map<S, ExtendedNode<S, A>>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " index 0: original problem, index 2: reverse problem
+"
+      end
+
+      class 195586 "ExtendedNode"
+	visibility private 
+	nformals 2
+	formal name "S" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 135170 // Node
+	  rank 0 explicit_value ""
+	actual class class_ref 135170 // Node
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 233474 // <realization>
+	  relation 233474 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 233474 // <realization>
+	    b parent class_ref 135170 // Node
+	end
+
+	attribute 191746 "problemIndex"
+	  package explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 470402 "ExtendedNode"
+	  cpp_inline package explicit_return_type ""
+	  nparams 2
+	    param inout name "node" type class_ref 135170 // Node
+	    param in name "problemIndex" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 470530 "getProblemIndex"
+	  cpp_inline package explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 470658 "toString"
+	  cpp_inline public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 233346 // goalStateNode (<unidirectional association>)
+	relation 233346 --->
+	  a role_name "goalStateNode" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 233346 // goalStateNode (<unidirectional association>)
+	  b parent class_ref 195586 // ExtendedNode
+      end
+
+      operation 468738 "BidirectionalSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 468866 "BidirectionalSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 468994 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+	comment "Implements an approximation algorithm for bidirectional problems with
+exactly one initial and one goal state. The algorithm guarantees the
+following: If the queue is ordered by path costs (uniform cost search),
+the path costs of the solution will be less or equal to the costs of the
+best solution multiplied with two. Especially, if all step costs are
+equal and the reverse problem provides reverse actions for all actions of
+the original problem, the path costs of the result will exceed the
+optimal path by the costs of one step at maximum.
+
+@param problem
+           a bidirectional search problem
+@param frontier
+           the data structure to be used to decide which node to be
+           expanded next
+
+@return a list of actions to the goal if the goal was found, a list
+        containing a single NoOp Action if already at the goal, or an
+        empty list if the goal could not be found.
+"
+      end
+
+      operation 469122 "setReverseActionTestEnabled"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Enables a check for all actions offered by the reverse problem whether
+there exists a corresponding action of the original problem. Default
+value is true.
+"
+      end
+
+      operation 469250 "addToFrontier"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Inserts the node at the tail of the frontier if the corresponding state
+is not yet explored.
+"
+      end
+
+      operation 469378 "removeFromFrontier"
+	cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Cleans up the head of the frontier, removes the first node of a
+non-explored state from the head of the frontier, adds it to the
+corresponding explored map, and returns the node.
+
+@return A node of a not yet explored state.
+"
+      end
+
+      operation 469506 "isFrontierEmpty"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Pops nodes of already explored states from the head of the frontier and
+checks whether there are still some nodes left.
+"
+      end
+
+      operation 469634 "cleanUpFrontier"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Helper method which removes nodes of already explored states from the
+head of the frontier.
+"
+      end
+
+      operation 469762 "getSolution"
+	cpp_inline private return_type class_ref 135170 // Node
+	nparams 3
+	  param inout name "orgP" type class_ref 134914 // Problem
+	  param inout name "node1" type class_ref 195586 // ExtendedNode
+	  param inout name "node2" type class_ref 195586 // ExtendedNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}, ${t2}<S, A> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Computes a node whose sequence of recursive parents corresponds to a
+sequence of actions which leads from the initial state of the original
+problem to the state of node1 and then to the initial state of the
+reverse problem, following reverse actions to parents of node2. Note that
+both nodes must be linked to the same state. Success is not guaranteed if
+some actions cannot be reversed.
+"
+      end
+
+      operation 469890 "getReverseAction"
+	cpp_inline private explicit_return_type "A"
+	nparams 2
+	  param inout name "orgP" type class_ref 134914 // Problem
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}, ${t1}<S, A> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the action which leads from the state of <code>node</code> to the
+state of the node's parent, if such an action exists in problem
+<code>orgP</code>.
+"
+      end
+
+      operation 470018 "isExplored"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 470146 "setExplored"
+	cpp_inline private explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 470274 "getCorrespondingNodeFromOtherProblem"
+	cpp_inline private return_type class_ref 195586 // ExtendedNode
+	nparams 1
+	  param inout name "node" type class_ref 195586 // ExtendedNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 195714 "GraphSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
+<br>
+
+<pre>
+function GRAPH-SEARCH(problem) returns a solution, or failure
+  initialize the frontier using the initial state of problem
+  initialize the explored set to be empty
+  loop do
+    if the frontier is empty then return failure
+    choose a leaf node and remove it from the frontier
+    if the node contains a goal state then return the corresponding solution
+    add the node to the explored set
+    expand the chosen node, adding the resulting nodes to the frontier
+      only if not in the frontier or explored set
+</pre>
+
+Figure 3.7 An informal description of the general graph-search algorithm.
+<br>
+This implementation is based on the template method
+{@link QueueSearch#findNode(Problem, Queue)} of the superclass and provides
+implementations for the needed primitive operations. In contrast to the code
+above, here, nodes resulting from node expansion are added to the frontier
+even if nodes for the same states already exist there. This makes it possible
+to use the implementation also in combination with priority queue frontiers.
+This implementation avoids linear costs for frontier node removal (compared
+to {@link GraphSearchReducedFrontier}) and gets by without node comparator
+knowledge.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+"
+      classrelation 233602 // <realization>
+	relation 233602 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 233602 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      attribute 191874 "explored"
+	private explicit_type "S"
+	init_value " new HashSet<>()"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 470786 "GraphSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 470914 "GraphSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 471042 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Clears the set of explored states and calls the search implementation of
+{@link QueueSearch}.
+"
+      end
+
+      operation 471170 "addToFrontier"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Inserts the node at the tail of the frontier if the corresponding state
+was not yet explored.
+"
+      end
+
+      operation 471298 "removeFromFrontier"
+	cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Removes the node at the head of the frontier, adds the corresponding
+state to the explored set, and returns the node. Leading nodes of already
+explored states are dropped. So the resulting node state will always be
+unexplored yet.
+
+@return the node at the head of the frontier.
+"
+      end
+
+      operation 471426 "isFrontierEmpty"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Pops nodes of already explored states from the head of the frontier
+and checks whether there are still some nodes left.
+"
+      end
+
+      operation 471554 "cleanUpFrontier"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Helper method which removes nodes of already explored states from the head
+of the frontier.
+"
+      end
+    end
+
+    class 195842 "GraphSearchBFS"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
+<br>
+
+<pre>
+function GRAPH-SEARCH(problem) returns a solution, or failure
+  initialize the frontier using the initial state of problem
+  initialize the explored set to be empty
+  loop do
+    if the frontier is empty then return failure
+    choose a leaf node and remove it from the frontier
+    if the node contains a goal state then return the corresponding solution
+    add the node to the explored set
+    expand the chosen node, adding the resulting nodes to the frontier
+      only if not in the frontier or explored set
+</pre>
+
+Figure 3.7 An informal description of the general graph-search algorithm.
+<br>
+This implementation is based on the template method
+{@link QueueSearch#findNode(Problem, Queue)} of the superclass and
+provides implementations for the needed primitive operations. It is the most
+efficient variant of graph search for breadth first search. But don't expect
+shortest paths in combination with priority queue frontiers.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 233730 // <realization>
+	relation 233730 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 233730 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      attribute 192002 "explored"
+	private explicit_type "S"
+	init_value " new HashSet<>()"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 192130 "frontierStates"
+	private explicit_type "S"
+	init_value " new HashSet<>()"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 471682 "GraphSearchBFS"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 471810 "GraphSearchBFS"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 471938 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Clears the set of explored states and calls the search implementation of
+<code>QueSearch</code>
+"
+      end
+
+      operation 472066 "addToFrontier"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Inserts the node at the tail of the frontier if the corresponding state
+is not already a frontier state and was not yet explored.
+"
+      end
+
+      operation 472194 "removeFromFrontier"
+	cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Removes the node at the head of the frontier, adds the corresponding
+state to the explored set, and returns the node.
+
+@return the node at the head of the frontier.
+"
+      end
+
+      operation 472322 "isFrontierEmpty"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Checks whether there are still some nodes left.
+"
+      end
+    end
+
+    class 195970 "GraphSearchReducedFrontier"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
+<br>
+
+<pre>
+function GRAPH-SEARCH(problem) returns a solution, or failure
+  initialize the frontier using the initial state of problem
+  initialize the explored set to be empty
+  loop do
+    if the frontier is empty then return failure
+    choose a leaf node and remove it from the frontier
+    if the node contains a goal state then return the corresponding solution
+    add the node to the explored set
+    expand the chosen node, adding the resulting nodes to the frontier
+      only if not in the frontier or explored set
+</pre>
+
+Figure 3.7 An informal description of the general graph-search algorithm.
+
+<br>
+This implementation is based on the template method
+{@link #findNode(Problem, Queue)} of the superclass and provides
+implementations for the needed primitive operations. It implements a special
+version of graph search which keeps the frontier short by focusing on the
+best node for each state only. It should only be used in combination with
+priority queue frontiers. If a node is added to the frontier, this
+implementation checks whether another node for the same state already exists
+and decides whether to replace it or ignore the new node depending on the
+node's costs (comparator of priority queue is used, if available).
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 233858 // <realization>
+	relation 233858 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 233858 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      attribute 192258 "explored"
+	private explicit_type "S"
+	init_value " new HashSet<>()"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 233986 // frontierNodeLookup (<unidirectional association>)
+	relation 233986 --->
+	  stereotype "Map"
+	  a role_name "frontierNodeLookup" init_value " new HashMap<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<S, ${type}<S, A>> ${name}${value};
+"
+	    classrelation_ref 233986 // frontierNodeLookup (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      attribute 192386 "nodeComparator"
+	private explicit_type "? super Node<S, A>"
+	init_value " null"
+	stereotype "Comparator"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 472450 "GraphSearchReducedFrontier"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 472578 "GraphSearchReducedFrontier"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 472706 "findNode"
+	cpp_inline public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Sets the comparator if a priority queue is used, resets explored list and
+state map and calls the inherited version of search.
+"
+      end
+
+      operation 472834 "getNodeComparator"
+	cpp_inline public explicit_return_type "Comparator<? super Node<S, A>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 472962 "addToFrontier"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Inserts the node into the frontier if the node's state is not yet
+explored and not present in the frontier. If a second node for the same
+state is already part of the frontier, it is checked, which node is
+better (with respect to priority). Depending of the result, the existing
+node is replaced or the new node is dropped.
+"
+      end
+
+      operation 473090 "removeFromFrontier"
+	cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Removes the node at the head of the frontier, adds the corresponding
+state to the explored set, and returns the node.
+
+@return the node at the head of the frontier.
+"
+      end
+
+      operation 473218 "isFrontierEmpty"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Checks whether the frontier contains not yet expanded nodes.
+"
+      end
+    end
+
+    class 196098 "TreeSearch"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
+<br>
+
+<pre>
+function TREE-SEARCH(problem) returns a solution, or failure
+  initialize the frontier using the initial state of the problem
+  loop do
+    if the frontier is empty then return failure
+    choose a leaf node and remove it from the frontier
+    if the node contains a goal state then return the corresponding solution
+    expand the chosen node, adding the resulting nodes to the frontier
+</pre>
+
+Figure 3.7 An informal description of the general tree-search algorithm.
+
+<br>
+This implementation is based on the template method
+{@link #findNode(Problem, Queue)} from superclass {@link QueueSearch} and
+provides implementations for the needed primitive operations.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+
+@author Ruediger Lunde
+@author Ravi Mohan
+"
+      classrelation 234114 // <realization>
+	relation 234114 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 234114 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      operation 473346 "TreeSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 473474 "TreeSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 473602 "addToFrontier"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Inserts the node at the tail of the frontier.
+"
+      end
+
+      operation 473730 "removeFromFrontier"
+	cpp_inline protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Removes and returns the node at the head of the frontier.
+
+@return the node at the head of the frontier.
+"
+      end
+
+      operation 473858 "isFrontierEmpty"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Checks whether the frontier contains not yet expanded nodes.
+"
+      end
+    end
+  end
+
+  deploymentview 137602 "qsearch"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 184322 "QueueSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+import aima.core.util.Tasks;
+import java.util.Optional;
+import java.util.Queue;
+${definition}"
+      associated_elems
+	class_ref 194690 // QueueSearch
+      end
+    end
+
+    artifact 184450 "BidirectionalSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.BidirectionalProblem;
+import aima.core.search.framework.problem.Problem;
+import aima.core.util.Tasks;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 195458 // BidirectionalSearch
+      end
+    end
+
+    artifact 184578 "GraphSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Set;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 195714 // GraphSearch
+      end
+    end
+
+    artifact 184706 "GraphSearchBFS"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Set;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 195842 // GraphSearchBFS
+      end
+    end
+
+    artifact 184834 "GraphSearchReducedFrontier"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 195970 // GraphSearchReducedFrontier
+      end
+    end
+
+    artifact 184962 "TreeSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Queue;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 196098 // TreeSearch
+      end
+    end
+  end
+end

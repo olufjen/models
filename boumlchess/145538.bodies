@@ -1,0 +1,53 @@
+class XYEnvironmentState
+!!!206082.java!!!	XYEnvironmentState(in width : int, in height : int)
+		this.width = width;
+		this.height = height;
+		for (int h = 1; h <= height; h++) {
+			for (int w = 1; w <= width; w++) {
+				objsAtLocation.put(new XYLocation(h, w), new LinkedHashSet<EnvironmentObject>());
+			}
+		}
+!!!206210.java!!!	moveObjectToAbsoluteLocation(inout eo : EnvironmentObject, inout loc : XYLocation) : void
+		// Ensure is not already at another location
+		for (Set<EnvironmentObject> eos : objsAtLocation.values()) {
+			if (eos.remove(eo)) {
+				break; // Should only every be at 1 location
+			}
+		}
+		// Add it to the location specified
+		getObjectsAt(loc).add(eo);
+!!!206338.java!!!	getObjectsAt(inout loc : XYLocation) : EnvironmentObject
+		Set<EnvironmentObject> objectsAt = objsAtLocation.get(loc);
+		if (null == objectsAt) {
+			// Always ensure an empty Set is returned
+			objectsAt = new LinkedHashSet<EnvironmentObject>();
+			objsAtLocation.put(loc, objectsAt);
+		}
+		return objectsAt;
+!!!206466.java!!!	getCurrentLocationFor(inout eo : EnvironmentObject) : XYLocation
+		for (XYLocation loc : objsAtLocation.keySet()) {
+			if (objsAtLocation.get(loc).contains(eo)) {
+				return loc;
+			}
+		}
+		return null;
+!!!206594.java!!!	getObjectsNear(inout agent : Agent, in radius : int) : EnvironmentObject
+		Set<EnvironmentObject> objsNear = new LinkedHashSet<>();
+
+		XYLocation agentLocation = getCurrentLocationFor(agent);
+		for (XYLocation loc : objsAtLocation.keySet()) {
+			if (withinRadius(radius, agentLocation, loc)) {
+				objsNear.addAll(objsAtLocation.get(loc));
+			}
+		}
+		// Ensure the 'agent' is not included in the Set of
+		// objects near
+		objsNear.remove(agent);
+
+		return objsNear;
+!!!206722.java!!!	toString() : String
+		return "XYEnvironmentState:" + objsAtLocation.toString();
+!!!206850.java!!!	withinRadius(in radius : int, inout agentLocation : XYLocation, inout objectLocation : XYLocation) : boolean
+		int xdifference = agentLocation.getXCoOrdinate() - objectLocation.getXCoOrdinate();
+		int ydifference = agentLocation.getYCoOrdinate() - objectLocation.getYCoOrdinate();
+		return Math.sqrt((xdifference * xdifference) + (ydifference * ydifference)) <= radius;

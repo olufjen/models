@@ -1,0 +1,1224 @@
+format 223
+"common" // aima::core::logic::common
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/common/"
+  java_package "aima.core.logic.common"
+  classview 133634 "common"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 155650 "Lexer"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An abstract base class for constructing lexical analyzers for knowledge
+representation languages. It provides a mechanism for converting a sequence
+of characters to a sequence of tokens that are meaningful in the
+representation language of interest.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      attribute 162178 "lookAheadBufferSize"
+	protected explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162306 "END_OF_INPUT"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162434 "input"
+	private explicit_type "Reader"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162562 "lookAheadBuffer"
+	private explicit_type "int"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162690 "currentPositionInInput"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 253698 "setInput"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "inputString" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the character stream of the lexical analyzer.
+
+@param inputString
+           a sequence of characters to be converted into a sequence of
+           tokens.
+"
+      end
+
+      operation 253826 "setInput"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "inputReader" explicit_type "Reader"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the character stream reader of the lexical analyzer.
+
+@param inputReader
+           a reader on a sequence of characters to be converted into a
+           sequence of tokens.
+"
+      end
+
+      operation 253954 "nextToken"
+	abstract public return_type class_ref 155778 // Token
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "To be implemented by concrete implementations
+
+@return the next token from the input.
+"
+      end
+
+      operation 254082 "getCurrentPositionInInput"
+	protected explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
+
+      operation 254210 "lookAhead"
+	protected explicit_return_type "char"
+	nparams 1
+	  param in name "position" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the character at the specified position in the lookahead buffer.
+"
+      end
+
+      operation 254338 "consume"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Consume 1 character from the input.
+"
+      end
+
+      operation 254466 "isEndOfInput"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param in name "i" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE
+
+
+Returns true if the end of the stream has been reached.
+"
+      end
+
+      operation 254594 "initializeLookAheadBuffer"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Initialize the look ahead buffer from the input.
+"
+      end
+
+      operation 254722 "loadNextCharacterFromInput"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads the next character into the lookahead buffer if the end of the
+stream has not already been reached.
+"
+      end
+
+      operation 254850 "readInput"
+	private explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 155778 "Token"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A token generated by a lexer from a sequence of characters.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      attribute 165506 "type"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 165634 "text"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 165762 "startCharPositionInInput"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 257026 "Token"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "type" explicit_type "int"
+	  param in name "text" explicit_type "String"
+	  param in name "startCharPositionInInput" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a token from the specified token-name and attribute-value
+
+@param type
+           the token-name
+@param text
+           the attribute-value
+@param startCharPositionInInput
+           the position (starting from 0) at which this token 
+           starts in  the input.
+"
+      end
+
+      operation 257154 "getText"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the attribute-value of this token.
+
+@return the attribute-value of this token.
+"
+      end
+
+      operation 257282 "getType"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the token-name of this token.
+
+@return the token-name of this token.
+"
+      end
+
+      operation 257410 "getStartCharPositionInInput"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the position (starting from 0) at which this token starts in the
+        input.
+"
+      end
+
+      operation 257538 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 257666 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 257794 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 155906 "LexerException"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A runtime exception to be used to describe Lexer exceptions. In particular it
+provides information to help in identifying where in the input character
+sequence the exception occurred.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 162946 // <generalisation>
+	relation 162946 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 162946 // <generalisation>
+	  b parent class_ref 156034 // RuntimeException
+      end
+
+      attribute 162818 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 162946 "currentPositionInInput"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 254978 "LexerException"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "message" explicit_type "String"
+	  param in name "currentPositionInInput" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 255106 "LexerException"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "message" explicit_type "String"
+	  param in name "currentPositionInInput" explicit_type "int"
+	  param inout name "cause" explicit_type "Throwable"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 255234 "getCurrentPositionInInputExceptionThrown"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the current position in the input character stream that the lexer
+        was at before the exception was encountered.
+"
+      end
+    end
+
+    class 156162 "LogicTokenTypes"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 163074 "SYMBOL"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163202 "LPAREN"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 2"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " ("
+      end
+
+      attribute 163330 "RPAREN"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 3"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " )"
+      end
+
+      attribute 163458 "LSQRBRACKET"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 4"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " ["
+      end
+
+      attribute 163586 "RSQRBRACKET"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 5"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " ]"
+      end
+
+      attribute 163714 "COMMA"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 6"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163842 "CONNECTIVE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 7"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 163970 "QUANTIFIER"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 8"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164098 "PREDICATE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 9"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164226 "FUNCTION"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 10"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164354 "VARIABLE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 11"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164482 "CONSTANT"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 12"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164610 "TRUE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 13"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164738 "FALSE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 14"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164866 "EQUALS"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 15"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 164994 "WHITESPACE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 1000"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 165122 "EOI"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 9999"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " End of Input."
+      end
+    end
+
+    class 156290 "Parser"
+      abstract visibility public 
+      nformals 1
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An abstract base class for constructing parsers for knowledge representation
+languages. It provides a mechanism for converting a sequence of tokens
+(derived from an appropriate lexer) into a syntactically correct abstract
+syntax tree of the representation language.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+
+@param <S> the root type of the abstract syntax tree being parsed.
+"
+      attribute 165250 "lookAheadBufferSize"
+	protected explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 163074 // lookAheadBuffer (<unidirectional association>)
+	relation 163074 --->
+	  a role_name "lookAheadBuffer" multiplicity "[]" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	    classrelation_ref 163074 // lookAheadBuffer (<unidirectional association>)
+	  b parent class_ref 155778 // Token
+      end
+
+      operation 255362 "getLexer"
+	abstract cpp_inline public return_type class_ref 155650 // Lexer
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return an instance of the Lexer to be used by a concrete implementation
+        of this class.
+"
+      end
+
+      operation 255490 "parse"
+	cpp_inline public explicit_return_type "S"
+	nparams 1
+	  param in name "input" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parse the input concrete syntax into an abstract syntax tree.
+
+@param input
+           a string representation of the concrete syntax to be parsed.
+@return the root node of an abstract syntax tree representation of the
+        the concrete input syntax that was parsed.
+"
+      end
+
+      operation 255618 "parse"
+	cpp_inline public explicit_return_type "S"
+	nparams 1
+	  param inout name "inputReader" explicit_type "Reader"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parse the input concrete syntax into an abstract syntax tree.
+
+@param inputReader
+           a Reader of the concrete syntax to be parsed.
+@return the root node of an abstract syntax tree representation of the
+        the concrete input syntax that was parsed.
+"
+      end
+
+      operation 255746 "parse"
+	abstract cpp_inline protected explicit_return_type "S"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+
+
+To be implemented by concrete implementations of this class.
+
+@return the root node of an abstract syntax tree representation of the
+        the concrete input syntax that was parsed.
+"
+      end
+
+      operation 255874 "lookAhead"
+	cpp_inline protected return_type class_ref 155778 // Token
+	nparams 1
+	  param in name "i" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the token at the specified position in the lookahead buffer.
+"
+      end
+
+      operation 256002 "consume"
+	cpp_inline protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Consume 1 token from the input.
+"
+      end
+
+      operation 256130 "match"
+	cpp_inline protected explicit_return_type "void"
+	nparams 1
+	  param in name "toMatchSymbol" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Consume the given match symbol if it matches the current input token. If
+it does not match throws a ParserException detailing the match error.
+
+@param toMatchSymbol
+           the symbol to match before consuming it.
+"
+      end
+
+      operation 256258 "initializeLookAheadBuffer"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE
+"
+      end
+
+      operation 256386 "loadNextTokenFromInput"
+	cpp_inline private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads the next token into the lookahead buffer if the end of the stream
+has not already been reached.
+"
+      end
+
+      operation 256514 "isEndOfInput"
+	cpp_inline private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "t" type class_ref 155778 // Token
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns true if the end of the stream has been reached.
+"
+      end
+    end
+
+    class 156418 "ParserException"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A runtime exception to be used to describe Parser exceptions. In particular
+it provides information to help in identifying which tokens proved
+problematic in the parse.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 163202 // <generalisation>
+	relation 163202 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 163202 // <generalisation>
+	  b parent class_ref 156034 // RuntimeException
+      end
+
+      attribute 165378 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 163330 // problematicTokens (<unidirectional association>)
+	relation 163330 --->
+	  stereotype "List"
+	  a role_name "problematicTokens" init_value " new ArrayList<Token>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 163330 // problematicTokens (<unidirectional association>)
+	  b parent class_ref 155778 // Token
+      end
+
+      operation 256642 "ParserException"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "message" explicit_type "String"
+	  param inout name "" explicit_type "Token...problematicTokens"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 256770 "ParserException"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "message" explicit_type "String"
+	  param inout name "cause" explicit_type "Throwable"
+	  param inout name "" explicit_type "Token...problematicTokens"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 256898 "getProblematicTokens"
+	public return_type class_ref 155778 // Token
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a list of 0 or more tokens from the input stream that are
+        believed to have contributed to the parse exception.
+"
+      end
+    end
+
+    class 156546 "ParseTreeNode"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+    end
+  end
+
+  deploymentview 131714 "common"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 148738 "Lexer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+${definition}"
+      associated_elems
+	class_ref 155650 // Lexer
+      end
+    end
+
+    artifact 148866 "LexerException"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 155906 // LexerException
+      end
+    end
+
+    artifact 148994 "LogicTokenTypes"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 156162 // LogicTokenTypes
+      end
+    end
+
+    artifact 149122 "Parser"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.Reader;
+import java.io.StringReader;
+${definition}"
+      associated_elems
+	class_ref 156290 // Parser
+      end
+    end
+
+    artifact 149250 "ParserException"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 156418 // ParserException
+      end
+    end
+
+    artifact 149378 "ParseTreeNode"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 156546 // ParseTreeNode
+      end
+    end
+
+    artifact 149506 "Token"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 155778 // Token
+      end
+    end
+  end
+end

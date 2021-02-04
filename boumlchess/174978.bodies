@@ -1,0 +1,16 @@
+class SymbolCollector
+!!!386306.java!!!	getSymbolsFrom(inout  : Sentence...sentences) : PropositionSymbol
+		Set<PropositionSymbol> result = new LinkedHashSet<PropositionSymbol>();
+
+		SymbolCollector symbolCollector = new SymbolCollector();
+		for (Sentence s : sentences) {
+			result = s.accept(symbolCollector, result);
+		}
+
+		return result;
+!!!386434.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : Set<PropositionSymbol>) : PropositionSymbol
+		// Do not add the always true or false symbols
+		if (!s.isAlwaysTrue() && !s.isAlwaysFalse()) {
+			arg.add(s);
+		}
+		return arg;

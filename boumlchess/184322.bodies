@@ -1,0 +1,73 @@
+class HMM
+!!!422274.java!!!	HMM(inout stateVariable : RandomVariable, inout transitionModel : Matrix, inout sensorModel : Map<Object, Matrix>, inout prior : Matrix)
+		if (!stateVariable.getDomain().isFinite()) {
+			throw new IllegalArgumentException(
+					"State Variable for HHM must be finite.");
+		}
+		this.stateVariable = stateVariable;
+		stateVariableDomain = (FiniteDomain) stateVariable.getDomain();
+		if (transitionModel.getRowDimension() != transitionModel
+				.getColumnDimension()) {
+			throw new IllegalArgumentException(
+					"Transition Model row and column dimensions must match.");
+		}
+		if (stateVariableDomain.size() != transitionModel.getRowDimension()) {
+			throw new IllegalArgumentException(
+					"Transition Model Matrix does not map correctly to the HMM's State Variable.");
+		}
+		this.transitionModel = transitionModel;
+		for (Matrix smVal : sensorModel.values()) {
+			if (smVal.getRowDimension() != smVal.getColumnDimension()) {
+				throw new IllegalArgumentException(
+						"Sensor Model row and column dimensions must match.");
+			}
+			if (stateVariableDomain.size() != smVal.getRowDimension()) {
+				throw new IllegalArgumentException(
+						"Sensor Model Matrix does not map correctly to the HMM's State Variable.");
+			}
+		}
+		this.sensorModel = sensorModel;
+		if (transitionModel.getRowDimension() != prior.getRowDimension()
+				&& prior.getColumnDimension() != 1) {
+			throw new IllegalArgumentException(
+					"Prior is not of the correct dimensions.");
+		}
+		this.prior = prior;
+!!!422402.java!!!	getStateVariable() : RandomVariable
+		return stateVariable;
+!!!422530.java!!!	getTransitionModel() : Matrix
+		return transitionModel;
+!!!422658.java!!!	getSensorModel() : Matrix
+		return sensorModel;
+!!!422786.java!!!	getPrior() : Matrix
+		return prior;
+!!!422914.java!!!	getEvidence(inout evidence : List<AssignmentProposition>) : Matrix
+		if (evidence.size() != 1) {
+			throw new IllegalArgumentException(
+					"Only a single evidence observation value should be provided.");
+		}
+		Matrix e = sensorModel.get(evidence.get(0).getValue());
+		if (null == e) {
+			throw new IllegalArgumentException(
+					"Evidence does not map to sensor model.");
+		}
+		return e;
+!!!423042.java!!!	createUnitMessage() : Matrix
+		double[] values = new double[stateVariableDomain.size()];
+		Arrays.fill(values, 1.0);
+		return new Matrix(values, values.length);
+!!!423170.java!!!	convert(inout fromCD : CategoricalDistribution) : Matrix
+		double[] values = fromCD.getValues();
+		return new Matrix(values, values.length);
+!!!423298.java!!!	convert(inout fromMessage : Matrix) : CategoricalDistribution
+		return new ProbabilityTable(fromMessage.getRowPackedCopy(),
+				stateVariable);
+!!!423426.java!!!	convert(inout matrixs : List<Matrix>) : CategoricalDistribution
+		List<CategoricalDistribution> cds = new ArrayList<CategoricalDistribution>();
+		for (Matrix m : matrixs) {
+			cds.add(convert(m));
+		}
+		return cds;
+!!!423554.java!!!	normalize(inout m : Matrix) : Matrix
+		double[] values = m.getRowPackedCopy();
+		return new Matrix(Util.normalize(values), values.length);

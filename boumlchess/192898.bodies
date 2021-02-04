@@ -1,0 +1,40 @@
+class FlexibleBacktrackingSolver
+!!!453634.java!!!	set(inout varStrategy : CspHeuristics::VariableSelection) : FlexibleBacktrackingSolver
+        varSelectionStrategy = varStrategy;
+        return this;
+!!!453762.java!!!	set(inout valStrategy : CspHeuristics::ValueSelection) : FlexibleBacktrackingSolver
+        valSelectionStrategy = valStrategy;
+        return this;
+!!!453890.java!!!	set(inout iStrategy : InferenceStrategy) : FlexibleBacktrackingSolver
+        inferenceStrategy = iStrategy;
+        return this;
+!!!454018.java!!!	setAll() : FlexibleBacktrackingSolver
+        set(CspHeuristics.mrvDeg()).set(CspHeuristics.lcv()).set(new AC3Strategy<>());
+        return this;
+!!!454146.java!!!	solve(inout csp : CSP) : Assignment
+        if (inferenceStrategy != null) {
+            csp = csp.copyDomains(); // do not change the original CSP!
+            InferenceLog log = inferenceStrategy.apply(csp);
+            if (!log.isEmpty()) {
+                fireStateChanged(csp, null, null);
+                if (log.inconsistencyFound())
+                    return Optional.empty();
+            }
+        }
+        return super.solve(csp);
+!!!454274.java!!!	selectUnassignedVariable(inout csp : CSP, inout assignment : Assignment) : VAR
+        List<VAR> vars = csp.getVariables().stream().
+                filter((v) -> !assignment.contains(v)).collect(Collectors.toList());
+        if (varSelectionStrategy != null)
+            vars = varSelectionStrategy.apply(csp, vars);
+        return vars.get(0);
+!!!454402.java!!!	orderDomainValues(inout csp : CSP, inout assignment : Assignment, inout var : VAR) : Iterable<VAL>
+        if (valSelectionStrategy != null)
+            return valSelectionStrategy.apply(csp, assignment, var);
+        else
+            return csp.getDomain(var);
+!!!454530.java!!!	inference(inout csp : CSP, inout assignment : Assignment, inout var : VAR) : InferenceLog
+        if (inferenceStrategy != null)
+            return inferenceStrategy.apply(csp, assignment, var);
+        else
+            return InferenceLog.emptyLog();

@@ -1,0 +1,41 @@
+class RandVar
+!!!435330.java!!!	RandVar(in name : String, inout domain : Domain)
+		ProbUtil.checkValidRandomVariableName(name);
+		if (null == domain) {
+			throw new IllegalArgumentException(
+					"Domain of RandomVariable must be specified.");
+		}
+
+		this.name = name;
+		this.domain = domain;
+		this.scope.add(this);
+!!!435458.java!!!	getName() : String
+		return name;
+!!!435586.java!!!	getDomain() : Domain
+		return domain;
+!!!435714.java!!!	getTermVariable() : RandomVariable
+		return this;
+!!!435842.java!!!	getScope() : RandomVariable
+		return scope;
+!!!435970.java!!!	getUnboundScope() : RandomVariable
+		return scope;
+!!!436098.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return possibleWorld.containsKey(getTermVariable());
+!!!436226.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof RandomVariable)) {
+			return false;
+		}
+
+		// The name (not the name:domain combination) uniquely identifies a
+		// Random Variable
+		RandomVariable other = (RandomVariable) o;
+
+		return this.name.equals(other.getName());
+!!!436354.java!!!	hashCode() : int
+		return name.hashCode();
+!!!436482.java!!!	toString() : String
+		return getName();

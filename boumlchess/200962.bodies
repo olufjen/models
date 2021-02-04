@@ -1,0 +1,27 @@
+class PowersOf2
+!!!498946.java!!!	iterator() : Iterator<Integer>
+        return new Iterator<Integer>() {
+            int i = 1;
+
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
+
+            @Override
+            public Integer next() {
+                int old = i;
+                i = 2 * i;
+                return old;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+!!!499074.java!!!	main(inout args : String [[]]) : void
+        // Example of using the "foreach" construction. This never stops.
+        for (int p : new PowersOf2()) {
+            System.out.println(p);
+        }

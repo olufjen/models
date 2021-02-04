@@ -1,0 +1,133 @@
+class NNDataSet
+!!!239234.java!!!	createNormalizedDataFromFile(in filename : String) : void
+
+		List<List<Double>> rds = new ArrayList<List<Double>>();
+
+		// create raw data set
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				DataResource.class.getResourceAsStream(filename + ".csv")))) {
+
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				rds.add(exampleFromString(line, ","));
+			}
+		}
+
+		// normalize raw dataset
+		nds = normalize(rds);
+!!!239362.java!!!	createNormalizedDataFromDataSet(inout ds : DataSet, inout numerizer : Numerizer) : void
+
+		List<List<Double>> rds = rawExamplesFromDataSet(ds, numerizer);
+		// normalize raw dataset
+		nds = normalize(rds);
+!!!239490.java!!!	getExampleAtRandom() : NNExample
+
+		int i = Util.randomNumberBetween(0, (presentlyProcessed.size() - 1));
+		return presentlyProcessed.remove(i);
+!!!239618.java!!!	getExample(in index : int) : NNExample
+
+		return presentlyProcessed.remove(index);
+!!!239746.java!!!	hasMoreExamples() : boolean
+		return presentlyProcessed.size() > 0;
+!!!239874.java!!!	howManyExamplesLeft() : int
+		return presentlyProcessed.size();
+!!!240002.java!!!	refreshDataset() : void
+		presentlyProcessed = new ArrayList<NNExample>();
+		for (NNExample e : dataset) {
+			presentlyProcessed.add(e.copyExample());
+		}
+!!!240130.java!!!	createExamplesFromFile(in filename : String) : void
+		createNormalizedDataFromFile(filename);
+		setTargetColumns();
+		createExamples();
+
+!!!240258.java!!!	createExamplesFromDataSet(inout ds : DataSet, inout numerizer : Numerizer) : void
+		createNormalizedDataFromDataSet(ds, numerizer);
+		setTargetColumns();
+		createExamples();
+
+!!!240386.java!!!	getNormalizedData() : List<List<Double>>
+		return nds;
+!!!240514.java!!!	getMeans() : List<Double>
+		return means;
+!!!240642.java!!!	getStdevs() : List<Double>
+		return stdevs;
+!!!240770.java!!!	createExamples() : void
+		dataset = new ArrayList<NNExample>();
+		for (List<Double> dataLine : nds) {
+			List<Double> input = new ArrayList<Double>();
+			List<Double> target = new ArrayList<Double>();
+			for (int i = 0; i < dataLine.size(); i++) {
+				if (targetColumnNumbers.contains(i)) {
+					target.add(dataLine.get(i));
+				} else {
+					input.add(dataLine.get(i));
+				}
+			}
+			dataset.add(new NNExample(input, target));
+		}
+		refreshDataset();// to populate the preentlyProcessed dataset
+!!!240898.java!!!	normalize(inout rds : List<List<Double>>) : List<List<Double>>
+		int rawDataLength = rds.get(0).size();
+		List<List<Double>> nds = new ArrayList<List<Double>>();
+
+		means = new ArrayList<Double>();
+		stdevs = new ArrayList<Double>();
+
+		List<List<Double>> normalizedColumns = new ArrayList<List<Double>>();
+		// clculate means for each coponent of example data
+		for (int i = 0; i < rawDataLength; i++) {
+			List<Double> columnValues = new ArrayList<Double>();
+			for (List<Double> rawDatum : rds) {
+				columnValues.add(rawDatum.get(i));
+			}
+			double mean = Util.calculateMean(columnValues);
+			means.add(mean);
+
+			double stdev = Util.calculateStDev(columnValues, mean);
+			stdevs.add(stdev);
+
+			normalizedColumns.add(Util.normalizeFromMeanAndStdev(columnValues,
+					mean, stdev));
+
+		}
+		// re arrange data from columns
+		// TODO Assert normalized columns have same size etc
+
+		int columnLength = normalizedColumns.get(0).size();
+		int numberOfColumns = normalizedColumns.size();
+		for (int i = 0; i < columnLength; i++) {
+			List<Double> lst = new ArrayList<Double>();
+			for (int j = 0; j < numberOfColumns; j++) {
+				lst.add(normalizedColumns.get(j).get(i));
+			}
+			nds.add(lst);
+		}
+		return nds;
+!!!241026.java!!!	exampleFromString(in line : String, in separator : String) : List<Double>
+		// assumes all values for inout and target are doubles
+		List<Double> rexample = new ArrayList<Double>();
+		List<String> attributeValues = Arrays.asList(line.split(separator));
+		for (String valString : attributeValues) {
+			rexample.add(Double.parseDouble(valString));
+		}
+		return rexample;
+!!!241154.java!!!	rawExamplesFromDataSet(inout ds : DataSet, inout numerizer : Numerizer) : List<List<Double>>
+		// assumes all values for inout and target are doubles
+		List<List<Double>> rds = new ArrayList<List<Double>>();
+		for (int i = 0; i < ds.size(); i++) {
+			List<Double> rexample = new ArrayList<Double>();
+			Example e = ds.getExample(i);
+			Pair<List<Double>, List<Double>> p = numerizer.numerize(e);
+			List<Double> attributes = p.getFirst();
+			for (Double d : attributes) {
+				rexample.add(d);
+			}
+			List<Double> targets = p.getSecond();
+			for (Double d : targets) {
+				rexample.add(d);
+			}
+			rds.add(rexample);
+		}
+		return rds;

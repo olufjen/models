@@ -1,0 +1,182 @@
+format 223
+"reinforcement" // aima::core::learning::reinforcement
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/reinforcement/"
+  java_package "aima.core.learning.reinforcement"
+  classview 132866 "reinforcement"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 153730 "PerceptStateReward"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 832.<br>
+<br>
+A percept that supplies both the current state and the reward received in
+that state.
+
+@param <S>
+           the state type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 159874 // <generalisation>
+	relation 159874 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 159874 // <generalisation>
+	  b parent class_ref 153858 // RewardPercept
+      end
+
+      operation 248450 "state"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the current state associated with the percept.
+"
+      end
+    end
+
+    class 153858 "RewardPercept"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 830.<br>
+<br>
+Our framework for agents regards the reward as part of the input percept, but
+the agent must be \"hardwired\" to recognize that part as a reward rather than
+as just another sensory input.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 159746 // <generalisation>
+	relation 159746 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 159746 // <generalisation>
+	  b parent class_ref 128386 // Percept
+      end
+
+      operation 248322 "reward"
+	public explicit_return_type "double"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the reward part of the percept ('hardwired').
+"
+      end
+    end
+  end
+
+  deploymentview 131330 "reinforcement"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 147586 "RewardPercept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Percept;
+${definition}"
+      associated_elems
+	class_ref 153858 // RewardPercept
+      end
+    end
+
+    artifact 147714 "PerceptStateReward"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 153730 // PerceptStateReward
+      end
+    end
+  end
+
+  package_ref 134530 // agent
+
+  package_ref 134914 // example
+end

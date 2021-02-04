@@ -1,0 +1,1019 @@
+format 223
+"nqueens" // aima::core::environment::nqueens
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/environment/nqueens/"
+  java_package "aima.core.environment.nqueens"
+  classview 130050 "nqueens"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 139522 "NQueensBoard"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents a quadratic board with a matrix of squares on which queens can be
+placed (only one per square) and moved.
+
+@author Ravi Mohan
+@author Ruediger Lunde
+"
+      class 139650 "Config"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 143106 "EMPTY"
+	  public type class_ref 139650 // Config
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 143234 "QUEENS_IN_FIRST_ROW"
+	  public type class_ref 139650 // Config
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 143362 "QUEEN_IN_EVERY_COL"
+	  public type class_ref 139650 // Config
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+      end
+
+      attribute 143490 "squares"
+	private explicit_type "int"
+	multiplicity "[][]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "X---> increases left to right with zero based index Y increases top to
+bottom with zero based index | | V
+
+"
+      end
+
+      operation 173314 "NQueensBoard"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "size" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a board with <code>size</code> rows and size columns. Column and
+row indices start with 0.
+"
+      end
+
+      operation 173442 "NQueensBoard"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "size" explicit_type "int"
+	  param inout name "config" type class_ref 139650 // Config
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a board with <code>size</code> rows and size columns. Column and
+row indices start with 0.
+
+@param config
+           Controls whether the board is initially empty or contains some
+           queens.
+"
+      end
+
+      operation 173570 "getSize"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 173698 "clear"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 173826 "setQueensAt"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "locations" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 173954 "addQueenAt"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Column and row indices start with 0! "
+      end
+
+      operation 174082 "removeQueenFrom"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174210 "moveQueenTo"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Moves the queen in the specified column (x-value of <code>l</code>) to
+the specified row (y-value of <code>l</code>). The action assumes a
+complete-state formulation of the n-queens problem.
+"
+      end
+
+      operation 174338 "moveQueen"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "from" type class_ref 135938 // XYLocation
+	  param inout name "to" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174466 "queenExistsAt"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174594 "queenExistsAt"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174722 "getNumberOfQueensOnBoard"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174850 "getQueenPositions"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 174978 "getNumberOfAttackingPairs"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175106 "getNumberOfAttacksOn"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175234 "isSquareUnderAttack"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "l" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175362 "isSquareHorizontallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175490 "isSquareVerticallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175618 "isSquareDiagonallyAttacked"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175746 "numberOfHorizontalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 175874 "numberOfVerticalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 176002 "numberOfDiagonalAttacksOn"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 176130 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 176258 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 176386 "print"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 176514 "getBoardPic"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 176642 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 139778 "NQueensFunctions"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Provides useful functions for two versions of the n-queens problem. The
+incremental formulation and the complete-state formulation share the same
+RESULT function but use different ACTIONS functions.
+
+@author Ruediger Lunde
+@author Ciaran O'Reilly
+"
+      operation 176770 "createIncrementalFormulationProblem"
+	class_operation public return_type class_ref 134914 // Problem
+	nparams 1
+	  param in name "boardSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<NQueensBoard, QueenAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 176898 "createCompleteStateFormulationProblem"
+	class_operation public return_type class_ref 134914 // Problem
+	nparams 2
+	  param in name "boardSize" explicit_type "int"
+	  param inout name "config" type class_ref 139650 // Config
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<NQueensBoard, QueenAction> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 177026 "getIFActions"
+	class_operation public return_type class_ref 139906 // QueenAction
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements an ACTIONS function for the incremental formulation of the
+n-queens problem.
+<p>
+Assumes that queens are placed column by column, starting with an empty
+board, and provides queen placing actions for all non-attacked positions
+of the first free column.
+"
+      end
+
+      operation 177154 "getCSFActions"
+	class_operation public return_type class_ref 139906 // QueenAction
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements an ACTIONS function for the complete-state formulation of the
+n-queens problem.
+<p>
+Assumes exactly one queen in each column and provides all possible queen
+movements in vertical direction as actions.
+"
+      end
+
+      operation 177282 "getResult"
+	class_operation public return_type class_ref 139522 // NQueensBoard
+	nparams 2
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	  param inout name "action" type class_ref 139906 // QueenAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements a RESULT function for the n-queens problem.
+Supports queen placing, queen removal, and queen movement actions.
+"
+      end
+
+      operation 177410 "testGoal"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements a GOAL-TEST for the n-queens problem.
+"
+      end
+
+      operation 177538 "createAttackingPairsHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<NQueensBoard, QueenAction>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Estimates the distance to goal by the number of attacking pairs of queens on
+the board.
+"
+      end
+    end
+
+    class 139906 "QueenAction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Queens can be placed, removed, and moved. For movements, a vertical direction
+is assumed. Therefore, only the end point needs to be specified.
+
+@author Ravi Mohan
+@author Ruediger Lunde
+"
+      classrelation 142594 // <generalisation>
+	relation 142594 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 142594 // <generalisation>
+	  b parent class_ref 130050 // DynamicAction
+      end
+
+      attribute 143618 "PLACE_QUEEN"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"placeQueenAt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 143746 "REMOVE_QUEEN"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"removeQueenAt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 143874 "MOVE_QUEEN"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"moveQueenTo\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 144002 "ATTRIBUTE_QUEEN_LOC"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"location\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 178946 "QueenAction"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "type" explicit_type "String"
+	  param inout name "loc" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a queen action. Supported values of type are {@link #PLACE_QUEEN}
+, {@link #REMOVE_QUEEN}, or {@link #MOVE_QUEEN}.
+"
+      end
+
+      operation 179074 "getLocation"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 179202 "getX"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 179330 "getY"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 140034 "NQueensGenAlgoUtil"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A class whose purpose is to provide static utility methods for solving the
+n-queens problem with genetic algorithms. This includes fitness function,
+goal test, random creation of individuals and convenience methods for
+translating between between an NQueensBoard representation and the Integer list
+representation used by the GeneticAlgorithm.
+
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+
+"
+      operation 177666 "getFitnessFunction"
+	class_operation public return_type class_ref 140162 // FitnessFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Integer> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 177794 "getGoalTest"
+	class_operation public return_type class_ref 135554 // GoalTest
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Individual<Integer>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 177922 "generateRandomIndividual"
+	class_operation public return_type class_ref 140290 // Individual
+	nparams 1
+	  param in name "boardSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Integer> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 178050 "getFiniteAlphabetForBoardOfSize"
+	class_operation public explicit_return_type "Collection<Integer>"
+	nparams 1
+	  param in name "size" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 140418 "NQueensFitnessFunction"
+	visibility public 
+	nactuals 1
+	actual class class_ref 140162 // FitnessFunction
+	  rank 0 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 142082 // <realization>
+	  relation 142082 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 142082 // <realization>
+	    b parent class_ref 140162 // FitnessFunction
+	end
+
+	operation 178306 "apply"
+	  public explicit_return_type "double"
+	  nparams 1
+	    param inout name "individual" type class_ref 140290 // Individual
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Integer> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 140546 "NQueensGenAlgoGoalTest"
+	visibility public 
+	nactuals 1
+	actual class class_ref 135554 // GoalTest
+	  rank 0 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 142338 // <realization>
+	  relation 142338 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 142338 // <realization>
+	    b parent class_ref 135554 // GoalTest
+	end
+
+	classrelation 142466 // goalTest (<unidirectional association>)
+	  relation 142466 --->
+	    a role_name "goalTest" init_value " NQueensFunctions::testGoal" const_relation private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<NQueensBoard> ${name}${value};
+"
+	      classrelation_ref 142466 // goalTest (<unidirectional association>)
+	    b parent class_ref 135554 // GoalTest
+	end
+
+	operation 178690 "test"
+	  public explicit_return_type "boolean"
+	  nparams 1
+	    param inout name "state" type class_ref 140290 // Individual
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Integer> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      operation 178818 "getBoardForIndividual"
+	class_operation public return_type class_ref 139522 // NQueensBoard
+	nparams 1
+	  param inout name "individual" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Integer> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 129410 "nqueens"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 136578 "NQueensBoard"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 139522 // NQueensBoard
+      end
+    end
+
+    artifact 136706 "NQueensFunctions"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.Problem;
+import aima.core.util.datastructure.XYLocation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 139778 // NQueensFunctions
+      end
+    end
+
+    artifact 137090 "NQueensGenAlgoUtil"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+import aima.core.search.framework.problem.GoalTest;
+import aima.core.search.local.FitnessFunction;
+import aima.core.search.local.Individual;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 140034 // NQueensGenAlgoUtil
+      end
+    end
+
+    artifact 137218 "QueenAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.impl.DynamicAction;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 139906 // QueenAction
+      end
+    end
+  end
+end

@@ -1,0 +1,41 @@
+class GeneticMaximumFinderDemo
+!!!568194.java!!!	main(inout args : String [[]]) : void
+		System.out.println("Genetic Maximum Finder Experiment (f1, mutProb=0.2) -->");
+		GeneticMaximumFinderDemo demo = new GeneticMaximumFinderDemo();
+		demo.startExperiment(demo::printGeneration);
+		System.out.println("Experiment finished.");
+!!!568322.java!!!	setFunction(inout func : Function<Double, Double>) : void
+		this.func = func;
+!!!568450.java!!!	setMutationProb(in mutProb : double) : void
+		this.mutProb = mutProb;
+!!!568578.java!!!	setPopulationSize(in populationSize : int) : void
+		this.populationSize = populationSize;
+!!!568706.java!!!	setMaxIterations(in maxIterations : int) : void
+		this.maxIterations = maxIterations;
+!!!568834.java!!!	startExperiment(inout pTracer : GeneticAlgorithm::ProgressTracker) : void
+		GeneticAlgorithmForNumbers genAlgo = new GeneticAlgorithmForNumbers(1, Functions.minX, Functions.maxX, mutProb);
+		genAlgo.addProgressTracer(pTracer);
+		fitnessFn = ind -> func.apply(ind.getRepresentation().get(0));
+		List<Individual<Double>> population = new ArrayList<Individual<Double>>();
+		for (int i = 0; i < populationSize; i++)
+			population.add(genAlgo.createRandomIndividual());
+		@SuppressWarnings("unused")
+		Individual<Double> best = genAlgo.geneticAlgorithm(population, fitnessFn, maxIterations);
+!!!568962.java!!!	printGeneration(in itCount : int, inout gen : Collection<Individual<Double>>) : void
+		System.out.println("\n" + getIterationInfo(itCount, gen));
+		List<Individual<Double>> generation = new ArrayList<>();
+		generation.addAll(gen);
+		Collections.sort(generation, Comparator.comparingDouble(fitnessFn::apply));
+		for (Individual<Double> ind : generation)
+			System.out.println(ind + " -> " + fitnessFn.apply(ind));
+!!!569090.java!!!	getIterationInfo(in itCount : int, inout gen : Collection<Individual<Double>>) : String
+		double avg = 0.0;
+		double max = Double.NEGATIVE_INFINITY;
+		DecimalFormat f = new DecimalFormat("#0.00");
+		for (Individual<Double> ind : gen) {
+			double fval = fitnessFn.apply(ind);
+			avg += fval;
+			max = Math.max(max, fval);
+		}
+		avg /= gen.size();
+		return "Generation: " + itCount + " Avg: " + f.format(avg) + " Max: " + f.format(max);

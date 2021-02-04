@@ -1,0 +1,23 @@
+class SimpleReflexAgentProgram
+!!!139778.java!!!	SimpleReflexAgentProgram(inout ruleSet : Set<Rule>)
+		rules = ruleSet;
+!!!139906.java!!!	execute(inout percept : Percept) : Action
+
+		// state <- INTERPRET-INPUT(percept);
+		ObjectWithDynamicAttributes state = interpretInput(percept);
+		// rule <- RULE-MATCH(state, rules);
+		Rule rule = ruleMatch(state, rules);
+		// action <- rule.ACTION;
+		// return action
+		return ruleAction(rule);
+!!!140034.java!!!	interpretInput(inout p : Percept) : ObjectWithDynamicAttributes
+		return (DynamicPercept) p;
+!!!140162.java!!!	ruleMatch(inout state : ObjectWithDynamicAttributes, inout rulesSet : Set<Rule>) : Rule
+		for (Rule r : rulesSet) {
+			if (r.evaluate(state)) {
+				return r;
+			}
+		}
+		return null;
+!!!140290.java!!!	ruleAction(inout r : Rule) : Action
+		return null == r ? NoOpAction.NO_OP : r.getAction();

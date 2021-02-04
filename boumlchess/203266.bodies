@@ -1,0 +1,83 @@
+class Line2D
+!!!531074.java!!!	Line2D(inout start : Point2D, inout line : Vector2D)
+		this.start = start;
+		this.line = line;
+		this.end = start.add(line);
+		
+		this.zeroX = Util.compareDoubles(line.getX(),0.0d);
+		this.zeroY = Util.compareDoubles(line.getY(),0.0d);
+!!!531202.java!!!	Line2D(inout start : Point2D, inout end : Point2D)
+		this.start = start;
+		this.line = start.vec(end);
+		this.end = end;
+		
+		this.zeroX = Util.compareDoubles(line.getX(),0.0d);
+		this.zeroY = Util.compareDoubles(line.getY(),0.0d);
+!!!531330.java!!!	Line2D(in startX : double, in startY : double, in endX : double, in endY : double)
+		this.start = new Point2D(startX, startY);
+		this.line = new Vector2D(endX - startX, endY - startY);
+		this.end = new Point2D(endX,endY);
+		
+		this.zeroX = Util.compareDoubles(line.getX(),0.0d);
+		this.zeroY = Util.compareDoubles(line.getY(),0.0d);
+!!!531458.java!!!	getStart() : Point2D
+		return start;
+!!!531586.java!!!	getDirection() : Vector2D
+		return line;
+!!!531714.java!!!	getEnd() : Point2D
+		return end;
+!!!531842.java!!!	randomPoint() : Point2D
+		if(zeroX && zeroY) {
+			return start.clone();
+		} else if(zeroX) {
+			return new Point2D(start.getX(),Util.generateRandomDoubleBetween(start.getY(),end.getY()));
+		} else if(zeroY) {
+			return new Point2D(Util.generateRandomDoubleBetween(start.getX(),end.getX()),start.getY());
+		} else {
+			final double x = Util.generateRandomDoubleBetween(start.getX(),end.getX());
+			final double y = ((x-start.getX())/line.getX())*line.getY()+start.getY();
+			return new Point2D(x,y);
+		}
+!!!531970.java!!!	isInside(inout point : Point2D) : boolean
+		return false;
+!!!532098.java!!!	isInsideBorder(inout point : Point2D) : boolean
+		if(zeroX && zeroY) {
+			return start.equals(point);
+		} else if(zeroX) {
+			final double len = (point.getY() - start.getY()) / line.getY();
+			return len <= 1 && len >= 0 && Util.compareDoubles(start.getX(),point.getX());
+		} else if(zeroY) {
+			final double len = (point.getX() - start.getX()) / line.getX();
+			return len <= 1 && len >= 0 && Util.compareDoubles(start.getY(),point.getY());
+		} else {
+			final double len1 = (point.getX() - start.getX()) / line.getX();
+			final double len2 = (point.getY() - start.getY()) / line.getY();
+			return len1 <= 1 && len1 >= 0 && Util.compareDoubles(len1,len2);
+		}
+!!!532226.java!!!	rayCast(inout ray : Ray2D) : double
+		if(!ray.getDirection().isParallel(line)) {
+			final double divisor = (ray.getDirection().getY()*line.getX()-ray.getDirection().getX()*line.getY());
+			if(Util.compareDoubles(divisor,0.0d)) return Double.POSITIVE_INFINITY;
+			final double len1 = (start.getY()*line.getX()-ray.getStart().getY()*line.getX()-start.getX()*line.getY()+ray.getStart().getX()*line.getY())/divisor;
+			if(len1 > 0) {
+				final double len2 = (ray.getDirection().getY()*ray.getStart().getX() - ray.getDirection().getY()*start.getX() - ray.getDirection().getX()*ray.getStart().getY() + ray.getDirection().getX()*start.getY())/divisor;
+				if(len2 >= 0 && len2 <= 1) return len1*ray.getDirection().length();
+			}
+		} else {
+			final Vector2D startVec = ray.getStart().vec(start);
+			if(ray.getDirection().isAbsoluteParallel(startVec)) {
+				return startVec.length();
+			} else {
+				final Vector2D endVec = ray.getStart().vec(end);
+				if(ray.getDirection().isAbsoluteParallel(endVec)) {
+					return endVec.length();
+				}
+			}
+		}
+		return Double.POSITIVE_INFINITY;
+!!!532354.java!!!	getBounds() : Rect2D
+		return new Rect2D(start.getX(),start.getY(),end.getX(),end.getY());
+!!!532482.java!!!	transform(inout matrix : TransformMatrix2D) : Line2D
+		final Point2D   startNew = matrix.multiply(start),
+						endNew = matrix.multiply(end);
+		return new Line2D(startNew,endNew);

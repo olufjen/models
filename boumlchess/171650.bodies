@@ -1,0 +1,24 @@
+class SATPlan
+!!!363522.java!!!	satPlan(inout init : SATPlan::Describe, inout transition : SATPlan::Describe, inout goal : SATPlan::Describe, in tMax : int) : Action
+		
+		// for t = 0 to T<sub>max</sub> do
+		for (int t = 0; t <= tMax; t++) {
+			// cnf &larr;  TRANSLATE-TO-SAT(init, transition, goal, t)
+			Set<Clause> cnf = translateToSAT(init, transition, goal, t);
+			// model &larr; SAT-SOLVER(cnf)
+			Model model = satSolver.solve(cnf);
+			// if model is not null then
+			if (model != null) {
+				// return EXTRACT-SOLUTION(model)
+				return solutionExtractor.extractSolution(model);
+			}
+		}
+		
+		// return failure
+		return null;
+!!!363906.java!!!	SATPlan(inout satSolver : SATSolver, inout solutionExtractor : SATPlan::SolutionExtractor)
+		this.satSolver         = satSolver;
+		this.solutionExtractor = solutionExtractor;
+!!!364034.java!!!	translateToSAT(inout init : SATPlan::Describe, inout transition : SATPlan::Describe, inout goal : SATPlan::Describe, in t : int) : Clause
+		Sentence s = ComplexSentence.newConjunction(init.assertions(t), transition.assertions(t), goal.assertions(t));		
+		return ConvertToConjunctionOfClauses.convert(s).getClauses();

@@ -1,0 +1,1325 @@
+format 223
+"data" // aima::core::logic::propositional::kb::data
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/propositional/kb/data/"
+  java_package "aima.core.logic.propositional.kb.data"
+  classview 131202 "data"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 144642 "ConjunctionOfClauses"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
+<br>
+A conjunction of clauses, where each clause is a disjunction of literals.
+Here we represent a conjunction of clauses as a set of clauses, where each
+clause is a set of literals. In addition, a conjunction of clauses, as
+implemented, are immutable.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 197634 // clauses (<unidirectional association>)
+	relation 197634 --->
+	  stereotype "Set"
+	  a role_name "clauses" init_value " new LinkedHashSet<Clause>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 197634 // clauses (<unidirectional association>)
+	  b parent class_ref 145026 // Clause
+      end
+
+      attribute 178306 "cachedStringRep"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 178434 "cachedHashCode"
+	private explicit_type "int"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 368258 "ConjunctionOfClauses"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "conjunctionOfClauses" explicit_type "Collection<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param conjunctionOfClauses
+           a collection of clauses that represent a conjunction.
+"
+      end
+
+      operation 368386 "getNumberOfClauses"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the number of clauses contained by this conjunction.
+"
+      end
+
+      operation 368514 "getClauses"
+	public return_type class_ref 145026 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of clauses contained by this conjunction.
+"
+      end
+
+      operation 368642 "extend"
+	public return_type class_ref 144642 // ConjunctionOfClauses
+	nparams 1
+	  param inout name "additionalClauses" explicit_type "Collection<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a new conjunction of clauses by taking the clauses from the
+current conjunction and adding additional clauses to it.
+
+@param additionalClauses
+           the additional clauses to be added to the existing set of
+           clauses in order to create a new conjunction.
+@return a new conjunction of clauses containing the existing and
+        additional clauses passed in.
+"
+      end
+
+      operation 368770 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 368898 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 369026 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "othObj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 145026 "Clause"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
+<br>
+A Clause: A disjunction of literals. Here we view a Clause as a set of
+literals. This respects the restriction, under resolution, that a resulting
+clause should contain only 1 copy of a resulting literal. In addition,
+clauses, as implemented, are immutable.
+
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 196994 // EMPTY (<unidirectional association>)
+	relation 196994 --->
+	  a role_name "EMPTY" init_value " new Clause()" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 196994 // EMPTY (<unidirectional association>)
+	  b parent class_ref 145026 // Clause
+      end
+
+      classrelation 197122 // literals (<unidirectional association>)
+	relation 197122 --->
+	  stereotype "Set"
+	  a role_name "literals" init_value " new LinkedHashSet<Literal>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 197122 // literals (<unidirectional association>)
+	  b parent class_ref 172418 // Literal
+      end
+
+      classrelation 197250 // cachedPositiveSymbols (<unidirectional association>)
+	relation 197250 --->
+	  stereotype "Set"
+	  a role_name "cachedPositiveSymbols" init_value " new LinkedHashSet<PropositionSymbol>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 197250 // cachedPositiveSymbols (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      classrelation 197378 // cachedNegativeSymbols (<unidirectional association>)
+	relation 197378 --->
+	  stereotype "Set"
+	  a role_name "cachedNegativeSymbols" init_value " new LinkedHashSet<PropositionSymbol>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 197378 // cachedNegativeSymbols (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      classrelation 197506 // cachedSymbols (<unidirectional association>)
+	relation 197506 --->
+	  stereotype "Set"
+	  a role_name "cachedSymbols" init_value " new LinkedHashSet<PropositionSymbol>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 197506 // cachedSymbols (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      attribute 177922 "cachedIsTautologyResult"
+	private explicit_type "Boolean"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 178050 "cachedStringRep"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 178178 "cachedHashCode"
+	private explicit_type "int"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 365570 "Clause"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default constructor - i.e. the empty clause, which is 'False'.
+"
+      end
+
+      operation 365698 "Clause"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "" explicit_type "Literal...literals"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a clause from the given literals. Note: literals the are always
+'False' (i.e. False or ~True) are not added to the instantiated clause.
+
+@param literals
+           the literals to be added to the clause.
+"
+      end
+
+      operation 365826 "Clause"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "literals" explicit_type "Collection<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a clause from the given literals. Note: literals the are always
+'False' (i.e. False or ~True) are not added to the instantiated clause.
+
+@param literals
+"
+      end
+
+      operation 365954 "isFalse"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "If a clause is empty - a disjunction of no disjuncts - it is equivalent
+to 'False' because a disjunction is true only if at least one of its
+disjuncts is true.
+
+@return true if an empty clause, false otherwise.
+"
+      end
+
+      operation 366082 "isEmpty"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if the clause is empty (i.e. 'False'), false otherwise.
+"
+      end
+
+      operation 366210 "isUnitClause"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if a clause is unit, i.e. contains a single literal.
+
+@return true if the clause is unit, false otherwise.
+"
+      end
+
+      operation 366338 "isDefiniteClause"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if a definite clause. A definite clause is a disjunction of
+literals of which <i>exactly one is positive</i>. <q>For example, the
+clause (&not;L<sub>1,1</sub> &or; &not;Breeze &or; B<sub>1,1</sub>) is a
+definite clause, whereas (&not;B<sub>1,1</sub> &or; P<sub>1,2</sub> &or;
+P<sub>2,1</sub>) is not.</q>
+
+
+@return true if a definite clause, false otherwise.
+"
+      end
+
+      operation 366466 "isImplicationDefiniteClause"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if an implication definite clause. An implication definite
+clause is disjunction of literals of which exactly 1 is positive and
+there is 1 or more negative literals.
+
+@return true if an implication definite clause, false otherwise.
+"
+      end
+
+      operation 366594 "isHornClause"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if a Horn clause. A horn clause is a disjunction of literals of
+which <i>at most one is positive</i>.
+
+@return true if a Horn clause, false otherwise.
+"
+      end
+
+      operation 366722 "isGoalClause"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Clauses with no positive literals are called <b>goal clauses</b>.
+
+@return true if a Goal clause, false otherwise.
+"
+      end
+
+      operation 366850 "isTautology"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if the clause represents a tautology, of which the following
+are examples:<br>
+
+<pre>
+{..., True, ...}
+{..., ~False, ...} 
+{..., P, ..., ~P, ...}
+</pre>
+
+@return true if the clause represents a tautology, false otherwise.
+"
+      end
+
+      operation 366978 "getNumberLiterals"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the number of literals contained by the clause.
+"
+      end
+
+      operation 367106 "getNumberPositiveLiterals"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the number of positive literals contained by the clause.
+"
+      end
+
+      operation 367234 "getNumberNegativeLiterals"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the number of negative literals contained by the clause.
+"
+      end
+
+      operation 367362 "getLiterals"
+	public return_type class_ref 172418 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of literals making up the clause.
+"
+      end
+
+      operation 367490 "getSymbols"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of symbols from the clause's positive and negative literals.
+"
+      end
+
+      operation 367618 "getPositiveSymbols"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of symbols from the clause's positive literals.
+"
+      end
+
+      operation 367746 "getNegativeSymbols"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the set of symbols from the clause's negative literals.
+"
+      end
+
+      operation 367874 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 368002 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "othObj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 368130 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 171010 "Model"
+      visibility public 
+      nactuals 2
+      actual class class_ref 172546 // PLVisitor
+        rank 0 explicit_value ""
+      actual class class_ref 172546 // PLVisitor
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pages 240, 245.<br>
+<br>
+Models are mathematical abstractions, each of which simply fixes the truth or
+falsehood of every relevant sentence. In propositional logic, a model simply
+fixes the <b>truth value</b> - <em>true</em> or <em>false</em> - for
+every proposition symbol.<br>
+<br>
+Models as implemented here can represent partial assignments 
+to the set of proposition symbols in a Knowledge Base (i.e. a partial model).
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Ruediger Lunde
+"
+      classrelation 197890 // <realization>
+	relation 197890 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 197890 // <realization>
+	  b parent class_ref 172546 // PLVisitor
+      end
+
+      classrelation 198018 // assignments (<unidirectional association>)
+	relation 198018 --->
+	  stereotype "HashMap"
+	  a role_name "assignments" init_value " new HashMap<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Boolean> ${name}${value};
+"
+	    classrelation_ref 198018 // assignments (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      operation 370818 "Model"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 370946 "Model"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "values" explicit_type "Map<PropositionSymbol, Boolean>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371074 "getValue"
+	public explicit_return_type "Boolean"
+	nparams 1
+	  param inout name "symbol" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371202 "isTrue"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "symbol" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371330 "isFalse"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "symbol" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371458 "union"
+	public return_type class_ref 171010 // Model
+	nparams 2
+	  param inout name "symbol" type class_ref 144770 // PropositionSymbol
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371586 "unionInPlace"
+	public return_type class_ref 171010 // Model
+	nparams 2
+	  param inout name "symbol" type class_ref 144770 // PropositionSymbol
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371714 "remove"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "p" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371842 "isTrue"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 371970 "isFalse"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 372098 "isUnknown"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 372226 "flip"
+	public return_type class_ref 171010 // Model
+	nparams 1
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 372354 "getAssignedSymbols"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 372482 "satisfies"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if the model satisfies a set of clauses.
+
+@param clauses
+           a set of propositional clauses.
+@return if the model satisfies the clauses, false otherwise.
+"
+      end
+
+      operation 372610 "determineValue"
+	public explicit_return_type "Boolean"
+	nparams 1
+	  param inout name "c" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine based on the current assignments within the model, whether a
+clause is known to be true, false, or unknown.
+
+@param c
+           a propositional clause.
+@return true, if the clause is known to be true under the model's
+        assignments. false, if the clause is known to be false under the
+        model's assignments. null, if it is unknown whether the clause is
+        true or false under the model's current assignments.
+"
+      end
+
+      operation 372738 "print"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 372866 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 372994 "visitPropositionSymbol"
+	public explicit_return_type "Boolean"
+	nparams 2
+	  param inout name "s" type class_ref 144770 // PropositionSymbol
+	  param inout name "arg" explicit_type "Boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-PLVisitor"
+      end
+
+      operation 373122 "visitUnarySentence"
+	public explicit_return_type "Boolean"
+	nparams 2
+	  param inout name "fs" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 373250 "visitBinarySentence"
+	public explicit_return_type "Boolean"
+	nparams 2
+	  param inout name "bs" type class_ref 172674 // ComplexSentence
+	  param inout name "arg" explicit_type "Boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 172418 "Literal"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
+<br>
+A literal is either an atomic sentence (a positive literal) or a negated
+atomic sentence (a negative literal). In propositional logic the atomic
+sentences consist of a single proposition symbol. In addition, a literal as
+implemented is immutable.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 197762 // atom (<unidirectional association>)
+	relation 197762 --->
+	  a role_name "atom" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 197762 // atom (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      attribute 178562 "positive"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Assume positive by default."
+      end
+
+      attribute 178690 "cachedStringRep"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 178818 "cachedHashCode"
+	private explicit_type "int"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 369154 "Literal"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "atom" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor for a positive literal.
+
+@param atom
+           the atomic sentence comprising the literal.
+"
+      end
+
+      operation 369282 "Literal"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "atom" type class_ref 144770 // PropositionSymbol
+	  param inout name "positive" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param atom
+           the atomic sentence comprising the literal.
+@param positive
+           true if to be a positive literal, false to be a negative
+           literal.
+"
+      end
+
+      operation 369410 "isPositiveLiteral"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if a positive literal, false otherwise.
+"
+      end
+
+      operation 369538 "isNegativeLiteral"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if a negative literal, false otherwise.
+"
+      end
+
+      operation 369666 "getAtomicSentence"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the atomic sentence comprising the literal.
+"
+      end
+
+      operation 369794 "isAlwaysTrue"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if the literal is representative of an always true
+        proposition (i.e. True or ~False), false otherwise.
+"
+      end
+
+      operation 369922 "isAlwaysFalse"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if the literal is representative of an always false
+        proposition (i.e. False or ~True), false othwerwise.
+"
+      end
+
+      operation 370050 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 370178 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 370306 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 133634 "data"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 162690 "Clause"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.util.SetOps;
+${definition}"
+      associated_elems
+	class_ref 145026 // Clause
+      end
+    end
+
+    artifact 162818 "ConjunctionOfClauses"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 144642 // ConjunctionOfClauses
+      end
+    end
+
+    artifact 162946 "Literal"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Connective;
+${definition}"
+      associated_elems
+	class_ref 172418 // Literal
+      end
+    end
+
+    artifact 163202 "Model"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.propositional.parsing.PLVisitor;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 171010 // Model
+      end
+    end
+  end
+end

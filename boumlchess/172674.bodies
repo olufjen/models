@@ -1,0 +1,84 @@
+class ComplexSentence
+!!!379394.java!!!	ComplexSentence(inout connective : Connective, inout  : Sentence...sentences)
+		// Assertion checks
+		assertLegalArguments(connective, sentences);
+		
+		this.connective = connective;
+		simplerSentences = new Sentence[sentences.length];
+		System.arraycopy(sentences, 0, simplerSentences, 0, sentences.length);
+!!!379522.java!!!	ComplexSentence(inout sentenceL : Sentence, inout binaryConnective : Connective, inout sentenceR : Sentence)
+		this(binaryConnective, sentenceL, sentenceR);
+!!!379650.java!!!	getConnective() : Connective
+		return connective;
+!!!379778.java!!!	getNumberSimplerSentences() : int
+		return simplerSentences.length;
+!!!379906.java!!!	getSimplerSentence(in offset : int) : Sentence
+		return simplerSentences[offset];
+!!!380034.java!!!	equals(inout o : Object) : boolean
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+
+		boolean result = false;
+		ComplexSentence other = (ComplexSentence) o;
+		if (other.hashCode() == this.hashCode()) {
+			if (other.getConnective().equals(this.getConnective())
+					&& other.getNumberSimplerSentences() == this
+							.getNumberSimplerSentences()) {
+				// connective and # of simpler sentences match
+				// assume match and then test each simpler sentence
+				result = true;
+				for (int i = 0; i < this.getNumberSimplerSentences(); i++) {
+					if (!other.getSimplerSentence(i).equals(
+							this.getSimplerSentence(i))) {
+						result = false;
+						break;
+					}
+				}
+			}
+		}
+
+		return result;
+!!!380162.java!!!	hashCode() : int
+		if (cachedHashCode == -1) {
+			cachedHashCode = 17 * getConnective().hashCode();
+			for (Sentence s : simplerSentences) {
+				cachedHashCode = (cachedHashCode * 37) + s.hashCode();
+			}
+		}
+
+		return cachedHashCode;
+!!!380290.java!!!	toString() : String
+		if (cachedConcreteSyntax == null) {
+			if (isUnarySentence()) {
+				cachedConcreteSyntax = getConnective()
+						+ bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0));
+			} else if (isBinarySentence()) {
+				cachedConcreteSyntax = bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0))
+						+ " "
+						+ getConnective()
+						+ " "
+						+ bracketSentenceIfNecessary(getConnective(), getSimplerSentence(1));
+			}
+		}
+		return cachedConcreteSyntax;
+!!!380418.java!!!	assertLegalArguments(inout connective : Connective, inout  : Sentence...sentences) : void
+		if (connective == null) {
+			throw new IllegalArgumentException("Connective must be specified.");
+		}
+		if (sentences == null) {
+			throw new IllegalArgumentException("> 0 simpler sentences must be specified.");
+		}
+		if (connective == Connective.NOT) {
+			if (sentences.length != 1) {
+				throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not "+sentences.length);
+			}
+		}
+		else {
+			if (sentences.length != 2) {
+				throw new IllegalArgumentException("Connective is binary ("+connective+") but only "+sentences.length + " simpler sentences provided");
+			}
+		}

@@ -1,0 +1,55 @@
+class Literal
+!!!329602.java!!!	Literal(inout atom : AtomicSentence)
+		this.atom = atom;
+!!!329730.java!!!	Literal(inout atom : AtomicSentence, inout negated : boolean)
+		this.atom = atom;
+		this.negativeLiteral = negated;
+!!!329858.java!!!	newInstance(inout atom : AtomicSentence) : Literal
+		return new Literal(atom, negativeLiteral);
+!!!329986.java!!!	isPositiveLiteral() : boolean
+		return !negativeLiteral;
+!!!330114.java!!!	isNegativeLiteral() : boolean
+		return negativeLiteral;
+!!!330242.java!!!	getAtomicSentence() : AtomicSentence
+		return atom;
+!!!330370.java!!!	toString() : String
+		if (null == strRep) {
+			StringBuilder sb = new StringBuilder();
+			if (isNegativeLiteral()) {
+				sb.append("~");
+			}
+			sb.append(getAtomicSentence().toString());
+			strRep = sb.toString();
+		}
+
+		return strRep;
+!!!330498.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (o.getClass() != getClass()) {
+			// This prevents ReducedLiterals
+			// being treated as equivalent to
+			// normal Literals.
+			return false;
+		}
+		if (!(o instanceof Literal)) {
+			return false;
+		}
+		Literal l = (Literal) o;
+		return l.isPositiveLiteral() == isPositiveLiteral()
+				&& l.getAtomicSentence().getSymbolicName()
+						.equals(atom.getSymbolicName())
+				&& l.getAtomicSentence().getArgs().equals(atom.getArgs());
+!!!330626.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + (getClass().getSimpleName().hashCode())
+					+ (isPositiveLiteral() ? "+".hashCode() : "-".hashCode())
+					+ atom.getSymbolicName().hashCode();
+			for (Term t : atom.getArgs()) {
+				hashCode = 37 * hashCode + t.hashCode();
+			}
+		}
+		return hashCode;

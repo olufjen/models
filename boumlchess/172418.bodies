@@ -1,0 +1,55 @@
+class Literal
+!!!369154.java!!!	Literal(inout atom : PropositionSymbol)
+		this(atom, true);
+!!!369282.java!!!	Literal(inout atom : PropositionSymbol, inout positive : boolean)
+		this.atom     = atom;
+		this.positive = positive;
+!!!369410.java!!!	isPositiveLiteral() : boolean
+		return positive;
+!!!369538.java!!!	isNegativeLiteral() : boolean
+		return !positive;
+!!!369666.java!!!	getAtomicSentence() : PropositionSymbol
+		return atom;
+!!!369794.java!!!	isAlwaysTrue() : boolean
+		// True | ~False
+		if (isPositiveLiteral()) {
+			return getAtomicSentence().isAlwaysTrue();
+		} else {
+			return getAtomicSentence().isAlwaysFalse();
+		}
+!!!369922.java!!!	isAlwaysFalse() : boolean
+		// False | ~True
+		if (isPositiveLiteral()) {
+			return getAtomicSentence().isAlwaysFalse();
+		} else {
+			return getAtomicSentence().isAlwaysTrue();
+		}
+!!!370050.java!!!	toString() : String
+		if (null == cachedStringRep) {
+			StringBuilder sb = new StringBuilder();
+			if (isNegativeLiteral()) {
+				sb.append(Connective.NOT.toString());
+			}
+			sb.append(getAtomicSentence().toString());
+			cachedStringRep = sb.toString();
+		}
+
+		return cachedStringRep;
+!!!370178.java!!!	equals(inout o : Object) : boolean
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Literal)) {
+			return false;
+		}
+		Literal l = (Literal) o;
+		return l.isPositiveLiteral() == isPositiveLiteral()
+				&& l.getAtomicSentence().equals(getAtomicSentence());
+!!!370306.java!!!	hashCode() : int
+		if (cachedHashCode == -1) {
+			cachedHashCode = 17;
+			cachedHashCode = (cachedHashCode * 37)
+					+ (isPositiveLiteral() ? "+".hashCode() : "-".hashCode());
+			cachedHashCode = (cachedHashCode * 37) + atom.hashCode();
+		}
+		return cachedHashCode;

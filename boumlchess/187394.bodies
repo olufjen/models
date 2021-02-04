@@ -1,0 +1,168 @@
+class ProbUtil
+!!!433538.java!!!	checkValidRandomVariableName(in name : String) : void
+		if (!LEGAL_RAND_VAR_NAME_PATTERN.matcher(name).matches()) {
+			throw new IllegalArgumentException(
+					"Name of RandomVariable must be specified and contain no leading, trailing or embedded spaces or special characters.");
+		}
+		if (!LEGAL_LEADING_CHAR_RAND_VAR_NAME_PATTERN.matcher(name).matches()) {
+			throw new IllegalArgumentException(
+					"Name must start with a leading upper case letter.");
+		}
+!!!433666.java!!!	expectedSizeOfProbabilityTable(inout  : RandomVariable...vars) : int
+		// initially 1, as this will represent constant assignments
+		// e.g. Dice1 = 1.
+		int expectedSizeOfDistribution = 1;
+		if (null != vars) {
+			for (RandomVariable rv : vars) {
+				// Create ordered domains for each variable
+				if (!(rv.getDomain() instanceof FiniteDomain)) {
+					throw new IllegalArgumentException(
+							"Cannot have an infinite domain for a variable in this calculation:"
+									+ rv);
+				}
+				FiniteDomain d = (FiniteDomain) rv.getDomain();
+				expectedSizeOfDistribution *= d.size();
+			}
+		}
+
+		return expectedSizeOfDistribution;
+!!!433794.java!!!	expectedSizeOfCategoricalDistribution(inout  : RandomVariable...vars) : int
+		// Equivalent calculation
+		return expectedSizeOfProbabilityTable(vars);
+!!!433922.java!!!	constructConjunction(inout props : Proposition [[]]) : Proposition
+		return constructConjunction(props, 0);
+!!!434050.java!!!	sample(in probabilityChoice : double, inout Xi : RandomVariable, inout distribution : double [[]]) : Object
+		FiniteDomain fd = (FiniteDomain) Xi.getDomain();
+		if (fd.size() != distribution.length) {
+			throw new IllegalArgumentException("Size of domain Xi " + fd.size()
+					+ " is not equal to the size of the distribution "
+					+ distribution.length);
+		}
+		int i = 0;
+		double total = distribution[0];
+		while (probabilityChoice > total) {
+			i++;
+			total += distribution[i];
+		}
+		return fd.getValueAt(i);
+!!!434178.java!!!	randomSample(inout Xi : Node, inout event : Map<RandomVariable, Object>, inout r : Randomizer) : Object
+		return Xi.getCPD().getSample(r.nextDouble(),
+				getEventValuesForParents(Xi, event));
+!!!434306.java!!!	mbRandomSample(inout Xi : Node, inout event : Map<RandomVariable, Object>, inout r : Randomizer) : Object
+		return sample(r.nextDouble(), Xi.getRandomVariable(),
+				mbDistribution(Xi, event));
+!!!434434.java!!!	mbDistribution(inout Xi : Node, inout event : Map<RandomVariable, Object>) : double
+		FiniteDomain fd = (FiniteDomain) Xi.getRandomVariable().getDomain();
+		double[] X = new double[fd.size()];
+
+		/**
+		 * As we iterate over the domain of a ramdom variable corresponding to Xi
+		 * it is necessary to make the modified values of the variable visible
+		 * to the child nodes of Xi in the computation of the markov blanket
+		 * probabilities. 
+		 */
+		//Copy contents of event to generatedEvent so as to leave event untouched
+		Map<RandomVariable, Object> generatedEvent = new LinkedHashMap<RandomVariable, Object>();
+		for (Map.Entry<RandomVariable, Object> entry : event.entrySet()) {
+	        generatedEvent.put(entry.getKey(), entry.getValue());     
+	    }
+		
+		for (int i = 0; i < fd.size(); i++) {
+			/** P(x'<sub>i</sub>|mb(Xi)) =
+			 * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
+			 * &prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
+			 * P(y<sub>j</sub>|parents(Y<sub>j</sub>))
+			 */
+			generatedEvent.put(Xi.getRandomVariable(), fd.getValueAt(i));
+			double cprob = 1.0;
+			for (Node Yj : Xi.getChildren()) {
+				cprob *= Yj.getCPD().getValue(
+						getEventValuesForXiGivenParents(Yj, generatedEvent));
+			}
+			X[i] = Xi.getCPD()
+					.getValue(
+							getEventValuesForXiGivenParents(Xi,
+									fd.getValueAt(i), event))
+					* cprob;
+		}
+
+		return Util.normalize(X);
+!!!434562.java!!!	getEventValuesForParents(inout Xi : Node, inout event : Map<RandomVariable, Object>) : Object
+		Object[] parentValues = new Object[Xi.getParents().size()];
+		int i = 0;
+		for (Node pn : Xi.getParents()) {
+			parentValues[i] = event.get(pn.getRandomVariable());
+			i++;
+		}
+		return parentValues;
+!!!434690.java!!!	getEventValuesForXiGivenParents(inout Xi : Node, inout event : Map<RandomVariable, Object>) : Object
+		return getEventValuesForXiGivenParents(Xi,
+				event.get(Xi.getRandomVariable()), event);
+!!!434818.java!!!	getEventValuesForXiGivenParents(inout Xi : Node, inout xDelta : Object, inout event : Map<RandomVariable, Object>) : Object
+		Object[] values = new Object[Xi.getParents().size() + 1];
+
+		int idx = 0;
+		for (Node pn : Xi.getParents()) {
+			values[idx] = event.get(pn.getRandomVariable());
+			idx++;
+		}
+		values[idx] = xDelta;
+		return values;
+!!!434946.java!!!	indexOf(inout X : RandomVariable [[]], inout x : Map<RandomVariable, Object>) : int
+		if (0 == X.length) {
+			return ((FiniteDomain) X[0].getDomain()).getOffset(x.get(X[0]));
+		}
+		// X.length > 1 then calculate using a mixed radix number
+		//
+		// Note: Create radices in reverse order so that the enumeration
+		// through the distributions is of the following
+		// order using a MixedRadixNumber, e.g. for two Booleans:
+		// X Y
+		// true true
+		// true false
+		// false true
+		// false false
+		// which corresponds with how displayed in book.
+		int[] radixValues = new int[X.length];
+		int[] radices = new int[X.length];
+		int j = X.length - 1;
+		for (int i = 0; i < X.length; i++) {
+			FiniteDomain fd = (FiniteDomain) X[i].getDomain();
+			radixValues[j] = fd.getOffset(x.get(X[i]));
+			radices[j] = fd.size();
+			j--;
+		}
+
+		return new MixedRadixNumber(radixValues, radices).intValue();
+!!!435074.java!!!	indexesOfValue(inout X : RandomVariable [[]], in idx : int, inout x : Map<RandomVariable, Object>) : int
+		int csize = ProbUtil.expectedSizeOfCategoricalDistribution(X);
+
+		FiniteDomain fd = (FiniteDomain) X[idx].getDomain();
+		int vdoffset = fd.getOffset(x.get(X[idx]));
+		int vdosize = fd.size();
+		int[] indexes = new int[csize / vdosize];
+
+		int blocksize = csize;
+		for (int i = 0; i < X.length; i++) {
+			blocksize = blocksize / X[i].getDomain().size();
+			if (i == idx) {
+				break;
+			}
+		}
+
+		for (int i = 0; i < indexes.length; i += blocksize) {
+			int offset = ((i / blocksize) * vdosize * blocksize)
+					+ (blocksize * vdoffset);
+			for (int b = 0; b < blocksize; b++) {
+				indexes[i + b] = offset + b;
+			}
+		}
+
+		return indexes;
+!!!435202.java!!!	constructConjunction(inout props : Proposition [[]], in idx : int) : Proposition
+		if ((idx + 1) == props.length) {
+			return props[idx];
+		}
+
+		return new ConjunctiveProposition(props[idx], constructConjunction(
+				props, idx + 1));

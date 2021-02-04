@@ -1,0 +1,136 @@
+class FOLTFMResolution
+!!!299778.java!!!	FOLTFMResolution()
+
+!!!299906.java!!!	FOLTFMResolution(in maxQueryTime : long)
+		setMaxQueryTime(maxQueryTime);
+!!!300034.java!!!	FOLTFMResolution(inout tracer : FOLTFMResolutionTracer)
+		setTracer(tracer);
+!!!300162.java!!!	getMaxQueryTime() : long
+		return maxQueryTime;
+!!!300290.java!!!	setMaxQueryTime(in maxQueryTime : long) : void
+		this.maxQueryTime = maxQueryTime;
+!!!300418.java!!!	getTracer() : FOLTFMResolutionTracer
+		return tracer;
+!!!300546.java!!!	setTracer(inout tracer : FOLTFMResolutionTracer) : void
+		this.tracer = tracer;
+!!!300674.java!!!	ask(inout KB : FOLKnowledgeBase, inout alpha : Sentence) : InferenceResult
+
+		// clauses <- the set of clauses in CNF representation of KB ^ ~alpha
+		Set<Clause> clauses = new LinkedHashSet<Clause>();
+		for (Clause c : KB.getAllClauses()) {
+			c = KB.standardizeApart(c);
+			c.setStandardizedApartCheckNotRequired();
+			clauses.addAll(c.getFactors());
+		}
+		Sentence notAlpha = new NotSentence(alpha);
+		// Want to use an answer literal to pull
+		// query variables where necessary
+		Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
+		Set<Variable> answerLiteralVariables = KB
+				.collectAllVariables(answerLiteral.getAtomicSentence());
+		Clause answerClause = new Clause();
+
+		if (answerLiteralVariables.size() > 0) {
+			Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
+					notAlpha, answerLiteral.getAtomicSentence());
+			for (Clause c : KB.convertToClauses(notAlphaWithAnswer)) {
+				c = KB.standardizeApart(c);
+				c.setProofStep(new ProofStepGoal(c));
+				c.setStandardizedApartCheckNotRequired();
+				clauses.addAll(c.getFactors());
+			}
+
+			answerClause.addLiteral(answerLiteral);
+		} else {
+			for (Clause c : KB.convertToClauses(notAlpha)) {
+				c = KB.standardizeApart(c);
+				c.setProofStep(new ProofStepGoal(c));
+				c.setStandardizedApartCheckNotRequired();
+				clauses.addAll(c.getFactors());
+			}
+		}
+
+		TFMAnswerHandler ansHandler = new TFMAnswerHandler(answerLiteral,
+				answerLiteralVariables, answerClause, maxQueryTime);
+
+		// new <- {}
+		Set<Clause> newClauses = new LinkedHashSet<Clause>();
+		Set<Clause> toAdd = new LinkedHashSet<Clause>();
+		// loop do
+		int noOfPrevClauses = clauses.size();
+		do {
+			if (null != tracer) {
+				tracer.stepStartWhile(clauses, clauses.size(),
+						newClauses.size());
+			}
+
+			newClauses.clear();
+
+			// for each Ci, Cj in clauses do
+			Clause[] clausesA = new Clause[clauses.size()];
+			clauses.toArray(clausesA);
+			// Basically, using the simple T)wo F)inger M)ethod here.
+			for (int i = 0; i < clausesA.length; i++) {
+				Clause cI = clausesA[i];
+				if (null != tracer) {
+					tracer.stepOuterFor(cI);
+				}
+				for (int j = i; j < clausesA.length; j++) {
+					Clause cJ = clausesA[j];
+
+					if (null != tracer) {
+						tracer.stepInnerFor(cI, cJ);
+					}
+
+					// resolvent <- FOL-RESOLVE(Ci, Cj)
+					Set<Clause> resolvents = cI.binaryResolvents(cJ);
+
+					if (resolvents.size() > 0) {
+						toAdd.clear();
+						// new <- new <UNION> resolvent
+						for (Clause rc : resolvents) {
+							toAdd.addAll(rc.getFactors());
+						}
+
+						if (null != tracer) {
+							tracer.stepResolved(cI, cJ, toAdd);
+						}
+
+						ansHandler.checkForPossibleAnswers(toAdd);
+
+						if (ansHandler.isComplete()) {
+							break;
+						}
+
+						newClauses.addAll(toAdd);
+					}
+
+					if (ansHandler.isComplete()) {
+						break;
+					}
+				}
+				if (ansHandler.isComplete()) {
+					break;
+				}
+			}
+
+			noOfPrevClauses = clauses.size();
+
+			// clauses <- clauses <UNION> new
+			clauses.addAll(newClauses);
+
+			if (ansHandler.isComplete()) {
+				break;
+			}
+
+			// if new is a <SUBSET> of clauses then finished
+			// searching for an answer
+			// (i.e. when they were added the # clauses
+			// did not increase).
+		} while (noOfPrevClauses < clauses.size());
+
+		if (null != tracer) {
+			tracer.stepFinished(clauses, ansHandler);
+		}
+
+		return ansHandler;

@@ -1,0 +1,56 @@
+class Problem
+!!!355330.java!!!	Problem(inout initialState : State, inout goalState : State, inout actionSchemas : Set<ActionSchema>)
+        this.initialState = initialState;
+        this.actionSchemas = actionSchemas;
+        this.goalState = goalState;
+!!!355458.java!!!	Problem(inout initialState : State, inout goalState : State, inout  : ActionSchema...actions)
+        this(initialState, goalState, new HashSet<>(Arrays.asList(actions)));
+!!!355586.java!!!	getInitialState() : State
+        return initialState;
+!!!355714.java!!!	getActionSchemas() : ActionSchema
+        return actionSchemas;
+!!!355842.java!!!	getGoalState() : State
+        return goalState;
+!!!355970.java!!!	getProblemConstants() : Constant
+        List<Constant> constants = new ArrayList<>();
+        for (Literal literal :
+                getInitialState().getFluents()) {
+            for (Term term :
+                    literal.getAtomicSentence().getArgs()) {
+                if (term instanceof Constant) {
+                    if (!constants.contains((Constant) term))
+                        constants.add((Constant) term);
+                }
+            }
+        }
+        for (Literal literal :
+                getGoalState().getFluents()) {
+            for (Term term :
+                    literal.getAtomicSentence().getArgs()) {
+                if (term instanceof Constant) {
+                    if (!constants.contains((Constant) term))
+                        constants.add((Constant) term);
+                }
+            }
+        }
+        for (ActionSchema actionSchema :
+                getActionSchemas()) {
+            for (Constant constant :
+                    actionSchema.getConstants()) {
+                if (!constants.contains(constant))
+                    constants.add(constant);
+            }
+        }
+        return constants;
+!!!356098.java!!!	getPropositionalisedActions() : ActionSchema
+        List<Constant> problemConstants = getProblemConstants();
+        List<ActionSchema> result = new ArrayList<>();
+        for (ActionSchema actionSchema :
+                getActionSchemas()) {
+            int numberOfVars = actionSchema.getVariables().size();
+            for (List<Constant> constants :
+                    PermutationGenerator.generatePermutations(problemConstants, numberOfVars)) {
+                result.add(actionSchema.getActionBySubstitution(constants));
+            }
+        }
+        return result;

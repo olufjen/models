@@ -1,0 +1,67 @@
+class PolicyIteration
+!!!426498.java!!!	PolicyIteration(inout policyEvaluation : PolicyEvaluation)
+		this.policyEvaluation = policyEvaluation;
+!!!426626.java!!!	policyIteration(inout mdp : MarkovDecisionProcess) : Policy
+		// local variables: U, a vector of utilities for states in S, initially
+		// zero
+		Map<S, Double> U = Util.create(mdp.states(), new Double(0));
+		// &pi;, a policy vector indexed by state, initially random
+		Map<S, A> pi = initialPolicyVector(mdp);
+		boolean unchanged;
+		// repeat
+		do {
+			// U <- POLICY-EVALUATION(&pi;, U, mdp)
+			U = policyEvaluation.evaluate(pi, U, mdp);
+			// unchanged? <- true
+			unchanged = true;
+			// for each state s in S do
+			for (S s : mdp.states()) {
+				// calculate:
+				// max<sub>a &isin; A(s)</sub>
+				// &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
+				double aMax = Double.NEGATIVE_INFINITY, piVal = 0;
+				A aArgmax = pi.get(s);
+				for (A a : mdp.actions(s)) {
+					double aSum = 0;
+					for (S sDelta : mdp.states()) {
+						aSum += mdp.transitionProbability(sDelta, s, a)
+								* U.get(sDelta);
+					}
+					if (aSum > aMax) {
+						aMax = aSum;
+						aArgmax = a;
+					}
+					// track:
+					// &Sigma;<sub>s'</sub>P(s'|s,&pi;[s])U[s']
+					if (a.equals(pi.get(s))) {
+						piVal = aSum;
+					}
+				}
+				// if max<sub>a &isin; A(s)</sub>
+				// &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
+				// > &Sigma;<sub>s'</sub>P(s'|s,&pi;[s])U[s'] then do
+				if (aMax > piVal) {
+					// &pi;[s] <- argmax<sub>a &isin;A(s)</sub>
+					// &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
+					pi.put(s, aArgmax);
+					// unchanged? <- false
+					unchanged = false;
+				}
+			}
+			// until unchanged?
+		} while (!unchanged);
+
+		// return &pi;
+		return new LookupPolicy<S, A>(pi);
+!!!426754.java!!!	initialPolicyVector(inout mdp : MarkovDecisionProcess) : Map<S, A>
+		Map<S, A> pi = new LinkedHashMap<S, A>();
+		List<A> actions = new ArrayList<A>();
+		for (S s : mdp.states()) {
+			actions.clear();
+			actions.addAll(mdp.actions(s));
+			// Handle terminal states (i.e. no actions).
+			if (actions.size() > 0) {
+				pi.put(s, Util.selectRandomlyFromList(actions));
+			}
+		}
+		return pi;

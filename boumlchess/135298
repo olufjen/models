@@ -1,0 +1,2731 @@
+format 223
+"proof" // aima::core::logic::fol::inference::proof
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/fol/inference/proof/"
+  java_package "aima.core.logic.fol.inference.proof"
+  classview 134274 "proof"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 163202 "Proof"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 286722 "getSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return A list of proof steps that show how an answer was derived.
+"
+      end
+
+      operation 286850 "getAnswerBindings"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Map of bindings for any variables that were in the original
+        query. Will be an empty Map if no variables existed in the
+        original query.
+"
+      end
+
+      operation 286978 "replaceAnswerBindings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "updatedBindings" explicit_type "Map<Variable, Term>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param updatedBindings
+           allows for the bindings to be renamed. Note: should not be
+           used for any other reason.
+"
+      end
+    end
+
+    class 163330 "ProofStep"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 287746 "getStepNumber"
+	public explicit_return_type "int"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 287874 "setStepNumber"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "step" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288002 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288130 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288258 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 163714 "AbstractProofStep"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 170114 // <realization>
+	relation 170114 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 170114 // <realization>
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      attribute 168706 "step"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 288386 "AbstractProofStep"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288514 "getStepNumber"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 288642 "setStepNumber"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "step" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288770 "getPredecessorSteps"
+	abstract public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 288898 "getProof"
+	abstract public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 289026 "getJustification"
+	abstract public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 166658 "ProofFinal"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 176514 // <realization>
+	relation 176514 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 176514 // <realization>
+	  b parent class_ref 163202 // Proof
+      end
+
+      classrelation 176642 // answerBindings (<unidirectional association>)
+	relation 176642 --->
+	  stereotype "Map"
+	  a role_name "answerBindings" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 176642 // answerBindings (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      classrelation 176770 // finalStep (<unidirectional association>)
+	relation 176770 --->
+	  a role_name "finalStep" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 176770 // finalStep (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 176898 // proofSteps (<unidirectional association>)
+	relation 176898 --->
+	  stereotype "List"
+	  a role_name "proofSteps" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 176898 // proofSteps (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      operation 304898 "ProofFinal"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "finalStep" type class_ref 163330 // ProofStep
+	  param inout name "answerBindings" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 305026 "getSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-Proof"
+      end
+
+      operation 305154 "getAnswerBindings"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 305282 "replaceAnswerBindings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "updatedBindings" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 305410 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Proof
+"
+      end
+
+      operation 305538 "calcualteProofSteps"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 305666 "addToProofSteps"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "step" type class_ref 163330 // ProofStep
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 166786 "ProofPrinter"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 305794 "printProof"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "proof" type class_ref 163202 // Proof
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Utility method for outputting proofs in a formatted textual
+representation.
+
+@param proof
+@return a String representation of the Proof.
+"
+      end
+    end
+
+    class 166914 "ProofStepBwChGoal"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 177026 // <generalisation>
+	relation 177026 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 177026 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 177154 // predecessors (<unidirectional association>)
+	relation 177154 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 177154 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 177282 // toProve (<unidirectional association>)
+	relation 177282 --->
+	  a role_name "toProve" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 177282 // toProve (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 177410 // currentGoal (<unidirectional association>)
+	relation 177410 --->
+	  a role_name "currentGoal" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 177410 // currentGoal (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 177538 // bindings (<unidirectional association>)
+	relation 177538 --->
+	  stereotype "Map"
+	  a role_name "bindings" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 177538 // bindings (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 305922 "ProofStepBwChGoal"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "toProve" type class_ref 148610 // Clause
+	  param inout name "currentGoal" type class_ref 148738 // Literal
+	  param inout name "bindings" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 306050 "getBindings"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 306178 "setPredecessor"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "predecessor" type class_ref 163330 // ProofStep
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 306306 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 306434 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 306562 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167042 "ProofStepChainCancellation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 177666 // <generalisation>
+	relation 177666 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 177666 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 177794 // predecessors (<unidirectional association>)
+	relation 177794 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 177794 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 177922 // cancellation (<unidirectional association>)
+	relation 177922 --->
+	  a role_name "cancellation" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 177922 // cancellation (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 178050 // cancellationOf (<unidirectional association>)
+	relation 178050 --->
+	  a role_name "cancellationOf" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 178050 // cancellationOf (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 178178 // subst (<unidirectional association>)
+	relation 178178 --->
+	  stereotype "Map"
+	  a role_name "subst" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 178178 // subst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 306690 "ProofStepChainCancellation"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "cancellation" type class_ref 160002 // Chain
+	  param inout name "cancellationOf" type class_ref 160002 // Chain
+	  param inout name "subst" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 306818 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 306946 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307074 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167170 "ProofStepChainContrapositive"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 178306 // <generalisation>
+	relation 178306 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 178306 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 178434 // predecessors (<unidirectional association>)
+	relation 178434 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 178434 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 178562 // contrapositive (<unidirectional association>)
+	relation 178562 --->
+	  a role_name "contrapositive" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 178562 // contrapositive (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 178690 // contrapositiveOf (<unidirectional association>)
+	relation 178690 --->
+	  a role_name "contrapositiveOf" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 178690 // contrapositiveOf (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      operation 307202 "ProofStepChainContrapositive"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "contrapositive" type class_ref 160002 // Chain
+	  param inout name "contrapositiveOf" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 307330 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 307458 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 307586 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167298 "ProofStepChainDropped"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 178818 // <generalisation>
+	relation 178818 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 178818 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 178946 // predecessors (<unidirectional association>)
+	relation 178946 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 178946 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 179074 // dropped (<unidirectional association>)
+	relation 179074 --->
+	  a role_name "dropped" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 179074 // dropped (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 179202 // droppedOff (<unidirectional association>)
+	relation 179202 --->
+	  a role_name "droppedOff" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 179202 // droppedOff (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      operation 307714 "ProofStepChainDropped"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "dropped" type class_ref 160002 // Chain
+	  param inout name "droppedOff" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 307842 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 307970 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308098 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167426 "ProofStepChainFromClause"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 179330 // <generalisation>
+	relation 179330 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 179330 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 179458 // predecessors (<unidirectional association>)
+	relation 179458 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 179458 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 179586 // chain (<unidirectional association>)
+	relation 179586 --->
+	  a role_name "chain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 179586 // chain (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 179714 // fromClause (<unidirectional association>)
+	relation 179714 --->
+	  a role_name "fromClause" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 179714 // fromClause (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      operation 308226 "ProofStepChainFromClause"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "chain" type class_ref 160002 // Chain
+	  param inout name "fromClause" type class_ref 148610 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 308354 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 308482 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 308610 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167554 "ProofStepChainReduction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 179842 // <generalisation>
+	relation 179842 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 179842 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 179970 // predecessors (<unidirectional association>)
+	relation 179970 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 179970 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 180098 // reduction (<unidirectional association>)
+	relation 180098 --->
+	  a role_name "reduction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 180098 // reduction (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 180226 // nearParent (<unidirectional association>)
+	relation 180226 --->
+	  a role_name "nearParent" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 180226 // nearParent (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 180354 // farParent (<unidirectional association>)
+	relation 180354 --->
+	  a role_name "farParent" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 180354 // farParent (<unidirectional association>)
+	  b parent class_ref 160002 // Chain
+      end
+
+      classrelation 180482 // subst (<unidirectional association>)
+	relation 180482 --->
+	  stereotype "Map"
+	  a role_name "subst" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 180482 // subst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 308738 "ProofStepChainReduction"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "reduction" type class_ref 160002 // Chain
+	  param inout name "nearParent" type class_ref 160002 // Chain
+	  param inout name "farParent" type class_ref 160002 // Chain
+	  param inout name "subst" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 308866 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 308994 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 309122 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167682 "ProofStepClauseBinaryResolvent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 180610 // <generalisation>
+	relation 180610 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 180610 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 180738 // predecessors (<unidirectional association>)
+	relation 180738 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 180738 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 180866 // resolvent (<unidirectional association>)
+	relation 180866 --->
+	  a role_name "resolvent" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 180866 // resolvent (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 180994 // posLiteral (<unidirectional association>)
+	relation 180994 --->
+	  a role_name "posLiteral" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 180994 // posLiteral (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 181122 // negLiteral (<unidirectional association>)
+	relation 181122 --->
+	  a role_name "negLiteral" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 181122 // negLiteral (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 181250 // parent1 (<unidirectional association>)
+	relation 181250 --->
+	  a role_name "parent1" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 181250 // parent1 (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 181378 // parent2 (<unidirectional association>)
+	relation 181378 --->
+	  a role_name "parent2" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 181378 // parent2 (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 181506 // subst (<unidirectional association>)
+	relation 181506 --->
+	  stereotype "Map"
+	  a role_name "subst" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 181506 // subst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      classrelation 181634 // renameSubst (<unidirectional association>)
+	relation 181634 --->
+	  stereotype "Map"
+	  a role_name "renameSubst" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 181634 // renameSubst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 309250 "ProofStepClauseBinaryResolvent"
+	public explicit_return_type ""
+	nparams 7
+	  param inout name "resolvent" type class_ref 148610 // Clause
+	  param inout name "pl" type class_ref 148738 // Literal
+	  param inout name "nl" type class_ref 148738 // Literal
+	  param inout name "parent1" type class_ref 148610 // Clause
+	  param inout name "parent2" type class_ref 148610 // Clause
+	  param inout name "subst" explicit_type "Map<Variable, Term>"
+	  param inout name "renameSubst" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} ${p6}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 309378 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 309506 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 309634 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 167810 "ProofStepClauseClausifySentence"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 181762 // <generalisation>
+	relation 181762 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 181762 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 181890 // predecessors (<unidirectional association>)
+	relation 181890 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 181890 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 182018 // clausified (<unidirectional association>)
+	relation 182018 --->
+	  a role_name "clausified" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 182018 // clausified (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      operation 309762 "ProofStepClauseClausifySentence"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "clausified" type class_ref 148610 // Clause
+	  param inout name "origSentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 309890 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 310018 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310146 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 167938 "ProofStepClauseDemodulation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 182146 // <generalisation>
+	relation 182146 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 182146 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 182274 // predecessors (<unidirectional association>)
+	relation 182274 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 182274 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 182402 // demodulated (<unidirectional association>)
+	relation 182402 --->
+	  a role_name "demodulated" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 182402 // demodulated (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 182530 // origClause (<unidirectional association>)
+	relation 182530 --->
+	  a role_name "origClause" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 182530 // origClause (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 182658 // assertion (<unidirectional association>)
+	relation 182658 --->
+	  a role_name "assertion" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 182658 // assertion (<unidirectional association>)
+	  b parent class_ref 157570 // TermEquality
+      end
+
+      operation 310274 "ProofStepClauseDemodulation"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "demodulated" type class_ref 148610 // Clause
+	  param inout name "origClause" type class_ref 148610 // Clause
+	  param inout name "assertion" type class_ref 157570 // TermEquality
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 310402 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 310530 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 310658 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168066 "ProofStepClauseFactor"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 182786 // <generalisation>
+	relation 182786 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 182786 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 182914 // predecessors (<unidirectional association>)
+	relation 182914 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 182914 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 183042 // factor (<unidirectional association>)
+	relation 183042 --->
+	  a role_name "factor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 183042 // factor (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 183170 // factorOf (<unidirectional association>)
+	relation 183170 --->
+	  a role_name "factorOf" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 183170 // factorOf (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 183298 // lx (<unidirectional association>)
+	relation 183298 --->
+	  a role_name "lx" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 183298 // lx (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 183426 // ly (<unidirectional association>)
+	relation 183426 --->
+	  a role_name "ly" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 183426 // ly (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 183554 // subst (<unidirectional association>)
+	relation 183554 --->
+	  stereotype "Map"
+	  a role_name "subst" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 183554 // subst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      classrelation 183682 // renameSubst (<unidirectional association>)
+	relation 183682 --->
+	  stereotype "Map"
+	  a role_name "renameSubst" init_value " new LinkedHashMap<Variable, Term>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 183682 // renameSubst (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 310786 "ProofStepClauseFactor"
+	public explicit_return_type ""
+	nparams 6
+	  param inout name "factor" type class_ref 148610 // Clause
+	  param inout name "factorOf" type class_ref 148610 // Clause
+	  param inout name "lx" type class_ref 148738 // Literal
+	  param inout name "ly" type class_ref 148738 // Literal
+	  param inout name "subst" explicit_type "Map<Variable, Term>"
+	  param inout name "renameSubst" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 310914 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 311042 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 311170 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 168194 "ProofStepClauseParamodulation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 183810 // <generalisation>
+	relation 183810 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 183810 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 183938 // predecessors (<unidirectional association>)
+	relation 183938 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 183938 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 184066 // paramodulated (<unidirectional association>)
+	relation 184066 --->
+	  a role_name "paramodulated" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 184066 // paramodulated (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 184194 // topClause (<unidirectional association>)
+	relation 184194 --->
+	  a role_name "topClause" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 184194 // topClause (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 184322 // equalityClause (<unidirectional association>)
+	relation 184322 --->
+	  a role_name "equalityClause" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 184322 // equalityClause (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 184450 // assertion (<unidirectional association>)
+	relation 184450 --->
+	  a role_name "assertion" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 184450 // assertion (<unidirectional association>)
+	  b parent class_ref 157570 // TermEquality
+      end
+
+      operation 311298 "ProofStepClauseParamodulation"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "paramodulated" type class_ref 148610 // Clause
+	  param inout name "topClause" type class_ref 148610 // Clause
+	  param inout name "equalityClause" type class_ref 148610 // Clause
+	  param inout name "assertion" type class_ref 157570 // TermEquality
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 311426 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 311554 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 311682 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168322 "ProofStepFoChAlreadyAFact"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 184578 // <generalisation>
+	relation 184578 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 184578 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 184706 // _noPredecessors (<unidirectional association>)
+	relation 184706 --->
+	  stereotype "List"
+	  a role_name "_noPredecessors" init_value " new ArrayList<ProofStep>()" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 184706 // _noPredecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 184834 // fact (<unidirectional association>)
+	relation 184834 --->
+	  a role_name "fact" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 184834 // fact (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      operation 311810 "ProofStepFoChAlreadyAFact"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "fact" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 311938 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 312066 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 312194 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168450 "ProofStepFoChAssertFact"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 184962 // <generalisation>
+	relation 184962 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 184962 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 185090 // predecessors (<unidirectional association>)
+	relation 185090 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 185090 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      classrelation 185218 // implication (<unidirectional association>)
+	relation 185218 --->
+	  a role_name "implication" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 185218 // implication (<unidirectional association>)
+	  b parent class_ref 148610 // Clause
+      end
+
+      classrelation 185346 // fact (<unidirectional association>)
+	relation 185346 --->
+	  a role_name "fact" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 185346 // fact (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 185474 // bindings (<unidirectional association>)
+	relation 185474 --->
+	  stereotype "Map"
+	  a role_name "bindings" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 185474 // bindings (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 312322 "ProofStepFoChAssertFact"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "implication" type class_ref 148610 // Clause
+	  param inout name "fact" type class_ref 148738 // Literal
+	  param inout name "bindings" explicit_type "Map<Variable, Term>"
+	  param inout name "predecessor" type class_ref 163330 // ProofStep
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 312450 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 312578 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 312706 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168578 "ProofStepGoal"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 185602 // <generalisation>
+	relation 185602 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 185602 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 185730 // _noPredecessors (<unidirectional association>)
+	relation 185730 --->
+	  stereotype "List"
+	  a role_name "_noPredecessors" init_value " new ArrayList<ProofStep>()" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 185730 // _noPredecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      attribute 171394 "proof"
+	private explicit_type "Object"
+	init_value " \"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 312834 "ProofStepGoal"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "proof" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 312962 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 313090 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 313218 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168706 "ProofStepPremise"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 185858 // <generalisation>
+	relation 185858 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 185858 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 185986 // _noPredecessors (<unidirectional association>)
+	relation 185986 --->
+	  stereotype "List"
+	  a role_name "_noPredecessors" init_value " new ArrayList<ProofStep>()" class_relation const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 185986 // _noPredecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      attribute 171522 "proof"
+	private explicit_type "Object"
+	init_value " \"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 313346 "ProofStepPremise"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "proof" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 313474 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 313602 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 313730 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 168834 "ProofStepRenaming"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 186114 // <generalisation>
+	relation 186114 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 186114 // <generalisation>
+	  b parent class_ref 163714 // AbstractProofStep
+      end
+
+      classrelation 186242 // predecessors (<unidirectional association>)
+	relation 186242 --->
+	  stereotype "List"
+	  a role_name "predecessors" init_value " new ArrayList<ProofStep>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 186242 // predecessors (<unidirectional association>)
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      attribute 171650 "proof"
+	private explicit_type "Object"
+	init_value " \"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 313858 "ProofStepRenaming"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "proof" explicit_type "Object"
+	  param inout name "predecessor" type class_ref 163330 // ProofStep
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 313986 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ProofStep"
+      end
+
+      operation 314114 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 314242 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132226 "proof"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 152834 "Proof"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 163202 // Proof
+      end
+    end
+
+    artifact 152962 "ProofStep"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 163330 // ProofStep
+      end
+    end
+
+    artifact 153090 "AbstractProofStep"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 163714 // AbstractProofStep
+      end
+    end
+
+    artifact 154882 "ProofFinal"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 166658 // ProofFinal
+      end
+    end
+
+    artifact 155010 "ProofPrinter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 166786 // ProofPrinter
+      end
+    end
+
+    artifact 155138 "ProofStepBwChGoal"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 166914 // ProofStepBwChGoal
+      end
+    end
+
+    artifact 155266 "ProofStepChainCancellation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 167042 // ProofStepChainCancellation
+      end
+    end
+
+    artifact 155394 "ProofStepChainContrapositive"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Chain;
+${definition}"
+      associated_elems
+	class_ref 167170 // ProofStepChainContrapositive
+      end
+    end
+
+    artifact 155522 "ProofStepChainDropped"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Chain;
+${definition}"
+      associated_elems
+	class_ref 167298 // ProofStepChainDropped
+      end
+    end
+
+    artifact 155650 "ProofStepChainFromClause"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+${definition}"
+      associated_elems
+	class_ref 167426 // ProofStepChainFromClause
+      end
+    end
+
+    artifact 155778 "ProofStepChainReduction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 167554 // ProofStepChainReduction
+      end
+    end
+
+    artifact 155906 "ProofStepClauseBinaryResolvent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 167682 // ProofStepClauseBinaryResolvent
+      end
+    end
+
+    artifact 156034 "ProofStepClauseClausifySentence"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 167810 // ProofStepClauseClausifySentence
+      end
+    end
+
+    artifact 156162 "ProofStepClauseDemodulation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+${definition}"
+      associated_elems
+	class_ref 167938 // ProofStepClauseDemodulation
+      end
+    end
+
+    artifact 156290 "ProofStepClauseFactor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 168066 // ProofStepClauseFactor
+      end
+    end
+
+    artifact 156418 "ProofStepClauseParamodulation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+${definition}"
+      associated_elems
+	class_ref 168194 // ProofStepClauseParamodulation
+      end
+    end
+
+    artifact 156546 "ProofStepFoChAlreadyAFact"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import aima.core.logic.fol.kb.data.Literal;
+${definition}"
+      associated_elems
+	class_ref 168322 // ProofStepFoChAlreadyAFact
+      end
+    end
+
+    artifact 156674 "ProofStepFoChAssertFact"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 168450 // ProofStepFoChAssertFact
+      end
+    end
+
+    artifact 156802 "ProofStepGoal"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 168578 // ProofStepGoal
+      end
+    end
+
+    artifact 156930 "ProofStepPremise"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 168706 // ProofStepPremise
+      end
+    end
+
+    artifact 157058 "ProofStepRenaming"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 168834 // ProofStepRenaming
+      end
+    end
+  end
+end

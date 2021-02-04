@@ -1,0 +1,37 @@
+class EquivalentProposition
+!!!431362.java!!!	EquivalentProposition(in name : String, inout  : RandomVariable...equivs)
+		super(name);
+
+		if (null == equivs || 1 >= equivs.length) {
+			throw new IllegalArgumentException(
+					"Equivalent variables must be specified.");
+		}
+		for (RandomVariable rv : equivs) {
+			addScope(rv);
+		}
+!!!431490.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		boolean holds = true;
+
+		Iterator<RandomVariable> i = getScope().iterator();
+		RandomVariable rvC, rvL = i.next();
+		while (i.hasNext()) {
+			rvC = i.next();
+			if (!possibleWorld.get(rvL).equals(possibleWorld.get(rvC))) {
+				holds = false;
+				break;
+			}
+			rvL = rvC;
+		}
+
+		return holds;
+!!!431618.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getDerivedName());
+			for (RandomVariable rv : getScope()) {
+				sb.append(" = ");
+				sb.append(rv);
+			}
+			toString = sb.toString();
+		}
+		return toString;

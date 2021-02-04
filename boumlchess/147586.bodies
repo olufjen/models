@@ -1,0 +1,74 @@
+class CrossValidation
+!!!217858.java!!!	CrossValidation(in minErrT : double)
+        this.minErrT = minErrT;
+!!!217986.java!!!	crossValidationWrapper(inout learner : SampleParameterizedLearner, in k : int, inout examples : DataSet) : SampleParameterizedLearner
+        //local variables: errT, an array, indexed by size, storing training-set error rates
+        //   errV, an array, indexed by size, storing validation-set error rates
+        List<Double> errT = new ArrayList<>();
+        List<Double> errV = new ArrayList<>();
+        double[] crossValResult;
+        //for size = 1 to ∞ do
+        for (int size = 0; ; size++) {
+            //errT[size], errV[size] ← CROSS-VALIDATION(Learner, size, k, examples)
+            crossValResult = crossValidation(learner, size, k, examples);
+            errT.add(crossValResult[0]);
+            errV.add(crossValResult[1]);
+            // if errT has converged then do
+            if (hasConverged(errT.get(size))) {
+                // best_size ← the value of size with minimum errV[size]
+                int best_size = errV.indexOf(Collections.min(errV));
+                //return Learner(best_size, examples)
+                learner.train(best_size, examples);
+                return learner;
+            }
+        }
+!!!218114.java!!!	hasConverged(in errT : double) : boolean
+        return errT < minErrT;
+!!!218242.java!!!	crossValidation(inout learner : SampleParameterizedLearner, in size : int, in k : int, inout examples : DataSet) : double
+        // fold_errT ← 0; fold_errV ← 0
+        double[] foldErr = new double[2];
+        foldErr[0] = 0; // represents fold_errT
+        foldErr[1] = 0; // represents fold_errV
+        //temp vars
+        DataSet trainingSet, validationSet;
+        DataSet[] temp;
+        // for fold = 1 to k do
+        for (int fold = 0; fold < k; fold++) {
+            // training_set, validation_set ← PARTITION(examples, fold, k)
+            temp = partition(examples, fold, k);
+            trainingSet = temp[0];
+            validationSet = temp[1];
+            // h ← Learner(size, training_set)
+            learner.train(size, trainingSet);
+            //fold_errT ← fold_errT + ERROR-RATE(h, training_set)
+            foldErr[0] = foldErr[0] + errorRate(learner.test(trainingSet));
+            // fold_errV ← fold_errV + ERROR-RATE(h, validation_set)
+            foldErr[1] = foldErr[1] + errorRate(learner.test(validationSet));
+        }
+        //  return fold_errT ⁄ k, fold_errV ⁄ k
+        foldErr[0] = foldErr[0] / k;
+        foldErr[1] = foldErr[1] / k;
+        return foldErr;
+!!!218370.java!!!	errorRate(inout test : int [[]]) : double
+        return Math.abs((double) (test[0] - test[1])) / ((double) 100);
+!!!218498.java!!!	partition(inout examples : DataSet, in fold : int, in k : int) : DataSet
+        List<Example> exampleList = examples.examples;
+        ArrayList<Integer> temp = new ArrayList<>();
+        List<Example> trainingExamples = new ArrayList<>();
+        List<Example> validationExamples = new ArrayList<>();
+        for (int i = 0; i < exampleList.size(); i++) {
+            temp.add(i);
+        }
+        Collections.shuffle(temp);
+        for (int i = 0; i < temp.size(); i++) {
+            if (i < k)
+                validationExamples.add(exampleList.get(temp.get(i)));
+            else
+                trainingExamples.add(exampleList.get(temp.get(i)));
+        }
+        DataSet trainingSet = new DataSet(new DataSetSpecification());
+        DataSet validationSet = new DataSet(new DataSetSpecification());
+        trainingSet.examples = trainingExamples;
+        validationSet.examples = validationExamples;
+        DataSet[] result = {trainingSet, validationSet};
+        return result;

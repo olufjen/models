@@ -1,0 +1,1316 @@
+format 223
+"games" // aima::gui::fx::applications::search::games
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/gui/fx/applications/search/games/"
+  java_package "aima.gui.fx.applications.search.games"
+  classview 140418 "games"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 208514 "ConnectFourApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Starter of the JavaFX version of the Connect Four game with integrated
+artificial intelligence player. It uses Minimax search with Alpha-Beta
+pruning and an iterative deepening strategy to meet the specified time
+constraints.
+
+@author Ruediger Lunde
+"
+      classrelation 253954 // <generalisation>
+	relation 253954 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 253954 // <generalisation>
+	  b parent class_ref 206466 // IntegrableApplication
+      end
+
+      operation 561538 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      classrelation 254082 // model (<unidirectional association>)
+	relation 254082 --->
+	  a role_name "model" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 254082 // model (<unidirectional association>)
+	  b parent class_ref 208642 // ConnectFourModel
+      end
+
+      attribute 217730 "clearBtn"
+	private explicit_type "Button"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " create attributes for all parts of the application which need to be
+ accessed by listeners, inner classes, and helper methods
+"
+      end
+
+      attribute 217858 "strategyCombo"
+	private explicit_type "String"
+	stereotype "ComboBox"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 217986 "timeCombo"
+	private explicit_type "String"
+	stereotype "ComboBox"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 218114 "proposeBtn"
+	private explicit_type "Button"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 218242 "statusBar"
+	private explicit_type "Label"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 218370 "colBtns"
+	private explicit_type "Button"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 218498 "disks"
+	private explicit_type "Circle"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 561666 "getTitle"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 561794 "createRootPane"
+	public explicit_return_type "Pane"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 561922 "initialize"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 562050 "cleanup"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 562178 "update"
+	private explicit_return_type "void"
+	nparams 2
+	  param inout name "o" explicit_type "Observable"
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Updates the view after the model state has changed. "
+      end
+    end
+
+    class 208642 "ConnectFourModel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implements a facade for the game related classes of the Connect Four domain
+layer. It maintains game, current state, and a list of observers which are
+informed about every state change.
+
+@author Ruediger Lunde
+"
+      classrelation 254210 // <generalisation>
+	relation 254210 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 254210 // <generalisation>
+	  b parent class_ref 208770 // Observable
+      end
+
+      classrelation 254338 // game (<unidirectional association>)
+	relation 254338 --->
+	  a role_name "game" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 254338 // game (<unidirectional association>)
+	  b parent class_ref 134146 // ConnectFourGame
+      end
+
+      classrelation 254466 // currState (<unidirectional association>)
+	relation 254466 --->
+	  a role_name "currState" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 254466 // currState (<unidirectional association>)
+	  b parent class_ref 133250 // ConnectFourState
+      end
+
+      classrelation 254594 // searchMetrics (<unidirectional association>)
+	relation 254594 --->
+	  a role_name "searchMetrics" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 254594 // searchMetrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      attribute 218626 "enableLog"
+	private explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 562306 "ConnectFourModel"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 562434 "getCols"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 562562 "getRows"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 562690 "getPlayers"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 562818 "getPlayerForNextMove"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 562946 "getWinner"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563074 "getPlayerAt"
+	public explicit_return_type "String"
+	nparams 2
+	  param in name "row" explicit_type "int"
+	  param in name "col" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563202 "isWinPositionFor"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param in name "row" explicit_type "int"
+	  param in name "col" explicit_type "int"
+	  param in name "player" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563330 "initGame"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563458 "isGameOver"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563586 "makeMove"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "col" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 563714 "proposeMove"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "time" explicit_type "int"
+	  param in name "strategy" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Uses adversarial search for selecting the next action. "
+      end
+    end
+
+    class 208898 "EightPuzzleApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Integrable application which demonstrates how different search strategies
+solve the Eight Puzzle problem.
+
+@author Ruediger Lunde
+
+"
+      classrelation 254722 // <generalisation>
+	relation 254722 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 254722 // <generalisation>
+	  b parent class_ref 206466 // IntegrableApplication
+      end
+
+      operation 563842 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      attribute 218754 "SEARCH_NAMES"
+	class_attribute protected explicit_type "String"
+	init_value " new ArrayList<>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " List of supported search algorithm names. 
+"
+      end
+
+      classrelation 254850 // SEARCH_ALGOS (<unidirectional association>)
+	relation 254850 --->
+	  stereotype "List"
+	  a role_name "SEARCH_ALGOS" init_value " new ArrayList<>()" class_relation protected
+	    comment " List of supported search algorithms. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}<EightPuzzleBoard, Action>> ${name}${value};
+"
+	    classrelation_ref 254850 // SEARCH_ALGOS (<unidirectional association>)
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 254978 // board (<unidirectional association>)
+	relation 254978 --->
+	  a role_name "board" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 254978 // board (<unidirectional association>)
+	  b parent class_ref 134658 // EightPuzzleBoard
+      end
+
+      operation 563970 "addSearchAlgorithm"
+	class_operation public explicit_return_type "void"
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "algo" type class_ref 137730 // SearchForActions
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<EightPuzzleBoard, Action> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Adds a new item to the list of supported search algorithms. "
+      end
+
+      extra_member 128258 "initialization"
+	
+	cpp "" ""
+	java "  static {
+		addSearchAlgorithm(\"Breadth First Search (Graph Search)\", new BreadthFirstSearch<>(new GraphSearch<>()));
+		addSearchAlgorithm(\"Breadth First Search (Bidirectional Search)\",
+				new BreadthFirstSearch<>(new BidirectionalSearch<>()));
+		addSearchAlgorithm(\"Depth Limited Search (9)\", new DepthLimitedSearch<>(9));
+		addSearchAlgorithm(\"Iterative Deepening Search\", new IterativeDeepeningSearch<>());
+		addSearchAlgorithm(\"Greedy Best First Search (MisplacedTileHeuristic)\",
+				new GreedyBestFirstSearch<>(new GraphSearch<>(),
+						EightPuzzleFunctions.createMisplacedTileHeuristicFunction()));
+		addSearchAlgorithm(\"Greedy Best First Search (ManhattanHeuristic)\",
+				new GreedyBestFirstSearch<>(new GraphSearch<>(),
+						EightPuzzleFunctions.createManhattanHeuristicFunction()));
+		addSearchAlgorithm(\"AStar Search (MisplacedTileHeuristic)\",
+				new AStarSearch<>(new GraphSearch<>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction()));
+		addSearchAlgorithm(\"AStar Search (ManhattanHeuristic)\",
+				new AStarSearch<>(new GraphSearch<>(), EightPuzzleFunctions.createManhattanHeuristicFunction()));
+		addSearchAlgorithm(\"Simulated Annealing Search (ManhattanHeuristic)\",
+				new SimulatedAnnealingSearch<>(EightPuzzleFunctions.createManhattanHeuristicFunction(),
+						new Scheduler(20, 0.05, 200)));
+	}"
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      attribute 218882 "PARAM_INIT_CONF"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"initConf\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 219010 "PARAM_STRATEGY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"strategy\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 255106 // stateViewCtrl (<unidirectional association>)
+	relation 255106 --->
+	  a role_name "stateViewCtrl" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 255106 // stateViewCtrl (<unidirectional association>)
+	  b parent class_ref 209026 // EightPuzzleViewCtrl
+      end
+
+      classrelation 255234 // simPaneCtrl (<unidirectional association>)
+	relation 255234 --->
+	  a role_name "simPaneCtrl" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 255234 // simPaneCtrl (<unidirectional association>)
+	  b parent class_ref 206594 // TaskExecutionPaneCtrl
+      end
+
+      operation 564098 "EightPuzzleApp"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 564226 "getTitle"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 564354 "createRootPane"
+	public explicit_return_type "Pane"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Defines state view, parameters, and call-back functions and calls the
+simulation pane builder to create layout and controller objects.
+"
+      end
+
+      operation 564482 "createParameters"
+	protected return_type class_ref 206850 // Parameter
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 564610 "initialize"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Displays the initialized board on the state view. "
+      end
+
+      operation 564738 "cleanup"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 564866 "startExperiment"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Starts the experiment. "
+      end
+
+      operation 564994 "updateStateView"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "metrics" type class_ref 133634 // Metrics
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Caution: While the background thread should be slowed down, updates of
+the GUI have to be done in the GUI thread!
+"
+      end
+
+      operation 565122 "updateStateViewLater"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "metrics" type class_ref 133634 // Metrics
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Must be called by the GUI thread!
+"
+      end
+    end
+
+    class 209154 "SimpleSudokuApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Simple Sudoku puzzle application. It provides a playground for programming
+experiments with CSP algorithms. But note that no CSP implementation is included here.
+
+@author Ruediger Lunde
+"
+      classrelation 255362 // <generalisation>
+	relation 255362 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 255362 // <generalisation>
+	  b parent class_ref 206466 // IntegrableApplication
+      end
+
+      attribute 219138 "puzzle1"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"\" + //
+            \"53..7....\" + //
+            \"6..195...\" + //
+            \".98....6.\" + //
+            \"8...6...3\" + //
+            \"4..8.3..1\" + //
+            \"7...2...6\" + //
+            \".6....28.\" + //
+            \"...419..5\" + //
+            \"....8..79\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Example taken from https://en.wikipedia.org/wiki/Sudoku. 
+"
+      end
+
+      attribute 219266 "puzzle2"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"\" + //
+            \".3.......\" + //
+            \"...195...\" + //
+            \"..8....6.\" + //
+            \"8...6....\" + //
+            \"4..8....1\" + //
+            \"....2....\" + //
+            \".6....28.\" + //
+            \"...419..5\" + //
+            \".......7.\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Example taken from https://de.wikipedia.org/wiki/Sudoku. 
+"
+      end
+
+      attribute 219394 "puzzle3"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"\" + //
+            \".....9.7.\" + //
+            \"....82.5.\" + //
+            \"327....4.\" + //
+            \".16.4....\" + //
+            \".5....3..\" + //
+            \"....9.7..\" + //
+            \"...6....5\" + //
+            \"8.2......\" + //
+            \"..42....8\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Example taken from http://sudoku.tagesspiegel.de/sudoku-sehr-schwer. 
+"
+      end
+
+      operation 565250 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      classrelation 255490 // stateViewCtrl (<unidirectional association>)
+	relation 255490 --->
+	  a role_name "stateViewCtrl" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 255490 // stateViewCtrl (<unidirectional association>)
+	  b parent class_ref 209282 // SudokuViewCtrl
+      end
+
+      operation 565378 "getTitle"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 565506 "createRootPane"
+	public explicit_return_type "Pane"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 565634 "initialize"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 565762 "cleanup"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 565890 "initView"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "puzzle" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 209410 "TicTacToeApp"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Simple graphical Tic-tac-toe game application. It demonstrates the Minimax
+algorithm for move selection as well as alpha-beta pruning.
+
+@author Ruediger Lunde
+"
+      classrelation 255618 // <generalisation>
+	relation 255618 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 255618 // <generalisation>
+	  b parent class_ref 206466 // IntegrableApplication
+      end
+
+      operation 566018 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      attribute 219522 "strategyCombo"
+	private explicit_type "String"
+	stereotype "ComboBox"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 219650 "proposeBtn"
+	private explicit_type "Button"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 219778 "statusLabel"
+	private explicit_type "Label"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 219906 "squareBtns"
+	private explicit_type "Button"
+	multiplicity "[]"
+	init_value " new Button[9]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 255746 // game (<unidirectional association>)
+	relation 255746 --->
+	  a role_name "game" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 255746 // game (<unidirectional association>)
+	  b parent class_ref 140802 // TicTacToeGame
+      end
+
+      classrelation 255874 // currState (<unidirectional association>)
+	relation 255874 --->
+	  a role_name "currState" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 255874 // currState (<unidirectional association>)
+	  b parent class_ref 140930 // TicTacToeState
+      end
+
+      classrelation 256002 // searchMetrics (<unidirectional association>)
+	relation 256002 --->
+	  a role_name "searchMetrics" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 256002 // searchMetrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 566146 "getTitle"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 566274 "createRootPane"
+	public explicit_return_type "Pane"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Simple pane to control the game. "
+      end
+
+      operation 566402 "initialize"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 566530 "cleanup"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 566658 "update"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Updates square texts according to game state and also the status bar. "
+      end
+
+      operation 566786 "proposeMove"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Uses adversarial search for selecting the next action. "
+      end
+
+      operation 566914 "handleSquareButtonEvent"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "ae" explicit_type "ActionEvent"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Handles user moves. "
+      end
+    end
+  end
+
+  deploymentview 140034 "games"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 196226 "ConnectFourApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Observable;
+import aima.gui.fx.framework.IntegrableApplication;
+import javafx.beans.binding.Bindings;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+${definition}"
+      associated_elems
+	class_ref 208514 // ConnectFourApp
+      end
+    end
+
+    artifact 196354 "ConnectFourModel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Observable;
+import aima.core.environment.connectfour.ConnectFourAIPlayer;
+import aima.core.environment.connectfour.ConnectFourGame;
+import aima.core.environment.connectfour.ConnectFourState;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 208642 // ConnectFourModel
+      end
+    end
+
+    artifact 196482 "EightPuzzleApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.environment.eightpuzzle.BidirectionalEightPuzzleProblem;
+import aima.core.environment.eightpuzzle.EightPuzzleBoard;
+import aima.core.environment.eightpuzzle.EightPuzzleFunctions;
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.BidirectionalSearch;
+import aima.core.search.framework.qsearch.GraphSearch;
+import aima.core.search.informed.AStarSearch;
+import aima.core.search.informed.GreedyBestFirstSearch;
+import aima.core.search.local.Scheduler;
+import aima.core.search.local.SimulatedAnnealingSearch;
+import aima.core.search.uninformed.BreadthFirstSearch;
+import aima.core.search.uninformed.DepthLimitedSearch;
+import aima.core.search.uninformed.IterativeDeepeningSearch;
+import aima.core.util.Tasks;
+import aima.gui.fx.framework.IntegrableApplication;
+import aima.gui.fx.framework.Parameter;
+import aima.gui.fx.framework.TaskExecutionPaneBuilder;
+import aima.gui.fx.framework.TaskExecutionPaneCtrl;
+import aima.gui.fx.views.EightPuzzleViewCtrl;
+import javafx.application.Platform;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 208898 // EightPuzzleApp
+      end
+    end
+
+    artifact 196610 "SimpleSudokuApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.gui.fx.framework.IntegrableApplication;
+import aima.gui.fx.views.SudokuViewCtrl;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+${definition}"
+      associated_elems
+	class_ref 209154 // SimpleSudokuApp
+      end
+    end
+
+    artifact 196738 "TicTacToeApp"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.environment.tictactoe.TicTacToeGame;
+import aima.core.environment.tictactoe.TicTacToeState;
+import aima.core.search.adversarial.AdversarialSearch;
+import aima.core.search.adversarial.AlphaBetaSearch;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.adversarial.MinimaxSearch;
+import aima.core.search.framework.Metrics;
+import aima.core.util.datastructure.XYLocation;
+import aima.gui.fx.framework.IntegrableApplication;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+${definition}"
+      associated_elems
+	class_ref 209410 // TicTacToeApp
+      end
+    end
+  end
+end

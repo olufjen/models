@@ -1,0 +1,20 @@
+class MajorityLearner
+!!!232962.java!!!	train(inout ds : DataSet) : void
+		List<String> targets = new ArrayList<String>();
+		for (Example e : ds.examples) {
+			targets.add(e.targetValue());
+		}
+		result = Util.mode(targets);
+!!!233090.java!!!	predict(inout e : Example) : String
+		return result;
+!!!233218.java!!!	test(inout ds : DataSet) : int
+		int[] results = new int[] { 0, 0 };
+
+		for (Example e : ds.examples) {
+			if (e.targetValue().equals(result)) {
+				results[0] = results[0] + 1;
+			} else {
+				results[1] = results[1] + 1;
+			}
+		}
+		return results;

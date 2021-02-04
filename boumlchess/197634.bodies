@@ -1,0 +1,29 @@
+class GeneticAlgorithmForNumbers
+!!!480386.java!!!	GeneticAlgorithmForNumbers(in individualLength : int, in min : double, in max : double, in mutationProbability : double)
+		super(individualLength, Collections.<Double> emptySet(), mutationProbability);
+		minimum = min;
+		maximum = max;
+!!!480514.java!!!	createRandomIndividual() : Individual
+		List<Double> representation = new ArrayList<Double>(individualLength);
+		for (int i = 0; i < individualLength; i++)
+			representation.add(minimum + random.nextDouble() * (maximum - minimum));
+		return new Individual<Double>(representation);
+!!!480642.java!!!	reproduce(inout x : Individual, inout y : Individual) : Individual
+		List<Double> newRep = new ArrayList<Double>(x.length());
+		double r = random.nextDouble();
+		for (int i = 0; i < x.length(); i++)
+			newRep.add(x.getRepresentation().get(i) * r + y.getRepresentation().get(i) * (1 - r));
+		return new Individual<>(newRep);
+!!!480770.java!!!	mutate(inout child : Individual) : Individual
+		List<Double> rep = child.getRepresentation();
+		List<Double> newRep = new ArrayList<Double>();
+		for (double num : rep) {
+			double r = random.nextDouble() - 0.5;
+			num += r * r * r * (maximum - minimum) / 2;
+			if (num < minimum)
+				num = minimum;
+			else if (num > maximum)
+				num = maximum;
+			newRep.add(num);
+		}
+		return new Individual<>(newRep);

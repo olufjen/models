@@ -1,0 +1,31 @@
+class MapEnvironment
+!!!166658.java!!!	MapEnvironment(inout map : Map)
+		this.map = map;
+!!!166786.java!!!	addAgent(inout a : Agent, in startLocation : String) : void
+		// Ensure the agent state information is tracked before
+		// adding to super, as super will notify the registered
+		// EnvironmentViews that is was added.
+		state.setAgentLocationAndTravelDistance(a, startLocation, 0.0);
+		super.addAgent(a);
+!!!166914.java!!!	getAgentLocation(inout a : Agent) : String
+		return state.getAgentLocation(a);
+!!!167042.java!!!	getAgentTravelDistance(inout a : Agent) : Double
+		return state.getAgentTravelDistance(a);
+!!!167170.java!!!	executeAction(inout agent : Agent, inout a : Action) : void
+
+		if (!a.isNoOp()) {
+			MoveToAction act = (MoveToAction) a;
+
+			String currLoc = getAgentLocation(agent);
+			Double distance = map.getDistance(currLoc, act.getToLocation());
+			if (distance != null) {
+				double currTD = getAgentTravelDistance(agent);
+				state.setAgentLocationAndTravelDistance(agent,
+						act.getToLocation(), currTD + distance);
+			}
+		}
+!!!167298.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+		return new DynamicPercept(DynAttributeNames.PERCEPT_IN,
+				getAgentLocation(anAgent));
+!!!167426.java!!!	getMap() : Map
+		return map;

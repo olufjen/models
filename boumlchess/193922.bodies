@@ -1,0 +1,54 @@
+class AC3Strategy
+!!!457858.java!!!	apply(inout csp : CSP) : InferenceLog
+		Queue<VAR> queue = QueueFactory.createFifoQueueNoDuplicates();
+		queue.addAll(csp.getVariables());
+		DomainLog<VAR, VAL> log = new DomainLog<>();
+		reduceDomains(queue, csp, log);
+		return log.compactify();
+!!!457986.java!!!	apply(inout csp : CSP, inout assignment : Assignment, inout var : VAR) : InferenceLog
+		Domain<VAL> domain = csp.getDomain(var);
+		VAL value = assignment.getValue(var);
+		assert domain.contains(value);
+		DomainLog<VAR, VAL> log = new DomainLog<>();
+		if (domain.size() > 1) {
+			Queue<VAR> queue = QueueFactory.createFifoQueue();
+			queue.add(var);
+			log.storeDomainFor(var, domain);
+			csp.setDomain(var, new Domain<>(value));
+			reduceDomains(queue, csp, log);
+		}
+		return log.compactify();
+!!!458114.java!!!	reduceDomains(inout queue : Queue<VAR>, inout csp : CSP, inout log : DomainLog) : void
+		while (!queue.isEmpty()) {
+			VAR var = queue.remove();
+			for (Constraint<VAR, VAL> constraint : csp.getConstraints(var)) {
+				VAR neighbor = csp.getNeighbor(var, constraint);
+				if (neighbor != null && revise(neighbor, var, constraint, csp, log)) {
+					if (csp.getDomain(neighbor).isEmpty()) {
+						log.setEmptyDomainFound(true);
+						return;
+					}
+					queue.add(neighbor);
+				}
+			}
+		}
+!!!458242.java!!!	revise(inout xi : VAR, inout xj : VAR, inout constraint : Constraint, inout csp : CSP, inout log : DomainLog) : boolean
+		Domain<VAL> currDomain = csp.getDomain(xi);
+		List<VAL> newValues = new ArrayList<>(currDomain.size());
+		Assignment<VAR, VAL> assignment = new Assignment<>();
+		for (VAL vi : currDomain) {
+			assignment.add(xi, vi);
+			for (VAL vj : csp.getDomain(xj)) {
+				assignment.add(xj, vj);
+				if (constraint.isSatisfiedWith(assignment)) {
+					newValues.add(vi);
+					break;
+				}
+			}
+		}
+		if (newValues.size() < currDomain.size()) {
+			log.storeDomainFor(xi, csp.getDomain(xi));
+			csp.setDomain(xi, new Domain<>(newValues));
+			return true;
+		}
+		return false;

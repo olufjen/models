@@ -1,0 +1,148 @@
+class Util
+!!!500354.java!!!	first(inout l : List<T>) : T
+		return l.get(0);
+!!!500482.java!!!	rest(inout l : List<T>) : List<T>
+		return l.subList(1, l.size());
+!!!500610.java!!!	create(inout keys : Collection<K>, inout value : V) : Map<K, V>
+		Map<K, V> map = new LinkedHashMap<>();
+
+		for (K k : keys) {
+			map.put(k, value);
+		}
+
+		return map;
+!!!500738.java!!!	createSet(inout  : V...values) : Set<V>
+		Set<V> set = new LinkedHashSet<>();
+		Collections.addAll(set, values);
+		return set;
+!!!500866.java!!!	selectRandomlyFromList(inout l : List<T>) : T
+		return l.get(random.nextInt(l.size()));
+!!!500994.java!!!	selectRandomlyFromSet(inout set : Set<T>) : T
+		Iterator<T> iterator = set.iterator();
+		for (int i = random.nextInt(set.size()); i > 0; i--) iterator.next();
+		return iterator.next();
+!!!501122.java!!!	randomInt(in bound : int) : int
+		return random.nextInt(bound);
+!!!501250.java!!!	randomBoolean() : boolean
+		return random.nextInt(2) == 1;
+!!!501378.java!!!	normalize(inout probDist : double [[]]) : double
+		int len = probDist.length;
+		double total = 0.0;
+		for (double d : probDist) {
+			total = total + d;
+		}
+
+		double[] normalized = new double[len];
+		if (total != 0) {
+			for (int i = 0; i < len; i++) {
+				normalized[i] = probDist[i] / total;
+			}
+		}
+
+		return normalized;
+!!!501506.java!!!	normalize(inout values : List<Double>) : List<Double>
+		double[] valuesAsArray = new double[values.size()];
+		for (int i = 0; i < valuesAsArray.length; i++)
+			valuesAsArray[i] = values.get(i);
+		double[] normalized = normalize(valuesAsArray);
+		List<Double> results = new ArrayList<>();
+		for (double aNormalized : normalized)
+			results.add(aNormalized);
+		return results;
+!!!501634.java!!!	min(in i : int, in j : int) : int
+		return (i > j ? j : i);
+!!!501762.java!!!	max(in i : int, in j : int) : int
+		return (i < j ? j : i);
+!!!501890.java!!!	max(in i : int, in j : int, in k : int) : int
+		return max(max(i, j), k);
+!!!502018.java!!!	min(in i : int, in j : int, in k : int) : int
+		return min(min(i, j), k);
+!!!502146.java!!!	mode(inout l : List<T>) : T
+		Hashtable<T, Integer> hash = new Hashtable<>();
+		for (T obj : l) {
+			if (hash.containsKey(obj)) {
+				hash.put(obj, hash.get(obj) + 1);
+			} else {
+				hash.put(obj, 1);
+			}
+		}
+
+		T maxkey = hash.keySet().iterator().next();
+		for (T key : hash.keySet()) {
+			if (hash.get(key) > hash.get(maxkey)) {
+				maxkey = key;
+			}
+		}
+		return maxkey;
+!!!502274.java!!!	yesno() : String
+		return new String[] { YES, NO };
+!!!502402.java!!!	log2(in d : double) : double
+		return Math.log(d) / Math.log(2);
+!!!502530.java!!!	information(inout probabilities : double [[]]) : double
+		double total = 0.0;
+		for (double d : probabilities) {
+			total += (-1.0 * log2(d) * d);
+		}
+		return total;
+!!!502658.java!!!	removeFrom(inout list : List<T>, inout member : T) : List<T>
+		List<T> newList = new ArrayList<>(list);
+		newList.remove(member);
+		return newList;
+!!!502786.java!!!	sumOfSquares(inout list : List<T>) : double
+		double accum = 0;
+		for (T item : list) {
+			accum = accum + (item.doubleValue() * item.doubleValue());
+		}
+		return accum;
+!!!502914.java!!!	ntimes(in s : String, in n : int) : String
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			builder.append(s);
+		}
+		return builder.toString();
+!!!503042.java!!!	checkForNanOrInfinity(in d : double) : void
+		if (Double.isNaN(d)) {
+			throw new RuntimeException("Not a Number");
+		}
+		if (Double.isInfinite(d)) {
+			throw new RuntimeException("Infinite Number");
+		}
+!!!503170.java!!!	randomNumberBetween(in i : int, in j : int) : int
+		/* i,j bothinclusive */
+		return random.nextInt(j - i + 1) + i;
+!!!503298.java!!!	calculateMean(inout lst : List<Double>) : double
+		Double sum = 0.0;
+		for (Double d : lst) {
+			sum = sum + d;
+		}
+		return sum / lst.size();
+!!!503426.java!!!	calculateStDev(inout values : List<Double>, in mean : double) : double
+
+		int listSize = values.size();
+
+		Double sumOfDiffSquared = 0.0;
+		for (Double value : values) {
+			double diffFromMean = value - mean;
+			sumOfDiffSquared += ((diffFromMean * diffFromMean) / (listSize - 1));
+			// division moved here to avoid sum becoming too big if this
+			// doesn't work use incremental formulation
+
+		}
+		double variance = sumOfDiffSquared;
+		// (listSize - 1);
+		// assumes at least 2 members in list.
+		return Math.sqrt(variance);
+!!!503554.java!!!	normalizeFromMeanAndStdev(inout values : List<Double>, in mean : double, in stdev : double) : List<Double>
+		return values.stream().map(d -> (d - mean) / stdev).collect(Collectors.toList());
+!!!503682.java!!!	generateRandomDoubleBetween(in lowerLimit : double, in upperLimit : double) : double
+		return lowerLimit + ((upperLimit - lowerLimit) * random.nextDouble());
+!!!503810.java!!!	generateRandomFloatBetween(in lowerLimit : float, in upperLimit : float) : float
+		return lowerLimit + ((upperLimit - lowerLimit) * random.nextFloat());
+!!!503938.java!!!	compareDoubles(in a : double, in b : double) : boolean
+		if(Double.isNaN(a) && Double.isNaN(b)) return true;
+		if(!Double.isInfinite(a) && !Double.isInfinite(b)) return Math.abs(a-b) <= EPSILON;
+		return a == b;
+!!!504066.java!!!	compareFloats(in a : float, in b : float) : boolean
+		if(Float.isNaN(a) && Float.isNaN(b)) return true;
+		if(!Float.isInfinite(a) && !Float.isInfinite(b)) return Math.abs(a-b) <= EPSILON;
+		return a == b;

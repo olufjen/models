@@ -1,0 +1,28 @@
+class StandardizeApartIndexicalFactory
+!!!269570.java!!!	flush() : void
+		synchronized (_assignedIndexicals) {
+			_assignedIndexicals.clear();
+		}
+!!!269698.java!!!	newStandardizeApartIndexical(inout preferredPrefix : Character) : StandardizeApartIndexical
+		char ch = preferredPrefix.charValue();
+		if (!(Character.isLetter(ch) && Character.isLowerCase(ch))) {
+			throw new IllegalArgumentException("Preferred prefix :"
+					+ preferredPrefix + " must be a valid a lower case letter.");
+		}
+
+		StringBuilder sb = new StringBuilder();
+		synchronized (_assignedIndexicals) {
+			Integer currentPrefixCnt = _assignedIndexicals.get(preferredPrefix);
+			if (null == currentPrefixCnt) {
+				currentPrefixCnt = 0;
+			} else {
+				currentPrefixCnt += 1;
+			}
+			_assignedIndexicals.put(preferredPrefix, currentPrefixCnt);
+			sb.append(preferredPrefix);
+			for (int i = 0; i < currentPrefixCnt; i++) {
+				sb.append(preferredPrefix);
+			}
+		}
+
+		return new StandardizeApartIndexicalImpl(sb.toString());

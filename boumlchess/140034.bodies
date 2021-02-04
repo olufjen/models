@@ -1,0 +1,27 @@
+class NQueensGenAlgoUtil
+!!!177666.java!!!	getFitnessFunction() : FitnessFunction
+		return new NQueensFitnessFunction();
+!!!177794.java!!!	getGoalTest() : GoalTest
+		return new NQueensGenAlgoGoalTest();
+!!!177922.java!!!	generateRandomIndividual(in boardSize : int) : Individual
+		List<Integer> individualRepresentation = new ArrayList<>();
+		for (int i = 0; i < boardSize; i++) {
+			individualRepresentation.add(new Random().nextInt(boardSize));
+		}
+		return new Individual<>(individualRepresentation);
+!!!178050.java!!!	getFiniteAlphabetForBoardOfSize(in size : int) : Collection<Integer>
+		Collection<Integer> fab = new ArrayList<>();
+
+		for (int i = 0; i < size; i++) {
+			fab.add(i);
+		}
+
+		return fab;
+!!!178818.java!!!	getBoardForIndividual(inout individual : Individual) : NQueensBoard
+		int boardSize = individual.length();
+		NQueensBoard board = new NQueensBoard(boardSize);
+		for (int i = 0; i < boardSize; i++) {
+			int pos = individual.getRepresentation().get(i);
+			board.addQueenAt(new XYLocation(i, pos));
+		}
+		return board;

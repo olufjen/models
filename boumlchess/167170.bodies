@@ -1,0 +1,12 @@
+class ProofStepChainContrapositive
+!!!307202.java!!!	ProofStepChainContrapositive(inout contrapositive : Chain, inout contrapositiveOf : Chain)
+		this.contrapositive = contrapositive;
+		this.contrapositiveOf = contrapositiveOf;
+		this.predecessors.add(contrapositiveOf.getProofStep());
+!!!307330.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!307458.java!!!	getProof() : String
+		return contrapositive.toString();
+!!!307586.java!!!	getJustification() : String
+		return "Contrapositive: "
+				+ contrapositiveOf.getProofStep().getStepNumber();

@@ -1,0 +1,77 @@
+class SimulatedAnnealingSearch
+!!!483842.java!!!	SimulatedAnnealingSearch(inout h : ToDoubleFunction<Node<S, A>>)
+		this(h, new Scheduler());
+!!!483970.java!!!	SimulatedAnnealingSearch(inout h : ToDoubleFunction<Node<S, A>>, inout scheduler : Scheduler)
+		this(h, scheduler, new NodeExpander<>());
+!!!484098.java!!!	SimulatedAnnealingSearch(inout h : ToDoubleFunction<Node<S, A>>, inout scheduler : Scheduler, inout nodeExpander : NodeExpander)
+		this.h = h;
+		this.scheduler = scheduler;
+		this.nodeExpander = nodeExpander;
+		nodeExpander.addNodeListener((node) -> metrics.incrementInt(METRIC_NODES_EXPANDED));
+!!!484226.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+		nodeExpander.useParentLinks(true);
+		return SearchUtils.toActions(findNode(p));
+!!!484354.java!!!	findState(inout p : Problem) : Optional<S>
+		nodeExpander.useParentLinks(false);
+		return SearchUtils.toState(findNode(p));
+!!!484482.java!!!	findNode(inout p : Problem) : Node
+		clearMetrics();
+		outcome = SearchOutcome.FAILURE;
+		lastState = null;
+		// current <- MAKE-NODE(problem.INITIAL-STATE)
+		Node<S, A> current = nodeExpander.createRootNode(p.getInitialState());
+		// for t = 1 to INFINITY do
+		int timeStep = 0;
+		while (!Tasks.currIsCancelled()) {
+			// temperature <- schedule(t)
+			double temperature = scheduler.getTemp(timeStep);
+			timeStep++;
+			lastState = current.getState();
+			// if temperature = 0 then return current
+			if (temperature == 0.0) {
+				if (p.testSolution(current))
+					outcome = SearchOutcome.SOLUTION_FOUND;
+				return Optional.of(current);
+			}
+
+			updateMetrics(temperature, getValue(current));
+			List<Node<S, A>> children = nodeExpander.expand(current, p);
+			if (children.size() > 0) {
+				// next <- a randomly selected successor of current
+				Node<S, A> next = Util.selectRandomlyFromList(children);
+				// /\E <- next.VALUE - current.value
+				double deltaE = getValue(next) - getValue(current);
+
+				if (shouldAccept(temperature, deltaE)) {
+					current = next;
+				}
+			}
+		}
+		return Optional.empty();
+!!!484610.java!!!	probabilityOfAcceptance(in temperature : double, in deltaE : double) : double
+		return Math.exp(deltaE / temperature);
+!!!484738.java!!!	getOutcome() : SimulatedAnnealingSearch::SearchOutcome
+		return outcome;
+!!!484866.java!!!	getLastSearchState() : Object
+		return lastState;
+!!!484994.java!!!	getMetrics() : Metrics
+		return metrics;
+!!!485122.java!!!	updateMetrics(in temperature : double, in value : double) : void
+		metrics.set(METRIC_TEMPERATURE, temperature);
+		metrics.set(METRIC_NODE_VALUE, value);
+!!!485250.java!!!	clearMetrics() : void
+		metrics.set(METRIC_NODES_EXPANDED, 0);
+		metrics.set(METRIC_TEMPERATURE, 0);
+		metrics.set(METRIC_NODE_VALUE, 0);
+!!!485378.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+		nodeExpander.addNodeListener(listener);
+!!!485506.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+		return nodeExpander.removeNodeListener(listener);
+!!!485634.java!!!	shouldAccept(in temperature : double, in deltaE : double) : boolean
+		return (deltaE > 0.0)
+				|| (Math.random() <= probabilityOfAcceptance(temperature, deltaE));
+!!!485762.java!!!	getValue(inout n : Node) : double
+		// assumption greater heuristic value =>
+		// HIGHER on hill; 0 == goal state;
+		// SA deals with gradient DESCENT
+		return -1 * h.applyAsDouble(n);

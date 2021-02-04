@@ -1,0 +1,48 @@
+class ConnectFourModel
+!!!562306.java!!!	ConnectFourModel()
+		game = new ConnectFourGame();
+		currState = (ConnectFourState) game.getInitialState();
+!!!562434.java!!!	getCols() : int
+		return currState.getCols();
+!!!562562.java!!!	getRows() : int
+		return currState.getRows();
+!!!562690.java!!!	getPlayers() : String
+		return game.getPlayers();
+!!!562818.java!!!	getPlayerForNextMove() : String
+		return game.getPlayer(currState);
+!!!562946.java!!!	getWinner() : String
+		String result = null;
+		for (int i = 0; i < 2; i++)
+			if (game.getUtility(currState, game.getPlayers()[i]) == 1)
+				result = game.getPlayers()[i];
+		return result;
+!!!563074.java!!!	getPlayerAt(in row : int, in col : int) : String
+		int playerNum = currState.getPlayerNum(row, col);
+		return playerNum > 0 ? game.getPlayer(playerNum) : null;
+!!!563202.java!!!	isWinPositionFor(in row : int, in col : int, in player : String) : boolean
+		return currState.isWinPositionFor(row, col, game.getPlayerNum(player));
+!!!563330.java!!!	initGame() : void
+		currState = game.getInitialState();
+		searchMetrics = null;
+		setChanged();
+		notifyObservers();
+!!!563458.java!!!	isGameOver() : boolean
+		return game.isTerminal(currState);
+!!!563586.java!!!	makeMove(in col : int) : void
+		currState = game.getResult(currState, col);
+		searchMetrics = null;
+		setChanged();
+		notifyObservers();
+!!!563714.java!!!	proposeMove(in time : int, in strategy : int) : void
+		IterativeDeepeningAlphaBetaSearch<ConnectFourState, Integer, String> search;
+		if (strategy == 0)
+			search = IterativeDeepeningAlphaBetaSearch.createFor(game, 0.0, 1.0, time);
+		else
+			search = new ConnectFourAIPlayer(game, time);
+		if (enableLog)
+			search.setLogEnabled(true);
+		Integer action = search.makeDecision(currState);
+		searchMetrics = search.getMetrics();
+		currState = game.getResult(currState, action);
+		setChanged();
+		notifyObservers();

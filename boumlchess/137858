@@ -1,0 +1,288 @@
+format 223
+"temporal" // aima::core::probability::temporal
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/temporal/"
+  java_package "aima.core.probability.temporal"
+  classview 136834 "temporal"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 183810 "ForwardBackwardInference"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
+<br>
+
+Generic interface for calling different implementations of the
+forward-backward algorithm for smoothing: computing posterior probabilities
+of a sequence of states given a sequence of observations.
+
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 214914 // <generalisation>
+	relation 214914 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 214914 // <generalisation>
+	  b parent class_ref 183938 // ForwardStepInference
+      end
+
+      classrelation 215042 // <generalisation>
+	relation 215042 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 215042 // <generalisation>
+	  b parent class_ref 184066 // BackwardStepInference
+      end
+
+      operation 420994 "forwardBackward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "ev" explicit_type "List<List<AssignmentProposition>>"
+	  param inout name "prior" type class_ref 175106 // CategoricalDistribution
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The forward-backward algorithm for smoothing: computing posterior
+probabilities of a sequence of states given a sequence of observations.
+
+@param ev
+           a vector of evidence values for steps 1,...,t
+@param prior
+           the prior distribution on the initial state,
+           <b>P</b>(X<sub>0</sub>)
+@return a vector of smoothed estimates for steps 1,...,t
+"
+      end
+    end
+
+    class 183938 "ForwardStepInference"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "* The FORWARD operator is defined by Equation (15.5).<br>
+
+<pre>
+<b>P</b>(<b>X</b><sub>t+1</sub> | <b>e</b><sub>1:t+1</sub>) 
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>, <b>e</b><sub>1:t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>)
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>) (Markov Assumption)
+</pre>
+
+@author Ciaran O'Reilly
+
+"
+      operation 420738 "forward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "f1_t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_tp1" explicit_type "List<AssignmentProposition>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The FORWARD operator is defined by Equation (15.5).<br>
+
+<pre>
+<b>P</b>(<b>X</b><sub>t+1</sub> | <b>e</b><sub>1:t+1</sub>) 
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>, <b>e</b><sub>1:t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>)
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>) (Markov Assumption)
+</pre>
+
+@param f1_t
+           f<sub>1:t</sub>
+@param e_tp1
+           <b>e</b><sub>t+1</sub>
+@return f<sub>1:t+1</sub>
+"
+      end
+    end
+
+    class 184066 "BackwardStepInference"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The BACKWARD operator<br>
+
+<pre>
+<b>b</b><sub>k+1:t</sub> = <b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+is defined by Equation (15.9).<br>
+
+<pre>
+<b>P</b>(e<sub>k+1:t</sub> | X<sub>k</sub>) 
+= &sum;<sub><b>x</b><sub>k+1</sub></sub><b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>, <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (conditioning on <b>X</b><sub>k+1</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (by conditional independence)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub>, <b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub> | <b>x</b><sub>k+1</sub>)P(<b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+@author Ciaran O'Reilly
+
+"
+      operation 420866 "backward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "b_kp2t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_kp1t" explicit_type "List<AssignmentProposition>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The BACKWARD operator<br>
+
+<pre>
+<b>b</b><sub>k+1:t</sub> = <b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+is defined by Equation (15.9).<br>
+
+<pre>
+<b>P</b>(e<sub>k+1:t</sub> | X<sub>k</sub>) 
+= &sum;<sub><b>x</b><sub>k+1</sub></sub><b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>, <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (conditioning on <b>X</b><sub>k+1</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (by conditional independence)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub>, <b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub> | <b>x</b><sub>k+1</sub>)P(<b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+@param b_kp2t
+           <b>b</b><sub>k+2:t</sub>
+@param e_kp1t
+           <b>e</b><sub>k+1:t</sub>
+@return <b>b</b><sub>k+1:t</sub>
+"
+      end
+    end
+  end
+
+  deploymentview 135554 "temporal"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 173442 "ForwardStepInference"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 183938 // ForwardStepInference
+      end
+    end
+
+    artifact 173570 "BackwardStepInference"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 184066 // BackwardStepInference
+      end
+    end
+
+    artifact 173698 "ForwardBackwardInference"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 183810 // ForwardBackwardInference
+      end
+    end
+  end
+
+  package_ref 138242 // generic
+end

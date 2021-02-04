@@ -1,0 +1,90 @@
+class PlayGameofBones
+!!!681474.java!!!	findStrategy(inout move : Node, inout terminalNodes : List) : boolean
+	       List<Node> children = move.getChildren();
+	        for (Node child: children) {
+	        	if (child.winningGame()) {
+	        		terminalNodes.add(child);
+	        	 	return true;
+	        	}else {
+	        		return findStrategy(child,terminalNodes);
+	        	}
+	        		
+       	
+	        }
+	        return false;
+!!!681602.java!!!	getPrinter() : PrintWriter
+		PrintWriter writer = null;
+	    String outputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\logiskemetoder\\games\\gameresult2.txt";
+	      //create an output print writer for the results
+	      try 
+	      {
+	         writer = new PrintWriter(outputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + outputFileName 
+	            + "' is an invalid output file.");
+	         return null;
+	      }
+	      return writer;
+!!!681730.java!!!	main(inout args : String [[]]) : void
+			List<Node> terminalNodes;
+		   MiniMax miniMax = new MiniMax();
+		   terminalNodes = new ArrayList<Node>();
+//	        assertNull(gameTree);
+/*	        miniMax.constructTree(6);
+	        Tree gameTree = miniMax.getTree();
+	        assertNotNull(gameTree);*/
+	        miniMax.constructTree(6);
+//	        boolean result = miniMax.checkWin();
+	        
+//	        miniMax.constructTree(8);
+//	        result = miniMax.checkWin();
+//	        List<Node> states = miniMax.getstates();
+//	        miniMax.findLosinggame();
+	        miniMax.findWinninggame();
+	        List<Node> states = miniMax.getWinningGame();
+	        PrintWriter writer = getPrinter();
+	        System.out.println("\nPossible states \n" );
+	        if (writer != null)
+	        	writer.println("\nPossible states \n");
+	        int ct = 0;
+	        for (Node state: states) {
+	        	ct++;
+//	        	if (state.getNodeId().equals("a")) {
+	        		System.out.println("Parents \n"+state.showParent() );
+	        		if (findStrategy(state,terminalNodes)) {
+	        			System.out.println("Game won "+ct+" "+state.toString());
+	        			if (writer != null) {
+	        				writer.println("Parents \n"+state.showParent() );
+	        				writer.println("Game won "+ct+" "+state.toString());
+	        			}
+
+	        		}else {
+	        			System.out.println("Parents \n"+state.showParent() );
+		        		System.out.println("Losing game "+ct+" "+state.toString());
+		        		if (writer != null) {
+			        		writer.println("Parents \n"+state.showParent() );
+			        		writer.println("Losing game "+ct+" "+state.toString());
+		        		}
+	        		}
+//	        	}
+
+/*	        	else if(move.getNodeId().equals("a")) {
+	        		System.out.println("Parents \n"+move.showParent() );
+	        		System.out.println("Losing game "+ct+" "+move.toString());
+	        		if (writer != null) { 
+		        		writer.println("Parents \n"+move.showParent() );
+		        		writer.println("Losing game "+ct+" "+move.toString());
+	        		}
+	        	}*/
+	        }
+    		if (writer != null) {
+    			List<Node> bestMove = miniMax.findBestMove(4, terminalNodes);
+    			
+    			bestMove.forEach(terminalNode ->{
+	    			writer.println("Terminal nodes parents\n"+terminalNode.toString()+"\n===================\n" );
+    			});
+
+    		}
+		    writer.close();
+	        System.out.println("Result "+" "+miniMax.toString());
+

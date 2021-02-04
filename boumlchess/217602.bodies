@@ -1,0 +1,76 @@
+class MonteCarloLocalizationApp
+!!!613762.java!!!	main(inout args : String [[]]) : void
+		File settingsFile = args.length > 0 ? new File(args[0]) : DEFAULT_SETTINGS_FILE;
+		MonteCarloLocalizationApp app = new MonteCarloLocalizationApp(settingsFile);
+		app.constructBasicApplicationFrame();
+		app.notifyAllListeners();
+		app.show();
+!!!613890.java!!!	notifyAllListeners() : void
+		settingsGui.notifyAllListeners();
+!!!614018.java!!!	buildSettings(inout settingsFile : File) : Settings
+		Settings settingsGui = new Settings();
+		if(settingsFile != null) {
+			if(settingsFile.isFile() && settingsFile.canRead()) {
+				settingsGui.loadSettings(settingsFile);
+			}
+		}
+		return settingsGui;
+!!!614146.java!!!	MonteCarloLocalizationApp()
+		this(null);
+!!!614274.java!!!	MonteCarloLocalizationApp(inout settingsFile : File)
+		GuiBase.activateSystemStyle();
+		GuiBase.setUIColors();
+		this.settingsFile = settingsFile;
+		settingsGui = buildSettings(settingsFile);
+		initialize();
+		robotGui.loadSettings(settingsGui);
+		settingsGui.buildGui();
+!!!614402.java!!!	initialize() : void
+		SimpleSettingsListener settingsListener = new SimpleSettingsListener(settingsGui);
+		settingsListener.createSettings();
+		
+		AnglePanel angles = new AnglePanel(RANGE_READING_ANGLES_TITLE);
+		settingsGui.registerSpecialSetting(RANGE_READING_ANGLES_KEY, angles);
+		
+		MclCartesianPlot2D<SimplePose, SimpleMove, AbstractRangeReading> map = new MclCartesianPlot2D<SimplePose,SimpleMove,AbstractRangeReading>(new SVGGroupParser(),new SVGGroupParser(),new SimplePoseFactory(),new SimpleRangeReadingFactory());
+		VirtualRobot robot = new VirtualRobot(map);
+		robotGui = new VirtualRobotGui(robot);
+		
+		MonteCarloLocalization<SimplePose,Angle,SimpleMove,AbstractRangeReading> mcl = new MonteCarloLocalization<SimplePose, Angle, SimpleMove, AbstractRangeReading>(map, new JavaRandomizer());
+		app = new GenericMonteCarloLocalization2DApp<SimplePose,SimpleMove,SimpleRangeReading>(mcl, map, robot, robotGui, settingsGui);
+		
+		angles.setChangeListener((ChangeListener) robotGui);
+		settingsListener.setMap(map);
+		settingsListener.setMcl(mcl);
+		settingsListener.setRobot(robot);
+!!!614530.java!!!	show() : void
+		app.show();
+!!!614658.java!!!	constructApplicationFrame() : JFrame
+		JFrame frame = constructBasicApplicationFrame();
+		//Load the virtual environment resource:
+		try {
+			app.map.loadMap(this.getClass().getResourceAsStream("virtual_environment.svg"),this.getClass().getResourceAsStream("virtual_environment.svg"));
+			app.settingsGui.notifyAllListeners();
+			app.gui.createMap();
+			app.gui.enableButtons(app.gui.buttonStateNormal);
+			/* This is bad style.
+			 * On the other hand this is the only situation in which the GUI
+			 * is modified from outside of GenericMonteCarloLocalization to load a map from the resources.
+			 */
+		} catch (Exception e) {
+			/* A Exception may be thrown when this example program is not launched from within a jar file.
+			 * This happens because the ClassLoader does not find the requested resource.
+			 */
+		}
+		return frame;
+!!!614786.java!!!	constructBasicApplicationFrame() : JFrame
+		JFrame frame = app.constructApplicationFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				robotGui.saveSettings(settingsGui);
+				if(settingsFile != null) settingsGui.saveSettings(settingsFile);
+				robotGui.destructRobot();
+			}
+		});
+		return frame;

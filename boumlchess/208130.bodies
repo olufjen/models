@@ -1,0 +1,80 @@
+class NQueensSearchApp
+!!!558466.java!!!	main(inout args : String [[]]) : void
+		launch(args);
+!!!558594.java!!!	NQueensSearchApp()
+		experiment = new NQueensSearchDemo();
+		experiment.addProgressTracker(this::updateStateView);
+!!!558722.java!!!	getTitle() : String
+		return "N-Queens Search App";
+!!!558850.java!!!	createRootPane() : Pane
+		BorderPane root = new BorderPane();
+
+		StackPane stateView = new StackPane();
+		stateViewCtrl = new NQueensViewCtrl(stateView);
+
+		List<Parameter> params = createParameters();
+
+		TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
+		builder.defineParameters(params);
+		builder.defineStateView(stateView);
+		builder.defineInitMethod(this::initialize);
+		builder.defineTaskMethod(this::startExperiment);
+		taskPaneCtrl = builder.getResultFor(root);
+		taskPaneCtrl.setParam(TaskExecutionPaneCtrl.PARAM_EXEC_SPEED, 1);
+
+		return root;
+!!!558978.java!!!	createParameters() : Parameter
+		Parameter p1 = new Parameter(PARAM_STRATEGY,
+				"Depth-First Search (incremental)", "Breadth-First Search (incremental)",
+				"Iterative Deepening Search",
+				"Greedy Best-First Search (attacking pair heuristic)", "A* search (attacking pair heuristic)",
+				"Hill Climbing", "Simulated Annealing", "Genetic Algorithm");
+		Parameter p2 = new Parameter(PARAM_BOARD_SIZE, 4, 8, 16, 32, 64);
+		p2.setDefaultValueIndex(1);
+		Parameter p3 = new Parameter(PARAM_INIT_CONFIG, "FirstRow", "Random");
+		p3.setDependency(PARAM_STRATEGY, "Iterative Deepening Search",
+				"Greedy Best-First Search (attacking pair heuristic)", "A* search (attacking pair heuristic)",
+				"Hill Climbing", "Simulated Annealing", "Genetic Algorithm");
+		return Arrays.asList(p1, p2, p3);
+!!!559106.java!!!	initialize() : void
+		experiment.setBoardSize(taskPaneCtrl.getParamAsInt(PARAM_BOARD_SIZE));
+		Object strategy = taskPaneCtrl.getParamValue(PARAM_STRATEGY);
+		Config config;
+		//noinspection SuspiciousMethodCalls
+		if (Arrays.asList("Depth-First Search (incremental)", "Breadth-First Search (incremental)", "Genetic Algorithm")
+                .contains(strategy))
+			config = Config.EMPTY;
+		else if (taskPaneCtrl.getParamValue(PARAM_INIT_CONFIG).equals("Random"))
+			config = Config.QUEEN_IN_EVERY_COL;
+		else
+			config = Config.QUEENS_IN_FIRST_ROW;
+		experiment.initExperiment(config);
+		stateViewCtrl.update(experiment.getBoard());
+!!!559234.java!!!	cleanup() : void
+		taskPaneCtrl.cancelExecution();
+!!!559362.java!!!	startExperiment() : void
+		Object strategy = taskPaneCtrl.getParamValue(PARAM_STRATEGY);
+		if (strategy.equals("Depth-First Search (incremental)"))
+			experiment.startExperiment(new DepthFirstSearch<>(new TreeSearch<>()));
+		else if (strategy.equals("Breadth-First Search (incremental)"))
+			experiment.startExperiment(new BreadthFirstSearch<>(new TreeSearch<>()));
+		else if (strategy.equals("Iterative Deepening Search"))
+			experiment.startExperiment(new IterativeDeepeningSearch<>());
+		else if (strategy.equals("Greedy Best-First Search (attacking pair heuristic)"))
+			experiment.startExperiment(new GreedyBestFirstSearch<>(new GraphSearch<>(),
+					NQueensFunctions.createAttackingPairsHeuristicFunction()));
+        else if (strategy.equals("A* search (attacking pair heuristic)"))
+            experiment.startExperiment(new AStarSearch<>(new GraphSearch<>(),
+					NQueensFunctions.createAttackingPairsHeuristicFunction()));
+		else if (strategy.equals("Hill Climbing"))
+			experiment.startHillClimbingExperiment();
+		else if (strategy.equals("Simulated Annealing"))
+			experiment.startSimulatedAnnealingExperiment();
+		else if (strategy.equals("Genetic Algorithm"))
+			experiment.startGenAlgoExperiment(taskPaneCtrl.getParamValue(PARAM_INIT_CONFIG).equals("Random"));
+!!!559490.java!!!	updateStateView(inout board : NQueensBoard, inout metrics : Metrics) : void
+		Platform.runLater(() -> updateStateViewLater(board, metrics));
+		taskPaneCtrl.waitAfterStep();
+!!!559618.java!!!	updateStateViewLater(inout board : NQueensBoard, inout metrics : Metrics) : void
+		stateViewCtrl.update(board);
+		taskPaneCtrl.setStatus(metrics.toString());

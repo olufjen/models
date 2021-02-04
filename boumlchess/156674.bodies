@@ -1,0 +1,37 @@
+class CNFConverter
+!!!257922.java!!!	CNFConverter(inout parser : FOLParser)
+		this.parser = parser;
+
+		this.substVisitor = new SubstVisitor();
+!!!258050.java!!!	convertToCNF(inout aSentence : Sentence) : CNF
+		// I)mplications Out:
+		Sentence implicationsOut = (Sentence) aSentence.accept(
+				new ImplicationsOut(), null);
+
+		// N)egations In:
+		Sentence negationsIn = (Sentence) implicationsOut.accept(
+				new NegationsIn(), null);
+
+		// S)tandardize variables:
+		// For sentences like:
+		// (FORALL x P(x)) V (EXISTS x Q(x)),
+		// which use the same variable name twice, change the name of one of the
+		// variables.
+		Sentence saQuantifiers = (Sentence) negationsIn.accept(
+				new StandardizeQuantiferVariables(substVisitor),
+				new LinkedHashSet<Variable>());
+
+		// Remove explicit quantifiers, by skolemizing existentials
+		// and dropping universals:
+		// E)xistentials Out
+		// A)lls Out:
+		Sentence andsAndOrs = (Sentence) saQuantifiers.accept(
+				new RemoveQuantifiers(parser), new LinkedHashSet<Variable>());
+
+		// D)istribution
+		// V over ^:
+		Sentence orDistributedOverAnd = (Sentence) andsAndOrs.accept(
+				new DistributeOrOverAnd(), null);
+
+		// O)perators Out
+		return (new CNFConstructor()).construct(orDistributedOverAnd);

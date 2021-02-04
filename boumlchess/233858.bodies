@@ -1,0 +1,472 @@
+class ChessStateImpl
+!!!792322.java!!!	getBoard() : GameBoard
+		
+		return (GameBoard) gameBoard;
+!!!792450.java!!!	getGameboard() : AgameBoard
+		return gameBoard;
+!!!792578.java!!!	ChessStateImpl()
+		super();
+		
+!!!792706.java!!!	getallActions() : ChessAction
+		return actions;
+!!!792834.java!!!	ChessStateImpl(inout gameBoard : AgameBoard)
+		super();
+		this.gameBoard = gameBoard;
+		this.positions = gameBoard.getPositions();
+		allPositions =  new ArrayList(positions.values());
+		
+!!!792962.java!!!	ChessStateImpl(inout positions : HashMap<String, Position>, inout squares : int [[][]], inout piecePosition : String [[][]])
+		super();
+		this.positions = positions;
+		allPositions =  new ArrayList(positions.values());
+		this.squares = squares;
+		this.piecePosition = piecePosition;
+		gameBoard = new AgameBoard(this.positions);
+		utilityStack = new Stack();
+		Double utilValue = new Double(utility);
+		utilityStack.push(utilValue);
+!!!793090.java!!!	ChessStateImpl(inout game : AchessGame, inout gameBoard : AgameBoard, inout whitePlayer : APlayer, inout blackPlayer : APlayer)
+		super();
+		this.game = game;
+		this.gameBoard = gameBoard;
+		this.whitePlayer = whitePlayer;
+		this.blackPlayer = blackPlayer;
+		this.whitePlayer.setActive(true); // At present only the white player is the game's player
+		this.myPlayer = whitePlayer; // Set to represent the white player
+		this.opponent = blackPlayer; // At present only the black player is the opponent
+		positions = this.game.getPositions();
+		allPositions =  new ArrayList(positions.values());
+		piecePosition = this.game.getPiecePosition();
+		squares = this.game.getSquares();
+		playerTomove = null;
+		if (whitePlayer.isActive())
+			playerTomove  = whitePlayer;
+		else if (blackPlayer.isActive())
+			playerTomove = blackPlayer;
+		movements = new ArrayList();
+		actions = getActions();
+		PlayGame gamer = game.getGamePlayer();
+		utilityStack = new Stack();
+		int pn = 0;
+/*
+ * Must calculate a utility value for each action OLJ 7.08.20
+ */
+		for (ChessAction myAction: actions) {
+			Integer pNumber = new Integer(pn);
+			ChessActionImpl localAction = (ChessActionImpl) myAction;
+//			localAction.set
+			AgamePiece piece = (AgamePiece) localAction.getChessPiece();
+			String name = piece.getMyPiece().getPieceName();
+			ActionProcessor actionProcessor = new ActionProcessor(pNumber,name);
+			Double d  = ChessFunctions.processChessgame(localAction, gamer,actionProcessor);
+			pn++;
+			
+		}
+		analyzeutility();
+		orginalUtility = utility;
+		playerTomove.setActions(actions);
+
+
+		Double utilValue = new Double(utility);
+		utilityStack.push(utilValue);
+!!!793218.java!!!	getOpponent() : APlayer
+		return opponent;
+!!!793346.java!!!	setOpponent(inout opponent : APlayer) : void
+		this.opponent = opponent;
+!!!793474.java!!!	getChosenMove() : ApieceMove
+		return chosenMove;
+!!!793602.java!!!	setChosenMove(inout chosenMove : ApieceMove) : void
+		this.chosenMove = chosenMove;
+!!!793730.java!!!	getMovements() : ApieceMove
+		return movements;
+!!!793858.java!!!	setMovements(inout movements : List<ApieceMove>) : void
+		this.movements = movements;
+!!!793986.java!!!	emptyMovements() : void
+		checkPlayers();
+/*		for (Position pos:allPositions) {
+			if (pos.getPositionName().equals("a3")||pos.getPositionName().equals("f3")) {
+				System.out.println("!!ChessState emptymovement 1  position!! "+pos.toString());
+			}
+		}	*/
+		boolean moveChange = false;
+		for (ApieceMove move:movements) {
+			AgamePiece piece = move.getPiece();
+			Position toPos = move.getToPosition();
+			Position fromPos = move.getFromPosition();
+		
+//			Position pos = move.getPiece().getmyPosition();
+			Position pos = move.getPiece().getHeldPosition();
+			if (pos == null)
+				pos = move.getPiece().getMyPosition();
+	
+			ChessPiece chp = piece.getMyPiece();
+			fromPos.returnPiece(chp);
+//			piece.restorePosition(); // An alternative to .setMyposition
+			piece.setMyPosition(fromPos);
+		
+			if (toPos.getUsedBy() == fromPos.getUsedBy()){
+				System.out.println("!!ChessState emptymovement return piece of movement "+move.toString());
+				toPos.returnPiece();
+				moveChange = true;
+			}
+			if (!moveChange){
+				System.out.println("!!ChessState emptymovement NO return piece of movement "+move.toString());
+				toPos.returnPiece();
+			}
+			moveChange = false;
+//			piece.setActive(true); // Always set piece active again !!!!
+//			if (piece.isActive())
+			piece.produceLegalmoves(pos);
+			if (!utilityStack.isEmpty())
+				utility = utilityStack.pop();
+		}
+	
+		movements.clear(); // 
+		utility = orginalUtility;
+		for (Position pos:allPositions) {
+			if (pos.getPositionName().equals("a3")||pos.getPositionName().equals("f3")) {
+				System.out.println("!!ChessState emptymovements 2 position!! "+pos.toString());
+			}
+		}
+//		checkPlayers();
+!!!794114.java!!!	checkPlayers() : void
+		playedPiece = chessAction.getChessPiece();
+//		chessAction.getPreferredPosition();
+		List<AgamePiece> pieces = whitePlayer.getMygamePieces();
+		
+		for (AgamePiece piece:pieces) {
+			Position toPosition = piece.getmyPosition();
+			boolean inuse = piece.getMyPiece().isUse(); // inuse is false if a piece is removed permanently olj 1.08.20
+			if (inuse && !piece.isActive()) {
+				piece.getMyPosition().returnPiece();
+//				piece.setActive(true);
+//				piece.restorePosition();
+//				piece.restoreValue();
+			}
+/*
+ * This call restores the piece to the last held position			
+ */
+			if (inuse && playedPiece != piece)
+				piece.restorePosition(); // Restore positions for all pieces OBS !!!! 
+/*
+ * If we parameterize this then we can show on board all movements
+ * Then if the piece is restored to a previous position the position held by the piece
+ * must be restored as well
+ */
+			if (inuse && piece.getMyPosition() != toPosition && playedPiece != piece ) {
+				toPosition.returnPiece();
+			}
+		
+//			piece.produceLegalmoves(pos); // Should it also produce new legal moves ??
+		}
+		List<AgamePiece> blackpieces = blackPlayer.getMygamePieces();
+		for (AgamePiece piece:blackpieces) {
+			Position toPosition = piece.getmyPosition();
+			boolean inuse = piece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
+			if (inuse && !piece.isActive()) {
+				piece.getMyPosition().returnPiece();
+//				piece.setActive(true);
+//				piece.restorePosition();
+//				piece.restoreValue();
+			}
+			if (inuse && playedPiece != piece)
+				piece.restorePosition(); // Restore positions for all pieces
+			if (inuse && piece.getMyPosition() != toPosition && playedPiece != piece ) {
+				toPosition.returnPiece();
+			}
+//			piece.produceLegalmoves(pos);
+		}	
+//		playerTomove  = whitePlayer; // Must always ensure that the white player is the gameplayer olj 11.08.20
+!!!794242.java!!!	getPlayerTomove() : APlayer
+		return playerTomove;
+!!!794370.java!!!	setPlayerTomove(inout playerTomove : APlayer) : void
+		this.playerTomove = playerTomove;
+!!!794498.java!!!	getMyPlayer() : APlayer
+		return myPlayer;
+!!!794626.java!!!	setMyPlayer(inout myPlayer : APlayer) : void
+		this.myPlayer = myPlayer;
+!!!794754.java!!!	switchActivePlayer() : void
+		boolean w = whitePlayer.isActive();
+		boolean b = blackPlayer.isActive();
+		if (w) {
+			whitePlayer.setActive(false);
+			blackPlayer.setActive(true);
+			playerTomove = blackPlayer;
+		}
+		if (b) {
+			whitePlayer.setActive(true);
+			blackPlayer.setActive(false);
+			playerTomove = whitePlayer;
+		}
+!!!794882.java!!!	returnMyplayer() : void
+		if(playerTomove.getPlayerName() == playerTomove.getBlackPlayer()) {
+			whitePlayer.setActive(true);
+			blackPlayer.setActive(false);
+		}
+		playerTomove = whitePlayer;
+		actions = getActions();
+		playerTomove.setActions(actions);
+		analyzeutility();
+!!!795010.java!!!	checkToposition(inout move : ApieceMove) : boolean
+		boolean result = false;
+		Position  to = move.getToPosition();
+		AgamePiece movePiece = move.getPiece();
+		AgamePiece occupant = null;
+		if (to.getUsedBy() != null) {
+			occupant = to.getUsedBy().getMyPiece();
+			if (movePiece != occupant) {
+				ArrayList<AgamePiece> pieces = playerTomove.getMygamePieces();
+				for (AgamePiece piece : pieces) {
+					if (occupant == piece) {
+						result = true;
+						break;
+					}
+				}
+			}
+
+		}
+		Position piecePos = movePiece.getMyPosition(); // olj 21.08.20 Why is this necessary?
+		if (occupant == null && piecePos != to) {
+//			result = true; // What happens if we remove this?
+			result = true;
+		}
+		return result;
+!!!795138.java!!!	mark(inout action : ChessAction) : void
+		boolean blocked = false;
+		boolean searchTree = false;
+		List<ApieceMove> playedMovements = game.getMovements();
+		ChessActionImpl localAction = (ChessActionImpl) action;
+		ApieceMove actionMove = localAction.getPossibleMove(); // The action Move object is the move suggested by the action
+		// under consideration
+		AgamePiece piece = (AgamePiece) action.getChessPiece();
+		boolean pieceActive = piece.isActive();
+		ChessPieceType pieceType = piece.getChessType();
+		int noofmoves = 0;
+
+//		Position prefPos = localAction.getPreferredPosition();
+/*		if (prefPos != null) {
+			if (prefPos.getPositionName().equals("e5")) {
+				System.out.println("!!ChessState mark!!"+prefPos.toString()+"\n"+localAction.getChessPiece().toString());
+			}
+		}*/
+		
+		if (pieceType instanceof APawn) {
+			APawn pawn = (APawn) pieceType;
+			blocked = pawn.isBlocked();
+			if (localAction.isStrike())
+				blocked = false;
+		}
+		localAction.setBlocked(blocked);
+		Position position = (Position) action.getPreferredPosition();
+		List<Position> availablePositions = (List<Position>) action.getAvailablePositions();
+		List<Position>  removedPos = (List<Position>)action.getPositionRemoved();
+/*
+ * Added 24.02.20		
+ * When a move has been made then the pieces belonging to the same player must get new
+ * available positions calculated				
+ */
+		boolean occupied = false;
+/*
+ * Does the move's to position contain a piece?
+ * and is this piece a friendly piece?
+ * Then this move must not be performed!!!
+*/		
+		if (actionMove != null)
+				occupied = checkToposition(actionMove);
+		boolean available = false;
+		boolean removed = false;
+		for (Position pos:availablePositions) {
+			if (position == pos) {
+				available = true;
+				break;
+			}
+		}
+		for (Position pos:removedPos) {
+			if (position == pos) {
+				removed = true;
+				break;
+			}
+		}
+/*
+ * end added		
+ */
+		if (searchTree) { // This is done to solve problem described in issue: Check if a piece occupies two positions 
+//		if (pieceActive && available && !removed && !blocked && !occupied && actionMove != null) {
+
+/*
+ * The piece is moved and a new set of used an not used positions are calculated:
+ * The movement results in a revised state which represent a new node in the game tree
+ * and a new set of actions - a new set of leaves in the game tree.			
+ */
+				game.movePiece(piece, position); // Performes the move !!
+				piece.produceLegalmoves(position); // Added 8.04.20 produces new available positions			
+//				The piece is moved to the new location on the chessboard held by the AbstractChessGame
+//				Position heldPosition = piece.getHeldPosition(); // Changed from getMyposition OLJ 2.03.20
+//				Position heldPosition  
+/*				if (heldPosition == null) {
+					heldPosition = piece.getMyPosition();
+					
+				}*/
+				
+//				game.getGamePlayer().createMove(piece, heldPosition, position,movements); // Creates a local list of movements
+				noofmoves = movements.size() - 1;
+				actionMove.setMoveNumber(noofmoves+1);
+				movements.add(actionMove);
+
+				localAction.getActions(playerTomove); // Added 24.02.20 When a move has been made then the pieces belonging to the same player must get new
+// available positions calculated		
+				actions = getActions(); // A new set of actions are produced. Then these actions are analyzed
+				analyzeutility();
+/*
+ * Switch player after new action and analyzeutility has been performed olj 11.08.20				
+ */
+				if(playerTomove.getPlayerName() == playerTomove.getWhitePlayer()) {
+					whitePlayer.setActive(false);
+					blackPlayer.setActive(true);
+			
+				}
+				if(playerTomove.getPlayerName() == playerTomove.getBlackPlayer()) {
+					whitePlayer.setActive(true);
+					blackPlayer.setActive(false);
+
+				}
+				if (whitePlayer.isActive())
+					playerTomove  = whitePlayer;
+				else if (blackPlayer.isActive())
+					playerTomove = blackPlayer;
+
+				
+				playerTomove.setActions(actions);
+
+
+		}
+		if (myPlayer == playerTomove && utility == 0)
+			utility = 1;
+
+//		if (piece.isActive()) { The getActions method checks if piece is active Should this be done only if a move is performed?
+/*			actions = getActions(); // A new set of actions are produced. Then these actions are analyzed
+	
+			playerTomove.setActions(actions);
+			analyzeutility();*/
+//		}
+	
+!!!795266.java!!!	analyzeutility() : void
+		int noofmoves = 0;
+		int factor = 1;
+		for (ChessAction action:actions) {
+			if (action.getPreferredPosition()!= null) {
+				AgamePiece piece = (AgamePiece) action.getChessPiece();
+				String pieceName = piece.getMyPiece().getPieceName();
+				List<ApieceMove> movements = game.getGamePlayer().getMovements();
+				if (movements != null && !movements.isEmpty()) {
+					noofmoves = movements.size() - 1;
+				}
+				int temputil = calculateUtility(piece, noofmoves,(Position) action.getPreferredPosition());
+/*				ChessPieceType pieceType = piece.getChessType();
+				if (pieceType instanceof APawn && noofmoves < 3)  {
+		 
+					factor = 10;
+					int col = piece.getMyPosition().getXyloc().getXCoOrdinate();
+					if (col > 3 && col < 5)
+						factor = 2 +factor*col; 
+				}
+				int temputil = piece.getMyPiece().getValue() + factor;
+*/
+				if (temputil > utility) {
+					utilityStack.push(new Double(utility));
+					utility = temputil;
+					chessAction = (ChessActionImpl) action;
+				}
+			}
+			if (chessAction == null) {
+				chessAction = (ChessActionImpl) actions.get(0);
+			}
+		}
+
+!!!795394.java!!!	calculateUtility(inout piece : AgamePiece, in noofMoves : int, inout preferredPosition : Position) : int
+		int pieceValue = piece.getMyPiece().getValue();
+		int posValue = 1;
+		int gameFactor = 1;
+		int temputil = 0;
+		Position position = piece.getMyPosition();
+		boolean leftHigh = preferredPosition.isCenterlefthigh();
+		boolean rightHigh = preferredPosition.isCenterrighthigh();
+		boolean leftLow = preferredPosition.isCenterleftlow();
+		boolean rightLow = preferredPosition.isCenterrightlow();
+		if (leftHigh || leftLow || rightHigh || rightLow) {
+			posValue = 4;
+		}
+		ChessPieceType pieceType = piece.getChessType();
+		if (pieceType instanceof APawn && noofMoves < 3)  {
+			gameFactor = 10;
+		}
+		if (pieceType instanceof AQueen )  {
+			gameFactor = 15;
+		}
+		if (pieceType instanceof ABishop )  {
+			gameFactor = 12;
+		}
+		if (pieceType instanceof AKnight )  {
+			gameFactor = 12;
+		}
+		if (pieceType instanceof ARook )  {
+			gameFactor = 13;
+		}
+		if (pieceType instanceof Aking )  {
+			gameFactor = 11;
+		}
+		temputil = posValue + pieceValue + gameFactor;
+		
+		return temputil;
+!!!795522.java!!!	getUtility() : double
+		return utility;
+!!!795650.java!!!	setUtility(in utility : double) : void
+		this.utility = utility;
+!!!795778.java!!!	getGameBoard() : AgameBoard
+		return gameBoard;
+!!!795906.java!!!	setGameBoard(inout gameBoard : AgameBoard) : void
+		this.gameBoard = gameBoard;
+!!!796034.java!!!	getWhitePlayer() : APlayer
+		return whitePlayer;
+!!!796162.java!!!	setWhitePlayer(inout whitePlayer : APlayer) : void
+		this.whitePlayer = whitePlayer;
+!!!796290.java!!!	getBlackPlayer() : APlayer
+		return blackPlayer;
+!!!796418.java!!!	setBlackPlayer(inout blackPlayer : APlayer) : void
+		this.blackPlayer = blackPlayer;
+!!!796546.java!!!	getChessAction() : ChessActionImpl
+		return chessAction;
+!!!796674.java!!!	setChessAction(inout chessAction : ChessActionImpl) : void
+		this.chessAction = chessAction;
+!!!796802.java!!!	getActions() : ChessAction
+//		movements.clear(); // This causes the actions to to lose their movements !!! 
+		if (actions != null)
+			actions.clear();
+		actions = null; // When actions are removed, the movements list is also cleared !!
+		List<ChessAction> actions = new ArrayList<ChessAction>();
+		playerTomove.emptyPositions(); //empties the positions held by the player's pieces
+		ArrayList<AgamePiece> pieces = playerTomove.getMygamePieces();
+		for (AgamePiece piece : pieces) {
+			if (piece.isActive()) {
+				HashMap<String,Position> reachablePositions = piece.getReacablePositions();
+				ChessAction action = new ChessActionImpl(reachablePositions,piece,playerTomove);
+				actions.add(action);
+			}
+		}
+		return actions;
+		
+!!!796930.java!!!	getAction() : ChessAction
+		
+		return chessAction;
+!!!797058.java!!!	clearMovements(inout piece : GamePiece) : void
+		AgamePiece localPiece = (AgamePiece) piece;
+		Position toPosition = localPiece.getmyPosition();
+		localPiece.restorePosition();
+		if (localPiece.getMyPosition() != toPosition) {
+			toPosition.returnPiece();
+		}
+		playedPiece = localPiece;
+
+!!!797186.java!!!	setAction(inout action : ChessAction) : void
+		this.chessAction = (ChessActionImpl) action;
+		

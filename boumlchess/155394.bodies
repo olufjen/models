@@ -1,0 +1,15 @@
+class CellWorldEnvironmentState
+!!!252546.java!!!	reset() : void
+		agentLocations.clear();
+!!!252674.java!!!	setAgentLocation(inout anAgent : Agent, inout location : Cell) : void
+		CellWorldPercept percept = agentLocations.get(anAgent);
+		if (null == percept) {
+			percept = new CellWorldPercept(location);
+			agentLocations.put(anAgent, percept);
+		} else {
+			percept.setCell(location);
+		}
+!!!252802.java!!!	getAgentLocation(inout anAgent : Agent) : Cell
+		return agentLocations.get(anAgent).getCell();
+!!!252930.java!!!	getPerceptFor(inout anAgent : Agent) : CellWorldPercept
+		return agentLocations.get(anAgent);

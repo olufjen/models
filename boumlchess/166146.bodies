@@ -1,0 +1,20 @@
+class DefaultClauseSimplifier
+!!!303618.java!!!	DefaultClauseSimplifier()
+
+!!!303746.java!!!	DefaultClauseSimplifier(inout rewrites : List<TermEquality>)
+		this.rewrites.addAll(rewrites);
+!!!303874.java!!!	simplify(inout c : Clause) : Clause
+		Clause simplified = c;
+
+		// Apply each of the rewrite rules to
+		// the clause
+		for (TermEquality te : rewrites) {
+			Clause dc = simplified;
+			// Keep applying the rewrite as many times as it
+			// can be applied before moving on to the next one.
+			while (null != (dc = demodulation.apply(te, dc))) {
+				simplified = dc;
+			}
+		}
+
+		return simplified;

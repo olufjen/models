@@ -1,0 +1,135 @@
+class FiniteBayesModel
+!!!408066.java!!!	FiniteBayesModel(inout bn : BayesianNetwork)
+		this(bn, new EnumerationAsk());
+!!!408194.java!!!	FiniteBayesModel(inout bn : BayesianNetwork, inout bi : BayesInference)
+		if (null == bn) {
+			throw new IllegalArgumentException(
+					"Bayesian Network describing the model must be specified.");
+		}
+		this.bayesNet = bn;
+		this.representation.addAll(bn.getVariablesInTopologicalOrder());
+		setBayesInference(bi);
+!!!408322.java!!!	getBayesInference() : BayesInference
+		return bayesInference;
+!!!408450.java!!!	setBayesInference(inout bi : BayesInference) : void
+		this.bayesInference = bi;
+!!!408578.java!!!	isValid() : boolean
+		// Handle rounding
+		return Math.abs(1 - prior(representation
+				.toArray(new Proposition[representation.size()]))) <= ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+!!!408706.java!!!	prior(inout  : Proposition...phi) : double
+		// Calculating the prior, therefore no relevant evidence
+		// just query over the scope of proposition phi in order
+		// to get a joint distribution for these
+		final Proposition conjunct = ProbUtil.constructConjunction(phi);
+		RandomVariable[] X = conjunct.getScope().toArray(
+				new RandomVariable[conjunct.getScope().size()]);
+		CategoricalDistribution d = bayesInference.ask(X,
+				new AssignmentProposition[0], bayesNet);
+
+		// Then calculate the probability of the propositions phi
+		// be seeing where they hold.
+		final double[] probSum = new double[1];
+		CategoricalDistribution.Iterator di = new CategoricalDistribution.Iterator() {
+			public void iterate(Map<RandomVariable, Object> possibleWorld,
+					double probability) {
+				if (conjunct.holds(possibleWorld)) {
+					probSum[0] += probability;
+				}
+			}
+		};
+		d.iterateOver(di);
+
+		return probSum[0];
+!!!408834.java!!!	posterior(inout phi : Proposition, inout  : Proposition...evidence) : double
+
+		Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+
+		// P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
+		Proposition aAndB = new ConjunctiveProposition(phi, conjEvidence);
+		double probabilityOfEvidence = prior(conjEvidence);
+		if (0 != probabilityOfEvidence) {
+			return prior(aAndB) / probabilityOfEvidence;
+		}
+
+		return 0;
+!!!408962.java!!!	getRepresentation() : RandomVariable
+		return representation;
+!!!409090.java!!!	priorDistribution(inout  : Proposition...phi) : CategoricalDistribution
+		return jointDistribution(phi);
+!!!409218.java!!!	posteriorDistribution(inout phi : Proposition, inout  : Proposition...evidence) : CategoricalDistribution
+
+		Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+
+		// P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
+		CategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
+		CategoricalDistribution dEvidence = jointDistribution(conjEvidence);
+
+		CategoricalDistribution rVal = dAandB.divideBy(dEvidence);
+		// Note: Need to ensure normalize() is called
+		// in order to handle the case where an approximate
+		// algorithm is used (i.e. won't evenly divide
+		// as will have calculated on separate approximate
+		// runs). However, this should only be done
+		// if the all of the evidences scope are bound (if not
+		// you are returning in essence a set of conditional
+		// distributions, which you do not want normalized).
+		boolean unboundEvidence = false;
+		for (Proposition e : evidence) {
+			if (e.getUnboundScope().size() > 0) {
+				unboundEvidence = true;
+				break;
+			}
+		}
+		if (!unboundEvidence) {
+			rVal.normalize();
+		}
+
+		return rVal;
+!!!409346.java!!!	jointDistribution(inout  : Proposition...propositions) : CategoricalDistribution
+		ProbabilityTable d = null;
+		final Proposition conjProp = ProbUtil
+				.constructConjunction(propositions);
+		final LinkedHashSet<RandomVariable> vars = new LinkedHashSet<RandomVariable>(
+				conjProp.getUnboundScope());
+
+		if (vars.size() > 0) {
+			RandomVariable[] distVars = new RandomVariable[vars.size()];
+			int i = 0;
+			for (RandomVariable rv : vars) {
+				distVars[i] = rv;
+				i++;
+			}
+
+			final ProbabilityTable ud = new ProbabilityTable(distVars);
+			final Object[] values = new Object[vars.size()];
+
+			CategoricalDistribution.Iterator di = new CategoricalDistribution.Iterator() {
+
+				public void iterate(Map<RandomVariable, Object> possibleWorld,
+						double probability) {
+					if (conjProp.holds(possibleWorld)) {
+						int i = 0;
+						for (RandomVariable rv : vars) {
+							values[i] = possibleWorld.get(rv);
+							i++;
+						}
+						int dIdx = ud.getIndex(values);
+						ud.setValue(dIdx, ud.getValues()[dIdx] + probability);
+					}
+				}
+			};
+
+			RandomVariable[] X = conjProp.getScope().toArray(
+					new RandomVariable[conjProp.getScope().size()]);
+			bayesInference.ask(X, new AssignmentProposition[0], bayesNet)
+					.iterateOver(di);
+
+			d = ud;
+		} else {
+			// No Unbound Variables, therefore just return
+			// the singular probability related to the proposition.
+			d = new ProbabilityTable();
+			d.setValue(0, prior(propositions));
+		}
+		return d;

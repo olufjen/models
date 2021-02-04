@@ -1,0 +1,268 @@
+format 223
+"hierarchicalsearch" // aima::core::logic::planning::hierarchicalsearch
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/planning/hierarchicalsearch/"
+  java_package "aima.core.logic.planning.hierarchicalsearch"
+  classview 134914 "hierarchicalsearch"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 170498 "HighLevelAction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.4, page
+409.<br>
+<p>
+Each HLA has one or more possible refinements, into a sequence 1
+of actions, each of which may be an HLA or a primitive action (which has no refinements
+by definition).
+
+@author samagra
+"
+      classrelation 196098 // <generalisation>
+	relation 196098 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 196098 // <generalisation>
+	  b parent class_ref 169602 // ActionSchema
+      end
+
+      attribute 177410 "refinements"
+	package explicit_type "List<ActionSchema>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 357634 "HighLevelAction"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "name" explicit_type "String"
+	  param inout name "variables" explicit_type "List<Term>"
+	  param in name "precondition" explicit_type "String"
+	  param in name "effects" explicit_type "String"
+	  param inout name "refinements" explicit_type "List<List<ActionSchema>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 357762 "addRefinement"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newRefinement" explicit_type "List<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 357890 "getRefinements"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 358018 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 170754 "HierarchicalSearchAlgorithm"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.5, page
+409.<br>
+<br>
+
+<pre>
+function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
+ frontier ← a FIFO queue with [Act] as the only element
+ loop do
+   if EMPTY?(frontier) then return failure
+   plan ← POP(frontier) / chooses the shallowest plan in frontier /
+   hla ← the first HLA in plan,or null if none
+   prefix,suffix ← the action subsequences before and after hla in plan
+   outcome ← RESULT(problem.INITIAL-STATE,prefix)
+   if hla is null then / so plan is primitive and outcome is its result /
+     if outcome satisfies problem.GOAL then return plan
+   else for each sequence in REFINEMENTS(hla,outcome,hierarchy)do
+     frontier ← INSERT(APPEND(prefix,sequence,suffix),frontier)
+</pre>
+<p>
+Figure 9.3 A breadth-first implementation of hierarchical forward planning
+search. The initial plan supplied to the algorithm is [Act]. The REFINEMENTS
+function returns a set of action sequences, one for each refinement of the
+HLA whose preconditions are satisfied by the specified state, outcome.
+
+@author samagra
+"
+      operation 357378 "heirarchicalSearch"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 1
+	  param inout name "problem" type class_ref 169986 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
+
+@param problem The planning problem.
+@return A list of actions representing the plan.
+"
+      end
+
+      operation 357506 "refinements"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 2
+	  param inout name "hla" type class_ref 169602 // ActionSchema
+	  param inout name "outcome" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The REFINEMENTS function returns a set of action sequences,
+one for each refinement of the HLA whose preconditions are
+satisfied by the specified state, outcome.
+
+@param hla     The hla to which the refinements are to be applied.
+@param outcome The state in which the refinements are to be applied.
+@return List of all refinements of the current hla in a given outcome state.
+"
+      end
+    end
+  end
+
+  deploymentview 133250 "hierarchicalsearch"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 161154 "HierarchicalSearchAlgorithm"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.PlanningProblemFactory;
+import aima.core.logic.planning.Problem;
+import aima.core.logic.planning.State;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 170754 // HierarchicalSearchAlgorithm
+      end
+    end
+
+    artifact 161282 "HighLevelAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.planning.ActionSchema;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 170498 // HighLevelAction
+      end
+    end
+  end
+end

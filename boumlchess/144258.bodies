@@ -1,0 +1,11 @@
+class WumpusResultFunction
+!!!197762.java!!!	WumpusResultFunction(inout cave : WumpusCave)
+			this.cave = cave;
+!!!197890.java!!!	apply(inout state : AgentPosition, inout action : WumpusAction) : AgentPosition
+			AgentPosition result = state;
+			switch (action) {
+				case FORWARD: result = cave.moveForward(state); break;
+				case TURN_LEFT: result = cave.turnLeft(state); break;
+				case TURN_RIGHT: result = cave.turnRight(state); break;
+			}
+			return result;

@@ -1,0 +1,339 @@
+format 223
+"kb" // aima::core::logic::propositional::kb
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/propositional/kb/"
+  java_package "aima.core.logic.propositional.kb"
+  classview 130946 "kb"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 144386 "KnowledgeBase"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Mike Stampone
+@since 31.08.20
+Added getter for the parser olj
+"
+      classrelation 149122 // sentences (<unidirectional association>)
+	relation 149122 --->
+	  stereotype "List"
+	  a role_name "sentences" init_value " new ArrayList<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 149122 // sentences (<unidirectional association>)
+	  b parent class_ref 144514 // Sentence
+      end
+
+      classrelation 149250 // asCNF (<unidirectional association>)
+	relation 149250 --->
+	  a role_name "asCNF" init_value " new ConjunctionOfClauses(Collections.emptySet())" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 149250 // asCNF (<unidirectional association>)
+	  b parent class_ref 144642 // ConjunctionOfClauses
+      end
+
+      classrelation 149378 // symbols (<unidirectional association>)
+	relation 149378 --->
+	  stereotype "Set"
+	  a role_name "symbols" init_value " new LinkedHashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 149378 // symbols (<unidirectional association>)
+	  b parent class_ref 144770 // PropositionSymbol
+      end
+
+      classrelation 149506 // parser (<unidirectional association>)
+	relation 149506 --->
+	  a role_name "parser" init_value " new PLParser()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 149506 // parser (<unidirectional association>)
+	  b parent class_ref 144898 // PLParser
+      end
+
+      operation 198018 "tell"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "aSentence" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds the specified sentence to the knowledge base.
+
+@param aSentence
+           a fact to be added to the knowledge base.
+"
+      end
+
+      operation 198146 "tell"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "aSentence" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds the specified sentence to the knowledge base.
+
+@param aSentence
+           a fact to be added to the knowledge base.
+"
+      end
+
+      operation 198274 "tellAll"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "percepts" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Each time the agent program is called, it TELLS the knowledge base what
+it perceives.
+
+@param percepts
+           what the agent perceives
+"
+      end
+
+      operation 198402 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the number of sentences in the knowledge base.
+
+@return the number of sentences in the knowledge base.
+"
+      end
+
+      operation 198530 "asSentence"
+	public return_type class_ref 144514 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the list of sentences in the knowledge base chained together as a
+single sentence.
+
+@return the list of sentences in the knowledge base chained together as a
+        single sentence.
+"
+      end
+
+      operation 198658 "asCNF"
+	public return_type class_ref 145026 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Conjunctive Normal Form (CNF) representation of the Knowledge Base.
+"
+      end
+
+      operation 198786 "getSymbols"
+	public return_type class_ref 144770 // PropositionSymbol
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a unique set of the symbols currently contained in the Knowledge Base.
+"
+      end
+
+      operation 198914 "askWithTTEntails"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "queryString" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the answer to the specified question using the TT-Entails
+algorithm.
+
+@param queryString
+           a question to ASK the knowledge base
+
+@return the answer to the specified question using the TT-Entails
+        algorithm.
+"
+      end
+
+      operation 199042 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 199170 "getSentences"
+	public return_type class_ref 144514 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the list of sentences in the knowledge base.
+
+@return the list of sentences in the knowledge base.
+"
+      end
+
+      operation 199298 "getParser"
+	public return_type class_ref 144898 // PLParser
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 199426 "setParser"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "parser" type class_ref 144898 // PLParser
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  package_ref 132482 // data
+
+  deploymentview 130178 "kb"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 140034 "KnowledgeBase"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.inference.TTEntails;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.ConjunctionOfClauses;
+import aima.core.logic.propositional.parsing.PLParser;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+import aima.core.logic.propositional.visitors.SymbolCollector;
+${definition}"
+      associated_elems
+	class_ref 144386 // KnowledgeBase
+      end
+    end
+  end
+end

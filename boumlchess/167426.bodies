@@ -1,0 +1,12 @@
+class ProofStepChainFromClause
+!!!308226.java!!!	ProofStepChainFromClause(inout chain : Chain, inout fromClause : Clause)
+		this.chain = chain;
+		this.fromClause = fromClause;
+		this.predecessors.add(fromClause.getProofStep());
+!!!308354.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!308482.java!!!	getProof() : String
+		return chain.toString();
+!!!308610.java!!!	getJustification() : String
+		return "Chain from Clause: "
+				+ fromClause.getProofStep().getStepNumber();

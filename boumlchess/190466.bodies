@@ -1,0 +1,38 @@
+class Plan
+!!!487554.java!!!	isEmpty() : boolean
+		return actionSteps.isEmpty() && ifStatements.isEmpty();
+!!!487682.java!!!	size() : int
+		return ifStatements.isEmpty() ? actionSteps.size() : actionSteps.size() + 1;
+!!!487810.java!!!	isActionStep(in step : int) : boolean
+		return step < actionSteps.size();
+!!!487938.java!!!	getAction(in step : int) : A
+		return actionSteps.get(step);
+!!!488066.java!!!	getPlan(in step : int, inout state : S) : Plan
+		if (isActionStep(step) || step != actionSteps.size())
+			throw new IllegalArgumentException("Specified step is not conditional.");
+		for (IfStatement<S, A> ifStatement : ifStatements) {
+			if (ifStatement.testCondition(state))
+				return ifStatement.getPlan();
+		}
+		return null; // no matching plan found for the given state.
+!!!488194.java!!!	prepend(inout action : A) : Plan
+		actionSteps.add(0, action);
+		return this;
+!!!488322.java!!!	addIfStatement(inout state : S, inout plan : Plan) : void
+		ifStatements.add(new IfStatement<>(state, plan));
+!!!488450.java!!!	toString() : String
+		StringBuilder s = new StringBuilder();
+		s.append("[");
+		int count = 0;
+		for (A step : actionSteps) {
+			if (count++ > 0)
+				s.append(", ");
+			s.append(step);
+		}
+		for (IfStatement<S, A> ifStatement : ifStatements) {
+			if (count++ > 0)
+				s.append(", ");
+			s.append(ifStatement);
+		}
+		s.append("]");
+		return s.toString();

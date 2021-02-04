@@ -1,0 +1,46 @@
+class InformationGatheringAgent
+!!!391426.java!!!	InformationGatheringAgent(inout decisionNetwork : DecisionNetwork, inout inferenceMethod : BayesInference, inout initialEvidence : List<AssignmentProposition>)
+        this.decisionNetwork = decisionNetwork;
+        this.inferenceMethod = inferenceMethod;
+        this.observedEvidence = initialEvidence;
+        this.randomVars = this.decisionNetwork.getNetwork().getVariablesInTopologicalOrder();
+!!!391554.java!!!	InformationGatheringAgent(inout decisionNetwork : DecisionNetwork, inout inferenceMethod : BayesInference)
+        this(decisionNetwork, inferenceMethod, new ArrayList<>());
+!!!391682.java!!!	execute(inout percept : Percept) : Action
+        // integrate percept into D
+        observedEvidence = integratePercept(observedEvidence, percept);
+
+        // j ← the value that maximizes VPI(Ej) / Cost(Ej)
+        List<Double> vpiPerUnitCosts = this.vpiPerUnitCost(this.randomVars);
+        int j = vpiPerUnitCosts.indexOf(Collections.max(vpiPerUnitCosts));
+        RandomVariable randomVar = this.randomVars.get(j);
+
+        // if VPI(Ej) > Cost(Ej)
+        if (getVpi(randomVar) > getCost(randomVar)) {
+            // return REQUEST(Ej)
+            return this.request(randomVar);
+        }
+        // else return the best action from D
+        return ((Action) decisionNetwork.getBestAction());
+!!!391938.java!!!	vpiPerUnitCost(inout variablesInTopologicalOrder : List<RandomVariable>) : List<Double>
+        List<Double> vpiPerUnitCost = new ArrayList<>();
+        for (RandomVariable var :
+                variablesInTopologicalOrder) {
+            vpiPerUnitCost.add(getVpi(var) / getCost(var));
+        }
+        return vpiPerUnitCost;
+!!!392194.java!!!	getVpi(inout var : RandomVariable) : double
+        double vpi = 0;
+        CategoricalDistribution distribution = inferenceMethod.ask((new RandomVariable[]{var}),
+                ((AssignmentProposition[]) observedEvidence.toArray()), decisionNetwork.getNetwork());
+        for (Object value :
+                ((FiniteDomain) var.getDomain()).getPossibleValues()) {
+            double posterierProb = distribution.getValue(value);
+            List<AssignmentProposition> modifiedEvidence = new ArrayList<>(observedEvidence);
+            modifiedEvidence.add(new AssignmentProposition(var, value));
+            double expectedUtilityForParticularValue = decisionNetwork.getExpectedUtility(var,
+                    modifiedEvidence);
+            vpi += posterierProb * expectedUtilityForParticularValue;
+        }
+        vpi -= decisionNetwork.getExpectedUtility(var, observedEvidence);
+        return vpi;

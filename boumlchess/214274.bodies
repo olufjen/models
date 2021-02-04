@@ -1,0 +1,61 @@
+class AbstractMapAgentController
+!!!599682.java!!!	clear() : void
+		((MapAgentView) frame.getEnvView()).clearTracks();
+		if (!isPrepared())
+			prepare(null);
+!!!599810.java!!!	prepare(in changedSelectors : String) : void
+		MapAgentFrame.SelectionState state = frame.getSelection();
+		selectScenarioAndDest(state.getIndex(MapAgentFrame.SCENARIO_SEL), state
+				.getIndex(MapAgentFrame.DESTINATION_SEL));
+		prepareView();
+		heuristic = createHeuristic(state.getIndex(MapAgentFrame.HEURISTIC_SEL));
+		search = SearchFactory.<String, MoveToAction>getInstance().createSearch(
+				state.getIndex(MapAgentFrame.SEARCH_SEL),
+				state.getIndex(MapAgentFrame.Q_SEARCH_IMPL_SEL), heuristic);
+		isPrepared = true;
+!!!599938.java!!!	isPrepared() : boolean
+		return isPrepared && (scenario.getEnv().getAgents().isEmpty()
+				|| !scenario.getEnv().isDone());
+!!!600066.java!!!	run(inout logger : MessageLogger) : void
+		logger.log("<simulation-protocol>");
+		logger.log("search: " + search.getClass().getName());
+		if (heuristic != null)
+			logger.log("heuristic: " + heuristic.getClass().getName());
+		MapEnvironment env = scenario.getEnv();
+		if (env.getAgents().isEmpty())
+			initAgents(logger);
+		try {
+			while (!env.isDone() && !frame.simulationPaused()) {
+				Thread.sleep(sleepTime);
+				env.step();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		logger.log("</simulation-protocol>\n");
+!!!600194.java!!!	step(inout logger : MessageLogger) : void
+		MapEnvironment env = scenario.getEnv();
+		if (env.getAgents().isEmpty())
+			initAgents(logger);
+		env.step();
+!!!600322.java!!!	update(inout simulationThread : SimulationThread) : void
+		if (simulationThread.isCancelled()) {
+			frame.setStatus("Task canceled.");
+			isPrepared = false;
+		} else if (frame.simulationPaused()){
+			frame.setStatus("Task paused.");
+		} else {
+			StringBuilder statusMsg = new StringBuilder();
+			statusMsg.append("Task completed");
+			List<Agent> agents = scenario.getEnv().getAgents();
+			if (agents.size() == 1) {
+				Double travelDistance = scenario.getEnv().getAgentTravelDistance(
+						agents.get(0));
+				if (travelDistance != null) {
+					DecimalFormat f = new DecimalFormat("#0.0");
+					statusMsg.append("; travel distance: ").append(f.format(travelDistance));
+				}
+			}
+			statusMsg.append(".");
+			frame.setStatus(statusMsg.toString());
+		}

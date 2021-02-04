@@ -1,0 +1,41 @@
+class ExtendableMap
+!!!162562.java!!!	ExtendableMap()
+		links = new LabeledGraph<String, Double>();
+		locationPositions = new Hashtable<String, Point2D>();
+!!!162690.java!!!	clear() : void
+		links.clear();
+		locationPositions.clear();
+!!!162818.java!!!	clearLinks() : void
+		links.clear();
+!!!162946.java!!!	getLocations() : List<String>
+		return links.getVertexLabels();
+!!!163074.java!!!	isLocation(in str : String) : boolean
+		return links.isVertexLabel(str);
+!!!163202.java!!!	getPossibleNextLocations(in location : String) : List<String>
+		List<String> result = links.getSuccessors(location);
+		Collections.sort(result);
+		return result;
+!!!163330.java!!!	getPossiblePrevLocations(in location : String) : List<String>
+		return getPossibleNextLocations(location);
+!!!163458.java!!!	getDistance(in fromLocation : String, in toLocation : String) : Double
+		return links.get(fromLocation, toLocation);
+!!!163586.java!!!	addUnidirectionalLink(in fromLocation : String, in toLocation : String, inout distance : Double) : void
+		links.set(fromLocation, toLocation, distance);
+!!!163714.java!!!	addBidirectionalLink(in fromLocation : String, in toLocation : String, inout distance : Double) : void
+		links.set(fromLocation, toLocation, distance);
+		links.set(toLocation, fromLocation, distance);
+!!!163842.java!!!	randomlyGenerateDestination() : String
+		return Util.selectRandomlyFromList(getLocations());
+!!!163970.java!!!	removeUnidirectionalLink(in fromLocation : String, in toLocation : String) : void
+		links.remove(fromLocation, toLocation);
+!!!164098.java!!!	removeBidirectionalLink(in fromLocation : String, in toLocation : String) : void
+		links.remove(fromLocation, toLocation);
+		links.remove(toLocation, fromLocation);
+!!!164226.java!!!	setPosition(in loc : String, in x : double, in y : double) : void
+		locationPositions.put(loc, new Point2D(x, y));
+!!!164354.java!!!	setDistAndDirToRefLocation(in loc : String, in dist : double, in dir : int) : void
+		Point2D coords = new Point2D(-Math.sin(dir * Math.PI / 180.0) * dist, Math.cos(dir * Math.PI / 180.0) * dist);
+		links.addVertex(loc);
+		locationPositions.put(loc, coords);
+!!!164482.java!!!	getPosition(in loc : String) : Point2D
+		return locationPositions.get(loc);

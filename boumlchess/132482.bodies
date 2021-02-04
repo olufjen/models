@@ -1,0 +1,36 @@
+class CellWorld
+!!!144514.java!!!	CellWorld(in xDimension : int, in yDimension : int, inout defaultCellContent : C)
+		for (int x = 1; x <= xDimension; x++) {
+			Map<Integer, Cell<C>> xCol = new HashMap<Integer, Cell<C>>();
+			for (int y = 1; y <= yDimension; y++) {
+				Cell<C> c = new Cell<C>(x, y, defaultCellContent);
+				cells.add(c);
+				xCol.put(y, c);
+			}
+			cellLookup.put(x, xCol);
+		}
+!!!144642.java!!!	getCells() : Cell
+		return cells;
+!!!144770.java!!!	result(inout s : Cell, inout a : CellWorldAction) : Cell
+		Cell<C> sDelta = getCellAt(a.getXResult(s.getX()), a.getYResult(s
+				.getY()));
+		if (null == sDelta) {
+			// Default to no effect
+			// (i.e. bumps back in place as no adjoining cell).
+			sDelta = s;
+		}
+
+		return sDelta;
+!!!144898.java!!!	removeCell(in x : int, in y : int) : void
+		Map<Integer, Cell<C>> xCol = cellLookup.get(x);
+		if (null != xCol) {
+			cells.remove(xCol.remove(y));
+		}
+!!!145026.java!!!	getCellAt(in x : int, in y : int) : Cell
+		Cell<C> c = null;
+		Map<Integer, Cell<C>> xCol = cellLookup.get(x);
+		if (null != xCol) {
+			c = xCol.get(y);
+		}
+
+		return c;

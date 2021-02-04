@@ -1,0 +1,979 @@
+format 223
+"agent" // aima::core::agent
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/agent/"
+  java_package "aima.core.agent"
+  classview 128002 "agent"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 128002 "Action"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Describes an Action that can or has been taken by an Agent via one of its
+Actuators.
+
+@author Ciaran O'Reilly
+"
+      operation 128002 "isNoOp"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates whether or not this Action is a 'No Operation'.<br>
+Note: AIMA3e - NoOp, or no operation, is the name of an assembly language
+instruction that does nothing.
+
+@return true if this is a NoOp Action.
+"
+      end
+    end
+
+    class 128130 "Agent"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.1, page 35.<br>
+
+Figure 2.1 Agents interact with environments through sensors and actuators.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 128002 // <generalisation>
+	relation 128002 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 128002 // <generalisation>
+	  b parent class_ref 128258 // EnvironmentObject
+      end
+
+      operation 128130 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Call the Agent's program, which maps any given percept sequences to an
+action.
+
+@param percept
+           The current percept of a sequence perceived by the Agent.
+@return the Action to be taken in response to the currently perceived
+        percept.
+"
+      end
+
+      operation 128258 "isAlive"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Life-cycle indicator as to the liveness of an Agent.
+
+@return true if the Agent is to be considered alive, false otherwise.
+"
+      end
+
+      operation 128386 "setAlive"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "alive" explicit_type "boolean"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Set the current liveness of the Agent.
+
+@param alive
+           set to true if the Agent is to be considered alive, false
+           otherwise.
+"
+      end
+    end
+
+    class 128258 "EnvironmentObject"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An interface used to indicate any object that can belong within an
+Environment.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+    end
+
+    class 128386 "Percept"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pg 34.<br>
+We use the term percept to refer the agent's perceptual inputs at any given
+instant.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+    end
+
+    class 128514 "AgentProgram"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pg 35.<br>
+An agent's behavior is described by the 'agent function' that maps any given
+percept sequence to an action. Internally, the agent function for an
+artificial agent will be implemented by an agent program.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      operation 128514 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The Agent's program, which maps any given percept sequences to an action.
+
+@param percept
+           The current percept of a sequence perceived by the Agent.
+@return the Action to be taken in response to the currently perceived
+        percept.
+"
+      end
+    end
+
+    class 128642 "DTAgent"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 13.1, page 484.<br>
+
+Figure 13.1  A decision-theoretic agent that selects rational actions.
+<br>
+
+<pre>
+function DT-AGENT(percept) returns an action
+  persistent: belief_state, probabilistic beliefs about the current state of the world
+              action, the agent's action
+
+  update belief_state based on action and percept
+  calculate outcome probabilities for actions
+     given action descriptions and current belief state
+  select action with highest expected utility
+     given probabilities of outcomes and utility information
+  return action
+
+</pre>
+
+ @author Ritwik Sharma
+ @author samagra
+"
+      classrelation 128386 // <generalisation>
+	relation 128386 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 128386 // <generalisation>
+	  b parent class_ref 128770 // AbstractAgent
+      end
+
+      classrelation 128514 // belief_state (<unidirectional association>)
+	relation 128514 --->
+	  a role_name "belief_state" package
+	    comment "
+@param belief_state
+           	      probabilistic beliefs about the current state of the world.
+@param action
+             the agent's action
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<Action,Percept> ${name}${value};
+"
+	    classrelation_ref 128514 // belief_state (<unidirectional association>)
+	  b parent class_ref 128898 // BeliefState
+      end
+
+      classrelation 128642 // action (<unidirectional association>)
+	relation 128642 --->
+	  a role_name "action" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 128642 // action (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 128770 // action_descriptions (<unidirectional association>)
+	relation 128770 --->
+	  stereotype "List"
+	  a role_name "action_descriptions" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 128770 // action_descriptions (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      operation 129282 "perceive"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 129410 "cal_action_probabilities"
+	abstract package return_type class_ref 129026 // Pair
+	nparams 2
+	  param inout name "action_description" explicit_type "List<Action>"
+	  param inout name "belief_state" type class_ref 128898 // BeliefState
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}<Action,Double>> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param action_description 
+			        permissible action descriptions
+@param belief_state  
+			  current belief state of the agent about the world
+@return The next action to be taken.
+"
+      end
+
+      operation 129538 "action_with_highest_expected_utility"
+	abstract public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "action_probabilities" explicit_type "List<Pair<Action,Double>>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param action_probabilities 
+			          Probabilities of various outcomes
+@return Action with the highest probability.
+"
+      end
+    end
+
+    class 129154 "Environment"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An abstract description of possible discrete Environments in which Agent(s)
+can perceive and act.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      operation 129666 "getAgents"
+	public return_type class_ref 128130 // Agent
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the Agents belonging to this Environment.
+
+@return The Agents belonging to this Environment.
+"
+      end
+
+      operation 129794 "addAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add an agent to the Environment.
+
+@param agent
+           the agent to be added.
+"
+      end
+
+      operation 129922 "removeAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove an agent from the environment.
+
+@param agent
+           the agent to be removed.
+"
+      end
+
+      operation 130050 "getEnvironmentObjects"
+	public return_type class_ref 128258 // EnvironmentObject
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the EnvironmentObjects that exist in this Environment.
+
+@return the EnvironmentObjects that exist in this Environment.
+"
+      end
+
+      operation 130178 "addEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add an EnvironmentObject to the Environment.
+
+@param eo
+           the EnvironmentObject to be added.
+"
+      end
+
+      operation 130306 "removeEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove an EnvironmentObject from the Environment.
+
+@param eo
+           the EnvironmentObject to be removed.
+"
+      end
+
+      operation 130434 "step"
+	public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Move the Environment one time step forward.
+"
+      end
+
+      operation 130562 "step"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "n" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Move the Environment n time steps forward.
+
+@param n
+           the number of time steps to move the Environment forward.
+"
+      end
+
+      operation 130690 "stepUntilDone"
+	public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Step through time steps until the Environment has no more tasks.
+"
+      end
+
+      operation 130818 "isDone"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns <code>true</code> if the Environment is finished with its current
+task(s).
+
+@return <code>true</code> if the Environment is finished with its current
+        task(s).
+"
+      end
+
+      operation 130946 "getPerformanceMeasure"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "forAgent" type class_ref 128130 // Agent
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve the performance measure associated with an Agent.
+
+@param forAgent
+           the Agent for which a performance measure is to be retrieved.
+@return the performance measure associated with the Agent.
+"
+      end
+
+      operation 131074 "addEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a view on the Environment.
+
+@param ev
+           the EnvironmentView to be added.
+"
+      end
+
+      operation 131202 "removeEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove a view on the Environment.
+
+@param ev
+           the EnvironmentView to be removed.
+"
+      end
+
+      operation 131330 "notifyViews"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Notify all registered EnvironmentViews of a message.
+
+@param msg
+           the message to notify the registered EnvironmentViews with.
+"
+      end
+    end
+
+    class 129282 "EnvironmentView"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Allows external applications/logic to view the interaction of Agent(s) with
+an Environment.
+
+@author Ravi Mohan
+@author Ciaran O'Reilly
+@author Mike Stampone
+@author Ruediger Lunde
+"
+      operation 131458 "notify"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A simple notification message from an object in the Environment.
+
+@param msg
+           the message received.
+"
+      end
+
+      operation 131586 "agentAdded"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates an Agent has been added to the environment and what it
+perceives initially.
+
+@param agent
+           the Agent just added to the Environment.
+@param source
+           the Environment to which the agent was added.
+"
+      end
+
+      operation 131714 "agentActed"
+	public explicit_return_type "void"
+	nparams 4
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "action" type class_ref 128002 // Action
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates the Environment has changed as a result of an Agent's action.
+
+@param agent
+           the Agent that performed the Action.
+@param percept
+           the Percept the Agent received from the environment.
+@param action
+           the Action the Agent performed.
+@param source
+           the Environment in which the agent has acted.
+"
+      end
+    end
+
+    class 129410 "EnvironmentState"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An interface used to indicate a possible state of an Environment.
+
+@author Ciaran O'Reilly
+"
+    end
+
+    class 129538 "EnvironmentViewNotifier"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 131842 "notifyViews"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A simple notification message, to be forwarded to an Environment's
+registered EnvironmentViews.
+
+@param msg
+           the message to be forwarded to the EnvironmentViews.
+"
+      end
+    end
+
+    class 129666 "Model"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pg 50.<br>
+
+This knowledge about \"how the world works\" - whether implemented in simple
+Boolean circuits or in complete scientific theories - is called a model of
+the world. An Agent that uses such a model is called a model-based agent.
+
+@author Ciaran O'Reilly
+"
+    end
+
+    class 129794 "State"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): pg 50.<br>
+
+The most effective way to handle partial observability is for the agent to
+keep track of the part of the world it can't see now. That is, the agent
+should maintain some sort of internal state that depends on the percept
+history and thereby reflects at least some of the unobserved aspects of the
+current state.
+
+@author Ciaran O'Reilly
+"
+    end
+  end
+
+  deploymentview 128002 "agent"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 128002 "Action"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128002 // Action
+      end
+    end
+
+    artifact 128130 "EnvironmentObject"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128258 // EnvironmentObject
+      end
+    end
+
+    artifact 128258 "Agent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128130 // Agent
+      end
+    end
+
+    artifact 128386 "AgentProgram"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128514 // AgentProgram
+      end
+    end
+
+    artifact 128642 "DTAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.agent.Percept;
+import aima.core.agent.impl.AbstractAgent;
+import aima.core.probability.BeliefState;
+import aima.core.util.datastructure.Pair;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 128642 // DTAgent
+      end
+    end
+
+    artifact 128770 "Environment"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 129154 // Environment
+      end
+    end
+
+    artifact 128898 "EnvironmentState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 129410 // EnvironmentState
+      end
+    end
+
+    artifact 129026 "EnvironmentView"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 129282 // EnvironmentView
+      end
+    end
+
+    artifact 129154 "EnvironmentViewNotifier"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 129538 // EnvironmentViewNotifier
+      end
+    end
+
+    artifact 129282 "Model"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 129666 // Model
+      end
+    end
+
+    artifact 129410 "Percept"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 128386 // Percept
+      end
+    end
+
+    artifact 129538 "State"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 129794 // State
+      end
+    end
+  end
+
+  package_ref 128386 // impl
+end

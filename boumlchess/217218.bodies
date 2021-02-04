@@ -1,0 +1,100 @@
+class MapDrawer
+!!!612482.java!!!	MapDrawer()
+				this.setBackground(GuiBase.getTextColor());
+!!!612610.java!!!	drawMap() : void
+	        	mapLoaded = true;
+	        	repaint();
+!!!612738.java!!!	deleteMap() : void
+	        	mapLoaded = false;
+	    		repaint();
+!!!612866.java!!!	clearMap() : void
+	        	samples = null;
+	        	gotResult = false;
+	        	repaint();
+!!!612994.java!!!	drawParticles(inout samples : Set<P>) : void
+	        	this.samples = samples;
+	        	repaint();
+!!!613122.java!!!	showResult(inout result : P) : void
+	    	   locResult = result;
+	    	   gotResult = true;
+	    	   repaint();
+!!!613250.java!!!	clearResult() : boolean
+	        	if(gotResult) {
+	        		gotResult = false;
+	        		return true;
+	        	}
+	        	return false;
+!!!613378.java!!!	drawRobot(inout initialized : boolean) : void
+				robotInitialized = initialized;
+				repaint();
+!!!613506.java!!!	scaleMap() : void
+	        	final double calcXScaleFactor = (double) getWidth()  / mapWidth;
+				final double calcYScaleFactor = (double) getHeight() / mapHeight;
+				if((Double.isInfinite(calcXScaleFactor) && Double.isInfinite(calcYScaleFactor)) || (Double.isNaN(calcXScaleFactor) && Double.isNaN(calcYScaleFactor))) {
+					minScaleFactor = 1.0d;
+				} else if(calcXScaleFactor >= calcYScaleFactor || Double.isNaN(calcXScaleFactor)) {
+					minScaleFactor = calcYScaleFactor - 0.0010d;
+				} else {
+					minScaleFactor = calcXScaleFactor - 0.0005d;
+				}
+				realScaleFactor = jSliderZoom.getValue() == 1 ? minScaleFactor : jSliderZoom.getValue() / 10 + 1;
+				double realMapWidth = mapWidth * realScaleFactor;
+				double realMapHeight = mapHeight * realScaleFactor;
+				scrollListener.setNotify(false);
+				if(realMapWidth <= getWidth()) {
+					horizontalScroll.setEnabled(false);
+					horizontalScroll.setValues(0,0,0,0);
+				} else {
+					realMapWidth *= 1.2d;
+					horizontalScroll.setValues((int) (horizontalScrollValue + getWidth() > realMapWidth ? realMapWidth - getWidth() : horizontalScrollValue), getWidth(), 0, (int) realMapWidth);
+					if(!horizontalScroll.isEnabled()) horizontalScroll.setEnabled(true);
+				}
+				if(realMapHeight <= getHeight()) {
+					verticalScroll.setEnabled(false);
+					verticalScroll.setValues(0,0,0,0);
+				} else {
+					realMapHeight *= 1.2d;
+					verticalScroll.setValues((int) (verticalScrollValue + getHeight() > realMapHeight ? realMapHeight - getHeight() : verticalScrollValue), getHeight(), 0, (int) realMapHeight);
+					if(!verticalScroll.isEnabled()) verticalScroll.setEnabled(true);
+				}
+				scrollListener.setNotify(true);
+	        	repaint();
+!!!613634.java!!!	paint(inout gra : Graphics) : void
+				super.paint(gra);
+				if(mapLoaded) {
+					Graphics2D g2d = (Graphics2D) gra;
+					g2d.translate(translateX*realScaleFactor-horizontalScroll.getValue(),translateY*realScaleFactor-verticalScroll.getValue());
+					g2d.scale(realScaleFactor, realScaleFactor);
+					//Draw the map:
+					Iterator<IGeometric2D> areaIterator = map.getAreas();
+					Iterator<IGeometric2D> obstacleIterator = map.getObstacles();
+					while (areaIterator.hasNext()) {
+						g2d.setColor(GuiBase.getAreaColor());
+						g2d.draw(GraphicsTransfer2D.transfer(areaIterator.next()));
+					}
+					while (obstacleIterator.hasNext()) {
+						g2d.setColor(GuiBase.getBackgroundColor());
+						Shape shape = GraphicsTransfer2D.transfer(obstacleIterator.next());
+						g2d.draw(shape);
+						g2d.fill(shape);
+					}
+					if(samples != null) {
+						//Draw the samples onto the map:
+						for (P sample: samples) {
+							g2d.setColor(Color.GREEN);
+							g2d.fillOval((int) sample.getX() - POSE_WIDTH/2, (int) sample.getY() - POSE_HEIGHT/2, POSE_WIDTH, POSE_HEIGHT);
+							final double h = sample.getHeading();
+							final int x2 = (int) (sample.getX() + POSE_WIDTH * Math.cos(h));
+							final int y2 = (int) (sample.getY() + POSE_HEIGHT * Math.sin(h));
+							g2d.drawLine((int) sample.getX(), (int) sample.getY(), x2, y2);
+						}
+					}
+					if(robotInitialized && robot instanceof VirtualRobot) {
+						g2d.setColor(Color.BLACK);
+						g2d.fillOval((int) ((VirtualRobot) robot).getPose().getX() - POSE_WIDTH/2, (int) ((VirtualRobot) robot).getPose().getY() - POSE_HEIGHT/2, POSE_WIDTH, POSE_HEIGHT);
+					}
+					if(gotResult) {
+						g2d.setColor(Color.BLUE);
+						g2d.drawOval((int) (locResult.getX() - core.maxParticleDistance / 2), (int) (locResult.getY() - core.maxParticleDistance / 2), (int) core.maxParticleDistance, (int) core.maxParticleDistance);
+					}
+				}

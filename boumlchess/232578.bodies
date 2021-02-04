@@ -1,0 +1,163 @@
+class ChessPiece
+!!!708994.java!!!	ChessPiece(in position : String, in color : String, in name : String, inout legalMoves : String [[]])
+		super();
+		this.position = position;
+//		this.column = position.substring(0, 1);
+		this.color = color;
+		this.name = name;
+		this.legalMoves = legalMoves;
+		this.value = 0;
+		this.pieceName = name.substring(1);
+		calculateValue();
+!!!709122.java!!!	createOntologyPiece(inout modelContainer : OntologyContainer, in newName : String) : void
+		String name = "http://www.co-ode.org/ontologies/ont.owl#" + newName;
+		no.chess.ontology.ChessPiece newPiece = modelContainer.getChessFactory().createPiece(name);
+		if (blackPiece != null)
+			blackPiece = null;
+		whitePiece = (Piece) newPiece;
+		System.out.println(whitePiece.toString());
+!!!709250.java!!!	setcorrectPieceName(inout names : HashSet<String>) : void
+		for (String o : names) {
+			name = o.toString();
+		}
+		pieceName = name.substring(1);
+
+!!!709378.java!!!	getMyPiece() : AgamePiece
+		return myPiece;
+!!!709506.java!!!	setMyPiece(inout myPiece : AgamePiece) : void
+		this.myPiece = myPiece;
+!!!709634.java!!!	getOntlogyName() : String
+		if (ontlogyName == null)
+			ontlogyName = "x";
+		return ontlogyName;
+!!!709762.java!!!	getFullName() : String
+		return fullName;
+!!!709890.java!!!	setFullName(in fullName : String) : void
+		this.fullName = fullName;
+!!!710018.java!!!	setOntlogyName(in ontlogyName : String) : void
+		this.ontlogyName = ontlogyName;
+!!!710146.java!!!	getPieceName() : String
+		return pieceName;
+!!!710274.java!!!	setPieceName(in pieceName : String) : void
+		this.pieceName = pieceName;
+!!!710402.java!!!	getBlackPiece() : Piece
+		return blackPiece;
+!!!710530.java!!!	setBlackPiece(inout blackPiece : Piece) : void
+		this.blackPiece = blackPiece;
+		HashSet<String> names = (HashSet<String>) this.blackPiece.getHasName();
+		setcorrectPieceName(names);
+!!!710658.java!!!	getWhitePiece() : Piece
+		return whitePiece;
+
+!!!710786.java!!!	setWhitePiece(inout whitePiece : Piece) : void
+		this.whitePiece = whitePiece;
+		HashSet<String> names = (HashSet<String>) this.whitePiece.getHasName();
+		setcorrectPieceName(names);
+!!!710914.java!!!	setWhitePiece(inout whitePiece : DefaultWhitePiece) : void
+		this.whitePiece = whitePiece;
+		HashSet<String> names = (HashSet<String>) this.whitePiece.getHasName();
+		setcorrectPieceName(names);
+!!!711042.java!!!	getBlackBoardPosition() : BlackBoardPosition
+		return blackBoardPosition;
+!!!711170.java!!!	setBlackBoardPosition(inout blackBoardPosition : BlackBoardPosition) : void
+		this.blackBoardPosition = blackBoardPosition;
+!!!711298.java!!!	getWhiteBoardPosition() : WhiteBoardPosition
+		return whiteBoardPosition;
+!!!711426.java!!!	setWhiteBoardPosition(inout whiteBoardPosition : WhiteBoardPosition) : void
+		this.whiteBoardPosition = whiteBoardPosition;
+!!!711554.java!!!	acceptMove(in newPos : String, inout oldPosition : Position, inout newPosition : Position) : boolean
+		ChessPiece opposingPiece = newPosition.getUsedBy();
+		boolean accept = false;
+		if (blackPiece == null && opposingPiece.getWhitePiece() == null) {
+       	   	oldPosition.setUsedBy(); // The start position is emptied
+//           	oldPosition.setInUse(false);
+           	HashSet pieces = oldPosition.getPieces();
+           	newPosition.setUsedBy(this);
+        	newPosition.setInUse(true);
+        	newPosition.setPieces(pieces);
+        	accept = true;
+ /*
+  * Setting opponent piece passive: added 21.04.20       	
+  */
+        	opposingPiece.setUse(false);
+        	opposingPiece.getMyPiece().setActive(false);
+//        	opposingPiece.setValue(-1); //How to set a piece inactive (vacant)? See Ontology
+			// move is legal. Later: Check move according to rules given for this piece
+		}
+		if (whitePiece == null && opposingPiece.getBlackPiece() == null) {
+			// Move is legal
+       	   	oldPosition.setUsedBy();
+//           	oldPosition.setInUse(false);
+           	HashSet pieces = oldPosition.getPieces();
+           	newPosition.setUsedBy(this);
+        	newPosition.setInUse(true);
+        	newPosition.setPieces(pieces);
+//        	opposingPiece.setValue(-1); //How to set a piece inactive (vacant)? See Ontology
+        	accept = true;
+ /*
+ * Setting opponent piece passive: added 21.04.20       	
+ */        	
+        	opposingPiece.setUse(false);
+        	opposingPiece.getMyPiece().setActive(false);
+		}
+		return accept;
+!!!711682.java!!!	calculateValue() : void
+		char t = name.charAt(1);
+		switch(t)
+		{
+		case 'P':
+			value = 1;
+			break;
+		case 'R':
+			value = 5;
+			break;
+		case 'B':
+			value = 3;
+			break;
+		case 'N':
+			value = 3;
+			break;	
+		case 'Q':
+			value = 9;
+			break;
+		default:
+			value = 0;
+			break;
+		}
+!!!711810.java!!!	calculateMoves() : void
+		
+!!!711938.java!!!	isUse() : boolean
+		return use;
+!!!712066.java!!!	setUse(inout use : boolean) : void
+		this.use = use;
+!!!712194.java!!!	getColumn() : String
+		return column;
+!!!712322.java!!!	setColumn(in column : String) : void
+		this.column = column;
+!!!712450.java!!!	getName() : String
+		return name;
+!!!712578.java!!!	setName(in name : String) : void
+		this.name = name;
+!!!712706.java!!!	getLegalMoves() : String
+		return legalMoves;
+!!!712834.java!!!	setLegalMoves(inout legalMoves : String [[]]) : void
+		this.legalMoves = legalMoves;
+!!!712962.java!!!	getPosition() : String
+		return position;
+!!!713090.java!!!	setPosition(in position : String) : void
+		this.position = position;
+		this.column = position.substring(0, 1);
+!!!713218.java!!!	getColor() : String
+		return color;
+!!!713346.java!!!	setColor(in color : String) : void
+		this.color = color;
+!!!713474.java!!!	getValue() : int
+		return value;
+!!!713602.java!!!	setValue(in value : int) : void
+		this.value = value;
+!!!713730.java!!!	toString() : String
+		StringBuilder result = new StringBuilder();
+		result.append("no.chess.web.model.ChessPiece Ontology name "+ontlogyName+"\nChesspiece position "+position.toString());
+		if (getMyPiece() != null)
+			result.append("\n Piece active: "+getMyPiece().isActive());
+		return result.toString();

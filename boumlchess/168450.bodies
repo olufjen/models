@@ -1,0 +1,24 @@
+class ProofStepFoChAssertFact
+!!!312322.java!!!	ProofStepFoChAssertFact(inout implication : Clause, inout fact : Literal, inout bindings : Map<Variable, Term>, inout predecessor : ProofStep)
+		this.implication = implication;
+		this.fact = fact;
+		this.bindings = bindings;
+		if (null != predecessor) {
+			predecessors.add(predecessor);
+		}
+!!!312450.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!312578.java!!!	getProof() : String
+		StringBuilder sb = new StringBuilder();
+		List<Literal> nLits = implication.getNegativeLiterals();
+		for (int i = 0; i < implication.getNumberNegativeLiterals(); i++) {
+			sb.append(nLits.get(i).getAtomicSentence());
+			if (i != (implication.getNumberNegativeLiterals() - 1)) {
+				sb.append(" AND ");
+			}
+		}
+		sb.append(" => ");
+		sb.append(implication.getPositiveLiterals().get(0));
+		return sb.toString();
+!!!312706.java!!!	getJustification() : String
+		return "Assert fact " + fact.toString() + ", " + bindings;

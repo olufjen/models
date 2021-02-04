@@ -1,0 +1,1732 @@
+format 223
+"inference" // aima::core::logic::propositional::inference
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/propositional/inference/"
+  java_package "aima.core.logic.propositional.inference"
+  classview 130818 "inference"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 143490 "DPLL"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Interface describing main API of the DPLL algorithm as described in Figure
+7.17 but not how it should be implemented. This is to allow for
+experimentation with different implementations to explore different
+performance optimization strategies as described on p.g.s 261-262 of AIMA3e 
+(i.e. 1. component analysis, 2. variable and value ordering, 
+3. intelligent backtracking, 4. random restarts, and 5. clever indexing).
+
+@author Ciaran O'Reilly
+
+"
+      operation 358914 "dpllSatisfiable"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "DPLL-SATISFIABLE?(s)<br>
+Checks the satisfiability of a sentence in propositional logic.
+
+@param s
+           a sentence in propositional logic.
+@return true if the sentence is satisfiable, false otherwise.
+"
+      end
+
+      operation 359042 "dpll"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "DPLL(clauses, symbols, model)<br>
+
+@param clauses
+           the set of clauses.
+@param symbols
+           a list of unassigned symbols.
+@param model
+           contains the values for assigned symbols.
+@return true if the model is satisfiable under current assignments, false
+        otherwise.
+"
+      end
+
+      operation 359170 "isEntailed"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
+
+@param kb
+           a Knowledge Base in propositional logic.
+@param alpha
+           a propositional sentence.
+@return true, if &alpha; is entailed by KB, false otherwise.
+"
+      end
+    end
+
+    class 171138 "DPLLSatisfiable"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
+<br>
+
+<pre>
+<code>
+function DPLL-SATISFIABLE?(s) returns true or false
+  inputs: s, a sentence in propositional logic.
+  
+  clauses &larr; the set of clauses in the CNF representation of s
+  symbols &larr; a list of the proposition symbols in s
+  return DPLL(clauses, symbols, {})
+
+--------------------------------------------------------------------------------
+
+function DPLL(clauses, symbols, model) returns true or false
+  
+  if every clause in clauses is true in model then return true
+  if some clause in clauses is false in model then return false
+  P, value &larr; FIND-PURE-SYMBOL(symbols, clauses, model)
+  if P is non-null then return DPLL(clauses, symbols - P, model &cup; {P = value})
+  P, value &larr; FIND-UNIT-CLAUSE(clauses, model)
+  if P is non-null then return DPLL(clauses, symbols - P, model &cup; {P = value})
+  P &larr; FIRST(symbols); rest &larr; REST(symbols)
+  return DPLL(clauses, rest, model &cup; {P = true}) or
+         DPLL(clauses, rest, model &cup; {P = false})
+</code>
+</pre>
+
+Figure 7.17 The DPLL algorithm for checking satisfiability of a sentence in
+propositional logic. The ideas behind FIND-PURE-SYMBOL and FIND-UNIT-CLAUSE
+are described in the test; each returns a symbol (or null) and the truth
+value to assign to that symbol. Like TT-ENTAILS?, DPLL operates over partial
+models.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      classrelation 196482 // <realization>
+	relation 196482 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 196482 // <realization>
+	  b parent class_ref 143490 // DPLL
+      end
+
+      operation 359298 "dpllSatisfiable"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "DPLL-SATISFIABLE?(s)<br>
+Checks the satisfiability of a sentence in propositional logic.
+
+@param s
+           a sentence in propositional logic.
+@return true if the sentence is satisfiable, false otherwise.
+"
+      end
+
+      operation 359426 "dpll"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "DPLL(clauses, symbols, model)<br>
+
+@param clauses
+           the set of clauses.
+@param symbols
+           a list of unassigned symbols.
+@param model
+           contains the values for assigned symbols.
+@return true if the model is satisfiable under current assignments, false
+        otherwise.
+"
+      end
+
+      operation 359554 "isEntailed"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " SUPPORTING CODE
+
+
+Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
+
+@param kb
+           a Knowledge Base in propositional logic.
+@param alpha
+           a propositional sentence.
+@return true, if &alpha; is entailed by KB, false otherwise.
+"
+      end
+
+      operation 359682 "getPropositionSymbolsInSentence"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED:
+
+ Note: Override this method if you wish to change the initial variable
+ ordering when dpllSatisfiable is called."
+      end
+
+      operation 359810 "findPureSymbol"
+	protected return_type class_ref 129026 // Pair
+	nparams 3
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PropositionSymbol, Boolean> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "AIMA3e p.g. 260:<br>
+<quote><i>Pure symbol heuristic:</i> A <b>pure symbol</b> is a symbol
+that always appears with the same \"sign\" in all clauses. For example, in
+the three clauses (A | ~B), (~B | ~C), and (C | A), the symbol A is pure
+because only the positive literal appears, B is pure because only the
+negative literal appears, and C is impure. It is easy to see that if a
+sentence has a model, then it has a model with the pure symbols assigned
+so as to make their literals true, because doing so can never make a
+clause false. Note that, in determining the purity of a symbol, the
+algorithm can ignore clauses that are already known to be true in the
+model constructed so far. For example, if the model contains B=false,
+then the clause (~B | ~C) is already true, and in the remaining clauses C
+appears only as a positive literal; therefore C becomes pure.</quote>
+
+@param symbols
+           a list of currently unassigned symbols in the model (to be
+           checked if pure or not).
+@param clauses
+@param model
+@return a proposition symbol and value pair identifying a pure symbol and
+        a value to be assigned to it, otherwise null if no pure symbol
+        can be identified.
+"
+      end
+
+      operation 359938 "findUnitClause"
+	protected return_type class_ref 129026 // Pair
+	nparams 2
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PropositionSymbol, Boolean> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "AIMA3e p.g. 260:<br>
+<quote><i>Unit clause heuristic:</i> A <b>unit clause</b> was defined
+earlier as a clause with just one literal. In the context of DPLL, it
+also means clauses in which all literals but one are already assigned
+false by the model. For example, if the model contains B = true, then (~B
+| ~C) simplifies to ~C, which is a unit clause. Obviously, for this
+clause to be true, C must be set to false. The unit clause heuristic
+assigns all such symbols before branching on the remainder. One important
+consequence of the heuristic is that any attempt to prove (by refutation)
+a literal that is already in the knowledge base will succeed immediately.
+Notice also that assigning one unit clause can create another unit clause
+- for example, when C is set to false, (C | A) becomes a unit clause,
+causing true to be assigned to A. This \"cascade\" of forced assignments is
+called <b>unit propagation</b>. It resembles the process of forward
+chaining with definite clauses, and indeed, if the CNF expression
+contains only definite clauses then DPLL essentially replicates forward
+chaining.</quote>
+
+@param clauses
+@param model
+@return a proposition symbol and value pair identifying a unit clause and
+        a value to be assigned to it, otherwise null if no unit clause
+        can be identified.
+"
+      end
+
+      operation 360066 "everyClauseTrue"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 360194 "someClauseFalse"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 360322 "minus"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "p" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " symbols - P"
+      end
+    end
+
+    class 171266 "OptimizedDPLL"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 196610 // <realization>
+	relation 196610 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 196610 // <realization>
+	  b parent class_ref 143490 // DPLL
+      end
+
+      operation 360450 "dpllSatisfiable"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-DPLL"
+      end
+
+      operation 360578 "dpll"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "DPLL(clauses, symbols, model)<br>
+
+@param clauses
+           the set of clauses.
+@param symbols
+           a list of unassigned symbols.
+@param model
+           contains the values for assigned symbols.
+@return true if the model is satisfiable under current assignments, false
+        otherwise.
+"
+      end
+
+      operation 360706 "isEntailed"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
+
+@param kb
+           a Knowledge Base in propositional logic.
+@param alpha
+           a propositional sentence.
+@return true, if &alpha; is entailed by KB, false otherwise.
+"
+      end
+
+      operation 360834 "getPropositionSymbolsInSentence"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-DPLL
+
+
+ PROTECTED
+
+ Note: Override this method if you wish to change the initial variable
+ ordering when dpllSatisfiable is called."
+      end
+
+      operation 360962 "callDPLL"
+	protected explicit_return_type "boolean"
+	nparams 5
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	  param inout name "p" type class_ref 144770 // PropositionSymbol
+	  param inout name "value" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 361090 "findPureSymbol"
+	protected return_type class_ref 129026 // Pair
+	nparams 3
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PropositionSymbol, Boolean> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "AIMA3e p.g. 260:<br>
+<quote><i>Pure symbol heuristic:</i> A <b>pure symbol</b> is a symbol
+that always appears with the same \"sign\" in all clauses. For example, in
+the three clauses (A | ~B), (~B | ~C), and (C | A), the symbol A is pure
+because only the positive literal appears, B is pure because only the
+negative literal appears, and C is impure. It is easy to see that if a
+sentence has a model, then it has a model with the pure symbols assigned
+so as to make their literals true, because doing so can never make a
+clause false. Note that, in determining the purity of a symbol, the
+algorithm can ignore clauses that are already known to be true in the
+model constructed so far. For example, if the model contains B=false,
+then the clause (~B | ~C) is already true, and in the remaining clauses C
+appears only as a positive literal; therefore C becomes pure.</quote>
+
+@param symbols
+           a list of currently unassigned symbols in the model (to be
+           checked if pure or not).
+@param clauses
+@param model
+@return a proposition symbol and value pair identifying a pure symbol and
+        a value to be assigned to it, otherwise null if no pure symbol
+        can be identified.
+"
+      end
+
+      operation 361218 "findUnitClause"
+	protected return_type class_ref 129026 // Pair
+	nparams 2
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PropositionSymbol, Boolean> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "AIMA3e p.g. 260:<br>
+<quote><i>Unit clause heuristic:</i> A <b>unit clause</b> was defined
+earlier as a clause with just one literal. In the context of DPLL, it
+also means clauses in which all literals but one are already assigned
+false by the model. For example, if the model contains B = true, then (~B
+| ~C) simplifies to ~C, which is a unit clause. Obviously, for this
+clause to be true, C must be set to false. The unit clause heuristic
+assigns all such symbols before branching on the remainder. One important
+consequence of the heuristic is that any attempt to prove (by refutation)
+a literal that is already in the knowledge base will succeed immediately.
+Notice also that assigning one unit clause can create another unit clause
+- for example, when C is set to false, (C | A) becomes a unit clause,
+causing true to be assigned to A. This \"cascade\" of forced assignments is
+called <b>unit propagation</b>. It resembles the process of forward
+chaining with definite clauses, and indeed, if the CNF expression
+contains only definite clauses then DPLL essentially replicates forward
+chaining.</quote>
+
+@param clauses
+@param model
+@return a proposition symbol and value pair identifying a unit clause and
+        a value to be assigned to it, otherwise null if no unit clause
+        can be identified.
+"
+      end
+
+      operation 361346 "minus"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "p" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " symbols - P"
+      end
+    end
+
+    class 171394 "PLFCEntails"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 258.<br>
+<br>
+
+<pre>
+<code>
+function PL-FC-ENTAILS?(KB, q) returns true or false
+  inputs: KB, the knowledge base, a set of propositional definite clauses
+          q, the query, a proposition symbol
+  count &larr; a table, where count[c] is the number of symbols in c's premise
+  inferred &larr; a table, where inferred[s] is initially false for all symbols
+  agenda &larr; a queue of symbols, initially symbols known to be true in KB
+  
+  while agenda is not empty do
+    p &larr; Pop(agenda)
+    if p = q then return true
+    if inferred[p] = false then
+       inferred[p] &larr; true
+       for each clause c in KB where p is in c.PREMISE do
+           decrement count[c]
+           if count[c] = 0 then add c.CONCLUSION to agenda
+  return false
+</code>
+</pre>
+
+Figure 7.15 the forward-chaining algorithm for propositional logic. The
+<i>agenda</i> keeps track of symbols known to be true but not yet
+\"processed\". The <i>count</i> table keeps track of how many premises of each
+implication are as yet unknown. Whenever a new symbol p from the agenda is
+processed, the count is reduced by one for each implication in whose premise
+p appears (easily identified in constant time with appropriate indexing.) If
+a count reaches zero, all the premises of the implication are known, so its
+conclusion can be added to the agenda. Finally, we need to keep track of
+which symbols have been processed; a symbol that is already in the set of
+inferred symbols need not be added to the agenda again. This avoids redundant
+work and prevents loops caused by implications such as P &rArr; Q and Q
+&rArr; P.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 361474 "plfcEntails"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "q" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-FC-ENTAILS?(KB, q)<br>
+The forward-chaining algorithm for propositional logic.
+
+@param kb
+           the knowledge base, a set of propositional definite clauses.
+@param q
+           q, the query, a proposition symbol
+@return true if KB |= q, false otherwise.
+@throws IllegalArgumentException
+            if KB contains any non-definite clauses.
+"
+      end
+
+      operation 361602 "initializeCount"
+	protected return_type class_ref 145026 // Clause
+	nparams 1
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Integer> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " SUPPORTING CODE
+
+
+ PROTECTED
+"
+      end
+
+      operation 361730 "initializeInferred"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Boolean> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 361858 "initializeAgenda"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Queue<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: at the point of calling this routine, count will contain all the
+ clauses in KB."
+      end
+
+      operation 361986 "initializeIndex"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	  param inout name "inferred" explicit_type "Map<PropositionSymbol, Boolean>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Set<Clause>> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: at the point of calling this routine, count will contain all the
+ clauses in KB while inferred will contain all the proposition symbols."
+      end
+
+      operation 362114 "decrement"
+	protected explicit_return_type "void"
+	nparams 2
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	  param inout name "c" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 362242 "conclusion"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "c" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 171522 "PLResolution"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 255.<br>
+<br>
+
+<pre>
+<code>
+function PL-RESOLUTION(KB, &alpha;) returns true or false
+   inputs: KB, the knowledge base, a sentence in propositional logic
+           &alpha;, the query, a sentence in propositional logic
+           
+   clauses &larr; the set of clauses in the CNF representation of KB &and; &not;&alpha;
+   new &larr; {}
+   loop do
+      for each pair of clauses C<sub>i</sub>, C<sub>j</sub> in clauses do
+         resolvents &larr; PL-RESOLVE(C<sub>i</sub>, C<sub>j</sub>)
+         if resolvents contains the empty clause then return true
+         new &larr; new &cup; resolvents
+      if new &sube; clauses then return false
+      clauses &larr; clauses &cup; new
+</code>
+</pre>
+
+Figure 7.12 A simple resolution algorithm for propositional logic. The
+function PL-RESOLVE returns the set of all possible clauses obtained by
+resolving its two inputs.<br>
+<br>
+Note: Optional optimization added to implementation whereby tautological
+clauses can be removed during processing of the algorithm - see pg. 254 of
+AIMA3e:<br>
+<blockquote> Inspection of Figure 7.13 reveals that many resolution steps are
+pointless. For example, the clause B<sub>1,1</sub> &or; &not;B<sub>1,1</sub>
+&or; P<sub>1,2</sub> is equivalent to <i>True</i> &or; P<sub>1,2</sub> which
+is equivalent to <i>True</i>. Deducing that <i>True</i> is true is not very
+helpful. Therefore, any clauses in which two complementary literals appear
+can be discarded. </blockquote>
+
+@see Clause#isTautology()
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 362370 "plResolution"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-RESOLUTION(KB, &alpha;)<br>
+A simple resolution algorithm for propositional logic.
+
+@param kb
+           the knowledge base, a sentence in propositional logic.
+@param alpha
+           the query, a sentence in propositional logic.
+@return true if KB |= &alpha;, false otherwise.
+"
+      end
+
+      operation 362498 "plResolve"
+	public return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "ci" type class_ref 145026 // Clause
+	  param inout name "cj" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-RESOLVE(C<sub>i</sub>, C<sub>j</sub>)<br>
+Calculate the set of all possible clauses by resolving its two inputs.
+
+@param ci
+           clause 1
+@param cj
+           clause 2
+@return the set of all possible clauses obtained by resolving its two
+        inputs.
+"
+      end
+
+      attribute 177666 "discardTautologies"
+	private explicit_type "boolean"
+	init_value " true"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " SUPPORTING CODE
+
+"
+      end
+
+      operation 362626 "PLResolution"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default constructor, which will set the algorithm to discard tautologies
+by default.
+"
+      end
+
+      operation 362754 "PLResolution"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "discardTautologies" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param discardTautologies
+           true if the algorithm is to discard tautological clauses
+           during processing, false otherwise.
+"
+      end
+
+      operation 362882 "isDiscardTautologies"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return true if the algorithm will discard tautological clauses during
+        processing.
+"
+      end
+
+      operation 363010 "setDiscardTautologies"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "discardTautologies" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine whether or not the algorithm should discard tautological
+clauses during processing.
+
+@param discardTautologies
+"
+      end
+
+      operation 363138 "setOfClausesInTheCNFRepresentationOfKBAndNotAlpha"
+	protected return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
+
+      operation 363266 "resolvePositiveWithNegative"
+	protected explicit_return_type "void"
+	nparams 3
+	  param inout name "c1" type class_ref 145026 // Clause
+	  param inout name "c2" type class_ref 145026 // Clause
+	  param inout name "resolvents" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 363394 "discardTautologies"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Utility routine for removing the tautological clauses from a set (in
+ place)."
+      end
+    end
+
+    class 171650 "SATPlan"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
+<br>
+
+<pre>
+<code>
+function SATPlan(init, transition, goal, T<sub>max</sub>) returns solution or failure
+  inputs: init, transition, goal, constitute a description of the problem
+          T<sub>max</sub>, an upper limit for plan length
+  
+  for t = 0 to T<sub>max</sub> do
+      cnf &larr;  TRANSLATE-TO-SAT(init, transition, goal, t)
+      model &larr; SAT-SOLVER(cnf)
+      if model is not null then
+          return EXTRACT-SOLUTION(model)
+  return failure
+</code>
+</pre>
+
+Figure 7.22 The SATPlan algorithm. The planning problem is translated into a CNF
+sentence in which the goal is asserted to hold at a fixed time step t and axioms are included
+for each time step up to t. If the satisfiability algorithm finds a model, then a plan is
+extracted by looking at those proposition symbols that refer to actions and are assigned true
+in the model. If no model exists, then the process is repeated with the goal moved one step later. 
+
+@author Ciaran O'Reilly
+"
+      operation 363522 "satPlan"
+	public return_type class_ref 128002 // Action
+	nparams 4
+	  param inout name "init" type class_ref 171778 // Describe
+	  param inout name "transition" type class_ref 171778 // Describe
+	  param inout name "goal" type class_ref 171778 // Describe
+	  param in name "tMax" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function SATPlan(init, transition, goal, T<sub>max</sub>) returns
+solution or failure<br>
+
+@param init
+           provides a collection of assertions about the initial state.
+@param transition
+           provides the successor-state axioms for all possible actions
+           at each time step up to some maximum t.
+@param goal
+           provides the assertion that the goal is achieved at time t.
+@param tMax
+           the maximum number of time steps in which the goal is to be
+           achieved in.
+@return a list of actions describing a solution for the given problem or
+        null if no solution is found (i.e failure)
+"
+      end
+
+      class 171778 "Describe"
+	visibility package stereotype "interface"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 363650 "assertions"
+	  public return_type class_ref 144514 // Sentence
+	  nparams 1
+	    param in name "t" explicit_type "int"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 171906 "SolutionExtractor"
+	visibility package stereotype "interface"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 363778 "extractSolution"
+	  public return_type class_ref 128002 // Action
+	  nparams 1
+	    param inout name "model" type class_ref 171010 // Model
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 196738 // satSolver (<unidirectional association>)
+	relation 196738 --->
+	  a role_name "satSolver" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 196738 // satSolver (<unidirectional association>)
+	  b parent class_ref 172034 // SATSolver
+      end
+
+      classrelation 196866 // solutionExtractor (<unidirectional association>)
+	relation 196866 --->
+	  a role_name "solutionExtractor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 196866 // solutionExtractor (<unidirectional association>)
+	  b parent class_ref 171906 // SolutionExtractor
+      end
+
+      operation 363906 "SATPlan"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "satSolver" type class_ref 172034 // SATSolver
+	  param inout name "solutionExtractor" type class_ref 171906 // SolutionExtractor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 364034 "translateToSAT"
+	protected return_type class_ref 145026 // Clause
+	nparams 4
+	  param inout name "init" type class_ref 171778 // Describe
+	  param inout name "transition" type class_ref 171778 // Describe
+	  param inout name "goal" type class_ref 171778 // Describe
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
+    end
+
+    class 172034 "SATSolver"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Basic interface to a SAT Solver.
+
+@author Ciaran O'Reilly
+
+"
+      operation 364162 "solve"
+	public return_type class_ref 171010 // Model
+	nparams 1
+	  param inout name "cnf" explicit_type "Set<Clause>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Solve a given problem in CNF format.
+
+@param cnf
+       a CNF representation of the problem to be solved.
+@return a satisfiable model or null if it cannot be satisfied.
+"
+      end
+    end
+
+    class 172162 "TTEntails"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.10, page
+248.<br>
+<br>
+
+<pre>
+function TT-ENTAILS?(KB, &alpha;) returns true or false
+  inputs: KB, the knowledge base, a sentence in propositional logic
+          &alpha;, the query, a sentence in propositional logic
+          
+  symbols <- a list of proposition symbols in KB and &alpha
+  return TT-CHECK-ALL(KB, &alpha; symbols, {})
+  
+--------------------------------------------------------------------------------
+
+function TT-CHECK-ALL(KB, &alpha; symbols, model) returns true or false
+  if EMPTY?(symbols) then
+    if PL-TRUE?(KB, model) then return PL-TRUE?(&alpha;, model)
+    else return true // when KB is false, always return true
+  else do
+    P <- FIRST(symbols)
+    rest <- REST(symbols)
+    return (TT-CHECK-ALL(KB, &alpha;, rest, model &cup; { P = true })
+           and
+           TT-CHECK-ALL(KB, &alpha;, rest, model &cup; { P = false }))
+</pre>
+
+Figure 7.10 A truth-table enumeration algorithm for deciding propositional
+entailment. (TT stands for truth table.) PL-TRUE? returns true if a sentence
+holds within a model. The variable model represents a partional model - an
+assignment to some of the symbols. The keyword <b>\"and\"</b> is used here as a
+logical operation on its two arguments, returning true or false.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 364290 "ttEntails"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function TT-ENTAILS?(KB, &alpha;) returns true or false.
+
+@param kb
+           KB, the knowledge base, a sentence in propositional logic
+@param alpha
+           &alpha;, the query, a sentence in propositional logic
+
+@return true if KB entails &alpha;, false otherwise.
+"
+      end
+
+      operation 364418 "ttCheckAll"
+	public explicit_return_type "boolean"
+	nparams 4
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function TT-CHECK-ALL(KB, &alpha; symbols, model) returns true or false
+
+@param kb
+           KB, the knowledge base, a sentence in propositional logic
+@param alpha
+           &alpha;, the query, a sentence in propositional logic
+@param symbols
+           a list of currently unassigned propositional symbols in the
+           model.
+@param model
+           a partially or fully assigned model for the given KB and
+           query.
+@return true if KB entails &alpha;, false otherwise.
+"
+      end
+    end
+
+    class 172290 "WalkSAT"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 263.<br>
+<br>
+
+<pre>
+<code>
+function WALKSAT(clauses, p, max_flips) returns a satisfying model or failure
+  inputs: clauses, a set of clauses in propositional logic
+          p, the probability of choosing to do a \"random walk\" move, typically around 0.5
+          max_flips, number of flips allowed before giving up
+          
+  model <- a random assignment of true/false to the symbols in clauses
+  for i = 1 to max_flips do
+      if model satisfies clauses then return model
+      clause <- a randomly selected clause from clauses that is false in model
+      with probability p flip the value in model of a randomly selected symbol from clause
+      else flip whichever symbol in clause maximizes the number of satisfied clauses
+  return failure
+</code>
+</pre>
+
+Figure 7.18 The WALKSAT algorithm for checking satisfiability by randomly
+flipping the values of variables. Many versions of the algorithm exist.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+"
+      operation 364546 "walkSAT"
+	public return_type class_ref 171010 // Model
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param in name "p" explicit_type "double"
+	  param in name "maxFlips" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "WALKSAT(clauses, p, max_flips)<br>
+
+@param clauses
+           a set of clauses in propositional logic
+@param p
+           the probability of choosing to do a \"random walk\" move,
+           typically around 0.5
+@param maxFlips
+           number of flips allowed before giving up. Note: a value < 0 is
+           interpreted as infinity.
+
+@return a satisfying model or failure (null).
+"
+      end
+
+      attribute 177794 "random"
+	private explicit_type "Random"
+	init_value " new Random()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " SUPPORTING CODE
+
+"
+      end
+
+      operation 364674 "WalkSAT"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default Constructor.
+"
+      end
+
+      operation 364802 "WalkSAT"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "random" explicit_type "Random"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param random
+           the random generator to be used by the algorithm.
+"
+      end
+
+      operation 364930 "assertLegalProbability"
+	protected explicit_return_type "void"
+	nparams 1
+	  param in name "p" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
+
+      operation 365058 "randomAssignmentToSymbolsInClauses"
+	protected return_type class_ref 171010 // Model
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 365186 "randomlySelectFalseClause"
+	protected return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 365314 "randomlySelectSymbolFromClause"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "clause" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 365442 "flipSymbolInClauseMaximizesNumberSatisfiedClauses"
+	protected return_type class_ref 171010 // Model
+	nparams 3
+	  param inout name "clause" type class_ref 145026 // Clause
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 133506 "inference"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 161538 "DPLL"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+${definition}"
+      associated_elems
+	class_ref 143490 // DPLL
+      end
+    end
+
+    artifact 161666 "DPLLSatisfiable"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Literal;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+import aima.core.logic.propositional.visitors.SymbolCollector;
+import aima.core.util.Tasks;
+import aima.core.util.Util;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 171138 // DPLLSatisfiable
+      end
+    end
+
+    artifact 161794 "OptimizedDPLL"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Literal;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+import aima.core.logic.propositional.visitors.SymbolCollector;
+import aima.core.util.Tasks;
+import aima.core.util.Util;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 171266 // OptimizedDPLL
+      end
+    end
+
+    artifact 161922 "PLFCEntails"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+import aima.core.logic.propositional.visitors.SymbolCollector;
+${definition}"
+      associated_elems
+	class_ref 171394 // PLFCEntails
+      end
+    end
+
+    artifact 162050 "PLResolution"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Literal;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Connective;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+import aima.core.util.SetOps;
+${definition}"
+      associated_elems
+	class_ref 171522 // PLResolution
+      end
+    end
+
+    artifact 162178 "SATPlan"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.ComplexSentence;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.ConvertToConjunctionOfClauses;
+${definition}"
+      associated_elems
+	class_ref 171650 // SATPlan
+      end
+    end
+
+    artifact 162306 "SATSolver"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Model;
+${definition}"
+      associated_elems
+	class_ref 172034 // SATSolver
+      end
+    end
+
+    artifact 162434 "TTEntails"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.logic.propositional.kb.KnowledgeBase;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+import aima.core.logic.propositional.parsing.ast.Sentence;
+import aima.core.logic.propositional.visitors.SymbolCollector;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 172162 // TTEntails
+      end
+    end
+
+    artifact 162562 "WalkSAT"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import aima.core.logic.propositional.kb.data.Clause;
+import aima.core.logic.propositional.kb.data.Model;
+import aima.core.logic.propositional.parsing.ast.PropositionSymbol;
+${definition}"
+      associated_elems
+	class_ref 172290 // WalkSAT
+      end
+    end
+  end
+end

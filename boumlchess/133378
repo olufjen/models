@@ -1,0 +1,1403 @@
+format 223
+"knowledge" // aima::core::learning::knowledge
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/knowledge/"
+  java_package "aima.core.learning.knowledge"
+  classview 132098 "knowledge"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 148226 "CurrentBestLearning"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 19.2, page
+771.<br>
+<br>
+
+<pre>
+function CURRENT-BEST-LEARNING(examples, h) returns a hypothesis or fail
+
+  if examples is empty then
+     return h
+  e <- FIRST(examples)
+  if e is consistent with h then
+     return CURRENT-BEST-LEARNING(REST(examples), h)
+  else if e is a false positive for h then
+    for each h' in specializations of h consistent with examples seen so far do
+      h'' <- CURRENT-BEST-LEARNING(REST(examples), h')
+      if h'' != fail then return h''
+  else if e is a false negative for h then
+    for each h' in generalization of h consistent with examples seen so far do
+      h'' <- CURRENT-BEST-LEARNING(REST(examples), h')
+      if h'' != fail then return h''
+  return fail
+</pre>
+<p>
+Figure 19.2 The current-best-hypothesis learning algorithm. It searches for a
+consistent hypothesis that fits all the examples and backtracks when no
+consistent specialization/generalization can be found. To start the
+algorithm, any hypothesis can be passed in; it will be specialized or
+generalized as needed.
+
+@author Ciaran O'Reilly
+@author samagra
+"
+      operation 220162 "currentBestLearning"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 3
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	  param inout name "h" type class_ref 148354 // Hypothesis
+	  param inout name "examplesSoFar" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function CURRENT-BEST-LEARNING(examples, h) returns a hypothesis or fail
+
+@param examples
+@param h
+@param examplesSoFar
+@return
+"
+      end
+    end
+
+    class 148354 "Hypothesis"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+@author samagra
+"
+      attribute 156290 "goal"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 156418 "hypothesis"
+	private explicit_type "HashMap<String, String>"
+	init_value " new ArrayList<>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Treated as conjunction of literals"
+      end
+
+      operation 224642 "Hypothesis"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "goal" explicit_type "String"
+	  param inout name "attributes" explicit_type "List<HashMap<String, String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 224770 "isConsistent"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 224898 "predict"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225026 "satisfiesConjunction"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	  param inout name "conjunction" explicit_type "HashMap<String, String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225154 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 225282 "getGoal"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225410 "getHypothesis"
+	public explicit_return_type "List<HashMap<String, String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225538 "specialisations"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 1
+	  param inout name "examplesSoFar" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225666 "isConsistent"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "examplesSoFar" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 225794 "generalisations"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 1
+	  param inout name "examplesSoFar" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 148482 "FOIL"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 220290 "foil"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "examples" explicit_type "List<List<HashMap<Variable,Constant>>>"
+	  param inout name "target" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 220418 "newClause"
+	private return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "examples" explicit_type "List<List<HashMap<Variable, Constant>>>"
+	  param inout name "target" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 220546 "extendExample"
+	private explicit_return_type "List<List<HashMap<Variable,Constant>>>"
+	nparams 2
+	  param inout name "example" explicit_type "HashMap<Variable,Constant>"
+	  param inout name "literal" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 148866 "FOLDataSetDomain"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 152834 // <generalisation>
+	relation 152834 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 152834 // <generalisation>
+	  b parent class_ref 148994 // FOLDomain
+      end
+
+      attribute 155394 "allowableCharactersRegEx"
+	class_attribute private explicit_type "Pattern"
+	init_value " Pattern
+			.compile(\"[^a-zA-Z_$0-9]\")"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 152962 // dataSetSpecification (<unidirectional association>)
+	relation 152962 --->
+	  a role_name "dataSetSpecification" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 152962 // dataSetSpecification (<unidirectional association>)
+	  b parent class_ref 146434 // DataSetSpecification
+      end
+
+      attribute 155522 "trueGoalValue"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 155650 "examplePrefix"
+	private explicit_type "String"
+	init_value " \"X\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Default example prefix, see pg679 of AIMA
+"
+      end
+
+      attribute 155778 "descriptionPredicateNames"
+	private explicit_type "String"
+	init_value " new ArrayList<String>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 155906 "descriptionDataSetNames"
+	private explicit_type "String"
+	init_value " new ArrayList<String>()"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 156034 "dsToFOLNameMap"
+	private explicit_type "String, String"
+	init_value " new HashMap<String, String>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 222594 "FOLDataSetDomain"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "dataSetSpecification" type class_ref 146434 // DataSetSpecification
+	  param in name "trueGoalValue" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+"
+      end
+
+      operation 222722 "getDataSetTargetName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 222850 "getGoalPredicateName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 222978 "getTrueGoalValue"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223106 "getDescriptionPredicateNames"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223234 "getDescriptionDataSetNames"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223362 "isMultivalued"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "descriptiveDataSetName" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223490 "getExampleConstant"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "egNo" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223618 "getFOLName"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "dsName" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 223746 "constructFOLDomain"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 149378 "FOLExample"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 153090 // folDSDomain (<unidirectional association>)
+	relation 153090 --->
+	  a role_name "folDSDomain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153090 // folDSDomain (<unidirectional association>)
+	  b parent class_ref 148866 // FOLDataSetDomain
+      end
+
+      classrelation 153218 // example (<unidirectional association>)
+	relation 153218 --->
+	  a role_name "example" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153218 // example (<unidirectional association>)
+	  b parent class_ref 146306 // Example
+      end
+
+      attribute 156162 "egNo"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 153346 // ithExampleConstant (<unidirectional association>)
+	relation 153346 --->
+	  a role_name "ithExampleConstant" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153346 // ithExampleConstant (<unidirectional association>)
+	  b parent class_ref 149506 // Constant
+      end
+
+      classrelation 153474 // classification (<unidirectional association>)
+	relation 153474 --->
+	  a role_name "classification" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153474 // classification (<unidirectional association>)
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 153602 // description (<unidirectional association>)
+	relation 153602 --->
+	  a role_name "description" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 153602 // description (<unidirectional association>)
+	  b parent class_ref 149634 // Sentence
+      end
+
+      operation 223874 "FOLExample"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "folDSDomain" type class_ref 148866 // FOLDataSetDomain
+	  param inout name "example" type class_ref 146306 // Example
+	  param in name "egNo" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+"
+      end
+
+      operation 224002 "getExampleNumber"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 224130 "getClassification"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 224258 "getDescription"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 224386 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 224514 "constructFOLEg"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 149762 "LogicalExample"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author samagra
+"
+      attribute 156546 "attributes"
+	package explicit_type "String, String"
+	init_value " new HashMap<>()"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 156674 "goal"
+	package explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 226434 "LogicalExample"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "attributeNames" explicit_type "List<String>"
+	  param inout name "attributeValues" explicit_type "List<String>"
+	  param inout name "goal" explicit_type "boolean"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226562 "LogicalExample"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "attributeNames" explicit_type "List<String>"
+	  param inout name "attributeValus" explicit_type "List<String>"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226690 "getAttributes"
+	public explicit_return_type "HashMap<String, String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226818 "getGoal"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 149890 "KnowledgeLearningProblemFactory"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author samagra
+"
+      operation 225922 "getRestaurantLogicalExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226050 "getConductanceMeasurementProblem"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226178 "getExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 3
+	  param inout name "attrs" explicit_type "List<String>"
+	  param inout name "goal" explicit_type "boolean"
+	  param inout name "" explicit_type "String...values"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 226306 "getExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 2
+	  param inout name "attrs" explicit_type "List<String>"
+	  param inout name "" explicit_type "String...values"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 150018 "MinimalConsistentDet"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 19.2, page
+771.<br>
+<br>
+
+<pre>
+
+function Minimal-Consistent-Det(E, A) returns a set of attributes
+ inputs: E, a set of examples
+     A, a set of attributes, of size n
+
+ for i = 0 to n do
+   for each subset Ai of A of size i do
+     if Consistent-Det?(Ai, E) then return Ai
+</pre>
+<pre>
+function Consistent-Det?(A, E) returns a truth value
+ inputs: A, a set of attributes
+     E, a set of examples
+ local variables: H, a hash table
+
+ for each example e in E do
+   if some example in H has the same values as e for the attributes A
+    but a different classification then return false
+   store the class of e in_H_, indexed by the values for attributes A of the example e
+ return true
+</pre>
+<p>
+Figure ?? An algorithm for finding a minimal consistent determination.
+
+@author samagra
+"
+      operation 226946 "minimalConsistentDet"
+	public explicit_return_type "Set<String>"
+	nparams 2
+	  param inout name "e" explicit_type "List<LogicalExample>"
+	  param inout name "a" explicit_type "Set<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Minimal-Consistent-Det(E, A) returns a set of attributes
+
+@param e
+ inputs: E, a set of examples
+@param a
+     A, a set of attributes, of size n
+@return
+"
+      end
+
+      operation 227074 "consistentDet"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "attributes" explicit_type "List<String>"
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Consistent-Det?(A, E) returns a truth value
+
+@param attributes
+inputs: A, a set of attributes
+@param examples
+     E, a set of examples
+@return
+"
+      end
+    end
+
+    class 150146 "VersionSpace"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "We can represent the entire version space using just two boundary sets: a most general boundary (the G-set) and a most
+specific boundary (the S-set). Everything in between is guaranteed to be consistent with the
+examples.
+
+@author samagra
+"
+      classrelation 153730 // mostGeneralSet (<unidirectional association>)
+	relation 153730 --->
+	  stereotype "HashSet"
+	  a role_name "mostGeneralSet" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 153730 // mostGeneralSet (<unidirectional association>)
+	  b parent class_ref 148354 // Hypothesis
+      end
+
+      classrelation 153858 // mostSpecificSet (<unidirectional association>)
+	relation 153858 --->
+	  stereotype "HashSet"
+	  a role_name "mostSpecificSet" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 153858 // mostSpecificSet (<unidirectional association>)
+	  b parent class_ref 148354 // Hypothesis
+      end
+
+      operation 227202 "VersionSpace"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227330 "immediateGeneralisation"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 2
+	  param inout name "sSet" explicit_type "HashSet<Hypothesis>"
+	  param inout name "e" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227458 "immediateSpecialisation"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 2
+	  param inout name "gSet" explicit_type "HashSet<Hypothesis>"
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227586 "predictFromGeneralisedSet"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227714 "predictFromSpecialisedSet"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227842 "getMostGeneralSet"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 227970 "setMostGeneralSet"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "mostGeneralSet" explicit_type "HashSet<Hypothesis>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 228098 "setMostSpecificSet"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "mostSpecificSet" explicit_type "HashSet<Hypothesis>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 228226 "getMostSpecificSet"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 228354 "predict"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 150274 "VersionSpaceLearning"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 19.2, page
+771.<br>
+<br>
+
+<pre>
+
+function Version-Space-Learning(examples) returns a version space
+ local variables: V, the version space: the set of all hypotheses
+
+ V  the set of all hypotheses
+ for each example e in examples do
+   if V is not empty then V  Version-Space-Update(V, e)
+ return V
+
+</pre>
+<pre>
+    function Version-Space-Update(V, e) returns an updated version space
+          V  {h ∈ V : h is consistent with e}
+</pre>
+<p>
+    Figure 19.3 The version space learning algorithm. It
+    finds a subset of V that is consistent with all the examples.
+@author samagra
+"
+      operation 228482 "versionSpaceLearning"
+	public return_type class_ref 150146 // VersionSpace
+	nparams 1
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Version-Space-Learning(examples) returns a version space
+@param examples
+@return
+"
+      end
+
+      operation 228610 "versionSpaceUpdate"
+	private return_type class_ref 150146 // VersionSpace
+	nparams 2
+	  param inout name "v" type class_ref 150146 // VersionSpace
+	  param inout name "e" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Version-Space-Update(V, e) returns an updated version space
+@param v
+@param e
+@return
+"
+      end
+    end
+  end
+
+  deploymentview 130818 "knowledge"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 142978 "CurrentBestLearning"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 148226 // CurrentBestLearning
+      end
+    end
+
+    artifact 143106 "FOIL"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 148482 // FOIL
+      end
+    end
+
+    artifact 143362 "FOLDataSetDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import aima.core.learning.framework.DataSetSpecification;
+import aima.core.logic.fol.domain.FOLDomain;
+${definition}"
+      associated_elems
+	class_ref 148866 // FOLDataSetDomain
+      end
+    end
+
+    artifact 143490 "FOLExample"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.learning.framework.Example;
+import aima.core.logic.fol.Connectors;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+${definition}"
+      associated_elems
+	class_ref 149378 // FOLExample
+      end
+    end
+
+    artifact 143618 "Hypothesis"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.permute.PowerSetGenerator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 148354 // Hypothesis
+      end
+    end
+
+    artifact 143746 "KnowledgeLearningProblemFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 149890 // KnowledgeLearningProblemFactory
+      end
+    end
+
+    artifact 143874 "LogicalExample"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 149762 // LogicalExample
+      end
+    end
+
+    artifact 144002 "MinimalConsistentDet"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.util.math.permute.CombinationGenerator;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 150018 // MinimalConsistentDet
+      end
+    end
+
+    artifact 144130 "VersionSpace"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+${definition}"
+      associated_elems
+	class_ref 150146 // VersionSpace
+      end
+    end
+
+    artifact 144258 "VersionSpaceLearning"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 150274 // VersionSpaceLearning
+      end
+    end
+  end
+end

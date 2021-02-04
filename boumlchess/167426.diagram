@@ -1,0 +1,99 @@
+format 223
+
+classinstance 128002 class_ref 225026 // ChessAlphaBetaSearch
+ name ""  xyz 181 227 2000
+classinstance 128130 class_ref 223362 // ChessGame
+ name ""  xyz 229 29 2000
+classinstance 130690 class_ref 233602 // AchessGame
+ name ""  xyz 626 228 2000
+classinstance 131202 class_ref 233602 // AchessGame
+ name ""  xyz 169 481 2000
+classinstance 131842 class_ref 223618 // ChessState
+ name ""  xyz 540 32 2000
+textcanvas 132226 "The call to getActions creates all the posisible chessactions for the active player in the alphabeta search"
+  xyzwh 310 78 2000 232 50
+classinstance 132738 class_ref 333314 // ChessStateImpl
+ name ""  xyz 620 68 2000
+textcanvas 133122 "This is the only call to the mark method"
+  xyzwh 694 111 2000 103 44
+textcanvas 133378 "Do a minimax search on all ordered actions"
+  xyzwh 418 293 2000 115 46
+textcanvas 133634 "This diagram shows the makeDecision method of ChessAlphaBeteSeach"
+  xyzwh 15 53 2000 191 57
+textcanvas 134146 "When a ChessAction is created, it is given the AgamePiece piece, and its reachable positions, and the player who owns the piece"
+  xyzwh 156 605 2000 332 68
+linkcanvas 128258 decenter_end 236
+  from ref 128002 z 2001 to ref 128130
+dirscanvas 128386 z 1000 linkcanvas_ref 128258
+  
+  forward_label "1 getActions()" xyz 160 110 3000
+linkcanvas 128514 decenter_begin 549 decenter_end 68
+  from ref 128002 z 2001 to point 248 306
+  line 128642 z 2001 to point 183 306
+  line 128770 z 2001 to ref 128002
+dirscanvas 128898 z 1000 linkcanvas_ref 128642
+  
+  backward_label "3 orderActions()" xyz 179 277 3000
+linkcanvas 129666 decenter_begin 754 decenter_end 652
+  from ref 128002 z 2001 to point 278 455
+  line 129794 z 2001 to point 366 454
+  line 129922 z 2001 to point 358 244
+  line 130050 z 2001 to point 304 244
+  line 130178 z 2001 to ref 128002
+dirscanvas 130562 z 1000 linkcanvas_ref 130178
+  
+  backward_label "4 minValue()" xyz 294 264 3000
+linkcanvas 131330 decenter_begin 250
+  from ref 128002 z 2001 to ref 131202
+dirscanvas 131458 z 1000 linkcanvas_ref 131330
+  
+  forward_label "5 analyzePieceandPosition()" xyz 228 361 3000
+linkcanvas 131586
+  from ref 128002 z 2001 to ref 130690
+dirscanvas 131714 z 1000 linkcanvas_ref 131586
+  
+  forward_label "6 getResult()" xyz 438 208 3000
+linkcanvas 131970
+  from ref 128130 z 2001 to ref 131842
+dirscanvas 132098 z 1000 linkcanvas_ref 131970
+  
+  forward_label "2 getActions()" xyz 383 17 3000
+linkcanvas 132866
+  from ref 130690 z 2001 to ref 132738
+dirscanvas 132994 z 1000 linkcanvas_ref 132866
+  
+  forward_label "7 mark()" xyz 606 154 3000
+msgs
+  msg operation_ref 648834 // "getActions(inout state : ChessState) : List<ChessAction>"
+    forward ranks 1 "1" dirscanvas_ref 128386
+    msgs
+      msg operation_ref 670210 // "getActions() : ChessAction"
+	forward ranks 2 "1.1" dirscanvas_ref 132098
+	no_msg
+    msgsend
+  msg operation_ref 663810 // "orderActions(inout state : ChessState, inout list : List<ChessAction>, inout player : ChessPlayer, in depth : int) : ChessAction"
+    backward ranks 3 "2" dirscanvas_ref 128898
+    no_msg
+  msg operation_ref 664066 // "minValue(inout state : ChessState, inout player : ChessPlayer, in alpha : double, in beta : double, in depth : int) : double"
+    backward ranks 4 "3" dirscanvas_ref 130562
+    no_msg
+  msg operation_ref 747010 // "analyzePieceandPosition(inout action : ChessAction) : double"
+    forward ranks 5 "4" dirscanvas_ref 131458
+    no_msg
+  msg operation_ref 746626 // "getResult(inout chessState : ChessState, inout action : ChessAction) : ChessState"
+    forward ranks 6 "5" dirscanvas_ref 131714
+    msgs
+      msg operation_ref 1722370 // "mark(inout action : ChessAction) : void"
+	forward ranks 7 "5.1" dirscanvas_ref 132994
+	no_msg
+    msgsend
+msgsend
+line 132354 -_-_
+  from ref 132226 z 2002 to ref 131970
+line 133250 -_-_
+  from ref 133122 z 2001 to ref 132738
+line 133506 -_-_
+  from ref 133378 z 2002 to ref 131586
+line 134018 -_-_
+  from ref 133634 z 2001 to ref 128002
+end

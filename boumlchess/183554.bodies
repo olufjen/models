@@ -1,0 +1,60 @@
+class FixedLagSmoothing
+!!!420226.java!!!	FixedLagSmoothing(inout hmm : HiddenMarkovModel, in d : int)
+		this.hmm = hmm;
+		this.d = d;
+		initPersistent();
+!!!420354.java!!!	fixedLagSmoothing(inout et : List<AssignmentProposition>) : CategoricalDistribution
+		// local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>,
+		// diagonal matrices containing the sensor model information
+		Matrix O_tmd, O_t;
+
+		// add e<sub>t</sub> to the end of e<sub>t-d:t</sub>
+		e_tmd_to_t.add(hmm.getEvidence(et));
+		// <b>O</b><sub>t</sub> <- diagonal matrix containing
+		// <b>P</b>(e<sub>t</sub> | X<sub>t</sub>)
+		O_t = e_tmd_to_t.get(e_tmd_to_t.size() - 1);
+		// if t > d then
+		if (t > d) {
+			// remove e<sub>t-d-1</sub> from the beginning of e<sub>t-d:t</sub>
+			e_tmd_to_t.remove(0);
+			// <b>O</b><sub>t-d</sub> <- diagonal matrix containing
+			// <b>P</b>(e<sub>t-d</sub> | X<sub>t-d</sub>)
+			O_tmd = e_tmd_to_t.get(0);
+			// <b>f</b> <- FORWARD(<b>f</b>, e<sub>t-d</sub>)
+			f = forward(f, O_tmd);
+			// <b>B</b> <-
+			// <b>O</b><sup>-1</sup><sub>t-d</sub><b>B</b><b>T</b><b>O</b><sub>t</sub>
+			B = O_tmd.inverse().times(hmm.getTransitionModel().inverse())
+					.times(B).times(hmm.getTransitionModel()).times(O_t);
+		} else {
+			// else <b>B</b> <- <b>BTO</b><sub>t</sub>
+			B = B.times(hmm.getTransitionModel()).times(O_t);
+		}
+
+		// if t > d then return NORMALIZE(<b>f</b> * <b>B1</b>) else return null
+		CategoricalDistribution rVal = null;
+		if (t > d) {
+			rVal = hmm
+					.convert(hmm.normalize(f.arrayTimes(B.times(unitMessage))));
+		}
+		// t <- t + 1
+		t = t + 1;
+		return rVal;
+!!!420482.java!!!	forward(inout f1_t : Matrix, inout O_tp1 : Matrix) : Matrix
+		return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose()
+				.times(f1_t)));
+!!!420610.java!!!	initPersistent() : void
+		// t, the current time, initially 1
+		t = 1;
+		// <b>f</b>, the forward message <b>P</b>(X<sub>t</sub> |
+		// e<sub>1:t</sub>),
+		// initially hmm.PRIOR
+		f = hmm.getPrior();
+		// <b>B</b>, the d-step backward transformation matrix, initially the
+		// identity matrix
+		B = Matrix.identity(f.getRowDimension(), f.getRowDimension());
+		// e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t,
+		// initially
+		// empty
+		e_tmd_to_t.clear();
+		unitMessage = hmm.createUnitMessage();

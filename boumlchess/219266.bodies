@@ -1,0 +1,33 @@
+class VirtualRobot
+!!!625282.java!!!	VirtualRobot(inout map : MclCartesianPlot2D)
+		this.map = map;
+!!!625410.java!!!	setRangeReadingAngles(inout angles : Angle [[]]) : void
+		this.rangeReadingAngles = angles;
+!!!625538.java!!!	setMaxMoveDistance(in distance : double) : void
+		this.maxMoveDistance = distance;
+!!!625666.java!!!	setMinMoveDistance(in distance : double) : void
+		this.minMoveDistance = distance;
+!!!625794.java!!!	setRandomPose() : void
+		pose = map.randomPose(); 
+!!!625922.java!!!	getPose() : SimplePose
+		return pose;
+!!!626050.java!!!	getRangeReadings() : AbstractRangeReading
+		AbstractRangeReading[] ranges = new SimpleRangeReading[rangeReadingAngles.length];
+		for(int i=0; i<rangeReadingAngles.length;i++) {
+			SimplePose rangePose = pose.addAngle(rangeReadingAngles[i]);
+			ranges[i] = map.rayCast(rangePose);
+			ranges[i] = new SimpleRangeReading(ranges[i].getValue(), rangeReadingAngles[i]);
+		}
+		return ranges;
+!!!626178.java!!!	performMove() : SimpleMove
+		SimplePose newPose;
+		Vector2D vector;
+		do {
+			newPose = map.randomPose();
+			vector = pose.getPosition().vec(newPose.getPosition());
+		} while(vector.length() > maxMoveDistance || vector.length() < minMoveDistance);
+		final double vectorAngle = vector.angleTo(Vector2D.X_VECTOR);
+		final double firstRotation = vectorAngle - pose.getHeading();
+		final double lastRotation = newPose.getHeading() - vectorAngle;
+		pose = newPose;
+		return new SimpleMove(firstRotation,vector.length(),lastRotation);

@@ -1,0 +1,24 @@
+class FifoQueueWithHashSet
+!!!466178.java!!!	add(inout e : E) : boolean
+			if (!elements.contains(e)) {
+				elements.add(e);
+				return super.add(e);
+			}
+			return false;
+!!!466306.java!!!	offer(inout e : E) : boolean
+			if (!elements.contains(e)) {
+				elements.add(e);
+				return super.offer(e);
+			}
+			return false;
+!!!466434.java!!!	remove() : E
+			E result = super.remove();
+			elements.remove(result);
+			return result;
+!!!466562.java!!!	poll() : E
+			E result = super.poll();
+			if (result != null)
+				elements.remove(result);
+			return result;
+!!!466690.java!!!	contains(inout e : Object) : boolean
+			return elements.contains(e);

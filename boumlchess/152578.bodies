@@ -1,0 +1,29 @@
+class NNExample
+!!!246530.java!!!	NNExample(inout normalizedInput : List<Double>, inout normalizedTarget : List<Double>)
+		this.normalizedInput = normalizedInput;
+		this.normalizedTarget = normalizedTarget;
+!!!246658.java!!!	copyExample() : NNExample
+		List<Double> newInput = new ArrayList<Double>();
+		List<Double> newTarget = new ArrayList<Double>();
+		for (Double d : normalizedInput) {
+			newInput.add(new Double(d.doubleValue()));
+		}
+		for (Double d : normalizedTarget) {
+			newTarget.add(new Double(d.doubleValue()));
+		}
+		return new NNExample(newInput, newTarget);
+!!!246786.java!!!	getInput() : Vector
+		Vector v = new Vector(normalizedInput);
+		return v;
+
+!!!246914.java!!!	getTarget() : Vector
+		Vector v = new Vector(normalizedTarget);
+		return v;
+
+!!!247042.java!!!	isCorrect(inout prediction : Vector) : boolean
+		/*
+		 * compares the index having greatest value in target to indec having
+		 * greatest value in prediction. Ifidentical, correct
+		 */
+		return getTarget().indexHavingMaxValue() == prediction
+				.indexHavingMaxValue();

@@ -1,0 +1,16 @@
+class BayesInferenceApproxAdapter
+!!!396546.java!!!	BayesInferenceApproxAdapter(inout adaptee : BayesSampleInference)
+		this.adaptee = adaptee;
+!!!396674.java!!!	BayesInferenceApproxAdapter(inout adaptee : BayesSampleInference, in N : int)
+		this.adaptee = adaptee;
+		this.N = N;
+!!!396802.java!!!	getN() : int
+		return N;
+!!!396930.java!!!	setN(in n : int) : void
+		N = n;
+!!!397058.java!!!	getAdaptee() : BayesSampleInference
+		return adaptee;
+!!!397186.java!!!	setAdaptee(inout adaptee : BayesSampleInference) : void
+		this.adaptee = adaptee;
+!!!397314.java!!!	ask(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork) : CategoricalDistribution
+		return adaptee.ask(X, observedEvidence, bn, N);

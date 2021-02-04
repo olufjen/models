@@ -1,0 +1,362 @@
+class AgamePiece
+!!!1673986.java!!!	AgamePiece(inout myPosition : Position)
+		super();
+		this.myPosition = myPosition;
+		
+!!!1674114.java!!!	AgamePiece(inout myPosition : Position, inout myPiece : ChessPiece)
+		super();
+		this.myPosition = myPosition;
+		this.myPiece = myPiece;
+		heldPositions = new Stack();
+		moveNumbers = new ArrayList<Integer>();
+		predicates = new ArrayList<String>();
+//		determinePieceType(); Moved to setOntologyPositions: Then new available positions are replaced by ontology positions
+!!!1674242.java!!!	AgamePiece()
+		super();
+		
+!!!1674370.java!!!	getPredicate() : String
+		return predicate;
+!!!1674498.java!!!	setPredicate(in predicate : String) : void
+		this.predicate = predicate;
+		String str[] = this.predicate.split(";");
+		predicates = Arrays.asList(str);
+!!!1674626.java!!!	returnPredicate() : String
+		String pred = predicates.get(0);
+		String endPredicate[] = pred.split(":");
+		return endPredicate[0];
+!!!1674754.java!!!	getPredicates() : List<String>
+		return predicates;
+!!!1674882.java!!!	setPredicates(inout predicates : List<String>) : void
+		this.predicates = predicates;
+!!!1675010.java!!!	getOntologyPositions() : HashMap<String, Position>
+		return ontologyPositions;
+!!!1675138.java!!!	setOntologyPositions(inout ontologyPositions : HashMap<String, Position>) : void
+		this.ontologyPositions = ontologyPositions;
+		determinePieceType();
+!!!1675266.java!!!	getNofMoves() : int
+		return nofMoves;
+!!!1675394.java!!!	setNofMoves(in nofMoves : int) : void
+		this.nofMoves = this.nofMoves + 1;
+!!!1675522.java!!!	getMoveNumbers() : List<Integer>
+		return moveNumbers;
+!!!1675650.java!!!	setMoveNumbers(inout moveNumbers : List<Integer>) : void
+		this.moveNumbers = moveNumbers;
+!!!1675778.java!!!	isActive() : boolean
+		return active;
+!!!1675906.java!!!	getRemovedPositions() : List<Position>
+		return removedPositions;
+!!!1676034.java!!!	setRemovedPositions(inout removedPositions : List<Position>) : void
+		this.removedPositions = removedPositions;
+!!!1676162.java!!!	checkRemoved(inout pos : Position) : boolean
+		boolean removed = false;
+		if (removedPositions != null) {
+			for (Position position:removedPositions) {
+				if (pos == position) {
+					removed = true;
+					break;
+				}
+			}
+		}
+
+		return removed;
+!!!1676290.java!!!	setActive(inout active : boolean) : void
+		this.active = active;
+!!!1676418.java!!!	restoreValue() : void
+		value = orgValue;
+!!!1676546.java!!!	getLocalColor() : AbstractGamePiece::pieceColor
+		return localColor;
+!!!1676674.java!!!	setLocalColor(inout localColor : AbstractGamePiece::pieceColor) : void
+		this.localColor = localColor;
+!!!1676802.java!!!	getChessType() : ChessPieceType
+		return chessType;
+!!!1676930.java!!!	setChessType(inout chessType : ChessPieceType) : void
+		this.chessType = chessType;
+!!!1677058.java!!!	checkBlack() : boolean
+		return localColor == pieceColor.BLACK;
+!!!1677186.java!!!	checkWhite() : boolean
+		return localColor == pieceColor.WHITE;
+!!!1677314.java!!!	getAttackPositions() : HashMap<String, Position>
+		return attackPositions;
+!!!1677442.java!!!	setAttackPositions(inout attackPositions : HashMap<String, Position>) : void
+		this.attackPositions = attackPositions;
+!!!1677570.java!!!	createPosition(inout newPositions : HashMap<String,Position>) : void
+//		XYLocation newloc = new XYLocation(x,y);
+		List<Position> tempPositions = new ArrayList(newPositions.values());
+		for (Position pos : tempPositions) {
+			String name = pos.getPositionName();
+			Position ontPosition = ontologyPositions.get(name);
+			if (ontPosition != null) {
+				newPositions.put(name, ontPosition);
+			}
+		}
+
+!!!1677698.java!!!	determinMytype() : void
+		ChessPieceType king = new Aking();
+		king.test(this);
+		
+		
+!!!1677826.java!!!	determinePieceType() : void
+		String name = myPiece.getPieceName();
+		color = myPiece.getColor();
+		if (color.equals("w"))
+			localColor = pieceColor.WHITE;
+		else
+			localColor = pieceColor.BLACK;
+		GamePiece gamePiece = null;
+		switch(name) {
+		
+			case "P":
+				myType = pieceType.PAWN;
+				chessType = new APawn(myPosition,myPiece);
+				APawn pawn = (APawn) chessType;
+//				pawn.setMother(this);
+				attackPositions = pawn.getAttackPositions();
+				gamePiece = (GamePiece) chessType;
+//				gamePiece.g
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println("Pawn positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}*/
+				break;
+			case"B":	
+				myType = pieceType.BISHOP;
+				chessType = new ABishop(myPosition,myPiece);
+				String pieceColorB = myPiece.getColor();
+				gamePiece = (GamePiece) chessType;
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+//				reacablePositions = chessType.getNewPositions();
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println(pieceColorB+" Bishop positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}*/
+				break;	
+			case "N":
+				myType = pieceType.KNIGHT;
+				chessType = new AKnight(myPosition,myPiece);
+				String pieceColorK = myPiece.getColor();
+				gamePiece = (GamePiece) chessType;
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+//				reacablePositions = chessType.getNewPositions();
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println("Knight positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}	*/
+				break;
+			case "K":
+				myType = pieceType.KING;
+				chessType = new Aking(myPosition,myPiece);
+				gamePiece = (GamePiece) chessType;
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+//				reacablePositions = chessType.getNewPositions();
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println("King positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}*/
+				break;
+			case "R":
+				myType = pieceType.ROOK;
+				chessType = new ARook(myPosition,myPiece);
+				String pieceColorR = myPiece.getColor();
+				gamePiece = (GamePiece) chessType;
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+//				reacablePositions = chessType.getNewPositions();
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println(pieceColorR+" Rook positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}*/
+				break;
+			case "Q":
+				myType = pieceType.QUEEN;
+				chessType = new AQueen(myPosition,myPiece);
+				String pieceColorQ = myPiece.getColor();
+				gamePiece = (GamePiece) chessType;
+				reacablePositions = gamePiece.getNewPositions();
+				createPosition(reacablePositions); // To replace created positions with ontology positions
+				gamePiece.setOntologyPositions(ontologyPositions);
+//				reacablePositions = chessType.getNewPositions();
+				newlistPositions = new ArrayList(reacablePositions.values());
+/*				for (Position pos:newlistPositions) {
+					System.out.println(pieceColorQ+" Queens positions: "+pos.getPositionName() + " " + pos.getPositionColor());
+				}*/				
+				break;
+			default:
+				myType = pieceType.PAWN;
+				break;
+		}
+!!!1677954.java!!!	getPreferredPositions() : List<Position>
+		return preferredPositions;
+!!!1678082.java!!!	setPreferredPositions(inout preferredPositions : List<Position>) : void
+		this.preferredPositions = preferredPositions;
+!!!1678210.java!!!	getLegalmoves() : HashMap<String,Position>
+			return (HashMap<String, Position>) reacablePositions;
+!!!1678338.java!!!	getmyPosition() : Position
+		return (Position) myPosition;
+		
+!!!1678466.java!!!	getMyPosition() : Position
+		return myPosition;
+!!!1678594.java!!!	setMyPosition(inout newPosition : Position) : void
+		if (this.myPosition != null) {
+			heldPositions.push(this.myPosition);
+			this.heldPosition = myPosition;
+		}
+		this.myPosition = newPosition;
+!!!1678722.java!!!	setMypositionEmpty(inout position : Position) : void
+		heldPosition = myPosition;
+		myPosition = position;
+		if (myPosition == null && heldPosition == null) {
+			System.out.println("Both positions empty !!--");
+		}
+!!!1678850.java!!!	restorePosition() : void
+/*		if (active && heldPositions != null) {
+			heldPositions.clear();
+		}*/
+		if (heldPositions != null && !heldPositions.isEmpty())
+			this.myPosition = heldPositions.pop();
+		if (myPosition != null) // Added 1.08.20
+			active = true;
+		
+//		myPosition = heldPosition;
+!!!1678978.java!!!	getHeldPosition() : Position
+		if (heldPosition == null && heldPositions == null)
+			return null;
+		if (heldPosition == null && heldPositions.isEmpty())
+			return null;
+		if (!heldPositions.isEmpty())
+			heldPosition = heldPositions.pop();
+		return heldPosition;
+!!!1679106.java!!!	setHeldPosition(inout heldPosition : Position) : void
+		this.heldPosition = heldPosition;
+		if (heldPosition == null) {
+			heldPositions.clear();
+		}
+		if (heldPosition != null) {
+			heldPositions.push(heldPosition);
+		}
+!!!1679234.java!!!	getMyPiece() : ChessPiece
+		return myPiece;
+!!!1679362.java!!!	setMyPiece(inout myPiece : ChessPiece) : void
+		this.myPiece = myPiece;
+!!!1679490.java!!!	getPieceType() : AbstractGamePiece::pieceType
+		
+		return myType;
+!!!1679618.java!!!	getColor() : String
+		return color;
+!!!1679746.java!!!	setColor(in color : String) : void
+		this.color = color;
+!!!1679874.java!!!	getMyType() : AbstractGamePiece::pieceType
+		return myType;
+!!!1680002.java!!!	setMyType(inout myType : AbstractGamePiece::pieceType) : void
+		this.myType = myType;
+!!!1680130.java!!!	getReacablePositions() : HashMap<String, Position>
+		return reacablePositions;
+!!!1680258.java!!!	setReacablePositions(inout reacablePositions : HashMap<String, Position>) : void
+		this.reacablePositions = reacablePositions;
+!!!1680386.java!!!	setNewlistPositions(inout newPositions : ArrayList<Position>) : void
+		this.newlistPositions = newPositions;
+!!!1680514.java!!!	getNewlistPositions() : ArrayList<Position>
+		return newlistPositions;
+!!!1680642.java!!!	toString() : String
+		StringBuilder result = new StringBuilder();
+		String posName = "Removed!!!";
+		XYLocation localXY = new XYLocation(0,0);
+		
+		if (myPosition != null) {
+			posName = myPosition.getPositionName();
+			localXY = myPosition.getXyloc();
+		}
+		
+		result.append("Piece position"+posName + " X, Y "+localXY.toString()  + " "+myPiece.getName()+ " "+myPiece.getPosition().toString()+ myType);
+	
+		String na = myPiece.getPieceName();
+		result.append("Name " + na + "\n" + "Available positions\n");
+		for (Position pos:newlistPositions) {
+			result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString() + "\n");
+
+		}			
+		return result.toString();
+!!!1680770.java!!!	test(inout piece : GamePiece) : boolean
+		// TODO Auto-generated method stub
+		return false;
+!!!1680898.java!!!	checkName(in name : String) : boolean
+		// TODO Auto-generated method stub
+		return false;
+!!!1681026.java!!!	getLegalmoves(inout position : Position) : void
+		AgamePiece localpiece = (AgamePiece) chessType;
+		localpiece.setMyPosition(position);
+		localpiece.produceLegalmoves(position);
+		reacablePositions = localpiece.getNewPositions();
+//		reacablePositions =  chessType.getNewPositions();
+		newlistPositions = null;
+		newlistPositions = new ArrayList(reacablePositions.values());
+//		newlistPositions =  (List<Position>) reacablePositions.values();
+!!!1681154.java!!!	produceLegalmoves(inout position : Position) : void
+
+		if (chessType instanceof APawn) {
+			APawn p = (APawn) chessType;
+			p.produceLegalmoves(position);
+			attackPositions = p.getAttackPositions();
+		}
+		if (chessType instanceof AKnight) {
+			AKnight p = (AKnight) chessType;
+			p.produceLegalmoves(position);
+		}
+		if (chessType instanceof ARook) {
+			ARook p = (ARook) chessType;
+			p.produceLegalmoves(position);
+		}	
+		if (chessType instanceof ABishop) {
+			ABishop p = (ABishop) chessType;
+			p.produceLegalmoves(position);
+		}
+		if (chessType instanceof AQueen) {
+			AQueen p = (AQueen) chessType;
+			p.produceLegalmoves(position);
+		}
+		if (chessType instanceof Aking) {
+			Aking p = (Aking) chessType;
+			p.produceLegalmoves(position);
+		}
+
+/*		Optional<ARook> r = Optional.ofNullable((ARook) chessType);
+		Optional<AKnight> n = Optional.ofNullable((AKnight) chessType);
+		Optional<AQueen> q = Optional.ofNullable((AQueen) chessType);
+		Optional<Aking> k = Optional.ofNullable((Aking) chessType);*/
+/*		Optional<APawn> p = Optional.ofNullable(ChessFunctions.findpieceType(localpiece,(APawn piece) -> piece.getPieceType() == pieceType.PAWN));
+		ABishop b = ChessFunctions.findpieceType(localpiece,(AgamePiece piece) -> piece.getPieceType() == pieceType.BISHOP);
+		ARook r = ChessFunctions.findpieceType(localpiece,(AgamePiece piece) -> piece.getPieceType() == pieceType.ROOK);
+		AKnight n = ChessFunctions.findpieceType(localpiece,(AgamePiece piece) -> piece.getPieceType() == pieceType.KNIGHT);
+		AQueen q = ChessFunctions.findpieceType(localpiece,(AgamePiece piece) -> piece.getPieceType() == pieceType.QUEEN);
+		Aking k = ChessFunctions.findpieceType(localpiece,(AgamePiece piece) -> piece.getPieceType() == pieceType.KING);
+		if (k != null)
+			k.produceLegalmoves(position);*/
+		GamePiece gamePiece = (GamePiece) chessType;
+		reacablePositions = gamePiece.getNewPositions();	
+//		reacablePositions =  chessType.getNewPositions();
+		newlistPositions = null;
+		newlistPositions = new ArrayList(reacablePositions.values());
+		
+!!!1681282.java!!!	checkPositions() : boolean
+		boolean newPos = false;
+		if (newlistPositions == null || newlistPositions.isEmpty()) {
+			newlistPositions = null;
+			newlistPositions = new ArrayList(reacablePositions.values());
+			newPos = true;
+		}
+		return newPos;
+!!!1681410.java!!!	getPieceColor() : AbstractGamePiece::pieceColor
+		// TODO Auto-generated method stub
+		return null;
+!!!1681538.java!!!	getNewPositions() : HashMap<String, Position>
+		
+		return reacablePositions;

@@ -1,0 +1,40 @@
+class ClauseCollector
+!!!383746.java!!!	getClausesFrom(inout  : Sentence...cnfSentences) : Clause
+		Set<Clause> result = new LinkedHashSet<Clause>();
+
+		ClauseCollector clauseCollector = new ClauseCollector();
+		for (Sentence cnfSentence : cnfSentences) {			
+			result = cnfSentence.accept(clauseCollector, result);
+		}	
+
+		return result;
+!!!383874.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : Set<Clause>) : Clause
+		// a positive unit clause
+		Literal positiveLiteral = new Literal(s);
+		arg.add(new Clause(positiveLiteral));
+		
+		return arg;
+!!!384002.java!!!	visitUnarySentence(inout s : ComplexSentence, inout arg : Set<Clause>) : Clause
+		
+		if (!s.getSimplerSentence(0).isPropositionSymbol()) {
+			throw new IllegalStateException("Sentence is not in CNF: "+s);
+		}
+		
+		// a negative unit clause
+		Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
+		arg.add(new Clause(negativeLiteral));
+		
+		return arg;
+!!!384130.java!!!	visitBinarySentence(inout s : ComplexSentence, inout arg : Set<Clause>) : Clause
+		
+		if (s.isAndSentence()) {
+			s.getSimplerSentence(0).accept(this, arg);
+			s.getSimplerSentence(1).accept(this, arg);			
+		} else if (s.isOrSentence()) {
+			List<Literal> literals = new ArrayList<Literal>(LiteralCollector.getLiterals(s));
+			arg.add(new Clause(literals));			
+		} else {
+			throw new IllegalArgumentException("Sentence is not in CNF: "+s);
+		}
+		
+		return arg;

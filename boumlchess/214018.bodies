@@ -1,0 +1,39 @@
+class EmptyEnvironmentView
+!!!597506.java!!!	setBorder(in top : int, in left : int, in bottom : int, in right : int) : void
+		borderTop = top;
+		borderLeft = left;
+		borderBottom = bottom;
+		borderRight = right;
+!!!597634.java!!!	adjustTransformation(in minXW : double, in minYW : double, in maxXW : double, in maxYW : double) : void
+		// adjust coordinates relative to the left upper corner of the graph
+		// area
+		double scaleX = 1f;
+		double scaleY = 1f;
+		if (maxXW > minXW)
+			scaleX = (getWidth() - borderLeft - borderRight) / (maxXW - minXW);
+		if (maxYW > minYW)
+			scaleY = (getHeight() - borderTop - borderBottom) / (maxYW - minYW);
+		offsetX = -minXW;
+		offsetY = -minYW;
+		scale = Math.min(scaleX, scaleY);
+!!!597762.java!!!	x(inout xyW : Point2D) : int
+		return x(xyW.getX());
+!!!597890.java!!!	y(inout xyW : Point2D) : int
+		return y(xyW.getY());
+!!!598018.java!!!	x(in xW : double) : int
+		return (int) Math.round(scale * (xW + offsetX) + borderLeft);
+!!!598146.java!!!	y(in yW : double) : int
+		return (int) Math.round(scale * (yW + offsetY) + borderTop);
+!!!598274.java!!!	scale(in length : int) : int
+		return (int) Math.round(scale * length);
+!!!598402.java!!!	setEnvironment(inout env : Environment) : void
+		super.setEnvironment(env);
+		repaint();
+!!!598530.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+		repaint();
+!!!598658.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+		repaint();
+!!!598786.java!!!	paintComponent(inout g : java.awt.Graphics) : void
+		java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+		g2.setBackground(Color.white);
+		g2.clearRect(0, 0, getWidth(), getHeight());

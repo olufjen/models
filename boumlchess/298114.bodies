@@ -1,0 +1,390 @@
+class ChessFactory
+!!!1054594.java!!!	ChessFactory(inout ontology : OWLOntology)
+	    this(ontology, new SimpleInference(ontology));
+!!!1054722.java!!!	ChessFactory(inout ontology : OWLOntology, inout inference : CodeGenerationInference)
+        this.ontology = ontology;
+        this.inference = inference;
+        javaMapping.initialize(ontology, inference);
+        delegate = new FactoryHelper(ontology, inference);
+!!!1054850.java!!!	getOwlOntology() : OWLOntology
+        return ontology;
+!!!1054978.java!!!	saveOwlOntology() : void
+        ontology.getOWLOntologyManager().saveOntology(ontology);
+!!!1055106.java!!!	flushOwlReasoner() : void
+        delegate.flushOwlReasoner();
+!!!1055234.java!!!	canAs(inout resource : WrappedIndividual, inout javaInterface : Class<? extends WrappedIndividual>) : boolean
+    	return javaMapping.canAs(resource, javaInterface);
+!!!1055362.java!!!	as(inout resource : WrappedIndividual, inout javaInterface : Class<? extends X>) : X
+    	return javaMapping.as(resource, javaInterface);
+!!!1055490.java!!!	getJavaInterfaceFromOwlClass(inout cls : OWLClass) : Class<?>
+        return javaMapping.getJavaInterfaceFromOwlClass(cls);
+!!!1055618.java!!!	getOwlClassFromJavaInterface(inout javaInterface : Class<?>) : OWLClass
+	    return javaMapping.getOwlClassFromJavaInterface(javaInterface);
+!!!1055746.java!!!	getInference() : CodeGenerationInference
+        return inference;
+!!!1055874.java!!!	createBlackGamePosition(in name : String) : BlackGamePosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BLACKGAMEPOSITION, DefaultBlackGamePosition.class);
+!!!1056002.java!!!	getBlackGamePosition(in name : String) : BlackGamePosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BLACKGAMEPOSITION, DefaultBlackGamePosition.class);
+!!!1056130.java!!!	getAllBlackGamePositionInstances() : Collection<? extends BlackGamePosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BLACKGAMEPOSITION, DefaultBlackGamePosition.class);
+!!!1056258.java!!!	createBlackPlayer(in name : String) : BlackPlayer
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BLACKPLAYER, DefaultBlackPlayer.class);
+!!!1056386.java!!!	getBlackPlayer(in name : String) : BlackPlayer
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BLACKPLAYER, DefaultBlackPlayer.class);
+!!!1056514.java!!!	getAllBlackPlayerInstances() : Collection<? extends BlackPlayer>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BLACKPLAYER, DefaultBlackPlayer.class);
+!!!1056642.java!!!	createChessPiece(in name : String) : ChessPiece
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CHESSPIECE, DefaultChessPiece.class);
+!!!1056770.java!!!	getChessPiece(in name : String) : ChessPiece
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CHESSPIECE, DefaultChessPiece.class);
+!!!1056898.java!!!	getAllChessPieceInstances() : Collection<? extends ChessPiece>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CHESSPIECE, DefaultChessPiece.class);
+!!!1057026.java!!!	createChessPosition(in name : String) : ChessPosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CHESSPOSITION, DefaultChessPosition.class);
+!!!1057154.java!!!	getChessPosition(in name : String) : ChessPosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CHESSPOSITION, DefaultChessPosition.class);
+!!!1057282.java!!!	getAllChessPositionInstances() : Collection<? extends ChessPosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CHESSPOSITION, DefaultChessPosition.class);
+!!!1057410.java!!!	createGamePiece(in name : String) : GamePiece
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_GAMEPIECE, DefaultGamePiece.class);
+!!!1057538.java!!!	getGamePiece(in name : String) : GamePiece
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_GAMEPIECE, DefaultGamePiece.class);
+!!!1057666.java!!!	getAllGamePieceInstances() : Collection<? extends GamePiece>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_GAMEPIECE, DefaultGamePiece.class);
+!!!1057794.java!!!	createGamePosition(in name : String) : GamePosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_GAMEPOSITION, DefaultGamePosition.class);
+!!!1057922.java!!!	getGamePosition(in name : String) : GamePosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_GAMEPOSITION, DefaultGamePosition.class);
+!!!1058050.java!!!	getAllGamePositionInstances() : Collection<? extends GamePosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_GAMEPOSITION, DefaultGamePosition.class);
+!!!1058178.java!!!	createOccupant(in name : String) : Occupant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_OCCUPANT, DefaultOccupant.class);
+!!!1058306.java!!!	getOccupant(in name : String) : Occupant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_OCCUPANT, DefaultOccupant.class);
+!!!1058434.java!!!	getAllOccupantInstances() : Collection<? extends Occupant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_OCCUPANT, DefaultOccupant.class);
+!!!1058562.java!!!	createOffline(in name : String) : Offline
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_OFFLINE, DefaultOffline.class);
+!!!1058690.java!!!	getOffline(in name : String) : Offline
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_OFFLINE, DefaultOffline.class);
+!!!1058818.java!!!	getAllOfflineInstances() : Collection<? extends Offline>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_OFFLINE, DefaultOffline.class);
+!!!1058946.java!!!	createTaken(in name : String) : Taken
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_TAKEN, DefaultTaken.class);
+!!!1059074.java!!!	getTaken(in name : String) : Taken
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_TAKEN, DefaultTaken.class);
+!!!1059202.java!!!	getAllTakenInstances() : Collection<? extends Taken>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_TAKEN, DefaultTaken.class);
+!!!1059330.java!!!	createVacant(in name : String) : Vacant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_VACANT, DefaultVacant.class);
+!!!1059458.java!!!	getVacant(in name : String) : Vacant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_VACANT, DefaultVacant.class);
+!!!1059586.java!!!	getAllVacantInstances() : Collection<? extends Vacant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_VACANT, DefaultVacant.class);
+!!!1059714.java!!!	createWhiteGamePosition(in name : String) : WhiteGamePosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_WHITEGAMEPOSITION, DefaultWhiteGamePosition.class);
+!!!1059842.java!!!	getWhiteGamePosition(in name : String) : WhiteGamePosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_WHITEGAMEPOSITION, DefaultWhiteGamePosition.class);
+!!!1059970.java!!!	getAllWhiteGamePositionInstances() : Collection<? extends WhiteGamePosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_WHITEGAMEPOSITION, DefaultWhiteGamePosition.class);
+!!!1060098.java!!!	createWhitePlayer(in name : String) : WhitePlayer
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_WHITEPLAYER, DefaultWhitePlayer.class);
+!!!1060226.java!!!	getWhitePlayer(in name : String) : WhitePlayer
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_WHITEPLAYER, DefaultWhitePlayer.class);
+!!!1060354.java!!!	getAllWhitePlayerInstances() : Collection<? extends WhitePlayer>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_WHITEPLAYER, DefaultWhitePlayer.class);
+!!!1060482.java!!!	createBlackBoardPosition(in name : String) : BlackBoardPosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BLACKBOARDPOSITION, DefaultBlackBoardPosition.class);
+!!!1060610.java!!!	getBlackBoardPosition(in name : String) : BlackBoardPosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BLACKBOARDPOSITION, DefaultBlackBoardPosition.class);
+!!!1060738.java!!!	getAllBlackBoardPositionInstances() : Collection<? extends BlackBoardPosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BLACKBOARDPOSITION, DefaultBlackBoardPosition.class);
+!!!1060866.java!!!	createBlackPiece(in name : String) : BlackPiece
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BLACKPIECE, DefaultBlackPiece.class);
+!!!1060994.java!!!	getBlackPiece(in name : String) : BlackPiece
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BLACKPIECE, DefaultBlackPiece.class);
+!!!1061122.java!!!	getAllBlackPieceInstances() : Collection<? extends BlackPiece>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BLACKPIECE, DefaultBlackPiece.class);
+!!!1061250.java!!!	createBoardPosition(in name : String) : BoardPosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BOARDPOSITION, DefaultBoardPosition.class);
+!!!1061378.java!!!	getBoardPosition(in name : String) : BoardPosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BOARDPOSITION, DefaultBoardPosition.class);
+!!!1061506.java!!!	getAllBoardPositionInstances() : Collection<? extends BoardPosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BOARDPOSITION, DefaultBoardPosition.class);
+!!!1061634.java!!!	createChessGame(in name : String) : ChessGame
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CHESSGAME, DefaultChessGame.class);
+!!!1061762.java!!!	getChessGame(in name : String) : ChessGame
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CHESSGAME, DefaultChessGame.class);
+!!!1061890.java!!!	getAllChessGameInstances() : Collection<? extends ChessGame>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CHESSGAME, DefaultChessGame.class);
+!!!1062018.java!!!	createChessboard(in name : String) : Chessboard
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CHESSBOARD, DefaultChessboard.class);
+!!!1062146.java!!!	getChessboard(in name : String) : Chessboard
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CHESSBOARD, DefaultChessboard.class);
+!!!1062274.java!!!	getAllChessboardInstances() : Collection<? extends Chessboard>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CHESSBOARD, DefaultChessboard.class);
+!!!1062402.java!!!	createMove(in name : String) : Move
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_MOVE, DefaultMove.class);
+!!!1062530.java!!!	getMove(in name : String) : Move
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_MOVE, DefaultMove.class);
+!!!1062658.java!!!	getAllMoveInstances() : Collection<? extends Move>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_MOVE, DefaultMove.class);
+!!!1062786.java!!!	createPiece(in name : String) : Piece
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PIECE, DefaultPiece.class);
+!!!1062914.java!!!	getPiece(in name : String) : Piece
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PIECE, DefaultPiece.class);
+!!!1063042.java!!!	getAllPieceInstances() : Collection<? extends Piece>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PIECE, DefaultPiece.class);
+!!!1063170.java!!!	createPlayer(in name : String) : Player
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PLAYER, DefaultPlayer.class);
+!!!1063298.java!!!	getPlayer(in name : String) : Player
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PLAYER, DefaultPlayer.class);
+!!!1063426.java!!!	getAllPlayerInstances() : Collection<? extends Player>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PLAYER, DefaultPlayer.class);
+!!!1063554.java!!!	createWhiteBoardPosition(in name : String) : WhiteBoardPosition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_WHITEBOARDPOSITION, DefaultWhiteBoardPosition.class);
+!!!1063682.java!!!	getWhiteBoardPosition(in name : String) : WhiteBoardPosition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_WHITEBOARDPOSITION, DefaultWhiteBoardPosition.class);
+!!!1063810.java!!!	getAllWhiteBoardPositionInstances() : Collection<? extends WhiteBoardPosition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_WHITEBOARDPOSITION, DefaultWhiteBoardPosition.class);
+!!!1063938.java!!!	createWhitePiece(in name : String) : WhitePiece
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_WHITEPIECE, DefaultWhitePiece.class);
+!!!1064066.java!!!	getWhitePiece(in name : String) : WhitePiece
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_WHITEPIECE, DefaultWhitePiece.class);
+!!!1064194.java!!!	getAllWhitePieceInstances() : Collection<? extends WhitePiece>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_WHITEPIECE, DefaultWhitePiece.class);
+!!!1064322.java!!!	createEntity(in name : String) : Entity
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_ENTITY, DefaultEntity.class);
+!!!1064450.java!!!	getEntity(in name : String) : Entity
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_ENTITY, DefaultEntity.class);
+!!!1064578.java!!!	getAllEntityInstances() : Collection<? extends Entity>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_ENTITY, DefaultEntity.class);
+!!!1064706.java!!!	createBFObject(in name : String) : BFObject
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_BFOBJECT, DefaultBFObject.class);
+!!!1064834.java!!!	getBFObject(in name : String) : BFObject
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_BFOBJECT, DefaultBFObject.class);
+!!!1064962.java!!!	getAllBFObjectInstances() : Collection<? extends BFObject>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_BFOBJECT, DefaultBFObject.class);
+!!!1065090.java!!!	createContinuant(in name : String) : Continuant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CONTINUANT, DefaultContinuant.class);
+!!!1065218.java!!!	getContinuant(in name : String) : Continuant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CONTINUANT, DefaultContinuant.class);
+!!!1065346.java!!!	getAllContinuantInstances() : Collection<? extends Continuant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CONTINUANT, DefaultContinuant.class);
+!!!1065474.java!!!	createDependentContinuant(in name : String) : DependentContinuant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_DEPENDENTCONTINUANT, DefaultDependentContinuant.class);
+!!!1065602.java!!!	getDependentContinuant(in name : String) : DependentContinuant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_DEPENDENTCONTINUANT, DefaultDependentContinuant.class);
+!!!1065730.java!!!	getAllDependentContinuantInstances() : Collection<? extends DependentContinuant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_DEPENDENTCONTINUANT, DefaultDependentContinuant.class);
+!!!1065858.java!!!	createDisposition(in name : String) : Disposition
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_DISPOSITION, DefaultDisposition.class);
+!!!1065986.java!!!	getDisposition(in name : String) : Disposition
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_DISPOSITION, DefaultDisposition.class);
+!!!1066114.java!!!	getAllDispositionInstances() : Collection<? extends Disposition>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_DISPOSITION, DefaultDisposition.class);
+!!!1066242.java!!!	createFiatObjectPart(in name : String) : FiatObjectPart
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_FIATOBJECTPART, DefaultFiatObjectPart.class);
+!!!1066370.java!!!	getFiatObjectPart(in name : String) : FiatObjectPart
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_FIATOBJECTPART, DefaultFiatObjectPart.class);
+!!!1066498.java!!!	getAllFiatObjectPartInstances() : Collection<? extends FiatObjectPart>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_FIATOBJECTPART, DefaultFiatObjectPart.class);
+!!!1066626.java!!!	createFunction(in name : String) : Function
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_FUNCTION, DefaultFunction.class);
+!!!1066754.java!!!	getFunction(in name : String) : Function
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_FUNCTION, DefaultFunction.class);
+!!!1066882.java!!!	getAllFunctionInstances() : Collection<? extends Function>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_FUNCTION, DefaultFunction.class);
+!!!1067010.java!!!	createGenericallyDependentContinuant(in name : String) : GenericallyDependentContinuant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_GENERICALLYDEPENDENTCONTINUANT, DefaultGenericallyDependentContinuant.class);
+!!!1067138.java!!!	getGenericallyDependentContinuant(in name : String) : GenericallyDependentContinuant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_GENERICALLYDEPENDENTCONTINUANT, DefaultGenericallyDependentContinuant.class);
+!!!1067266.java!!!	getAllGenericallyDependentContinuantInstances() : Collection<? extends GenericallyDependentContinuant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_GENERICALLYDEPENDENTCONTINUANT, DefaultGenericallyDependentContinuant.class);
+!!!1067394.java!!!	createIndependentContinuant(in name : String) : IndependentContinuant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_INDEPENDENTCONTINUANT, DefaultIndependentContinuant.class);
+!!!1067522.java!!!	getIndependentContinuant(in name : String) : IndependentContinuant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_INDEPENDENTCONTINUANT, DefaultIndependentContinuant.class);
+!!!1067650.java!!!	getAllIndependentContinuantInstances() : Collection<? extends IndependentContinuant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_INDEPENDENTCONTINUANT, DefaultIndependentContinuant.class);
+!!!1067778.java!!!	createMaterialEntity(in name : String) : MaterialEntity
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_MATERIALENTITY, DefaultMaterialEntity.class);
+!!!1067906.java!!!	getMaterialEntity(in name : String) : MaterialEntity
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_MATERIALENTITY, DefaultMaterialEntity.class);
+!!!1068034.java!!!	getAllMaterialEntityInstances() : Collection<? extends MaterialEntity>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_MATERIALENTITY, DefaultMaterialEntity.class);
+!!!1068162.java!!!	createObjectAggregate(in name : String) : ObjectAggregate
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_OBJECTAGGREGATE, DefaultObjectAggregate.class);
+!!!1068290.java!!!	getObjectAggregate(in name : String) : ObjectAggregate
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_OBJECTAGGREGATE, DefaultObjectAggregate.class);
+!!!1068418.java!!!	getAllObjectAggregateInstances() : Collection<? extends ObjectAggregate>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_OBJECTAGGREGATE, DefaultObjectAggregate.class);
+!!!1068546.java!!!	createObjectBoundary(in name : String) : ObjectBoundary
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_OBJECTBOUNDARY, DefaultObjectBoundary.class);
+!!!1068674.java!!!	getObjectBoundary(in name : String) : ObjectBoundary
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_OBJECTBOUNDARY, DefaultObjectBoundary.class);
+!!!1068802.java!!!	getAllObjectBoundaryInstances() : Collection<? extends ObjectBoundary>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_OBJECTBOUNDARY, DefaultObjectBoundary.class);
+!!!1068930.java!!!	createOneDimensionalRegion(in name : String) : OneDimensionalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_ONEDIMENSIONALREGION, DefaultOneDimensionalRegion.class);
+!!!1069058.java!!!	getOneDimensionalRegion(in name : String) : OneDimensionalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_ONEDIMENSIONALREGION, DefaultOneDimensionalRegion.class);
+!!!1069186.java!!!	getAllOneDimensionalRegionInstances() : Collection<? extends OneDimensionalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_ONEDIMENSIONALREGION, DefaultOneDimensionalRegion.class);
+!!!1069314.java!!!	createQuality(in name : String) : Quality
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_QUALITY, DefaultQuality.class);
+!!!1069442.java!!!	getQuality(in name : String) : Quality
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_QUALITY, DefaultQuality.class);
+!!!1069570.java!!!	getAllQualityInstances() : Collection<? extends Quality>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_QUALITY, DefaultQuality.class);
+!!!1069698.java!!!	createRealizableEntity(in name : String) : RealizableEntity
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_REALIZABLEENTITY, DefaultRealizableEntity.class);
+!!!1069826.java!!!	getRealizableEntity(in name : String) : RealizableEntity
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_REALIZABLEENTITY, DefaultRealizableEntity.class);
+!!!1069954.java!!!	getAllRealizableEntityInstances() : Collection<? extends RealizableEntity>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_REALIZABLEENTITY, DefaultRealizableEntity.class);
+!!!1070082.java!!!	createRole(in name : String) : Role
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_ROLE, DefaultRole.class);
+!!!1070210.java!!!	getRole(in name : String) : Role
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_ROLE, DefaultRole.class);
+!!!1070338.java!!!	getAllRoleInstances() : Collection<? extends Role>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_ROLE, DefaultRole.class);
+!!!1070466.java!!!	createSite(in name : String) : Site
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SITE, DefaultSite.class);
+!!!1070594.java!!!	getSite(in name : String) : Site
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SITE, DefaultSite.class);
+!!!1070722.java!!!	getAllSiteInstances() : Collection<? extends Site>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SITE, DefaultSite.class);
+!!!1070850.java!!!	createSpatialRegion(in name : String) : SpatialRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SPATIALREGION, DefaultSpatialRegion.class);
+!!!1070978.java!!!	getSpatialRegion(in name : String) : SpatialRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SPATIALREGION, DefaultSpatialRegion.class);
+!!!1071106.java!!!	getAllSpatialRegionInstances() : Collection<? extends SpatialRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SPATIALREGION, DefaultSpatialRegion.class);
+!!!1071234.java!!!	createSpecificallyDependentContinuant(in name : String) : SpecificallyDependentContinuant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SPECIFICALLYDEPENDENTCONTINUANT, DefaultSpecificallyDependentContinuant.class);
+!!!1071362.java!!!	getSpecificallyDependentContinuant(in name : String) : SpecificallyDependentContinuant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SPECIFICALLYDEPENDENTCONTINUANT, DefaultSpecificallyDependentContinuant.class);
+!!!1071490.java!!!	getAllSpecificallyDependentContinuantInstances() : Collection<? extends SpecificallyDependentContinuant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SPECIFICALLYDEPENDENTCONTINUANT, DefaultSpecificallyDependentContinuant.class);
+!!!1071618.java!!!	createThreeDimensionalRegion(in name : String) : ThreeDimensionalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_THREEDIMENSIONALREGION, DefaultThreeDimensionalRegion.class);
+!!!1071746.java!!!	getThreeDimensionalRegion(in name : String) : ThreeDimensionalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_THREEDIMENSIONALREGION, DefaultThreeDimensionalRegion.class);
+!!!1071874.java!!!	getAllThreeDimensionalRegionInstances() : Collection<? extends ThreeDimensionalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_THREEDIMENSIONALREGION, DefaultThreeDimensionalRegion.class);
+!!!1072002.java!!!	createTwoDimensionalRegion(in name : String) : TwoDimensionalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_TWODIMENSIONALREGION, DefaultTwoDimensionalRegion.class);
+!!!1072130.java!!!	getTwoDimensionalRegion(in name : String) : TwoDimensionalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_TWODIMENSIONALREGION, DefaultTwoDimensionalRegion.class);
+!!!1072258.java!!!	getAllTwoDimensionalRegionInstances() : Collection<? extends TwoDimensionalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_TWODIMENSIONALREGION, DefaultTwoDimensionalRegion.class);
+!!!1072386.java!!!	createZeroDimensionalRegion(in name : String) : ZeroDimensionalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_ZERODIMENSIONALREGION, DefaultZeroDimensionalRegion.class);
+!!!1072514.java!!!	getZeroDimensionalRegion(in name : String) : ZeroDimensionalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_ZERODIMENSIONALREGION, DefaultZeroDimensionalRegion.class);
+!!!1072642.java!!!	getAllZeroDimensionalRegionInstances() : Collection<? extends ZeroDimensionalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_ZERODIMENSIONALREGION, DefaultZeroDimensionalRegion.class);
+!!!1072770.java!!!	createConnectedSpatiotemporalRegion(in name : String) : ConnectedSpatiotemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CONNECTEDSPATIOTEMPORALREGION, DefaultConnectedSpatiotemporalRegion.class);
+!!!1072898.java!!!	getConnectedSpatiotemporalRegion(in name : String) : ConnectedSpatiotemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CONNECTEDSPATIOTEMPORALREGION, DefaultConnectedSpatiotemporalRegion.class);
+!!!1073026.java!!!	getAllConnectedSpatiotemporalRegionInstances() : Collection<? extends ConnectedSpatiotemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CONNECTEDSPATIOTEMPORALREGION, DefaultConnectedSpatiotemporalRegion.class);
+!!!1073154.java!!!	createConnectedTemporalRegion(in name : String) : ConnectedTemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_CONNECTEDTEMPORALREGION, DefaultConnectedTemporalRegion.class);
+!!!1073282.java!!!	getConnectedTemporalRegion(in name : String) : ConnectedTemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_CONNECTEDTEMPORALREGION, DefaultConnectedTemporalRegion.class);
+!!!1073410.java!!!	getAllConnectedTemporalRegionInstances() : Collection<? extends ConnectedTemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_CONNECTEDTEMPORALREGION, DefaultConnectedTemporalRegion.class);
+!!!1073538.java!!!	createFiatProcessPart(in name : String) : FiatProcessPart
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_FIATPROCESSPART, DefaultFiatProcessPart.class);
+!!!1073666.java!!!	getFiatProcessPart(in name : String) : FiatProcessPart
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_FIATPROCESSPART, DefaultFiatProcessPart.class);
+!!!1073794.java!!!	getAllFiatProcessPartInstances() : Collection<? extends FiatProcessPart>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_FIATPROCESSPART, DefaultFiatProcessPart.class);
+!!!1073922.java!!!	createOccurrent(in name : String) : Occurrent
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_OCCURRENT, DefaultOccurrent.class);
+!!!1074050.java!!!	getOccurrent(in name : String) : Occurrent
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_OCCURRENT, DefaultOccurrent.class);
+!!!1074178.java!!!	getAllOccurrentInstances() : Collection<? extends Occurrent>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_OCCURRENT, DefaultOccurrent.class);
+!!!1074306.java!!!	createProcess(in name : String) : Process
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PROCESS, DefaultProcess.class);
+!!!1074434.java!!!	getProcess(in name : String) : Process
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PROCESS, DefaultProcess.class);
+!!!1074562.java!!!	getAllProcessInstances() : Collection<? extends Process>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PROCESS, DefaultProcess.class);
+!!!1074690.java!!!	createProcessAggregate(in name : String) : ProcessAggregate
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PROCESSAGGREGATE, DefaultProcessAggregate.class);
+!!!1074818.java!!!	getProcessAggregate(in name : String) : ProcessAggregate
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PROCESSAGGREGATE, DefaultProcessAggregate.class);
+!!!1074946.java!!!	getAllProcessAggregateInstances() : Collection<? extends ProcessAggregate>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PROCESSAGGREGATE, DefaultProcessAggregate.class);
+!!!1075074.java!!!	createProcessBoundary(in name : String) : ProcessBoundary
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PROCESSBOUNDARY, DefaultProcessBoundary.class);
+!!!1075202.java!!!	getProcessBoundary(in name : String) : ProcessBoundary
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PROCESSBOUNDARY, DefaultProcessBoundary.class);
+!!!1075330.java!!!	getAllProcessBoundaryInstances() : Collection<? extends ProcessBoundary>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PROCESSBOUNDARY, DefaultProcessBoundary.class);
+!!!1075458.java!!!	createProcessualContext(in name : String) : ProcessualContext
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PROCESSUALCONTEXT, DefaultProcessualContext.class);
+!!!1075586.java!!!	getProcessualContext(in name : String) : ProcessualContext
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PROCESSUALCONTEXT, DefaultProcessualContext.class);
+!!!1075714.java!!!	getAllProcessualContextInstances() : Collection<? extends ProcessualContext>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PROCESSUALCONTEXT, DefaultProcessualContext.class);
+!!!1075842.java!!!	createProcessualEntity(in name : String) : ProcessualEntity
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_PROCESSUALENTITY, DefaultProcessualEntity.class);
+!!!1075970.java!!!	getProcessualEntity(in name : String) : ProcessualEntity
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_PROCESSUALENTITY, DefaultProcessualEntity.class);
+!!!1076098.java!!!	getAllProcessualEntityInstances() : Collection<? extends ProcessualEntity>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_PROCESSUALENTITY, DefaultProcessualEntity.class);
+!!!1076226.java!!!	createScatteredSpatiotemporalRegion(in name : String) : ScatteredSpatiotemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SCATTEREDSPATIOTEMPORALREGION, DefaultScatteredSpatiotemporalRegion.class);
+!!!1076354.java!!!	getScatteredSpatiotemporalRegion(in name : String) : ScatteredSpatiotemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SCATTEREDSPATIOTEMPORALREGION, DefaultScatteredSpatiotemporalRegion.class);
+!!!1076482.java!!!	getAllScatteredSpatiotemporalRegionInstances() : Collection<? extends ScatteredSpatiotemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SCATTEREDSPATIOTEMPORALREGION, DefaultScatteredSpatiotemporalRegion.class);
+!!!1076610.java!!!	createScatteredTemporalRegion(in name : String) : ScatteredTemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SCATTEREDTEMPORALREGION, DefaultScatteredTemporalRegion.class);
+!!!1076738.java!!!	getScatteredTemporalRegion(in name : String) : ScatteredTemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SCATTEREDTEMPORALREGION, DefaultScatteredTemporalRegion.class);
+!!!1076866.java!!!	getAllScatteredTemporalRegionInstances() : Collection<? extends ScatteredTemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SCATTEREDTEMPORALREGION, DefaultScatteredTemporalRegion.class);
+!!!1076994.java!!!	createSpatiotemporalInstant(in name : String) : SpatiotemporalInstant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALINSTANT, DefaultSpatiotemporalInstant.class);
+!!!1077122.java!!!	getSpatiotemporalInstant(in name : String) : SpatiotemporalInstant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALINSTANT, DefaultSpatiotemporalInstant.class);
+!!!1077250.java!!!	getAllSpatiotemporalInstantInstances() : Collection<? extends SpatiotemporalInstant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SPATIOTEMPORALINSTANT, DefaultSpatiotemporalInstant.class);
+!!!1077378.java!!!	createSpatiotemporalInterval(in name : String) : SpatiotemporalInterval
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALINTERVAL, DefaultSpatiotemporalInterval.class);
+!!!1077506.java!!!	getSpatiotemporalInterval(in name : String) : SpatiotemporalInterval
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALINTERVAL, DefaultSpatiotemporalInterval.class);
+!!!1077634.java!!!	getAllSpatiotemporalIntervalInstances() : Collection<? extends SpatiotemporalInterval>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SPATIOTEMPORALINTERVAL, DefaultSpatiotemporalInterval.class);
+!!!1077762.java!!!	createSpatiotemporalRegion(in name : String) : SpatiotemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALREGION, DefaultSpatiotemporalRegion.class);
+!!!1077890.java!!!	getSpatiotemporalRegion(in name : String) : SpatiotemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_SPATIOTEMPORALREGION, DefaultSpatiotemporalRegion.class);
+!!!1078018.java!!!	getAllSpatiotemporalRegionInstances() : Collection<? extends SpatiotemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_SPATIOTEMPORALREGION, DefaultSpatiotemporalRegion.class);
+!!!1078146.java!!!	createTemporalInstant(in name : String) : TemporalInstant
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_TEMPORALINSTANT, DefaultTemporalInstant.class);
+!!!1078274.java!!!	getTemporalInstant(in name : String) : TemporalInstant
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_TEMPORALINSTANT, DefaultTemporalInstant.class);
+!!!1078402.java!!!	getAllTemporalInstantInstances() : Collection<? extends TemporalInstant>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_TEMPORALINSTANT, DefaultTemporalInstant.class);
+!!!1078530.java!!!	createTemporalInterval(in name : String) : TemporalInterval
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_TEMPORALINTERVAL, DefaultTemporalInterval.class);
+!!!1078658.java!!!	getTemporalInterval(in name : String) : TemporalInterval
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_TEMPORALINTERVAL, DefaultTemporalInterval.class);
+!!!1078786.java!!!	getAllTemporalIntervalInstances() : Collection<? extends TemporalInterval>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_TEMPORALINTERVAL, DefaultTemporalInterval.class);
+!!!1078914.java!!!	createTemporalRegion(in name : String) : TemporalRegion
+		return delegate.createWrappedIndividual(name, Vocabulary.CLASS_TEMPORALREGION, DefaultTemporalRegion.class);
+!!!1079042.java!!!	getTemporalRegion(in name : String) : TemporalRegion
+		return delegate.getWrappedIndividual(name, Vocabulary.CLASS_TEMPORALREGION, DefaultTemporalRegion.class);
+!!!1079170.java!!!	getAllTemporalRegionInstances() : Collection<? extends TemporalRegion>
+		return delegate.getWrappedIndividuals(Vocabulary.CLASS_TEMPORALREGION, DefaultTemporalRegion.class);

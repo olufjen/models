@@ -1,0 +1,26 @@
+class LcvHeuristic
+!!!451458.java!!!	apply(inout csp : CSP, inout assignment : Assignment, inout var : VAR) : List<VAL>
+            List<Pair<VAL, Integer>> pairs = new ArrayList<>();
+            for (VAL value : csp.getDomain(var)) {
+                int num = countLostValues(csp, assignment, var, value);
+                pairs.add(new Pair<>(value, num));
+            }
+            return pairs.stream().sorted(Comparator.comparing(Pair::getSecond)).map(Pair::getFirst)
+                    .collect(Collectors.toList());
+!!!451586.java!!!	countLostValues(inout csp : CSP, inout assignment : Assignment, inout var : VAR, inout value : VAL) : int
+            int result = 0;
+            Assignment<VAR, VAL> assign = new Assignment<>();
+            assign.add(var, value);
+            for (Constraint<VAR, VAL> constraint : csp.getConstraints(var)) {
+                if (constraint.getScope().size() == 2) {
+                    VAR neighbor = csp.getNeighbor(var, constraint);
+                    if (!assignment.contains(neighbor))
+                        for (VAL nValue : csp.getDomain(neighbor)) {
+                            assign.add(neighbor, nValue);
+                            if (!constraint.isSatisfiedWith(assign)) {
+                                ++result;
+                            }
+                        }
+                }
+            }
+            return result;

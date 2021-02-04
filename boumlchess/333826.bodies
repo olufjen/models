@@ -1,0 +1,187 @@
+class APlayer
+!!!1696770.java!!!	APlayer(inout mygamePieces : ArrayList<AgamePiece>)
+		super();
+		this.mygamePieces = mygamePieces;
+		heldPositions = new ArrayList<Position>();
+		myMoves = new HashMap<String,ApieceMove>();
+		pieceNames = new ArrayList<String>();
+		pieceValues = new ArrayList<Integer>();
+		myontologyPieces = new ArrayList<Piece>();
+		namesAndrank = new HashMap();
+!!!1696898.java!!!	APlayer()
+		super();
+		mygamePieces = new ArrayList<AgamePiece>();
+		heldPositions = new ArrayList<Position>();
+		myMoves = new HashMap<String,ApieceMove>();
+		pieceNames = new ArrayList<String>();
+		pieceValues = new ArrayList<Integer>();
+		myontologyPieces = new ArrayList<Piece>();
+		namesAndrank = new HashMap();
+!!!1697026.java!!!	APlayer(inout playerName : AbstractPlayer::player)
+		super();
+		this.playerName = playerName;
+		mygamePieces = new ArrayList<AgamePiece>();
+		heldPositions = new ArrayList<Position>();
+		myMoves = new HashMap<String,ApieceMove>();
+		pieceNames = new ArrayList<String>();
+		pieceValues = new ArrayList<Integer>();
+		myontologyPieces = new ArrayList<Piece>();
+		namesAndrank = new HashMap();
+!!!1697154.java!!!	getNameOfplayer() : String
+		return nameOfplayer;
+!!!1697282.java!!!	setNameOfplayer(in nameOfplayer : String) : void
+		this.nameOfplayer = nameOfplayer;
+!!!1697410.java!!!	getMyontologyPieces() : Piece
+		return myontologyPieces;
+!!!1697538.java!!!	setMyontologyPieces(inout myontologyPieces : ArrayList<Piece>) : void
+		this.myontologyPieces = myontologyPieces;
+!!!1697666.java!!!	getPieceNames() : List<String>
+		return pieceNames;
+!!!1697794.java!!!	setPieceNames(inout pieceNames : List<String>) : void
+		this.pieceNames = pieceNames;
+!!!1697922.java!!!	getPieceValues() : List<Integer>
+		return pieceValues;
+!!!1698050.java!!!	setPieceValues(inout pieceValues : List<Integer>) : void
+		this.pieceValues = pieceValues;
+!!!1698178.java!!!	emptyPositions() : void
+		heldPositions.clear();
+!!!1698306.java!!!	getActions() : ChessAction
+		return actions;
+!!!1698434.java!!!	collectOntlogyPieces() : void
+		if (playerName == getWhitePlayer()) {
+			for (AgamePiece piece:mygamePieces ) {
+				Piece ontPiece = piece.getMyPiece().getWhitePiece();
+				myontologyPieces.add(ontPiece);
+			}
+		}
+		if (playerName == getBlackPlayer()) {
+			for (AgamePiece piece:mygamePieces ) {
+				Piece ontPiece = piece.getMyPiece().getBlackPiece();
+				myontologyPieces.add(ontPiece);
+			}
+		}
+		producePrioritylist();
+!!!1698562.java!!!	producePrioritylist() : void
+		List<OWLNamedIndividual> ontNames =	myontologyPieces.stream().map(Piece::getOwlIndividual).collect(Collectors.toList());
+		List<IRI>iris = ontNames.stream().map(OWLNamedIndividual::getIRI).collect(Collectors.toList());
+		pieceNames = iris.stream().map(IRI::toString).collect(Collectors.toList());
+//		List<List<Integer>>valueList = new ArrayList<List<Integer>>();
+		List<Integer>valueList = new ArrayList<Integer>();
+		for (Piece ontPiece:myontologyPieces) {
+			HashSet<Integer> values =  (HashSet) ontPiece.getHasValue();
+			pieceValues.addAll(values);
+//			List<List<Integer>>tempList = new ArrayList<List<Integer>>(((Map<String, AgamePiece>) values).values());
+//			tempList.forEach(valueList::addAll);
+//			tempList.forEach(pieceValues::addAll);
+		}
+/*
+ * This stream operation collects the ontology piecenames and their rank to a hashmap.		
+ */
+		namesAndrank = (HashMap<String,Integer>) IntStream.range(0,pieceNames.size()).boxed().collect(Collectors.toMap(i -> pieceNames.get(i), i -> pieceValues.get(i)));
+/*		Map<Double, String> map = IntStream.range(0, list1.size())
+	            .boxed()
+	            .collect(Collectors.toMap(i -> list1.get(i), i -> list2.get(i)));*/
+//		List<List<Integer>>valueList = (List<List<Integer>>)(List<?>) myontologyPieces.stream().map(Piece::getHasValue).collect(Collectors.toList());
+//		pieceValues = valueList.stream().flatMap(List::stream).collect(Collectors.toList());
+//		List<Integer>valuesimple
+//		List<Integer>valueList = (List<Integer>)(List<?>) myontologyPieces.stream().map(Piece::getHasValue).collect(Collectors.toList());
+//		valuesimple.forEach(pieceValues::addAll);
+//		Stream<List<Integer>> streamArray = Stream.of(valueList);
+
+//		pieceValues = streamArray.stream().flatMap(List::stream).collect(Collectors.toList());
+//		streamArray.forEach(pieceValues::addAll);
+/*		for (Piece ontPiece:myontologyPieces) {
+			//ontPiece.
+		}*/
+!!!1698690.java!!!	checkPreferredPosition(inout action : ChessAction) : void
+	 for (Position heldPos:heldPositions) {
+			Position prefPos = (Position) action.getPreferredPosition();
+			if(prefPos == null)
+				break;
+			if (prefPos == heldPos) {
+				action.setPreferredPosition(null);
+				break;
+			}
+			
+
+	}
+!!!1698818.java!!!	setActions(inout actions : List<ChessAction>) : void
+		this.actions = actions;
+
+!!!1698946.java!!!	getPieces() : AgamePiece
+		
+		return (HashMap<String, AgamePiece>) myPieces;
+!!!1699074.java!!!	collectmyPieces() : void
+		
+		
+!!!1699202.java!!!	getHeldPositions() : List<Position>
+		return heldPositions;
+!!!1699330.java!!!	setHeldPositions(inout heldPositions : List<Position>) : void
+		this.heldPositions = heldPositions;
+!!!1699458.java!!!	calculatePreferredPosition(inout piece : AgamePiece, inout action : ChessActionImpl) : Position
+		String name = piece.getMyPiece().getPieceName();
+		int pn = piece.getMyPosition().getIntRow();
+		Integer prn = new Integer(pn);
+		PreferredMoveProcessor pr = new PreferredMoveProcessor(prn,name);
+		ApieceMove move = ChessFunctions.processChessgame(action,piece,pr); // The processor can be replaced by a lambda expression
+		Position preferredPosition = null;
+		if (move != null) {
+			preferredPosition = move.getToPosition();
+		}
+		return preferredPosition;
+!!!1699586.java!!!	calculateOpponentPositions() : void
+		for (AgamePiece piece:mygamePieces ) {
+			String name = piece.getMyPiece().getPieceName();
+			int pn = piece.getMyPosition().getIntRow();
+			Integer prn = new Integer(pn);
+			OpponentMoveProcessor op = new OpponentMoveProcessor(prn,name);
+			ApieceMove move = ChessFunctions.processChessgame(this, piece,op);
+			currentMove = move;
+		}
+!!!1699714.java!!!	getMyPieces() : AgamePiece
+		return myPieces;
+!!!1699842.java!!!	setMyPieces(inout myPieces : HashMap<String, AgamePiece>) : void
+		this.myPieces = myPieces;
+!!!1699970.java!!!	getMyMoves() : ApieceMove
+		return myMoves;
+!!!1700098.java!!!	setMyMoves(inout myMoves : HashMap<String, ApieceMove>) : void
+		this.myMoves = myMoves;
+!!!1700226.java!!!	getCurrentMove() : ApieceMove
+		return currentMove;
+!!!1700354.java!!!	setCurrentMove(inout currentMove : ApieceMove) : void
+		this.currentMove = currentMove;
+!!!1700482.java!!!	getMygamePieces() : AgamePiece
+		return mygamePieces;
+!!!1700610.java!!!	setMygamePieces(inout mygamePieces : ArrayList<AgamePiece>) : void
+		this.mygamePieces = mygamePieces;
+!!!1700738.java!!!	getPlayerName() : AbstractPlayer::player
+		return playerName;
+!!!1700866.java!!!	setPlayerName(inout playerName : AbstractPlayer::player) : void
+		this.playerName = playerName;
+		if (playerName == whitePlayer) {
+			setWhitePlayer(playerName);
+			nameOfplayer = "WhitePlayer";
+		}
+		if (playerName == blackPlayer) {
+			setBlackPlayer(playerName);
+			nameOfplayer = "BlackPlayer";
+		}
+!!!1700994.java!!!	isActive() : boolean
+		return active;
+!!!1701122.java!!!	setActive(inout active : boolean) : void
+		this.active = active;
+!!!1701250.java!!!	clone() : Object
+		// TODO Auto-generated method stub
+		return super.clone();
+!!!1701378.java!!!	equals(inout arg0 : Object) : boolean
+		// TODO Auto-generated method stub
+		return super.equals(arg0);
+!!!1701506.java!!!	finalize() : void
+		// TODO Auto-generated method stub
+		super.finalize();
+!!!1701634.java!!!	hashCode() : int
+		// TODO Auto-generated method stub
+		return super.hashCode();
+!!!1701762.java!!!	toString() : String
+		
+		return playerName+" "+playerId;

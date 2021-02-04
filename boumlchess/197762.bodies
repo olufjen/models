@@ -1,0 +1,67 @@
+class HillClimbingSearch
+!!!480898.java!!!	HillClimbingSearch(inout h : ToDoubleFunction<Node<S, A>>)
+        this(h, new NodeExpander<>());
+!!!481026.java!!!	HillClimbingSearch(inout h : ToDoubleFunction<Node<S, A>>, inout nodeExpander : NodeExpander)
+        this.h = h;
+        this.nodeExpander = nodeExpander;
+        nodeExpander.addNodeListener((node) -> metrics.incrementInt(METRIC_NODES_EXPANDED));
+!!!481154.java!!!	setHeuristicFunction(inout h : ToDoubleFunction<Node<S, A>>) : void
+        this.h = h;
+!!!481282.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+        nodeExpander.useParentLinks(true);
+        return SearchUtils.toActions(findNode(p));
+!!!481410.java!!!	findState(inout p : Problem) : Optional<S>
+        nodeExpander.useParentLinks(false);
+        return SearchUtils.toState(findNode(p));
+!!!481538.java!!!	findNode(inout p : Problem) : Node
+        clearMetrics();
+        outcome = SearchOutcome.FAILURE;
+        // current <- MAKE-NODE(problem.INITIAL-STATE)
+        Node<S, A> current = nodeExpander.createRootNode(p.getInitialState());
+        Node<S, A> neighbor;
+        // loop do
+        while (!Tasks.currIsCancelled()) {
+            lastState = current.getState();
+            metrics.set(METRIC_NODE_VALUE, getValue(current));
+            List<Node<S, A>> children = nodeExpander.expand(current, p);
+            // neighbor <- a highest-valued successor of current
+            neighbor = getHighestValuedNodeFrom(children);
+
+            // if neighbor.VALUE <= current.VALUE then return current.STATE
+            if (neighbor == null || getValue(neighbor) <= getValue(current)) {
+                if (p.testSolution(current))
+                    outcome = SearchOutcome.SOLUTION_FOUND;
+                return Optional.of(current);
+            }
+            // current <- neighbor
+            current = neighbor;
+        }
+        return Optional.empty();
+!!!481666.java!!!	getOutcome() : HillClimbingSearch::SearchOutcome
+        return outcome;
+!!!481794.java!!!	getLastSearchState() : S
+        return lastState;
+!!!481922.java!!!	getMetrics() : Metrics
+        return metrics;
+!!!482050.java!!!	clearMetrics() : void
+        metrics.set(METRIC_NODES_EXPANDED, 0);
+        metrics.set(METRIC_NODE_VALUE, 0);
+!!!482178.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+        nodeExpander.addNodeListener(listener);
+!!!482306.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+        return nodeExpander.removeNodeListener(listener);
+!!!482434.java!!!	getHighestValuedNodeFrom(inout children : List<Node<S, A>>) : Node
+        double highestValue = Double.NEGATIVE_INFINITY;
+        Node<S, A> nodeWithHighestValue = null;
+        for (Node<S, A> child : children) {
+            double value = getValue(child);
+            if (value > highestValue) {
+                highestValue = value;
+                nodeWithHighestValue = child;
+            }
+        }
+        return nodeWithHighestValue;
+!!!482562.java!!!	getValue(inout n : Node) : double
+        // assumption greater heuristic value =>
+        // HIGHER on hill; 0 == goal state;
+        return -1 * h.applyAsDouble(n);

@@ -1,0 +1,111 @@
+class Model
+!!!370946.java!!!	Model(inout values : Map<PropositionSymbol, Boolean>)
+		assignments.putAll(values);
+!!!371074.java!!!	getValue(inout symbol : PropositionSymbol) : Boolean
+		return assignments.get(symbol);
+!!!371202.java!!!	isTrue(inout symbol : PropositionSymbol) : boolean
+		return Boolean.TRUE.equals(assignments.get(symbol));
+!!!371330.java!!!	isFalse(inout symbol : PropositionSymbol) : boolean
+		return Boolean.FALSE.equals(assignments.get(symbol));
+!!!371458.java!!!	union(inout symbol : PropositionSymbol, inout b : boolean) : Model
+		Model m = new Model();
+		m.assignments.putAll(this.assignments);
+		m.assignments.put(symbol, b);
+		return m;
+!!!371586.java!!!	unionInPlace(inout symbol : PropositionSymbol, inout b : boolean) : Model
+		assignments.put(symbol, b);
+		return this;
+!!!371714.java!!!	remove(inout p : PropositionSymbol) : boolean
+		return assignments.remove(p);
+!!!371842.java!!!	isTrue(inout s : Sentence) : boolean
+		return Boolean.TRUE.equals(s.accept(this, null));
+!!!371970.java!!!	isFalse(inout s : Sentence) : boolean
+		return Boolean.FALSE.equals(s.accept(this, null));
+!!!372098.java!!!	isUnknown(inout s : Sentence) : boolean
+		return null == s.accept(this, null);
+!!!372226.java!!!	flip(inout s : PropositionSymbol) : Model
+		if (isTrue(s)) {
+			return union(s, false);
+		}
+		if (isFalse(s)) {
+			return union(s, true);
+		}
+		return this;
+!!!372354.java!!!	getAssignedSymbols() : PropositionSymbol
+		return Collections.unmodifiableSet(assignments.keySet());
+!!!372482.java!!!	satisfies(inout clauses : Set<Clause>) : boolean
+		for (Clause c : clauses) {
+			// All must to be true
+			if (!Boolean.TRUE.equals(determineValue(c)))
+				return false;
+		}
+		return true;
+!!!372610.java!!!	determineValue(inout c : Clause) : Boolean
+		Boolean result = null; // i.e. unknown
+
+		if (c.isTautology()) { // Test independent of the model's assignments.
+			result = Boolean.TRUE;
+		} else if (c.isFalse()) { // Test independent of the model's assignments.
+			result = Boolean.FALSE;
+		} else {
+			boolean unassignedSymbols = false;
+			for (Literal literal : c.getLiterals()) {
+				PropositionSymbol symbol = literal.getAtomicSentence();
+				Boolean value = assignments.get(symbol);
+				if (value == null) {
+					unassignedSymbols = true;
+				} else if (value.equals(literal.isPositiveLiteral())) {
+					result = Boolean.TRUE;
+					break;
+				}
+			}
+			if (result == null && !unassignedSymbols) {
+				// If truth not determined and there are no
+				// unassigned symbols then we can determine falsehood
+				// (i.e. all of its literals are assigned false under the
+				// model)
+				result = Boolean.FALSE;
+			}
+		}
+		return result;
+!!!372738.java!!!	print() : void
+		for (Map.Entry<PropositionSymbol, Boolean> e : assignments.entrySet()) {
+			System.out.print(e.getKey() + " = " + e.getValue() + " ");
+		}
+		System.out.println();
+!!!372866.java!!!	toString() : String
+		return assignments.toString();
+!!!372994.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : Boolean) : Boolean
+		if (s.isAlwaysTrue()) {
+			return Boolean.TRUE;
+		}
+		if (s.isAlwaysFalse()) {
+			return Boolean.FALSE;
+		}
+		return getValue(s);
+!!!373122.java!!!	visitUnarySentence(inout fs : ComplexSentence, inout arg : Boolean) : Boolean
+		Object negatedValue = fs.getSimplerSentence(0).accept(this, null);
+		if (negatedValue != null) {
+			return !(Boolean) negatedValue;
+		} else {
+			return null;
+		}
+!!!373250.java!!!	visitBinarySentence(inout bs : ComplexSentence, inout arg : Boolean) : Boolean
+		Boolean firstValue = (Boolean) bs.getSimplerSentence(0).accept(this, null);
+		Boolean secondValue = (Boolean) bs.getSimplerSentence(1).accept(this, null);
+		boolean bothValuesKnown = firstValue != null && secondValue != null;
+		Connective connective = bs.getConnective();
+
+		if (connective.equals(Connective.AND)) {
+			return Boolean.FALSE.equals(firstValue) || Boolean.FALSE.equals(secondValue) ?
+					Boolean.FALSE : (bothValuesKnown ? Boolean.TRUE : null);
+		} else if (connective.equals(Connective.OR)) {
+			return Boolean.TRUE.equals(firstValue) || Boolean.TRUE.equals(secondValue) ?
+					Boolean.TRUE : (bothValuesKnown ? Boolean.FALSE : null);
+		} else if (connective.equals(Connective.IMPLICATION)) {
+			return Boolean.FALSE.equals(firstValue) || Boolean.TRUE.equals(secondValue) ?
+					Boolean.TRUE : (bothValuesKnown ? Boolean.FALSE : null);
+		} else if (connective.equals(Connective.BICONDITIONAL)) {
+			return bothValuesKnown ? firstValue.equals(secondValue) : null;
+		}
+		return null;

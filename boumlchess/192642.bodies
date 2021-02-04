@@ -1,0 +1,15 @@
+class StepCounter
+!!!451842.java!!!	stateChanged(inout csp : CSP, inout assignment : Assignment, inout variable : VAR) : void
+            if (assignment != null)
+                ++assignmentCount;
+            else
+                ++inferenceCount;
+!!!451970.java!!!	reset() : void
+            assignmentCount = 0;
+            inferenceCount = 0;
+!!!452098.java!!!	getResults() : Metrics
+            Metrics result = new Metrics();
+            result.set("assignmentCount", assignmentCount);
+            if (inferenceCount != 0)
+                result.set("inferenceCount", inferenceCount);
+            return result;

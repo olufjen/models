@@ -1,0 +1,38 @@
+class IterativeDeepeningSearch
+!!!493058.java!!!	IterativeDeepeningSearch()
+		this(new NodeExpander<>());
+!!!493186.java!!!	IterativeDeepeningSearch(inout nodeExpander : NodeExpander)
+		this.nodeExpander = nodeExpander;
+		this.metrics = new Metrics();
+!!!493314.java!!!	findActions(inout p : Problem) : Optional<List<A>>
+		nodeExpander.useParentLinks(true);
+		return SearchUtils.toActions(findNode(p));
+!!!493442.java!!!	findState(inout p : Problem) : Optional<S>
+		nodeExpander.useParentLinks(false);
+		return SearchUtils.toState(findNode(p));
+!!!493570.java!!!	findNode(inout p : Problem) : Node
+		clearMetrics();
+		// for depth = 0 to infinity do
+		for (int i = 0; !Tasks.currIsCancelled(); i++) {
+			// result <- DEPTH-LIMITED-SEARCH(problem, depth)
+			DepthLimitedSearch<S, A> dls = new DepthLimitedSearch<>(i, nodeExpander);
+			Optional<Node<S, A>> result = dls.findNode(p);
+			updateMetrics(dls.getMetrics());
+			// if result != cutoff then return result
+			if (!dls.isCutoffResult(result))
+				return result;
+		}
+		return Optional.empty();
+!!!493698.java!!!	getMetrics() : Metrics
+		return metrics;
+!!!493826.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+		nodeExpander.addNodeListener(listener);
+!!!493954.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+		return nodeExpander.removeNodeListener(listener);
+!!!494082.java!!!	clearMetrics() : void
+		metrics.set(METRIC_NODES_EXPANDED, 0);
+		metrics.set(METRIC_PATH_COST, 0);
+!!!494210.java!!!	updateMetrics(inout dlsMetrics : Metrics) : void
+		metrics.set(METRIC_NODES_EXPANDED,
+				metrics.getInt(METRIC_NODES_EXPANDED) + dlsMetrics.getInt(METRIC_NODES_EXPANDED));
+		metrics.set(METRIC_PATH_COST, dlsMetrics.getDouble(METRIC_PATH_COST));

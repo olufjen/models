@@ -1,0 +1,124 @@
+class CPT
+!!!404738.java!!!	CPT(inout on : RandomVariable, inout values : double [[]], inout  : RandomVariable...conditionedOn)
+		this.on = on;
+		if (null == conditionedOn) {
+			conditionedOn = new RandomVariable[0];
+		}
+		RandomVariable[] tableVars = new RandomVariable[conditionedOn.length + 1];
+		for (int i = 0; i < conditionedOn.length; i++) {
+			tableVars[i] = conditionedOn[i];
+			parents.add(conditionedOn[i]);
+		}
+		tableVars[conditionedOn.length] = on;
+		table = new ProbabilityTable(values, tableVars);
+		onDomain.addAll(((FiniteDomain) on.getDomain()).getPossibleValues());
+
+		checkEachRowTotalsOne();
+!!!404866.java!!!	probabilityFor(in  : Object...values) : double
+		return table.getValue(values);
+!!!404994.java!!!	getOn() : RandomVariable
+		return on;
+!!!405122.java!!!	getParents() : RandomVariable
+		return parents;
+!!!405250.java!!!	getFor() : RandomVariable
+		return table.getFor();
+!!!405378.java!!!	contains(inout rv : RandomVariable) : boolean
+		return table.contains(rv);
+!!!405506.java!!!	getValue(inout  : Object...eventValues) : double
+		return table.getValue(eventValues);
+!!!405634.java!!!	getValue(inout  : AssignmentProposition...eventValues) : double
+		return table.getValue(eventValues);
+!!!405762.java!!!	getSample(in probabilityChoice : double, inout  : Object...parentValues) : Object
+		return ProbUtil.sample(probabilityChoice, on,
+				getConditioningCase(parentValues).getValues());
+!!!405890.java!!!	getSample(in probabilityChoice : double, inout  : AssignmentProposition...parentValues) : Object
+		return ProbUtil.sample(probabilityChoice, on,
+				getConditioningCase(parentValues).getValues());
+!!!406018.java!!!	getConditioningCase(inout  : Object...parentValues) : CategoricalDistribution
+		if (parentValues.length != parents.size()) {
+			throw new IllegalArgumentException(
+					"The number of parent value arguments ["
+							+ parentValues.length
+							+ "] is not equal to the number of parents ["
+							+ parents.size() + "] for this CPT.");
+		}
+		AssignmentProposition[] aps = new AssignmentProposition[parentValues.length];
+		int idx = 0;
+		for (RandomVariable parentRV : parents) {
+			aps[idx] = new AssignmentProposition(parentRV, parentValues[idx]);
+			idx++;
+		}
+
+		return getConditioningCase(aps);
+!!!406146.java!!!	getConditioningCase(inout  : AssignmentProposition...parentValues) : CategoricalDistribution
+		if (parentValues.length != parents.size()) {
+			throw new IllegalArgumentException(
+					"The number of parent value arguments ["
+							+ parentValues.length
+							+ "] is not equal to the number of parents ["
+							+ parents.size() + "] for this CPT.");
+		}
+		final ProbabilityTable cc = new ProbabilityTable(getOn());
+		ProbabilityTable.Iterator pti = new ProbabilityTable.Iterator() {
+			private int idx = 0;
+
+			@Override
+			public void iterate(Map<RandomVariable, Object> possibleAssignment,
+					double probability) {
+				cc.getValues()[idx] = probability;
+				idx++;
+			}
+		};
+		table.iterateOverTable(pti, parentValues);
+
+		return cc;
+!!!406274.java!!!	getFactorFor(in  : AssignmentProposition...evidence) : Factor
+		Set<RandomVariable> fofVars = new LinkedHashSet<RandomVariable>(
+				table.getFor());
+		for (AssignmentProposition ap : evidence) {
+			fofVars.remove(ap.getTermVariable());
+		}
+		final ProbabilityTable fof = new ProbabilityTable(fofVars);
+		// Otherwise need to iterate through the table for the
+		// non evidence variables.
+		final Object[] termValues = new Object[fofVars.size()];
+		ProbabilityTable.Iterator di = new ProbabilityTable.Iterator() {
+			public void iterate(Map<RandomVariable, Object> possibleWorld,
+					double probability) {
+				if (0 == termValues.length) {
+					fof.getValues()[0] += probability;
+				} else {
+					int i = 0;
+					for (RandomVariable rv : fof.getFor()) {
+						termValues[i] = possibleWorld.get(rv);
+						i++;
+					}
+					fof.getValues()[fof.getIndex(termValues)] += probability;
+				}
+			}
+		};
+		table.iterateOverTable(di, evidence);
+
+		return fof;
+!!!406402.java!!!	checkEachRowTotalsOne() : void
+		ProbabilityTable.Iterator di = new ProbabilityTable.Iterator() {
+			private int rowSize = onDomain.size();
+			private int iterateCnt = 0;
+			private double rowProb = 0;
+
+			public void iterate(Map<RandomVariable, Object> possibleWorld,
+					double probability) {
+				iterateCnt++;
+				rowProb += probability;
+				if (iterateCnt % rowSize == 0) {
+					if (Math.abs(1 - rowProb) > ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD) {
+						throw new IllegalArgumentException("Row "
+								+ (iterateCnt / rowSize)
+								+ " of CPT does not sum to 1.0.");
+					}
+					rowProb = 0;
+				}
+			}
+		};
+
+		table.iterateOverTable(di);

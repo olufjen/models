@@ -1,0 +1,28 @@
+class AbstractBacktrackingSolver
+!!!446466.java!!!	solve(inout csp : CSP) : Assignment
+        Assignment<VAR, VAL> result = backtrack(csp, new Assignment<>());
+        return result != null ? Optional.of(result) : Optional.empty();
+!!!446594.java!!!	backtrack(inout csp : CSP, inout assignment : Assignment) : Assignment
+        Assignment<VAR, VAL> result = null;
+        if (assignment.isComplete(csp.getVariables()) || Tasks.currIsCancelled()) {
+            result = assignment;
+        } else {
+            VAR var = selectUnassignedVariable(csp, assignment);
+            for (VAL value : orderDomainValues(csp, assignment, var)) {
+                assignment.add(var, value);
+                fireStateChanged(csp, assignment, var);
+                if (assignment.isConsistent(csp.getConstraints(var))) {
+                    InferenceLog<VAR, VAL> log = inference(csp, assignment, var);
+                    if (!log.isEmpty())
+                        fireStateChanged(csp, null, null);
+                    if (!log.inconsistencyFound()) {
+                        result = backtrack(csp, assignment);
+                        if (result != null)
+                            break;
+                    }
+                    log.undo(csp);
+                }
+                assignment.remove(var);
+            }
+        }
+        return result;

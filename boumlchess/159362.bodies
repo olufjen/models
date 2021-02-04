@@ -1,0 +1,27 @@
+class PredicateCollector
+!!!267010.java!!!	PredicateCollector()
+
+!!!267138.java!!!	getPredicates(inout s : Sentence) : Predicate
+		return (List<Predicate>) s.accept(this, new ArrayList<Predicate>());
+!!!267266.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		List<Predicate> predicates = (List<Predicate>) arg;
+		predicates.add(p);
+		return predicates;
+!!!267394.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return arg;
+!!!267522.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return arg;
+!!!267650.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return arg;
+!!!267778.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return arg;
+!!!267906.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		sentence.getNegated().accept(this, arg);
+		return arg;
+!!!268034.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		sentence.getFirst().accept(this, arg);
+		sentence.getSecond().accept(this, arg);
+		return arg;
+!!!268162.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		sentence.getQuantified().accept(this, arg);
+		return arg;

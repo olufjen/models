@@ -1,0 +1,43 @@
+class VacuumEnvironmentState
+!!!186754.java!!!	VacuumEnvironmentState()
+		state = new LinkedHashMap<>();
+		agentLocations = new LinkedHashMap<>();
+!!!186882.java!!!	getAgentLocation(inout a : Agent) : String
+		return agentLocations.get(a);
+!!!187010.java!!!	setAgentLocation(inout a : Agent, in location : String) : void
+		agentLocations.put(a, location);
+!!!187138.java!!!	getLocationState(in location : String) : VacuumEnvironment::LocationState
+		return state.get(location);
+!!!187266.java!!!	setLocationState(in location : String, inout s : VacuumEnvironment::LocationState) : void
+		state.put(location, s);
+!!!187394.java!!!	equals(inout obj : Object) : boolean
+		if (obj != null && getClass() == obj.getClass()) {
+			VacuumEnvironmentState s = (VacuumEnvironmentState) obj;
+			return state.equals(s.state) && agentLocations.equals(s.agentLocations);
+		}
+		return false;
+!!!187522.java!!!	hashCode() : int
+		return 3 * state.hashCode() + 13 * agentLocations.hashCode();
+!!!187650.java!!!	clone() : VacuumEnvironmentState
+		VacuumEnvironmentState result = null;
+		try {
+			result = (VacuumEnvironmentState) super.clone();
+			result.state = new LinkedHashMap<>(state);
+			agentLocations = new LinkedHashMap<>(agentLocations);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return result;
+!!!187778.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder("{");
+		for (Map.Entry<String, VacuumEnvironment.LocationState> entity : state.entrySet()) {
+			if (builder.length() > 2) builder.append(", ");
+			builder.append(entity.getKey()).append("=").append(entity.getValue());
+		}
+		int i = 0;
+		for (Map.Entry<Agent, String> entity : agentLocations.entrySet()) {
+			if (builder.length() > 2) builder.append(", ");
+			builder.append("Loc").append(++i).append("=").append(entity.getValue());
+		}
+		builder.append("}");
+		return builder.toString();

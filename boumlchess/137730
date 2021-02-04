@@ -1,0 +1,631 @@
+format 223
+"exact" // aima::core::probability::hmm::exact
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/hmm/exact/"
+  java_package "aima.core.probability.hmm.exact"
+  classview 136706 "exact"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 183554 "FixedLagSmoothing"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 580.<br>
+<br>
+
+<pre>
+function FIXED-LAG-SMOOTHING(e<sub>t</sub>, hmm, d) returns a distribution over <b>X</b><sub>t-d</sub>
+  inputs: e<sub>t</sub>, the current evidence from time step t
+          hmm, a hidden Markov model with S * S transition matrix <b>T</b>
+          d, the length of the lag for smoothing
+  persistent: t, the current time, initially 1
+              <b>f</b>, the forward message <b>P</b>(X<sub>t</sub> | e<sub>1:t</sub>), initially hmm.PRIOR
+              <b>B</b>, the d-step backward transformation matrix, initially the identity matrix
+              e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t, initially empty
+  local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>, diagonal matrices containing the sensor model information
+  
+  add e<sub>t</sub> to the end of e<sub>t-d:t</sub>
+  <b>O</b><sub>t</sub> <- diagonal matrix containing <b>P</b>(e<sub>t</sub> | X<sub>t</sub>)
+  if t > d then
+       <b>f</b> <- FORWARD(<b>f</b>, e<sub>t</sub>)
+       remove e<sub>t-d-1</sub> from the beginning of e<sub>t-d:t</sub>
+       <b>O</b><sub>t-d</sub> <- diagonal matrix containing <b>P</b>(e<sub>t-d</sub> | X<sub>t-d</sub>)
+       <b>B</b> <- <b>O</b><sup>-1</sup><sub>t-d</sub><b>B</b><b>T</b><b>O</b><sub>t</sub>
+  else <b>B</b> <- <b>BTO</b><sub>t</sub>
+  t <- t + 1
+  if t > d then return NORMALIZE(<b>f</b> * <b>B1</b>) else return null
+</pre>
+
+Figure 15.6 An algorithm for smoothing with a fixed time lag of d steps,
+implemented as an online algorithm that outputs the new smoothed estimate
+given the observation for a new time step. Notice that the final output
+NORMALIZE(<b>f</b> * <b>B1</b>) is just &alpha;<b>f</b>*<b>b</b>, by Equation
+(15.14).<br>
+<br>
+<b>Note:</b> There appears to be two minor defects in the algorithm outlined
+in the book:<br>
+<b>f</b> <- FORWARD(<b>f</b>, e<sub>t</sub>)<br>
+should be:<br>
+<b>f</b> <- FORWARD(<b>f</b>, e<sub>t-d</sub>)<br>
+as we are returning a smoothed step for t-d and not the current time t. <br>
+<br>
+The update of:<br>
+t <- t + 1<br>
+should occur after the return value is calculated. Otherwise when t == d the
+value returned is based on HMM.prior in the calculation as opposed to a
+correctly calculated forward message. Comments welcome.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      attribute 182658 "t"
+	private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " persistent:
+ t, the current time, initially 1
+"
+      end
+
+      classrelation 214274 // f (<unidirectional association>)
+	relation 214274 --->
+	  a role_name "f" init_value " null" private
+	    comment " <b>f</b>, the forward message <b>P</b>(X<sub>t</sub> | e<sub>1:t</sub>),
+ initially hmm.PRIOR
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 214274 // f (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 214402 // B (<unidirectional association>)
+	relation 214402 --->
+	  a role_name "B" init_value " null" private
+	    comment " <b>B</b>, the d-step backward transformation matrix, initially the
+ identity matrix
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 214402 // B (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 214530 // e_tmd_to_t (<unidirectional association>)
+	relation 214530 --->
+	  stereotype "List"
+	  a role_name "e_tmd_to_t" init_value " new LinkedList<Matrix>()" private
+	    comment " e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t, initially
+ empty
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 214530 // e_tmd_to_t (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 214658 // hmm (<unidirectional association>)
+	relation 214658 --->
+	  a role_name "hmm" init_value " null" private
+	    comment " a hidden Markov model with S * S transition matrix <b>T</b>
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 214658 // hmm (<unidirectional association>)
+	  b parent class_ref 183042 // HiddenMarkovModel
+      end
+
+      attribute 182786 "d"
+	private explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " d, the length of the lag for smoothing
+"
+      end
+
+      classrelation 214786 // unitMessage (<unidirectional association>)
+	relation 214786 --->
+	  a role_name "unitMessage" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 214786 // unitMessage (<unidirectional association>)
+	  b parent class_ref 152194 // Matrix
+      end
+
+      operation 420226 "FixedLagSmoothing"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "hmm" type class_ref 183042 // HiddenMarkovModel
+	  param in name "d" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a Fixed-Lag-Smoothing implementation, that sets up the required
+persistent values.
+
+@param hmm
+           a hidden Markov model with S * S transition matrix <b>T</b>
+@param d
+           d, the length of the lag for smoothing
+"
+      end
+
+      operation 420354 "fixedLagSmoothing"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "et" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Algorithm for smoothing with a fixed time lag of d steps, implemented as
+an online algorithm that outputs the new smoothed estimate given the
+observation for a new time step.
+
+@param et
+           the current evidence from time step t
+@return a distribution over <b>X</b><sub>t-d</sub>
+"
+      end
+
+      operation 420482 "forward"
+	public return_type class_ref 152194 // Matrix
+	nparams 2
+	  param inout name "f1_t" type class_ref 152194 // Matrix
+	  param inout name "O_tp1" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The forward equation (15.5) in Matrix form becomes (15.12):<br>
+
+<pre>
+<b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>
+</pre>
+
+@param f1_t
+           <b>f</b><sub>1:t</sub>
+@param O_tp1
+           <b>O</b><sub>t+1</sub>
+@return <b>f</b><sub>1:t+1</sub>
+"
+      end
+
+      operation 420610 "initPersistent"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+
+    class 183682 "HMMForwardBackward"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
+<br>
+
+<pre>
+function FORWARD-BACKWARD(ev, prior) returns a vector of probability distributions
+  inputs: ev, a vector of evidence values for steps 1,...,t
+          prior, the prior distribution on the initial state, <b>P</b>(X<sub>0</sub>)
+  local variables: fv, a vector of forward messages for steps 0,...,t
+                   b, a representation of the backward message, initially all 1s
+                   sv, a vector of smoothed estimates for steps 1,...,t
+                   
+  fv[0] <- prior
+  for i = 1 to t do
+      fv[i] <- FORWARD(fv[i-1], ev[i])
+  for i = t downto 1 do
+      sv[i] <- NORMALIZE(fv[i] * b)
+      b <- BACKWARD(b, ev[i])
+  return sv
+</pre>
+
+Figure 15.4 The forward-backward algorithm for smoothing: computing posterior
+probabilities of a sequence of states given a sequence of observations. The
+FORWARD and BACKWARD operators are defined by Equations (15.5) and (15.9),
+respectively.<br>
+<br>
+<b>Note:</b> An implementation of the FORWARD-BACKWARD algorithm using a
+Hidden Markov Model as the underlying model implementation.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 215170 // <realization>
+	relation 215170 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 215170 // <realization>
+	  b parent class_ref 183810 // ForwardBackwardInference
+      end
+
+      classrelation 215298 // hmm (<unidirectional association>)
+	relation 215298 --->
+	  a role_name "hmm" init_value " null" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 215298 // hmm (<unidirectional association>)
+	  b parent class_ref 183042 // HiddenMarkovModel
+      end
+
+      operation 421122 "HMMForwardBackward"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "hmm" type class_ref 183042 // HiddenMarkovModel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 421250 "forwardBackward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "ev" explicit_type "List<List<AssignmentProposition>>"
+	  param inout name "prior" type class_ref 175106 // CategoricalDistribution
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ForwardBackwardInference"
+      end
+
+      operation 421378 "forward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "f1_t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_tp1" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 421506 "backward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "b_kp2t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_kp1" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 421634 "forward"
+	public return_type class_ref 152194 // Matrix
+	nparams 2
+	  param inout name "f1_t" type class_ref 152194 // Matrix
+	  param inout name "O_tp1" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-ForwardBackwardInference
+
+
+The forward equation (15.5) in Matrix form becomes (15.12):<br>
+
+<pre>
+<b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>
+</pre>
+
+@param f1_t
+           <b>f</b><sub>1:t</sub>
+@param O_tp1
+           <b>O</b><sub>t+1</sub>
+@return <b>f</b><sub>1:t+1</sub>
+"
+      end
+
+      operation 421762 "backward"
+	public return_type class_ref 152194 // Matrix
+	nparams 2
+	  param inout name "b_kp2t" type class_ref 152194 // Matrix
+	  param inout name "O_kp1" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The backward equation (15.9) in Matrix form becomes (15.13):<br>
+
+<pre>
+<b>b</b><sub>k+1:t</sub> = <b>T</b><b>O</b><sub>k+1</sub><b>b</b><sub>k+2:t</sub>
+</pre>
+
+@param b_kp2t
+           <b>b</b><sub>k+2:t</sub>
+@param O_kp1
+           <b>O</b><sub>k+1</sub>
+@return <b>b</b><sub>k+1:t</sub>
+"
+      end
+    end
+
+    class 184194 "HMMForwardBackwardConstantSpace"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 579.<br>
+<br>
+
+Smoothing for any time slice <em>k</em> requires the simultaneous presence of
+both the forward and backward messages, <b>f</b><sub>1:k</sub> and
+<b>b</b><sub>k+1:t</sub>, according to Equation (15.8). The forward-backward
+algorithm achieves this by storing the <b>f</b>s computed on the forward pass
+so that they are available during the backward pass. Another way to achieve
+this is with a single pass that propagates both <b>f</b> and <b>b</b> in the
+same direction. For example, the \"forward\" message <b>f</b> can be propagated
+backward if we manipulate Equation (15.12) to work in the other direction:<br>
+
+<pre>
+<b>f</b><sub>1:t</sub> = &alpha;<sup>'</sup>(<b>T</b><sup>T</sup>)<sup>-1</sup><b>O</b><sup>-1</sup><sub>t+1</sub><b>f</b><sub>1:t+1</sub>
+</pre>
+
+The modified smoothing algorithm works by first running the standard forward
+pass to compute <b>f</b><sub>t:t</sub> (forgetting all intermediate results)
+and then running the backward pass for both <b>b</b> and <b>f</b> together,
+using them to compute the smoothed estimate at each step. Since only one copy
+of each message is needed, the storage requirements are constant (i.e.
+independent of t, the length of the sequence). There are two significant
+restrictions on the algorithm: it requires that the transition matrix be
+invertible and that the sensor model have no zeroes - that is, that every
+observation be possible in every state.
+
+@author Ciaran O'Reilly
+"
+      classrelation 215426 // <generalisation>
+	relation 215426 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 215426 // <generalisation>
+	  b parent class_ref 183682 // HMMForwardBackward
+      end
+
+      operation 421890 "HMMForwardBackwardConstantSpace"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "hmm" type class_ref 183042 // HiddenMarkovModel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 422018 "forwardBackward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "ev" explicit_type "List<List<AssignmentProposition>>"
+	  param inout name "prior" type class_ref 175106 // CategoricalDistribution
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ForwardBackwardInference"
+      end
+
+      operation 422146 "forwardRecover"
+	public return_type class_ref 152194 // Matrix
+	nparams 2
+	  param inout name "O_tp1" type class_ref 152194 // Matrix
+	  param inout name "f1_tp1" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-ForwardBackwardInference
+
+
+Calculate:
+
+<pre>
+<b>f</b><sub>1:t</sub> = &alpha;<sup>'</sup>(<b>T</b><sup>T</sup>)<sup>-1</sup><b>O</b><sup>-1</sup><sub>t+1</sub><b>f</b><sub>1:t+1</sub>
+</pre>
+
+@param O_tp1
+           <b>O</b><sub>t+1</sub>
+@param f1_tp1
+           <b>f</b><sub>1:t+1</sub>
+@return <b>f</b><sub>1:t</sub>
+"
+      end
+    end
+  end
+
+  deploymentview 135426 "exact"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 173314 "FixedLagSmoothing"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedList;
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.hmm.HiddenMarkovModel;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.util.math.Matrix;
+${definition}"
+      associated_elems
+	class_ref 183554 // FixedLagSmoothing
+      end
+    end
+
+    artifact 173826 "HMMForwardBackward"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.hmm.HiddenMarkovModel;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.temporal.ForwardBackwardInference;
+import aima.core.util.math.Matrix;
+${definition}"
+      associated_elems
+	class_ref 183682 // HMMForwardBackward
+      end
+    end
+
+    artifact 173954 "HMMForwardBackwardConstantSpace"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.hmm.HiddenMarkovModel;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.util.math.Matrix;
+${definition}"
+      associated_elems
+	class_ref 184194 // HMMForwardBackwardConstantSpace
+      end
+    end
+  end
+end

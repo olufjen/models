@@ -1,0 +1,96 @@
+class ReduceNumberMinimax
+!!!682114.java!!!	ReduceNumberMinimax()
+		super();
+		size = gamePieces.length;
+		noPerm = factorial(size) + size;
+		newGame();
+!!!682242.java!!!	ReduceNumberMinimax(inout algo : Minimax::Algorithm)
+		super(algo);
+		size = gamePieces.length;
+		noPerm = factorial(size) + size;
+		newGame();
+!!!682370.java!!!	newGame() : void
+      
+        // X start to play
+        currentPlayer = firstPlayer;
+        state = startState;
+!!!682498.java!!!	makeMove(inout move : ReduceNumberMove) : void
+		state = state - move.getPiece();
+        turn++;
+        next();
+		
+!!!682626.java!!!	unmakeMove(inout move : ReduceNumberMove) : void
+	   turn--;
+	   state = state + move.getPiece();
+	   if (state > startState)
+		   state = startState;
+	   previous();
+		
+!!!682754.java!!!	getPossibleMoves() : ReduceNumberMove
+		List<ReduceNumberMove> moves = new ArrayList<>();
+//		int pNo = 0;
+		for ( int pNo = 0;pNo< 3; pNo++) {
+			do {
+				int piece = gamePieces[pNo];
+				ReduceNumberMove move = new ReduceNumberMove(currentPlayer,state - piece,piece);
+				moves.add(move);
+				next();
+				state = state - piece;
+			}while (!isOver());
+			state = startState;
+		}
+
+		return moves;
+!!!682882.java!!!	evaluate() : double
+		int eval = 0; // Undecided?
+        if (hasWon(currentPlayer)) {
+            // 2 for the win
+            eval = 2;
+        } else if (hasWon(3 - currentPlayer)) {
+            // -2 for loosing
+            eval = -2;
+        }    
+/*        if(state > 4){
+           state = gamePieces[0];
+        }
+        if(state > 3){
+        	  state = gamePieces[0];
+        }
+        if(state > 2){
+        	  state = gamePieces[0];
+        }
+*/
+		return eval;
+!!!683010.java!!!	maxEvaluateValue() : double
+		// What is the max value of evaluate?
+		return 3;
+!!!683138.java!!!	next() : void
+		currentPlayer = 3 - currentPlayer;
+		
+		
+!!!683266.java!!!	previous() : void
+		 currentPlayer = 3 - currentPlayer;
+		
+	
+
+!!!683394.java!!!	toString() : String
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("State: "+Integer.toString(state)+" Player "+Integer.toString(currentPlayer));
+        sb.append("\n");
+        return sb.toString();
+!!!683522.java!!!	isOver() : boolean
+		// TODO Auto-generated method stub
+		return state < 3 ; // If state less than 3 no more moves can be made.
+!!!683650.java!!!	hasWon(in player : int) : boolean
+		  if (currentPlayer == player && isOver())
+			  return false; // Current player loses when he cannot make a move
+		 if (player == 3 - currentPlayer && isOver()) 
+			 return true; //Current player wins if opposing player cannot make a move
+		 return false;
+		  
+!!!683778.java!!!	factorial(in n : int) : int
+		  if (n == 0)
+			  return 1;
+		  return n*factorial(n-1);
+			  

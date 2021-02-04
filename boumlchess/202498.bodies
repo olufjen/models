@@ -1,0 +1,15 @@
+class Ray2D
+!!!535170.java!!!	Ray2D(inout start : Point2D, inout direction : Vector2D)
+		this.start = start;
+		this.direction = direction;
+!!!535298.java!!!	Ray2D(in startX : double, in startY : double, in endX : double, in endY : double)
+		this.start = new Point2D(startX, startY);
+		this.direction = new Vector2D(endX - startX, endY - startY);
+!!!535426.java!!!	getStart() : Point2D
+		return start;
+!!!535554.java!!!	getDirection() : Vector2D
+		return direction;
+!!!535682.java!!!	transform(inout matrix : TransformMatrix2D) : Ray2D
+		Point2D startNew = matrix.multiply(start);
+		Vector2D directionNew = startNew.vec(matrix.multiply(start.add(direction)));
+		return new Ray2D(startNew,directionNew);

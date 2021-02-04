@@ -1,0 +1,153 @@
+class TaskExecutionPaneCtrl
+!!!576130.java!!!	TaskExecutionPaneCtrl(inout params : List<Parameter>, inout paramCombos : List<ComboBox<String>>, inout initMethod : Runnable, inout taskMethod : Runnable, inout executeBtn : Button, inout statusLabel : Label)
+		this.params = params;
+		this.paramCombos = paramCombos;
+		this.initMethod = initMethod;
+		this.taskMethod = taskMethod;
+		this.executeBtn = executeBtn;
+		this.statusLabel = statusLabel;
+		ChangeListener<String> listener = (obs, o, n) -> onParamChanged();
+		for (ComboBox<String> combo : paramCombos)
+			// allow simSpeed adjustments during simulation (without
+			// re-initialization)
+			if (!combo.getId().equals(PARAM_EXEC_SPEED))
+				combo.getSelectionModel().selectedItemProperty().addListener(listener);
+		executeBtn.setOnAction(ev -> onExecuteButtonAction());
+		// mouse-left on execute button toggles execution speed between StepMode and VeryFast
+		executeBtn.setOnMouseClicked(ev -> {
+			if (ev.getButton() == MouseButton.SECONDARY) {
+				if (getParamAsInt(PARAM_EXEC_SPEED) == Integer.MAX_VALUE)
+					setParamValue(PARAM_EXEC_SPEED, 20);
+				else
+					setParamValue(PARAM_EXEC_SPEED, Integer.MAX_VALUE);
+			}
+		});
+		updateParamVisibility();
+		state.addListener((obs, o, n) -> onStateChanged());
+		setState(State.READY);
+!!!576258.java!!!	getParam(in paramName : String) : Parameter
+		return Parameter.find(params, paramName);
+!!!576386.java!!!	getParamValueIndex(in paramName : String) : int
+		int valIdx = -1;
+		int paramIdx = Parameter.indexOf(params, paramName);
+		if (paramIdx != -1)
+			valIdx = paramCombos.get(paramIdx).getSelectionModel().getSelectedIndex();
+		if (valIdx == -1)
+			throw new IllegalStateException("No selected value for parameter " + paramName);
+		return valIdx;
+!!!576514.java!!!	getParamValue(in paramName : String) : Object
+		int valIdx = getParamValueIndex(paramName);
+		return Parameter.find(params, paramName).getValues().get(valIdx);
+!!!576642.java!!!	getParamAsInt(in paramName : String) : int
+		return (Integer) getParamValue(paramName);
+!!!576770.java!!!	getParamAsDouble(in paramName : String) : double
+		return (Double) getParamValue(paramName);
+!!!576898.java!!!	isParamVisible(in paramName : String) : boolean
+		int paramIdx = Parameter.indexOf(params, paramName);
+		return paramCombos.get(paramIdx).isVisible();
+!!!577026.java!!!	setParamDisable(in paramName : String, inout value : boolean) : void
+		int paramIdx = Parameter.indexOf(params, paramName);
+		paramCombos.get(paramIdx).setDisable(value);
+!!!577154.java!!!	setParam(in paramName : String, in valueIdx : int) : void
+		int idx = Parameter.indexOf(params, paramName);
+		if (idx != -1)
+			paramCombos.get(idx).getSelectionModel().select(valueIdx);
+		else
+			throw new IllegalStateException("Parameter " + paramName + " not found.");
+!!!577282.java!!!	setParamValue(in paramName : String, inout value : Object) : void
+		int pIdx = Parameter.indexOf(params, paramName);
+		if (pIdx != -1) {
+			List<Object> values = params.get(pIdx).getValues();
+			for (int i = 0; i < values.size(); i++)
+				if (values.get(i).equals(value)) {
+					paramCombos.get(pIdx).getSelectionModel().select(i);
+					break;
+				}
+		} else
+			throw new IllegalStateException("Parameter " + paramName + " not found.");
+!!!577410.java!!!	setStatus(in text : String) : void
+		if (Platform.isFxApplicationThread())
+			statusLabel.setText(text);
+		else
+			Platform.runLater(() -> statusLabel.setText(text));
+!!!577538.java!!!	waitAfterStep() : void
+		try {
+			int msec = getParamAsInt(PARAM_EXEC_SPEED);
+			if (msec == Integer.MAX_VALUE)
+				setState(State.PAUSED);
+			Thread.sleep(msec);
+		} catch (InterruptedException e) {
+			// nothing to do here.
+		}
+!!!577666.java!!!	cancelExecution() : void
+		if (backgroundThread != null && backgroundThread.isAlive()) {
+			Tasks.cancel(backgroundThread);
+			setState(State.CANCELLED);
+			if (state.get() == State.PAUSED)
+				backgroundThread.interrupt();
+		}
+!!!577794.java!!!	setState(inout newState : TaskExecutionPaneCtrl::State) : void
+		if (Platform.isFxApplicationThread())
+			state.set(newState);
+		else
+			Platform.runLater(() -> state.set(newState));
+!!!577922.java!!!	onParamChanged() : void
+		cancelExecution();
+		setStatus("");
+		updateParamVisibility();
+		initMethod.run();
+		setState(State.READY);
+!!!578050.java!!!	onStateChanged() : void
+		if (state.get() == State.READY)
+			executeBtn.setText("Start");
+		else if (state.get() == State.RUNNING)
+			executeBtn.setText("Cancel");
+		else if (state.get() == State.PAUSED)
+			executeBtn.setText("Continue");
+		else if (state.get() == State.CANCELLED)
+			executeBtn.setText("Stop");
+		else if (state.get() == State.FINISHED)
+			executeBtn.setText("Init");
+
+		boolean disable = state.get() != State.READY && state.get() != State.FINISHED;
+		paramCombos.stream().filter(combo -> !combo.getId().equals(PARAM_EXEC_SPEED)).forEach
+				(combo -> combo.setDisable(disable));
+!!!578178.java!!!	onExecuteButtonAction() : void
+		if (state.get() == State.FINISHED) {
+			onParamChanged();
+		} else if (backgroundThread == null || !backgroundThread.isAlive()) {
+			backgroundThread = Tasks.executeInBackground(this::runTask);
+		} else if (state.get() == State.PAUSED) {
+			backgroundThread.interrupt();
+			setState(State.RUNNING);
+		} else if (state.get() == State.CANCELLED) {
+			backgroundThread.stop();
+			setState(State.READY);
+		} else {
+			cancelExecution();
+		}
+!!!578306.java!!!	runTask() : void
+		try {
+			setState(State.RUNNING);
+			taskMethod.run();
+		} catch (Exception e) {
+			String msg = e.getMessage();
+			if (msg != null)
+				setStatus(e.getClass().getSimpleName() + ": " + msg);
+			else
+				setStatus("Sorry, something went wrong during simulation: " + e.getClass().getSimpleName());
+			e.printStackTrace();
+		} catch (Error e) {
+			setStatus("Sorry, something went totally wrong during simulation: " + e.getClass().getSimpleName());
+			e.printStackTrace();
+		}
+		setState(State.FINISHED);
+!!!578434.java!!!	updateParamVisibility() : void
+		for (int i = 0; i < params.size(); i++) {
+			String depParam = params.get(i).getDependencyParameter();
+			if (depParam != null) {
+				Parameter para = params.get(i);
+				ComboBox<String> combo = paramCombos.get(i);
+				combo.setVisible(para.getDependencyValues().contains(getParamValue(depParam)));
+			}
+		}

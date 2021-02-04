@@ -1,0 +1,74 @@
+class FOLDomain
+!!!220674.java!!!	FOLDomain()
+		this.constants = new HashSet<String>();
+		this.functions = new HashSet<String>();
+		this.predicates = new HashSet<String>();
+!!!220802.java!!!	FOLDomain(inout toCopy : FOLDomain)
+		this(toCopy.getConstants(), toCopy.getFunctions(), toCopy
+				.getPredicates());
+!!!220930.java!!!	FOLDomain(inout constants : Set<String>, inout functions : Set<String>, inout predicates : Set<String>)
+		this.constants = new HashSet<String>(constants);
+		this.functions = new HashSet<String>(functions);
+		this.predicates = new HashSet<String>(predicates);
+!!!221058.java!!!	getConstants() : Set<String>
+		return constants;
+!!!221186.java!!!	getFunctions() : Set<String>
+		return functions;
+!!!221314.java!!!	getPredicates() : Set<String>
+		return predicates;
+!!!221442.java!!!	addConstant(in constant : String) : void
+		constants.add(constant);
+!!!221570.java!!!	addSkolemConstant() : String
+
+		String sc = null;
+		do {
+			sc = "SC" + (skolemConstantIndexical++);
+		} while (constants.contains(sc) || functions.contains(sc)
+				|| predicates.contains(sc));
+
+		addConstant(sc);
+		notifyFOLDomainListeners(new FOLDomainSkolemConstantAddedEvent(this, sc));
+
+		return sc;
+!!!221698.java!!!	addFunction(in function : String) : void
+		functions.add(function);
+!!!221826.java!!!	addSkolemFunction() : String
+		String sf = null;
+		do {
+			sf = "SF" + (skolemFunctionIndexical++);
+		} while (constants.contains(sf) || functions.contains(sf)
+				|| predicates.contains(sf));
+
+		addFunction(sf);
+		notifyFOLDomainListeners(new FOLDomainSkolemFunctionAddedEvent(this, sf));
+
+		return sf;
+!!!221954.java!!!	addPredicate(in predicate : String) : void
+		predicates.add(predicate);
+!!!222082.java!!!	addAnswerLiteral() : String
+		String al = null;
+		do {
+			al = "Answer" + (answerLiteralIndexical++);
+		} while (constants.contains(al) || functions.contains(al)
+				|| predicates.contains(al));
+
+		addPredicate(al);
+		notifyFOLDomainListeners(new FOLDomainAnswerLiteralAddedEvent(this, al));
+
+		return al;
+!!!222210.java!!!	addFOLDomainListener(inout listener : FOLDomainListener) : void
+		synchronized (listeners) {
+			if (!listeners.contains(listener)) {
+				listeners.add(listener);
+			}
+		}
+!!!222338.java!!!	removeFOLDomainListener(inout listener : FOLDomainListener) : void
+		synchronized (listeners) {
+			listeners.remove(listener);
+		}
+!!!222466.java!!!	notifyFOLDomainListeners(inout event : FOLDomainEvent) : void
+		synchronized (listeners) {
+			for (FOLDomainListener l : listeners) {
+				event.notifyListener(l);
+			}
+		}

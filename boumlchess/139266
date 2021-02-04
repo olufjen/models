@@ -1,0 +1,547 @@
+format 223
+"examples" // aima::core::search::csp::examples
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/csp/examples/"
+  java_package "aima.core.search.csp.examples"
+  classview 138242 "examples"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 193410 "DiffNotEqualConstraint"
+      visibility public 
+      nactuals 2
+      actual class class_ref 191618 // Constraint
+        rank 0 explicit_value ""
+      actual class class_ref 191618 // Constraint
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents a binary constraint which forbids equal values.
+
+@author Ruediger Lunde
+"
+      classrelation 229634 // <realization>
+	relation 229634 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 229634 // <realization>
+	  b parent class_ref 191618 // Constraint
+      end
+
+      classrelation 229762 // var1 (<unidirectional association>)
+	relation 229762 --->
+	  a role_name "var1" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 229762 // var1 (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 229890 // var2 (<unidirectional association>)
+	relation 229890 --->
+	  a role_name "var2" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 229890 // var2 (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      attribute 188546 "diff"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 230018 // scope (<unidirectional association>)
+	relation 230018 --->
+	  stereotype "List"
+	  a role_name "scope" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 230018 // scope (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      operation 456578 "DiffNotEqualConstraint"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "var1" type class_ref 190850 // Variable
+	  param inout name "var2" type class_ref 190850 // Variable
+	  param in name "diff" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 456706 "getScope"
+	public return_type class_ref 190850 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 456834 "isSatisfiedWith"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Variable, Integer> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 193538 "MapCSP"
+      visibility public 
+      nactuals 2
+      actual class class_ref 191362 // CSP
+        rank 0 explicit_value ""
+      actual class class_ref 191362 // CSP
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.1, Page 204.<br>
+<br>
+The principal states and territories of Australia. Coloring this map can be
+viewed as a constraint satisfaction problem (CSP). The goal is to assign
+colors to each region so that no neighboring regions have the same color.
+
+@author Ruediger Lunde
+@author Mike Stampone
+"
+      classrelation 230146 // <realization>
+	relation 230146 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 230146 // <realization>
+	  b parent class_ref 191362 // CSP
+      end
+
+      classrelation 230274 // NSW (<unidirectional association>)
+	relation 230274 --->
+	  a role_name "NSW" init_value " new Variable(\"NSW\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230274 // NSW (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 230402 // NT (<unidirectional association>)
+	relation 230402 --->
+	  a role_name "NT" init_value " new Variable(\"NT\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230402 // NT (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 230530 // Q (<unidirectional association>)
+	relation 230530 --->
+	  a role_name "Q" init_value " new Variable(\"Q\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230530 // Q (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 230658 // SA (<unidirectional association>)
+	relation 230658 --->
+	  a role_name "SA" init_value " new Variable(\"SA\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230658 // SA (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 230786 // T (<unidirectional association>)
+	relation 230786 --->
+	  a role_name "T" init_value " new Variable(\"T\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230786 // T (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 230914 // V (<unidirectional association>)
+	relation 230914 --->
+	  a role_name "V" init_value " new Variable(\"V\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 230914 // V (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      classrelation 231042 // WA (<unidirectional association>)
+	relation 231042 --->
+	  a role_name "WA" init_value " new Variable(\"WA\")" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 231042 // WA (<unidirectional association>)
+	  b parent class_ref 190850 // Variable
+      end
+
+      attribute 188674 "RED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"RED\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 188802 "GREEN"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"GREEN\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 188930 "BLUE"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"BLUE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 456962 "MapCSP"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs a map CSP for the principal states and territories of
+Australia, with the colors Red, Green, and Blue.
+"
+      end
+    end
+
+    class 193666 "NotEqualConstraint"
+      visibility public 
+      nformals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 191618 // Constraint
+        rank 0 explicit_value ""
+      actual class class_ref 191618 // Constraint
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents a binary constraint which forbids equal values.
+
+@author Ruediger Lunde
+"
+      classrelation 231170 // <realization>
+	relation 231170 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 231170 // <realization>
+	  b parent class_ref 191618 // Constraint
+      end
+
+      attribute 189058 "var1"
+	private explicit_type "VAR"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189186 "var2"
+	private explicit_type "VAR"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 189314 "scope"
+	private explicit_type "VAR"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 457090 "NotEqualConstraint"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param inout name "var1" explicit_type "VAR"
+	  param inout name "var2" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 457218 "getScope"
+	cpp_inline public explicit_return_type "List<VAR>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 457346 "isSatisfiedWith"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 193794 "NQueensCSP"
+      visibility public 
+      nactuals 2
+      actual class class_ref 191362 // CSP
+        rank 0 explicit_value ""
+      actual class class_ref 191362 // CSP
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 231298 // <realization>
+	relation 231298 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 231298 // <realization>
+	  b parent class_ref 191362 // CSP
+      end
+
+      operation 457474 "NQueensCSP"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "size" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 137218 "examples"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 182146 "DiffNotEqualConstraint"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.csp.Assignment;
+import aima.core.search.csp.Constraint;
+import aima.core.search.csp.Variable;
+${definition}"
+      associated_elems
+	class_ref 193410 // DiffNotEqualConstraint
+      end
+    end
+
+    artifact 182274 "MapCSP"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Domain;
+import aima.core.search.csp.Variable;
+import java.util.Arrays;
+${definition}"
+      associated_elems
+	class_ref 193538 // MapCSP
+      end
+    end
+
+    artifact 182402 "NotEqualConstraint"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.csp.Assignment;
+import aima.core.search.csp.Constraint;
+import aima.core.search.csp.Variable;
+${definition}"
+      associated_elems
+	class_ref 193666 // NotEqualConstraint
+      end
+    end
+
+    artifact 182530 "NQueensCSP"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.csp.CSP;
+import aima.core.search.csp.Domain;
+import aima.core.search.csp.Variable;
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 193794 // NQueensCSP
+      end
+    end
+  end
+end

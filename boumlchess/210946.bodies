@@ -1,0 +1,95 @@
+class AbstractGridEnvironmentViewCtrl
+!!!579458.java!!!	AbstractGridEnvironmentViewCtrl(inout viewRoot : StackPane, inout xDimFn : ToIntFunction<Environment>, inout yDimFn : ToIntFunction<Environment>)
+        super(viewRoot);
+        this.xDimFn = xDimFn;
+        this.yDimFn = yDimFn;
+        BorderPane envStateView;
+        envStateView = new BorderPane();
+        splitPane.getItems().add(0, envStateView);
+        splitPane.setDividerPosition(0, 0.6);
+        splitPane.setStyle("-fx-background-color: white");
+        envStateView.setMinWidth(0.0);
+        envStateView.setCenter(gridPane);
+        squareSize.bind(Bindings.min(envStateView.widthProperty().subtract(20).divide(xDimension),
+                envStateView.heightProperty().subtract(20).subtract(perceptLabel.heightProperty()).divide(yDimension)));
+        squareSize.addListener((obs, o, n) -> updateFontSize());
+        gridPane.maxWidthProperty().bind(squareSize.multiply(xDimension));
+        gridPane.maxHeightProperty().bind(squareSize.multiply(yDimension));
+        gridPane.vgapProperty().bind(squareSize.divide(20));
+        gridPane.hgapProperty().bind(squareSize.divide(20));
+
+        perceptLabel.setMaxWidth(Double.MAX_VALUE);
+        perceptLabel.setAlignment(Pos.CENTER);
+        perceptLabel.setFont(Font.font(20));
+        envStateView.setBottom(perceptLabel);
+!!!579586.java!!!	getSquareButton(in x : int, in y : int) : AbstractGridEnvironmentViewCtrl::SquareButton
+        return squareButtons.get((yDimension.get() - y) * xDimension.get() + x - 1);
+!!!579714.java!!!	initialize(inout env : Environment) : void
+        this.env = env;
+        if (!(env instanceof AbstractEnvironment))
+            throw new IllegalStateException("This view expects environments to be derived from AbstractEnvironment.");
+        updateDimensions();
+        super.initialize(env);
+        isEditingEnabled = true;
+!!!579842.java!!!	updateDimensions() : void
+        int xDim = xDimFn.applyAsInt(env);
+        int yDim = yDimFn.applyAsInt(env);
+        xDimension.set(xDim);
+        yDimension.set(yDim);
+
+        gridPane.getChildren().clear();
+        gridPane.getRowConstraints().clear();
+        gridPane.getColumnConstraints().clear();
+
+        RowConstraints rc = new RowConstraints();
+        rc.setPercentHeight(100.0 / yDim);
+        for (int row = 0; row < yDim; row++)
+            gridPane.getRowConstraints().add(rc);
+
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setPercentWidth(100.0 / xDim);
+        for (int col = 0; col < xDim; col++)
+            gridPane.getColumnConstraints().add(cc);
+
+        squareButtons.clear();
+        for (int y = yDim; y >= 1; y--) {
+            for (int x = 1; x <= xDim; x++) {
+                final int x1 = x;
+                final int y1 = y;
+                SquareButton btn = new SquareButton();
+                btn.getIdLabel().setText(x1 + ", " + y1);
+                btn.setOnAction(ev -> onEdit(x1, y1));
+                squareButtons.add(btn);
+                gridPane.add(btn, x - 1, yDim - y);
+            }
+        }
+        updateFontSize();
+!!!579970.java!!!	updateFontSize() : void
+        for (SquareButton btn : squareButtons) {
+            btn.getLabel().setFont(Font.font(squareSize.get() * fontSizeFactor));
+            btn.getIdLabel().setVisible(squareSize.get() >= 80);
+        }
+!!!580098.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+        super.agentAdded(agent, source);
+        updatePerceptLabel(agent);
+!!!580226.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+        super.agentActed(agent, percept, action, source);
+        isEditingEnabled = false; // never change the environment when the agent has started his job.
+        updatePerceptLabel(agent);
+!!!580354.java!!!	updateEnvStateView(inout env : Environment) : void
+        if (this.env != env)
+            throw new IllegalStateException("Environment can only be changed during initialization.");
+        updatePerceptLabel(null);
+        update();
+!!!580482.java!!!	updatePerceptLabel(inout agent : Agent) : void
+        String agentInfo = null;
+        Percept percept = null;
+        if (agent != null) {
+            agentInfo = env.getAgents().size() > 1 ? " (A" + (env.getAgents().indexOf(agent) + 1) + ")" : "";
+            percept = ((AbstractEnvironment) env).getPerceptSeenBy(agent);
+        }
+        String txt = (agent != null) ? "Percept" + agentInfo + ": " + percept : "";
+        if (Platform.isFxApplicationThread())
+            perceptLabel.setText(txt);
+        else
+            Platform.runLater(() -> perceptLabel.setText(txt));

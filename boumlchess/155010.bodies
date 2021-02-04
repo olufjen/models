@@ -1,0 +1,40 @@
+class CellWorldEnvironment
+!!!251778.java!!!	CellWorldEnvironment(inout startingCell : Cell, inout allStates : Set<Cell<Double>>, inout tpf : TransitionProbabilityFunction, inout r : Randomizer)
+		this.startingCell = startingCell;
+		this.allStates.addAll(allStates);
+		this.tpf = tpf;
+		this.r = r;
+!!!251906.java!!!	executeTrials(in n : int) : void
+		for (int i = 0; i < n; i++) {
+			executeTrial();
+		}
+!!!252034.java!!!	executeTrial() : void
+		currentState.reset();
+		for (Agent a : agents) {
+			a.setAlive(true);
+			currentState.setAgentLocation(a, startingCell);
+		}
+		stepUntilDone();
+!!!252162.java!!!	executeAction(inout agent : Agent, inout action : Action) : void
+		if (!action.isNoOp()) {
+			Cell<Double> s = currentState.getAgentLocation(agent);
+			double probabilityChoice = r.nextDouble();
+			double total = 0;
+			boolean set = false;
+			for (Cell<Double> sDelta : allStates) {
+				total += tpf.probability(sDelta, s, (CellWorldAction) action);
+				if (total > 1.0) {
+					throw new IllegalStateException("Bad probability calculation.");
+				}
+				if (total > probabilityChoice) {
+					currentState.setAgentLocation(agent, sDelta);
+					set = true;
+					break;
+				}
+			}
+			if (!set) {
+				throw new IllegalStateException("Failed to simulate the action="+action+" correctly from s="+s);
+			}
+		}
+!!!252290.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+		return currentState.getPerceptFor(anAgent);

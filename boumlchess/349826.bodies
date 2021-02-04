@@ -1,0 +1,49 @@
+class BCGamesAskHandler
+!!!1746818.java!!!	BCGamesAskHandler()
+		proofs.add(new BCProof());
+!!!1746946.java!!!	getFinalList() : List<HashMap<Variable, Term>>
+		return finalList;
+!!!1747074.java!!!	setFinalList(inout finalList : List<HashMap<Variable, Term>>) : void
+		this.finalList = finalList;
+!!!1747202.java!!!	isPossiblyFalse() : boolean
+		return finalList == null || finalList.isEmpty();
+!!!1747330.java!!!	isTrue() : boolean
+		return (finalList != null && !finalList.isEmpty());
+!!!1747458.java!!!	isUnknownDueToTimeout() : boolean
+		return false;
+!!!1747586.java!!!	isPartialResultDueToTimeout() : boolean
+		return false;
+!!!1747714.java!!!	getProofs() : Proof
+		return proofs;
+!!!1747842.java!!!	addProofStep(inout step : ProofStep) : void
+		((BCProof)this.proofs.get(0)).addProofStep(step);
+!!!1747970.java!!!	clearLists() : void
+		proofs.clear();
+		if (finalList != null)
+			finalList.clear();
+		proofs.add(new BCProof());
+!!!1748098.java!!!	toString() : String
+		StringBuilder result = new StringBuilder();
+		String head = "The BC Ask Handler\n";
+		result.append(head);
+		if (finalList != null) {
+			for (HashMap<Variable,Term> terms:finalList){
+				Set<Variable> vars = terms.keySet();
+				List<Variable>listVars = vars.stream().collect(Collectors.toList());
+				int s = listVars.size();
+				Variable var1 = listVars.get(0);
+				Variable var2 = listVars.get(1);
+//				Set <Constant> c = terms.entrySet();
+				Constant c = (Constant) terms.get(var1);
+				Constant c1 = (Constant) terms.get(var2);
+				result.append(vars.toString()+" "+c.toString()+" "+c1.toString()+"\n");
+			}
+		}
+		result.append("Proof steps\n");
+		for (Proof proof: proofs) {
+			List<ProofStep> steps = proof.getSteps();
+			for (ProofStep step:steps) {
+				result.append(step.toString()+"\n");
+			}
+		}
+		return result.toString();

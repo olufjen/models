@@ -1,0 +1,75 @@
+class FOLDataSetDomain
+!!!222594.java!!!	FOLDataSetDomain(inout dataSetSpecification : DataSetSpecification, in trueGoalValue : String)
+		this.dataSetSpecification = dataSetSpecification;
+		this.trueGoalValue = trueGoalValue;
+		constructFOLDomain();
+!!!222722.java!!!	getDataSetTargetName() : String
+		return dataSetSpecification.getTarget();
+!!!222850.java!!!	getGoalPredicateName() : String
+		return getFOLName(dataSetSpecification.getTarget());
+!!!222978.java!!!	getTrueGoalValue() : String
+		return trueGoalValue;
+!!!223106.java!!!	getDescriptionPredicateNames() : List<String>
+		return descriptionPredicateNames;
+!!!223234.java!!!	getDescriptionDataSetNames() : List<String>
+		return descriptionDataSetNames;
+!!!223362.java!!!	isMultivalued(in descriptiveDataSetName : String) : boolean
+		List<String> possibleValues = dataSetSpecification
+				.getPossibleAttributeValues(descriptiveDataSetName);
+		// If more than two possible values
+		// then is multivalued
+		if (possibleValues.size() > 2) {
+			return true;
+		}
+		// If one of the possible values for the attribute
+		// matches the true goal value then consider
+		// it not being multivalued.
+		for (String pv : possibleValues) {
+			if (trueGoalValue.equals(pv)) {
+				return false;
+			}
+		}
+
+		return true;
+!!!223490.java!!!	getExampleConstant(in egNo : int) : String
+		String egConstant = examplePrefix + egNo;
+		addConstant(egConstant);
+		return egConstant;
+!!!223618.java!!!	getFOLName(in dsName : String) : String
+		String folName = dsToFOLNameMap.get(dsName);
+		if (null == folName) {
+			folName = dsName;
+			if (!Character.isJavaIdentifierStart(dsName.charAt(0))) {
+				folName = "_" + dsName;
+			}
+			folName = allowableCharactersRegEx.matcher(folName).replaceAll("_");
+			dsToFOLNameMap.put(dsName, folName);
+		}
+
+		return folName;
+!!!223746.java!!!	constructFOLDomain() : void
+		// Ensure the target predicate is included
+		addPredicate(getFOLName(dataSetSpecification.getTarget()));
+		// Create the descriptive predicates
+		for (String saName : dataSetSpecification.getNamesOfStringAttributes()) {
+			if (dataSetSpecification.getTarget().equals(saName)) {
+				// Don't add the target to the descriptive predicates
+				continue;
+			}
+			String folSAName = getFOLName(saName);
+			// Add a predicate for the attribute
+			addPredicate(folSAName);
+
+			descriptionPredicateNames.add(folSAName);
+			descriptionDataSetNames.add(saName);
+
+			List<String> attributeValues = dataSetSpecification
+					.getPossibleAttributeValues(saName);
+			// If a multivalued attribute need to setup
+			// Constants for the different possible values
+			if (isMultivalued(saName)) {
+				for (String av : attributeValues) {
+					addConstant(getFOLName(av));
+				}
+			}
+		}

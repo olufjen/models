@@ -1,0 +1,27 @@
+class NodeExpander
+!!!462978.java!!!	useParentLinks(inout s : boolean) : NodeExpander
+		useParentLinks = s;
+		return this;
+!!!463106.java!!!	createRootNode(inout state : S) : Node
+		return new Node<>(state);
+!!!463234.java!!!	createNode(inout state : S, inout parent : Node, inout action : A, in stepCost : double) : Node
+		Node<S, A> p = useParentLinks ? parent : null;
+		return new Node<>(state, p, action, parent.getPathCost() + stepCost);
+!!!463362.java!!!	expand(inout node : Node, inout problem : Problem) : Node
+		List<Node<S, A>> successors = new ArrayList<>();
+
+		for (A action : problem.getActions(node.getState())) {
+			S successorState = problem.getResult(node.getState(), action);
+
+			double stepCost = problem.getStepCosts(node.getState(), action, successorState);
+			successors.add(createNode(successorState, node, action, stepCost));
+		}
+		notifyNodeListeners(node);
+		return successors;
+!!!463490.java!!!	addNodeListener(inout listener : Consumer<Node<S, A>>) : void
+		nodeListeners.add(listener);
+!!!463618.java!!!	removeNodeListener(inout listener : Consumer<Node<S, A>>) : boolean
+		return nodeListeners.remove(listener);
+!!!463746.java!!!	notifyNodeListeners(inout node : Node) : void
+		for (Consumer<Node<S, A>> listener : nodeListeners)
+			listener.accept(node);

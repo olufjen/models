@@ -1,0 +1,22 @@
+class SimpleMove
+!!!620930.java!!!	setRotationNoise(in value : double) : void
+		ROTATION_NOISE = value;
+!!!621058.java!!!	setMovementNoise(in value : double) : void
+		MOVEMENT_NOISE = value;
+!!!621186.java!!!	SimpleMove(in firstRotation : double, in forward : double, in lastRotation : double)
+		this.firstRotation = firstRotation;
+		this.forward = forward;
+		this.lastRotation = lastRotation;
+!!!621314.java!!!	getFirstRotation() : double
+		return firstRotation;
+!!!621442.java!!!	getForward() : double
+		return forward;
+!!!621570.java!!!	getLastRotation() : double
+		return lastRotation;
+!!!621698.java!!!	generateNoise() : SimpleMove
+		final double firstRotationNew = Util.generateRandomDoubleBetween(firstRotation-ROTATION_NOISE, firstRotation+ROTATION_NOISE);
+		final double forwardNew = Util.generateRandomDoubleBetween(forward-MOVEMENT_NOISE, forward+MOVEMENT_NOISE);
+		final double lastRotationNew = Util.generateRandomDoubleBetween(lastRotation-ROTATION_NOISE, lastRotation+ROTATION_NOISE);
+		return new SimpleMove(firstRotationNew,forwardNew,lastRotationNew);
+!!!621826.java!!!	toString() : String
+		return String.format("(%.2f,%.2f,%.2f)", firstRotation,forward,lastRotation);

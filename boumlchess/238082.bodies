@@ -1,0 +1,89 @@
+class RapporterGameServerResourceHTML
+!!!806786.java!!!	getPosition() : String
+		return position;
+!!!806914.java!!!	setPosition(in position : String) : void
+		this.position = position;
+!!!807042.java!!!	getDisplayPassord() : String
+		return displayPassord;
+!!!807170.java!!!	setDisplayPassord(in displayPassord : String) : void
+		this.displayPassord = displayPassord;
+!!!807298.java!!!	getPassordCheck() : String
+		return passordCheck;
+!!!807426.java!!!	setPassordCheck(in passordCheck : String) : void
+		this.passordCheck = passordCheck;
+!!!807554.java!!!	getDelMelding() : String
+		return delMelding;
+!!!807682.java!!!	setDelMelding(in delMelding : String) : void
+		this.delMelding = delMelding;
+!!!807810.java!!!	getMeldeTxtId() : String
+		return meldeTxtId;
+!!!807938.java!!!	setMeldeTxtId(in meldeTxtId : String) : void
+		this.meldeTxtId = meldeTxtId;
+!!!808066.java!!!	getPositions(inout object : Object) : Object
+	    System.out.println(object.getClass());
+	    return object;
+	    
+!!!808194.java!!!	getChess() : Representation
+
+
+	     Reference reference = new Reference(getReference(),"..").getTargetRef();
+	     Request request = getRequest();
+	     Map<String, Object> dataModel = new HashMap<String, Object>();
+	     String meldingsText = " ";
+	     SimpleScalar simple = new SimpleScalar(piece);
+	     SimpleScalar movedTo = new SimpleScalar(newPos);
+	     SimpleScalar chessPosition = new SimpleScalar(position);
+		 dataModel.put(pieceId,simple );
+
+		 dataModel.put(displayKey, chessPosition);
+//		 SimpleScalar pwd = new SimpleScalar(passordCheck);
+//		 dataModel.put(displayPassord,pwd);
+	     LocalReference pakke = LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+                 "/chess");
+	    
+	     LocalReference localUri = new LocalReference(reference);
+	
+// Denne client resource forholder seg til src/main/resource katalogen !!!	
+	     ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/game.html"));
+
+	        Representation pasientkomplikasjonFtl = clres2.get();
+
+	        TemplateRepresentation  templatemapRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+	                MediaType.TEXT_HTML);
+		 return templatemapRep;
+	
+!!!808322.java!!!	storeChess(inout form : Form) : Representation
+    	TemplateRepresentation  templateRep = null;
+ 	    Map<String, Object> dataModel = new HashMap<String, Object>();
+ 	    Request request = getRequest();
+	    
+    	if(form == null){
+    		invalidateSessionobjects();
+    	}
+
+    	for (Parameter entry : form) {
+			if (entry.getValue() != null && !(entry.getValue().equals(""))){
+					System.out.println(entry.getName() + "=" + entry.getValue());
+					if (entry.getName().equals("piece"))
+						piece = entry.getValue();
+					if (entry.getName().equals("posisjon"))
+						newPos = entry.getValue();
+						
+			}
+			
+    	}
+    	SimpleScalar pieceMoved = new SimpleScalar(piece);
+    	SimpleScalar movedTo = new SimpleScalar(newPos);
+	     SimpleScalar chessPosition = new SimpleScalar(position);
+		 dataModel.put(displayKey, chessPosition);
+   	 	dataModel.put(pieceId,pieceMoved );
+
+		Parameter formValue = form.getFirst("formValue"); // Bruker oppgir epost og passord
+	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/game.html"));
+        Representation pasientkomplikasjonFtl = clres2.get();
+        templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+                MediaType.TEXT_HTML);	
+
+
+
+    	return templateRep;

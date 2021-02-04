@@ -1,0 +1,37 @@
+class KnowledgeBase
+!!!198018.java!!!	tell(in aSentence : String) : void
+		tell((Sentence) parser.parse(aSentence));
+		
+!!!198146.java!!!	tell(inout aSentence : Sentence) : void
+		if (!(sentences.contains(aSentence))) {
+			sentences.add(aSentence);
+			asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
+			symbols.addAll(SymbolCollector.getSymbolsFrom(aSentence));
+		}
+!!!198274.java!!!	tellAll(inout percepts : String [[]]) : void
+		for (String percept : percepts) {
+			tell(percept);
+		}
+
+!!!198402.java!!!	size() : int
+		return sentences.size();
+!!!198530.java!!!	asSentence() : Sentence
+		return Sentence.newConjunction(sentences);
+!!!198658.java!!!	asCNF() : Clause
+		return asCNF.getClauses();
+!!!198786.java!!!	getSymbols() : PropositionSymbol
+		return symbols;
+!!!198914.java!!!	askWithTTEntails(in queryString : String) : boolean
+		PLParser parser = new PLParser();
+
+		Sentence alpha = parser.parse(queryString);
+
+		return new TTEntails().ttEntails(this, alpha);
+!!!199042.java!!!	toString() : String
+		return sentences.isEmpty() ? "" : asSentence().toString();
+!!!199170.java!!!	getSentences() : Sentence
+		return sentences;
+!!!199298.java!!!	getParser() : PLParser
+		return parser;
+!!!199426.java!!!	setParser(inout parser : PLParser) : void
+		this.parser = parser;

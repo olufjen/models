@@ -1,0 +1,54 @@
+class StandardizeQuantiferVariables
+!!!261506.java!!!	StandardizeQuantiferVariables(inout substVisitor : SubstVisitor)
+		this.substVisitor = substVisitor;
+!!!261634.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		return p;
+!!!261762.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return equality;
+!!!261890.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return variable;
+!!!262018.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!262146.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return function;
+!!!262274.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		return new NotSentence((Sentence) sentence.getNegated().accept(this,
+				arg));
+!!!262402.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		return new ConnectedSentence(sentence.getConnector(),
+				(Sentence) sentence.getFirst().accept(this, arg),
+				(Sentence) sentence.getSecond().accept(this, arg));
+!!!262530.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		Set<Variable> seenSoFar = (Set<Variable>) arg;
+
+		// Keep track of what I have to subst locally and
+		// what my renamed variables will be.
+		Map<Variable, Term> localSubst = new LinkedHashMap<Variable, Term>();
+		List<Variable> replVariables = new ArrayList<Variable>();
+		for (Variable v : sentence.getVariables()) {
+			// If local variable has be renamed already
+			// then I need to come up with own name
+			if (seenSoFar.contains(v)) {
+				Variable sV = new Variable(quantifiedIndexical.getPrefix()
+						+ quantifiedIndexical.getNextIndex());
+				localSubst.put(v, sV);
+				// Replacement variables should contain new name for variable
+				replVariables.add(sV);
+			} else {
+				// Not already replaced, this name is good
+				replVariables.add(v);
+			}
+		}
+
+		// Apply the local subst
+		Sentence subst = substVisitor.subst(localSubst,
+				sentence.getQuantified());
+
+		// Ensure all my existing and replaced variable
+		// names are tracked
+		seenSoFar.addAll(replVariables);
+
+		Sentence sQuantified = (Sentence) subst.accept(this, arg);
+
+		return new QuantifiedSentence(sentence.getQuantifier(), replVariables,
+				sQuantified);

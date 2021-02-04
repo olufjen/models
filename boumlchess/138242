@@ -1,0 +1,257 @@
+format 223
+"generic" // aima::core::probability::temporal::generic
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/temporal/generic/"
+  java_package "aima.core.probability.temporal.generic"
+  classview 137218 "generic"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 187138 "ForwardBackward"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
+<br>
+
+<pre>
+function FORWARD-BACKWARD(ev, prior) returns a vector of probability distributions
+  inputs: ev, a vector of evidence values for steps 1,...,t
+          prior, the prior distribution on the initial state, <b>P</b>(X<sub>0</sub>)
+  local variables: fv, a vector of forward messages for steps 0,...,t
+                   b, a representation of the backward message, initially all 1s
+                   sv, a vector of smoothed estimates for steps 1,...,t
+                   
+  fv[0] <- prior
+  for i = 1 to t do
+      fv[i] <- FORWARD(fv[i-1], ev[i])
+  for i = t downto 1 do
+      sv[i] <- NORMALIZE(fv[i] * b)
+      b <- BACKWARD(b, ev[i])
+  return sv
+</pre>
+
+Figure 15.4 The forward-backward algorithm for smoothing: computing posterior
+probabilities of a sequence of states given a sequence of observations. The
+FORWARD and BACKWARD operators are defined by Equations (15.5) and (15.9),
+respectively.<br>
+<br>
+<b>Note:</b> An implementation of the FORWARD-BACKWARD algorithm using the
+general purpose probability APIs, i.e. the underlying model implementation is
+abstracted away.
+
+@author Ciaran O'Reilly
+"
+      classrelation 221698 // <realization>
+	relation 221698 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 221698 // <realization>
+	  b parent class_ref 183810 // ForwardBackwardInference
+      end
+
+      classrelation 221826 // transitionModel (<unidirectional association>)
+	relation 221826 --->
+	  a role_name "transitionModel" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 221826 // transitionModel (<unidirectional association>)
+	  b parent class_ref 176386 // FiniteProbabilityModel
+      end
+
+      classrelation 221954 // tToTm1StateVarMap (<unidirectional association>)
+	relation 221954 --->
+	  stereotype "Map"
+	  a role_name "tToTm1StateVarMap" init_value " new HashMap<RandomVariable, RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, RandomVariable> ${name}${value};
+"
+	    classrelation_ref 221954 // tToTm1StateVarMap (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 222082 // sensorModel (<unidirectional association>)
+	relation 222082 --->
+	  a role_name "sensorModel" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 222082 // sensorModel (<unidirectional association>)
+	  b parent class_ref 176386 // FiniteProbabilityModel
+      end
+
+      operation 432898 "ForwardBackward"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "transitionModel" type class_ref 176386 // FiniteProbabilityModel
+	  param inout name "tToTm1StateVarMap" explicit_type "Map<RandomVariable, RandomVariable>"
+	  param inout name "sensorModel" type class_ref 176386 // FiniteProbabilityModel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Instantiate an instance of the Forward Backward algorithm.
+
+@param transitionModel
+           the transition model.
+@param tToTm1StateVarMap
+           a map from the X<sub>t<sub> random variables in the transition
+           model the to X<sub>t-1</sub> random variables.
+@param sensorModel
+           the sensor model.
+"
+      end
+
+      operation 433026 "forwardBackward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "ev" explicit_type "List<List<AssignmentProposition>>"
+	  param inout name "prior" type class_ref 175106 // CategoricalDistribution
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-ForwardBackwardInference
+ function FORWARD-BACKWARD(ev, prior) returns a vector of probability
+ distributions"
+      end
+
+      operation 433154 "forward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "f1_t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_tp1" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 433282 "backward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "b_kp2t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_kp1" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 433410 "initBackwardMessage"
+	private return_type class_ref 175106 // CategoricalDistribution
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-ForwardBackwardInference
+
+
+ PRIVATE METHODS
+"
+      end
+    end
+  end
+
+  deploymentview 136322 "generic"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 177922 "ForwardBackward"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.FiniteProbabilityModel;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.proposition.Proposition;
+import aima.core.probability.temporal.ForwardBackwardInference;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.ProbabilityTable;
+import aima.core.probability.util.RandVar;
+${definition}"
+      associated_elems
+	class_ref 187138 // ForwardBackward
+      end
+    end
+  end
+end

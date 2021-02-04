@@ -1,0 +1,1288 @@
+format 223
+"adversarial" // aima::core::search::adversarial
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/search/adversarial/"
+  java_package "aima.core.search.adversarial"
+  classview 129154 "adversarial"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 133378 "IterativeDeepeningAlphaBetaSearch"
+      visibility public 
+      nformals 3
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 133506 // AdversarialSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Implements an iterative deepening Minimax search with alpha-beta pruning and
+action ordering. Maximal computation time is specified in seconds. The
+algorithm is implemented as template method and can be configured and tuned
+by subclassing.
+
+@param <S> Type which is used for states in the game.
+@param <A> Type which is used for actions in the game.
+@param <P> Type which is used for players in the game.
+@author Ruediger Lunde
+"
+      classrelation 134402 // <realization>
+	relation 134402 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 134402 // <realization>
+	  b parent class_ref 133506 // AdversarialSearch
+      end
+
+      attribute 130306 "METRICS_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 130434 "METRICS_MAX_DEPTH"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"maxDepth\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 134530 // game (<unidirectional association>)
+	relation 134530 --->
+	  a role_name "game" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A, P> ${name}${value};
+"
+	    classrelation_ref 134530 // game (<unidirectional association>)
+	  b parent class_ref 133762 // Game
+      end
+
+      attribute 130562 "utilMax"
+	protected explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 130690 "utilMin"
+	protected explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 130818 "currDepthLimit"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 130946 "heuristicEvaluationUsed"
+	protected explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " indicates that non-terminal"
+      end
+
+      class 133890 "Timer"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 131202 "duration"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 131330 "startTime"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 148738 "Timer"
+	  cpp_inline package explicit_return_type ""
+	  nparams 1
+	    param in name "maxSeconds" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 148866 "start"
+	  cpp_inline package explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 148994 "timeOutOccurred"
+	  cpp_inline package explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 134658 // timer (<unidirectional association>)
+	relation 134658 --->
+	  a role_name "timer" private
+	    comment " nodes
+ have been evaluated.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 134658 // timer (<unidirectional association>)
+	  b parent class_ref 133890 // Timer
+      end
+
+      attribute 131074 "logEnabled"
+	protected explicit_type "boolean"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 134786 // metrics (<unidirectional association>)
+	relation 134786 --->
+	  a role_name "metrics" init_value " new Metrics()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 134786 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 147074 "createFor"
+	class_operation cpp_inline public return_type class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+	nparams 4
+	  param inout name "game" type class_ref 133762 // Game
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<STATE, ACTION, PLAYER> ${type}<STATE, ACTION, PLAYER> ${name}${(}${t0}<STATE, ACTION, PLAYER> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new search object for a given game.
+
+@param game    The game.
+@param utilMin Utility value of worst state for this player. Supports
+               evaluation of non-terminal states and early termination in
+               situations with a safe winner.
+@param utilMax Utility value of best state for this player. Supports
+               evaluation of non-terminal states and early termination in
+               situations with a safe winner.
+@param time    Maximal computation time in seconds.
+"
+      end
+
+      operation 147202 "IterativeDeepeningAlphaBetaSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "game" type class_ref 133762 // Game
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A, P> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new search object for a given game.
+
+@param game    The game.
+@param utilMin Utility value of worst state for this player. Supports
+               evaluation of non-terminal states and early termination in
+               situations with a safe winner.
+@param utilMax Utility value of best state for this player. Supports
+               evaluation of non-terminal states and early termination in
+               situations with a safe winner.
+@param time    Maximal computation time in seconds.
+"
+      end
+
+      operation 147330 "setLogEnabled"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 147458 "makeDecision"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Template method controlling the search. It is based on iterative
+deepening and tries to make to a good decision in limited time. Credit
+goes to Behi Monsio who had the idea of ordering actions by utility in
+subsequent depth-limited search runs.
+"
+      end
+
+      operation 147586 "maxValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " returns an utility value"
+      end
+
+      operation 147714 "minValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " returns an utility value"
+      end
+
+      operation 147842 "updateMetrics"
+	cpp_inline private explicit_return_type "void"
+	nparams 1
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 147970 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Returns some statistic data from the last search.
+"
+      end
+
+      operation 148098 "incrementDepthLimit"
+	cpp_inline protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is called at the beginning of one depth limited
+search step. This implementation increments the current depth limit by
+one.
+"
+      end
+
+      operation 148226 "isSignificantlyBetter"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 2
+	  param in name "newUtility" explicit_type "double"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a clear best action exists. This implementation returns
+always false.
+"
+      end
+
+      operation 148354 "hasSafeWinner"
+	cpp_inline protected explicit_return_type "boolean"
+	nparams 1
+	  param in name "resultUtility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a safe winner has been identified. This implementation
+returns true if the given value (for the currently preferred action
+result) is the highest or lowest utility value possible.
+"
+      end
+
+      operation 148482 "eval"
+	cpp_inline protected explicit_return_type "double"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation, which estimates the value for (not necessarily
+terminal) states. This implementation returns the utility value for
+terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
+states. When overriding, first call the super implementation!
+"
+      end
+
+      operation 148610 "orderActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 4
+	  param inout name "state" explicit_type "S"
+	  param inout name "actions" explicit_type "List<A>"
+	  param inout name "player" explicit_type "P"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation for action ordering. This implementation preserves
+the original order (provided by the game).
+"
+      end
+
+      class 134018 "ActionStore"
+	visibility private 
+	nformals 1
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 131458 "actions"
+	  private explicit_type "A"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 131586 "utilValues"
+	  private explicit_type "Double"
+	  init_value " new ArrayList<>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 149122 "add"
+	  cpp_inline package explicit_return_type "void"
+	  nparams 2
+	    param inout name "action" explicit_type "A"
+	    param in name "utilValue" explicit_type "double"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 149250 "size"
+	  cpp_inline package explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 133506 "AdversarialSearch"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Variant of the search interface. Since players can only control the next
+move, method <code>makeDecision</code> returns only one action, not a
+sequence of actions.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+@author Ruediger Lunde
+"
+      operation 146690 "makeDecision"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the action which appears to be the best at the given state.
+"
+      end
+
+      operation 146818 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the metrics of the search.
+
+@return all the metrics of the search.
+"
+      end
+
+      operation 146946 "setLogEnabled"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 133762 "Game"
+      visibility public stereotype "interface"
+      nformals 3
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
+<br>
+A game can be formally defined as a kind of search problem with the following
+elements: <br>
+<ul>
+<li>S0: The initial state, which specifies how the game is set up at the
+start.</li>
+<li>PLAYER(s): Defines which player has the move in a state.</li>
+<li>ACTIONS(s): Returns the set of legal moves in a state.</li>
+<li>RESULT(s, a): The transition model, which defines the result of a move.</li>
+<li>TERMINAL-TEST(s): A terminal test, which is true when the game is over
+and false TERMINAL STATES otherwise. States where the game has ended are
+called terminal states.</li>
+<li>UTILITY(s, p): A utility function (also called an objective function or
+payoff function), defines the final numeric value for a game that ends in
+terminal state s for a player p. In chess, the outcome is a win, loss, or
+draw, with values +1, 0, or 1/2 . Some games have a wider variety of possible
+outcomes; the payoffs in backgammon range from 0 to +192. A zero-sum game is
+(confusingly) defined as one where the total payoff to all players is the
+same for every instance of the game. Chess is zero-sum because every game has
+payoff of either 0 + 1, 1 + 0 or 1/2 + 1/2 . \"Constant-sum\" would have been a
+better term, but zero-sum is traditional and makes sense if you imagine each
+player is charged an entry fee of 1/2.</li>
+</ul>
+
+@param <S>  Type which is used for states in the game.
+@param <A> Type which is used for actions in the game.
+@param <P> Type which is used for players in the game.
+@author Ruediger Lunde
+"
+      operation 150018 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150146 "getPlayers"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150274 "getPlayer"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150402 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150530 "getResult"
+	cpp_inline public explicit_return_type "S"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150658 "isTerminal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 150786 "getUtility"
+	cpp_inline public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 189954 "AlphaBetaSearch"
+      visibility public 
+      nformals 3
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 133506 // AdversarialSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Ed.): Page 173.<br>
+<p>
+<pre>
+<code>
+function ALPHA-BETA-SEARCH(state) returns an action
+  v = MAX-VALUE(state, -infinity, +infinity)
+  return the action in ACTIONS(state) with value v
+
+function MAX-VALUE(state, alpha, beta) returns a utility value
+  if TERMINAL-TEST(state) then return UTILITY(state)
+  v = -infinity
+  for each a in ACTIONS(state) do
+    v = MAX(v, MIN-VALUE(RESULT(s, a), alpha, beta))
+    if v >= beta then return v
+    alpha = MAX(alpha, v)
+  return v
+
+function MIN-VALUE(state, alpha, beta) returns a utility value
+  if TERMINAL-TEST(state) then return UTILITY(state)
+  v = infinity
+  for each a in ACTIONS(state) do
+    v = MIN(v, MAX-VALUE(RESULT(s,a), alpha, beta))
+    if v <= alpha then return v
+    beta = MIN(beta, v)
+  return v
+</code>
+</pre>
+<p>
+Figure 5.7 The alpha-beta search algorithm. Notice that these routines are
+the same as the MINIMAX functions in Figure 5.3, except for the two lines in
+each of MIN-VALUE and MAX-VALUE that maintain alpha and beta (and the
+bookkeeping to pass these parameters along).
+
+@param <S> Type which is used for states in the game.
+@param <A> Type which is used for actions in the game.
+@param <P> Type which is used for players in the game.
+@author Ruediger Lunde
+"
+      classrelation 225282 // <realization>
+	relation 225282 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 225282 // <realization>
+	  b parent class_ref 133506 // AdversarialSearch
+      end
+
+      attribute 187138 "METRICS_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 225410 // game (<unidirectional association>)
+	relation 225410 --->
+	  a role_name "game" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A, P> ${name}${value};
+"
+	    classrelation_ref 225410 // game (<unidirectional association>)
+	  b parent class_ref 133762 // Game
+      end
+
+      classrelation 225538 // metrics (<unidirectional association>)
+	relation 225538 --->
+	  a role_name "metrics" init_value " new Metrics()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 225538 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 442754 "createFor"
+	class_operation cpp_inline public return_type class_ref 189954 // AlphaBetaSearch
+	nparams 1
+	  param inout name "game" type class_ref 133762 // Game
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<STATE, ACTION, PLAYER> ${type}<STATE, ACTION, PLAYER> ${name}${(}${t0}<STATE, ACTION, PLAYER> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new search object for a given game.
+"
+      end
+
+      operation 442882 "AlphaBetaSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "game" type class_ref 133762 // Game
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A, P> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 443010 "makeDecision"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 443138 "maxValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 4
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 443266 "minValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 4
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 443394 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 443522 "setLogEnabled"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 190082 "MinimaxSearch"
+      visibility public 
+      nformals 3
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 133506 // AdversarialSearch
+        rank 0 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 169.<br>
+<p>
+<pre>
+<code>
+function MINIMAX-DECISION(state) returns an action
+  return argmax_[a in ACTIONS(s)] MIN-VALUE(RESULT(state, a))
+
+function MAX-VALUE(state) returns a utility value
+  if TERMINAL-TEST(state) then return UTILITY(state)
+  v = -infinity
+  for each a in ACTIONS(state) do
+    v = MAX(v, MIN-VALUE(RESULT(s, a)))
+  return v
+
+function MIN-VALUE(state) returns a utility value
+  if TERMINAL-TEST(state) then return UTILITY(state)
+    v = infinity
+    for each a in ACTIONS(state) do
+      v  = MIN(v, MAX-VALUE(RESULT(s, a)))
+  return v
+</code>
+</pre>
+<p>
+Figure 5.3 An algorithm for calculating minimax decisions. It returns the
+action corresponding to the best possible move, that is, the move that leads
+to the outcome with the best utility, under the assumption that the opponent
+plays to minimize utility. The functions MAX-VALUE and MIN-VALUE go through
+the whole game tree, all the way to the leaves, to determine the backed-up
+value of a state. The notation argmax_[a in S] f(a) computes the element a of
+set S that has the maximum value of f(a).
+
+@param <S> Type which is used for states in the game.
+@param <A> Type which is used for actions in the game.
+@param <P> Type which is used for players in the game.
+@author Ruediger Lunde
+"
+      classrelation 225666 // <realization>
+	relation 225666 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 225666 // <realization>
+	  b parent class_ref 133506 // AdversarialSearch
+      end
+
+      attribute 187266 "METRICS_NODES_EXPANDED"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"nodesExpanded\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 225794 // game (<unidirectional association>)
+	relation 225794 --->
+	  a role_name "game" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A, P> ${name}${value};
+"
+	    classrelation_ref 225794 // game (<unidirectional association>)
+	  b parent class_ref 133762 // Game
+      end
+
+      classrelation 225922 // metrics (<unidirectional association>)
+	relation 225922 --->
+	  a role_name "metrics" init_value " new Metrics()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 225922 // metrics (<unidirectional association>)
+	  b parent class_ref 133634 // Metrics
+      end
+
+      operation 443650 "createFor"
+	class_operation cpp_inline public return_type class_ref 190082 // MinimaxSearch
+	nparams 1
+	  param inout name "game" type class_ref 133762 // Game
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A, P> ${type}<S, A, P> ${name}${(}${t0}<S, A, P> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new search object for a given game.
+"
+      end
+
+      operation 443778 "MinimaxSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "game" type class_ref 133762 // Game
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A, P> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 443906 "makeDecision"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 444034 "maxValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 444162 "minValue"
+	cpp_inline public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 444290 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 444418 "setLogEnabled"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 128770 "adversarial"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 132610 "AdversarialSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 133506 // AdversarialSearch
+      end
+    end
+
+    artifact 132738 "IterativeDeepeningAlphaBetaSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+      end
+    end
+
+    artifact 132994 "Game"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 133762 // Game
+      end
+    end
+
+    artifact 180098 "AlphaBetaSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 189954 // AlphaBetaSearch
+      end
+    end
+
+    artifact 180226 "MinimaxSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Metrics;
+${definition}"
+      associated_elems
+	class_ref 190082 // MinimaxSearch
+      end
+    end
+  end
+end

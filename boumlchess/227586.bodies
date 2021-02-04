@@ -1,0 +1,74 @@
+class NegamaxAction
+!!!676098.java!!!	NegamaxAction(inout minimax : ParallelMinimax, inout wrapper : BasicMinimax::MoveWrapper, inout move : M, in depth : int, in alpha : double, in beta : double)
+ 
+            this.wrapper = wrapper; 
+            this.depth = depth; 
+            this.minimax = minimax; 
+            this.move = move; 
+            this.alpha = alpha; 
+            this.beta = beta; 
+!!!676226.java!!!	compute() : Double
+ 
+            try { 
+                return negamax(wrapper, depth, alpha, beta); 
+            } catch (InterruptedException | ExecutionException e) { /* ignore */ } 
+            return alpha; 
+!!!676354.java!!!	negamax(in wrapper : BasicMinimax::MoveWrapper, in depth : int, in alpha : double, in beta : double) : double
+ 
+            if (depth == 0 || minimax.isOver()) { 
+                return minimax.evaluate(); 
+            } 
+            Iterator<M> moves = minimax.getPossibleMoves().iterator(); 
+            if (moves.hasNext()) { 
+                // young brother wait 
+                // reduce alpha beta window 
+                // assume its the best possible move 
+                M move = moves.next(); 
+                minimax.makeMove(move); 
+                double score = -negamax(null, depth - 1, -beta, -alpha); 
+                minimax.unmakeMove(move); 
+                if (score > alpha) { 
+                    alpha = score; 
+                    if (wrapper != null) { 
+                        wrapper.move = move; 
+                    } 
+                    if (alpha >= beta) { 
+                        // cutoff 
+                        return alpha; 
+                    } 
+                } 
+                if (moves.hasNext()) { 
+                    Collection<NegamaxAction<M>> tasks = new LinkedList<>(); 
+                    do { 
+                        // create sub tree exploration tasks 
+                        move = moves.next(); 
+                        ParallelMinimax<M> clone = minimax.clone(); 
+                        clone.makeMove(move); 
+                        tasks.add(new NegamaxAction<>(clone, null, move, depth - 1, -beta, -alpha)); 
+                    } while (moves.hasNext()); 
+                    // dispatch tasks across workers 
+                    // and wait for completion... 
+                    invokeAll(tasks); 
+                    // await termination of all brothers 
+                    // once all done alpha == best score 
+                    for (NegamaxAction<M> task : tasks) { 
+                        if (-task.getRawResult() > alpha) { 
+                            alpha = -task.getRawResult(); 
+                            if (wrapper != null) { 
+                                wrapper.move = task.move; 
+                            } 
+                            if (alpha >= beta) { 
+                                // task lead to a cutoff... 
+                                // we don't care of other brothers 
+                                break; 
+                            } 
+                        } 
+                    } 
+                } 
+            } else { 
+                minimax.next(); 
+                alpha = -negamax(null, depth - 1, -beta, -alpha); 
+                minimax.previous(); 
+            } 
+            // sub tree done ! 
+            return alpha; 

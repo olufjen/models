@@ -1,0 +1,13 @@
+class GameOfBones
+!!!643074.java!!!	getPossibleStates(in noOfBonesInHeap : int) : List<Integer>
+ //   	 System.out.println("\nStates ");
+        return IntStream.rangeClosed(1, 3).boxed()
+          .map(i -> {
+//        	  System.out.println("Mapping " + i);
+          return noOfBonesInHeap - i;
+          })
+          .filter(newHeapCount -> {
+//        	  System.out.println("Left in heap " + newHeapCount);
+           return newHeapCount >= 0;
+          })
+          .collect(Collectors.toList());

@@ -1,0 +1,44 @@
+class DynamicBayesNet
+!!!406530.java!!!	DynamicBayesNet(inout priorNetwork : BayesianNetwork, inout X_0_to_X_1 : Map<RandomVariable, RandomVariable>, inout E_1 : Set<RandomVariable>, inout  : Node...rootNodes)
+		super(rootNodes);
+
+		for (Map.Entry<RandomVariable, RandomVariable> x0_x1 : X_0_to_X_1
+				.entrySet()) {
+			RandomVariable x0 = x0_x1.getKey();
+			RandomVariable x1 = x0_x1.getValue();
+			this.X_0.add(x0);
+			this.X_1.add(x1);
+			this.X_0_to_X_1.put(x0, x1);
+			this.X_1_to_X_0.put(x1, x0);
+		}
+		this.E_1.addAll(E_1);
+
+		// Assert the X_0, X_1, and E_1 sets are of expected sizes
+		Set<RandomVariable> combined = new LinkedHashSet<RandomVariable>();
+		combined.addAll(X_0);
+		combined.addAll(X_1);
+		combined.addAll(E_1);
+		if (SetOps.difference(varToNodeMap.keySet(), combined).size() != 0) {
+			throw new IllegalArgumentException(
+					"X_0, X_1, and E_1 do not map correctly to the Nodes describing this Dynamic Bayesian Network.");
+		}
+		this.priorNetwork = priorNetwork;
+
+		X_1_VariablesInTopologicalOrder
+				.addAll(getVariablesInTopologicalOrder());
+		X_1_VariablesInTopologicalOrder.removeAll(X_0);
+		X_1_VariablesInTopologicalOrder.removeAll(E_1);
+!!!406658.java!!!	getPriorNetwork() : BayesianNetwork
+		return priorNetwork;
+!!!406786.java!!!	getX_0() : RandomVariable
+		return X_0;
+!!!406914.java!!!	getX_1() : RandomVariable
+		return X_1;
+!!!407042.java!!!	getX_1_VariablesInTopologicalOrder() : RandomVariable
+		return X_1_VariablesInTopologicalOrder;
+!!!407170.java!!!	getX_0_to_X_1() : RandomVariable
+		return X_0_to_X_1;
+!!!407298.java!!!	getX_1_to_X_0() : RandomVariable
+		return X_1_to_X_0;
+!!!407426.java!!!	getE_1() : RandomVariable
+		return E_1;

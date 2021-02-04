@@ -1,0 +1,27 @@
+class Metrics
+!!!460546.java!!!	Metrics()
+		this.hash = new Hashtable<String, String>();
+!!!460674.java!!!	set(in name : String, in i : int) : void
+		hash.put(name, Integer.toString(i));
+!!!460802.java!!!	set(in name : String, in d : double) : void
+		hash.put(name, Double.toString(d));
+!!!460930.java!!!	incrementInt(in name : String) : void
+		set(name, getInt(name) + 1);
+!!!461058.java!!!	set(in name : String, in l : long) : void
+		hash.put(name, Long.toString(l));
+!!!461186.java!!!	getInt(in name : String) : int
+		String value = hash.get(name);
+		return value != null ? Integer.parseInt(value) : 0;
+!!!461314.java!!!	getDouble(in name : String) : double
+		String value = hash.get(name);
+		return value != null ? Double.parseDouble(value) : Double.NaN;
+!!!461442.java!!!	getLong(in name : String) : long
+		String value = hash.get(name);
+		return value != null ? Long.parseLong(value) : 0l;
+!!!461570.java!!!	get(in name : String) : String
+		return hash.get(name);
+!!!461698.java!!!	keySet() : Set<String>
+		return hash.keySet();
+!!!461826.java!!!	toString() : String
+		TreeMap<String, String> map = new TreeMap<String, String>(hash);
+		return map.toString();

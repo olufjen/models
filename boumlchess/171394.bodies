@@ -1,0 +1,103 @@
+class PLFCEntails
+!!!361474.java!!!	plfcEntails(inout kb : KnowledgeBase, inout q : PropositionSymbol) : boolean
+		// count <- a table, where count[c] is the number of symbols in c's
+		// premise
+		Map<Clause, Integer> count = initializeCount(kb);
+		// inferred <- a table, where inferred[s] is initially false for all
+		// symbols
+		Map<PropositionSymbol, Boolean> inferred = initializeInferred(kb);
+		// agenda <- a queue of symbols, initially symbols known to be true in
+		// KB
+		Queue<PropositionSymbol> agenda = initializeAgenda(count);
+		// Note: an index for p to the clauses where p appears in the premise
+		Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = initializeIndex(
+				count, inferred);
+
+		// while agenda is not empty do
+		while (!agenda.isEmpty()) {
+			// p <- Pop(agenda)
+			PropositionSymbol p = agenda.remove();
+			// if p = q then return true
+			if (p.equals(q)) {
+				return true;
+			}
+			// if inferred[p] = false then
+			if (inferred.get(p).equals(Boolean.FALSE)) {
+				// inferred[p] <- true
+				inferred.put(p, true);
+				// for each clause c in KB where p is in c.PREMISE do
+				for (Clause c : pToClausesWithPInPremise.get(p)) {
+					// decrement count[c]
+					decrement(count, c);
+					// if count[c] = 0 then add c.CONCLUSION to agenda
+					if (count.get(c) == 0) {
+						agenda.add(conclusion(c));
+					}
+				}
+			}
+		}
+
+		// return false
+		return false;
+!!!361602.java!!!	initializeCount(inout kb : KnowledgeBase) : Clause
+		// count <- a table, where count[c] is the number of symbols in c's
+		// premise
+		Map<Clause, Integer> count = new HashMap<Clause, Integer>();
+
+		Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(
+				kb.asSentence()).getClauses();
+		for (Clause c : clauses) {
+			if (!c.isDefiniteClause()) {
+				throw new IllegalArgumentException(
+						"Knowledge Base contains non-definite clauses:" + c);
+			}
+			// Note: # of negative literals is equivalent to the number of
+			// symbols in c's premise
+			count.put(c, c.getNumberNegativeLiterals());
+		}
+
+		return count;
+!!!361730.java!!!	initializeInferred(inout kb : KnowledgeBase) : PropositionSymbol
+		// inferred <- a table, where inferred[s] is initially false for all
+		// symbols
+		Map<PropositionSymbol, Boolean> inferred = new HashMap<PropositionSymbol, Boolean>();
+		for (PropositionSymbol p : SymbolCollector.getSymbolsFrom(kb
+				.asSentence())) {
+			inferred.put(p, false);
+		}
+		return inferred;
+!!!361858.java!!!	initializeAgenda(inout count : Map<Clause, Integer>) : PropositionSymbol
+		// agenda <- a queue of symbols, initially symbols known to be true in
+		// KB
+		Queue<PropositionSymbol> agenda = new LinkedList<PropositionSymbol>();
+		for (Clause c : count.keySet()) {
+			// No premise just a conclusion, then we know its true
+			if (c.getNumberNegativeLiterals() == 0) {
+				agenda.add(conclusion(c));
+			}
+		}
+		return agenda;
+!!!361986.java!!!	initializeIndex(inout count : Map<Clause, Integer>, inout inferred : Map<PropositionSymbol, Boolean>) : PropositionSymbol
+		Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = new HashMap<PropositionSymbol, Set<Clause>>();
+		for (PropositionSymbol p : inferred.keySet()) {
+			Set<Clause> clausesWithPInPremise = new HashSet<Clause>();
+			for (Clause c : count.keySet()) {
+				// Note: The negative symbols comprise the premise
+				if (c.getNegativeSymbols().contains(p)) {
+					clausesWithPInPremise.add(c);
+				}
+			}
+			pToClausesWithPInPremise.put(p, clausesWithPInPremise);
+		}
+		return pToClausesWithPInPremise;
+!!!362114.java!!!	decrement(inout count : Map<Clause, Integer>, inout c : Clause) : void
+		int currentCount = count.get(c);
+		// Note: a definite clause can just be a fact (i.e. 1 positive literal)
+		// However, we only decrement those where the symbol is in the premise
+		// so we don't need to worry about going < 0.
+		count.put(c, currentCount - 1);
+!!!362242.java!!!	conclusion(inout c : Clause) : PropositionSymbol
+		// Note: the conclusion is from the single positive
+		// literal in the definite clause (which we are
+		// restricted to).
+		return c.getPositiveSymbols().iterator().next();

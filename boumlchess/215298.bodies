@@ -1,0 +1,86 @@
+class RouteFindingAgentController
+!!!603906.java!!!	selectScenarioAndDest(in scenarioIdx : int, in destIdx : int) : void
+			ExtendableMap map = new ExtendableMap();
+			MapEnvironment env = new MapEnvironment(map);
+			String agentLoc = null;
+			switch (scenarioIdx) {
+			case 0:
+				SimplifiedRoadMapOfPartOfRomania.initMap(map);
+				agentLoc = SimplifiedRoadMapOfPartOfRomania.ARAD;
+				break;
+			case 1:
+				SimplifiedRoadMapOfPartOfRomania.initMap(map);
+				agentLoc = SimplifiedRoadMapOfPartOfRomania.LUGOJ;
+				break;
+			case 2:
+				SimplifiedRoadMapOfPartOfRomania.initMap(map);
+				agentLoc = SimplifiedRoadMapOfPartOfRomania.FAGARAS;
+				break;
+			case 3:
+				SimplifiedRoadMapOfAustralia.initMap(map);
+				agentLoc = SimplifiedRoadMapOfAustralia.SYDNEY;
+				break;
+			case 4:
+				SimplifiedRoadMapOfAustralia.initMap(map);
+				agentLoc = map.randomlyGenerateDestination();
+				break;
+			}
+			scenario = new Scenario(env, map, agentLoc);
+
+			destinations = new ArrayList<>();
+			if (scenarioIdx < 3) {
+				switch (destIdx) {
+				case 0:
+					destinations
+							.add(SimplifiedRoadMapOfPartOfRomania.BUCHAREST);
+					break;
+				case 1:
+					destinations.add(SimplifiedRoadMapOfPartOfRomania.EFORIE);
+					break;
+				case 2:
+					destinations.add(SimplifiedRoadMapOfPartOfRomania.NEAMT);
+					break;
+				case 3:
+					destinations.add(map.randomlyGenerateDestination());
+					break;
+				}
+			} else {
+				switch (destIdx) {
+				case 0:
+					destinations.add(SimplifiedRoadMapOfAustralia.PORT_HEDLAND);
+					break;
+				case 1:
+					destinations.add(SimplifiedRoadMapOfAustralia.ALBANY);
+					break;
+				case 2:
+					destinations.add(SimplifiedRoadMapOfAustralia.MELBOURNE);
+					break;
+				case 3:
+					destinations.add(map.randomlyGenerateDestination());
+					break;
+				}
+			}
+!!!604034.java!!!	prepareView() : void
+			ExtendedMapAgentView mEnv = (ExtendedMapAgentView) frame.getEnvView();
+			mEnv.setData(scenario, destinations, null);
+			mEnv.setEnvironment(scenario.getEnv());
+!!!604162.java!!!	createHeuristic(in heuIdx : int) : Node
+			ToDoubleFunction<Node<String, MoveToAction>> h = null;
+			switch (heuIdx) {
+			case 0:
+				h = (state) -> 0.0;
+				break;
+			default:
+				h = MapFunctions.createSLDHeuristicFunction(destinations.get(0), scenario
+						.getAgentMap());
+			}
+			return h;
+!!!604290.java!!!	initAgents(inout logger : MessageLogger) : void
+			if (destinations.size() != 1) {
+				logger.log("Error: This agent requires exact one destination.");
+				return;
+			}
+			MapEnvironment env = scenario.getEnv();
+			String goal = destinations.get(0);
+			SimpleMapAgent agent = new SimpleMapAgent(env.getMap(), env, search, new String[] { goal });
+			env.addAgent(agent, scenario.getInitAgentLocation());

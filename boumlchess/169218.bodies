@@ -1,0 +1,159 @@
+class ClauseEqualityIdentityConstructor
+!!!327810.java!!!	ClauseEqualityIdentityConstructor(inout literals : List<Literal>, inout sorter : LiteralsSorter)
+
+		clauseVarCounts = new int[literals.size()];
+
+		for (Literal l : literals) {
+			if (l.isNegativeLiteral()) {
+				identity.append("~");
+			}
+			identity.append(l.getAtomicSentence().getSymbolicName());
+			identity.append("(");
+			boolean firstTerm = true;
+			for (Term t : l.getAtomicSentence().getArgs()) {
+				if (firstTerm) {
+					firstTerm = false;
+				} else {
+					identity.append(",");
+				}
+				t.accept(this, null);
+			}
+			identity.append(")");
+			currentLiteral++;
+		}
+
+		int min, max;
+		min = max = 0;
+		for (int i = 0; i < literals.size(); i++) {
+			int incITo = i;
+			int next = i + 1;
+			max += clauseVarCounts[i];
+			while (next < literals.size()) {
+				if (0 != sorter.compare(literals.get(i), literals.get(next))) {
+					break;
+				}
+				max += clauseVarCounts[next];
+				incITo = next; // Need to skip to the end of the range
+				next++;
+			}
+			// This indicates two or more literals are identical
+			// except for variable naming (note: identical
+			// same name would be removed as are working
+			// with sets so don't need to worry about this).
+			if ((next - i) > 1) {
+				// Need to check each variable
+				// and if it has a position within the
+				// current min/max range then need
+				// to include its alternative
+				// sort order positions as well
+				for (String key : varPositions.keySet()) {
+					List<Integer> positions = varPositions.get(key);
+					List<Integer> additPositions = new ArrayList<Integer>();
+					// Add then subtract for all possible
+					// positions in range
+					for (int pos : positions) {
+						if (pos >= min && pos < max) {
+							int pPos = pos;
+							int nPos = pos;
+							for (int candSlot = i; candSlot < (next - 1); candSlot++) {
+								pPos += clauseVarCounts[i];
+								if (pPos >= min && pPos < max) {
+									if (!positions.contains(pPos)
+											&& !additPositions.contains(pPos)) {
+										additPositions.add(pPos);
+									}
+								}
+								nPos -= clauseVarCounts[i];
+								if (nPos >= min && nPos < max) {
+									if (!positions.contains(nPos)
+											&& !additPositions.contains(nPos)) {
+										additPositions.add(nPos);
+									}
+								}
+							}
+						}
+					}
+					positions.addAll(additPositions);
+				}
+			}
+			min = max;
+			i = incITo;
+		}
+
+		// Determine the maxWidth
+		int maxWidth = 1;
+		while (noVarPositions >= 10) {
+			noVarPositions = noVarPositions / 10;
+			maxWidth++;
+		}
+
+		// Sort the individual position lists
+		// And then add their string representations
+		// together
+		List<String> varOffsets = new ArrayList<String>();
+		for (String key : varPositions.keySet()) {
+			List<Integer> positions = varPositions.get(key);
+			Collections.sort(positions);
+			StringBuilder sb = new StringBuilder();
+			for (int pos : positions) {
+				String posStr = Integer.toString(pos);
+				int posStrLen = posStr.length();
+				int padLen = maxWidth-posStrLen;
+				for (int i=0;i<padLen;i++) {
+					sb.append('0');
+				}
+				sb.append(posStr);
+			}
+			varOffsets.add(sb.toString());
+		}
+		Collections.sort(varOffsets);
+		for (int i = 0; i < varOffsets.size(); i++) {
+			identity.append(varOffsets.get(i));
+			if (i < (varOffsets.size() - 1)) {
+				identity.append(",");
+			}
+		}
+!!!327938.java!!!	getIdentity() : String
+		return identity.toString();
+!!!328066.java!!!	visitVariable(inout var : Variable, inout arg : Object) : Object
+		// All variables will be marked with an *
+		identity.append("*");
+
+		List<Integer> positions = varPositions.get(var.getValue());
+		if (null == positions) {
+			positions = new ArrayList<Integer>();
+			varPositions.put(var.getValue(), positions);
+		}
+		positions.add(noVarPositions);
+
+		noVarPositions++;
+		clauseVarCounts[currentLiteral]++;
+		return var;
+!!!328194.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		identity.append(constant.getValue());
+		return constant;
+!!!328322.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		boolean firstTerm = true;
+		identity.append(function.getFunctionName());
+		identity.append("(");
+		for (Term t : function.getTerms()) {
+			if (firstTerm) {
+				firstTerm = false;
+			} else {
+				identity.append(",");
+			}
+			t.accept(this, arg);
+		}
+		identity.append(")");
+
+		return function;
+!!!328450.java!!!	visitPredicate(inout predicate : Predicate, inout arg : Object) : Object
+		throw new IllegalStateException("Should not be called");
+!!!328578.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		throw new IllegalStateException("Should not be called");
+!!!328706.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		throw new IllegalStateException("Should not be called");
+!!!328834.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		throw new IllegalStateException("Should not be called");
+!!!328962.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		throw new IllegalStateException("Should not be called");

@@ -1,0 +1,575 @@
+format 223
+"map" // aima::core::robotics::impl::map
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/robotics/impl/map/"
+  java_package "aima.core.robotics.impl.map"
+  classview 137730 "map"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 189058 "IPoseFactory"
+      visibility public stereotype "interface"
+      nformals 2
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IPose2D<P,M>"
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines a factory for the class implementing {@link IPose2D} in the context of the {@link MclCartesianPlot2D}.
+ 
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> a pose implementing {@link IPose2D}.
+@param <M> a movement (or a sequence of movements) implementing {@link IMclMove}.
+"
+      operation 440706 "getPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <P>} for the given parameters.
+@param point the 2D coordinates of the new pose.
+@return the new pose.
+"
+      end
+
+      operation 440834 "getPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 2
+	  param inout name "point" type class_ref 137218 // Point2D
+	  param in name "heading" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <P>} for the given parameters.<br/>
+This function is used to create the result of {@link MclCartesianPlot2D}{@code .getAverage()}.
+@param point the 2D coordinates of the new pose.
+@param heading the heading of the pose. This heading may be invalid. Based on the given environment this can be corrected or ignored.
+@return the new pose.
+"
+      end
+
+      operation 440962 "isHeadingValid"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the heading of a pose is valid.
+@param pose the pose to be checked.
+@return true if the heading is valid.
+"
+      end
+    end
+
+    class 189186 "IRangeReadingFactory"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "R" type "" explicit_default_value ""
+        extends class_ref 188674 // AbstractRangeReading
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines a factory for the class extending {@link AbstractRangeReading} in the context of the {@link MclCartesianPlot2D}.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <R> a range reading extending {@link AbstractRangeReading}.
+"
+      operation 441090 "getRangeReading"
+	cpp_inline public explicit_return_type "R"
+	nparams 1
+	  param in name "value" explicit_type "double"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <R>} for the given parameters.
+@param value the value of the new range reading.
+@return the new range reading.
+"
+      end
+    end
+
+    class 189314 "MclCartesianPlot2D"
+      visibility public 
+      nformals 3
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IPose2D<P,M>"
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        extends class_ref 188674 // AbstractRangeReading
+      nactuals 4
+      actual class class_ref 187522 // IMclMap
+        rank 0 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 1 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 2 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 3 explicit_value ""
+      cpp_decl ""
+      final java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class implements the interface {@link IMclMap} using the classes {@link Angle} and {@link AbstractRangeReading}.<br/>
+It uses a parser that generates two sets of {@link IGeometric2D}.<br/>
+The first set describes obstacles that can be measured by the range sensor. Thus only this group is considered for the {@code rayCast} function.<br/>
+The second group specifies areas on the map. If a position is in one of these areas it is a valid position.<br/>
+This functionality is implemented by {@code isPoseValid} which in addition tests whether the heading of that pose is valid and the position is inside an obstacle which makes it an invalid position.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+@param <P> a pose implementing {@link IPose2D}.
+@param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}.
+@param <R> a range reading extending {@link AbstractRangeReading}.
+"
+      classrelation 224642 // <realization>
+	relation 224642 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 224642 // <realization>
+	  b parent class_ref 187522 // IMclMap
+      end
+
+      attribute 186626 "OBSTACLE_ID"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"obstacles\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "This is the identifier that is used to find a group of obstacles in the map file.
+
+"
+      end
+
+      attribute 186754 "AREA_ID"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"validMovementArea\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "This is the identifier that is used to find a group of areas in the map file.
+
+"
+      end
+
+      classrelation 224770 // poseFactory (<unidirectional association>)
+	relation 224770 --->
+	  a role_name "poseFactory" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<P,M> ${name}${value};
+"
+	    classrelation_ref 224770 // poseFactory (<unidirectional association>)
+	  b parent class_ref 189058 // IPoseFactory
+      end
+
+      classrelation 224898 // rangeReadingFactory (<unidirectional association>)
+	relation 224898 --->
+	  a role_name "rangeReadingFactory" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<R> ${name}${value};
+"
+	    classrelation_ref 224898 // rangeReadingFactory (<unidirectional association>)
+	  b parent class_ref 189186 // IRangeReadingFactory
+      end
+
+      classrelation 225026 // obstacles (<unidirectional association>)
+	relation 225026 --->
+	  a role_name "obstacles" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 225026 // obstacles (<unidirectional association>)
+	  b parent class_ref 189442 // CartesianPlot2D
+      end
+
+      classrelation 225154 // areas (<unidirectional association>)
+	relation 225154 --->
+	  a role_name "areas" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 225154 // areas (<unidirectional association>)
+	  b parent class_ref 189442 // CartesianPlot2D
+      end
+
+      attribute 186882 "obstaclesException"
+	private explicit_type "Exception"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 187010 "areasException"
+	private explicit_type "Exception"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 441218 "MclCartesianPlot2D"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "obstaclesParser" type class_ref 189570 // IGroupParser
+	  param inout name "areasParser" type class_ref 189570 // IGroupParser
+	  param inout name "poseFactory" type class_ref 189058 // IPoseFactory
+	  param inout name "rangeReadingFactory" type class_ref 189186 // IRangeReadingFactory
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<P,M> ${p2}, ${t3}<R> ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param obstaclesParser a map parser implementing {@link IGroupParser}. This parser is used to load a map file for the obstacles.
+@param areasParser a map parser implementing {@link IGroupParser}. This parser is used to load a map file for the areas. It should be a different object than obstaclesParser or implemented thread-safe.
+@param poseFactory a pose factory implementing {@link IPoseFactory}.
+@param rangeReadingFactory a range reading factory implementing {@link IRangeReadingFactory}.
+"
+      end
+
+      operation 441346 "setSensorRange"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "sensorRange" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the sensor range.
+@param sensorRange the maximum range that the sensor can reliably measure. This parameter is used to speed up {@code rayCast}.
+"
+      end
+
+      operation 441474 "checkDistanceOfPoses"
+	cpp_inline public explicit_return_type "P"
+	nparams 2
+	  param inout name "samples" explicit_type "Set<P>"
+	  param in name "maxDistance" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculate the maximum distance between all samples and compare it to {@code maxDistance}.
+If it is smaller or equals to {@code maxDistance} the mean is returned. {@code null} otherwise.
+@param samples the set of samples to be checked against.
+@param maxDistance the maxDistance that the cloud should have to return a mean.
+@return the mean of the samples or {@code null}.
+"
+      end
+
+      operation 441602 "loadMap"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param in name "obstacleInput" explicit_type "InputStream"
+	  param in name "areaInput" explicit_type "InputStream"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}, final ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This function loads a map input stream into this Cartesian plot. The two streams have to be two different instances to be thread safe.
+@param obstacleInput the stream containing the obstacles.
+@param areaInput the stream containing the areas
+@throws Exception thrown by the implementing class of {@link IGroupParser} when calling {@code loadMap}.
+"
+      end
+
+      operation 441730 "getObstacles"
+	cpp_inline public return_type class_ref 189698 // IGeometric2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an iterator over the obstacle polygons.
+@return an iterator over the obstacle polygons.
+"
+      end
+
+      operation 441858 "getObstacleBoundaries"
+	cpp_inline public return_type class_ref 189826 // Rect2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an iterator over the boundaries of the obstacle polygons.
+@return an iterator over the boundaries of the obstacle polygons.
+"
+      end
+
+      operation 441986 "getAreas"
+	cpp_inline public return_type class_ref 189698 // IGeometric2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an iterator over the area polygons.
+@return an iterator over the area polygons.
+"
+      end
+
+      operation 442114 "getAreaBoundaries"
+	cpp_inline public return_type class_ref 189826 // Rect2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an iterator over the boundaries of the area polygons.
+@return an iterator over the boundaries of the area polygons.
+"
+      end
+
+      operation 442242 "isLoaded"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether a map was loaded.
+@return {@code true} if a map was loaded.
+"
+      end
+
+      operation 442370 "randomPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 442498 "rayCast"
+	cpp_inline public explicit_return_type "R"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 442626 "isPoseValid"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 136962 "map"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 179714 "IPoseFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.impl.datatypes.IPose2D;
+import aima.core.util.math.geom.shapes.Point2D;
+${definition}"
+      associated_elems
+	class_ref 189058 // IPoseFactory
+      end
+    end
+
+    artifact 179842 "IRangeReadingFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.impl.datatypes.AbstractRangeReading;
+${definition}"
+      associated_elems
+	class_ref 189186 // IRangeReadingFactory
+      end
+    end
+
+    artifact 179970 "MclCartesianPlot2D"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Set;
+import aima.core.robotics.IMclMap;
+import aima.core.robotics.datatypes.IMclMove;
+import aima.core.robotics.impl.datatypes.Angle;
+import aima.core.robotics.impl.datatypes.IPose2D;
+import aima.core.robotics.impl.datatypes.AbstractRangeReading;
+import aima.core.util.math.geom.CartesianPlot2D;
+import aima.core.util.math.geom.IGroupParser;
+import aima.core.util.math.geom.shapes.IGeometric2D;
+import aima.core.util.math.geom.shapes.Point2D;
+import aima.core.util.math.geom.shapes.Ray2D;
+import aima.core.util.math.geom.shapes.Rect2D;
+import aima.core.util.math.geom.shapes.Vector2D;
+${definition}"
+      associated_elems
+	class_ref 189314 // MclCartesianPlot2D
+      end
+    end
+  end
+end

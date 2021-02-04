@@ -1,0 +1,1136 @@
+format 223
+"geom" // aima::core::util::math::geom
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/util/math/geom/"
+  java_package "aima.core.util.math.geom"
+  package_ref 130690 // shapes
+
+  classview 137858 "geom"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 189442 "CartesianPlot2D"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class is a simple implementation of a Cartesian plot.<br/>
+It uses a {@link IGroupParser} that generates a set of {@link IGeometric2D}.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      attribute 206466 "rayRange"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 243458 // parser (<unidirectional association>)
+	relation 243458 --->
+	  a role_name "parser" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 243458 // parser (<unidirectional association>)
+	  b parent class_ref 189570 // IGroupParser
+      end
+
+      classrelation 243586 // shapes (<unidirectional association>)
+	relation 243586 --->
+	  stereotype "ArrayList"
+	  a role_name "shapes" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 243586 // shapes (<unidirectional association>)
+	  b parent class_ref 189698 // IGeometric2D
+      end
+
+      classrelation 243714 // boundaries (<unidirectional association>)
+	relation 243714 --->
+	  stereotype "ArrayList"
+	  a role_name "boundaries" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 243714 // boundaries (<unidirectional association>)
+	  b parent class_ref 189826 // Rect2D
+      end
+
+      operation 524418 "CartesianPlot2D"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "parser" type class_ref 189570 // IGroupParser
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param parser a file parser which implements {@link IGroupParser}. This parser is used to load a map file.
+"
+      end
+
+      operation 524546 "setRayRange"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "rayRange" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the maximum length of a rayCast after which {@code Double.POSITIVE_INFINITY} may be returned.
+@param rayRange the maximum non zero positive length, that the ray can reliably have. This parameter is used to speed up {@code rayCast}.
+Set this to {@code Double.POSITIVE_INFINITY} if you like waiting.
+"
+      end
+
+      operation 524674 "setShapes"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "shapes" explicit_type "ArrayList<IGeometric2D>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the set of shapes of the plot.
+@param shapes the set of shapes to be set.
+"
+      end
+
+      operation 524802 "loadMap"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "input" explicit_type "InputStream"
+	  param in name "groupID" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads a map input into this Cartesian plot.
+@param input the stream containing the data.
+@param groupID the identification for the group of elements that will be loaded.
+@throws Exception thrown if the input does not contain the group.
+@throws Exception thrown by the parser when it encounters an error in the input.
+"
+      end
+
+      operation 524930 "getShapes"
+	public return_type class_ref 189698 // IGeometric2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return an iterator over the shapes.
+"
+      end
+
+      operation 525058 "getBoundaries"
+	public return_type class_ref 189826 // Rect2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Iterator<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return an iterator over the boundaries of the shapes.
+"
+      end
+
+      operation 525186 "isEmpty"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the plot does not contain any elements.
+@return true if the plot contains no element.
+"
+      end
+
+      operation 525314 "randomPoint"
+	public return_type class_ref 137218 // Point2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates a random point that is somewhere inside one of the shapes of the plot or on a border of a shape.
+@return a point on a shape within the plot.
+"
+      end
+
+      operation 525442 "rayCast"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "ray" type class_ref 202498 // Ray2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the length of a ray until it intersects with a shape.<br/>
+As this class uses the set maximum ray range to speed up this ray casting,<br/>
+this function may return {@code Double.POSITIVE_INFINITY} for a ray that intersects with an obstacle that is further away than the rayRange from the given starting point.
+@param ray the ray to be used for ray casting.
+@return the length of the ray.
+"
+      end
+
+      operation 525570 "isPointInsideBorderShape"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the given point is on any of the shapes of the plot.
+@param point the point to be tested.
+@return true if the point is on any of the shapes.
+"
+      end
+
+      operation 525698 "isPointInsideShape"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the given point is inside any of the shapes of the plot.
+@param point the point to be tested.
+@return true if the point is in any of the shapes (excluding their borders).
+"
+      end
+    end
+
+    class 189570 "IGroupParser"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines a parser that creates {@code ArrayList}s for geometric shapes represented through {@link IGeometric2D}
+and their boundaries represented through {@link Rect2D} out of a given file.<br/>
+The parser uses a {@link File} as an input and a {@code String} representing the ID of a group of shapes.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      operation 525826 "parse"
+	public return_type class_ref 189698 // IGeometric2D
+	nparams 2
+	  param inout name "input" explicit_type "InputStream"
+	  param in name "groupID" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "Exception"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ArrayList<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the given {@link File} into a group of geometric shapes.
+@param input the given input stream.
+@param groupID the identifier for the group.
+@throws Exception if an error is found while parsing the input.
+@return the constructed list of geometric shapes.
+"
+      end
+    end
+
+    class 202626 "SVGGroupParser"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class implements {@link IGroupParser} for a SVG map.
+the \"g\" element is used to define the group(s) that should be parsed.<br/>
+
+The parser only recognizes the following basic shapes:
+<ul>
+<li>rect</li>
+<li>line</li>
+<li>circle</li>
+<li>ellipse</li>
+<li>polyline</li>
+<li>polygon</li>
+</ul>
+In addition any number of grouping elements are allowed.<br/>
+For all elements only the coordinates and the transform attribute are used. This means that rounded corners etc. are ignored.
+Every element/shape can use the transform attribute. The following transformations may be used:<br/><br/>
+<ul>
+<li>translate</li>
+<li>scale</li>
+<li>rotate</li>
+</ul> 
+To use the svg map with {@code CartesianPlot2D} it has to contain a \"g\" element with an id.<br/>
+See <a href=\"https://www.w3.org/TR/SVG/expanded-toc.html\">w3c&reg; SVG standard definition</a> for more information.<br/>
+<br/>
+During the process of parsing most of the time is spent in the {@link XMLStreamReader}.
+A known issue is a <code><!DOCTYPE ></code> element in the file. Removing this element can speed up the parsing significantly.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 243842 // <realization>
+	relation 243842 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 243842 // <realization>
+	  b parent class_ref 189570 // IGroupParser
+      end
+
+      attribute 206594 "GROUP_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"g\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 206722 "CIRCLE_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"circle\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 206850 "ELLIPSE_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"ellipse\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 206978 "LINE_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"line\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207106 "POLYLINE_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"polyline\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207234 "POLYGON_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"polygon\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207362 "RECT_ELEMENT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"rect\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207490 "ID_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"id\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207618 "TRANSFORM_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"transform\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207746 "X_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"x\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 207874 "Y_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"y\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208002 "CX_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"cx\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208130 "CY_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"cy\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208258 "X1_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"x1\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208386 "Y1_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"y1\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208514 "X2_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"x2\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208642 "Y2_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"y2\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208770 "R_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"r\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 208898 "RX_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"rx\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209026 "RY_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"ry\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209154 "WIDTH_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"width\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209282 "HEIGHT_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"height\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209410 "POINTS_ATTRIBUTE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"points\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209538 "TRANSLATE_TRANSFORM"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"translate\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209666 "SCALE_TRANSFORM"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"scale\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209794 "ROTATE_TRANSFORM"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"rotate\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 209922 "POINTS_REGEX"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"[,\\\\s]+\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210050 "TRANSFORM_REGEX1"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"[a-zA-Z]*\\\\([0-9.,Ee\\\\+\\\\-\\\\s]*\\\\)\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210178 "TRANSFORM_REGEX2"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"([a-zA-Z]+)|([0-9\\\\.Ee\\\\+\\\\-]*[eEmMxXpPiInNcCtT%]*[^\\\\,\\\\(\\\\)\\\\s]+)\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210306 "NUMBER_REGEX"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"([\\\\+\\\\-]?[0-9]+\\\\.?[0-9]*[Ee]?[\\\\+\\\\-]?[0-9]*\\\\.?[0-9]*)|em|ex|px|in|cm|mm|pt|pc|\\\\%\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210434 "NUMBER_PATTERN"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(NUMBER_REGEX)"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210562 "TRANSFORM_PATTERN1"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(TRANSFORM_REGEX1)"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210690 "TRANSFORM_PATTERN2"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(TRANSFORM_REGEX2)"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210818 "FACTORY"
+	class_attribute const_attribute private explicit_type "XMLInputFactory"
+	init_value " XMLInputFactory.newInstance()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 210946 "reader"
+	private explicit_type "XMLStreamReader"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 243970 // shapes (<unidirectional association>)
+	relation 243970 --->
+	  stereotype "ArrayList"
+	  a role_name "shapes" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 243970 // shapes (<unidirectional association>)
+	  b parent class_ref 189698 // IGeometric2D
+      end
+
+      classrelation 244098 // transformations (<unidirectional association>)
+	relation 244098 --->
+	  stereotype "Stack"
+	  a role_name "transformations" init_value " new Stack<TransformMatrix2D>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 244098 // transformations (<unidirectional association>)
+	  b parent class_ref 202754 // TransformMatrix2D
+      end
+
+      classrelation 244226 // currentMatrix (<unidirectional association>)
+	relation 244226 --->
+	  a role_name "currentMatrix" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 244226 // currentMatrix (<unidirectional association>)
+	  b parent class_ref 202754 // TransformMatrix2D
+      end
+
+      operation 525954 "parse"
+	public return_type class_ref 189698 // IGeometric2D
+	nparams 2
+	  param inout name "input" explicit_type "InputStream"
+	  param in name "groupID" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "XMLStreamException"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ArrayList<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Parses the given {@link InputStream} into a group of geometric shapes.
+@param input the given input stream.
+@param groupID the identifier for the group.
+@throws XMLStreamException if a syntax error is found in the input.
+@return the constructed list of geometric shapes.
+"
+      end
+
+      operation 526082 "parseGroup"
+	private explicit_return_type "void"
+	nparams 0
+	nexceptions 1
+	  explicit_exception "XMLStreamException"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the specified group.
+@throws XMLStreamException if an syntax error was encountered in the file.
+"
+      end
+
+      operation 526210 "applyTransform"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks the current element for a transform attribute and adds that attribute to the current transform matrix.
+Manages the transformation stack.
+"
+      end
+
+      operation 526338 "applyTransformEnd"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the current transform matrix to the matrix of the underlying element when leaving an element.
+Manages the transformation stack.
+"
+      end
+
+      operation 526466 "parseTransform"
+	private return_type class_ref 202754 // TransformMatrix2D
+	nparams 1
+	  param in name "string" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method parses a transform attribute into a {@link TransformMatrix2D}.<br/>
+@param string the string of the transform attribute.
+@return the parsed transform matrix.
+"
+      end
+
+      operation 526594 "parseRect"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as a rectangle. This rectangle is added to the {@code shapes} if it is rendered.
+"
+      end
+
+      operation 526722 "parseCircle"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as a circle. This circle is added to the {@code shapes} if it is rendered.
+"
+      end
+
+      operation 526850 "parseEllipse"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as an ellipse. This ellipse is added to the {@code shapes} if it is rendered.
+"
+      end
+
+      operation 526978 "parseLine"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as a line.
+"
+      end
+
+      operation 527106 "parsePolyline"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as a polyline. This polyline is added to the {@code shapes} if it contains a valid points list.
+"
+      end
+
+      operation 527234 "parsePolygon"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses the current element as a polygon. This polygon is added to the {@code shapes} if it contains a valid points list.
+"
+      end
+
+      operation 527362 "parseNumber"
+	private explicit_return_type "double"
+	nparams 1
+	  param in name "string" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Parses a given string as a number. The valid format of the number is specified in the SVG standard. It is parsed through the regular expression {@code NUMBER_PATTERN}.
+@param string the string containing the number.
+@return the number as a double.
+"
+      end
+    end
+  end
+
+  deploymentview 138498 "geom"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 190850 "CartesianPlot2D"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import aima.core.util.Util;
+import aima.core.util.math.geom.shapes.IGeometric2D;
+import aima.core.util.math.geom.shapes.Point2D;
+import aima.core.util.math.geom.shapes.Ray2D;
+import aima.core.util.math.geom.shapes.Rect2D;
+${definition}"
+      associated_elems
+	class_ref 189442 // CartesianPlot2D
+      end
+    end
+
+    artifact 190978 "IGroupParser"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import aima.core.util.math.geom.shapes.IGeometric2D;
+import aima.core.util.math.geom.shapes.Rect2D;
+${definition}"
+      associated_elems
+	class_ref 189570 // IGroupParser
+      end
+    end
+
+    artifact 191106 "SVGGroupParser"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import aima.core.util.math.geom.shapes.Circle2D;
+import aima.core.util.math.geom.shapes.Ellipse2D;
+import aima.core.util.math.geom.shapes.IGeometric2D;
+import aima.core.util.math.geom.shapes.Line2D;
+import aima.core.util.math.geom.shapes.Point2D;
+import aima.core.util.math.geom.shapes.Polyline2D;
+import aima.core.util.math.geom.shapes.Rect2D;
+import aima.core.util.math.geom.shapes.TransformMatrix2D;
+${definition}"
+      associated_elems
+	class_ref 202626 // SVGGroupParser
+      end
+    end
+  end
+end

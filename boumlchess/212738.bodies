@@ -1,0 +1,18 @@
+class AgentAppEnvironmentView
+!!!596738.java!!!	setEnvironment(inout env : Environment) : void
+		if (this.env != null)
+			this.env.removeEnvironmentView(this);
+		this.env = env;
+		env.addEnvironmentView(this);
+		repaint();
+!!!596866.java!!!	setController(inout controller : AgentAppController) : void
+		this.controller = controller;
+!!!596994.java!!!	getController() : AgentAppController
+		return controller;
+!!!597122.java!!!	setMessageLogger(inout logger : MessageLogger) : void
+		this.logger = logger;
+!!!597250.java!!!	getLogger() : MessageLogger
+		return logger;
+!!!597378.java!!!	notify(in msg : String) : void
+		if (logger != null)
+			logger.log(msg);

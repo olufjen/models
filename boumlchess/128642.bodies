@@ -1,0 +1,17 @@
+class DTAgent
+!!!129282.java!!!	perceive(inout percept : Percept) : Action
+
+		// update belief_state based on action and percept
+		belief_state.update(action,percept);
+		/** 
+		 * calculate outcome probabilities for actions,
+	   	 *		given action descriptions and current belief_state 
+		*/	
+		List<Pair<Action,Double>> action_probabilities = cal_action_probabilities(action_descriptions,belief_state);
+		/**  
+		 * select action with highest expected utility
+	   	 *		given probabilities of outcomes and utility information
+		 */
+		Action finalAction = action_with_highest_expected_utility(action_probabilities);
+
+		return finalAction;

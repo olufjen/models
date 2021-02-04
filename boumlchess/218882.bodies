@@ -1,0 +1,28 @@
+class SimpleRangeReading
+!!!623618.java!!!	setRangeNoise(in value : double) : void
+		RANGE_NOISE = value;
+!!!623746.java!!!	setBadDelta(in badDelta : double) : void
+		BAD_DELTA = badDelta;
+!!!623874.java!!!	setSensorRange(in sensorRange : double) : void
+		SENSOR_RANGE = sensorRange;
+!!!624002.java!!!	SimpleRangeReading(in value : double)
+		super(value);
+!!!624130.java!!!	SimpleRangeReading(in value : double, inout angle : Angle)
+		super(value, angle);
+!!!624258.java!!!	addRangeNoise() : AbstractRangeReading
+		if(Double.isInfinite(getValue())) return this;
+		final double adaptedRangeReading = Util.generateRandomDoubleBetween(getValue() - RANGE_NOISE, getValue() + RANGE_NOISE);
+		return new SimpleRangeReading(adaptedRangeReading,getAngle());
+!!!624386.java!!!	calculateWeight(inout secondRange : AbstractRangeReading) : double
+		final AbstractRangeReading firstRange = addRangeNoise();
+		if(firstRange.getValue() < 0 || secondRange.getValue() < 0) return 0;
+		if(Double.isInfinite(firstRange.getValue()) && Double.isInfinite(secondRange.getValue())) return 1;
+		final double firstRangeValue;
+		if(Double.isInfinite(firstRange.getValue()) || firstRange.getValue() > SENSOR_RANGE) firstRangeValue = SENSOR_RANGE;
+		else firstRangeValue = firstRange.getValue();
+		final double secondRangeValue;
+		if(Double.isInfinite(secondRange.getValue()) || secondRange.getValue() > SENSOR_RANGE) secondRangeValue = SENSOR_RANGE;
+		else secondRangeValue = secondRange.getValue();
+		final double delta = Math.abs(firstRangeValue - secondRangeValue);
+		if(delta > BAD_DELTA) return 0.0f;
+		return (float) (1.0d - delta / BAD_DELTA);

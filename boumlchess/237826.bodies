@@ -1,0 +1,20 @@
+class MyApplication
+!!!802818.java!!!	main(inout args : String [[]]) : void
+        Component c = new Component();
+        c.getServers().add(Protocol.HTTP, 8182);
+        c.getClients().add(Protocol.CLAP);
+        c.getDefaultHost().attach(new MyApplication());
+        c.start();
+!!!802946.java!!!	createInboundRoot() : Restlet
+        Router router = new Router(getContext());
+        Directory directory = new Directory(getContext(),
+                LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+                        "/stat"));
+        directory.setIndexName("index.html");
+        Directory cssDirectory = new Directory(getContext(),
+                LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+                        "/css"));
+        cssDirectory.setIndexName("index.html");
+        router.attach("/stat/", directory);
+//        router.attach("/css/",cssDirectory);
+        return router;

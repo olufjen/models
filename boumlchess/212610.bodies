@@ -1,0 +1,127 @@
+class AgentAppFrame
+!!!592642.java!!!	AgentAppFrame()
+		actionListener = new FrameActionListener();
+		initComponents();
+		pack();
+		// redirect the standard output into the text area
+		System.setOut(messageLogger.getPrintStream());
+		// System.setErr(messageLogger.getPrintStream());
+		updateEnabledState();
+!!!592770.java!!!	getMessageLogger() : MessageLoggerPanel
+		return messageLogger;
+!!!592898.java!!!	setSelectors(inout selectorNames : String [[]], inout tooltips : String [[]]) : void
+		AgentAppController cont = controller;
+		controller = null; // suppress reactions on parameter changes.
+		selectors.setSelectors(selectorNames, tooltips);
+		controller = cont;
+!!!593026.java!!!	setSelectorItems(in selectorName : String, inout items : Object [[]], in defaultIdx : int) : void
+		AgentAppController cont = controller;
+		controller = null; // suppress reactions on parameter changes.
+		selectors.setSelectorItems(selectorName, items, defaultIdx);
+		controller = cont;
+!!!593154.java!!!	setDefaultSelection() : void
+		AgentAppController cont = controller;
+		controller = null; // suppress reactions on parameter changes.
+		selectors.setDefaults();
+		if (cont != null) {
+			controller = cont;
+			selectionChanged(null);
+		}
+!!!593282.java!!!	getSelection() : AgentAppFrame::SelectionState
+		return selectors.getSelection();
+!!!593410.java!!!	getEnvView() : AgentAppEnvironmentView
+		return envView;
+!!!593538.java!!!	setEnvView(inout view : AgentAppEnvironmentView) : void
+		envView = view;
+		centerPane.add(JSplitPane.LEFT, envView);
+		envView.setController(controller);
+!!!593666.java!!!	setSplitPaneResizeWeight(in value : double) : void
+		centerPane.setResizeWeight(value);
+!!!593794.java!!!	setController(inout controller : AgentAppController) : void
+		this.controller = controller;
+		if (envView != null)
+			envView.setController(controller);
+!!!593922.java!!!	setStatus(in status : String) : void
+		statusLabel.setText(status);
+!!!594050.java!!!	getSimulationThread() : SimulationThread
+		return simulationThread;
+!!!594178.java!!!	setSimulationThread(inout thread : SimulationThread) : void
+		simulationThread = thread;
+		updateEnabledState();
+!!!594306.java!!!	simulationPaused() : boolean
+		return pauseButton.isSelected();
+!!!594434.java!!!	initComponents() : void
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				System.exit(0);
+			}
+		});
+		JPanel contentPanel = new JPanel();
+		contentPanel.setLayout(new BorderLayout());
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+
+		toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+		selectors = new SelectorContainer();
+		toolbar.add(Box.createHorizontalGlue());
+
+		clearButton = new JButton("Clear");
+		clearButton.setToolTipText("Clear Views");
+		clearButton.addActionListener(actionListener);
+		toolbar.add(clearButton);
+		prepareButton = new JButton("Prepare");
+		prepareButton.setToolTipText("Prepare Simulation");
+		prepareButton.addActionListener(actionListener);
+		toolbar.add(prepareButton);
+		runButton = new JButton("Run");
+		runButton.setToolTipText("Run Simulation");
+		runButton.addActionListener(actionListener);
+		toolbar.add(runButton);
+		stepButton = new JButton("Step");
+		stepButton.setToolTipText("Execute Simulation Step");
+		stepButton.addActionListener(actionListener);
+		toolbar.add(stepButton);
+		pauseButton = new JToggleButton("Pause");
+		pauseButton.setToolTipText("Pause Simulation");
+		pauseButton.addActionListener(actionListener);
+		toolbar.add(pauseButton);
+		contentPanel.add(toolbar, java.awt.BorderLayout.NORTH);
+
+		messageLogger = new MessageLoggerPanel();
+
+		centerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		centerPane.add(JSplitPane.RIGHT, messageLogger);
+		centerPane.setDividerSize(5);
+		centerPane.setResizeWeight(0.7);
+		contentPanel.add(centerPane, BorderLayout.CENTER);
+
+		JPanel statusPanel = new JPanel(new BorderLayout());
+		statusLabel = new JLabel("");
+		statusLabel.setBorder(new javax.swing.border.EtchedBorder()); // BevelBorder
+		statusPanel.add(statusLabel, BorderLayout.CENTER);
+		cancelButton = new JButton("Cancel");
+		cancelButton.setToolTipText("Cancel Simulation");
+		cancelButton.addActionListener(actionListener);
+		cancelButton.setPreferredSize(new java.awt.Dimension(80, 20));
+		cancelButton.setBorder(new javax.swing.border.EtchedBorder());
+		statusPanel.add(cancelButton, BorderLayout.EAST);
+		contentPanel.add(statusPanel, BorderLayout.SOUTH);
+!!!594562.java!!!	updateEnabledState() : void
+		boolean b = (getSimulationThread() == null);
+		boolean prep = b && controller != null && controller.isPrepared();
+		clearButton.setEnabled(b);
+		prepareButton.setEnabled(b);
+		runButton.setEnabled(prep);
+		if (b)
+			pauseButton.setSelected(false);
+		pauseButton.setEnabled(!b);
+		stepButton.setEnabled(prep);
+		cancelButton.setEnabled(!b);
+		for (JComboBox<Object> combo : selectors.combos)
+			combo.setEnabled(b);
+!!!594690.java!!!	selectionChanged(in changedSelector : String) : void
+		if (controller != null) {
+			controller.prepare(changedSelector);
+			updateEnabledState();
+		}

@@ -1,0 +1,72 @@
+class VacuumController
+!!!591874.java!!!	clear() : void
+		if (!isPrepared())
+		prepare(null);
+!!!592002.java!!!	prepare(in changedSelector : String) : void
+		AgentAppFrame.SelectionState selState = frame.getSelection();
+		env = null;
+		switch (selState.getIndex(VacuumFrame.ENV_SEL)) {
+		case 0:
+			env = new VacuumEnvironment();
+			break;
+		case 1:
+			env = new NondeterministicVacuumEnvironment();
+			break;
+		}
+		agent = null;
+		switch (selState.getIndex(VacuumFrame.AGENT_SEL)) {
+		case 0:
+			agent = new TableDrivenVacuumAgent();
+			break;
+		case 1:
+			agent = new ReflexVacuumAgent();
+			break;
+		case 2:
+			agent = new SimpleReflexVacuumAgent();
+			break;
+		case 3:
+			agent = new ModelBasedReflexVacuumAgent();
+			break;
+		case 4:
+			agent = new NondeterministicSearchAgent<>(percept -> (VacuumEnvironmentState) percept, env);
+			break;
+		}
+		if (env != null && agent != null) {
+			frame.getEnvView().setEnvironment(env);
+			env.addAgent(agent);
+			if (agent instanceof NondeterministicSearchAgent) {
+				NondeterministicProblem<VacuumEnvironmentState, Action> problem =
+						new NondeterministicProblem<>((VacuumEnvironmentState) env.getCurrentState(),
+								VacuumWorldFunctions::getActions, VacuumWorldFunctions.createResultsFunction(agent),
+								VacuumWorldFunctions::testGoal, (s, a, sPrimed) -> 1.0);
+				// Set the problem now for this kind of agent
+				((NondeterministicSearchAgent<VacuumEnvironmentState, Action>) agent).makePlan(problem);
+			}
+			isPrepared = true;
+		}
+!!!592130.java!!!	isPrepared() : boolean
+		return isPrepared && !env.isDone();
+!!!592258.java!!!	run(inout logger : MessageLogger) : void
+		logger.log("<simulation-log>");
+		try {
+			while (!env.isDone() && !frame.simulationPaused()) {
+				Thread.sleep(500);
+				env.step();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		logger.log("Performance: "
+				+ env.getPerformanceMeasure(agent));
+		logger.log("</simulation-log>\n");
+!!!592386.java!!!	step(inout logger : MessageLogger) : void
+		env.step();
+!!!592514.java!!!	update(inout simulationThread : SimulationThread) : void
+		if (simulationThread.isCancelled()) {
+			frame.setStatus("Task canceled.");
+			isPrepared = false;
+		} else if (frame.simulationPaused()){
+			frame.setStatus("Task paused.");
+		} else {
+			frame.setStatus("Task completed.");
+		}

@@ -1,0 +1,510 @@
+format 223
+"impl" // aima::core::probability::mdp::impl
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/mdp/impl/"
+  java_package "aima.core.probability.mdp.impl"
+  classview 133122 "impl"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 154242 "MDP"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 183298 // MarkovDecisionProcess
+        rank 0 explicit_value ""
+      actual class class_ref 183298 // MarkovDecisionProcess
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Default implementation of the MarkovDecisionProcess<S, A> interface.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 216706 // <realization>
+	relation 216706 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 216706 // <realization>
+	  b parent class_ref 183298 // MarkovDecisionProcess
+      end
+
+      attribute 183042 "states"
+	private explicit_type "S"
+	init_value " null"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 183170 "initialState"
+	private explicit_type "S"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 216834 // actionsFunction (<unidirectional association>)
+	relation 216834 --->
+	  a role_name "actionsFunction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 216834 // actionsFunction (<unidirectional association>)
+	  b parent class_ref 154626 // ActionsFunction
+      end
+
+      classrelation 216962 // transitionProbabilityFunction (<unidirectional association>)
+	relation 216962 --->
+	  a role_name "transitionProbabilityFunction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 216962 // transitionProbabilityFunction (<unidirectional association>)
+	  b parent class_ref 155138 // TransitionProbabilityFunction
+      end
+
+      classrelation 217090 // rewardFunction (<unidirectional association>)
+	relation 217090 --->
+	  a role_name "rewardFunction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S> ${name}${value};
+"
+	    classrelation_ref 217090 // rewardFunction (<unidirectional association>)
+	  b parent class_ref 183426 // RewardFunction
+      end
+
+      operation 425474 "MDP"
+	cpp_inline public explicit_return_type ""
+	nparams 5
+	  param inout name "states" explicit_type "Set<S>"
+	  param inout name "initialState" explicit_type "S"
+	  param inout name "actionsFunction" type class_ref 154626 // ActionsFunction
+	  param inout name "transitionProbabilityFunction" type class_ref 155138 // TransitionProbabilityFunction
+	  param inout name "rewardFunction" type class_ref 183426 // RewardFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<S, A> ${p2}, ${t3}<S, A> ${p3}, ${t4}<S> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 425602 "states"
+	cpp_inline public explicit_return_type "Set<S>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-MarkovDecisionProcess"
+      end
+
+      operation 425730 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 425858 "actions"
+	cpp_inline public explicit_return_type "Set<A>"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 425986 "transitionProbability"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "sDelta" explicit_type "S"
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 426114 "reward"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 184706 "LookupPolicy"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 184450 // Policy
+        rank 0 explicit_value ""
+      actual class class_ref 184450 // Policy
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Default implementation of the Policy interface using an underlying Map to
+look up an action associated with a state.
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+"
+      classrelation 216578 // <realization>
+	relation 216578 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 216578 // <realization>
+	  b parent class_ref 184450 // Policy
+      end
+
+      attribute 182914 "policy"
+	private explicit_type "S, A"
+	init_value " new HashMap<S, A>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 425218 "LookupPolicy"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "aPolicy" explicit_type "Map<S, A>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 425346 "action"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Policy"
+      end
+    end
+
+    class 184834 "ModifiedPolicyEvaluation"
+      visibility public 
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 2
+      actual class class_ref 154370 // PolicyEvaluation
+        rank 0 explicit_value ""
+      actual class class_ref 154370 // PolicyEvaluation
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 657.<br>
+<br>
+For small state spaces, policy evaluation using exact solution methods is
+often the most efficient approach. For large state spaces, O(n<sup>3</sup>)
+time might be prohibitive. Fortunately, it is not necessary to do exact
+policy evaluation. Instead, we can perform some number of simplified value
+iteration steps (simplified because the policy is fixed) to give a reasonably
+good approximation of utilities. The simplified Bellman update for this
+process is:<br>
+<br>
+
+<pre>
+U<sub>i+1</sub>(s) <- R(s) + &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
+</pre>
+
+and this is repeated k times to produce the next utility estimate. The
+resulting algorithm is called <b>modified policy iteration</b>. It is often
+much more efficient than standard policy iteration or value iteration.
+
+
+@param <S>
+           the state type.
+@param <A>
+           the action type.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      classrelation 217218 // <realization>
+	relation 217218 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 217218 // <realization>
+	  b parent class_ref 154370 // PolicyEvaluation
+      end
+
+      attribute 183298 "k"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " # iterations to use to produce the next utility estimate
+"
+      end
+
+      attribute 183426 "gamma"
+	private explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " discount &gamma; to be used.
+"
+      end
+
+      operation 426242 "ModifiedPolicyEvaluation"
+	cpp_inline public explicit_return_type ""
+	nparams 2
+	  param in name "k" explicit_type "int"
+	  param in name "gamma" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param k
+           number iterations to use to produce the next utility estimate
+@param gamma
+           discount &gamma; to be used
+"
+      end
+
+      operation 426370 "evaluate"
+	cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 3
+	  param inout name "pi_i" explicit_type "Map<S, A>"
+	  param inout name "U" explicit_type "Map<S, Double>"
+	  param inout name "mdp" type class_ref 183298 // MarkovDecisionProcess
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<S, A> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-PolicyEvaluation"
+      end
+    end
+  end
+
+  deploymentview 135938 "impl"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 175106 "LookupPolicy"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.probability.mdp.Policy;
+${definition}"
+      associated_elems
+	class_ref 184706 // LookupPolicy
+      end
+    end
+
+    artifact 175234 "MDP"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.agent.Action;
+import aima.core.probability.mdp.ActionsFunction;
+import aima.core.probability.mdp.MarkovDecisionProcess;
+import aima.core.probability.mdp.RewardFunction;
+import aima.core.probability.mdp.TransitionProbabilityFunction;
+${definition}"
+      associated_elems
+	class_ref 154242 // MDP
+      end
+    end
+
+    artifact 175362 "ModifiedPolicyEvaluation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import aima.core.agent.Action;
+import aima.core.probability.mdp.MarkovDecisionProcess;
+import aima.core.probability.mdp.PolicyEvaluation;
+${definition}"
+      associated_elems
+	class_ref 184834 // ModifiedPolicyEvaluation
+      end
+    end
+  end
+end

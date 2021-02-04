@@ -1,0 +1,53 @@
+class Lexer
+!!!253698.java!!!	setInput(in inputString : String) : void
+		setInput(new StringReader(inputString));
+!!!253826.java!!!	setInput(inout inputReader : Reader) : void
+		input = inputReader;
+		lookAheadBuffer = new int[lookAheadBufferSize];
+		currentPositionInInput = 0;
+		initializeLookAheadBuffer();
+!!!254082.java!!!	getCurrentPositionInInput() : int
+		return currentPositionInInput;
+!!!254210.java!!!	lookAhead(in position : int) : char
+		return (char) lookAheadBuffer[position - 1];
+!!!254338.java!!!	consume() : void
+		currentPositionInInput++;
+		loadNextCharacterFromInput();
+!!!254466.java!!!	isEndOfInput(in i : int) : boolean
+		return (END_OF_INPUT == i);
+!!!254594.java!!!	initializeLookAheadBuffer() : void
+		for (int i = 0; i < lookAheadBufferSize; i++) {
+			// Mark th entire buffer as being end of input.
+			lookAheadBuffer[i] = END_OF_INPUT;
+		}
+		for (int i = 0; i < lookAheadBufferSize; i++) {
+			// Now fill the buffer (if possible) from the input.
+			lookAheadBuffer[i] = readInput();
+			if (isEndOfInput(lookAheadBuffer[i])) {
+				// The input is smaller than the buffer size
+				break;
+			}
+		}
+!!!254722.java!!!	loadNextCharacterFromInput() : void
+		boolean eoiEncountered = false;
+		for (int i = 0; i < lookAheadBufferSize - 1; i++) {
+			lookAheadBuffer[i] = lookAheadBuffer[i + 1];
+			if (isEndOfInput(lookAheadBuffer[i])) {
+				eoiEncountered = true;
+				break;
+			}
+		}
+		if (!eoiEncountered) {
+			lookAheadBuffer[lookAheadBufferSize - 1] = readInput();
+		}
+!!!254850.java!!!	readInput() : int
+		int read = -1;
+
+		try {
+			read = input.read();
+		} catch (IOException ioe) {
+			throw new LexerException("IOException thrown reading input.",
+					currentPositionInInput, ioe);
+		}
+
+		return read;

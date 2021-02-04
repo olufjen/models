@@ -1,0 +1,1206 @@
+format 223
+"domain" // aima::core::probability::domain
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/domain/"
+  java_package "aima.core.probability.domain"
+  classview 135554 "domain"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 177154 "Domain"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
+<br>
+Every random variable has a <b>domain</b> - the set of possible values it can
+take on. The domain of <i>Total</i> for two dice is the set {2,...,12} and
+the domain of Die<sub>1</sub> is {1,...,6}. A Boolean random variable has the
+domain {true, false}.
+
+@author Ciaran O'Reilly
+"
+      operation 409474 "isFinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if the Domain is finite, false otherwise (i.e. discrete
+        (like the integers) or continuous (like the reals)).
+"
+      end
+
+      operation 409602 "isInfinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return !isFinite().
+"
+      end
+
+      operation 409730 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the size of the Domain, only applicable if isFinite() == true.
+"
+      end
+
+      operation 409858 "isOrdered"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if the domain is ordered, false otherwise. i.e. you can
+        specify 1 object from the domain is < or = another object in the
+        domain.
+"
+      end
+    end
+
+    class 180354 "AbstractContinuousDomain"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 209666 // <realization>
+	relation 209666 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 209666 // <realization>
+	  b parent class_ref 180482 // ContinuousDomain
+      end
+
+      operation 409986 "isFinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 410114 "isInfinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 410242 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 410370 "isOrdered"
+	abstract public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 180482 "ContinuousDomain"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Domain over a continuous not countable set of objects (e.g. the Real
+numbers).
+
+@author Ciaran O'Reilly
+"
+      classrelation 209538 // <generalisation>
+	relation 209538 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 209538 // <generalisation>
+	  b parent class_ref 177154 // Domain
+      end
+    end
+
+    class 180610 "AbstractDiscreteDomain"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 209922 // <realization>
+	relation 209922 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 209922 // <realization>
+	  b parent class_ref 180738 // DiscreteDomain
+      end
+
+      operation 410498 "isFinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 410626 "isInfinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 410754 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 410882 "isOrdered"
+	abstract public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 180738 "DiscreteDomain"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Domain over a countable/discrete set of objects (may be infinite).
+
+@author Ciaran O'Reilly
+"
+      classrelation 209794 // <generalisation>
+	relation 209794 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 209794 // <generalisation>
+	  b parent class_ref 177154 // Domain
+      end
+    end
+
+    class 180866 "AbstractFiniteDomain"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 210178 // <realization>
+	relation 210178 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 210178 // <realization>
+	  b parent class_ref 180994 // FiniteDomain
+      end
+
+      attribute 181762 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 181890 "valueToIdx"
+	private explicit_type "Object, Integer"
+	init_value " new HashMap<Object, Integer>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 182018 "idxToValue"
+	private explicit_type "Integer, Object"
+	init_value " new HashMap<Integer, Object>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 411394 "AbstractFiniteDomain"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 411522 "isFinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 411650 "isInfinite"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 411778 "size"
+	abstract public explicit_return_type "int"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 411906 "isOrdered"
+	abstract public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 412034 "getPossibleValues"
+	abstract public explicit_return_type "Set<? extends Object>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Domain
+
+
+ START-FiniteDomain"
+      end
+
+      operation 412162 "getOffset"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 412290 "getValueAt"
+	public explicit_return_type "Object"
+	nparams 1
+	  param in name "offset" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 412418 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-FiniteDomain
+"
+      end
+
+      operation 412546 "indexPossibleValues"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "possibleValues" explicit_type "Set<? extends Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+"
+      end
+    end
+
+    class 180994 "FiniteDomain"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Domain over a countable/discrete and finite set of objects.
+
+@author Ciaran O'Reilly
+
+"
+      classrelation 210050 // <generalisation>
+	relation 210050 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 210050 // <generalisation>
+	  b parent class_ref 180738 // DiscreteDomain
+      end
+
+      operation 411010 "getPossibleValues"
+	public explicit_return_type "Set<? extends Object>"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a consistent ordered Set (e.g. LinkedHashSet) of the possible
+        values this domain can take on.
+"
+      end
+
+      operation 411138 "getOffset"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "value" explicit_type "Object"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The possible values for a finite domain are to have a consistent ordering
+(whether they are actually ordered by value or not). This will return an
+offset into that ordering.
+
+@param value
+           a value from the domain.
+@return an offset (starting from 0) into the consistent order of the set
+        of possible values.
+@exception IllegalArgumentException
+               if the value is not valid for the domain.
+"
+      end
+
+      operation 411266 "getValueAt"
+	public explicit_return_type "Object"
+	nparams 1
+	  param in name "offset" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param offset
+           an offset into the consistent ordering for this domain.
+@return the Object at the specified offset in this domains consistent
+        ordered set of values. null if the offset does not index the
+        domain correctly.
+"
+      end
+    end
+
+    class 181122 "ArbitraryTokenDomain"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 486.
+
+As in CSPs, domains can be sets of arbitrary tokens; we might choose the
+domain of <i>Age</i> to be {<i>juvenile,teen,adult</i>} and the domain of
+<i>Weather</i> might be {<i>sunny,rain,cloudy,snow</i>}.
+
+@author Ciaran O'Reilly
+"
+      classrelation 210306 // <generalisation>
+	relation 210306 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 210306 // <generalisation>
+	  b parent class_ref 180866 // AbstractFiniteDomain
+      end
+
+      attribute 182146 "possibleValues"
+	private explicit_type "Object"
+	init_value " null"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 182274 "ordered"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 412674 "ArbitraryTokenDomain"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "" explicit_type "Object...pValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 412802 "ArbitraryTokenDomain"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "ordered" explicit_type "boolean"
+	  param inout name "" explicit_type "Object...pValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 412930 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 413058 "isOrdered"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 413186 "getPossibleValues"
+	public explicit_return_type "Set<Object>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Domain
+
+
+ START-FiniteDomain"
+      end
+
+      operation 413314 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-finiteDomain
+"
+      end
+
+      operation 413442 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 181250 "BooleanDomain"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 486.
+
+A Boolean random variable has the domain {true,false}.
+
+@author Ciaran O'Reilly.
+"
+      classrelation 210434 // <generalisation>
+	relation 210434 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 210434 // <generalisation>
+	  b parent class_ref 180866 // AbstractFiniteDomain
+      end
+
+      attribute 182402 "_possibleValues"
+	class_attribute private explicit_type "Boolean"
+	init_value " null"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      extra_member 128130 "initialization"
+	
+	cpp "" ""
+	java "  static {
+		// Keep consistent order
+		_possibleValues = new LinkedHashSet<Boolean>();
+		_possibleValues.add(Boolean.TRUE);
+		_possibleValues.add(Boolean.FALSE);
+		// Ensure cannot be modified
+		_possibleValues = Collections.unmodifiableSet(_possibleValues);
+	}"
+	php ""
+	python ""
+	idl ""
+	mysql ""
+      end
+
+      operation 413570 "BooleanDomain"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 413698 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 413826 "isOrdered"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 413954 "getPossibleValues"
+	public explicit_return_type "Set<Boolean>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Domain
+
+
+ START-DiscreteDomain"
+      end
+
+      operation 414082 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-DiscreteDomain
+"
+      end
+
+      operation 414210 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 181378 "FiniteIntegerDomain"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 210562 // <generalisation>
+	relation 210562 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 210562 // <generalisation>
+	  b parent class_ref 180866 // AbstractFiniteDomain
+      end
+
+      attribute 182530 "possibleValues"
+	private explicit_type "Integer"
+	init_value " null"
+	stereotype "Set"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 414338 "FiniteIntegerDomain"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "" explicit_type "Integer...pValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 414466 "size"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-Domain"
+      end
+
+      operation 414594 "isOrdered"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 414722 "getPossibleValues"
+	public explicit_return_type "Set<Integer>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-Domain
+
+
+ START-DiscreteDomain"
+      end
+
+      operation 414850 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-DiscreteDomain
+"
+      end
+
+      operation 414978 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 134914 "domain"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 170370 "Domain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 177154 // Domain
+      end
+    end
+
+    artifact 170498 "ContinuousDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 180482 // ContinuousDomain
+      end
+    end
+
+    artifact 170626 "AbstractContinuousDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 180354 // AbstractContinuousDomain
+      end
+    end
+
+    artifact 170754 "DiscreteDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 180738 // DiscreteDomain
+      end
+    end
+
+    artifact 170882 "AbstractDiscreteDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 180610 // AbstractDiscreteDomain
+      end
+    end
+
+    artifact 171010 "FiniteDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 180994 // FiniteDomain
+      end
+    end
+
+    artifact 171138 "AbstractFiniteDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 180866 // AbstractFiniteDomain
+      end
+    end
+
+    artifact 171266 "ArbitraryTokenDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 181122 // ArbitraryTokenDomain
+      end
+    end
+
+    artifact 171394 "BooleanDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 181250 // BooleanDomain
+      end
+    end
+
+    artifact 171522 "FiniteIntegerDomain"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 181378 // FiniteIntegerDomain
+      end
+    end
+  end
+end

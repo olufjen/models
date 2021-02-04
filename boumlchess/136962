@@ -1,0 +1,882 @@
+format 223
+"util" // aima::core::probability::util
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/util/"
+  java_package "aima.core.probability.util"
+  classview 135938 "util"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 179202 "ProbabilityTable"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A Utility Class for associating values with a set of finite Random Variables.
+This is also the default implementation of the CategoricalDistribution and
+Factor interfaces (as they are essentially dependent on the same underlying
+data structures).
+
+@author Ciaran O'Reilly
+"
+      classrelation 222210 // <realization>
+	relation 222210 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 222210 // <realization>
+	  b parent class_ref 175106 // CategoricalDistribution
+      end
+
+      classrelation 222338 // <realization>
+	relation 222338 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 222338 // <realization>
+	  b parent class_ref 176130 // Factor
+      end
+
+      attribute 185090 "values"
+	private explicit_type "double"
+	multiplicity "[]"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 222466 // randomVarInfo (<unidirectional association>)
+	relation 222466 --->
+	  stereotype "Map"
+	  a role_name "randomVarInfo" init_value " new LinkedHashMap<RandomVariable, RVInfo>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, RVInfo> ${name}${value};
+"
+	    classrelation_ref 222466 // randomVarInfo (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      attribute 185218 "radices"
+	private explicit_type "int"
+	multiplicity "[]"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 222594 // queryMRN (<unidirectional association>)
+	relation 222594 --->
+	  a role_name "queryMRN" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 222594 // queryMRN (<unidirectional association>)
+	  b parent class_ref 187266 // MixedRadixNumber
+      end
+
+      attribute 185346 "toString"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 185474 "sum"
+	private explicit_type "double"
+	init_value " -1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+    end
+
+    class 181890 "RandVar"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Default implementation of the RandomVariable interface.
+
+Note: Also implements the TermProposition interface so its easy to use
+RandomVariables in conjunction with propositions about them in the
+Probability Model APIs.
+
+@author Ciaran O'Reilly
+"
+      classrelation 222722 // <realization>
+	relation 222722 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 222722 // <realization>
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 222850 // <realization>
+	relation 222850 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 222850 // <realization>
+	  b parent class_ref 185986 // TermProposition
+      end
+
+      attribute 185858 "name"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 222978 // domain (<unidirectional association>)
+	relation 222978 --->
+	  a role_name "domain" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 222978 // domain (<unidirectional association>)
+	  b parent class_ref 177154 // Domain
+      end
+
+      classrelation 223106 // scope (<unidirectional association>)
+	relation 223106 --->
+	  stereotype "Set"
+	  a role_name "scope" init_value " new HashSet<RandomVariable>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 223106 // scope (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      operation 435330 "RandVar"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "domain" type class_ref 177154 // Domain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 435458 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-RandomVariable"
+      end
+
+      operation 435586 "getDomain"
+	public return_type class_ref 177154 // Domain
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 435714 "getTermVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-RandomVariable
+
+
+ START-TermProposition"
+      end
+
+      operation 435842 "getScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 435970 "getUnboundScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 436098 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 436226 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " END-TermProposition
+"
+      end
+
+      operation 436354 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 436482 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 187394 "ProbUtil"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 185602 "LEGAL_RAND_VAR_NAME_PATTERN"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(\"[A-Za-z0-9-_]+\")"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 185730 "LEGAL_LEADING_CHAR_RAND_VAR_NAME_PATTERN"
+	class_attribute const_attribute private explicit_type "Pattern"
+	init_value " Pattern.compile(\"^[A-Z].*\")"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 433538 "checkValidRandomVariableName"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "name" explicit_type "String"
+	nexceptions 1
+	  explicit_exception "IllegalArgumentException"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Check if name provided is valid for use as the name of a RandomVariable.
+
+@param name
+           proposed for the RandomVariable.
+@throws IllegalArgumentException
+            if not a valid RandomVariable name.
+"
+      end
+
+      operation 433666 "expectedSizeOfProbabilityTable"
+	class_operation public explicit_return_type "int"
+	nparams 1
+	  param inout name "" explicit_type "RandomVariable...vars"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculated the expected size of a ProbabilityTable for the provided
+random variables.
+
+@param vars
+           null, 0 or more random variables that are to be used to
+           construct a CategoricalDistribution.
+@return the size (i.e. getValues().length) that the
+        CategoricalDistribution will need to be in order to represent the
+        specified random variables.
+
+@see CategoricalDistribution#getValues()
+"
+      end
+
+      operation 433794 "expectedSizeOfCategoricalDistribution"
+	class_operation public explicit_return_type "int"
+	nparams 1
+	  param inout name "" explicit_type "RandomVariable...vars"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculated the expected size of a CategoricalDistribution for the
+provided random variables.
+
+@param vars
+           null, 0 or more random variables that are to be used to
+           construct a CategoricalDistribution.
+@return the size (i.e. getValues().length) that the
+        CategoricalDistribution will need to be in order to represent the
+        specified random variables.
+
+@see CategoricalDistribution#getValues()
+"
+      end
+
+      operation 433922 "constructConjunction"
+	class_operation public return_type class_ref 176642 // Proposition
+	nparams 1
+	  param inout name "props" type class_ref 176642 // Proposition
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience method for ensure a conjunction of probabilistic
+propositions.
+
+@param props
+           propositions to be combined into a ConjunctiveProposition if
+           necessary.
+@return a ConjunctivePropositions if more than 1 proposition in 'props',
+        otherwise props[0].
+"
+      end
+
+      operation 434050 "sample"
+	class_operation public explicit_return_type "Object"
+	nparams 3
+	  param in name "probabilityChoice" explicit_type "double"
+	  param inout name "Xi" type class_ref 175490 // RandomVariable
+	  param inout name "distribution" explicit_type "double"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}[] ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param probabilityChoice
+           a probability choice for the sample
+@param Xi
+           a Random Variable with a finite domain from which a random
+           sample is to be chosen based on the probability choice.
+@param distribution
+           Xi's distribution.
+@return a Random Sample from Xi's domain.
+"
+      end
+
+      operation 434178 "randomSample"
+	class_operation public explicit_return_type "Object"
+	nparams 3
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a random sample from <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+
+@param Xi
+           a Node from a Bayesian network for the Random Variable
+           X<sub>i</sub>.
+@param event
+           comprising assignments for parents(X<sub>i</sub>)
+@param r
+           a Randomizer for generating a probability choice for the
+           sample.
+@return a random sample from <b>P</b>(X<sub>i</sub> |
+        parents(X<sub>i</sub>))
+"
+      end
+
+      operation 434306 "mbRandomSample"
+	class_operation public explicit_return_type "Object"
+	nparams 3
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>)),
+where mb(X<sub>i</sub>) is the Markov Blanket of X<sub>i</sub>. The
+probability of a variable given its Markov blanket is proportional to the
+probability of the variable given its parents times the probability of
+each child given its respective parents (see equation 14.12 pg. 538
+AIMA3e):<br>
+<br>
+P(x'<sub>i</sub>|mb(Xi)) =
+&alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
+&prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
+P(y<sub>j</sub>|parents(Y<sub>j</sub>))
+
+@param Xi
+           a Node from a Bayesian network for the Random Variable
+           X<sub>i</sub>.
+@param event
+           comprising assignments for the Markov Blanket X<sub>i</sub>.
+@param r
+           a Randomizer for generating a probability choice for the
+           sample.
+@return a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>))
+"
+      end
+
+      operation 434434 "mbDistribution"
+	class_operation public explicit_return_type "double"
+	nparams 2
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculate the probability distribution for <b>P</b>(X<sub>i</sub> |
+mb(X<sub>i</sub>)), where mb(X<sub>i</sub>) is the Markov Blanket of
+X<sub>i</sub>. The probability of a variable given its Markov blanket is
+proportional to the probability of the variable given its parents times
+the probability of each child given its respective parents (see equation
+14.12 pg. 538 AIMA3e):<br>
+<br>
+P(x'<sub>i</sub>|mb(Xi)) =
+&alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
+&prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
+P(y<sub>j</sub>|parents(Y<sub>j</sub>))
+
+@param Xi
+           a Node from a Bayesian network for the Random Variable
+           X<sub>i</sub>.
+@param event
+           comprising assignments for the Markov Blanket X<sub>i</sub>.
+@return a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>))
+"
+      end
+
+      operation 434562 "getEventValuesForParents"
+	class_operation public explicit_return_type "Object"
+	nparams 2
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the parent values for the Random Variable Xi from the provided event.
+
+@param Xi
+           a Node for the Random Variable Xi whose parent values are to
+           be extracted from the provided event in the correct order.
+@param event
+           an event containing assignments for Xi's parents.
+@return an ordered set of values for the parents of Xi from the provided
+        event.
+"
+      end
+
+      operation 434690 "getEventValuesForXiGivenParents"
+	class_operation public explicit_return_type "Object"
+	nparams 2
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the values for the Random Variable Xi's parents and its own value
+from the provided event.
+
+@param Xi
+           a Node for the Random Variable Xi whose parent values and
+           value are to be extracted from the provided event in the
+           correct order.
+@param event
+           an event containing assignments for Xi's parents and its own
+           value.
+@return an ordered set of values for the parents of Xi and its value from
+        the provided event.
+"
+      end
+
+      operation 434818 "getEventValuesForXiGivenParents"
+	class_operation public explicit_return_type "Object"
+	nparams 3
+	  param inout name "Xi" type class_ref 177282 // Node
+	  param inout name "xDelta" explicit_type "Object"
+	  param inout name "event" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the values for the Random Variable Xi's parents and its own value
+from the provided event.
+
+@param Xi
+           a Node for the Random Variable Xi whose parent values are to
+           be extracted from the provided event in the correct order.
+@param xDelta
+           the value for the Random Variable Xi to be assigned to the
+           values returned.
+@param event
+           an event containing assignments for Xi's parents and its own
+           value.
+@return an ordered set of values for the parents of Xi and its value from
+        the provided event.
+"
+      end
+
+      operation 434946 "indexOf"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param inout name "x" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculate the index into a vector representing the enumeration of the
+value assignments for the variables X and their corresponding assignment
+in x. For example the Random Variables:<br>
+Q::{true, false}, R::{'A', 'B','C'}, and T::{true, false}, would be
+enumerated in a Vector as follows:
+
+<pre>
+Index  Q      R  T
+-----  -      -  -
+00:    true,  A, true
+01:    true,  A, false
+02:    true,  B, true
+03:    true,  B, false
+04:    true,  C, true
+05:    true,  C, false
+06:    false, A, true
+07:    false, A, false
+08:    false, B, true
+09:    false, B, false
+10:    false, C, true
+11:    false, C, false
+</pre>
+
+if x = {Q=true, R='C', T=false} the index returned would be 5.
+
+@param X
+           a list of the Random Variables that would comprise the vector.
+@param x
+           an assignment for the Random Variables in X.
+@return an index into a vector that would represent the enumeration of
+        the values for X.
+"
+      end
+
+      operation 435074 "indexesOfValue"
+	class_operation public explicit_return_type "int"
+	nparams 3
+	  param inout name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "idx" explicit_type "int"
+	  param inout name "x" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0}[] ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculate the indexes for X[i] into a vector representing the enumeration
+of the value assignments for the variables X and their corresponding
+assignment in x. For example the Random Variables:<br>
+Q::{true, false}, R::{'A', 'B','C'}, and T::{true, false}, would be
+enumerated in a Vector as follows:
+
+<pre>
+Index  Q      R  T
+-----  -      -  -
+00:    true,  A, true
+01:    true,  A, false
+02:    true,  B, true
+03:    true,  B, false
+04:    true,  C, true
+05:    true,  C, false
+06:    false, A, true
+07:    false, A, false
+08:    false, B, true
+09:    false, B, false
+10:    false, C, true
+11:    false, C, false
+</pre>
+
+if X[i] = R and x = {..., R='C', ...} then the indexes returned would be
+[4, 5, 10, 11].
+
+@param X
+           a list of the Random Variables that would comprise the vector.
+@param idx
+           the index into X for the Random Variable whose assignment we
+           wish to retrieve its indexes for.
+@param x
+           an assignment for the Random Variables in X.
+@return the indexes into a vector that would represent the enumeration of
+        the values for X[i] in x.
+"
+      end
+
+      operation 435202 "constructConjunction"
+	class_operation private return_type class_ref 176642 // Proposition
+	nparams 2
+	  param inout name "props" type class_ref 176642 // Proposition
+	multiplicity "[]"
+	  param in name "idx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+    end
+  end
+
+  deploymentview 136450 "util"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 178050 "ProbUtil"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.Node;
+import aima.core.probability.domain.FiniteDomain;
+import aima.core.probability.proposition.ConjunctiveProposition;
+import aima.core.probability.proposition.Proposition;
+import aima.core.util.Randomizer;
+import aima.core.util.Util;
+import aima.core.util.math.MixedRadixNumber;
+${definition}"
+      associated_elems
+	class_ref 187394 // ProbUtil
+      end
+    end
+
+    artifact 178178 "RandVar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.domain.Domain;
+import aima.core.probability.proposition.TermProposition;
+${definition}"
+      associated_elems
+	class_ref 181890 // RandVar
+      end
+    end
+  end
+end

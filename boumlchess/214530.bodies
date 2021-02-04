@@ -1,0 +1,123 @@
+class MapAgentView
+!!!600962.java!!!	getMapEnv() : MapEnvironment
+		return (MapEnvironment) env;
+!!!601090.java!!!	getTrack(inout agent : Agent) : List<String>
+		return agentTracks.get(agent);
+!!!601218.java!!!	clearTracks() : void
+		agentTracks.clear();
+!!!601346.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+		updateTracks();
+		super.agentAdded(agent, source);
+!!!601474.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout command : Action, inout source : Environment) : void
+		MapEnvironment mEnv = getMapEnv();
+		String msg = "";
+		if (mEnv.getAgents().size() > 1)
+			msg = "A" + mEnv.getAgents().indexOf(agent) + ": ";
+		notify(msg + command.toString());
+		updateTracks();
+		repaint();
+!!!601602.java!!!	paintComponent(inout g : java.awt.Graphics) : void
+		super.paintComponent(g);
+		if (env != null) {
+			Map map = getMapEnv().getMap();
+			if (!map.getLocations().isEmpty()) {
+				updateTracks(); // safety first!
+				java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+				adjustTransformation();
+				paintMap(g2);
+				for (Agent a : env.getAgents())
+					paintTrack(g2, a);
+				for (String loc : map.getLocations())
+					paintLoc(g2, loc);
+			}
+		}
+!!!601730.java!!!	updateTracks() : void
+		MapEnvironment mEnv = getMapEnv();
+		if (mEnv != null)
+			for (Agent a : mEnv.getAgents()) {
+				List<String> aTrack = getTrack(a);
+				String aLoc = mEnv.getAgentLocation(a);
+				if (aTrack == null) {
+					aTrack = new ArrayList<String>();
+					agentTracks.put(a, aTrack);
+				}
+				if (aTrack.isEmpty() || !aTrack.get(aTrack.size() - 1).equals(aLoc))
+					aTrack.add(aLoc);
+			}
+!!!601858.java!!!	getAgentLocs() : List<String>
+		List<String> result = new ArrayList<String>();
+		MapEnvironment mEnv = getMapEnv();
+		for (Agent a : mEnv.getAgents())
+			result.add(mEnv.getAgentLocation(a));
+		return result;
+!!!601986.java!!!	adjustTransformation() : void
+		Map map = getMapEnv().getMap();
+		List<String> locs = map.getLocations();
+		// adjust coordinates relative to the left upper corner of the graph
+		// area
+		double minX = Double.POSITIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
+		double maxX = Double.NEGATIVE_INFINITY;
+		double maxY = Double.NEGATIVE_INFINITY;
+		for (String loc : locs) {
+			Point2D xy = map.getPosition(loc);
+			if (xy.getX() < minX)
+				minX = xy.getX();
+			if (xy.getY() < minY)
+				minY = xy.getY();
+			if (xy.getX() > maxX)
+				maxX = xy.getX();
+			if (xy.getY() > maxY)
+				maxY = xy.getY();
+		}
+		this.setBorder(20, 20, 20, 100);
+		adjustTransformation(minX, minY, maxX, maxY);
+!!!602114.java!!!	paintMap(inout g2 : java.awt.Graphics2D) : void
+		Map envMap = getMapEnv().getMap();
+		for (String l1 : envMap.getLocations()) {
+			Point2D pt1 = envMap.getPosition(l1);
+			List<String> linkedLocs = envMap.getPossibleNextLocations(l1);
+			for (String l2 : linkedLocs) {
+				Point2D pt2 = envMap.getPosition(l2);
+				g2.setColor(Color.lightGray);
+				g2.drawLine(x(pt1), y(pt1), x(pt2), y(pt2));
+			}
+		}
+!!!602242.java!!!	paintTrack(inout g2 : java.awt.Graphics2D, inout a : Agent) : void
+		Map map = getMapEnv().getMap();
+		Point2D lastPt = null;
+		g2.setColor(Color.red);
+		for (String loc : getTrack(a)) {
+			Point2D pt = map.getPosition(loc);
+			if (pt != null && lastPt != null) {
+				g2.drawLine(x(pt), y(pt), x(lastPt), y(lastPt));
+			}
+			lastPt = pt;
+		}
+!!!602370.java!!!	paintLoc(inout g2 : java.awt.Graphics2D, in loc : String) : void
+		Map map = getMapEnv().getMap();
+		Point2D pt = map.getPosition(loc);
+		if (pt != null) {
+			int x = x(pt);
+			int y = y(pt);
+			String info = "";
+			List<String> track = new ArrayList<String>();
+			if (!env.getAgents().isEmpty())
+				// show details only for track of first agent...
+				track = getTrack(env.getAgents().get(0));
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			for (int i = 0; i < track.size(); i++)
+				if (track.get(i).equals(loc))
+					list.add(i + 1);
+			if (!list.isEmpty())
+				info = list.toString();
+			if (getAgentLocs().contains(loc)) {
+				g2.setColor(Color.red);
+				g2.fillOval(x - 4, y - 4, 8, 8);
+			}
+			if (track.contains(loc))
+				g2.setColor(Color.black);
+			else
+				g2.setColor(Color.gray);
+			g2.drawString(loc + info, x, y);
+		}

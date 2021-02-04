@@ -1,0 +1,56 @@
+class ReplaceMatchingTerm
+!!!282370.java!!!	replace(inout expression : AtomicSentence, inout toReplace : Term, inout replaceWith : Term) : AtomicSentence
+			this.toReplace = toReplace;
+			this.replaceWith = replaceWith;
+
+			return (AtomicSentence) expression.accept(this, null);
+!!!282498.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+			List<Term> newTerms = new ArrayList<Term>();
+			for (Term t : p.getTerms()) {
+				Term subsTerm = (Term) t.accept(this, arg);
+				newTerms.add(subsTerm);
+			}
+			return new Predicate(p.getPredicateName(), newTerms);
+!!!282626.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+			Term newTerm1 = (Term) equality.getTerm1().accept(this, arg);
+			Term newTerm2 = (Term) equality.getTerm2().accept(this, arg);
+			return new TermEquality(newTerm1, newTerm2);
+!!!282754.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+			if (!replaced) {
+				if (toReplace.equals(variable)) {
+					replaced = true;
+					return replaceWith;
+				}
+			}
+			return variable;
+!!!282882.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+			if (!replaced) {
+				if (toReplace.equals(constant)) {
+					replaced = true;
+					return replaceWith;
+				}
+			}
+			return constant;
+!!!283010.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+			if (!replaced) {
+				if (toReplace.equals(function)) {
+					replaced = true;
+					return replaceWith;
+				}
+			}
+
+			List<Term> newTerms = new ArrayList<Term>();
+			for (Term t : function.getTerms()) {
+				Term subsTerm = (Term) t.accept(this, arg);
+				newTerms.add(subsTerm);
+			}
+			return new Function(function.getFunctionName(), newTerms);
+!!!283138.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitNotSentence() should not be called.");
+!!!283266.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitConnectedSentence() should not be called.");
+!!!283394.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+			throw new IllegalStateException(
+					"visitQuantifiedSentence() should not be called.");

@@ -1,0 +1,20 @@
+class ChessHighLevelAction
+!!!1738626.java!!!	ChessHighLevelAction(in name : String, inout variables : List<Term>, in precondition : String, in effects : String, inout refinements : List<List<ActionSchema>>)
+        super(name, variables, precondition, effects);
+        this.refinements = refinements;
+!!!1738754.java!!!	addRefinement(inout newRefinement : List<ActionSchema>) : void
+        this.refinements.add(newRefinement);
+!!!1738882.java!!!	getRefinements() : List<List<ActionSchema>>
+        return refinements;
+!!!1739010.java!!!	toString() : String
+        String result = super.toString();
+        result = result + "\n" + "REFINEMENTS : \n";
+        for (List<ActionSchema> refinement :
+                this.getRefinements()) {
+            result += "\n";
+            for (ActionSchema action :
+                    refinement) {
+                result = result + "\n" + (action.getName());
+            }
+        }
+        return result;

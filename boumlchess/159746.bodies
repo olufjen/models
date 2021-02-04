@@ -1,0 +1,64 @@
+class VariableCollector
+!!!276354.java!!!	collectAllVariables(inout sentence : Sentence) : Variable
+		Set<Variable> variables = new LinkedHashSet<Variable>();
+
+		sentence.accept(this, variables);
+
+		return variables;
+!!!276482.java!!!	collectAllVariables(inout term : Term) : Variable
+		Set<Variable> variables = new LinkedHashSet<Variable>();
+
+		term.accept(this, variables);
+
+		return variables;
+!!!276610.java!!!	collectAllVariables(inout clause : Clause) : Variable
+		Set<Variable> variables = new LinkedHashSet<Variable>();
+
+		for (Literal l : clause.getLiterals()) {
+			l.getAtomicSentence().accept(this, variables);
+		}
+
+		return variables;
+!!!276738.java!!!	collectAllVariables(inout chain : Chain) : Variable
+		Set<Variable> variables = new LinkedHashSet<Variable>();
+
+		for (Literal l : chain.getLiterals()) {
+			l.getAtomicSentence().accept(this, variables);
+		}
+
+		return variables;
+!!!276866.java!!!	visitVariable(inout var : Variable, inout arg : Object) : Object
+		Set<Variable> variables = (Set<Variable>) arg;
+		variables.add(var);
+		return var;
+!!!276994.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+		// Ensure I collect quantified variables too
+		Set<Variable> variables = (Set<Variable>) arg;
+		variables.addAll(sentence.getVariables());
+
+		sentence.getQuantified().accept(this, arg);
+
+		return sentence;
+!!!277122.java!!!	visitPredicate(inout predicate : Predicate, inout arg : Object) : Object
+		for (Term t : predicate.getTerms()) {
+			t.accept(this, arg);
+		}
+		return predicate;
+!!!277250.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		equality.getTerm1().accept(this, arg);
+		equality.getTerm2().accept(this, arg);
+		return equality;
+!!!277378.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!277506.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		for (Term t : function.getTerms()) {
+			t.accept(this, arg);
+		}
+		return function;
+!!!277634.java!!!	visitNotSentence(inout sentence : NotSentence, inout arg : Object) : Object
+		sentence.getNegated().accept(this, arg);
+		return sentence;
+!!!277762.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		sentence.getFirst().accept(this, arg);
+		sentence.getSecond().accept(this, arg);
+		return sentence;

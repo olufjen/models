@@ -1,0 +1,91 @@
+class CspViewCtrl
+!!!581378.java!!!	CspViewCtrl(inout viewRoot : StackPane)
+        pane = new Pane();
+        viewRoot.getChildren().add(pane);
+        viewRoot.setStyle("-fx-background-color: white");
+        pane.setMinWidth(0.0);
+        pane.widthProperty().addListener((obs, o, n) -> update());
+        pane.heightProperty().addListener((obs, o, n) -> update());
+!!!581506.java!!!	clearMappings() : void
+        positionMapping.clear();
+        colorMapping.clear();
+!!!581634.java!!!	setPositionMapping(inout var : VAR, in x : int, in y : int) : void
+        positionMapping.put(var, new int[]{x, y});
+!!!581762.java!!!	setColorMapping(inout value : VAL, inout color : Color) : void
+        colorMapping.put(value, color);
+!!!581890.java!!!	initialize(inout csp : CSP) : void
+        this.csp = csp;
+        this.assignment = new Assignment<>();
+        update();
+!!!582018.java!!!	update(inout csp : CSP, inout assignment : Assignment) : void
+        if (csp != null)
+            this.csp = csp;
+        if (assignment != null)
+            this.assignment = assignment;
+        update();
+!!!582146.java!!!	update() : void
+        adjustTransform();
+        pane.getChildren().clear();
+        if (csp != null) {
+            csp.getConstraints().forEach(this::visualize);
+            csp.getVariables().forEach(this::visualize);
+        }
+!!!582274.java!!!	visualize(inout var : VAR) : void
+        Point2D pos = getPosition(var);
+        String label = var.getName();
+        VAL value = null;
+        Color fillColor = null;
+        if (assignment != null)
+            value = assignment.getValue(var);
+        if (value != null) {
+            label += " = " + value;
+            fillColor = colorMapping.get(value);
+        }
+        Circle circle = new Circle(pos.getX(), pos.getY(), 20);
+        circle.setStroke(Color.BLACK);
+        circle.setFill(fillColor != null ? fillColor : Color.WHITE);
+        Text t1 = new Text(pos.getX() + 25, pos.getY(), label);
+        t1.setTextOrigin(VPos.CENTER);
+        Text t2 = new Text(pos.getX(), pos.getY() + 40, csp.getDomain(var).toString());
+        pane.getChildren().addAll(circle, t1, t2);
+!!!582402.java!!!	visualize(inout constraint : Constraint) : void
+        List<VAR> scope = constraint.getScope();
+        if (scope.size() == 2) { // we show only binary constraints...
+            Point2D pos0 = getPosition(scope.get(0));
+            Point2D pos1 = getPosition(scope.get(1));
+            Line line = new Line(pos0.getX(), pos0.getY(), pos1.getX(), pos1.getY());
+            pane.getChildren().add(line);
+            //g2.drawLine(pos0[0] + 20, pos0[1] + 20, pos1[0] + 20, pos1[1] + 20);
+        }
+!!!582530.java!!!	adjustTransform() : double
+        double xMin = Double.POSITIVE_INFINITY;
+        double xMax = Double.NEGATIVE_INFINITY;
+        double yMin = Double.POSITIVE_INFINITY;
+        double yMax = Double.NEGATIVE_INFINITY;
+        if (csp != null)
+            for (VAR var : csp.getVariables()) {
+                Point2D point = getPosition(var);
+                xMin = Math.min(xMin, point.getX());
+                xMax = Math.max(xMax, point.getX());
+                yMin = Math.min(yMin, point.getY());
+                yMax = Math.max(yMax, point.getY());
+            }
+        double scale = Math.min(pane.getWidth() / (xMax - xMin + 300),
+                pane.getHeight() / (yMax - yMin + 150));
+
+        pane.setTranslateX((scale * (pane.getWidth() - xMin - xMax) / 2.0));
+        pane.setTranslateY((scale * (pane.getHeight() - yMin - yMax) / 2.0));
+        pane.setScaleX(scale);
+        pane.setScaleY(scale);
+        return scale;
+!!!582658.java!!!	getPosition(inout var : VAR) : Point2D
+        int[] pos = positionMapping.get(var);
+        if (pos != null)
+            return new Point2D(pos[0], pos[1]);
+        else {
+            int vIndex = csp.indexOf(var);
+            int rows = Math.max((int) (pane.getHeight() / 100), 1);
+            int x = (vIndex / rows) * 160 + 40;
+            int y = (vIndex % rows) * 100 + 40;
+            return new Point2D(x, y);
+        }

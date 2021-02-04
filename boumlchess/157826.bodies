@@ -1,0 +1,65 @@
+class Function
+!!!339714.java!!!	Function(in functionName : String, inout terms : List<Term>)
+		this.functionName = functionName;
+		this.terms.addAll(terms);
+!!!339842.java!!!	getFunctionName() : String
+		return functionName;
+!!!339970.java!!!	getTerms() : Term
+		return Collections.unmodifiableList(terms);
+!!!340098.java!!!	getSymbolicName() : String
+		return getFunctionName();
+!!!340226.java!!!	isCompound() : boolean
+		return true;
+!!!340354.java!!!	getArgs() : Term
+		return getTerms();
+!!!340482.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitFunction(this, arg);
+!!!340610.java!!!	copy() : Function
+		List<Term> copyTerms = new ArrayList<Term>();
+		for (Term t : terms) {
+			copyTerms.add(t.copy());
+		}
+		return new Function(functionName, copyTerms);
+!!!340738.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Function)) {
+			return false;
+		}
+
+		Function f = (Function) o;
+
+		return f.getFunctionName().equals(getFunctionName())
+				&& f.getTerms().equals(getTerms());
+!!!340866.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + functionName.hashCode();
+			for (Term t : terms) {
+				hashCode = 37 * hashCode + t.hashCode();
+			}
+		}
+		return hashCode;
+!!!340994.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(functionName);
+			sb.append("(");
+
+			boolean first = true;
+			for (Term t : terms) {
+				if (first) {
+					first = false;
+				} else {
+					sb.append(",");
+				}
+				sb.append(t.toString());
+			}
+
+			sb.append(")");
+
+			stringRep = sb.toString();
+		}
+		return stringRep;

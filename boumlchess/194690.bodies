@@ -1,0 +1,53 @@
+class QueueSearch
+!!!467330.java!!!	QueueSearch(inout nodeExpander : NodeExpander)
+		this.nodeExpander = nodeExpander;
+		nodeExpander.addNodeListener((node) -> metrics.incrementInt(METRIC_NODES_EXPANDED));
+!!!467458.java!!!	findNode(inout problem : Problem, inout frontier : Queue<Node<S, A>>) : Node
+		this.frontier = frontier;
+		clearMetrics();
+		// initialize the frontier using the initial state of the problem
+		Node<S, A> root = nodeExpander.createRootNode(problem.getInitialState());
+		addToFrontier(root);
+		if (earlyGoalTest && problem.testSolution(root))
+			return getSolution(root);
+
+		while (!isFrontierEmpty() && !Tasks.currIsCancelled()) {
+			// choose a leaf node and remove it from the frontier
+			Node<S, A> nodeToExpand = removeFromFrontier();
+			// only need to check the nodeToExpand if have not already
+			// checked before adding to the frontier
+			if (!earlyGoalTest && problem.testSolution(nodeToExpand))
+				// if the node contains a goal state then return the
+				// corresponding solution
+				return getSolution(nodeToExpand);
+
+			// expand the chosen node, adding the resulting nodes to the
+			// frontier
+			for (Node<S, A> successor : nodeExpander.expand(nodeToExpand, problem)) {
+				addToFrontier(successor);
+				if (earlyGoalTest && problem.testSolution(successor))
+					return getSolution(successor);
+			}
+		}
+		// if the frontier is empty then return failure
+		return Optional.empty();
+!!!467970.java!!!	setEarlyGoalTest(inout b : boolean) : void
+		earlyGoalTest = b;
+!!!468098.java!!!	getNodeExpander() : NodeExpander
+		return nodeExpander;
+!!!468226.java!!!	getMetrics() : Metrics
+		return metrics;
+!!!468354.java!!!	clearMetrics() : void
+		metrics.set(METRIC_NODES_EXPANDED, 0);
+		metrics.set(METRIC_QUEUE_SIZE, 0);
+		metrics.set(METRIC_MAX_QUEUE_SIZE, 0);
+		metrics.set(METRIC_PATH_COST, 0);
+!!!468482.java!!!	updateMetrics(in queueSize : int) : void
+		metrics.set(METRIC_QUEUE_SIZE, queueSize);
+		int maxQSize = metrics.getInt(METRIC_MAX_QUEUE_SIZE);
+		if (queueSize > maxQSize) {
+			metrics.set(METRIC_MAX_QUEUE_SIZE, queueSize);
+		}
+!!!468610.java!!!	getSolution(inout node : Node) : Node
+		metrics.set(METRIC_PATH_COST, node.getPathCost());
+		return Optional.of(node);

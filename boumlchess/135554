@@ -1,0 +1,240 @@
+format 223
+"otter" // aima::core::logic::fol::inference::otter
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/fol/inference/otter/"
+  java_package "aima.core.logic.fol.inference.otter"
+  classview 134530 "otter"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 164738 "LightestClauseHeuristic"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Heuristic for selecting lightest clause from SOS. To avoid recalculating the
+lightest clause on every call, the interface supports defining the initial
+sos and updates to that set so that it can maintain its own internal data
+structures to allow for incremental re-calculation of the lightest clause.
+
+@author Ciaran O'Reilly
+
+"
+      operation 302850 "getLightestClause"
+	public return_type class_ref 148610 // Clause
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the lightest clause from the SOS
+
+@return the lightest clause.
+"
+      end
+
+      operation 302978 "initialSOS"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "SOS life-cycle methods allowing implementations of this interface to
+incrementally update the calculation of the lightest clause as opposed to
+having to recalculate each time.
+
+@param clauses
+"
+      end
+
+      operation 303106 "addedClauseToSOS"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "clause" type class_ref 148610 // Clause
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 303234 "removedClauseFromSOS"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "clause" type class_ref 148610 // Clause
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 164866 "ClauseFilter"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 302594 "filter"
+	public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 164994 "ClauseSimplifier"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 302722 "simplify"
+	public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "c" type class_ref 148610 // Clause
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 132354 "otter"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 154114 "ClauseFilter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.logic.fol.kb.data.Clause;
+${definition}"
+      associated_elems
+	class_ref 164866 // ClauseFilter
+      end
+    end
+
+    artifact 154242 "ClauseSimplifier"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Clause;
+${definition}"
+      associated_elems
+	class_ref 164994 // ClauseSimplifier
+      end
+    end
+
+    artifact 154370 "LightestClauseHeuristic"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import aima.core.logic.fol.kb.data.Clause;
+${definition}"
+      associated_elems
+	class_ref 164738 // LightestClauseHeuristic
+      end
+    end
+  end
+
+  package_ref 135682 // defaultimpl
+end

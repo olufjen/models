@@ -1,0 +1,125 @@
+class AdaBoostLearner
+!!!228738.java!!!	AdaBoostLearner(inout learners : List<Learner>, inout ds : DataSet)
+		this.learners = learners;
+		this.dataSet = ds;
+
+		initializeExampleWeights(ds.examples.size());
+		initializeHypothesisWeights(learners.size());
+!!!228866.java!!!	train(inout ds : DataSet) : void
+		initializeExampleWeights(ds.examples.size());
+
+		for (Learner learner : learners) {
+			learner.train(ds);
+
+			double error = calculateError(ds, learner);
+			if (error < 0.0001) {
+				break;
+			}
+
+			adjustExampleWeights(ds, learner, error);
+
+			double newHypothesisWeight = learnerWeights.get(learner)
+					* Math.log((1.0 - error) / error);
+			learnerWeights.put(learner, newHypothesisWeight);
+		}
+!!!228994.java!!!	predict(inout e : Example) : String
+		return weightedMajority(e);
+!!!229122.java!!!	test(inout ds : DataSet) : int
+		int[] results = new int[] { 0, 0 };
+
+		for (Example e : ds.examples) {
+			if (e.targetValue().equals(predict(e))) {
+				results[0] = results[0] + 1;
+			} else {
+				results[1] = results[1] + 1;
+			}
+		}
+		return results;
+!!!229250.java!!!	weightedMajority(inout e : Example) : String
+		List<String> targetValues = dataSet.getPossibleAttributeValues(dataSet
+				.getTargetAttributeName());
+
+		Table<String, Learner, Double> table = createTargetValueLearnerTable(
+				targetValues, e);
+		return getTargetValueWithTheMaximumVotes(targetValues, table);
+!!!229378.java!!!	createTargetValueLearnerTable(inout targetValues : List<String>, inout e : Example) : Table
+		// create a table with target-attribute values as rows and learners as
+		// columns and cells containing the weighted votes of each Learner for a
+		// target value
+		// Learner1 Learner2 Laerner3 .......
+		// Yes 0.83 0.5 0
+		// No 0 0 0.6
+
+		Table<String, Learner, Double> table = new Table<String, Learner, Double>(
+				targetValues, learners);
+		// initialize table
+		for (Learner l : learners) {
+			for (String s : targetValues) {
+				table.set(s, l, 0.0);
+			}
+		}
+		for (Learner learner : learners) {
+			String predictedValue = learner.predict(e);
+			for (String v : targetValues) {
+				if (predictedValue.equals(v)) {
+					table.set(v, learner, table.get(v, learner)
+							+ learnerWeights.get(learner) * 1);
+				}
+			}
+		}
+		return table;
+!!!229506.java!!!	getTargetValueWithTheMaximumVotes(inout targetValues : List<String>, inout table : Table) : String
+		String targetValueWithMaxScore = targetValues.get(0);
+		double score = scoreOfValue(targetValueWithMaxScore, table, learners);
+		for (String value : targetValues) {
+			double scoreOfValue = scoreOfValue(value, table, learners);
+			if (scoreOfValue > score) {
+				targetValueWithMaxScore = value;
+				score = scoreOfValue;
+			}
+		}
+		return targetValueWithMaxScore;
+!!!229634.java!!!	initializeExampleWeights(in size : int) : void
+		if (size == 0) {
+			throw new RuntimeException(
+					"cannot initialize Ensemble learning with Empty Dataset");
+		}
+		double value = 1.0 / (1.0 * size);
+		exampleWeights = new double[size];
+		for (int i = 0; i < size; i++) {
+			exampleWeights[i] = value;
+		}
+!!!229762.java!!!	initializeHypothesisWeights(in size : int) : void
+		if (size == 0) {
+			throw new RuntimeException(
+					"cannot initialize Ensemble learning with Zero Learners");
+		}
+
+		learnerWeights = new Hashtable<Learner, Double>();
+		for (Learner le : learners) {
+			learnerWeights.put(le, 1.0);
+		}
+!!!229890.java!!!	calculateError(inout ds : DataSet, inout l : Learner) : double
+		double error = 0.0;
+		for (int i = 0; i < ds.examples.size(); i++) {
+			Example e = ds.getExample(i);
+			if (!(l.predict(e).equals(e.targetValue()))) {
+				error = error + exampleWeights[i];
+			}
+		}
+		return error;
+!!!230018.java!!!	adjustExampleWeights(inout ds : DataSet, inout l : Learner, in error : double) : void
+		double epsilon = error / (1.0 - error);
+		for (int j = 0; j < ds.examples.size(); j++) {
+			Example e = ds.getExample(j);
+			if ((l.predict(e).equals(e.targetValue()))) {
+				exampleWeights[j] = exampleWeights[j] * epsilon;
+			}
+		}
+		exampleWeights = Util.normalize(exampleWeights);
+!!!230146.java!!!	scoreOfValue(in targetValue : String, inout table : Table, inout learners : List<Learner>) : double
+		double score = 0.0;
+		for (Learner l : learners) {
+			score += table.get(targetValue, l);
+		}
+		return score;

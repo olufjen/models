@@ -1,0 +1,13 @@
+class SimpleEnvironmentView
+!!!138242.java!!!	notify(in msg : String) : void
+		System.out.println("Message: " + msg);
+!!!138370.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+		int agentId = source.getAgents().indexOf(agent) + 1;
+		System.out.println("Agent " + agentId + " added.");
+!!!138498.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+		StringBuilder builder = new StringBuilder();
+		int agentId = source.getAgents().indexOf(agent) + 1;
+		builder.append("Agent ").append(agentId).append(" acted.");
+		builder.append("\n   Percept: ").append(percept.toString());
+		builder.append("\n   Action: ").append(action.toString());
+		System.out.println(builder.toString());

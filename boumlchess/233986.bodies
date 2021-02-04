@@ -1,0 +1,305 @@
+class AChessAgent
+!!!740738.java!!!	AChessAgent(inout kb : KnowledgeBase)
+		super(kb);
+		
+!!!740866.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl)
+		super(KB);
+		this.kb = (ChessKnowledgeBase)KB;
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+		this.localAction = localAction;
+		actions = new ArrayList<ChessActionImpl>();
+		opponentPieces = new ArrayList<String>();
+		positionList = game.getPositionlist();
+!!!740994.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl, inout game : PlayGame)
+		super(KB);
+		this.game = game;
+		this.kb = (ChessKnowledgeBase)KB;
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+		this.localAction = localAction;
+		actions = new ArrayList<ChessActionImpl>();
+		opponentPieces = new ArrayList<String>();
+		positionList = game.getPositionlist();
+		
+!!!741122.java!!!	execute(inout state : Percept) : Action
+		stateImpl = (ChessStateImpl)state;
+		myPlayer = stateImpl.getMyPlayer();
+		opponent = stateImpl.getOpponent();
+		actions = stateImpl.getActions(); // creates new actions !!!
+		kb.setStateImpl(stateImpl);
+
+		setOpponentpieces(opponent);
+		kb.setOpponentPieces(opponentPieces);
+		noofMoves = game.getMovements().size();
+		String playerName = stateImpl.getMyPlayer().getPlayerId();
+		Sentence playSentence = kb.newSymbol(kb.TOPLAY+playerName, noofMoves);
+		kb.tell(playSentence);
+		makeRules(noofMoves);
+/*
+ * To move this into makePerceptSentence ?		
+ */
+		int oppmoves = stateImpl.getOpponent().getMyMoves().size() -1;
+		int mymoves = stateImpl.getMyPlayer().getMyMoves().size() -1;
+	
+		if (oppmoves < 0)
+			oppmoves = 0;
+		if (mymoves <0)
+			mymoves = 0;
+//		kb.tell("AFACT");
+		emptyPositions = game.getNotusedPositionlist();
+
+		makeOpponentsentences(stateImpl.getOpponent(),noofMoves);
+		makeSentences();
+
+/*
+ * End move ?
+ */
+/*
+ * Here we must ask the knowledge base what is the best action to perform:		
+ */
+		Action newAction = null;
+		for (ChessActionImpl action:actions) {
+//			double evaluation = game.getGame().analyzePieceandPosition(action);
+			if (action.getPossibleMove()!= null && !action.isBlocked()) {
+				newAction = kb.askPossibleAction(action, noofMoves);
+				if (newAction != null)
+					break;
+			}
+
+		}
+	
+//		makeRules(noofMoves);
+		StringBuilder builder = new StringBuilder();
+		builder.append("A CHESS Knowledge base\n");
+		writer.println(builder.toString());
+		List<Sentence> mySentences = kb.getSentences();
+		Set<Clause> myClauses = kb.asCNF();
+		for (Sentence sentence:mySentences) {
+			writer.println(sentence.toString());
+		}
+		for (Clause clause:myClauses) {
+			String def = "Not definite";
+			if (clause.isDefiniteClause())
+				def = "Definite";
+			writer.println(clause.toString()+" "+def );
+		}
+		writer.flush();
+//		Sentence sentence = makePerceptSentence(state, 0);
+//		KB.tell(sentence);
+		if (newAction != null)
+			return newAction;
+		return localAction;
+//		return super.execute(state);
+!!!741250.java!!!	makeRules(in t : int) : void
+		APlayer player= stateImpl.getMyPlayer();
+		List<AgamePiece> pieces = player.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			String name = piece.getMyPiece().getOntlogyName(); 
+			HashMap<String,Position> attackMap = piece.getAttackPositions();
+			List<Position> attackPositions = null;
+			if (attackMap != null)
+				attackPositions = new ArrayList(attackMap.values());
+			List<Position> availablePositions = piece.getNewlistPositions();
+			if (attackPositions != null && !attackPositions.isEmpty())
+				availablePositions = attackPositions;
+			if (availablePositions != null && !availablePositions.isEmpty()) {
+				for (Position pos:availablePositions){
+					if(!piece.checkRemoved(pos)) {
+						String position = pos.getPositionName();
+						kb.tellCaptureRules(t, position, name);
+					}
+				}
+			}
+		}
+!!!741378.java!!!	makeSentences() : void
+		APlayer player= stateImpl.getMyPlayer();
+		List<AgamePiece> pieces = player.getMygamePieces();
+		ABishop b = null;
+		ARook r = null;
+		AQueen qt = null;
+		AKnight kn = null;
+		Aking king = null;
+		for (AgamePiece piece:pieces) {
+			String name = piece.getMyPiece().getOntlogyName();
+			ChessPieceType pieceType = piece.getChessType();
+			if (pieceType instanceof ABishop) {
+				b = (ABishop) pieceType;
+				kb.setOwnBishop(name);
+			}
+			if (pieceType instanceof ARook) {
+				r = (ARook) pieceType;
+				kb.setOwnRook(name);
+			}
+			if (pieceType instanceof AQueen) {
+				qt = (AQueen) pieceType;
+				kb.setOwnQueen(name);
+			}
+			if (pieceType instanceof AKnight) {
+				kn = (AKnight) pieceType;
+				kb.setOwnKnight(name);
+			}
+			if (pieceType instanceof Aking) {
+				king = (Aking) pieceType;
+				kb.setOwnKing(name);
+			}			
+
+			String position = piece.getmyPosition().getPositionName();
+			Sentence sentence = kb.newSymbol(name+"_"+"AT"+position, noofMoves);
+			kb.tell(sentence);
+		}		
+		for (ChessActionImpl action:actions) {
+			Sentence sentence = makeActionSentence(action,noofMoves);
+			if (sentence != null)
+				kb.tell(sentence);
+		}
+		for (Position position:emptyPositions) {
+			String name = position.getPositionName();
+			Sentence sentence =  kb.newSymbol(name+"_",noofMoves);
+			kb.tell(sentence);
+		}
+!!!741506.java!!!	makeOpponentsentences(inout opponent : APlayer, in t : int) : void
+		List<AgamePiece> pieces = opponent.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			String name = piece.getMyPiece().getOntlogyName();
+			String position = piece.getmyPosition().getPositionName();
+			Sentence sentence = kb.newSymbol(name+"_"+"AT"+position, t);
+			kb.tell(sentence);
+			HashMap<String,Position> reachablePositions = piece.getReacablePositions();
+			HashMap<String,Position> attackPositions = piece.getAttackPositions();
+			List<Position> piecePositions = null;
+			piecePositions = piece.getNewlistPositions();
+			if (attackPositions != null && !attackPositions.isEmpty()) {
+				piecePositions = new ArrayList(attackPositions.values());
+			}
+
+//			List<Position> piecePositions = new ArrayList(reachablePositions.values());
+			for (Position opponentposition:piecePositions) {
+				if (!piece.checkRemoved(opponentposition)) {
+					String pos = opponentposition.getPositionName();
+					String atta = "THREATENEDBY";
+					Sentence attacksentence = kb.newSymbol(atta+name+"_"+pos, t);
+					kb.tell(attacksentence);
+				}
+			}
+
+		}
+		
+!!!966018.java!!!	setOpponentpieces(inout opponent : APlayer) : void
+		List<AgamePiece> pieces = opponent.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			String name = piece.getMyPiece().getOntlogyName();
+			opponentPieces.add(name);
+		}
+!!!741634.java!!!	ask(inout kb : KnowledgeBase, inout sentence : Sentence) : Action
+		// TODO Auto-generated method stub
+		return null;
+!!!741762.java!!!	makeActionQuery(in t : int) : Sentence
+		// TODO Auto-generated method stub
+		return null;
+!!!741890.java!!!	makeActionSentence(inout action : Action, in t : int) : Sentence
+		ChessActionImpl thisAction = (ChessActionImpl) action;
+		double evaluation = game.getGame().analyzePieceandPosition(thisAction);
+		String active = "NOMOV";
+		List<AgamePiece> attackedPieces = thisAction.getAttacked();
+		List<Position> protectedPositions = thisAction.getProtectedPositions();
+		List<Position> attackedPositions = thisAction.getAttackedPositions();
+		List<Position> otherprotectedPositions = thisAction.getOtherprotectedPositions();
+		if (attackedPieces != null) {
+			for (AgamePiece attackedPiece:attackedPieces) {
+				String name = attackedPiece.getMyPiece().getOntlogyName();
+				String pos = attackedPiece.getMyPosition().getPositionName();
+				String attack = "ATTACK";
+				Sentence sentence = kb.newSymbol(attack+name+"_"+pos, t);
+				kb.tell(sentence);
+			}
+		}
+		if (protectedPositions != null) {
+			for (Position protectedPos:protectedPositions) {
+				String prot = "PROTECTEDBY";
+				String simpleProt ="PROTECTED";
+				String name = thisAction.getChessPiece().getMyPiece().getOntlogyName();
+				String pos = protectedPos.getPositionName();
+				Sentence sentence = kb.newSymbol(prot+name+"_"+pos, t);
+				Sentence simple = kb.newSymbol(simpleProt +"_"+pos, t);
+				kb.tell(sentence);
+				kb.tell(simple);
+			}
+			
+		}
+		if (otherprotectedPositions != null) {
+			for (Position protectedPos:otherprotectedPositions) {
+				String prot = "PROTECTEDBY";
+				String name = thisAction.getChessPiece().getMyPiece().getOntlogyName();
+				String pos = protectedPos.getPositionName();
+				Sentence sentence = kb.newSymbol(prot+name+"_"+pos, t);
+				kb.tell(sentence);
+				String atta = "ATTACKEDBY";
+				Sentence attacksentence = kb.newSymbol(atta+name+"_"+pos, t);
+				kb.tell(attacksentence);
+			}
+			
+		}		
+		if (attackedPositions != null) {
+			for (Position attackedPos:attackedPositions) {
+				String atta = "ATTACKEDBY";
+				String pos = attackedPos.getPositionName();
+				String name = thisAction.getChessPiece().getMyPiece().getOntlogyName();
+				Sentence sentence = kb.newSymbol(atta+name+"_"+pos, t);
+				kb.tell(sentence);
+			}
+		}
+		if (thisAction.getChessPiece().isActive() ) {
+			String name = thisAction.getChessPiece().getMyPiece().getOntlogyName();
+			String position = thisAction.getChessPiece().getmyPosition().getPositionName();
+			ApieceMove move = thisAction.getPossibleMove();
+			if (move == null || thisAction.isBlocked()) {
+				Sentence sentence = kb.newSymbol(active+name+"_AT"+position, t);
+//				kb.tell(sentence);
+				return sentence;
+			}
+			if (move != null && !thisAction.isBlocked()) {
+//				String moveNotation = move.getMoveNotation();
+				String toPos = move.getToPosition().getPositionName();
+/*				if (moveNotation == null || moveNotation.equals(""))
+					moveNotation ="MOV";
+				String toPos = move.getToPosition().getPositionName();
+				Sentence sentence = kb.newSymbol(moveNotation+name+"_"+toPos, t);*/
+//				kb.tell(sentence);
+				Sentence sentence = kb.newSymbol("ACTION"+name+"_AT"+position, t);
+				thisAction.setSentence(sentence);
+//				kb.tell(sentence);
+				kb.tellmoveRule(kb.newSymbol("ACTION"+name+"_TO"+toPos, t), "AT"+position, t);
+				return sentence;
+			}
+		}
+		if (!thisAction.getChessPiece().isActive()) {
+			active = "VAC";
+//			Position newPos = thisAction.getPreferredPosition(); // Makes a new attempt creating a new possible move for this action.
+//			ApieceMove newMove = thisAction.getPossibleMove();
+			String pieceName = thisAction.getChessPiece().getMyPiece().getOntlogyName();
+			String position = thisAction.getChessPiece().getmyPosition().getPositionName();
+			return kb.newSymbol(active+pieceName+"_"+position, t);
+		}
+			
+
+		return null;
+!!!742018.java!!!	makePerceptSentence(inout state : Percept, in t : int) : Sentence
+		ChessActionImpl action = stateImpl.getChessAction();
+		if (localAction == action) {
+			String name = localAction.getChessPiece().getMyPiece().getOntlogyName();
+			String position = localAction.getChessPiece().getmyPosition().getPositionName();
+			return kb.newSymbol(name+"_"+position, 0);
+			
+		}
+		return null;

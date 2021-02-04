@@ -1,0 +1,57 @@
+class ObservedEvidence
+!!!402050.java!!!	ObservedEvidence(inout queryVariables : RandomVariable [[]], inout e : AssignmentProposition [[]], inout bn : BayesianNetwork)
+			this.bn = bn;
+
+			int maxSize = bn.getVariablesInTopologicalOrder().size();
+			extendedValues = new Object[maxSize];
+			var = new RandomVariable[maxSize];
+			// query variables go first
+			int idx = 0;
+			for (int i = 0; i < queryVariables.length; i++) {
+				var[idx] = queryVariables[i];
+				varIdxs.put(var[idx], idx);
+				idx++;
+			}
+			// initial evidence variables go next
+			for (int i = 0; i < e.length; i++) {
+				var[idx] = e[i].getTermVariable();
+				varIdxs.put(var[idx], idx);
+				extendedValues[idx] = e[i].getValue();
+				idx++;
+			}
+			extendedIdx = idx - 1;
+			hiddenStart = idx;
+			// the remaining slots are left open for the hidden variables
+			for (RandomVariable rv : bn.getVariablesInTopologicalOrder()) {
+				if (!varIdxs.containsKey(rv)) {
+					var[idx] = rv;
+					varIdxs.put(var[idx], idx);
+					idx++;
+				}
+			}
+!!!402178.java!!!	setExtendedValue(inout rv : RandomVariable, inout value : Object) : void
+			int idx = varIdxs.get(rv);
+			extendedValues[idx] = value;
+			if (idx >= hiddenStart) {
+				extendedIdx = idx;
+			} else {
+				extendedIdx = hiddenStart - 1;
+			}
+!!!402306.java!!!	containsValue(inout rv : RandomVariable) : boolean
+			return varIdxs.get(rv) <= extendedIdx;
+!!!402434.java!!!	posteriorForParents(inout rv : RandomVariable) : double
+			Node n = bn.getNode(rv);
+			if (!(n instanceof FiniteNode)) {
+				throw new IllegalArgumentException(
+						"Enumeration-Ask only works with finite Nodes.");
+			}
+			FiniteNode fn = (FiniteNode) n;
+			Object[] vals = new Object[1 + fn.getParents().size()];
+			int idx = 0;
+			for (Node pn : n.getParents()) {
+				vals[idx] = extendedValues[varIdxs.get(pn.getRandomVariable())];
+				idx++;
+			}
+			vals[idx] = extendedValues[varIdxs.get(rv)];
+
+			return fn.getCPT().getValue(vals);

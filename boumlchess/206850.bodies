@@ -1,0 +1,37 @@
+class Parameter
+!!!573698.java!!!	find(inout params : List<Parameter>, in paramName : String) : Parameter
+		Optional<Parameter> result = params.stream().filter(p -> p.getName().equals(paramName)).findFirst();
+		return result.isPresent() ? result.get() : null;
+!!!573826.java!!!	indexOf(inout params : List<Parameter>, in paramName : String) : int
+		for (int i = 0; i < params.size(); i++)
+			if (params.get(i).getName().equals(paramName))
+				return i;
+		return -1;
+!!!573954.java!!!	Parameter(in name : String, inout  : Object...values)
+		this.name = name;
+		setValues(values);
+!!!574082.java!!!	setValues(inout  : Object...values) : void
+		this.values = Arrays.asList(values);
+		valueNames = this.values.stream().map(v -> name + "=" + v).collect(Collectors.toList());
+
+!!!574210.java!!!	setValueNames(inout  : String...valueNames) : void
+		this.valueNames = Arrays.asList(valueNames);
+		if (values != null && values.size() != this.valueNames.size())
+			throw new IllegalArgumentException("Different number of values and value names for parameter " + name);
+!!!574338.java!!!	setDefaultValueIndex(in idx : int) : void
+		defaultValueIndex = idx;
+!!!574466.java!!!	setDependency(in paramName : String, inout  : String...values) : void
+		dependsOnParam = paramName;
+		dependsOnValues = Arrays.asList(values);
+!!!574594.java!!!	getName() : String
+		return name;
+!!!574722.java!!!	getValueNames() : List<String>
+		return valueNames;
+!!!574850.java!!!	getValues() : List<Object>
+		return values;
+!!!574978.java!!!	getDefaultValueIndex() : int
+		return defaultValueIndex;
+!!!575106.java!!!	getDependencyParameter() : String
+		return dependsOnParam;
+!!!575234.java!!!	getDependencyValues() : List<String>
+		return dependsOnValues;

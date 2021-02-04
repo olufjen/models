@@ -1,0 +1,409 @@
+format 223
+"planning" // no::games::chess::planning
+  revision 2
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no\\games\\chess\\planning/"
+  java_package "no.games.chess"
+  classview 189058 "planning"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 332546 "ChessHighLevelAction"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class is a specialized version of the
+Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.4, page
+409.<br>
+<p>
+Each HLA has one or more possible refinements, into a sequence 1
+of actions, each of which may be an HLA or a primitive action (which has no refinements
+by definition).
+
+@author samagra
+"
+      classrelation 398338 // <generalisation>
+	relation 398338 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 398338 // <generalisation>
+	  b parent class_ref 169602 // ActionSchema
+      end
+
+      attribute 396674 "refinements"
+	package explicit_type "List<ActionSchema>"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1652610 "ChessHighLevelAction"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "name" explicit_type "String"
+	  param inout name "variables" explicit_type "List<Term>"
+	  param in name "precondition" explicit_type "String"
+	  param in name "effects" explicit_type "String"
+	  param inout name "refinements" explicit_type "List<List<ActionSchema>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1652738 "addRefinement"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newRefinement" explicit_type "List<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1652866 "getRefinements"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1652994 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 332674 "ChessPlanningProblemFactory"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class is a spesialized version of the 
+A problem factory to generate planning problems.
+
+@author samagra
+"
+      operation 1653122 "airCargoTransportProblem"
+	class_operation public return_type class_ref 169986 // Problem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates air cargo problem. Artificial Intelligence A Modern Approach (3rd Edition):Figure 10.1 page 369.<br>
+<p>
+Init(At(C1, SFO) ∧ At(C2, JFK) ∧ At(P1, SFO) ∧ At(P2, JFK)
+  ∧ Cargo(C1) ∧ Cargo(C2) ∧ Plane(P1) ∧ Plane(P2)
+  ∧ Airport(JFK) ∧ Airport(SFO))
+Goal(At(C1, JFK) ∧ At(C2, SFO))
+Action(Load(c, p, a),
+ PRECOND: At(c, a) ∧ At(p, a) ∧ Cargo(c) ∧ Plane(p) ∧ Airport(a)
+ EFFECT: ¬ At(c, a) ∧ In(c, p))
+Action(Unload(c, p, a),
+ PRECOND: In(c, p) ∧ At(p, a) ∧ Cargo(c) ∧ Plane(p) ∧ Airport(a)
+ EFFECT: At(c, a) ∧ ¬ In(c, p))
+Action(Fly(p, from, to),
+ PRECOND: At(p, from) ∧ Plane(p) ∧ Airport(from) ∧ Airport(to)
+ EFFECT: ¬ At(p, from) ∧ At(p, to))
+
+@return A PDDL description of an air cargo transportation planning problem.
+"
+      end
+
+      operation 1653250 "spareTireProblem"
+	class_operation public return_type class_ref 169986 // Problem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates spare tire problem. Artificial Intelligence A Modern Approach (3rd Edition): Figure 10.2 page 370.<br>
+<p>
+Init(Tire(Flat) ∧ Tire(Spare) ∧ At(Flat, Axle) ∧ At(Spare, Trunk))
+Goal(At(Spare, Axle))
+Action(Remove(obj, loc),
+ PRECOND: At(obj, loc)
+ EFFECT: ¬ At(obj, loc) ∧ At(obj, Ground))
+Action(PutOn(t, Axle),
+ PRECOND: Tire(t) ∧ At(t, Ground) ∧ ¬ At(Flat, Axle)
+ EFFECT: ¬ At(t, Ground) ∧ At(t, Axle))
+Action(LeaveOvernight,
+ PRECOND:
+ EFFECT: ¬ At(Spare, Ground) ∧ ¬ At(Spare, Axle) ∧ ¬ At(Spare, Trunk)
+     ∧ ¬ At(Flat, Ground) ∧ ¬ At(Flat, Axle) ∧ ¬ At(Flat, Trunk))
+
+@return The spare tire problem.
+"
+      end
+
+      operation 1653378 "goHomeToSFOProblem"
+	class_operation public return_type class_ref 169986 // Problem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates go to SanFrancisco airport . Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.4 page 407.<br>
+<p>
+Refinement(Go(Home, SFO),
+STEPS : [Drive(Home, SFOLongTermParking),
+Shuttle(SFOLongTermParking, SFO)] )
+Refinement(Go(Home, SFO),
+STEPS : [Taxi (Home, SFO)] )
+
+@return The San Francisco Airport problem.
+"
+      end
+
+      operation 1653506 "getHlaAct"
+	class_operation public return_type class_ref 332546 // ChessHighLevelAction
+	nparams 1
+	  param inout name "problem" type class_ref 169986 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates the ChessHLA for a chess problem.
+
+@param problem
+@return The Act HLA.
+"
+      end
+    end
+
+    class 332802 "ChessSearchAlgorithm"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class is a spesialized version of the 
+Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.5, page
+409.<br>
+<br>
+
+<pre>
+function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
+ frontier ← a FIFO queue with [Act] as the only element
+ loop do
+   if EMPTY?(frontier) then return failure
+   plan ← POP(frontier) / chooses the shallowest plan in frontier /
+   hla ← the first HLA in plan,or null if none
+   prefix,suffix ← the action subsequences before and after hla in plan
+   outcome ← RESULT(problem.INITIAL-STATE,prefix)
+   if hla is null then / so plan is primitive and outcome is its result /
+     if outcome satisfies problem.GOAL then return plan
+   else for each sequence in REFINEMENTS(hla,outcome,hierarchy)do
+     frontier ← INSERT(APPEND(prefix,sequence,suffix),frontier)
+</pre>
+<p>
+Figure 9.3 A breadth-first implementation of hierarchical forward planning
+search. The initial plan supplied to the algorithm is [Act]. The REFINEMENTS
+function returns a set of action sequences, one for each refinement of the
+HLA whose preconditions are satisfied by the specified state, outcome.
+
+@author samagra
+"
+      operation 1653634 "heirarchicalSearch"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 1
+	  param inout name "problem" type class_ref 169986 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
+
+@param problem The planning problem.
+@return A list of actions representing the plan.
+"
+      end
+
+      operation 1653762 "refinements"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 2
+	  param inout name "hla" type class_ref 169602 // ActionSchema
+	  param inout name "outcome" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The REFINEMENTS function returns a set of action sequences,
+one for each refinement of the HLA whose preconditions are
+satisfied by the specified state, outcome.
+
+@param hla     The hla to which the refinements are to be applied.
+@param outcome The state in which the refinements are to be applied.
+@return List of all refinements of the current hla in a given outcome state.
+"
+      end
+    end
+  end
+
+  deploymentview 169474 "planning"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 275458 "ChessHighLevelAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.planning.ActionSchema;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 332546 // ChessHighLevelAction
+      end
+    end
+
+    artifact 275586 "ChessPlanningProblemFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Variable;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.Problem;
+import aima.core.logic.planning.State;
+import aima.core.logic.planning.hierarchicalsearch.HighLevelAction;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 332674 // ChessPlanningProblemFactory
+      end
+    end
+
+    artifact 275714 "ChessSearchAlgorithm"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.PlanningProblemFactory;
+import aima.core.logic.planning.Problem;
+import aima.core.logic.planning.State;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 332802 // ChessSearchAlgorithm
+      end
+    end
+  end
+
+  package_ref 204162 // planning
+end

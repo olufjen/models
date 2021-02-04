@@ -1,0 +1,115 @@
+class Gui
+!!!608514.java!!!	Gui()
+			setSize(guiSize);
+			setResizable(false);
+			setTitle("MCL Settings");
+			setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+			
+			//scrollPane:
+			inScrollPane = new JPanel();
+			inScrollPane.setLayout(new BoxLayout(inScrollPane,BoxLayout.Y_AXIS));
+			scrollPane = new JScrollPane(inScrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			
+			//btnPanel:
+			btnSave = new JButton("Save");
+			btnSave.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					save();
+				}
+			});
+			btnAbort = new JButton("Revert");
+			btnAbort.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					revert();
+				}
+			});
+			
+			//Apply same size to both buttons:
+			Dimension saveDimension = btnSave.getPreferredSize();
+			Dimension abortDimension = btnAbort.getPreferredSize();
+			Dimension bothDimension = new Dimension(
+				(int) ((saveDimension.getWidth() > abortDimension.getWidth() ? saveDimension.getWidth() : abortDimension.getWidth()) * 2),
+				(int) ((saveDimension.getHeight() > abortDimension.getHeight() ? saveDimension.getHeight() : abortDimension.getHeight()) * 2)
+			);
+			btnSave.setPreferredSize(bothDimension);
+			btnAbort.setPreferredSize(bothDimension);
+			
+			JPanel btnPanel = new JPanel();
+			btnPanel.setLayout(new FlowLayout());
+			btnPanel.add(btnSave);
+			btnPanel.add(GuiBase.getClearanceComp());
+			btnPanel.add(btnAbort);
+			btnPanel.setAlignmentX(CENTER_ALIGNMENT);
+			
+			JPanel outerBtnPanel = new JPanel();
+			outerBtnPanel.setLayout(new BoxLayout(outerBtnPanel,BoxLayout.Y_AXIS));
+			outerBtnPanel.add(GuiBase.getClearanceComp());
+			outerBtnPanel.add(btnPanel);
+			outerBtnPanel.add(GuiBase.getClearanceComp());
+			
+			//Put panels together:
+			JPanel contentPanel = new JPanel();
+			contentPanel.setLayout(new BorderLayout());
+			contentPanel.add(scrollPane, BorderLayout.CENTER);
+			contentPanel.add(outerBtnPanel, BorderLayout.SOUTH);
+			
+			add(contentPanel, BorderLayout.CENTER);
+!!!608642.java!!!	buildPanels() : void
+			keyPanels.clear();
+			inScrollPane.removeAll();
+			for(String key: order) {
+				String name = names.get(key);
+				if(name != null) {
+					String value = values.getProperty(key);
+					KeyPanel keyPanel = new KeyPanel(name, value);
+					keyPanel.setAlignmentX(LEFT_ALIGNMENT);
+					keyPanel.setMaximumSize(guiSize);
+					inScrollPane.add(keyPanel);
+					keyPanels.put(key,keyPanel);
+				} else {
+					SpecialSetting special = specials.get(key);
+					special.setAlignmentX(LEFT_ALIGNMENT);
+					inScrollPane.add(special);
+				}
+			}
+!!!608770.java!!!	showGui() : void
+			this.setVisible(true);
+!!!608898.java!!!	enableButtons() : void
+			btnSave.setEnabled(true);
+			btnAbort.setEnabled(true);
+			for(SpecialSetting special: specials.values()) {
+				if(special instanceof ButtonPanel) ((ButtonPanel) special).enableButton();
+			}
+			setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+!!!609026.java!!!	disableButtons() : void
+			btnSave.setEnabled(false);
+			btnAbort.setEnabled(false);
+			for(SpecialSetting special: specials.values()) {
+				if(special instanceof ButtonPanel) ((ButtonPanel) special).disableButton();
+			}
+			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+!!!609154.java!!!	revertSetting(in key : String) : void
+			KeyPanel kp = keyPanels.get(key);
+			kp.setValue(getSetting(key));
+!!!609282.java!!!	revert() : void
+			for(Entry<String, KeyPanel> entry: keyPanels.entrySet()) {
+				String name = names.get(entry.getKey());
+				if(name != null) {
+					entry.getValue().setValue(getSetting(entry.getKey()));
+				}
+			}
+			for(SpecialSetting special: specials.values()) {
+				special.revertGui();
+			}
+!!!609410.java!!!	save() : void
+			for(Entry<String, KeyPanel> entry: keyPanels.entrySet()) {
+				String name = names.get(entry.getKey());
+				if(name != null) {
+					setSetting(entry.getKey(), entry.getValue().getValue());
+				}
+			}
+			for(SpecialSetting special: specials.values()) {
+				special.saveGui();
+			}

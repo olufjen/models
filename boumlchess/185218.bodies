@@ -1,0 +1,58 @@
+class ValueIteration
+!!!427522.java!!!	ValueIteration(in gamma : double)
+		if (gamma > 1.0 || gamma <= 0.0) {
+			throw new IllegalArgumentException("Gamma must be > 0 and <= 1.0");
+		}
+		this.gamma = gamma;
+!!!427650.java!!!	valueIteration(inout mdp : MarkovDecisionProcess, in epsilon : double) : Map<S, Double>
+		//
+		// local variables: U, U', vectors of utilities for states in S,
+		// initially zero
+		Map<S, Double> U = Util.create(mdp.states(), new Double(0));
+		Map<S, Double> Udelta = Util.create(mdp.states(), new Double(0));
+		// &delta; the maximum change in the utility of any state in an
+		// iteration
+		double delta = 0;
+		// Note: Just calculate this once for efficiency purposes:
+		// &epsilon;(1 - &gamma;)/&gamma;
+		double minDelta = epsilon * (1 - gamma) / gamma;
+
+		// repeat
+		do {
+			// U <- U'; &delta; <- 0
+			U.putAll(Udelta);
+			delta = 0;
+			// for each state s in S do
+			for (S s : mdp.states()) {
+				// max<sub>a &isin; A(s)</sub>
+				Set<A> actions = mdp.actions(s);
+				// Handle terminal states (i.e. no actions).
+				double aMax = 0;
+				if (actions.size() > 0) {
+					aMax = Double.NEGATIVE_INFINITY;
+				}
+				for (A a : actions) {
+					// &Sigma;<sub>s'</sub>P(s' | s, a) U[s']
+					double aSum = 0;
+					for (S sDelta : mdp.states()) {
+						aSum += mdp.transitionProbability(sDelta, s, a)
+								* U.get(sDelta);
+					}
+					if (aSum > aMax) {
+						aMax = aSum;
+					}
+				}
+				// U'[s] <- R(s) + &gamma;
+				// max<sub>a &isin; A(s)</sub>
+				Udelta.put(s, mdp.reward(s) + gamma * aMax);
+				// if |U'[s] - U[s]| > &delta; then &delta; <- |U'[s] - U[s]|
+				double aDiff = Math.abs(Udelta.get(s) - U.get(s));
+				if (aDiff > delta) {
+					delta = aDiff;
+				}
+			}
+			// until &delta; < &epsilon;(1 - &gamma;)/&gamma;
+		} while (delta > minDelta);
+
+		// return U
+		return U;

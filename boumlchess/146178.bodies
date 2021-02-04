@@ -1,0 +1,105 @@
+class DataSet
+!!!207618.java!!!	DataSet()
+
+!!!207746.java!!!	DataSet(inout spec : DataSetSpecification)
+		examples = new LinkedList<Example>();
+		this.specification = spec;
+!!!207874.java!!!	add(inout e : Example) : void
+		examples.add(e);
+!!!208002.java!!!	size() : int
+		return examples.size();
+!!!208130.java!!!	getExample(in number : int) : Example
+		return examples.get(number);
+!!!208258.java!!!	removeExample(inout e : Example) : DataSet
+		DataSet ds = new DataSet(specification);
+		for (Example eg : examples) {
+			if (!(e.equals(eg))) {
+				ds.add(eg);
+			}
+		}
+		return ds;
+!!!208386.java!!!	getInformationFor() : double
+		String attributeName = specification.getTarget();
+		Hashtable<String, Integer> counts = new Hashtable<String, Integer>();
+		for (Example e : examples) {
+
+			String val = e.getAttributeValueAsString(attributeName);
+			if (counts.containsKey(val)) {
+				counts.put(val, counts.get(val) + 1);
+			} else {
+				counts.put(val, 1);
+			}
+		}
+
+		double[] data = new double[counts.keySet().size()];
+		Iterator<Integer> iter = counts.values().iterator();
+		for (int i = 0; i < data.length; i++) {
+			data[i] = iter.next();
+		}
+		data = Util.normalize(data);
+
+		return Util.information(data);
+!!!208514.java!!!	splitByAttribute(in attributeName : String) : DataSet
+		Hashtable<String, DataSet> results = new Hashtable<String, DataSet>();
+		for (Example e : examples) {
+			String val = e.getAttributeValueAsString(attributeName);
+			if (results.containsKey(val)) {
+				results.get(val).add(e);
+			} else {
+				DataSet ds = new DataSet(specification);
+				ds.add(e);
+				results.put(val, ds);
+			}
+		}
+		return results;
+!!!208642.java!!!	calculateGainFor(in parameterName : String) : double
+		Hashtable<String, DataSet> hash = splitByAttribute(parameterName);
+		double totalSize = examples.size();
+		double remainder = 0.0;
+		for (String parameterValue : hash.keySet()) {
+			double reducedDataSetSize = hash.get(parameterValue).examples
+					.size();
+			remainder += (reducedDataSetSize / totalSize)
+					* hash.get(parameterValue).getInformationFor();
+		}
+		return getInformationFor() - remainder;
+!!!208770.java!!!	equals(inout o : Object) : boolean
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		DataSet other = (DataSet) o;
+		return examples.equals(other.examples);
+!!!208898.java!!!	hashCode() : int
+		return 0;
+!!!209026.java!!!	iterator() : Example
+		return examples.iterator();
+!!!209154.java!!!	copy() : DataSet
+		DataSet ds = new DataSet(specification);
+		for (Example e : examples) {
+			ds.add(e);
+		}
+		return ds;
+!!!209282.java!!!	getAttributeNames() : List<String>
+		return specification.getAttributeNames();
+!!!209410.java!!!	getTargetAttributeName() : String
+		return specification.getTarget();
+!!!209538.java!!!	emptyDataSet() : DataSet
+		return new DataSet(specification);
+!!!209666.java!!!	setSpecification(inout specification : DataSetSpecification) : void
+		this.specification = specification;
+!!!209794.java!!!	getPossibleAttributeValues(in attributeName : String) : List<String>
+		return specification.getPossibleAttributeValues(attributeName);
+!!!209922.java!!!	matchingDataSet(in attributeName : String, in attributeValue : String) : DataSet
+		DataSet ds = new DataSet(specification);
+		for (Example e : examples) {
+			if (e.getAttributeValueAsString(attributeName).equals(
+					attributeValue)) {
+				ds.add(e);
+			}
+		}
+		return ds;
+!!!210050.java!!!	getNonTargetAttributes() : List<String>
+		return Util.removeFrom(getAttributeNames(), getTargetAttributeName());

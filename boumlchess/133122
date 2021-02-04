@@ -1,0 +1,909 @@
+format 223
+"inductive" // aima::core::learning::inductive
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/learning/inductive/"
+  java_package "aima.core.learning.inductive"
+  classview 131842 "inductive"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 147330 "ConstantDecisonTree"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 152322 // <generalisation>
+	relation 152322 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 152322 // <generalisation>
+	  b parent class_ref 147458 // DecisionTree
+      end
+
+      attribute 153986 "value"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " represents leaf nodes like \"Yes\" or \"No\"
+"
+      end
+
+      operation 217090 "ConstantDecisonTree"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 217218 "addLeaf"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "attributeValue" explicit_type "String"
+	  param in name "decision" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 217346 "addNode"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "attributeValue" explicit_type "String"
+	  param inout name "tree" type class_ref 147458 // DecisionTree
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 217474 "predict"
+	public explicit_return_type "Object"
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 217602 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 217730 "toString"
+	public explicit_return_type "String"
+	nparams 2
+	  param in name "depth" explicit_type "int"
+	  param inout name "buf" explicit_type "StringBuffer"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 147458 "DecisionTree"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 153858 "attributeName"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 152194 // nodes (<unidirectional association>)
+	relation 152194 --->
+	  stereotype "Hashtable"
+	  a role_name "nodes" private
+	    comment " each node modelled as a hash of attribute_value/decisiontree
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String, ${type}> ${name}${value};
+"
+	    classrelation_ref 152194 // nodes (<unidirectional association>)
+	  b parent class_ref 147458 // DecisionTree
+      end
+
+      operation 215810 "DecisionTree"
+	protected explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 215938 "DecisionTree"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "attributeName" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216066 "addLeaf"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "attributeValue" explicit_type "String"
+	  param in name "decision" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216194 "addNode"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "attributeValue" explicit_type "String"
+	  param inout name "tree" type class_ref 147458 // DecisionTree
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216322 "predict"
+	public explicit_return_type "Object"
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216450 "getStumpFor"
+	class_operation public return_type class_ref 147458 // DecisionTree
+	nparams 6
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param in name "attributeName" explicit_type "String"
+	  param in name "attributeValue" explicit_type "String"
+	  param in name "returnValueIfMatched" explicit_type "String"
+	  param inout name "unmatchedValues" explicit_type "List<String>"
+	  param in name "returnValueIfUnmatched" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216578 "getStumpsFor"
+	class_operation public return_type class_ref 147458 // DecisionTree
+	nparams 3
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param in name "returnValueIfMatched" explicit_type "String"
+	  param in name "returnValueIfUnmatched" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 216706 "getAttributeName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Returns the attributeName.
+"
+      end
+
+      operation 216834 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 216962 "toString"
+	public explicit_return_type "String"
+	nparams 2
+	  param in name "depth" explicit_type "int"
+	  param inout name "buf" explicit_type "StringBuffer"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 147586 "CrossValidation"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 10.9 page
+</br>
+
+<pre>
+    function CROSS-VALIDATION-WRAPPER(Learner, k, examples) returns a hypothesis
+ local variables: errT, an array, indexed by size, storing training-set error rates
+        errV, an array, indexed by size, storing validation-set error rates
+ for size = 1 to ∞ do
+   errT[size], errV[size] ← CROSS-VALIDATION(Learner, size, k, examples)
+   if errT has converged then do
+     best_size ← the value of size with minimum errV[size]
+     return Learner(best_size, examples)
+
+function CROSS-VALIDATION(Learner, size, k, examples) returns two values:
+ fold_errT ← 0; fold_errV ← 0
+ for fold = 1 to k do
+   training_set, validation_set ← PARTITION(examples, fold, k)
+   h ← Learner(size, training_set)
+   fold_errT ← fold_errT + ERROR-RATE(h, training_set)
+   fold_errV ← fold_errV + ERROR-RATE(h, validation_set)
+ return fold_errT ⁄ k, fold_errV ⁄ k
+    </pre>
+<p>
+An algorithm to select the model that has the lowest error rate on validation
+data by building models of increasing complexity, and choosing the one with
+best empirical error rate on validation data. Here errT means error rate
+on the training data, and errV means error rate on the validation data.
+Learner(size, exmaples) returns a hypothesis whose complexity is set by
+the parameter size, and which is trained on the examples.
+PARTITION(examples, fold, k) splits examples into two subsets:
+a validation set of size N ⁄ k and a training set with all the other examples. The split is different for each value of fold.
+</p>
+
+@author samagra
+"
+      attribute 154114 "minErrT"
+	package explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 217858 "CrossValidation"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "minErrT" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 217986 "crossValidationWrapper"
+	public return_type class_ref 147714 // SampleParameterizedLearner
+	nparams 3
+	  param inout name "learner" type class_ref 147714 // SampleParameterizedLearner
+	  param in name "k" explicit_type "int"
+	  param inout name "examples" type class_ref 146178 // DataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function CROSS-VALIDATION-WRAPPER(Learner, k, examples) returns a hypothesis
+
+@param learner
+@param k
+@param examples
+@return
+"
+      end
+
+      operation 218114 "hasConverged"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param in name "errT" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method checks if the training has converged.
+Training is assumed to converge if the error comes below a certain minimum error.
+
+@param errT The error of the current training.
+@return boolean representing the status of convergence
+"
+      end
+
+      operation 218242 "crossValidation"
+	public explicit_return_type "double"
+	nparams 4
+	  param inout name "learner" type class_ref 147714 // SampleParameterizedLearner
+	  param in name "size" explicit_type "int"
+	  param in name "k" explicit_type "int"
+	  param inout name "examples" type class_ref 146178 // DataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function CROSS-VALIDATION(Learner, size, k, examples) returns two values:
+
+@param learner
+@param size
+@param k
+@param examples
+@return
+"
+      end
+
+      operation 218370 "errorRate"
+	private explicit_return_type "double"
+	nparams 1
+	  param inout name "test" explicit_type "int"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates error rate for a particular dataset
+
+@param test
+@return
+"
+      end
+
+      operation 218498 "partition"
+	private return_type class_ref 146178 // DataSet
+	nparams 3
+	  param inout name "examples" type class_ref 146178 // DataSet
+	  param in name "fold" explicit_type "int"
+	  param in name "k" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PARTITION(examples, fold, k) splits examples into two subsets:
+a validation set of size N ⁄ k and a training set with all the other examples.
+The split is different for each value of fold.
+
+@param examples
+@param fold
+@param k
+@return
+"
+      end
+    end
+
+    class 147842 "DecisionList"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 154242 "positive"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 154370 "negative"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 152450 // tests (<unidirectional association>)
+	relation 152450 --->
+	  stereotype "List"
+	  a role_name "tests" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 152450 // tests (<unidirectional association>)
+	  b parent class_ref 147970 // DLTest
+      end
+
+      classrelation 152578 // testOutcomes (<unidirectional association>)
+	relation 152578 --->
+	  stereotype "Hashtable"
+	  a role_name "testOutcomes" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, String> ${name}${value};
+"
+	    classrelation_ref 152578 // testOutcomes (<unidirectional association>)
+	  b parent class_ref 147970 // DLTest
+      end
+
+      operation 218626 "DecisionList"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "positive" explicit_type "String"
+	  param in name "negative" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 218754 "predict"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "example" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 218882 "add"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "test" type class_ref 147970 // DLTest
+	  param in name "outcome" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219010 "mergeWith"
+	public return_type class_ref 147842 // DecisionList
+	nparams 1
+	  param inout name "dlist2" type class_ref 147842 // DecisionList
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219138 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 147970 "DLTest"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 154498 "attrValues"
+	private explicit_type "String, String"
+	stereotype "Hashtable"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " represents a single test in the Decision List
+"
+      end
+
+      operation 219266 "DLTest"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219394 "add"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "nta" explicit_type "String"
+	  param in name "ntaValue" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219522 "matches"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219650 "matchedExamples"
+	public return_type class_ref 146178 // DataSet
+	nparams 1
+	  param inout name "ds" type class_ref 146178 // DataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219778 "unmatchedExamples"
+	public return_type class_ref 146178 // DataSet
+	nparams 1
+	  param inout name "ds" type class_ref 146178 // DataSet
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 219906 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 148098 "DLTestFactory"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      operation 220034 "createDLTestsWithAttributeCount"
+	public return_type class_ref 147970 // DLTest
+	nparams 2
+	  param inout name "ds" type class_ref 146178 // DataSet
+	  param in name "i" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 130690 "inductive"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 142210 "DecisionTree"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import aima.core.learning.framework.DataSet;
+import aima.core.learning.framework.Example;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 147458 // DecisionTree
+      end
+    end
+
+    artifact 142338 "ConstantDecisonTree"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.learning.framework.Example;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 147330 // ConstantDecisonTree
+      end
+    end
+
+    artifact 142466 "CrossValidation"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.learning.framework.DataSet;
+import aima.core.learning.framework.DataSetSpecification;
+import aima.core.learning.framework.Example;
+import aima.core.learning.learners.SampleParameterizedLearner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 147586 // CrossValidation
+      end
+    end
+
+    artifact 142594 "DecisionList"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import aima.core.learning.framework.Example;
+${definition}"
+      associated_elems
+	class_ref 147842 // DecisionList
+      end
+    end
+
+    artifact 142722 "DLTest"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Hashtable;
+import aima.core.learning.framework.DataSet;
+import aima.core.learning.framework.Example;
+${definition}"
+      associated_elems
+	class_ref 147970 // DLTest
+      end
+    end
+
+    artifact 142850 "DLTestFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.learning.framework.DataSet;
+${definition}"
+      associated_elems
+	class_ref 148098 // DLTestFactory
+      end
+    end
+  end
+end

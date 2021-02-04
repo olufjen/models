@@ -1,0 +1,749 @@
+format 223
+"eightpuzzle" // aima::core::environment::eightpuzzle
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/environment/eightpuzzle/"
+  java_package "aima.core.environment.eightpuzzle"
+  classview 129410 "eightpuzzle"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 134530 "BidirectionalEightPuzzleProblem"
+      visibility public 
+      nactuals 4
+      actual class class_ref 134786 // GeneralProblem
+        rank 0 explicit_value ""
+      actual class class_ref 134786 // GeneralProblem
+        rank 1 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 0 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ruediger Lunde
+
+"
+      classrelation 136194 // <realization>
+	relation 136194 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 136194 // <realization>
+	  b parent class_ref 134786 // GeneralProblem
+      end
+
+      classrelation 136450 // <realization>
+	relation 136450 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 136450 // <realization>
+	  b parent class_ref 135810 // BidirectionalProblem
+      end
+
+      classrelation 136578 // reverseProblem (<unidirectional association>)
+	relation 136578 --->
+	  a role_name "reverseProblem" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<EightPuzzleBoard, Action> ${name}${value};
+"
+	    classrelation_ref 136578 // reverseProblem (<unidirectional association>)
+	  b parent class_ref 134914 // Problem
+      end
+
+      operation 156930 "BidirectionalEightPuzzleProblem"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "initialState" type class_ref 134658 // EightPuzzleBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157058 "getOriginalProblem"
+	public return_type class_ref 134914 // Problem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<EightPuzzleBoard, Action> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157186 "getReverseProblem"
+	public return_type class_ref 134914 // Problem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<EightPuzzleBoard, Action> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 134658 "EightPuzzleBoard"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ruediger Lunde
+"
+      classrelation 136706 // LEFT (<unidirectional association>)
+	relation 136706 --->
+	  a role_name "LEFT" init_value " new DynamicAction(\"Left\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 136706 // LEFT (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 136834 // RIGHT (<unidirectional association>)
+	relation 136834 --->
+	  a role_name "RIGHT" init_value " new DynamicAction(\"Right\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 136834 // RIGHT (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 136962 // UP (<unidirectional association>)
+	relation 136962 --->
+	  a role_name "UP" init_value " new DynamicAction(\"Up\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 136962 // UP (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 137090 // DOWN (<unidirectional association>)
+	relation 137090 --->
+	  a role_name "DOWN" init_value " new DynamicAction(\"Down\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 137090 // DOWN (<unidirectional association>)
+	  b parent class_ref 128002 // Action
+      end
+
+      attribute 133122 "state"
+	private explicit_type "int"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 157314 "EightPuzzleBoard"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PUBLIC METHODS
+"
+      end
+
+      operation 157442 "EightPuzzleBoard"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "state" explicit_type "int"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157570 "EightPuzzleBoard"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "copyBoard" type class_ref 134658 // EightPuzzleBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157698 "getState"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157826 "getValueAt"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "loc" type class_ref 135938 // XYLocation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 157954 "getLocationOf"
+	public return_type class_ref 135938 // XYLocation
+	nparams 1
+	  param in name "val" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158082 "moveGapRight"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158210 "moveGapLeft"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158338 "moveGapDown"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158466 "moveGapUp"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158594 "getPositions"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158722 "setBoard"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "locs" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158850 "canMoveGap"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "where" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 158978 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "o" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 159106 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 159234 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 159362 "getXCoord"
+	private explicit_return_type "int"
+	nparams 1
+	  param in name "absPos" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+
+Note: The graphic representation maps x values on row numbers (x-axis in
+vertical direction).
+"
+      end
+
+      operation 159490 "getYCoord"
+	private explicit_return_type "int"
+	nparams 1
+	  param in name "absPos" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Note: The graphic representation maps y values on column numbers (y-axis
+in horizontal direction).
+"
+      end
+
+      operation 159618 "getAbsPosition"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 159746 "getValueAt"
+	private explicit_return_type "int"
+	nparams 2
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 159874 "getGapPosition"
+	private explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 160002 "getPositionOf"
+	private explicit_return_type "int"
+	nparams 1
+	  param in name "val" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 160130 "setValue"
+	private explicit_return_type "void"
+	nparams 3
+	  param in name "x" explicit_type "int"
+	  param in name "y" explicit_type "int"
+	  param in name "val" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 136066 "EightPuzzleFunctions"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ruediger Lunde
+@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 137218 // GOAL_STATE (<unidirectional association>)
+	relation 137218 --->
+	  a role_name "GOAL_STATE" init_value " new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 })" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 137218 // GOAL_STATE (<unidirectional association>)
+	  b parent class_ref 134658 // EightPuzzleBoard
+      end
+
+      operation 160258 "getActions"
+	class_operation public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "state" type class_ref 134658 // EightPuzzleBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 160386 "getResult"
+	class_operation public return_type class_ref 134658 // EightPuzzleBoard
+	nparams 2
+	  param inout name "state" type class_ref 134658 // EightPuzzleBoard
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 160514 "createManhattanHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<EightPuzzleBoard, Action>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 160642 "createMisplacedTileHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<EightPuzzleBoard, Action>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 136194 "ManhattanHeuristicFunction"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 137346 // <realization>
+	  relation 137346 -_-|>
+	    a public
+	      java "${type}<Node<EightPuzzleBoard, Action>>"
+	      classrelation_ref 137346 // <realization>
+	    b parent class_ref 136322 // ToDoubleFunction
+	end
+
+	operation 160770 "applyAsDouble"
+	  public explicit_return_type "double"
+	  nparams 1
+	    param inout name "node" type class_ref 135170 // Node
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<EightPuzzleBoard, Action> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 160898 "evaluateManhattanDistanceOf"
+	  private explicit_return_type "int"
+	  nparams 2
+	    param in name "i" explicit_type "int"
+	    param inout name "loc" type class_ref 135938 // XYLocation
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 136450 "MisplacedTileHeuristicFunction"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 137474 // <realization>
+	  relation 137474 -_-|>
+	    a public
+	      java "${type}<Node<EightPuzzleBoard, Action>>"
+	      classrelation_ref 137474 // <realization>
+	    b parent class_ref 136322 // ToDoubleFunction
+	end
+
+	operation 161026 "applyAsDouble"
+	  public explicit_return_type "double"
+	  nparams 1
+	    param inout name "node" type class_ref 135170 // Node
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<EightPuzzleBoard, Action> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 161154 "getNumberOfMisplacedTiles"
+	  private explicit_return_type "int"
+	  nparams 1
+	    param inout name "board" type class_ref 134658 // EightPuzzleBoard
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+  end
+
+  deploymentview 129026 "eightpuzzle"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 133890 "BidirectionalEightPuzzleProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.search.framework.problem.BidirectionalProblem;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.GoalTest;
+import aima.core.search.framework.problem.Problem;
+${definition}"
+      associated_elems
+	class_ref 134530 // BidirectionalEightPuzzleProblem
+      end
+    end
+
+    artifact 134018 "EightPuzzleBoard"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.agent.Action;
+import aima.core.agent.impl.DynamicAction;
+import aima.core.util.datastructure.XYLocation;
+${definition}"
+      associated_elems
+	class_ref 134658 // EightPuzzleBoard
+      end
+    end
+
+    artifact 134146 "EightPuzzleFunctions"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.agent.Action;
+import aima.core.search.framework.Node;
+import aima.core.util.datastructure.XYLocation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.ToDoubleFunction;
+${definition}"
+      associated_elems
+	class_ref 136066 // EightPuzzleFunctions
+      end
+    end
+  end
+end

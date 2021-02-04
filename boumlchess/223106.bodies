@@ -1,0 +1,218 @@
+class AbstractChessGame
+!!!649346.java!!!	AbstractChessGame(in size : int)
+	
+		squares = new int[size][size];
+		piecePosition = new String[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				squares[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				piecePosition[i][j] = null;
+			}
+		}
+	
+!!!649474.java!!!	getMovedPiece() : String
+		return movedPiece;
+!!!649602.java!!!	setMovedPiece(in movedPiece : String) : void
+		this.movedPiece = movedPiece;
+!!!649730.java!!!	getChessAction() : ChessAction
+		return chessAction;
+!!!649858.java!!!	setChessAction(inout chessAction : ChessAction) : void
+		this.chessAction = chessAction;
+!!!649986.java!!!	getWhitePlayer() : ChessPlayer
+		return whitePlayer;
+!!!650114.java!!!	setWhitePlayer(inout whitePlayer : ChessPlayer) : void
+		this.whitePlayer = whitePlayer;
+!!!650242.java!!!	getBlackPlayer() : ChessPlayer
+		return blackPlayer;
+!!!650370.java!!!	setBlackPlayer(inout blackPlayer : ChessPlayer) : void
+		this.blackPlayer = blackPlayer;
+!!!650498.java!!!	getSize() : int
+		return squares.length;
+!!!650626.java!!!	clear() : void
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				squares[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				piecePosition[i][j] = null;
+			}
+		}
+!!!650754.java!!!	getSquares() : int
+		return squares;
+!!!650882.java!!!	setSquares(inout squares : int [[][]]) : void
+		this.squares = squares;
+!!!651010.java!!!	getPiecePosition() : String
+		return piecePosition;
+!!!651138.java!!!	setPiecePosition(inout piecePosition : String [[][]]) : void
+		this.piecePosition = piecePosition;
+!!!651266.java!!!	setPiecesAt(inout locations : List<XYLocation>, in name : String) : void
+		locations.forEach(this::addPieceAt);
+		for (XYLocation loc:locations) {
+			addPieceAtPos(loc, name);
+		}
+!!!651394.java!!!	addPieceAt(inout l : XYLocation) : void
+		if (!(PieceExistsAt(l)))
+			squares[l.getXCoOrdinate()][l.getYCoOrdinate()] = 1; 
+!!!651522.java!!!	addPieceAtPos(inout l : XYLocation, in name : String) : void
+		if (piecePosition[l.getXCoOrdinate()][l.getYCoOrdinate()] == null)
+			piecePosition[l.getXCoOrdinate()][l.getYCoOrdinate()] = name;
+!!!651650.java!!!	removePieceFrom(inout l : XYLocation) : void
+		if (squares[l.getXCoOrdinate()][l.getYCoOrdinate()] == 1) {
+			squares[l.getXCoOrdinate()][l.getYCoOrdinate()] = 0;
+		}
+		if (piecePosition[l.getXCoOrdinate()][l.getYCoOrdinate()] != null) {
+			movedPiece = piecePosition[l.getXCoOrdinate()][l.getYCoOrdinate()];
+			piecePosition[l.getXCoOrdinate()][l.getYCoOrdinate()] = null;
+		}
+!!!651778.java!!!	movePieceTo(inout l : XYLocation) : void
+			squares[l.getXCoOrdinate()][l.getYCoOrdinate()] = 1;
+!!!651906.java!!!	movePiece(inout from : XYLocation, inout to : XYLocation) : void
+		if ((PieceExistsAt(from)) && (!(PieceExistsAt(to)))) {
+			removePieceFrom(from);
+			addPieceAt(to);
+			addPieceAtPos(to,movedPiece);
+		}
+!!!652034.java!!!	PieceExistsAt(inout l : XYLocation) : boolean
+		return (PieceExistsAt(l.getXCoOrdinate(), l.getYCoOrdinate()));
+!!!652162.java!!!	PieceExistsAt(in x : int, in y : int) : boolean
+		return (squares[x][y] > 0);
+!!!652290.java!!!	pieceAt(in x : int, in y : int) : String
+		return piecePosition[x][y];
+!!!652418.java!!!	getNumberOfPiecesOnBoard() : int
+		int count = 0;
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				if (squares[i][j] == 1)
+					count++;
+			}
+		}
+		return count;
+!!!652546.java!!!	getPiecePositions() : XYLocation
+		ArrayList<XYLocation> result = new ArrayList<>();
+		for (int i = 0; i < getSize(); i++) {
+			for (int j = 0; j < getSize(); j++) {
+				if (PieceExistsAt(i, j))
+					result.add(new XYLocation(i, j));
+			}
+		}
+		return result;
+
+!!!652674.java!!!	getNumberOfAttackingPairs() : int
+		int result = 0;
+		for (XYLocation location : getPiecePositions()) {
+			result += getNumberOfAttacksOn(location);
+		}
+		return result / 2;
+!!!652802.java!!!	getNumberOfAttacksOn(inout l : XYLocation) : int
+		int x = l.getXCoOrdinate();
+		int y = l.getYCoOrdinate();
+		return numberOfHorizontalAttacksOn(x, y) + numberOfVerticalAttacksOn(x, y) + numberOfDiagonalAttacksOn(x, y);
+!!!652930.java!!!	isSquareUnderAttack(inout l : XYLocation) : boolean
+		int x = l.getXCoOrdinate();
+		int y = l.getYCoOrdinate();
+		return (isSquareHorizontallyAttacked(x, y) || isSquareVerticallyAttacked(x, y)
+				|| isSquareDiagonallyAttacked(x, y));
+!!!653058.java!!!	isSquareHorizontallyAttacked(in x : int, in y : int) : boolean
+		return numberOfHorizontalAttacksOn(x, y) > 0;
+!!!653186.java!!!	isSquareVerticallyAttacked(in x : int, in y : int) : boolean
+		return numberOfVerticalAttacksOn(x, y) > 0;
+!!!653314.java!!!	isSquareDiagonallyAttacked(in x : int, in y : int) : boolean
+		return numberOfDiagonalAttacksOn(x, y) > 0;
+!!!653442.java!!!	numberOfHorizontalAttacksOn(in x : int, in y : int) : int
+		int retVal = 0;
+		for (int i = 0; i < getSize(); i++) {
+			if ((PieceExistsAt(i, y)))
+				if (i != x)
+					retVal++;
+		}
+		return retVal;
+!!!653570.java!!!	numberOfVerticalAttacksOn(in x : int, in y : int) : int
+		int retVal = 0;
+		for (int j = 0; j < getSize(); j++) {
+			if ((PieceExistsAt(x, j)))
+				if (j != y)
+					retVal++;
+		}
+		return retVal;
+!!!653698.java!!!	numberOfDiagonalAttacksOn(in x : int, in y : int) : int
+		int retVal = 0;
+		int i;
+		int j;
+		// forward up diagonal
+		for (i = (x + 1), j = (y - 1); (i < getSize() && (j > -1)); i++, j--) {
+			if (PieceExistsAt(i, j))
+				retVal++;
+		}
+		// forward down diagonal
+		for (i = (x + 1), j = (y + 1); ((i < getSize()) && (j < getSize())); i++, j++) {
+			if (PieceExistsAt(i, j))
+				retVal++;
+		}
+		// backward up diagonal
+		for (i = (x - 1), j = (y - 1); ((i > -1) && (j > -1)); i--, j--) {
+			if (PieceExistsAt(i, j))
+				retVal++;
+		}
+
+		// backward down diagonal
+		for (i = (x - 1), j = (y + 1); ((i > -1) && (j < getSize())); i--, j++) {
+			if (PieceExistsAt(i, j))
+				retVal++;
+		}
+
+		return retVal;
+!!!653826.java!!!	hashCode() : int
+		List<XYLocation> locs = getPiecePositions();
+		int result = 17;
+		for (XYLocation loc : locs) {
+			result = 37 * loc.hashCode();
+		}
+		return result;
+!!!653954.java!!!	equals(inout o : Object) : boolean
+		if (this == o)
+			return true;
+		if (o != null && getClass() == o.getClass()) {
+			AbstractChessGame aBoard = (AbstractChessGame) o;
+			if (aBoard.getPiecePositions().size() != getPiecePositions().size())
+				return false;
+			for (int i = 0; i < getSize(); i++) {
+				for (int j = 0; j < getSize(); j++) {
+					if (PieceExistsAt(i, j) != aBoard.PieceExistsAt(i, j))
+						return false;
+				}
+			}
+			return true;
+		}
+		return false;
+!!!654082.java!!!	print() : void
+		System.out.println(getBoardPic());
+!!!654210.java!!!	getBoardPic() : String
+		StringBuilder builder = new StringBuilder();
+		for (int row = 0; (row < getSize()); row++) { // row
+			for (int col = 0; (col < getSize()); col++) { // col
+				if (PieceExistsAt(col, row))
+					builder.append(pieceAt(col,row));
+				else
+					builder.append("-");
+			}
+			builder.append("\n");
+		}
+		return builder.toString();
+!!!654338.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder();
+		for (int row = 0; row < getSize(); row++) { // rows
+			for (int col = 0; col < getSize(); col++) { // columns
+				if (PieceExistsAt(col, row))
+					builder.append(pieceAt(col,row));
+				else
+					builder.append('-');
+			}
+			builder.append("\n");
+		}
+		return builder.toString();

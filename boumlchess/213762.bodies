@@ -1,0 +1,24 @@
+class SelectionState
+!!!595714.java!!!	SelectionState(inout selectors : String [[]])
+			for (String sel : selectors) {
+				this.selectors.add(sel);
+				this.selIndices.add(null);
+				this.selItems.add(null);
+			}
+!!!595842.java!!!	size() : int
+			return selectors.size();
+!!!595970.java!!!	setState(in selectorIdx : int, in valIdx : int, inout value : Object) : void
+			selIndices.set(selectorIdx, valIdx);
+			selItems.set(selectorIdx, value);
+!!!596098.java!!!	getIndex(in selectorIdx : int) : int
+			return selIndices.get(selectorIdx);
+!!!596226.java!!!	getIndex(in selector : String) : int
+			return selIndices.get(selectors.indexOf(selector));
+!!!596354.java!!!	getValue(in selector : String) : Object
+			return selItems.get(selectors.indexOf(selector));
+!!!596482.java!!!	toString() : String
+			StringBuffer result = new StringBuffer("State[ ");
+			for (int i = 0; i < size(); i++)
+				result.append(selectors.get(i) + "=" + selIndices.get(i) + " ");
+			result.append("]");
+			return result.toString();

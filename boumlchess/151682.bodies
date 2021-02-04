@@ -1,0 +1,84 @@
+class FeedForwardNeuralNetwork
+!!!236162.java!!!	FeedForwardNeuralNetwork(inout config : NNConfig)
+
+		int numberOfInputNeurons = config
+				.getParameterAsInteger(NUMBER_OF_INPUTS);
+		int numberOfHiddenNeurons = config
+				.getParameterAsInteger(NUMBER_OF_HIDDEN_NEURONS);
+		int numberOfOutputNeurons = config
+				.getParameterAsInteger(NUMBER_OF_OUTPUTS);
+
+		double lowerLimitForWeights = config
+				.getParameterAsDouble(LOWER_LIMIT_WEIGHTS);
+		double upperLimitForWeights = config
+				.getParameterAsDouble(UPPER_LIMIT_WEIGHTS);
+
+		hiddenLayer = new Layer(numberOfHiddenNeurons, numberOfInputNeurons,
+				lowerLimitForWeights, upperLimitForWeights,
+				new LogSigActivationFunction());
+
+		outputLayer = new Layer(numberOfOutputNeurons, numberOfHiddenNeurons,
+				lowerLimitForWeights, upperLimitForWeights,
+				new PureLinearActivationFunction());
+
+!!!236290.java!!!	FeedForwardNeuralNetwork(inout hiddenLayerWeights : Matrix, inout hiddenLayerBias : Vector, inout outputLayerWeights : Matrix, inout outputLayerBias : Vector)
+
+		hiddenLayer = new Layer(hiddenLayerWeights, hiddenLayerBias,
+				new LogSigActivationFunction());
+		outputLayer = new Layer(outputLayerWeights, outputLayerBias,
+				new PureLinearActivationFunction());
+
+!!!236418.java!!!	processError(inout error : Vector) : void
+
+		trainingScheme.processError(this, error);
+
+!!!236546.java!!!	processInput(inout input : Vector) : Vector
+		return trainingScheme.processInput(this, input);
+!!!236674.java!!!	trainOn(inout innds : NNDataSet, in numberofEpochs : int) : void
+		for (int i = 0; i < numberofEpochs; i++) {
+			innds.refreshDataset();
+			while (innds.hasMoreExamples()) {
+				NNExample nne = innds.getExampleAtRandom();
+				processInput(nne.getInput());
+				Vector error = getOutputLayer()
+						.errorVectorFrom(nne.getTarget());
+				processError(error);
+			}
+		}
+
+!!!236802.java!!!	predict(inout nne : NNExample) : Vector
+		return processInput(nne.getInput());
+!!!236930.java!!!	testOnDataSet(inout nnds : NNDataSet) : int
+		int[] result = new int[] { 0, 0 };
+		nnds.refreshDataset();
+		while (nnds.hasMoreExamples()) {
+			NNExample nne = nnds.getExampleAtRandom();
+			Vector prediction = predict(nne);
+			if (nne.isCorrect(prediction)) {
+				result[0] = result[0] + 1;
+			} else {
+				result[1] = result[1] + 1;
+			}
+		}
+		return result;
+!!!237058.java!!!	testOn(inout ds : DataSet) : void
+		// TODO Auto-generated method stub
+!!!237186.java!!!	getHiddenLayerWeights() : Matrix
+
+		return hiddenLayer.getWeightMatrix();
+!!!237314.java!!!	getHiddenLayerBias() : Vector
+
+		return hiddenLayer.getBiasVector();
+!!!237442.java!!!	getOutputLayerWeights() : Matrix
+
+		return outputLayer.getWeightMatrix();
+!!!237570.java!!!	getOutputLayerBias() : Vector
+
+		return outputLayer.getBiasVector();
+!!!237698.java!!!	getHiddenLayer() : Layer
+		return hiddenLayer;
+!!!237826.java!!!	getOutputLayer() : Layer
+		return outputLayer;
+!!!237954.java!!!	setTrainingScheme(inout trainingScheme : NNTrainingScheme) : void
+		this.trainingScheme = trainingScheme;
+		trainingScheme.setNeuralNetwork(this);

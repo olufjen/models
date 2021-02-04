@@ -1,0 +1,33 @@
+class DisjunctiveProposition
+!!!430978.java!!!	DisjunctiveProposition(inout left : Proposition, inout right : Proposition)
+		if (null == left) {
+			throw new IllegalArgumentException(
+					"Left side of disjunction must be specified.");
+		}
+		if (null == right) {
+			throw new IllegalArgumentException(
+					"Right side of disjunction must be specified.");
+		}
+		// Track nested scope
+		addScope(left.getScope());
+		addScope(right.getScope());
+		addUnboundScope(left.getUnboundScope());
+		addUnboundScope(right.getUnboundScope());
+
+		this.left = left;
+		this.right = right;
+!!!431106.java!!!	holds(inout possibleWorld : Map<RandomVariable, Object>) : boolean
+		return left.holds(possibleWorld) || right.holds(possibleWorld);
+!!!431234.java!!!	toString() : String
+		if (null == toString) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("(");
+			sb.append(left.toString());
+			sb.append(" OR ");
+			sb.append(right.toString());
+			sb.append(")");
+
+			toString = sb.toString();
+		}
+
+		return toString;

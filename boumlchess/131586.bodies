@@ -1,0 +1,25 @@
+class Table
+!!!506242.java!!!	Table(inout rowHeaders : List<RowHeaderType>, inout columnHeaders : List<ColumnHeaderType>)
+
+		this.rowHeaders = rowHeaders;
+		this.columnHeaders = columnHeaders;
+		this.rows = new Hashtable<RowHeaderType, Hashtable<ColumnHeaderType, ValueType>>();
+		for (RowHeaderType rowHeader : rowHeaders) {
+			rows.put(rowHeader, new Hashtable<ColumnHeaderType, ValueType>());
+		}
+!!!506370.java!!!	set(inout r : RowHeaderType, inout c : ColumnHeaderType, inout v : ValueType) : void
+		rows.get(r).put(c, v);
+!!!506498.java!!!	get(inout r : RowHeaderType, inout c : ColumnHeaderType) : ValueType
+		Hashtable<ColumnHeaderType, ValueType> rowValues = rows.get(r);
+		return rowValues == null ? null : rowValues.get(c);
+
+!!!506626.java!!!	toString() : String
+		StringBuffer buf = new StringBuffer();
+		for (RowHeaderType r : rowHeaders) {
+			for (ColumnHeaderType c : columnHeaders) {
+				buf.append(get(r, c).toString());
+				buf.append(" ");
+			}
+			buf.append("\n");
+		}
+		return buf.toString();

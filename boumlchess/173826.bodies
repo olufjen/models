@@ -1,0 +1,34 @@
+class LiteralCollector
+!!!384258.java!!!	getLiterals(inout disjunctiveSentence : Sentence) : Literal
+			Set<Literal> result = new LinkedHashSet<Literal>();
+			
+			LiteralCollector literalCollector = new LiteralCollector();
+			result = disjunctiveSentence.accept(literalCollector, result);
+			
+			return result;
+!!!384386.java!!!	visitPropositionSymbol(inout s : PropositionSymbol, inout arg : Set<Literal>) : Literal
+			// a positive literal
+			Literal positiveLiteral = new Literal(s);
+			arg.add(positiveLiteral);
+			
+			return arg;
+!!!384514.java!!!	visitUnarySentence(inout s : ComplexSentence, inout arg : Set<Literal>) : Literal
+			
+			if (!s.getSimplerSentence(0).isPropositionSymbol()) {
+				throw new IllegalStateException("Sentence is not in CNF: "+s);
+			}
+			
+			// a negative literal
+			Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
+
+			arg.add(negativeLiteral);
+			
+			return arg;
+!!!384642.java!!!	visitBinarySentence(inout s : ComplexSentence, inout arg : Set<Literal>) : Literal
+			if (s.isOrSentence()) {
+				s.getSimplerSentence(0).accept(this, arg);
+				s.getSimplerSentence(1).accept(this, arg);
+			} else {
+				throw new IllegalArgumentException("Sentence is not in CNF: "+s);
+			}
+			return arg;

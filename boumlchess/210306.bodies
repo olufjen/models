@@ -1,0 +1,21 @@
+class MessagePaneCtrl
+!!!572674.java!!!	MessagePaneCtrl(inout textArea : TextArea)
+		this.textArea = textArea;
+!!!572802.java!!!	clear() : void
+		textArea.setText("");
+!!!572930.java!!!	log(in message : String) : void
+		if (Platform.isFxApplicationThread()) {
+			append(message);
+		} else {
+			try {
+				Platform.runLater(() -> append(message));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+!!!573058.java!!!	append(in text : String) : void
+		textArea.appendText(text);
+		if (textArea.getLength() > 0)
+			textArea.selectRange(textArea.getLength() - 1, textArea.getLength());
+!!!573186.java!!!	getPrintStream() : PrintStream
+		return new PrintStream(new TextAreaOutputStream());

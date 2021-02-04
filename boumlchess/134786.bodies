@@ -1,0 +1,19 @@
+class GeneralProblem
+!!!155778.java!!!	GeneralProblem(inout initialState : S, inout actionsFn : ActionsFunction, inout resultFn : ResultFunction, inout goalTest : GoalTest, inout stepCostFn : StepCostFunction)
+        this.initialState = initialState;
+        this.actionsFn = actionsFn;
+        this.resultFn = resultFn;
+        this.goalTest = goalTest;
+        this.stepCostFn = stepCostFn;
+!!!155906.java!!!	GeneralProblem(inout initialState : S, inout actionsFn : ActionsFunction, inout resultFn : ResultFunction, inout goalTest : GoalTest)
+        this(initialState, actionsFn, resultFn, goalTest, (s, a, sPrimed) -> 1.0);
+!!!156034.java!!!	getInitialState() : S
+        return initialState;
+!!!156162.java!!!	getActions(inout state : S) : List<A>
+        return actionsFn.apply(state);
+!!!156290.java!!!	getResult(inout state : S, inout action : A) : S
+        return resultFn.apply(state, action);
+!!!156418.java!!!	testGoal(inout state : S) : boolean
+        return goalTest.test(state);
+!!!156546.java!!!	getStepCosts(inout state : S, inout action : A, inout statePrimed : S) : double
+        return stepCostFn.applyAsDouble(state, action, statePrimed);

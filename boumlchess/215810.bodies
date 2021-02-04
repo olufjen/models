@@ -1,0 +1,86 @@
+class MclCore
+!!!609538.java!!!	setButton(inout button : JButton) : void
+			this.button = button;
+!!!609666.java!!!	setRunning(inout running : boolean) : void
+			try {
+				runningLock.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			this.running = running;
+			runningLock.release();
+!!!609794.java!!!	isRunning() : boolean
+			try {
+				runningLock.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			gui.enableButtons(gui.buttonStateInit);
+			final boolean result = running;
+			runningLock.release();
+			return result;
+!!!609922.java!!!	updateCloudSize(in size : int) : void
+			cloudSize = size;
+			if(map.isLoaded()) { 
+				samples = mcl.generateCloud(cloudSize);
+				gui.displaySamples(samples);
+			}
+!!!610050.java!!!	generateParticles() : void
+			samples = mcl.generateCloud(cloudSize);
+			gui.displaySamples(samples);
+!!!610178.java!!!	step() : void
+			M move = robot.performMove();
+			if(move == null) {
+				throw new NullPointerException();
+			}
+			AbstractRangeReading[] rangeReadings = robot.getRangeReadings();
+			if(rangeReadings == null) {
+				throw new NullPointerException();
+			}
+			samples = mcl.localize(samples, move, rangeReadings);
+			P result = map.checkDistanceOfPoses(samples, maxParticleDistance);
+			
+			gui.displayMove(move);
+			gui.displayRangeReadings(rangeReadings);
+			gui.displaySamples(samples);
+			gui.displayResult(result);
+!!!610306.java!!!	run() : void
+			try {
+				while(running) {
+					step();
+					try{
+						Thread.sleep(stepPause);
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			} catch (NullPointerException e) {
+				/*A NullPointerException may happen if the robot wasn't initialized before.*/
+				robotGui.notifyInitialize();
+			} catch (RobotException e) {
+				/*A RobotException may be thrown if the robot disconnected for some reason.*/
+			}
+			try {
+				runningLock.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			running = false;
+			gui.enableButtons(gui.buttonStateNormal);
+			button.setText(gui.autoLocateTitle);
+			runningLock.release();
+!!!610434.java!!!	notifySetting(in key : String, in value : String) : boolean
+			if(gui.isVisible()) gui.runNotifyClean.run();
+			try {
+				if(key.equals(AbstractSettingsListener.PARTICLE_COUNT_KEY)) {
+					updateCloudSize(Integer.parseInt(value));
+				} else if(key.equals(AbstractSettingsListener.MAX_DISTANCE_KEY)) {
+					maxParticleDistance = Double.parseDouble(value);
+				} else {
+					throw new NumberFormatException();
+				}
+			
+			} catch(NumberFormatException e) {
+				return false;
+			}
+			return true;

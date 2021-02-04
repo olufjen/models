@@ -1,0 +1,56 @@
+class ConnectedSentence
+!!!336642.java!!!	ConnectedSentence(in connector : String, inout first : Sentence, inout second : Sentence)
+		this.connector = connector;
+		this.first = first;
+		this.second = second;
+		args.add(first);
+		args.add(second);
+!!!336770.java!!!	getConnector() : String
+		return connector;
+!!!336898.java!!!	getFirst() : Sentence
+		return first;
+!!!337026.java!!!	getSecond() : Sentence
+		return second;
+!!!337154.java!!!	getSymbolicName() : String
+		return getConnector();
+!!!337282.java!!!	isCompound() : boolean
+		return true;
+!!!337410.java!!!	getArgs() : Sentence
+		return Collections.unmodifiableList(args);
+!!!337538.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitConnectedSentence(this, arg);
+!!!337666.java!!!	copy() : ConnectedSentence
+		return new ConnectedSentence(connector, first.copy(), second.copy());
+!!!337794.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		ConnectedSentence cs = (ConnectedSentence) o;
+		return cs.getConnector().equals(getConnector())
+				&& cs.getFirst().equals(getFirst())
+				&& cs.getSecond().equals(getSecond());
+!!!337922.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + getConnector().hashCode();
+			hashCode = 37 * hashCode + getFirst().hashCode();
+			hashCode = 37 * hashCode + getSecond().hashCode();
+		}
+		return hashCode;
+!!!338050.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("(");
+			sb.append(first.toString());
+			sb.append(" ");
+			sb.append(connector);
+			sb.append(" ");
+			sb.append(second.toString());
+			sb.append(")");
+			stringRep = sb.toString();
+		}
+		return stringRep;

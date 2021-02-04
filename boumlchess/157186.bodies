@@ -1,0 +1,45 @@
+class ImplicationsOut
+!!!259202.java!!!	ImplicationsOut()
+
+!!!259330.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		return p;
+!!!259458.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return equality;
+!!!259586.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return variable;
+!!!259714.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!259842.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return function;
+!!!259970.java!!!	visitNotSentence(inout notSentence : NotSentence, inout arg : Object) : Object
+		Sentence negated = notSentence.getNegated();
+
+		return new NotSentence((Sentence) negated.accept(this, arg));
+!!!260098.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		Sentence alpha = (Sentence) sentence.getFirst().accept(this, arg);
+		Sentence beta = (Sentence) sentence.getSecond().accept(this, arg);
+
+		// Eliminate <=>, bi-conditional elimination,
+		// replace (alpha <=> beta) with (~alpha V beta) ^ (alpha V ~beta).
+		if (Connectors.isBICOND(sentence.getConnector())) {
+			Sentence first = new ConnectedSentence(Connectors.OR,
+					new NotSentence(alpha), beta);
+			Sentence second = new ConnectedSentence(Connectors.OR, alpha,
+					new NotSentence(beta));
+
+			return new ConnectedSentence(Connectors.AND, first, second);
+		}
+
+		// Eliminate =>, implication elimination,
+		// replacing (alpha => beta) with (~alpha V beta)
+		if (Connectors.isIMPLIES(sentence.getConnector())) {
+			return new ConnectedSentence(Connectors.OR, new NotSentence(alpha),
+					beta);
+		}
+
+		return new ConnectedSentence(sentence.getConnector(), alpha, beta);
+!!!260226.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+
+		return new QuantifiedSentence(sentence.getQuantifier(),
+				sentence.getVariables(), (Sentence) sentence.getQuantified()
+						.accept(this, arg));

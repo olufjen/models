@@ -1,0 +1,76 @@
+class WumpusEnvironment
+!!!196098.java!!!	WumpusEnvironment(inout cave : WumpusCave)
+        this.cave = cave;
+!!!196226.java!!!	getCave() : WumpusCave
+        return cave;
+!!!196354.java!!!	isWumpusAlive() : boolean
+        return isWumpusAlive;
+!!!196482.java!!!	isGoalGrabbed() : boolean
+        return isGoldGrabbed;
+!!!196610.java!!!	getAgentPosition(inout agent : Agent) : AgentPosition
+        return agentPositions.get(agent);
+!!!196738.java!!!	addAgent(inout agent : Agent) : void
+        agentPositions.put(agent, cave.getStart());
+        agentsHavingArrow.add(agent);
+        super.addAgent(agent);
+!!!196866.java!!!	executeAction(inout agent : Agent, inout action : Action) : void
+        bumpedAgents.remove(agent);
+        if (agent == agentJustKillingWumpus)
+            agentJustKillingWumpus = null;
+        AgentPosition pos = agentPositions.get(agent);
+        if (action == WumpusAction.FORWARD) {
+            AgentPosition newPos = cave.moveForward(pos);
+            agentPositions.put(agent, newPos);
+            if (newPos.equals(pos)) {
+                bumpedAgents.add(agent);
+            } else if (cave.isPit(newPos.getRoom()) || newPos.getRoom().equals(cave.getWumpus()) && isWumpusAlive)
+                agent.setAlive(false);
+        } else if (action == WumpusAction.TURN_LEFT) {
+            agentPositions.put(agent, cave.turnLeft(pos));
+        } else if (action == WumpusAction.TURN_RIGHT) {
+            agentPositions.put(agent, cave.turnRight(pos));
+        } else if (action == WumpusAction.GRAB) {
+            if (!isGoldGrabbed && pos.getRoom().equals(cave.getGold()))
+                isGoldGrabbed = true;
+        } else if (action == WumpusAction.SHOOT) {
+            if (agentsHavingArrow.contains(agent) && isAgentFacingWumpus(pos)) {
+                isWumpusAlive = false;
+                agentsHavingArrow.remove(agent);
+                agentJustKillingWumpus = agent;
+            }
+        } else if (action == WumpusAction.CLIMB) {
+            agent.setAlive(false);
+        }
+!!!196994.java!!!	isAgentFacingWumpus(inout pos : AgentPosition) : boolean
+        Room wumpus = cave.getWumpus();
+        switch (pos.getOrientation()) {
+            case FACING_NORTH:
+                return pos.getX() == wumpus.getX() && pos.getY() < wumpus.getY();
+            case FACING_SOUTH:
+                return pos.getX() == wumpus.getX() && pos.getY() > wumpus.getY();
+            case FACING_EAST:
+                return pos.getY() == wumpus.getY() && pos.getX() < wumpus.getX();
+            case FACING_WEST:
+                return pos.getY() == wumpus.getY() && pos.getX() > wumpus.getX();
+        }
+        return false;
+!!!197122.java!!!	getPerceptSeenBy(inout anAgent : Agent) : Percept
+        WumpusPercept result = new WumpusPercept();
+        AgentPosition pos = agentPositions.get(anAgent);
+        List<Room> adjacentRooms = Arrays.asList(
+                new Room(pos.getX()-1, pos.getY()), new Room(pos.getX()+1, pos.getY()),
+                new Room(pos.getX(), pos.getY()-1), new Room(pos.getX(), pos.getY()+1)
+        );
+        for (Room r : adjacentRooms) {
+            if (r.equals(cave.getWumpus()))
+                result.setStench();
+            if (cave.isPit(r))
+                result.setBreeze();
+        }
+        if (pos.getRoom().equals(cave.getGold()))
+            result.setGlitter();
+        if (bumpedAgents.contains(anAgent))
+            result.setBump();
+        if (agentJustKillingWumpus != null)
+            result.setScream();
+        return result;

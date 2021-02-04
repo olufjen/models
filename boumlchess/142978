@@ -1,0 +1,2367 @@
+format 223
+"components" // aima::gui::swing::applications::robotics::components
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/gui/swing/applications/robotics/components/"
+  java_package "aima.gui.swing.applications.robotics.components"
+  classview 141314 "components"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 215554 "IRobotGui"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface defines functionality for a GUI that manages the robot associated with the {@link GenericMonteCarloLocalization2DApp}.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      attribute 250242 "DEFAULT_BUTTON_STRING"
+	public explicit_type "String"
+	init_value " \"Initialize Robot\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "The string that is shown in the connect button by default.
+
+"
+      end
+
+      operation 619778 "initializeRobot"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Lets the robot class connect with or initialize/reset the actual robot. 
+@return true if the robot is ready for use.
+"
+      end
+
+      operation 619906 "destructRobot"
+	public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Lets the robot class close the connection with the actual robot. 
+"
+      end
+
+      operation 620034 "notifyInitialize"
+	public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Informs the user that the robot has to be initialized before the MCL can be used.<br/>
+This will be called if the user loads a map and presses on any of the other buttons \"Move\", \"Range Reading\" or \"Auto Locate\" before initializing the robot.
+"
+      end
+
+      operation 620162 "getButtonString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a string to be shown in the button that calls {@code initializeRobot()}.<br/>
+If this method is not used, return this instead: {@code return DEFAULT_BUTTON_STRING;}
+@return a not null string.
+"
+      end
+
+      operation 620290 "loadSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "settingsGui" type class_ref 215682 // Settings
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Loads any values that have been stored to the properties file previously.
+@param settingsGui the {@link Settings} from which the values will be loaded.
+"
+      end
+
+      operation 620418 "saveSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "settingsGui" type class_ref 215682 // Settings
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves all values to the properties file that are to be restored when loading the properties again.
+@param settingsGui the {@link Settings} to which the values will be saved.
+"
+      end
+    end
+
+    class 215682 "Settings"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class can manage parameters of an application bundled in a single GUI.<br/>
+A single parameter is described by a set of strings. The first string is the value, which will be saved to and restored from a file and displayed in a text field.
+The next string is a key by which the value is identified. This key has to be unique against all other settings and all special settings.
+The last string may be a user readable label of the value that will be displayed next to the text field.<br/>
+If the parameter can not hold its value within a single string, it is possible to add classes extending {@link SpecialSetting} which extends {@link JPanel} to the GUI.<br/>
+For any parameter that is in use by this class listeners may be added as {@link ISettingsListener}.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      class 216194 "ISettingsListener"
+	visibility public stereotype "interface"
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 607746 "notifySetting"
+	  public explicit_return_type "boolean"
+	  nparams 2
+	    param in name "key" explicit_type "String"
+	    param in name "value" explicit_type "String"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "This method will be called to notify the settings listener.
+@param key the key to which the value belongs.
+@param value the value that (may have) changed.
+@return false if the setting was not used.
+"
+	end
+      end
+
+      attribute 238722 "values"
+	private explicit_type "Properties"
+	init_value " new Properties()"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 238850 "names"
+	private explicit_type "String,String"
+	init_value " new HashMap<String,String>()"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 216322 "SettingsListenerList"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 267522 // listeners (<unidirectional association>)
+	  relation 267522 --->
+	    stereotype "LinkedList"
+	    a role_name "listeners" init_value " new LinkedList<ISettingsListener>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 267522 // listeners (<unidirectional association>)
+	    b parent class_ref 216194 // ISettingsListener
+	end
+
+	operation 607362 "notify"
+	  private explicit_return_type "void"
+	  nparams 2
+	    param in name "key" explicit_type "String"
+	    param in name "value" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 607490 "add"
+	  private explicit_return_type "void"
+	  nparams 1
+	    param inout name "listener" type class_ref 216194 // ISettingsListener
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 607618 "remove"
+	  private explicit_return_type "void"
+	  nparams 1
+	    param inout name "listener" type class_ref 216194 // ISettingsListener
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 267138 // listeners (<unidirectional association>)
+	relation 267138 --->
+	  stereotype "HashMap"
+	  a role_name "listeners" init_value " new HashMap<String,SettingsListenerList>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 267138 // listeners (<unidirectional association>)
+	  b parent class_ref 216322 // SettingsListenerList
+      end
+
+      class 216450 "SpecialSetting"
+	abstract visibility public 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	java_annotation "@SuppressWarnings(\"serial\")
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 267650 // <generalisation>
+	  relation 267650 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 267650 // <generalisation>
+	    b parent class_ref 216706 // JPanel
+	end
+
+	operation 607874 "loadSettings"
+	  abstract public explicit_return_type "void"
+	  nparams 1
+	    param inout name "values" explicit_type "Properties"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Loads values from the provided key value storage that have been saved before. 
+@param values the {@link Properties} which contains all values that have been stored.
+"
+	end
+
+	operation 608002 "saveSettings"
+	  abstract public explicit_return_type "void"
+	  nparams 1
+	    param inout name "values" explicit_type "Properties"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Save values to the provided key value storage.
+Be aware that the storage may already contain entries from other settings and from a previous save operation of this special setting.
+@param values the {@link Properties} which the values should be stored to.
+"
+	end
+
+	operation 608130 "revertGui"
+	  abstract public explicit_return_type "void"
+	  nparams 0
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Restores the current value(s) into the GUI. This does not notify any listeners.
+"
+	end
+
+	operation 608258 "saveGui"
+	  abstract public explicit_return_type "void"
+	  nparams 0
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Saves the value(s) currently set in the GUI to the current value(s). This notifies all registered listeners.
+"
+	end
+
+	operation 608386 "notifyChangeListener"
+	  abstract public explicit_return_type "void"
+	  nparams 0
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Notifies all registered listeners on this special setting with the current value(s).
+"
+	end
+      end
+
+      classrelation 267266 // specials (<unidirectional association>)
+	relation 267266 --->
+	  stereotype "HashMap"
+	  a role_name "specials" init_value " new HashMap<String,SpecialSetting>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 267266 // specials (<unidirectional association>)
+	  b parent class_ref 216450 // SpecialSetting
+      end
+
+      attribute 238978 "order"
+	private explicit_type "String"
+	init_value " new LinkedList<String>()"
+	stereotype "LinkedList"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 216578 "Gui"
+	visibility protected 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 267778 // <generalisation>
+	  relation 267778 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 267778 // <generalisation>
+	    b parent class_ref 211586 // JFrame
+	end
+
+	attribute 239106 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 239234 "guiSize"
+	  const_attribute private explicit_type "Dimension"
+	  init_value " new Dimension(500, 600)"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 239362 "inScrollPane"
+	  private explicit_type "JPanel"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 239490 "scrollPane"
+	  private explicit_type "JScrollPane"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 267906 // keyPanels (<unidirectional association>)
+	  relation 267906 --->
+	    stereotype "HashMap"
+	    a role_name "keyPanels" init_value " new HashMap<String,KeyPanel>()" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	      classrelation_ref 267906 // keyPanels (<unidirectional association>)
+	    b parent class_ref 216834 // KeyPanel
+	end
+
+	attribute 239618 "btnSave"
+	  private explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 239746 "btnAbort"
+	  private explicit_type "JButton"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 608514 "Gui"
+	  protected explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "The constructor generates the GUI.
+The GUI contains a save button, a revert button and a scroll-able field where the setting are stored.
+"
+	end
+
+	operation 608642 "buildPanels"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Creates all key panels and special settings that have been registered.
+"
+	end
+
+	operation 608770 "showGui"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Shows the GUI.
+"
+	end
+
+	operation 608898 "enableButtons"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Enables all buttons that are registered in the Settings.
+"
+	end
+
+	operation 609026 "disableButtons"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Disables all buttons that are registered in the Settings.
+"
+	end
+
+	operation 609154 "revertSetting"
+	  protected explicit_return_type "void"
+	  nparams 1
+	    param in name "key" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Restores the stored value for a single field.
+@param key the key identifying the field and value.
+"
+	end
+
+	operation 609282 "revert"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Restores the previous values.
+"
+	end
+
+	operation 609410 "save"
+	  protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Saves all values and special settings from the GUI.
+"
+	end
+      end
+
+      classrelation 267394 // gui (<unidirectional association>)
+	relation 267394 --->
+	  a role_name "gui" init_value " new Gui()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 267394 // gui (<unidirectional association>)
+	  b parent class_ref 216578 // Gui
+      end
+
+      operation 605058 "buildGui"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Builds the GUI for all registered settings.
+All registered settings will become visible in the GUI.
+"
+      end
+
+      operation 605186 "show"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Shows the GUI.
+"
+      end
+
+      operation 605314 "loadSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "file" explicit_type "File"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Restores all values that were saved to the file in a previous instance.
+@param file the file in which the values are saved.
+"
+      end
+
+      operation 605442 "saveSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "file" explicit_type "File"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Saves all values to the file. In addition all {@link SpecialSetting} are saved, too.
+@param file the file to be saved to.
+"
+      end
+
+      operation 605570 "registerSetting"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "key" explicit_type "String"
+	  param in name "name" explicit_type "String"
+	  param in name "defaultValue" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Registers a setting identified by a given key which will be displayed with the specified name in the GUI.
+The default value will be stored in the values if the settings do not already contain a value for that key.
+If you want to force a value into the settings call {@code setSetting}.
+
+@param key the key under which the setting is identified.
+@param name the text that will be displayed in the GUI next to the text field containing the value.
+@param defaultValue the value that should be stored as a default if a value does not already exist.
+"
+      end
+
+      operation 605698 "setSetting"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param in name "value" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the value of a property identified by the provided key.
+This method does not register the property in the GUI. For that purpose call {@code registerSetting}.
+
+@param key the key under which the setting is identified.
+@param value the value to be set.
+"
+      end
+
+      operation 605826 "existsSetting"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether a value is stored for a given key.
+
+@param key the key which will be searched for.
+@return true if a value is stored for the key.
+"
+      end
+
+      operation 605954 "isSettingDisplayed"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether a setting identified by the given key is registered in the GUI.
+
+@param key the key which should be searched for.
+@return true if the setting is displayed.
+"
+      end
+
+      operation 606082 "getSetting"
+	public explicit_return_type "String"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the value that is stored for the key.
+The method returns {@code null} if no value is found for the provided key.
+
+@param key the key to search for.
+@return the value that is stored for the given key.
+"
+      end
+
+      operation 606210 "getSetting"
+	public explicit_return_type "String"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param in name "defaultValue" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the value that is stored for the key.
+The method returns {@code defaultValue} if no value is found for the provided key.
+
+@param key the key to search for.
+@param defaultValue the value to be returned if no value is stored for the given key.
+@return the value that is stored for the given key.
+"
+      end
+
+      operation 606338 "registerSpecialSetting"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param inout name "fragment" type class_ref 216450 // SpecialSetting
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Registers a special setting identified by a given key. This special setting will be displayed in the GUI.
+After it has been registered the settings that were stored before are loaded into the fragment.
+
+@param key the key through which the special setting is identified.
+@param fragment the actual special setting.
+"
+      end
+
+      operation 606466 "getSpecialSetting"
+	public return_type class_ref 216450 // SpecialSetting
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the special setting that is stored for the key.
+The method returns {@code null} if no special setting can be found for the provided key.
+
+@param key the key to search for.
+@return the special setting that is stored for the given key.
+"
+      end
+
+      operation 606594 "registerListener"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param inout name "listener" type class_ref 216194 // ISettingsListener
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Registers a listener for a given key that will be notified if the value of the key changes.
+This does not apply to special settings.
+
+@param key the key on which is to be listened.
+@param listener an {@link ISettingsListener} that will be notified if the value of the key changes.
+"
+      end
+
+      operation 606722 "removeListener"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param inout name "listener" type class_ref 216194 // ISettingsListener
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes the listener from the specified key.
+
+@param key the key on which the listener is registered.
+@param listener the listener that will be removed from the key.
+"
+      end
+
+      operation 606850 "notifyAllListeners"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Notifies all registered listeners about the current value of the key they are listening on.
+"
+      end
+
+      operation 606978 "updateGuiSetting"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Updates the value for a given key in the GUI from the stored values.
+@param key the key on which the GUI will be updated.
+"
+      end
+
+      operation 607106 "enableGuiButtons"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Enables all GUI buttons.
+"
+      end
+
+      operation 607234 "disableGuiButtons"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Disables all GUI buttons.
+"
+      end
+    end
+
+    class 216834 "KeyPanel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A GUI panel that allows the user to set a value for a given key.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 270978 // <generalisation>
+	relation 270978 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 270978 // <generalisation>
+	  b parent class_ref 216706 // JPanel
+      end
+
+      attribute 250370 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 250498 "jTFValue"
+	private explicit_type "JTextField"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 620546 "KeyPanel"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "keyTitle" explicit_type "String"
+	  param in name "value" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param keyTitle the name of the key.
+@param value the value of the key.
+"
+      end
+
+      operation 620674 "setValue"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "value" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the value that is displayed in the text field.
+@param value the new value.
+"
+      end
+
+      operation 620802 "getValue"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the current value of the text field.
+@return the current value of the text field.
+"
+      end
+    end
+
+    class 217730 "AbstractSettingsListener"
+      abstract visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@SuppressWarnings(\"javadoc\")
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This abstract settings listener can be used for a basic set of settings. It applies all setting changes in the settings GUI onto the corresponding parameters.<br/>
+The keys
+<ul>
+<li>{@code SENSOR_RANGE_KEY}</li>
+<li>{@code MIN_WEIGHT_KEY}</li>
+</ul>
+have to be registered when using this settings listener. Keep in mind that {@code PARTICLE_COUNT_KEY} and {@code MAX_DISTANCE_KEY} may have to be set, too, for {@link GenericMonteCarloLocalization2DApp}.
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 269570 // <realization>
+	relation 269570 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 269570 // <realization>
+	  b parent class_ref 216194 // ISettingsListener
+      end
+
+      attribute 246658 "PARTICLE_COUNT_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"PARTICLE_COUNT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 246786 "MAP_FILE_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"MAP_FILE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 246914 "SENSOR_RANGE_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"SENSOR_RANGE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247042 "MIN_WEIGHT_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"MIN_WEIGHT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247170 "MAX_DISTANCE_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"MAX_DISTANCE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 269698 // settingsGui (<unidirectional association>)
+	relation 269698 --->
+	  a role_name "settingsGui" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 269698 // settingsGui (<unidirectional association>)
+	  b parent class_ref 215682 // Settings
+      end
+
+      classrelation 269826 // map (<unidirectional association>)
+	relation 269826 --->
+	  a role_name "map" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?,?,?> ${name}${value};
+"
+	    classrelation_ref 269826 // map (<unidirectional association>)
+	  b parent class_ref 189314 // MclCartesianPlot2D
+      end
+
+      classrelation 269954 // mcl (<unidirectional association>)
+	relation 269954 --->
+	  a role_name "mcl" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?,?,?,?> ${name}${value};
+"
+	    classrelation_ref 269954 // mcl (<unidirectional association>)
+	  b parent class_ref 188034 // MonteCarloLocalization
+      end
+
+      operation 614914 "AbstractSettingsListener"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "settingsGui" type class_ref 215682 // Settings
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param settingsGui the {@link Settings} in which this class registers itself and those of its settings which will be used.
+"
+      end
+
+      operation 615042 "setMap"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "map" type class_ref 189314 // MclCartesianPlot2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?,?,?> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the {@link MclCartesianPlot2D} in which the settings will be updated.
+@param map the map to be kept up to date with the correct parameters.
+"
+      end
+
+      operation 615170 "setMcl"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "mcl" type class_ref 188034 // MonteCarloLocalization
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?,?,?,?> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the {@link MonteCarloLocalization} in which the settings will be updated.
+@param mcl the MCL to be kept up to date with the correct parameters.
+"
+      end
+
+      operation 615298 "createSettings"
+	abstract public explicit_return_type "void"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates the settings that will be used. Registers {@code this} object as a listener for these settings.
+"
+      end
+
+      operation 615426 "registerAbstractListener"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Registers {@code this} object as a listener for:
+<ul>
+<li>{@code SENSOR_RANGE_KEY}</li>
+<li>{@code MIN_WEIGHT_KEY}</li>
+</ul>
+"
+      end
+
+      operation 615554 "notifySetting"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param in name "value" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 217858 "AnglePanel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class is a panel where the user can set angles for whatever use you may find entertaining and/or productive.
+One can add to, edit and delete these angles.
+ 
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+"
+      classrelation 270082 // <generalisation>
+	relation 270082 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 270082 // <generalisation>
+	  b parent class_ref 216450 // SpecialSetting
+      end
+
+      attribute 247298 "DEFAULT_ANGLES_KEY"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"ANGLES\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "The default key that is used to store the angles in the properties file when using the convenience constructor {@code AnglePanel(String title)}.
+
+"
+      end
+
+      attribute 247426 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247554 "JL_ANGLE_TEXT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value "\"Selected Angle:\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247682 "JL_NUMBER_OF_ANGLES_TEXT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Angle Count: \""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247810 "BTN_ADD_ANGLE_TEXT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Add Angle\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 247938 "BTN_DELETE_ANGLE_TEXT"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Delete Angle\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248066 "TEXT_SHIFT_ANGLE"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Shift Angle by:\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248194 "ANGLES_COLUMN_NAME"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"Angles\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248322 "RADIUS"
+	class_attribute const_attribute private explicit_type "int"
+	init_value " 75"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248450 "anglesKey"
+	const_attribute private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248578 "jLAngleCount"
+	private explicit_type "JLabel"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248706 "jTFChangeAngle"
+	private explicit_type "JTextField"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248834 "btnDeleteAngle"
+	private explicit_type "JButton"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 248962 "jTShiftValueAngle"
+	private explicit_type "JTextField"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 217986 "CirclePanel"
+	visibility private 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 270594 // <generalisation>
+	  relation 270594 ---|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 270594 // <generalisation>
+	    b parent class_ref 216706 // JPanel
+	end
+
+	classrelation 270722 // <realization>
+	  relation 270722 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 270722 // <realization>
+	    b parent class_ref 218242 // MouseListener
+	end
+
+	attribute 249602 "serialVersionUID"
+	  class_attribute const_attribute private explicit_type "long"
+	  init_value " 1L"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 249730 "centerX"
+	  private explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 249858 "centerY"
+	  private explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 617602 "CirclePanel"
+	  private explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 617730 "paint"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "g" explicit_type "Graphics"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 617858 "drawAngle"
+	  private explicit_return_type "void"
+	  nparams 2
+	    param inout name "g2d" explicit_type "Graphics2D"
+	    param in name "i" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Draws an angle onto the provided {@link Graphics2D}.
+@param g2d the graphics of this panel onto which will be drawn.
+@param i the index of the angle to be drawn.
+"
+	end
+
+	operation 617986 "flipY"
+	  private explicit_return_type "int"
+	  nparams 1
+	    param in name "y" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Flips the y value from a Cartesian coordinate system into a java coordinate system.
+@param y the Y-coordinate form a Cartesian coordinate system.
+@return the Y-coordinate for the coordinate system in java.
+"
+	end
+
+	operation 618114 "mouseClicked"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "arg0" explicit_type "MouseEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 618242 "mouseEntered"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "arg0" explicit_type "MouseEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 618370 "mouseExited"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "arg0" explicit_type "MouseEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 618498 "mousePressed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "arg0" explicit_type "MouseEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+
+	operation 618626 "mouseReleased"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "arg0" explicit_type "MouseEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
+
+      classrelation 270210 // circlePanel (<unidirectional association>)
+	relation 270210 --->
+	  a role_name "circlePanel" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 270210 // circlePanel (<unidirectional association>)
+	  b parent class_ref 217986 // CirclePanel
+      end
+
+      classrelation 270338 // angleModel (<unidirectional association>)
+	relation 270338 --->
+	  a role_name "angleModel" init_value " new ListTableModel(ANGLES_COLUMN_NAME)" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 270338 // angleModel (<unidirectional association>)
+	  b parent class_ref 216962 // ListTableModel
+      end
+
+      attribute 249090 "jTAngles"
+	private explicit_type "JTable"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 249218 "selectedAngleIndex"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 249346 "previousAngles"
+	private explicit_type "double"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 249474 "angles"
+	private explicit_type "double"
+	multiplicity "[]"
+	init_value " {-90.0d,-45.0d,0.0d,45.0d,90.0d}"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      class 218114 "ChangeListener"
+	visibility public stereotype "interface"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	operation 617474 "notify"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "angles" type class_ref 188802 // Angle
+	  multiplicity "[]"
+	  
+	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Notifies the ChangeListener of a change in the angle array.
+@param angles the array of {@link Angle}.
+"
+	end
+      end
+
+      classrelation 270466 // listener (<unidirectional association>)
+	relation 270466 --->
+	  a role_name "listener" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 270466 // listener (<unidirectional association>)
+	  b parent class_ref 218114 // ChangeListener
+      end
+
+      operation 615682 "AnglePanel"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "title" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convenience constructor using a default key for the properties file.
+@param title the title of the angle panel.
+"
+      end
+
+      operation 615810 "AnglePanel"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "key" explicit_type "String"
+	  param in name "title" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Default constructor with no parameters.
+@param key the key identifying the angles in the properties.
+@param title the title of the angle panel.
+"
+      end
+
+      operation 615938 "validateInput"
+	private explicit_return_type "double"
+	nparams 1
+	  param inout name "textField" explicit_type "JTextField"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 616066 "getAngles"
+	public return_type class_ref 188802 // Angle
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all angles as an array of {@link Angle}. 
+@return an array of {@link Angle}.
+"
+      end
+
+      operation 616194 "notifyChangeListener"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 616322 "setChangeListener"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" type class_ref 218114 // ChangeListener
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sets the change listener that will be notified of any changes, like how change listeners are supposed to work.
+@param listener the listener to be registered.
+"
+      end
+
+      operation 616450 "addAngle"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds an angle and updates all relevant GUI components.
+"
+      end
+
+      operation 616578 "deleteAngle"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Deletes the selected angle and updates all relevant GUI components.
+"
+      end
+
+      operation 616706 "updateGui"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Updates all GUI components.
+"
+      end
+
+      operation 616834 "updateGui"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "angleIndex" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Updates the GUI components for the angle with the passed index.
+@param angleIndex the index of the angle.
+"
+      end
+
+      operation 616962 "loadSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "values" explicit_type "Properties"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 617090 "saveSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "values" explicit_type "Properties"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 617218 "revertGui"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 617346 "saveGui"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 218370 "ButtonPanel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A button panel is a {@link SpecialSetting} containing a single button on which a {@link ActionListener} can be registered.
+
+@author Arno von Borries
+@author Jan Phillip Kretzschmar
+@author Andreas Walscheid
+
+"
+      classrelation 270850 // <generalisation>
+	relation 270850 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 270850 // <generalisation>
+	  b parent class_ref 216450 // SpecialSetting
+      end
+
+      attribute 249986 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 250114 "button"
+	private explicit_type "JButton"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 618754 "ButtonPanel"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "title" explicit_type "String"
+	  param inout name "actionListener" explicit_type "ActionListener"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param title the title displayed in the button.
+@param actionListener the action listener which will be registered on the button.
+"
+      end
+
+      operation 618882 "enableButton"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Enables the button.
+"
+      end
+
+      operation 619010 "disableButton"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Disables the button.
+"
+      end
+
+      operation 619138 "loadSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "values" explicit_type "Properties"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 619266 "saveSettings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "values" explicit_type "Properties"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 619394 "revertGui"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 619522 "saveGui"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 619650 "notifyChangeListener"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 140930 "components"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 201474 "Settings"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.Properties;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
+import aima.gui.swing.framework.util.GuiBase;
+${definition}"
+      associated_elems
+	class_ref 215682 // Settings
+      end
+    end
+
+    artifact 201858 "AbstractSettingsListener"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.robotics.MonteCarloLocalization;
+import aima.core.robotics.impl.map.MclCartesianPlot2D;
+import aima.gui.swing.applications.robotics.GenericMonteCarloLocalization2DApp;
+import aima.gui.swing.applications.robotics.components.Settings.ISettingsListener;
+${definition}"
+      associated_elems
+	class_ref 217730 // AbstractSettingsListener
+      end
+    end
+
+    artifact 201986 "AnglePanel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.Properties;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import aima.core.robotics.impl.datatypes.Angle;
+import aima.gui.swing.framework.util.GuiBase;
+import aima.gui.swing.framework.util.ListTableModel;
+${definition}"
+      associated_elems
+	class_ref 217858 // AnglePanel
+      end
+    end
+
+    artifact 202114 "ButtonPanel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.util.Properties;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import aima.gui.swing.applications.robotics.components.Settings.SpecialSetting;
+import aima.gui.swing.framework.util.GuiBase;
+${definition}"
+      associated_elems
+	class_ref 218370 // ButtonPanel
+      end
+    end
+
+    artifact 202242 "IRobotGui"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.gui.swing.applications.robotics.GenericMonteCarloLocalization2DApp;
+${definition}"
+      associated_elems
+	class_ref 215554 // IRobotGui
+      end
+    end
+
+    artifact 202370 "KeyPanel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import aima.gui.swing.framework.util.GuiBase;
+${definition}"
+      associated_elems
+	class_ref 216834 // KeyPanel
+      end
+    end
+  end
+end

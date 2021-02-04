@@ -1,0 +1,38 @@
+class VacuumWorldResults
+!!!188418.java!!!	VacuumWorldResults(inout agent : Agent)
+            this.agent = agent;
+!!!188546.java!!!	results(inout state : VacuumEnvironmentState, inout action : Action) : VacuumEnvironmentState
+            List<VacuumEnvironmentState> results = new ArrayList<>();
+            // add clone of state to results, modify later...
+            VacuumEnvironmentState s = state.clone();
+            results.add(s);
+
+            String currentLocation = state.getAgentLocation(agent);
+            String adjacentLocation = (currentLocation.equals(VacuumEnvironment.LOCATION_A))
+                    ? VacuumEnvironment.LOCATION_B : VacuumEnvironment.LOCATION_A;
+
+            if (action == VacuumEnvironment.ACTION_MOVE_RIGHT) {
+                s.setAgentLocation(agent, VacuumEnvironment.LOCATION_B);
+
+            } else if (action == VacuumEnvironment.ACTION_MOVE_LEFT) {
+                s.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
+
+            } else if (action == VacuumEnvironment.ACTION_SUCK) {
+                if (state.getLocationState(currentLocation) == VacuumEnvironment.LocationState.Dirty) {
+                    // always clean current
+                    s.setLocationState(currentLocation, VacuumEnvironment.LocationState.Clean);
+                    // sometimes clean adjacent as well
+                    VacuumEnvironmentState s2 = s.clone();
+                    s2.setLocationState(adjacentLocation, VacuumEnvironment.LocationState.Clean);
+                    if (!s2.equals(s))
+                        results.add(s2);
+                } else {
+                    // sometimes do nothing (-> s unchanged)
+                    // sometimes deposit dirt
+                    VacuumEnvironmentState s2 = s.clone();
+                    s2.setLocationState(currentLocation, VacuumEnvironment.LocationState.Dirty);
+                    if (!s2.equals(s))
+                        results.add(s2);
+                }
+            }
+            return results;

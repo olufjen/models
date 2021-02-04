@@ -1,0 +1,53 @@
+class AndOrSearch
+!!!485890.java!!!	search(inout problem : NondeterministicProblem) : Plan
+		expandedNodes = 0;
+		// OR-SEARCH(problem.INITIAL-STATE, problem, [])
+		Plan<S, A> plan = orSearch(problem.getInitialState(), problem, new Path<>());
+		return plan != null ? Optional.of(plan) : Optional.empty();
+!!!486018.java!!!	orSearch(inout state : S, inout problem : NondeterministicProblem, inout path : Path) : Plan
+		// do metrics
+		expandedNodes++;
+		// if problem.GOAL-TEST(state) then return the empty plan
+		if (problem.testGoal(state))
+			return new Plan<>();
+
+		// if state is on path then return failure
+		if (path.contains(state))
+			return null;
+
+		// for each action in problem.ACTIONS(state) do
+		for (A action : problem.getActions(state)) {
+			// plan <- AND-SEARCH(RESULTS(state, action), problem, [state|path])
+			Plan<S, A> plan = andSearch(problem.getResults(state, action), problem, path.prepend(state));
+			// if plan != failure then return [action|plan]
+			if (plan != null)
+				return plan.prepend(action);
+		}
+		// return failure
+		return null;
+!!!486146.java!!!	andSearch(inout states : List<S>, inout problem : NondeterministicProblem, inout path : Path) : Plan
+		// do metrics, setup
+		expandedNodes++;
+		List<Plan<S, A>> subPlans = new ArrayList<>(states.size());
+		// for each s_i in states do
+		for (S state : states) {
+			// plan_i <- OR-SEARCH(s_i, problem, path)
+			Plan<S, A> subPlan = orSearch(state, problem, path);
+			subPlans.add(subPlan);
+			if (subPlan == null)
+				return null;
+		}
+		if (subPlans.size() == 1) {
+			// no if is needed in this case...
+			return subPlans.get(0);
+		} else {
+			// return [if s_1 then plan_1 ... else if s_n-1 then plan_n-1 else plan_n]
+			Plan<S, A> plan = new Plan<>();
+			for (int i = 0; i < subPlans.size(); i++)
+				plan.addIfStatement(states.get(i), subPlans.get(i));
+			return plan;
+		}
+!!!486274.java!!!	getMetrics() : Metrics
+		Metrics result = new Metrics();
+		result.set("expandedNodes", expandedNodes);
+		return result;

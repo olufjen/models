@@ -1,0 +1,13 @@
+class SettingsListenerList
+!!!607362.java!!!	notify(in key : String, in value : String) : void
+			boolean success = true;
+			for(ISettingsListener listener: listeners) {
+				success = listener.notifySetting(key, value) ? success : false;
+			}
+			if(!success) {
+				GuiBase.showMessageBox("A setting may be mallformed.");
+			}
+!!!607490.java!!!	add(inout listener : Settings::ISettingsListener) : void
+			listeners.add(listener);
+!!!607618.java!!!	remove(inout listener : Settings::ISettingsListener) : void
+			listeners.remove(listener);

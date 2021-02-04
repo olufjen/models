@@ -1,0 +1,44 @@
+class EightPuzzleView
+!!!629378.java!!!	EightPuzzleView()
+			setLayout(new GridLayout(3, 3));
+			Font f = new java.awt.Font(Font.SANS_SERIF, Font.PLAIN, 32);
+			squareButtons = new JButton[9];
+			for (int i = 0; i < 9; i++) {
+				JButton square = new JButton("");
+				square.setFont(f);
+				square.addActionListener(this);
+				squareButtons[i] = square;
+				add(square);
+			}
+!!!629506.java!!!	setEnvironment(inout env : Environment) : void
+			super.setEnvironment(env);
+			showState();
+!!!629634.java!!!	agentAdded(inout agent : Agent, inout source : Environment) : void
+			showState();
+!!!629762.java!!!	agentActed(inout agent : Agent, inout percept : Percept, inout action : Action, inout source : Environment) : void
+			showState();
+			notify((agent == null ? "User: " : "") + action.toString());
+!!!629890.java!!!	showState() : void
+			int[] vals = ((EightPuzzleEnvironment) env).getBoard().getState();
+			for (int i = 0; i < 9; i++) {
+				squareButtons[i].setBackground(vals[i] == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+				squareButtons[i].setText(vals[i] == 0 ? "" : Integer.toString(vals[i]));
+			}
+!!!630018.java!!!	actionPerformed(inout ae : ActionEvent) : void
+			for (int i = 0; i < 9; i++) {
+				if (ae.getSource() == squareButtons[i]) {
+					EightPuzzleController contr = (EightPuzzleController) getController();
+					XYLocation locGap = ((EightPuzzleEnvironment) env).getBoard().getLocationOf(0);
+					if (locGap.getXCoOrdinate() == i / 3) {
+						if (locGap.getYCoOrdinate() == i % 3 - 1)
+							contr.executeUserAction(EightPuzzleBoard.RIGHT);
+						else if (locGap.getYCoOrdinate() == i % 3 + 1)
+							contr.executeUserAction(EightPuzzleBoard.LEFT);
+					} else if (locGap.getYCoOrdinate() == i % 3) {
+						if (locGap.getXCoOrdinate() == i / 3 - 1)
+							contr.executeUserAction(EightPuzzleBoard.DOWN);
+						else if (locGap.getXCoOrdinate() == i / 3 + 1)
+							contr.executeUserAction(EightPuzzleBoard.UP);
+					}
+				}
+			}

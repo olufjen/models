@@ -1,0 +1,50 @@
+class ModelBasedReflexVacuumAgent
+!!!183170.java!!!	ModelBasedReflexVacuumAgent()
+		super(new ModelBasedReflexAgentProgram() {
+			@Override
+			protected void init() {
+				setState(new DynamicState());
+				setRules(getRuleSet());
+			}
+
+			protected DynamicState updateState(DynamicState state,
+					Action anAction, Percept percept, Model model) {
+
+				LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept) percept;
+
+				state.setAttribute(ATTRIBUTE_CURRENT_LOCATION,
+						vep.getAgentLocation());
+				state.setAttribute(ATTRIBUTE_CURRENT_STATE,
+						vep.getLocationState());
+				// Keep track of the state of the different locations
+				if (Objects.equals(VacuumEnvironment.LOCATION_A, vep.getAgentLocation())) {
+					state.setAttribute(ATTRIBUTE_STATE_LOCATION_A,
+							vep.getLocationState());
+				} else {
+					state.setAttribute(ATTRIBUTE_STATE_LOCATION_B,
+							vep.getLocationState());
+				}
+				return state;
+			}
+		});
+!!!183298.java!!!	getRuleSet() : Rule
+		// Note: Using a LinkedHashSet so that the iteration order (i.e. implied
+		// precedence) of rules can be guaranteed.
+		Set<Rule> rules = new LinkedHashSet<>();
+
+		rules.add(new Rule(new ANDCondition(new EQUALCondition(
+				ATTRIBUTE_STATE_LOCATION_A,
+				VacuumEnvironment.LocationState.Clean), new EQUALCondition(
+				ATTRIBUTE_STATE_LOCATION_B,
+				VacuumEnvironment.LocationState.Clean)), NoOpAction.NO_OP));
+		rules.add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_STATE,
+				VacuumEnvironment.LocationState.Dirty),
+				VacuumEnvironment.ACTION_SUCK));
+		rules.add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_LOCATION,
+				VacuumEnvironment.LOCATION_A),
+				VacuumEnvironment.ACTION_MOVE_RIGHT));
+		rules.add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_LOCATION,
+				VacuumEnvironment.LOCATION_B),
+				VacuumEnvironment.ACTION_MOVE_LEFT));
+
+		return rules;

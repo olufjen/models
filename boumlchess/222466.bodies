@@ -1,0 +1,61 @@
+class SearchFactory
+!!!642562.java!!!	getInstance() : SearchFactory
+		if (instance == null)
+			instance = new SearchFactory();
+		return instance;
+!!!642690.java!!!	getSearchStrategyNames() : String
+		return new String[] { "Depth First", "Breadth First",
+				"Iterative Deepening", "Uniform Cost", "Greedy Best First",
+				"A*", "Recursive Best First", "Recursive Best First No Loops", "Hill Climbing" };
+!!!642818.java!!!	getQSearchImplNames() : String
+		return new String[] { "Tree Search", "Graph Search", "Graph Search red Fr.",
+				"Graph Search BFS", "Bidirectional Search" };
+!!!642946.java!!!	createSearch(in strategy : int, in qSearchImpl : int, inout h : ToDoubleFunction<Node<S, A>>) : SearchForActions
+		QueueSearch<S, A> qs = null;
+		SearchForActions<S, A> result = null;
+		switch (qSearchImpl) {
+		case TREE_SEARCH:
+			qs = new TreeSearch<>();
+			break;
+		case GRAPH_SEARCH:
+			qs = new GraphSearch<>();
+			break;
+		case GRAPH_SEARCH_RED_FRONTIER:
+			qs = new GraphSearchReducedFrontier<>();
+			break;
+		case GRAPH_SEARCH_BFS:
+			qs = new GraphSearchBFS<>();
+			break;
+		case BIDIRECTIONAL_SEARCH:
+			qs = new BidirectionalSearch<>();
+		}
+		switch (strategy) {
+		case DF_SEARCH:
+			result = new DepthFirstSearch<>(qs);
+			break;
+		case BF_SEARCH:
+			result = new BreadthFirstSearch<>(qs);
+			break;
+		case ID_SEARCH:
+			result = new IterativeDeepeningSearch<>();
+			break;
+		case UC_SEARCH:
+			result = new UniformCostSearch<>(qs);
+			break;
+		case GBF_SEARCH:
+			result = new GreedyBestFirstSearch<>(qs, h);
+			break;
+		case ASTAR_SEARCH:
+			result = new AStarSearch<>(qs, h);
+			break;
+		case RBF_SEARCH:
+			result = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(h));
+			break;
+		case RBF_AL_SEARCH:
+			result = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(h), true);
+			break;
+		case HILL_SEARCH:
+			result = new HillClimbingSearch<>(h);
+			break;
+		}
+		return result;

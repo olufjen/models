@@ -1,0 +1,15 @@
+class ProofStepChainReduction
+!!!308738.java!!!	ProofStepChainReduction(inout reduction : Chain, inout nearParent : Chain, inout farParent : Chain, inout subst : Map<Variable, Term>)
+		this.reduction = reduction;
+		this.nearParent = nearParent;
+		this.farParent = farParent;
+		this.subst = subst;
+		this.predecessors.add(farParent.getProofStep());
+		this.predecessors.add(nearParent.getProofStep());
+!!!308866.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!308994.java!!!	getProof() : String
+		return reduction.toString();
+!!!309122.java!!!	getJustification() : String
+		return "Reduction: " + nearParent.getProofStep().getStepNumber() + ","
+				+ farParent.getProofStep().getStepNumber() + " " + subst;

@@ -1,0 +1,1250 @@
+format 223
+"approx" // aima::core::probability::bayes::approx
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/bayes/approx/"
+  java_package "aima.core.probability.bayes.approx"
+  classview 135682 "approx"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 178178 "BayesInferenceApproxAdapter"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "An Adapter class to let BayesSampleInference implementations to be used in
+places where calls are being made to the BayesInference API.
+
+@author Ciaran O'Reilly
+"
+      classrelation 203138 // <realization>
+	relation 203138 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 203138 // <realization>
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      attribute 180994 "N"
+	private explicit_type "int"
+	init_value " 1000"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 203266 // adaptee (<unidirectional association>)
+	relation 203266 --->
+	  a role_name "adaptee" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 203266 // adaptee (<unidirectional association>)
+	  b parent class_ref 178306 // BayesSampleInference
+      end
+
+      operation 396546 "BayesInferenceApproxAdapter"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "adaptee" type class_ref 178306 // BayesSampleInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 396674 "BayesInferenceApproxAdapter"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "adaptee" type class_ref 178306 // BayesSampleInference
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 396802 "getN"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the number of Samples when calling the BayesSampleInference
+        adaptee.
+"
+      end
+
+      operation 396930 "setN"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "n" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param n
+           the numver of samples to be generated when calling the
+           BayesSampleInference adaptee.
+"
+      end
+
+      operation 397058 "getAdaptee"
+	public return_type class_ref 178306 // BayesSampleInference
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return The BayesSampleInference implementation to be adapted to the
+        BayesInference API.
+"
+      end
+
+      operation 397186 "setAdaptee"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "adaptee" type class_ref 178306 // BayesSampleInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param adaptee
+           the BayesSampleInference implementation be be apated to the
+           BayesInference API.
+"
+      end
+
+      operation 397314 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-BayesInference"
+      end
+    end
+
+    class 178306 "BayesSampleInference"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "General interface to be implemented by approximate Bayesian Inference
+algorithms.
+
+@author Ciaran O'Reilly
+"
+      operation 397442 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param X
+           the query variables.
+@param observedEvidence
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables
+@param N
+           the total number of samples to be generated
+@return an estimate of <b>P</b>(X|e).
+"
+      end
+    end
+
+    class 178434 "GibbsAsk"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 537.<br>
+<br>
+
+<pre>
+function GIBBS-ASK(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
+  local variables: <b>N</b>, a vector of counts for each value of X, initially zero
+                   Z, the nonevidence variables in bn
+                   <b>x</b>, the current state of the network, initially copied from e
+                   
+  initialize <b>x</b> with random values for the variables in Z
+  for j = 1 to N do
+      for each Z<sub>i</sub> in Z do
+          set the value of Z<sub>i</sub> in <b>x</b> by sampling from <b>P</b>(Z<sub>i</sub>|mb(Z<sub>i</sub>))
+          <b>N</b>[x] <- <b>N</b>[x] + 1 where x is the value of X in <b>x</b>
+  return NORMALIZE(<b>N</b>)
+</pre>
+
+Figure 14.16 The Gibbs sampling algorithm for approximate inference in
+Bayesian networks; this version cycles through the variables, but choosing
+variables at random also works.<br>
+<br>
+<b>Note:</b> The implementation has been extended to handle queries with
+multiple variables. <br>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 203394 // <realization>
+	relation 203394 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 203394 // <realization>
+	  b parent class_ref 178306 // BayesSampleInference
+      end
+
+      classrelation 203522 // randomizer (<unidirectional association>)
+	relation 203522 --->
+	  a role_name "randomizer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 203522 // randomizer (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      operation 397570 "GibbsAsk"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 397698 "GibbsAsk"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 397826 "gibbsAsk"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param inout name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "Nsamples" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function GIBBS-ASK(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
+
+The GIBBS-ASK algorithm in Figure 14.16. For answering queries given
+evidence in a Bayesian Network.
+
+@param X
+           the query variables
+@param e
+           observed values for variables E
+@param bn
+           a Bayesian network specifying joint distribution
+           <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+@param Nsamples
+           the total number of samples to be generated
+@return an estimate of <b>P</b>(X|e)
+"
+      end
+
+      operation 397954 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-BayesSampleInference"
+      end
+    end
+
+    class 178562 "LikelihoodWeighting"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 534.<br>
+<br>
+
+<pre>
+function LIKELIHOOD-WEIGHTING(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
+  inputs: X, the query variable
+          e, observed values for variables E
+          bn, a Bayesian network specifying joint distribution <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+          N, the total number of samples to be generated
+  local variables: W, a vector of weighted counts for each value of X, initially zero
+  
+  for j = 1 to N do
+      <b>x</b>,w <- WEIGHTED-SAMPLE(bn,e)
+      W[x] <- W[x] + w where x is the value of X in <b>x</b>
+  return NORMALIZE(W)
+--------------------------------------------------------------------------------------
+function WEIGHTED-SAMPLE(bn, e) returns an event and a weight
+  
+   w <- 1; <b>x</b> <- an event with n elements initialized from e
+   foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+       if X<sub>i</sub> is an evidence variable with value x<sub>i</sub> in e
+           then w <- w * P(X<sub>i</sub> = x<sub>i</sub> | parents(X<sub>i</sub>))
+           else <b>x</b>[i] <- a random sample from <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+   return <b>x</b>, w
+</pre>
+
+Figure 14.15 The likelihood-weighting algorithm for inference in Bayesian
+networks. In WEIGHTED-SAMPLE, each nonevidence variable is sampled according
+to the conditional distribution given the values already sampled for the
+variable's parents, while a weight is accumulated based on the likelihood for
+each evidence variable.<br>
+<br>
+<b>Note:</b> The implementation has been extended to handle queries with
+multiple variables. <br>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 203650 // <realization>
+	relation 203650 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 203650 // <realization>
+	  b parent class_ref 178306 // BayesSampleInference
+      end
+
+      classrelation 203778 // randomizer (<unidirectional association>)
+	relation 203778 --->
+	  a role_name "randomizer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 203778 // randomizer (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      operation 398082 "LikelihoodWeighting"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 398210 "LikelihoodWeighting"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 398338 "likelihoodWeighting"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param inout name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function LIKELIHOOD-WEIGHTING(X, e, bn, N) returns an estimate of
+ <b>P</b>(X|e)
+
+The LIKELIHOOD-WEIGHTING algorithm in Figure 14.15. For answering queries
+given evidence in a Bayesian Network.
+
+@param X
+           the query variables
+@param e
+           observed values for variables E
+@param bn
+           a Bayesian network specifying joint distribution
+           <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+@param N
+           the total number of samples to be generated
+@return an estimate of <b>P</b>(X|e)
+"
+      end
+
+      operation 398466 "weightedSample"
+	public return_type class_ref 129026 // Pair
+	nparams 2
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Map<RandomVariable, Object>, Double> ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function WEIGHTED-SAMPLE(bn, e) returns an event and a weight
+
+The WEIGHTED-SAMPLE function in Figure 14.15.
+
+@param e
+           observed values for variables E
+@param bn
+           a Bayesian network specifying joint distribution
+           <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+@return return <b>x</b>, w - an event with its associated weight.
+"
+      end
+
+      operation 398594 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-BayesSampleInference"
+      end
+    end
+
+    class 178690 "ParticleFiltering"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 598.<br>
+<br>
+
+<pre>
+function PARTICLE-FILTERING(<b>e</b>, N, dbn) returns a set of samples for the next time step
+  inputs: <b>e</b>, the new incoming evidence
+          N, the number of samples to be maintained
+          dbn, a DBN with prior <b>P</b>(<b>X</b><sub>0</sub>), transition model <b>P</b>(<b>X</b><sub>1</sub> | <b>X</b><sub>0</sub>), sensor model <b>P</b>(<b>E</b><sub>1</sub> | <b>X</b><sub>1</sub>)
+  persistent: S, a vector of samples of size N, initially generated from <b>P</b>(<b>X</b><sub>0</sub>)
+  local variables: W, a vector of weights of size N
+  
+  for i = 1 to N do
+      S[i] <- sample from <b>P</b>(<b>X</b><sub>1</sub> | <b>X</b><sub>0</sub> = S[i]) /* step 1 
+      W[i] <- <b>P</b>(<b>e</b> | <b>X</b><sub>1</sub> = S[i]) /* step 2
+  S <- WEIGHTED-SAMPLE-WITH-REPLACEMENT(N, S, W) /* step 3
+  return S
+</pre>
+
+Figure 15.17 The particle filtering algorithm implemented as a recursive
+update operation with state (the set of samples). Each of the sampling
+operations involves sampling the relevant slice variables in topological
+order, much as in PRIOR-SAMPLE. The WEIGHTED-SAMPLE-WITH-REPLACEMENT
+operation can be implemented to run in O(N) expected time. The step numbers
+refer to the description in the text.
+
+<ol>
+<li>Each sample is propagated forward by sampling the next state value
+<b>x</b><sub>t+1</sub> given the current value <b>x</b><sub>t</sub> for the
+sample, based on the transition model <b>P</b>(<b>X</b><sub>t+1</sub> |
+<b>x</b><sub>t</sub>).</li>
+<li>Each sample is weighted by the likelihood it assigns to the new evidence,
+P(<b>e</b><sub>t+1</sub> | <b>x</b><sub>t+1</sub>).</li>
+<li>The population is resampled to generate a new population of N samples.
+Each new sample is selected from the current population; the probability that
+a particular sample is selected is proportional to its weight. The new
+samples are unweighted.</li>
+</ol>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      attribute 181122 "N"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 203906 // dbn (<unidirectional association>)
+	relation 203906 --->
+	  a role_name "dbn" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 203906 // dbn (<unidirectional association>)
+	  b parent class_ref 177922 // DynamicBayesianNetwork
+      end
+
+      classrelation 204034 // S (<unidirectional association>)
+	relation 204034 --->
+	  a role_name "S" multiplicity "[][]" init_value " new AssignmentProposition[0][0]" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	    classrelation_ref 204034 // S (<unidirectional association>)
+	  b parent class_ref 176898 // AssignmentProposition
+      end
+
+      classrelation 204162 // randomizer (<unidirectional association>)
+	relation 204162 --->
+	  a role_name "randomizer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 204162 // randomizer (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      classrelation 204290 // priorSampler (<unidirectional association>)
+	relation 204290 --->
+	  a role_name "priorSampler" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 204290 // priorSampler (<unidirectional association>)
+	  b parent class_ref 178818 // PriorSample
+      end
+
+      classrelation 204418 // S_tp1 (<unidirectional association>)
+	relation 204418 --->
+	  a role_name "S_tp1" multiplicity "[][]" init_value " new AssignmentProposition[0][0]" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	    classrelation_ref 204418 // S_tp1 (<unidirectional association>)
+	  b parent class_ref 176898 // AssignmentProposition
+      end
+
+      classrelation 204546 // sensorModel (<unidirectional association>)
+	relation 204546 --->
+	  a role_name "sensorModel" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 204546 // sensorModel (<unidirectional association>)
+	  b parent class_ref 176386 // FiniteProbabilityModel
+      end
+
+      classrelation 204674 // sampleIndexes (<unidirectional association>)
+	relation 204674 --->
+	  a role_name "sampleIndexes" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 204674 // sampleIndexes (<unidirectional association>)
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      operation 398722 "ParticleFiltering"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "N" explicit_type "int"
+	  param inout name "dbn" type class_ref 177922 // DynamicBayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a Particle Filtering instance.
+
+@param N
+           the number of samples to be maintained
+@param dbn
+           a DBN with prior <b>P</b>(<b>X</b><sub>0</sub>), transition
+           model <b>P</b>(<b>X</b><sub>1</sub> | <b>X</b><sub>0</sub>),
+           sensor model <b>P</b>(<b>E</b><sub>1</sub> |
+           <b>X</b><sub>1</sub>)
+"
+      end
+
+      operation 398850 "ParticleFiltering"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "N" explicit_type "int"
+	  param inout name "dbn" type class_ref 177922 // DynamicBayesianNetwork
+	  param inout name "randomizer" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Construct a Particle Filtering instance.
+
+@param N
+           the number of samples to be maintained
+@param dbn
+           a DBN with prior <b>P</b>(<b>X</b><sub>0</sub>), transition
+           model <b>P</b>(<b>X</b><sub>1</sub> | <b>X</b><sub>0</sub>),
+           sensor model <b>P</b>(<b>E</b><sub>1</sub> |
+           <b>X</b><sub>1</sub>)
+@param randomizer
+           a Randomizer to be used for sampling purposes.
+"
+      end
+
+      operation 398978 "particleFiltering"
+	public return_type class_ref 176898 // AssignmentProposition
+	nparams 1
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][] ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The particle filtering algorithm implemented as a recursive update
+operation with state (the set of samples).
+
+@param e
+           <b>e</b>, the new incoming evidence
+@return a vector of samples of size N, where each sample is a vector of
+        assignment propositions for the X_1 state variables, which is
+        intended to represent the generated sample for time t.
+"
+      end
+
+      operation 399106 "initPersistent"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "N" explicit_type "int"
+	  param inout name "dbn" type class_ref 177922 // DynamicBayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Reset this instances persistent variables to be used between called to
+particleFiltering().
+
+@param N
+           the number of samples to be maintained
+@param dbn
+           a DBN with prior <b>P</b>(<b>X</b><sub>0</sub>), transition
+           model <b>P</b>(<b>X</b><sub>1</sub> | <b>X</b><sub>0</sub>),
+           sensor model <b>P</b>(<b>E</b><sub>1</sub> |
+           <b>X</b><sub>1</sub>)
+"
+      end
+
+      operation 399234 "sampleFromTransitionModel"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "i" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 399362 "weightedSampleWithReplacement"
+	private return_type class_ref 176898 // AssignmentProposition
+	nparams 3
+	  param in name "N" explicit_type "int"
+	  param inout name "S" type class_ref 176898 // AssignmentProposition
+	multiplicity "[][]"
+	  param inout name "W" explicit_type "double"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][] ${name}${(}${t0} ${p0}, ${t1}[][] ${p1}, ${t2}[] ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The population is re-sampled to generate a new population of N samples.
+Each new sample is selected from the current population; the probability
+that a particular sample is selected is proportional to its weight. The
+new samples are un-weighted.
+
+@param N
+           the number of samples
+@param S
+           a vector of samples of size N, where each sample is a vector
+           of assignment propositions for the X_1 state variables, which
+           is intended to represent the sample for time t
+@param W
+           a vector of weights of size N
+
+@return a new vector of samples of size N sampled from S based on W
+"
+      end
+    end
+
+    class 178818 "PriorSample"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 531.<br>
+<br>
+
+<pre>
+function PRIOR-SAMPLE(bn) returns an event sampled from the prior specified by bn
+  inputs: bn, a Bayesian network specifying joint distribution <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+
+  x <- an event with n elements
+  foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+     x[i] <- a random sample from <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+  return x
+</pre>
+
+Figure 14.13 A sampling algorithm that generates events from a Bayesian
+network. Each variable is sampled according to the conditional distribution
+given the values already sampled for the variable's parents.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 204802 // randomizer (<unidirectional association>)
+	relation 204802 --->
+	  a role_name "randomizer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 204802 // randomizer (<unidirectional association>)
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      operation 399490 "PriorSample"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 399618 "PriorSample"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 399746 "priorSample"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 1
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Object> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function PRIOR-SAMPLE(bn) returns an event sampled from the prior
+ specified by bn
+
+The PRIOR-SAMPLE algorithm in Figure 14.13. A sampling algorithm that
+generates events from a Bayesian network. Each variable is sampled
+according to the conditional distribution given the values already
+sampled for the variable's parents.
+
+@param bn
+           a Bayesian network specifying joint distribution
+           <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+@return an event sampled from the prior specified by bn
+"
+      end
+    end
+
+    class 178946 "RejectionSampling"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 533.<br>
+<br>
+
+<pre>
+function REJECTION-SAMPLING(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
+  inputs: X, the query variable
+          e, observed values for variables E
+          bn, a Bayesian network
+          N, the total number of samples to be generated
+  local variables: <b>N</b>, a vector of counts for each value of X, initially zero
+  
+  for j = 1 to N do
+      <b>x</b> <- PRIOR-SAMPLE(bn)
+      if <b>x</b> is consistent with e then
+         <b>N</b>[x] <- <b>N</b>[x] + 1 where x is the value of X in <b>x</b>
+  return NORMALIZE(<b>N</b>)
+</pre>
+
+Figure 14.14 The rejection-sampling algorithm for answering queries given
+evidence in a Bayesian Network.<br>
+<br>
+<b>Note:</b> The implementation has been extended to handle queries with
+multiple variables. <br>
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+"
+      classrelation 204930 // <realization>
+	relation 204930 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 204930 // <realization>
+	  b parent class_ref 178306 // BayesSampleInference
+      end
+
+      classrelation 205058 // ps (<unidirectional association>)
+	relation 205058 --->
+	  a role_name "ps" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 205058 // ps (<unidirectional association>)
+	  b parent class_ref 178818 // PriorSample
+      end
+
+      operation 399874 "RejectionSampling"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 400002 "RejectionSampling"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "ps" type class_ref 178818 // PriorSample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 400130 "rejectionSampling"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param inout name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "Nsamples" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function REJECTION-SAMPLING(X, e, bn, N) returns an estimate of
+ <b>P</b>(X|e)
+
+The REJECTION-SAMPLING algorithm in Figure 14.14. For answering queries
+given evidence in a Bayesian Network.
+
+@param X
+           the query variables
+@param e
+           observed values for variables E
+@param bn
+           a Bayesian network
+@param Nsamples
+           the total number of samples to be generated
+@return an estimate of <b>P</b>(X|e)
+"
+      end
+
+      operation 400258 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " START-BayesSampleInference"
+      end
+
+      operation 400386 "isConsistent"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param inout name "x" explicit_type "Map<RandomVariable, Object>"
+	  param inout name "e" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " END-BayesSampleInference
+
+
+ PRIVATE METHODS
+"
+      end
+    end
+  end
+
+  deploymentview 134402 "approx"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 168450 "BayesInferenceApproxAdapter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesInference;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 178178 // BayesInferenceApproxAdapter
+      end
+    end
+
+    artifact 168578 "BayesSampleInference"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.proposition.AssignmentProposition;
+${definition}"
+      associated_elems
+	class_ref 178306 // BayesSampleInference
+      end
+    end
+
+    artifact 168706 "GibbsAsk"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.ProbabilityTable;
+import aima.core.util.JavaRandomizer;
+import aima.core.util.Randomizer;
+${definition}"
+      associated_elems
+	class_ref 178434 // GibbsAsk
+      end
+    end
+
+    artifact 168834 "LikelihoodWeighting"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.ProbabilityTable;
+import aima.core.util.JavaRandomizer;
+import aima.core.util.Randomizer;
+import aima.core.util.datastructure.Pair;
+${definition}"
+      associated_elems
+	class_ref 178562 // LikelihoodWeighting
+      end
+    end
+
+    artifact 168962 "ParticleFiltering"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.Map;
+import aima.core.probability.FiniteProbabilityModel;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.DynamicBayesianNetwork;
+import aima.core.probability.bayes.exact.EliminationAsk;
+import aima.core.probability.bayes.model.FiniteBayesModel;
+import aima.core.probability.domain.FiniteIntegerDomain;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.RandVar;
+import aima.core.util.JavaRandomizer;
+import aima.core.util.Randomizer;
+import aima.core.util.Util;
+${definition}"
+      associated_elems
+	class_ref 178690 // ParticleFiltering
+      end
+    end
+
+    artifact 169090 "PriorSample"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.util.ProbUtil;
+import aima.core.util.JavaRandomizer;
+import aima.core.util.Randomizer;
+${definition}"
+      associated_elems
+	class_ref 178818 // PriorSample
+      end
+    end
+
+    artifact 169218 "RejectionSampling"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.probability.util.ProbUtil;
+import aima.core.probability.util.ProbabilityTable;
+${definition}"
+      associated_elems
+	class_ref 178946 // RejectionSampling
+      end
+    end
+  end
+end

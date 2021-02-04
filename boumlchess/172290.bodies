@@ -1,0 +1,100 @@
+class WalkSAT
+!!!364546.java!!!	walkSAT(inout clauses : Set<Clause>, in p : double, in maxFlips : int) : Model
+		assertLegalProbability(p);
+		
+		// model <- a random assignment of true/false to the symbols in clauses
+		Model model = randomAssignmentToSymbolsInClauses(clauses);
+		// for i = 1 to max_flips do (Note: maxFlips < 0 means infinity)
+		for (int i = 0; i < maxFlips || maxFlips < 0; i++) {
+			// if model satisfies clauses then return model
+			if (model.satisfies(clauses)) {
+				return model;
+			}
+
+			// clause <- a randomly selected clause from clauses that is false
+			// in model
+			Clause clause = randomlySelectFalseClause(clauses, model);
+
+			// with probability p flip the value in model of a randomly selected
+			// symbol from clause
+			if (random.nextDouble() < p) {
+				model = model.flip(randomlySelectSymbolFromClause(clause));
+			} else {
+				// else flip whichever symbol in clause maximizes the number of
+				// satisfied clauses
+				model = flipSymbolInClauseMaximizesNumberSatisfiedClauses(
+						clause, clauses, model);
+			}
+		}
+
+		// return failure
+		return null;
+!!!364802.java!!!	WalkSAT(inout random : Random)
+		this.random = random;
+!!!364930.java!!!	assertLegalProbability(in p : double) : void
+		if (p < 0 || p > 1) {
+			throw new IllegalArgumentException("p is not a legal propbability value [0-1]: "+p);
+		}
+!!!365058.java!!!	randomAssignmentToSymbolsInClauses(inout clauses : Set<Clause>) : Model
+		// Collect the symbols in clauses
+		Set<PropositionSymbol> symbols = new LinkedHashSet<PropositionSymbol>();
+		for (Clause c : clauses) {
+			symbols.addAll(c.getSymbols());
+		}
+
+		// Make initial set of assignments
+		Map<PropositionSymbol, Boolean> values = new HashMap<PropositionSymbol, Boolean>();
+		for (PropositionSymbol symbol : symbols) {
+			// a random assignment of true/false to the symbols in clauses
+			values.put(symbol, random.nextBoolean());
+		}
+
+		Model result = new Model(values);
+
+		return result;
+!!!365186.java!!!	randomlySelectFalseClause(inout clauses : Set<Clause>, inout model : Model) : Clause
+		// Collect the clauses that are false in the model
+		List<Clause> falseClauses = new ArrayList<Clause>();
+		for (Clause c : clauses) {
+			if (Boolean.FALSE.equals(model.determineValue(c))) {
+				falseClauses.add(c);
+			}
+		}
+
+		// a randomly selected clause from clauses that is false
+		Clause result = falseClauses.get(random.nextInt(falseClauses.size()));
+		return result;
+!!!365314.java!!!	randomlySelectSymbolFromClause(inout clause : Clause) : PropositionSymbol
+		// all the symbols in clause
+		Set<PropositionSymbol> symbols = clause.getSymbols();
+
+		// a randomly selected symbol from clause
+		PropositionSymbol result = (new ArrayList<PropositionSymbol>(symbols))
+				.get(random.nextInt(symbols.size()));
+		return result;
+!!!365442.java!!!	flipSymbolInClauseMaximizesNumberSatisfiedClauses(inout clause : Clause, inout clauses : Set<Clause>, inout model : Model) : Model
+		Model result = model;
+
+		// all the symbols in clause
+		Set<PropositionSymbol> symbols = clause.getSymbols();
+		int maxClausesSatisfied = -1;
+		for (PropositionSymbol symbol : symbols) {
+			Model flippedModel = result.flip(symbol);
+			int numberClausesSatisfied = 0;
+			for (Clause c : clauses) {
+				if (Boolean.TRUE.equals(flippedModel.determineValue(c))) {
+					numberClausesSatisfied++;
+				}
+			}
+			// test if this symbol flip is the new maximum
+			if (numberClausesSatisfied > maxClausesSatisfied) {
+				result              = flippedModel;
+				maxClausesSatisfied = numberClausesSatisfied;
+				if (numberClausesSatisfied == clauses.size()) {
+					// i.e. satisfies all clauses
+					break; // this is our goal.
+				}
+			}
+		}
+
+		return result;

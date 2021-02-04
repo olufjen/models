@@ -1,0 +1,3107 @@
+format 223
+"fol" // aima::core::logic::fol
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/logic/fol/"
+  java_package "aima.core.logic.fol"
+  package_ref 133634 // kb
+
+  package_ref 133890 // domain
+
+  package_ref 134018 // parsing
+
+  classview 133762 "fol"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 156674 "CNFConverter"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 345.<br>
+<br>
+Every sentence of first-order logic can be converted into an inferentially
+equivalent CNF sentence.<br>
+<br>
+<b>Note:</b> Transformation rules extracted from 346 and 347, which are
+essentially the INSEADO method outlined in: <a
+href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture09.pdf\"
+>INSEADO Rules</a>
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      classrelation 163458 // parser (<unidirectional association>)
+	relation 163458 --->
+	  a role_name "parser" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 163458 // parser (<unidirectional association>)
+	  b parent class_ref 156802 // FOLParser
+      end
+
+      classrelation 163586 // substVisitor (<unidirectional association>)
+	relation 163586 --->
+	  a role_name "substVisitor" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 163586 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 257922 "CNFConverter"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "parser" type class_ref 156802 // FOLParser
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 258050 "convertToCNF"
+	public return_type class_ref 157058 // CNF
+	nparams 1
+	  param inout name "aSentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence as a list of clauses, where each clause is
+a disjunction of literals.
+
+@param aSentence
+           a sentence in first order logic (predicate calculus)
+
+@return the specified sentence as a list of clauses, where each clause is
+        a disjunction of literals.
+"
+      end
+    end
+
+    class 156930 "SubstVisitor"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 166530 // <generalisation>
+	relation 166530 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 166530 // <generalisation>
+	  b parent class_ref 160642 // AbstractFOLVisitor
+      end
+
+      operation 273794 "SubstVisitor"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 273922 "subst"
+	public return_type class_ref 149634 // Sentence
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Note: Refer to Artificial Intelligence A Modern Approach (3rd Edition):
+page 323.
+
+@param theta
+           a substitution.
+@param sentence
+           the substitution has been applied to.
+@return a new Sentence representing the result of applying the
+        substitution theta to aSentence.
+
+"
+      end
+
+      operation 274050 "subst"
+	public return_type class_ref 160770 // Term
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "aTerm" type class_ref 160770 // Term
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274178 "subst"
+	public return_type class_ref 157826 // Function
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "function" type class_ref 157826 // Function
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274306 "subst"
+	public return_type class_ref 148738 // Literal
+	nparams 2
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "literal" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274434 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+@Override
+"
+	
+	
+	
+      end
+
+      operation 274562 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 157186 "ImplicationsOut"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 163714 // <realization>
+	relation 163714 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 163714 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 259202 "ImplicationsOut"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259330 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259458 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259586 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259714 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259842 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 259970 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "notSentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260098 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260226 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 158338 "NegationsIn"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 163842 // <realization>
+	relation 163842 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 163842 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 260354 "NegationsIn"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260482 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260610 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260738 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260866 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 260994 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261122 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "notSentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261250 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261378 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 158466 "StandardizeQuantiferVariables"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 163970 // <realization>
+	relation 163970 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 163970 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      classrelation 164098 // quantifiedIndexical (<unidirectional association>)
+	relation 164098 --->
+	  a role_name "quantifiedIndexical" init_value " new StandardizeApartIndexical() {
+		private int index = 0;
+
+		public String getPrefix() {
+			return \"q\";
+		}
+
+		public int getNextIndex() {
+			return index++;
+		}
+	}" private
+	    comment " Just use a localized indexical here.
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 164098 // quantifiedIndexical (<unidirectional association>)
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      classrelation 164226 // substVisitor (<unidirectional association>)
+	relation 164226 --->
+	  a role_name "substVisitor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 164226 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 261506 "StandardizeQuantiferVariables"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "substVisitor" type class_ref 156930 // SubstVisitor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261634 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261762 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 261890 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262018 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262146 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262274 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262402 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262530 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+    end
+
+    class 158594 "StandardizeApartIndexical"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      operation 269314 "getPrefix"
+	public explicit_return_type "String"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 269442 "getNextIndex"
+	public explicit_return_type "int"
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 158722 "RemoveQuantifiers"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 164354 // <realization>
+	relation 164354 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 164354 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      classrelation 164482 // parser (<unidirectional association>)
+	relation 164482 --->
+	  a role_name "parser" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 164482 // parser (<unidirectional association>)
+	  b parent class_ref 156802 // FOLParser
+      end
+
+      classrelation 164610 // substVisitor (<unidirectional association>)
+	relation 164610 --->
+	  a role_name "substVisitor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 164610 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 262658 "RemoveQuantifiers"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "parser" type class_ref 156802 // FOLParser
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262786 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 262914 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263042 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263170 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263298 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263426 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263554 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263682 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+    end
+
+    class 158850 "DistributeOrOverAnd"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 164738 // <realization>
+	relation 164738 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 164738 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 263810 "DistributeOrOverAnd"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 263938 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264066 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264194 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264322 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264450 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264578 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264706 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 264834 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 158978 "CNFConstructor"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 164866 // <realization>
+	relation 164866 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 164866 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 264962 "CNFConstructor"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265090 "construct"
+	public return_type class_ref 157058 // CNF
+	nparams 1
+	  param inout name "orDistributedOverAnd" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265218 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265346 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265474 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265602 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265730 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265858 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 265986 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 266114 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      class 159106 "ArgData"
+	visibility package 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 164994 // clauses (<unidirectional association>)
+	  relation 164994 --->
+	    stereotype "List"
+	    a role_name "clauses" init_value " new ArrayList<Clause>()" public
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 164994 // clauses (<unidirectional association>)
+	    b parent class_ref 148610 // Clause
+	end
+
+	attribute 165890 "negated"
+	  public explicit_type "boolean"
+	  init_value " false"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 266242 "ArgData"
+	  public explicit_return_type ""
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+    end
+
+    class 159234 "Connectors"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      attribute 166018 "AND"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"AND\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 166146 "OR"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"OR\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 166274 "NOT"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"NOT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 166402 "IMPLIES"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"=>\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 166530 "BICOND"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"<=>\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 266370 "isAND"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "connector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 266498 "isOR"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "connector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 266626 "isNOT"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "connector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 266754 "isIMPLIES"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "connector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 266882 "isBICOND"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "connector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 159362 "PredicateCollector"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+
+"
+      classrelation 165122 // <realization>
+	relation 165122 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 165122 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 267010 "PredicateCollector"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 267138 "getPredicates"
+	public return_type class_ref 157442 // Predicate
+	nparams 1
+	  param inout name "s" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 267266 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "p" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 267394 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 267522 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "variable" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 267650 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 267778 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 267906 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 268034 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 268162 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 159490 "Quantifiers"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      attribute 166658 "FORALL"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"FORALL\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 166786 "EXISTS"
+	class_attribute const_attribute public explicit_type "String"
+	init_value " \"EXISTS\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 268290 "isFORALL"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "quantifier" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 268418 "isEXISTS"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "quantifier" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 159618 "StandardizeApart"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 165250 // variableCollector (<unidirectional association>)
+	relation 165250 --->
+	  a role_name "variableCollector" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 165250 // variableCollector (<unidirectional association>)
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 165378 // substVisitor (<unidirectional association>)
+	relation 165378 --->
+	  a role_name "substVisitor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 165378 // substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 268546 "StandardizeApart"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 268674 "StandardizeApart"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "variableCollector" type class_ref 159746 // VariableCollector
+	  param inout name "substVisitor" type class_ref 156930 // SubstVisitor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 268802 "standardizeApart"
+	public return_type class_ref 159874 // StandardizeApartResult
+	nparams 2
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see page 327."
+      end
+
+      operation 268930 "standardizeApart"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "clause" type class_ref 148610 // Clause
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 269058 "standardizeApart"
+	public return_type class_ref 160002 // Chain
+	nparams 2
+	  param inout name "chain" type class_ref 160002 // Chain
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 269186 "standardizeApart"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "l1Literals" explicit_type "List<Literal>"
+	  param inout name "l2Literals" explicit_type "List<Literal>"
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 159746 "VariableCollector"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ravi Mohan
+@author Ciaran O'Reilly
+"
+      classrelation 166786 // <realization>
+	relation 166786 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 166786 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 276226 "VariableCollector"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276354 "collectAllVariables"
+	public return_type class_ref 157698 // Variable
+	nparams 1
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: The set guarantees the order in which they were
+ found."
+      end
+
+      operation 276482 "collectAllVariables"
+	public return_type class_ref 157698 // Variable
+	nparams 1
+	  param inout name "term" type class_ref 160770 // Term
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276610 "collectAllVariables"
+	public return_type class_ref 157698 // Variable
+	nparams 1
+	  param inout name "clause" type class_ref 148610 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276738 "collectAllVariables"
+	public return_type class_ref 157698 // Variable
+	nparams 1
+	  param inout name "chain" type class_ref 160002 // Chain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276866 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 276994 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 277122 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "predicate" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 277250 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 277378 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 277506 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 277634 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 277762 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 159874 "StandardizeApartResult"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 165890 // originalSentence (<unidirectional association>)
+	relation 165890 --->
+	  a role_name "originalSentence" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 165890 // originalSentence (<unidirectional association>)
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 166018 // standardized (<unidirectional association>)
+	relation 166018 --->
+	  a role_name "standardized" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 166018 // standardized (<unidirectional association>)
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 166146 // forwardSubstitution (<unidirectional association>)
+	relation 166146 --->
+	  stereotype "Map"
+	  a role_name "forwardSubstitution" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 166146 // forwardSubstitution (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      classrelation 166274 // reverseSubstitution (<unidirectional association>)
+	relation 166274 --->
+	  stereotype "Map"
+	  a role_name "reverseSubstitution" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 166274 // reverseSubstitution (<unidirectional association>)
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 271874 "StandardizeApartResult"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "originalSentence" type class_ref 149634 // Sentence
+	  param inout name "standardized" type class_ref 149634 // Sentence
+	  param inout name "forwardSubstitution" explicit_type "Map<Variable, Term>"
+	  param inout name "reverseSubstitution" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272002 "getOriginalSentence"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272130 "getStandardized"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272258 "getForwardSubstitution"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 272386 "getReverseSubstitution"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 160130 "StandardizeApartIndexicalFactory"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class ensures unique standardize apart indexicals are created.
+
+@author Ciaran O'Reilly
+
+"
+      attribute 166914 "_assignedIndexicals"
+	class_attribute private explicit_type "Character, Integer"
+	init_value " new HashMap<Character, Integer>()"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 269570 "flush"
+	class_operation public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " For use in test cases, where predictable behavior is expected."
+      end
+
+      operation 269698 "newStandardizeApartIndexical"
+	class_operation public return_type class_ref 158594 // StandardizeApartIndexical
+	nparams 1
+	  param inout name "preferredPrefix" explicit_type "Character"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 160258 "StandardizeApartIndexicalImpl"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 165506 // <realization>
+	relation 165506 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 165506 // <realization>
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      attribute 167042 "prefix"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 167170 "index"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 269826 "StandardizeApartIndexicalImpl"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "prefix" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 269954 "getPrefix"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " START-StandardizeApartIndexical"
+      end
+
+      operation 270082 "getNextIndex"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 160386 "StandardizeApartInPlace"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author Ciaran O'Reilly
+
+"
+      classrelation 165634 // _collectAllVariables (<unidirectional association>)
+	relation 165634 --->
+	  a role_name "_collectAllVariables" init_value " new CollectAllVariables()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 165634 // _collectAllVariables (<unidirectional association>)
+	  b parent class_ref 160514 // CollectAllVariables
+      end
+
+      operation 270210 "standardizeApart"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "c" type class_ref 160002 // Chain
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 270338 "standardizeApart"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "c" type class_ref 148610 // Clause
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 270466 "standardizeApart"
+	class_operation private explicit_return_type "int"
+	nparams 3
+	  param inout name "variables" explicit_type "List<Variable>"
+	  param inout name "expr" explicit_type "Object"
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 270594 "collectAllVariables"
+	class_operation private explicit_return_type "void"
+	nparams 2
+	  param inout name "s" type class_ref 149634 // Sentence
+	  param inout name "vars" explicit_type "List<Variable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 160514 "CollectAllVariables"
+      visibility package 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 165762 // <realization>
+	relation 165762 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 165762 // <realization>
+	  b parent class_ref 157314 // FOLVisitor
+      end
+
+      operation 270722 "CollectAllVariables"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 270850 "visitVariable"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 270978 "visitQuantifiedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158210 // QuantifiedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"unchecked\")
+"
+	
+	
+	
+      end
+
+      operation 271106 "visitPredicate"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "predicate" type class_ref 157442 // Predicate
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 271234 "visitTermEquality"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "equality" type class_ref 157570 // TermEquality
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 271362 "visitConstant"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "constant" type class_ref 149506 // Constant
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 271490 "visitFunction"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "function" type class_ref 157826 // Function
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 271618 "visitNotSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 157954 // NotSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 271746 "visitConnectedSentence"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "sentence" type class_ref 158082 // ConnectedSentence
+	  param inout name "arg" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 160898 "SubsumptionElimination"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 356.<br>
+<br>
+The subsumption method eliminates all sentences that are subsumed by (that
+is, more specific than) an existing sentence in the KB. For example, P(x) is
+in the KB, then there is no sense in adding P(A) and even less sense in
+adding P(A) V Q(B). Subsumption helps keep the KB small and thus helps keep
+the search space small.<br>
+<br>
+<b>Note:</b> <a
+href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture12.pdf\"
+>From slide 17.</a> <br>
+<br>
+Relational Subsumption<br>
+<br>
+A relational clause &Phi; subsumes &Psi; if and only if there is a
+substitution &delta; that, when applied to &Phi;, produces a clause &Phi;'
+that is a subset of &Psi;.
+
+@author Ciaran O'Reilly
+@author Mike Stampone
+"
+      operation 274690 "findSubsumedClauses"
+	class_operation public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the clauses that are subsumed by (that is, more specific than) an
+existing clause in the specified set of clauses.
+
+@param clauses
+           a set of clauses in first order logic
+
+@return the clauses that are subsumed by (that is, more specific than) an
+        existing clause in the specified set of clauses.
+"
+      end
+    end
+
+    class 161026 "Unifier"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.1, page
+328.<br>
+<br>
+
+<pre>
+function UNIFY(x, y, theta) returns a substitution to make x and y identical
+  inputs: x, a variable, constant, list, or compound
+          y, a variable, constant, list, or compound
+          theta, the substitution built up so far (optional, defaults to empty)
+          
+  if theta = failure then return failure
+  else if x = y the return theta
+  else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
+  else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
+  else if COMPOUND?(x) and COMPOUND?(y) then
+      return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
+  else if LIST?(x) and LIST?(y) then
+      return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
+  else return failure
+  
+---------------------------------------------------------------------------------------------------
+
+function UNIFY-VAR(var, x, theta) returns a substitution
+           
+  if {var/val} E theta then return UNIFY(val, x, theta)
+  else if {x/val} E theta then return UNIFY(var, val, theta)
+  else if OCCUR-CHECK?(var, x) then return failure
+  else return add {var/x} to theta
+</pre>
+
+Figure 9.1 The unification algorithm. The algorithm works by comparing the
+structures of the inputs, elements by element. The substitution theta that is
+the argument to UNIFY is built up along the way and is used to make sure that
+later comparisons are consistent with bindings that were established earlier.
+In a compound expression, such as F(A, B), the OP field picks out the
+function symbol F and the ARGS field picks out the argument list (A, B).
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+@author Mike Stampone
+
+"
+      classrelation 166658 // _substVisitor (<unidirectional association>)
+	relation 166658 --->
+	  a role_name "_substVisitor" init_value " new SubstVisitor()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 166658 // _substVisitor (<unidirectional association>)
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 274818 "Unifier"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 274946 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 2
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "y" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+"
+      end
+
+      operation 275074 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "y" type class_ref 161154 // FOLNode
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+@param theta
+           the substitution built up so far
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+"
+      end
+
+      operation 275202 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "x" explicit_type "List<? extends FOLNode>"
+	  param inout name "y" explicit_type "List<? extends FOLNode>"
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+@param theta
+           the substitution built up so far
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+
+ else if LIST?(x) and LIST?(y) then
+ return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))"
+      end
+
+      operation 275330 "occurCheck"
+	protected explicit_return_type "boolean"
+	nparams 3
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+
+ Note: You can subclass and override this method in order
+ to re-implement the OCCUR-CHECK?() to always
+ return false if you want that to be the default
+ behavior, as is the case with Prolog.
+ Note: Implementation is based on unify-bug.pdf document by Peter Norvig:
+ http://norvig.com/unify-bug.pdf"
+      end
+
+      operation 275458 "unifyVar"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+
+<code>
+function UNIFY-VAR(var, x, theta) returns a substitution
+  inputs: var, a variable
+      x, any expression
+      theta, the substitution built up so far
+</code>
+"
+      end
+
+      operation 275586 "unifyOps"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param in name "x" explicit_type "String"
+	  param in name "y" explicit_type "String"
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275714 "args"
+	private explicit_return_type "List<? extends FOLNode>"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275842 "op"
+	private explicit_return_type "String"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 275970 "isCompound"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 276098 "cascadeSubstitution"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 160770 // Term
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " See:
+ http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
+ for need for this."
+      end
+    end
+  end
+
+  deploymentview 131842 "fol"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 149634 "CNFConverter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.kb.data.CNF;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.parsing.FOLParser;
+import aima.core.logic.fol.parsing.FOLVisitor;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 156674 // CNFConverter
+	class_ref 157186 // ImplicationsOut
+	class_ref 158338 // NegationsIn
+	class_ref 158466 // StandardizeQuantiferVariables
+	class_ref 158722 // RemoveQuantifiers
+	class_ref 158850 // DistributeOrOverAnd
+	class_ref 158978 // CNFConstructor
+      end
+    end
+
+    artifact 149890 "Connectors"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 159234 // Connectors
+      end
+    end
+
+    artifact 150018 "PredicateCollector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.logic.fol.parsing.FOLVisitor;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 159362 // PredicateCollector
+      end
+    end
+
+    artifact 150146 "Quantifiers"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 159490 // Quantifiers
+      end
+    end
+
+    artifact 150274 "StandardizeApart"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.inference.proof.ProofStepRenaming;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 159618 // StandardizeApart
+      end
+    end
+
+    artifact 150402 "StandardizeApartIndexical"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 158594 // StandardizeApartIndexical
+      end
+    end
+
+    artifact 150530 "StandardizeApartIndexicalFactory"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.Map;
+${definition}"
+      associated_elems
+	class_ref 160130 // StandardizeApartIndexicalFactory
+	class_ref 160258 // StandardizeApartIndexicalImpl
+      end
+    end
+
+    artifact 150658 "StandardizeApartInPlace"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.FOLVisitor;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 160386 // StandardizeApartInPlace
+	class_ref 160514 // CollectAllVariables
+      end
+    end
+
+    artifact 150786 "StandardizeApartResult"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 159874 // StandardizeApartResult
+      end
+    end
+
+    artifact 151042 "SubstVisitor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.AbstractFOLVisitor;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 156930 // SubstVisitor
+      end
+    end
+
+    artifact 151170 "SubsumptionElimination"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import aima.core.logic.fol.kb.data.Clause;
+${definition}"
+      associated_elems
+	class_ref 160898 // SubsumptionElimination
+      end
+    end
+
+    artifact 151298 "Unifier"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.parsing.ast.FOLNode;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 161026 // Unifier
+      end
+    end
+
+    artifact 151426 "VariableCollector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.LinkedHashSet;
+import java.util.Set;
+import aima.core.logic.fol.kb.data.Chain;
+import aima.core.logic.fol.kb.data.Clause;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.FOLVisitor;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Function;
+import aima.core.logic.fol.parsing.ast.NotSentence;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.QuantifiedSentence;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.TermEquality;
+import aima.core.logic.fol.parsing.ast.Variable;
+${definition}"
+      associated_elems
+	class_ref 159746 // VariableCollector
+      end
+    end
+  end
+
+  package_ref 135170 // inference
+end

@@ -1,0 +1,17 @@
+class TextAreaOutputStream
+!!!573314.java!!!	write(in b : int) : void
+			buffer.append(new char[] { (char) b });
+			if (buffer.toString().contains(eol)) {
+				writeBuffer();
+			}
+!!!573442.java!!!	writeBuffer() : void
+			if (Platform.isFxApplicationThread())
+				append(buffer.toString());
+			else {
+				final String str = buffer.toString();
+				Platform.runLater(() -> append(str));
+			}
+			buffer = new StringBuffer();
+!!!573570.java!!!	flush() : void
+			writeBuffer();
+			super.flush();

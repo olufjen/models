@@ -1,0 +1,82 @@
+class TFMAnswerHandler
+!!!300802.java!!!	TFMAnswerHandler(inout answerLiteral : Literal, inout answerLiteralVariables : Set<Variable>, inout answerClause : Clause, in maxQueryTime : long)
+			this.answerLiteral = answerLiteral;
+			this.answerLiteralVariables = answerLiteralVariables;
+			this.answerClause = answerClause;
+			//
+			this.finishTime = System.currentTimeMillis() + maxQueryTime;
+!!!300930.java!!!	isPossiblyFalse() : boolean
+			return !timedOut && proofs.size() == 0;
+!!!301058.java!!!	isTrue() : boolean
+			return proofs.size() > 0;
+!!!301186.java!!!	isUnknownDueToTimeout() : boolean
+			return timedOut && proofs.size() == 0;
+!!!301314.java!!!	isPartialResultDueToTimeout() : boolean
+			return timedOut && proofs.size() > 0;
+!!!301442.java!!!	getProofs() : Proof
+			return proofs;
+!!!301570.java!!!	isComplete() : boolean
+			return complete;
+!!!301698.java!!!	checkForPossibleAnswers(inout resolvents : Set<Clause>) : void
+			// If no bindings being looked for, then
+			// is just a true false query.
+			for (Clause aClause : resolvents) {
+				if (answerClause.isEmpty()) {
+					if (aClause.isEmpty()) {
+						proofs.add(new ProofFinal(aClause.getProofStep(),
+								new HashMap<Variable, Term>()));
+						complete = true;
+					}
+				} else {
+					if (aClause.isEmpty()) {
+						// This should not happen
+						// as added an answer literal, which
+						// implies the database (i.e. premises) are
+						// unsatisfiable to begin with.
+						throw new IllegalStateException(
+								"Generated an empty clause while looking for an answer, implies original KB is unsatisfiable");
+					}
+
+					if (aClause.isUnitClause()
+							&& aClause.isDefiniteClause()
+							&& aClause
+									.getPositiveLiterals()
+									.get(0)
+									.getAtomicSentence()
+									.getSymbolicName()
+									.equals(answerLiteral.getAtomicSentence()
+											.getSymbolicName())) {
+						Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
+						List<Term> answerTerms = aClause.getPositiveLiterals()
+								.get(0).getAtomicSentence().getArgs();
+						int idx = 0;
+						for (Variable v : answerLiteralVariables) {
+							answerBindings.put(v, answerTerms.get(idx));
+							idx++;
+						}
+						boolean addNewAnswer = true;
+						for (Proof p : proofs) {
+							if (p.getAnswerBindings().equals(answerBindings)) {
+								addNewAnswer = false;
+								break;
+							}
+						}
+						if (addNewAnswer) {
+							proofs.add(new ProofFinal(aClause.getProofStep(),
+									answerBindings));
+						}
+					}
+				}
+
+				if (System.currentTimeMillis() > finishTime) {
+					complete = true;
+					// Indicate that I have run out of query time
+					timedOut = true;
+				}
+			}
+!!!301826.java!!!	toString() : String
+			StringBuilder sb = new StringBuilder();
+			sb.append("isComplete=" + complete);
+			sb.append("\n");
+			sb.append("result=" + proofs);
+			return sb.toString();

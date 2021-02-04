@@ -1,0 +1,297 @@
+format 223
+"hmm" // aima::core::probability::hmm
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/probability/hmm/"
+  java_package "aima.core.probability.hmm"
+  classview 136578 "hmm"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 183042 "HiddenMarkovModel"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 578.<br>
+<br>
+
+The hidden Markov model, or HMM. An HMM is a temporal probabilistic model in
+which the state of the process is described by a single discrete random
+variable. The possible values of the variable are the possible states of the
+world.
+
+@author Ciaran O'Reilly
+@author Ravi Mohan
+
+"
+      operation 418946 "getStateVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the single discrete random variable used to describe the process
+state.
+
+@return the single discrete random variable used to describe the process
+        state.
+"
+      end
+
+      operation 419074 "getTransitionModel"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the transition model:<br>
+<b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>)<br>
+is represented by an S * S matrix <b>T</b> where<br>
+<b>T</b><sub>ij</sub> = P(X<sub>t</sub> = j | X<sub>t-1</sub> = i).
+
+@return the transition model in Matrix form.
+"
+      end
+
+      operation 419202 "getSensorModel"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<Object, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the sensor model in matrix form:<br>
+P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i.<br>
+For mathematical convenience we place each of these values into an S * S
+diagonal matrix.
+
+@return the sensor model in matrix form.
+"
+      end
+
+      operation 419330 "getPrior"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the prior distribution represented as a column vector in Matrix
+form.
+
+@return the prior distribution represented as a column vector in Matrix
+        form.
+"
+      end
+
+      operation 419458 "getEvidence"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "evidence" explicit_type "List<AssignmentProposition>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the specific evidence matrix based on assigned evidence value.
+
+@param evidence
+           the evidence assignment e.
+@return the Matrix representation of this evidence assignment from the
+        sensor model.
+"
+      end
+
+      operation 419586 "createUnitMessage"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return a new column vector in matrix form with all values set to 1.0.
+
+@return a new column vector in matrix form with all values set to 1.0.
+"
+      end
+
+      operation 419714 "convert"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "fromCD" type class_ref 175106 // CategoricalDistribution
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convert a Categorical Distribution into a column vector in Matrix form.
+
+@param fromCD
+           the categorical distribution to be converted.
+@return a column vector in Matrix form of the passed in categorical
+        distribution.
+"
+      end
+
+      operation 419842 "convert"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "fromMessage" type class_ref 152194 // Matrix
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convert a column vector in Matrix form to a Categorical Distribution.
+
+@param fromMessage
+           the column vector in Matrix form to be converted.
+@return a categorical distribution representation of the passed in column
+        vector.
+"
+      end
+
+      operation 419970 "convert"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 1
+	  param inout name "matrixs" explicit_type "List<Matrix>"
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Convert a list of column vectors in Matrix form into a corresponding list
+of Categorical Distributions.
+
+@param matrixs
+           the column vectors in matrix form to be converted.
+@return a corresponding list of Categorical Distribution representation
+        of the passed in column vectors.
+"
+      end
+
+      operation 420098 "normalize"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a normalized column vector in matrix form of the passed in column
+vector.
+
+@param m
+           a column vector representation in matrix form.
+@return a normalized column vector of the passed in column vector.
+"
+      end
+    end
+  end
+
+  deploymentview 135298 "hmm"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 173186 "HiddenMarkovModel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Map;
+import aima.core.probability.CategoricalDistribution;
+import aima.core.probability.RandomVariable;
+import aima.core.probability.proposition.AssignmentProposition;
+import aima.core.util.math.Matrix;
+${definition}"
+      associated_elems
+	class_ref 183042 // HiddenMarkovModel
+      end
+    end
+  end
+
+  package_ref 137730 // exact
+
+  package_ref 137986 // impl
+end

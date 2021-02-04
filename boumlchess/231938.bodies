@@ -1,0 +1,767 @@
+class ChessBoard
+!!!700674.java!!!	ChessBoard(in fileName : String)
+		super();
+/*
+ * From the chess ontology		
+ */
+
+		if (fileName == null) {
+			 chessModel  = new OntologyModel();
+
+		}else
+			chessModel = new OntologyModel(fileName);
+		 gameFile = new FileModel();
+		 System.out.println("Fetching individuals removed");
+//		 individuals = chessModel.getIndividuals(); // These individuals are not used. OLJ 30.08.18
+//		 System.out.println("Found individuals");
+//		 chessModel.getOntindividuals();
+		 chessRules = new ArrayList();
+		 chessRule = new ChessRules();
+		 chessRules.add(chessRule);
+		 chessMove = new ChessMoves();
+		 chessMoves = new ArrayList();
+		 chessMoves.add(chessMove);
+/*
+ * This routines takes a long time !!!		 
+ */
+//		 properties = chessModel.getProperties(individuals);
+// ==================================		 
+		 
+//		 System.out.println("Properties collected");	
+//		 chessModel.getGenRulereasoner().getGraphCapabilities().toString();
+		 System.out.println("Reasoner capabilities "+chessModel.getGenRulereasoner().getGraphCapabilities().toString());	
+		 System.out.println("Clarkpellet reasoner for ontModel "+chessModel.getClarkpelletReasoner().toString());	
+		 modelContainer = chessModel.getModelContainer();
+		 createStartPosition();
+	     moves = new ArrayList<String>();
+	     blackMoves = new ArrayList<String>();
+//		 createOntologyposition();
+!!!700802.java!!!	getAlgebraicNotation() : String
+		return algebraicNotation;
+!!!700930.java!!!	setAlgebraicNotation(in algebraicNotation : String) : void
+		this.algebraicNotation = algebraicNotation;
+!!!701058.java!!!	getGameFile() : FileModel
+		return gameFile;
+!!!701186.java!!!	setGameFile(inout gameFile : FileModel) : void
+		this.gameFile = gameFile;
+!!!701314.java!!!	getChessMoves() : ChessMoves
+		return chessMoves;
+!!!701442.java!!!	setChessMoves(inout chessMoves : ArrayList<ChessMoves>) : void
+		this.chessMoves = chessMoves;
+!!!701570.java!!!	getChessMove() : ChessMoves
+		return chessMove;
+!!!701698.java!!!	setChessMove(inout chessMove : ChessMoves) : void
+		this.chessMove = chessMove;
+!!!701826.java!!!	getChessRule() : ChessRules
+		return chessRule;
+!!!701954.java!!!	getBlackMoves() : List<String>
+		return blackMoves;
+!!!702082.java!!!	setBlackMoves(inout blackMoves : List<String>) : void
+		this.blackMoves = blackMoves;
+!!!702210.java!!!	getMoves() : List<String>
+		return moves;
+!!!702338.java!!!	setMoves(inout moves : List<String>) : void
+		this.moves = moves;
+!!!702466.java!!!	setChessRule(inout chessRule : ChessRules) : void
+		this.chessRule = chessRule;
+!!!702594.java!!!	getChessRules() : ChessRules
+		return chessRules;
+!!!702722.java!!!	setChessRules(inout chessRules : ArrayList<ChessRules>) : void
+		this.chessRules = chessRules;
+!!!702850.java!!!	getExeRules() : ArrayList<String>
+		return exeRules;
+!!!702978.java!!!	setExeRules(inout exeRules : ArrayList<String>) : void
+		this.exeRules = exeRules;
+!!!703106.java!!!	getExeLabels() : ArrayList<String>
+		return exeLabels;
+!!!703234.java!!!	setExeLabels(inout exeLabels : ArrayList<String>) : void
+		this.exeLabels = exeLabels;
+!!!703362.java!!!	emptyGame() : void
+		chessMoves.clear();
+		chessMoves.add(chessMove);
+!!!703490.java!!!	establishMoves(inout position : Position, in oldName : String) : void
+		String move = position.getPositionName();
+		String stroke = "";
+		String startPos = "";
+		if (opposingOccupied) {
+			stroke = "x";
+			startPos = oldName;
+		}
+		String pieceName = position.getUsedBy().getName();
+		String pieceType = position.getUsedBy().getPieceName();
+		if (!pieceType.equals("P"))
+			move = pieceType+stroke+move;
+		else
+			move = startPos+stroke+move;
+		chessMoves = getChessMoves();
+		int last = chessMoves.size() ;
+		chessMove = chessMoves.get(last-1);
+		int moveNr = chessMove.getMoveNr();
+		if (pieceName.contains("w")) {
+			chessMove = new ChessMoves();
+			chessMove.setWhiteMove(move);
+			chessMove.setMoveNr(moveNr+1);
+			chessMoves.add(chessMove);
+		}else {
+			chessMove.setBlackMove(move);
+		}
+		algebraicNotation = move; // contains the algebraic notation of the latest move
+!!!703618.java!!!	findMoves(inout moveLines : List<String>) : void
+		int wInd = -1;
+		boolean endGame = false;boolean moveCount = false;
+		for (String moveLine : moveLines) {
+			if (!moveLine.startsWith("[")) {
+				int len = moveLine.length();
+				int firstInd = 0;
+				int subind = 1;int subinx = 0;
+				if (moveCount)
+					subind = 2;
+				firstInd = moveLine.indexOf(".");
+				do {
+					int secondInn = moveLine.indexOf(".", firstInd+3);
+					if (secondInn < 0) {
+						secondInn = len +2;
+					}
+					String moveNr = moveLine.substring(firstInd-subind, firstInd-subinx);
+					String move = moveLine.substring(firstInd+1, secondInn-2);
+					String wMove = "";
+					String bMove = "";
+					move = move.trim();
+					wInd = move.indexOf(" ") + 1;
+					if (wInd > 0) {
+						wMove = move.substring(0,wInd);
+						bMove = move.substring(wInd);
+						int mv = Integer.parseInt(moveNr);
+						System.out.println("Moves: "+moveNr+ wMove+" "+bMove);
+						firstInd = secondInn+1;subind = 2;subinx = 1;
+						if (mv >= 9) {
+							subind = 3;
+							moveCount = true;
+						}
+						ChessMoves chessMove = new ChessMoves(wMove,bMove,mv);
+						chessMoves.add(chessMove);
+					}
+				endGame = move.contains("1-0");	
+				}while (firstInd < len);
+				if (endGame)
+					break;
+			}
+
+			
+		}
+!!!703746.java!!!	clearChessBoard() : void
+		for (int i = 0; i <64;i++){
+			Position position = positions.get(allPositions[i]);
+			ChessPiece piece = position.getUsedBy();
+//			if (piece != null && !piece.getOntlogyName().equals("WhiteQueen") && !piece.getOntlogyName().equals("BlackQueen") ) {
+				position.setUsedBy();
+//				position.setInUse(false);
+				System.out.println("Clearchessboard: Setting position empty:  "+position.getPositionName());
+//			}
+
+
+		}
+			
+
+!!!703874.java!!!	createStartPosition() : void
+/*		 blackPositions = chessModel.getallgivenBlackpositions();
+		 whitePositions = chessModel.getallgivenWhitepositions();
+		 blackPieces = chessModel.getallgivenBlackpieces();
+		 whitePieces = chessModel.getallgivenWhitepieces();
+		 allTakenPositions = chessModel.getAllTakenPositions();
+		 allVacantPositions = chessModel.getAllVacantPositions();
+		 allChessPositions = chessModel.getAllChessPositions();*/
+		 
+		 blackPositions = modelContainer.getallgivenBlackpositions();
+		 whitePositions = modelContainer.getallgivenWhitepositions();
+		 blackPieces = modelContainer.getallgivenBlackpieces();
+		 whitePieces = modelContainer.getallgivenWhitepieces();
+		 allTakenPositions = modelContainer.getAllTakenPositions();
+		 allVacantPositions = modelContainer.getAllVacantPositions();
+		 allChessPositions = modelContainer.getAllChessPositions();
+		if (positions != null){
+			positions = null;
+		}
+		positions = new HashMap();
+		for (int i = 0; i < 16; i++) {
+			String[] legalMoves = {};
+			ChessPiece whitePiece = new ChessPiece(whiteStartpositions[i], "w",
+					whiteNames[i], legalMoves);
+			Position position = new Position(whiteStartpositions[i], true,
+					whitePiece);
+//			position.setChessModel(chessModel);
+			positions.put(position.getPositionName(), position);
+			// System.out.println("Hvit brikke "+position.getPositionName()+
+			// " "+position.getUsedBy().getName());
+		}
+		for (int i = 0; i < 16; i++) {
+			String[] legalMoves = {};
+			ChessPiece blackPiece = new ChessPiece(blackStartpositions[i], "b",
+					blackNames[i], legalMoves);
+			Position position = new Position(blackStartpositions[i], true,
+					blackPiece);
+//			position.setChessModel(chessModel);
+			positions.put(position.getPositionName(), position);
+			// System.out.println("Sort brikke "+position.getPositionName()+
+			// " "+position.getUsedBy().getName());
+		}
+		for (int i = 0; i < 32; i++) {
+			Position position = new Position(allPositions[i + 16], false, null);
+//			position.setChessModel(chessModel);
+			positions.put(position.getPositionName(), position);
+		}
+		createOntologyposition();
+!!!704002.java!!!	listSWRLRules(inout ontology : OWLOntology) : void
+        //OWLObjectRenderer renderer = new DLSyntaxObjectRenderer();
+    	exeRules = new ArrayList();
+    	exeLabels = new ArrayList();
+
+        for (SWRLRule rule : ontology.getAxioms(AxiomType.SWRL_RULE)) { 
+        	String ruleAnnotation = null;
+        	String completeRule = null;
+        	String concequence = "";
+        	String antecedent = "";
+        	Set<SWRLAtom>bodies =  rule.getBody();
+        	
+        	Set<OWLAnnotation>annotations = rule.getAnnotations();
+        	for (OWLAnnotation annotation : annotations) {
+        		Set<OWLAnnotation>ruleannotations = annotation.getAnnotations();
+        		
+        		for (OWLAnnotation anno : ruleannotations) {
+        			System.out.println("Rule annotation inside: "+anno.toString()); //Empty
+        		}
+        		ruleAnnotation = annotation.toString();
+        		if (ruleAnnotation.contains("label"))
+        				ruleAnnotation = createRuleLabel(ruleAnnotation);
+//        		System.out.println("Rule annotation: "+annotation.toString()+" Label: "+ruleAnnotation);
+
+        	}
+        	Set<SWRLAtom>heads =  rule.getHead();
+        	for (SWRLAtom head : heads) {
+        		SWRLPredicate pred = head.getPredicate();
+        	
+        		String ruleString = createRuleString(pred.toString(),head.toString());
+//        		System.out.println("Rulehead: "+head.toString()+" Predicate: "+pred.toString()+ " Rulestring: "+ruleString);
+        		if (!concequence.isEmpty())
+        			concequence = concequence + "^" + ruleString;
+        		else
+        			concequence = ruleString;
+        	}
+        	for (SWRLAtom body : bodies) {
+        		SWRLPredicate pred = body.getPredicate();
+        		String ruleString = createRuleString(pred.toString(),body.toString());
+//        		System.out.println("Rulebody: "+body.toString()+" Predicate "+pred.toString()+ " Rulestring: "+ruleString);
+        		if (!antecedent.isEmpty())
+        			antecedent = antecedent + "^"+ruleString;
+        		else
+        			antecedent = ruleString;
+        	}
+        	completeRule = antecedent + "->" + concequence;
+   		 	chessRule = new ChessRules();
+        	exeRules.add(completeRule);
+        	exeLabels.add(ruleAnnotation);
+        	chessRule.setExeLabels(ruleAnnotation);
+        	chessRule.setExeRules(completeRule);
+        	chessRules.add(chessRule);
+        	
+         //   System.out.println("Rule : "+renderer.render(rule)); 
+        }
+//        System.out.println("Ruleset : "+exeRules+ " Labels "+exeLabels);
+        int pos = 0;
+        for (String label:exeLabels) {
+        	if (label.equals("takenpos"))
+        		break;
+        	pos++;
+        }
+        SQWRLQueryEngine queryEngine = chessModel.getQueryEngine();
+        SQWRLResult result = null;
+        try {
+			result = queryEngine.runSQWRLQuery(exeLabels.get(pos), exeRules.get(pos));
+		} catch (SQWRLException | SWRLParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+			if (result != null) {
+//				System.out.println(exeLabels.get(pos) + ": " + result.toString());
+				int nRows = result.getNumberOfRows();
+				int nC = result.getNumberOfColumns();
+				for (int i=0;i<nRows;i++) {
+					SQWRLResultValue resValue = result.getValue(0, i);
+					SQWRLResultValue resValue2 = result.getValue(1, i);
+//					System.out.println(exeLabels.get(pos) + " row number:"+ i+" " + resValue.toString()+" "+resValue2.toString());
+					
+				}
+
+			}
+		} catch (SQWRLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+!!!704130.java!!!	reasonWith() : void
+		OWLDataFactory factory = chessModel.getOwlDatafactory();
+//		PrefixOWLOntologyFormat pm = chessModel.getPm();
+//		OWLReasoner owlReasoner = chessModel.getOwlReasoner();
+		PelletReasoner pelletReasoner = chessModel.getClarkpelletReasoner();
+//		OWLObjectRenderer renderer = chessModel.getOwlRenderer();
+		OWLOntology ontology = chessModel.getOntModel();//
+//		OWLOntology model = chessModel.getModel();
+//		OWLClass pieceClass = factory.getOWLClass(":Piece", pm);
+		//Prøve med model individuals !!!!
+		Position position = positions.get(allPositions[0]);
+		HashSet<Piece> pieces = position.getPieces();
+		Piece ontologyPiece = null;
+		if(pieces != null) {
+			for (Piece ontPiece :pieces) {
+				ontologyPiece = ontPiece;
+				OWLNamedIndividual piece = ontologyPiece.getOwlIndividual();
+//				System.out.println("Reasoning: Pieces from generated classes Named ind: "+piece.toString()+" ontology piece: "+ontologyPiece.toString());
+			}
+		}
+		listSWRLRules(ontology);
+//		System.out.println("Reasoning: Piece owl class: "+ pieceClass.asOWLClass().toString());
+//		HashSet<OWLNamedIndividual> namedpieces = (HashSet<OWLNamedIndividual>) owlReasoner.getInstances(pieceClass, false).getFlattened();
+/*		for (OWLNamedIndividual piece :namedpieces ){
+			System.out.println("Reasoning: Pieces: "+piece.toString()+" Class " +renderer.render(piece)); // Does not work HashSet is empty!!!!???
+		}*/
+//		OWLObjectProperty occupies = factory.getOWLObjectProperty(":occupies", pm);
+//		factory.get
+//		System.out.println("Reasoning: Property "+occupies.toString());
+//		OWLNamedIndividual blackKing = factory.getOWLNamedIndividual(":BlackKing", pm);
+//		System.out.println("Reasoning: Black King named ind: "+blackKing.asOWLNamedIndividual().toString()+" Top entity "+blackKing.isTopEntity()+" Bottom entity "+blackKing.isBottomEntity());
+//		Map<OWLObjectPropertyExpression,Set<OWLIndividual>> kingValues = blackKing.get
+		
+//		System.out.println("Reasoning: Black King "+blackKing.toString()+" rendering "+renderer.render(blackKing) );
+//		HashSet<OWLNamedIndividual> individuals = (HashSet<OWLNamedIndividual>) owlReasoner.getObjectPropertyValues(blackKing, occupies).getFlattened();
+//		owlReasoner.get
+//		HashSet<OWLNamedIndividual> pelletindividuals = (HashSet<OWLNamedIndividual>) pelletReasoner.getObjectPropertyValues(blackKing, occupies).getFlattened();
+/*		for (OWLNamedIndividual ind : individuals)
+		{
+			System.out.println(blackKing.toStringID()+" occupies "+renderer.render(ind));// Does not work HashSet is empty!!!!???
+		}*/
+//		Set<OWLClassExpression> assertedClasses = blackKing.getTypes(ontology);
+//		HashSet<OWLClass> classes = (HashSet<OWLClass>) owlReasoner.getTypes(blackKing, false).getFlattened(); // Does not work HashSet is empty!!!!???
+/*		for (OWLClass c: classes) {
+			boolean asserted = false;
+			System.out.println((asserted ? "Reasoning: asserted ":"Reasoning: inferred ")+ " class for Black King "+renderer.render(c) );
+		}*/
+		
+!!!704258.java!!!	createChessontlogyPosition() : void
+		for (int i = 0; i <64;i++){
+			Position position = positions.get(allPositions[i]);
+			ChessPiece chessPiece = position.getUsedBy();
+			HashSet<Piece> pieces = position.getPieces();
+			Piece ontologyPiece = null;
+			if(pieces != null) {
+				for (Piece ontPiece :pieces) {
+					ontologyPiece = ontPiece;
+				}
+			}
+/*			if (chessPiece == null) {
+				
+			}*/
+//			boolean ischessPiece = chessPiece.getClass().equals(Entity.class);
+			if (ontologyPiece != null) {
+				Collection<? extends Object> nn = ontologyPiece.getHasName(); //This collection is a HashSet of strings
+				HashSet<String> nnx = (HashSet<String>) ontologyPiece.getHasName();
+				System.out.println(" An ontology piece: Name of piece: "+ontologyPiece.toString()+" ont piece name "+nnx.toString());
+//				ontologyPiece.getOwlIndividual()
+			}
+			String ontName = "Unknown";
+			if (chessPiece != null && chessPiece.getOntlogyName() != null)
+				ontName = chessPiece.getOntlogyName();
+			if (position.getPositionName() == null)
+				position.setPositionName("xx");
+			System.out.println("Position "+position.getPositionName()+" Chessontology: Name of piece: "+chessPiece.getName()+" Name of chess piece: "+chessPiece.getPieceName()+" "+ontName);
+
+			if (ontologyPiece == null){
+				position.setUsedBy();
+//				position.setInUse(false);
+				System.out.println("Setting position empty:  "+position.getPositionName());
+			}
+		
+/*			if (chessPiece != null && chessPiece.getOntlogyName() != null){
+				System.out.println("Chessontology: Name of piece: "+chessPiece.getName()+" Name of chess piece: "+chessPiece.getPieceName()+" "+chessPiece.getOntlogyName());
+			}*/
+		}
+
+!!!704386.java!!!	createOntologyposition() : void
+		for (ChessPosition chessPos: allChessPositions) {
+//			HashSet<String> names =  (HashSet<String>) chessPos.getHasName(); 
+//			HashSet<Vacant> vacants = (HashSet<Vacant>) chessPos.getIsVacant();
+//			OWLNamedIndividual individual = chessPos.getOwlIndividual();
+/*			String posx = null;
+			for (String pos : names) {
+				posx = pos;
+				break;
+			}*/
+//			System.out.println("createOntologyposition: Chess positions: "+names.toString()+" "+posx);
+//			System.out.println("Chess vacant positions: "+vacants.toString()+" ");
+		}
+
+		for (BlackPiece blackPiece : blackPieces) {
+			HashSet<Taken> taken = (HashSet<Taken>) blackPiece.getOccupies();
+			IRI irp = blackPiece.getOwlIndividual().getIRI();
+
+			String irpiece = irp.toString();
+			char sepp = '#';
+	    	String piecename = extractString(irpiece, sepp,-1);
+//			System.out.println("createOntologyposition: Black piece: "+irpiece+" "+piecename);
+			 HashSet<Piece> pieces = new HashSet<Piece>();
+			for (Taken takenPos : taken) {
+				boolean whitePos = false;
+				boolean blackPos = false;
+				IRI ir = takenPos.getOwlIndividual().getIRI();
+				HashSet<WrappedIndividual> individuals =  (HashSet<WrappedIndividual>)( takenPos).getIsOccupiedBy();
+				Piece piece = (Piece)blackPiece;
+				 pieces.add(piece); 
+		    	 
+		    	 for ( WrappedIndividual individual: individuals) {
+		    		 boolean ispiece = individual.getClass().equals(Entity.class);
+//		    		 Piece piece = (Piece)individual;
+//		    		 Entity ent = (Entity)individual;
+//		    		 System.out.println("createOntologyposition: individual Piece: "+individual.toString()+ " class "+ispiece);
+//		    		 pieces.add(piece); 
+		    	 }
+		    	 String irs = ir.toString();
+		    	 OWLNamedIndividual wp = takenPos.getOwlIndividual();
+		    	 char sep = '#';
+		    	 String name = extractString(irs, sep,-1);
+		    	 System.out.println("createOntologyposition: Taken position for black piece: "+irs+" "+takenPos.toString()+ " "+ wp.toString()+ " "+name);
+		    	 allTakenPositions.add(takenPos);
+//		    	 HashSet<BoardPosition> parts = (HashSet<BoardPosition>) takenPos.getIsPartOf();
+		    	 BoardPosition boardPosition = (BoardPosition)takenPos;
+	    		 blackPos = boardPosition.getClass().equals(BlackBoardPosition.class);
+	    		 whitePos = boardPosition.getClass().equals(WhiteBoardPosition.class);
+		    	 Position position = positions.get(name);
+		    	 if (position != null){
+		    		 if (blackPos)
+		    			 position.setBlackBoardPosition((BlackBoardPosition)boardPosition);
+		    		 if (whitePos)
+		    			 position.setWhiteBoardPosition((WhiteBoardPosition)boardPosition);
+		    		 //			    		  position.setPieces(pieces);
+//		    		 System.out.println("createOntologyposition: Found a position for black pieces "+name+" Position "+boardPosition.toString());
+		    		 position.setPieces(pieces);
+		    	 }
+		    
+//		    	 System.out.println("Initial taken positions: "+irs+" ToString takenPos: "+takenPos.toString()+ " OWL individual: "+ wp.toString()+ " "+name);
+
+
+			}
+		}
+		for (WhitePiece whitePiece : whitePieces) {
+			HashSet<Taken> taken = (HashSet<Taken>) whitePiece.getOccupies();
+		
+			boolean whitePos = false;
+			boolean blackPos = false;
+			IRI irp = whitePiece.getOwlIndividual().getIRI();
+			String irpiece = irp.toString();
+			char sepp = '#';
+	    	String piecename = extractString(irpiece, sepp,-1);
+//			System.out.println("createOntologyposition: White piece: "+irpiece+" "+piecename);
+			 HashSet<Piece> pieces = new HashSet<Piece>();
+			for (Taken takenPos : taken) {
+				IRI ir = takenPos.getOwlIndividual().getIRI();
+//		    	 HashSet<Piece> pieces =  (HashSet<Piece>)( takenPos).getIsOccupiedBy();
+	    		HashSet<WrappedIndividual> individuals =  (HashSet<WrappedIndividual>)( takenPos).getIsOccupiedBy();
+				Piece piece = (Piece)whitePiece;
+				pieces.add(piece);
+		    	 for ( WrappedIndividual individual: individuals) {
+		    		 boolean ispiece = individual.getClass().equals(Entity.class);
+//		    		 Piece piece = (Piece)individual;
+//		    		 Entity ent = (Entity)individual; 
+//		    		 System.out.println("createOntologyposition: individual Piece: "+individual.toString()+ " class "+ispiece);
+//		    		 pieces.add(piece); 
+		    	 }
+		    	 String irs = ir.toString();
+		    	 OWLNamedIndividual wp = takenPos.getOwlIndividual();
+		    	 char sep = '#';
+		    	 String name = extractString(irs, sep,-1);
+//		    	 HashSet<BoardPosition> parts = (HashSet<BoardPosition>) takenPos.getIsPartOf();
+		    	 System.out.println("createOntologyposition: Taken position for white piece: "+irs+" "+takenPos.toString()+ " "+ wp.toString()+ " "+name);
+		    	 allTakenPositions.add(takenPos);
+		    	 BoardPosition boardPosition = (BoardPosition)takenPos;
+		    	 blackPos = boardPosition.getClass().equals(BlackBoardPosition.class);
+		    	 whitePos = boardPosition.getClass().equals(WhiteBoardPosition.class);
+		    	 Position position = positions.get(name);
+		    	 if (position != null){
+		    		 if (blackPos)
+		    			 position.setBlackBoardPosition((BlackBoardPosition)boardPosition);
+		    		 if (whitePos)
+		    			 position.setWhiteBoardPosition((WhiteBoardPosition)boardPosition);
+		    		 //			    	  position.setPieces(pieces);
+//		    		 System.out.println("createOntologyposition: Found a position for white pieces"+name+" Position "+boardPosition.toString());
+		    		 position.setPieces(pieces);
+		    	 }
+	
+//		    	 System.out.println("Initial taken positions: "+irs+" ToString takenPos: "+takenPos.toString()+ " OWL individual: "+ wp.toString()+ " "+name);
+
+			}
+		}
+		for (Taken taken : allTakenPositions) {
+	    	  IRI ir = taken.getOwlIndividual().getIRI();
+	    	  HashSet<WrappedIndividual> pieces =  (HashSet<WrappedIndividual>)( taken).getIsOccupiedBy();
+	    	  String irs = ir.toString();
+	    	  OWLNamedIndividual wp = taken.getOwlIndividual();
+	    	  char sep = '#';
+	    	  String name = extractString(irs, sep,-1);
+	    	  System.out.println("createOntologyposition: Initial taken positions: "+irs+" "+taken.toString()+ " "+ wp.toString()+ " "+name);
+	    	  for (WrappedIndividual piece : pieces) {
+	    		  System.out.println("createOntologyposition: Position occupied by: "+piece.toString());
+	    	  }
+	    	  Position position = positions.get(name);
+/*	    	  if (position != null){
+//	    		  position.setWhiteBoardPosition(takenPos);
+	    		  position.setPieces(pieces);
+	    	  }*/
+		}
+		reasonWith();
+/*		for (Vacant vacant : allVacantPositions) {
+			 System.out.println("Initial vacant positions: "+ vacant.toString());
+		}*/
+		
+/*			Iterator<BlackBoardPosition> blackPosIterator =  blackPositions.iterator();
+		      while(blackPosIterator.hasNext()){
+		    	  BlackBoardPosition blackPos = blackPosIterator.next();
+		    	  IRI ir = blackPos.getOwlIndividual().getIRI();
+		    	  
+		    	  HashSet<Piece> pieces =  (HashSet<Piece>)blackPos.getIsOccupiedBy();
+		    	  String irs = ir.toString();
+		    	  OWLNamedIndividual wp = blackPos.getOwlIndividual();
+		    	  char sep = '#';
+		    	  String name = extractString(irs, sep,-1);
+//		    	  System.out.println(irs+" "+blackPos.toString()+ " "+ wp.toString()+ " "+name);
+		    	  Position position = positions.get(name);
+		    	  if (position != null){
+		    		  position.setBlackBoardPosition(blackPos);
+		    		  position.setPieces(pieces);
+		    	  }
+		      }*/	      
+!!!704514.java!!!	queryOntology() : void
+		String prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+				+ " PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+				+ " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+				+ " PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
+				+ " PREFIX ont: <http://www.co-ode.org/ontologies/ont.owl#> ";
+//		String q = prefix + "\n SELECT ?subject ?object	WHERE { ?subject ont:isOccupiedBy ?object. }";
+		String q = prefix + "\n DESCRIBE ont:BoardPosition";
+		List<QuerySolution> variables = chessModel.queryOntology(q);
+		for (int i=0;i<variables.size();i++){
+			QuerySolution qsol = variables.get(i);
+			Resource subjectres = qsol.getResource("subject");
+			Resource objectres = qsol.getResource("object");
+	        System.out.println("Subject: "+subjectres.toString()+" "+subjectres.getLocalName()+" Object: "+objectres.toString()+" "+objectres.getLocalName());
+		}
+		if (chessModel.getResults() != null)
+			ResultSetFormatter.out(chessModel.getResults());
+		StmtIterator stm = chessModel.getInfModel().listStatements();
+		PrintWriter out = new PrintWriter(System.out);
+		while (stm.hasNext()){
+		    Statement s = stm.nextStatement();
+		   
+		    for (Iterator id = chessModel.getInfModel().getDerivation(s); id.hasNext(); ) {
+		        Derivation deriv = (Derivation) id.next();
+		        System.out.println("Statement is " + s);
+		        deriv.printTrace(out, true);
+		    }
+		}
+!!!704642.java!!!	printOntology() : void
+		chessModel.printOntology();
+!!!704770.java!!!	getChessModel() : OntologyModel
+		return chessModel;
+!!!704898.java!!!	setChessModel(inout chessModel : OntologyModel) : void
+		this.chessModel = chessModel;
+!!!705026.java!!!	getIndividuals() : List<Individual>
+		return individuals;
+!!!705154.java!!!	setIndividuals(inout individuals : List<Individual>) : void
+		this.individuals = individuals;
+!!!705282.java!!!	getProperties() : Map<String, List<Statement>>
+		return properties;
+!!!705410.java!!!	setProperties(inout properties : Map<String, List<Statement>>) : void
+		this.properties = properties;
+!!!705538.java!!!	getChessGame() : Resource
+		return chessGame;
+!!!705666.java!!!	setChessGame(inout chessGame : Resource) : void
+		this.chessGame = chessGame;
+!!!705794.java!!!	getStartFEN() : String
+		return startFEN;
+!!!705922.java!!!	setStartFEN(in startFEN : String) : void
+		this.startFEN = startFEN;
+!!!706050.java!!!	getPositions() : HashMap
+		return positions;
+!!!706178.java!!!	setPositions(inout positions : HashMap) : void
+		this.positions = positions;
+!!!706306.java!!!	getAllPositions() : String
+		return allPositions;
+!!!706434.java!!!	setAllPositions(inout allPositions : String [[]]) : void
+		this.allPositions = allPositions;
+!!!706562.java!!!	produceFen(inout boardRow : String [[][]]) : String
+		String fen = "";
+		for (int i = 0;i<8;i++){
+			for (int j = 0;j<8;j++){
+				if (boardRow[i][j].equals("f")){
+					fen = fen + "1";
+				}
+				else{
+					fen =  fen + boardRow[i][j];
+				}
+			}
+			if (i != 7)
+				fen = fen + "/";
+//			System.out.println("Fen "+fen);
+		}
+
+		return fen;
+!!!706690.java!!!	createFen() : String
+
+		String pieceName = "";
+		String[][] boardRow = new String[8][8];
+		int fenCount = 63; // 0? 7?
+		for (int i = 0;i<8;i++){
+			for (int j = 7;j>=0;j--){
+				Position position = (Position)positions.get(allPositions[fenCount]);
+				if (position.isInUse() && position.getUsedBy() != null){ //midlertidig !!
+					pieceName = position.getUsedBy().getName().substring(1);
+					String color = position.getUsedBy().getColor();
+					if (color.equals("b"))
+						pieceName = pieceName.toLowerCase();
+					boardRow[i][j] = pieceName;
+				}else{
+					boardRow[i][j] = "f";
+					if ( position.getUsedBy() == null) {
+						System.out.println("No piece: "+position.toString()
+						);
+					}
+				}
+
+				String cp = "ledig";
+				if (position.isInUse()&& position.getUsedBy() != null){
+					cp = position.getUsedBy().getName();
+				}
+//				System.out.println(position.getPositionName()+ " "+cp+ " "+boardRow[i][j]+" "+fenCount+ " "+i+" "+j );
+				fenCount--;
+			}
+
+		}
+		return produceFen(boardRow);
+//		return startFEN;
+!!!706818.java!!!	findPiece(in posName : String, in pieceName : String) : ChessPiece
+		String localposName = "";
+		ChessPiece piece = null;
+		for (int i = 0; i < 64; i++) {
+			Position position = (Position) positions.get(allPositions[i]);
+			localposName = position.getPositionName();
+			if (posName.equals(localposName)) {
+				piece = position.getUsedBy();
+				break;
+			}
+		}
+		return piece;
+
+!!!706946.java!!!	findPiece(in posName : String) : ChessPiece
+		String localposName = "";
+		ChessPiece piece = null;
+		for (int i = 0; i < 64; i++) {
+			Position position = (Position) positions.get(allPositions[i]);
+			localposName = position.getPositionName();
+			if (posName.equals(localposName)) {
+				piece = position.getUsedBy();
+				break;
+			}
+		}
+		return piece;
+
+!!!707074.java!!!	findPostion(in pos : String) : Position
+		Position localPosition = null;
+		localPosition = (Position) positions.get(pos);
+		return localPosition;
+!!!707202.java!!!	checkPosition(in pos : String) : boolean
+		boolean inUse = false;
+		for (int i = 0; i < 64; i++) {
+			Position position = (Position) positions.get(allPositions[i]);
+			if (position.getPositionName().equals(pos)) {
+				if (position.isInUse()) {
+					inUse = true;
+					break;
+				}
+			}
+		}
+		return inUse;
+!!!707330.java!!!	determineMove(in oldPos : String, in newPos : String, in piece : String) : void
+		opposingOccupied = false;
+		String oldName = oldPos.substring(0, 1);
+    	ChessPiece chessPiece = findPiece(oldPos,piece);
+    	if (chessPiece != null)
+    		chessPiece.setPosition(newPos);
+    	if (chessPiece == null) {
+    		System.out.println("!!Chessboard nullpointer!!"+oldPos+" ny Posisjon "+newPos);
+    	}
+       	Position oldPosition = findPostion(oldPos);
+       	Position newPosition = findPostion(newPos);
+       	if (checkPosition(newPos)) { // If position is occupied find which piece it is occupied by and determine if move is legal
+       		
+       		boolean accept = chessPiece.acceptMove(newPos, oldPosition,newPosition);
+       		opposingOccupied = accept;
+       		if(!accept)
+       			chessPiece.setPosition(oldPos);
+       		if (accept)
+       			establishMoves(newPosition,oldName);
+
+       	}
+       	if (!checkPosition(newPos)){
+//       	   	oldPosition.setUsedBy(null);
+//           	oldPosition.setInUse(false);
+           	HashSet pieces = oldPosition.getPieces();
+/*    		if (newPosition.getPositionName().equals("a3")) {
+				System.out.println("!!determinemove position !! "+newPosition.toString());
+			}*/
+           	oldPosition.setPieces(null);
+           	oldPosition.setUsedBy();
+           	newPosition.setUsedBy(chessPiece);
+        	newPosition.setInUse(true);
+        	newPosition.setPieces(pieces);
+        	chessPiece.setPosition(newPosition.getPositionName());
+ /*       	if (newPosition.getPositionColor().equalsIgnoreCase("w")) {
+        		chessPiece.setWhiteBoardPosition((WhiteBoardPosition) newPosition);
+        	}else {
+        		chessPiece.setBlackBoardPosition((BlackBoardPosition) newPosition);
+        	}*/
+        	establishMoves(newPosition,oldName);
+        	
+       	}
+		
+!!!707458.java!!!	setPiecetoPosition(inout board : NQueensBoard, inout qCSP : NQueensCSP) : void
+		MoveMent movements = new MoveMent(board,positions);
+		movements.setQueensPositions();
+		StringBuilder result = new StringBuilder();
+		List<Variable> var = qCSP.getVariables();
+		Variable v = var.get(0);
+		String varName = v.getName();
+		for (int i = 0; i < 64; i++) {
+			Position position = (Position) positions.get(allPositions[i]);
+			XYLocation loc = position.getXyloc();
+			if (board.queenExistsAt(loc)) {
+				String color = position.getPositionColor();
+				String name = position.getPositionName();
+				boolean inUse = position.isInUse();
+				result.append("\n xy location").append(loc.toString()).append(" Position "+name);
+				if (inUse) {
+					ChessPiece piece = position.getUsedBy();
+					HashSet<Piece> pieces = position.getPieces();
+					for (Piece occupier : pieces) {
+						HashSet<String> pNames = (HashSet<String>)occupier.getHasName();
+						String pName = pNames.toString();
+						result.append("\nOccupied by").append(pName);
+					}
+					result.append("\nColor : Position ").append(color).append(" : ").append(name).append(" Piece: "+piece.getOntlogyName()+" "+piece.getPieceName());
+				}
+
+			}
+
+		}
+
+		 System.out.println(result.toString());
+			
+	
+

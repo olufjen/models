@@ -1,0 +1,15 @@
+class LightestClauseSorter
+!!!304642.java!!!	compare(inout c1 : Clause, inout c2 : Clause) : int
+		if (c1 == c2) {
+			return 0;
+		}
+		int c1Val = c1.getNumberLiterals();
+		int c2Val = c2.getNumberLiterals();
+		return (c1Val < c2Val ? -1
+				: (c1Val == c2Val ? (compareEqualityIdentities(c1, c2)) : 1));
+!!!304770.java!!!	compareEqualityIdentities(inout c1 : Clause, inout c2 : Clause) : int
+		int c1Len = c1.getEqualityIdentity().length();
+		int c2Len = c2.getEqualityIdentity().length();
+
+		return (c1Len < c2Len ? -1 : (c1Len == c2Len ? c1.getEqualityIdentity()
+				.compareTo(c2.getEqualityIdentity()) : 1));

@@ -1,0 +1,49 @@
+class TermEquality
+!!!345346.java!!!	getEqualitySynbol() : String
+		return "=";
+!!!345474.java!!!	TermEquality(inout term1 : Term, inout term2 : Term)
+		this.term1 = term1;
+		this.term2 = term2;
+		terms.add(term1);
+		terms.add(term2);
+!!!345602.java!!!	getTerm1() : Term
+		return term1;
+!!!345730.java!!!	getTerm2() : Term
+		return term2;
+!!!345858.java!!!	getSymbolicName() : String
+		return getEqualitySynbol();
+!!!345986.java!!!	isCompound() : boolean
+		return true;
+!!!346114.java!!!	getArgs() : Term
+		return Collections.unmodifiableList(terms);
+!!!346242.java!!!	accept(inout v : FOLVisitor, inout arg : Object) : Object
+		return v.visitTermEquality(this, arg);
+!!!346370.java!!!	copy() : TermEquality
+		return new TermEquality(term1.copy(), term2.copy());
+!!!346498.java!!!	equals(inout o : Object) : boolean
+
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		TermEquality te = (TermEquality) o;
+
+		return te.getTerm1().equals(term1) && te.getTerm2().equals(term2);
+!!!346626.java!!!	hashCode() : int
+		if (0 == hashCode) {
+			hashCode = 17;
+			hashCode = 37 * hashCode + getTerm1().hashCode();
+			hashCode = 37 * hashCode + getTerm2().hashCode();
+		}
+		return hashCode;
+!!!346754.java!!!	toString() : String
+		if (null == stringRep) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(term1.toString());
+			sb.append(" = ");
+			sb.append(term2.toString());
+			stringRep = sb.toString();
+		}
+		return stringRep;

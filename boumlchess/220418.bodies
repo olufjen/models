@@ -1,0 +1,94 @@
+class EightPuzzleController
+!!!630146.java!!!	clear() : void
+			prepare(null);
+!!!630274.java!!!	prepare(in changedSelector : String) : void
+			AgentAppFrame.SelectionState selState = frame.getSelection();
+			EightPuzzleBoard board = null;
+			switch (selState.getIndex(EightPuzzleFrame.ENV_SEL)) {
+			case 0: // three moves
+				board = new EightPuzzleBoard(new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8 });
+				break;
+			case 1: // medium
+				board = new EightPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
+				break;
+			case 2: // extreme
+				board = new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
+				break;
+			case 3: // random
+				board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
+				Random r = new Random(System.currentTimeMillis());
+				for (int i = 0; i < 200; i++) {
+					switch (r.nextInt(4)) {
+					case 0:
+						board.moveGapUp();
+						break;
+					case 1:
+						board.moveGapDown();
+						break;
+					case 2:
+						board.moveGapLeft();
+						break;
+					case 3:
+						board.moveGapRight();
+						break;
+					}
+				}
+			}
+			env = new EightPuzzleEnvironment(board);
+			agent = null;
+			dirty = false;
+			frame.getEnvView().setEnvironment(env);
+!!!630402.java!!!	addAgent() : void
+			if (agent == null) {
+				int pSel = frame.getSelection().getIndex(EightPuzzleFrame.SEARCH_SEL);
+				Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(env.getBoard());
+				SearchForActions<EightPuzzleBoard, Action> search = SEARCH_ALGOS.get(pSel);
+				agent = new SearchAgent<>(problem, search);
+				env.addAgent(agent);
+			}
+!!!630530.java!!!	isPrepared() : boolean
+			return !dirty && (agent == null || !agent.isDone());
+!!!630658.java!!!	run(inout logger : MessageLogger) : void
+			logger.log("<simulation-log>");
+			try {
+				addAgent();
+				while (!agent.isDone() && !frame.simulationPaused()) {
+					Thread.sleep(500);
+					env.step();
+				}
+			} catch (InterruptedException e) {
+				// nothing to do...
+			} catch (Exception e) {
+				e.printStackTrace(); // probably search has failed...
+			}
+			logger.log(getStatistics());
+			logger.log("</simulation-log>\n");
+!!!630786.java!!!	step(inout logger : MessageLogger) : void
+			try {
+				addAgent();
+				env.step();
+			} catch (Exception e) {
+				e.printStackTrace(); // probably search has failed...
+			}
+!!!630914.java!!!	update(inout simulationThread : SimulationThread) : void
+			if (simulationThread.isCancelled()) {
+				frame.setStatus("Task canceled.");
+			} else if (frame.simulationPaused()) {
+				frame.setStatus("Task paused.");
+			} else {
+				frame.setStatus("Task completed.");
+			}
+!!!631042.java!!!	getStatistics() : String
+			StringBuilder result = new StringBuilder();
+			Properties properties = agent.getInstrumentation();
+			for (Object o : properties.keySet()) {
+				String key = (String) o;
+				String property = properties.getProperty(key);
+				result.append("\n").append(key).append(" : ").append(property);
+			}
+			return result.toString();
+!!!631170.java!!!	executeUserAction(inout action : Action) : void
+			env.executeAction(null, action);
+			agent = null;
+			dirty = true;
+			frame.updateEnabledState();

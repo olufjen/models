@@ -1,0 +1,94 @@
+class EliminationAsk
+!!!400514.java!!!	EliminationAsk()
+
+!!!400642.java!!!	eliminationAsk(in X : RandomVariable [[]], in e : AssignmentProposition [[]], in bn : BayesianNetwork) : CategoricalDistribution
+
+		Set<RandomVariable> hidden = new HashSet<RandomVariable>();
+		List<RandomVariable> VARS = new ArrayList<RandomVariable>();
+		calculateVariables(X, e, bn, hidden, VARS);
+
+		// factors <- []
+		List<Factor> factors = new ArrayList<Factor>();
+		// for each var in ORDER(bn.VARS) do
+		for (RandomVariable var : order(bn, VARS)) {
+			// factors <- [MAKE-FACTOR(var, e) | factors]
+			factors.add(0, makeFactor(var, e, bn));
+			// if var is hidden variable then factors <- SUM-OUT(var, factors)
+			if (hidden.contains(var)) {
+				factors = sumOut(var, factors, bn);
+			}
+		}
+		// return NORMALIZE(POINTWISE-PRODUCT(factors))
+		Factor product = pointwiseProduct(factors);
+		// Note: Want to ensure the order of the product matches the
+		// query variables
+		return ((ProbabilityTable) product.pointwiseProductPOS(_identity, X))
+				.normalize();
+!!!400770.java!!!	ask(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork) : CategoricalDistribution
+		return this.eliminationAsk(X, observedEvidence, bn);
+!!!400898.java!!!	calculateVariables(in X : RandomVariable [[]], in e : AssignmentProposition [[]], in bn : BayesianNetwork, inout hidden : Set<RandomVariable>, inout bnVARS : Collection<RandomVariable>) : void
+
+		bnVARS.addAll(bn.getVariablesInTopologicalOrder());
+		hidden.addAll(bnVARS);
+
+		for (RandomVariable x : X) {
+			hidden.remove(x);
+		}
+		for (AssignmentProposition ap : e) {
+			hidden.removeAll(ap.getScope());
+		}
+
+		return;
+!!!401026.java!!!	order(inout bn : BayesianNetwork, inout vars : Collection<RandomVariable>) : RandomVariable
+		// Note: Trivial Approach:
+		// For simplicity just return in the reverse order received,
+		// i.e. received will be the default topological order for
+		// the Bayesian Network and we want to ensure the network
+		// is iterated from bottom up to ensure when hidden variables
+		// are come across all the factors dependent on them have
+		// been seen so far.
+		List<RandomVariable> order = new ArrayList<RandomVariable>(vars);
+		Collections.reverse(order);
+
+		return order;
+!!!401154.java!!!	makeFactor(inout var : RandomVariable, inout e : AssignmentProposition [[]], inout bn : BayesianNetwork) : Factor
+
+		Node n = bn.getNode(var);
+		if (!(n instanceof FiniteNode)) {
+			throw new IllegalArgumentException(
+					"Elimination-Ask only works with finite Nodes.");
+		}
+		FiniteNode fn = (FiniteNode) n;
+		List<AssignmentProposition> evidence = new ArrayList<AssignmentProposition>();
+		for (AssignmentProposition ap : e) {
+			if (fn.getCPT().contains(ap.getTermVariable())) {
+				evidence.add(ap);
+			}
+		}
+
+		return fn.getCPT().getFactorFor(
+				evidence.toArray(new AssignmentProposition[evidence.size()]));
+!!!401282.java!!!	sumOut(inout var : RandomVariable, inout factors : List<Factor>, inout bn : BayesianNetwork) : Factor
+		List<Factor> summedOutFactors = new ArrayList<Factor>();
+		List<Factor> toMultiply = new ArrayList<Factor>();
+		for (Factor f : factors) {
+			if (f.contains(var)) {
+				toMultiply.add(f);
+			} else {
+				// This factor does not contain the variable
+				// so no need to sum out - see AIMA3e pg. 527.
+				summedOutFactors.add(f);
+			}
+		}
+
+		summedOutFactors.add(pointwiseProduct(toMultiply).sumOut(var));
+
+		return summedOutFactors;
+!!!401410.java!!!	pointwiseProduct(inout factors : List<Factor>) : Factor
+
+		Factor product = factors.get(0);
+		for (int i = 1; i < factors.size(); i++) {
+			product = product.pointwiseProduct(factors.get(i));
+		}
+
+		return product;

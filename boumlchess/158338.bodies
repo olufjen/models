@@ -1,0 +1,78 @@
+class NegationsIn
+!!!260354.java!!!	NegationsIn()
+
+!!!260482.java!!!	visitPredicate(inout p : Predicate, inout arg : Object) : Object
+		return p;
+!!!260610.java!!!	visitTermEquality(inout equality : TermEquality, inout arg : Object) : Object
+		return equality;
+!!!260738.java!!!	visitVariable(inout variable : Variable, inout arg : Object) : Object
+		return variable;
+!!!260866.java!!!	visitConstant(inout constant : Constant, inout arg : Object) : Object
+		return constant;
+!!!260994.java!!!	visitFunction(inout function : Function, inout arg : Object) : Object
+		return function;
+!!!261122.java!!!	visitNotSentence(inout notSentence : NotSentence, inout arg : Object) : Object
+		// CNF requires NOT (~) to appear only in literals, so we 'move ~
+		// inwards' by repeated application of the following equivalences:
+		Sentence negated = notSentence.getNegated();
+
+		// ~(~alpha) equivalent to alpha (double negation elimination)
+		if (negated instanceof NotSentence) {
+			return ((NotSentence) negated).getNegated().accept(this, arg);
+		}
+
+		if (negated instanceof ConnectedSentence) {
+			ConnectedSentence negConnected = (ConnectedSentence) negated;
+			Sentence alpha = negConnected.getFirst();
+			Sentence beta = negConnected.getSecond();
+			// ~(alpha ^ beta) equivalent to (~alpha V ~beta) (De Morgan)
+			if (Connectors.isAND(negConnected.getConnector())) {
+				// I need to ensure the ~s are moved in deeper
+				Sentence notAlpha = (Sentence) (new NotSentence(alpha)).accept(
+						this, arg);
+				Sentence notBeta = (Sentence) (new NotSentence(beta)).accept(
+						this, arg);
+				return new ConnectedSentence(Connectors.OR, notAlpha, notBeta);
+			}
+
+			// ~(alpha V beta) equivalent to (~alpha ^ ~beta) (De Morgan)
+			if (Connectors.isOR(negConnected.getConnector())) {
+				// I need to ensure the ~s are moved in deeper
+				Sentence notAlpha = (Sentence) (new NotSentence(alpha)).accept(
+						this, arg);
+				Sentence notBeta = (Sentence) (new NotSentence(beta)).accept(
+						this, arg);
+				return new ConnectedSentence(Connectors.AND, notAlpha, notBeta);
+			}
+		}
+
+		// in addition, rules for negated quantifiers:
+		if (negated instanceof QuantifiedSentence) {
+			QuantifiedSentence negQuantified = (QuantifiedSentence) negated;
+			// I need to ensure the ~ is moved in deeper
+			Sentence notP = (Sentence) (new NotSentence(
+					negQuantified.getQuantified())).accept(this, arg);
+
+			// ~FORALL x p becomes EXISTS x ~p
+			if (Quantifiers.isFORALL(negQuantified.getQuantifier())) {
+				return new QuantifiedSentence(Quantifiers.EXISTS,
+						negQuantified.getVariables(), notP);
+			}
+
+			// ~EXISTS x p becomes FORALL x ~p
+			if (Quantifiers.isEXISTS(negQuantified.getQuantifier())) {
+				return new QuantifiedSentence(Quantifiers.FORALL,
+						negQuantified.getVariables(), notP);
+			}
+		}
+
+		return new NotSentence((Sentence) negated.accept(this, arg));
+!!!261250.java!!!	visitConnectedSentence(inout sentence : ConnectedSentence, inout arg : Object) : Object
+		return new ConnectedSentence(sentence.getConnector(),
+				(Sentence) sentence.getFirst().accept(this, arg),
+				(Sentence) sentence.getSecond().accept(this, arg));
+!!!261378.java!!!	visitQuantifiedSentence(inout sentence : QuantifiedSentence, inout arg : Object) : Object
+
+		return new QuantifiedSentence(sentence.getQuantifier(),
+				sentence.getVariables(), (Sentence) sentence.getQuantified()
+						.accept(this, arg));

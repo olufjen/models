@@ -1,0 +1,44 @@
+class Assignment
+!!!447106.java!!!	getVariables() : List<VAR>
+        return variableToValueMap.keySet().stream().collect(Collectors.toList());
+!!!447234.java!!!	getValue(inout var : VAR) : VAL
+        return variableToValueMap.get(var);
+!!!447362.java!!!	add(inout var : VAR, inout value : VAL) : VAL
+        assert value != null;
+        return variableToValueMap.put(var, value);
+!!!447490.java!!!	remove(inout var : VAR) : VAL
+        return variableToValueMap.remove(var);
+!!!447618.java!!!	contains(inout var : VAR) : boolean
+        return variableToValueMap.containsKey(var);
+!!!447746.java!!!	isConsistent(inout constraints : List<Constraint<VAR, VAL>>) : boolean
+        for (Constraint<VAR, VAL> cons : constraints)
+            if (!cons.isSatisfiedWith(this))
+                return false;
+        return true;
+!!!447874.java!!!	isComplete(inout vars : List<VAR>) : boolean
+        for (VAR var : vars)
+            if (!contains(var))
+                return false;
+        return true;
+!!!448002.java!!!	isSolution(inout csp : CSP) : boolean
+        return isConsistent(csp.getConstraints()) && isComplete(csp.getVariables());
+!!!448130.java!!!	clone() : Assignment
+        Assignment<VAR, VAL> result;
+        try {
+            result = (Assignment<VAR, VAL>) super.clone();
+            result.variableToValueMap = new LinkedHashMap<>(variableToValueMap);
+        } catch (CloneNotSupportedException e) {
+            throw new UnsupportedOperationException("Could not clone assignment."); // should never happen!
+        }
+        return result;
+!!!448258.java!!!	toString() : String
+        boolean comma = false;
+        StringBuilder result = new StringBuilder("{");
+        for (Map.Entry<VAR, VAL> entry : variableToValueMap.entrySet()) {
+            if (comma)
+                result.append(", ");
+            result.append(entry.getKey()).append("=").append(entry.getValue());
+            comma = true;
+        }
+        result.append("}");
+        return result.toString();

@@ -1,0 +1,29 @@
+class ProofStepBwChGoal
+!!!305922.java!!!	ProofStepBwChGoal(inout toProve : Clause, inout currentGoal : Literal, inout bindings : Map<Variable, Term>)
+		this.toProve = toProve;
+		this.currentGoal = currentGoal;
+		this.bindings.putAll(bindings);
+!!!306050.java!!!	getBindings() : Variable
+		return bindings;
+!!!306178.java!!!	setPredecessor(inout predecessor : ProofStep) : void
+		predecessors.clear();
+		predecessors.add(predecessor);
+!!!306306.java!!!	getPredecessorSteps() : ProofStep
+		return Collections.unmodifiableList(predecessors);
+!!!306434.java!!!	getProof() : String
+		StringBuilder sb = new StringBuilder();
+		List<Literal> nLits = toProve.getNegativeLiterals();
+		for (int i = 0; i < toProve.getNumberNegativeLiterals(); i++) {
+			sb.append(nLits.get(i).getAtomicSentence());
+			if (i != (toProve.getNumberNegativeLiterals() - 1)) {
+				sb.append(" AND ");
+			}
+		}
+		if (toProve.getNumberNegativeLiterals() > 0) {
+			sb.append(" => ");
+		}
+		sb.append(toProve.getPositiveLiterals().get(0));
+		return sb.toString();
+!!!306562.java!!!	getJustification() : String
+		return "Current Goal " + currentGoal.getAtomicSentence().toString()
+				+ ", " + bindings;

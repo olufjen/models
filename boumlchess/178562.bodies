@@ -1,0 +1,52 @@
+class LikelihoodWeighting
+!!!398082.java!!!	LikelihoodWeighting()
+		this(new JavaRandomizer(new Random()));
+!!!398210.java!!!	LikelihoodWeighting(inout r : Randomizer)
+		this.randomizer = r;
+!!!398338.java!!!	likelihoodWeighting(inout X : RandomVariable [[]], inout e : AssignmentProposition [[]], inout bn : BayesianNetwork, in N : int) : CategoricalDistribution
+		// local variables: W, a vector of weighted counts for each value of X,
+		// initially zero
+		double[] W = new double[ProbUtil
+				.expectedSizeOfCategoricalDistribution(X)];
+
+		// for j = 1 to N do
+		for (int j = 0; j < N; j++) {
+			// <b>x</b>,w <- WEIGHTED-SAMPLE(bn,e)
+			Pair<Map<RandomVariable, Object>, Double> x_w = weightedSample(bn,
+					e);
+			// W[x] <- W[x] + w where x is the value of X in <b>x</b>
+			W[ProbUtil.indexOf(X, x_w.getFirst())] += x_w.getSecond();
+		}
+		// return NORMALIZE(W)
+		return new ProbabilityTable(W, X).normalize();
+!!!398466.java!!!	weightedSample(inout bn : BayesianNetwork, inout e : AssignmentProposition [[]]) : Pair
+		// w <- 1;
+		double w = 1.0;
+		// <b>x</b> <- an event with n elements initialized from e
+		Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+		for (AssignmentProposition ap : e) {
+			x.put(ap.getTermVariable(), ap.getValue());
+		}
+
+		// foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
+		for (RandomVariable Xi : bn.getVariablesInTopologicalOrder()) {
+			// if X<sub>i</sub> is an evidence variable with value x<sub>i</sub>
+			// in e
+			if (x.containsKey(Xi)) {
+				// then w <- w * P(X<sub>i</sub> = x<sub>i</sub> |
+				// parents(X<sub>i</sub>))
+				w *= bn.getNode(Xi)
+						.getCPD()
+						.getValue(
+								ProbUtil.getEventValuesForXiGivenParents(
+										bn.getNode(Xi), x));
+			} else {
+				// else <b>x</b>[i] <- a random sample from
+				// <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
+				x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+			}
+		}
+		// return <b>x</b>, w
+		return new Pair<Map<RandomVariable, Object>, Double>(x, w);
+!!!398594.java!!!	ask(in X : RandomVariable [[]], in observedEvidence : AssignmentProposition [[]], in bn : BayesianNetwork, in N : int) : CategoricalDistribution
+		return likelihoodWeighting(X, observedEvidence, bn, N);

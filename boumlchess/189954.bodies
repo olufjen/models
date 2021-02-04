@@ -1,0 +1,50 @@
+class AlphaBetaSearch
+!!!442754.java!!!	createFor(inout game : Game) : AlphaBetaSearch
+        return new AlphaBetaSearch<STATE, ACTION, PLAYER>(game);
+!!!442882.java!!!	AlphaBetaSearch(inout game : Game)
+        this.game = game;
+!!!443010.java!!!	makeDecision(inout state : S) : A
+        metrics = new Metrics();
+        A result = null;
+        double resultValue = Double.NEGATIVE_INFINITY;
+        P player = game.getPlayer(state);
+        for (A action : game.getActions(state)) {
+            double value = minValue(game.getResult(state, action), player,
+                    Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            if (value > resultValue) {
+                result = action;
+                resultValue = value;
+            }
+        }
+        return result;
+!!!443138.java!!!	maxValue(inout state : S, inout player : P, in alpha : double, in beta : double) : double
+        metrics.incrementInt(METRICS_NODES_EXPANDED);
+        if (game.isTerminal(state))
+            return game.getUtility(state, player);
+        double value = Double.NEGATIVE_INFINITY;
+        for (A action : game.getActions(state)) {
+            value = Math.max(value, minValue( //
+                    game.getResult(state, action), player, alpha, beta));
+            if (value >= beta)
+                return value;
+            alpha = Math.max(alpha, value);
+        }
+        return value;
+!!!443266.java!!!	minValue(inout state : S, inout player : P, in alpha : double, in beta : double) : double
+        metrics.incrementInt(METRICS_NODES_EXPANDED);
+        if (game.isTerminal(state))
+            return game.getUtility(state, player);
+        double value = Double.POSITIVE_INFINITY;
+        for (A action : game.getActions(state)) {
+            value = Math.min(value, maxValue( //
+                    game.getResult(state, action), player, alpha, beta));
+            if (value <= alpha)
+                return value;
+            beta = Math.min(beta, value);
+        }
+        return value;
+!!!443394.java!!!	getMetrics() : Metrics
+        return metrics;
+!!!443522.java!!!	setLogEnabled(inout b : boolean) : void
+		// TODO Auto-generated method stub
+		

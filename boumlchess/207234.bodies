@@ -1,0 +1,98 @@
+class WumpusAgentApp
+!!!554754.java!!!	main(inout args : String [[]]) : void
+        launch(args);
+!!!554882.java!!!	getTitle() : String
+        return "Wumpus Agent App";
+!!!555010.java!!!	createRootPane() : Pane
+        BorderPane root = new BorderPane();
+
+        StackPane envView = new StackPane();
+        envViewCtrl = new WumpusEnvironmentViewCtrl(envView);
+
+        List<Parameter> params = createParameters();
+
+        TaskExecutionPaneBuilder builder = new TaskExecutionPaneBuilder();
+        builder.defineParameters(params);
+        builder.defineStateView(envView);
+        builder.defineInitMethod(this::initialize);
+        builder.defineTaskMethod(this::startExperiment);
+        taskPaneCtrl = builder.getResultFor(root);
+
+        return root;
+!!!555138.java!!!	createParameters() : Parameter
+        Parameter p1 = new Parameter(PARAM_CAVE, "2x2", "3x3", "4x4a", "4x4b");
+        p1.setDefaultValueIndex(2);
+        Parameter p2 = new Parameter(PARAM_AGENT, "Hybrid Wumpus Agent", "Efficient Hybrid Wumpus Agent");
+        p2.setDefaultValueIndex(1);
+        Parameter p3 = new Parameter(PARAM_SAT_SOLVER, "DPLLSatisfiable", "OptimizedDPLL");
+        p3.setDefaultValueIndex(1);
+        Parameter p4 = new Parameter(PARAM_VIEW, "Default", "Hide Room Content", "Show KB");
+        return Arrays.asList(p1, p2, p3, p4);
+!!!555266.java!!!	initialize() : void
+        switch (taskPaneCtrl.getParamValueIndex(PARAM_CAVE)) {
+            case 0:
+                cave = new WumpusCave(2, 2, ""
+                        + "W . "
+                        + "S G ");
+                break;
+            case 1:
+                cave = new WumpusCave(3, 3, ""
+                        + "P . G "
+                        + ". W . "
+                        + "S . P ");
+                break;
+            case 2:
+                // from Figure 7.2 A typical wumpus world.
+                cave = new WumpusCave(4, 4, ""
+                        + ". . . P "
+                        + "W G P . "
+                        + ". . . . "
+                        + "S . P . ");
+                break;
+            case 3:
+                cave = new WumpusCave(4, 4, ""
+                        + ". . W G "
+                        + ". . . P "
+                        + ". . . . "
+                        + "S . . . ");
+                break;
+        }
+        env = new WumpusEnvironment(cave);
+
+        DPLL dpll = null;
+        switch (taskPaneCtrl.getParamValueIndex(PARAM_SAT_SOLVER)) {
+            case 0:
+                dpll = new DPLLSatisfiable();
+                break;
+            case 1:
+                dpll = new OptimizedDPLL();
+                break;
+        }
+
+        switch (taskPaneCtrl.getParamValueIndex(PARAM_AGENT)) {
+            case 0:
+                agent = new HybridWumpusAgent(cave.getCaveXDimension(), cave.getCaveYDimension(),
+                        cave.getStart(), dpll, env);
+                break;
+            case 1:
+                agent = new EfficientHybridWumpusAgent(cave.getCaveXDimension(), cave.getCaveYDimension(),
+                        cave.getStart(), dpll, env);
+                break;
+        }
+        env.addEnvironmentView(envViewCtrl);
+        envViewCtrl.initialize(env);
+        envViewCtrl.setShowRoomContent(taskPaneCtrl.getParamValueIndex(PARAM_VIEW) != 1);
+!!!555394.java!!!	startExperiment() : void
+        env.addAgent(agent);
+        taskPaneCtrl.waitAfterStep();
+        while (!env.isDone() && !Tasks.currIsCancelled()) {
+            env.step();
+            taskPaneCtrl.setStatus(agent.getMetrics().toString());
+            taskPaneCtrl.waitAfterStep();
+        }
+        if (taskPaneCtrl.getParamValueIndex(PARAM_VIEW) == 1)
+            envViewCtrl.setShowRoomContent(true);
+        if (taskPaneCtrl.getParamValueIndex(PARAM_VIEW) == 2)
+            env.notifyViews("KB:\n" + agent.getKB().toString());
+!!!555522.java!!!	cleanup() : void
+        taskPaneCtrl.cancelExecution();

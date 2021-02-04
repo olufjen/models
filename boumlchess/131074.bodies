@@ -1,0 +1,27 @@
+class ModelBasedReflexAgentProgram
+!!!138626.java!!!	ModelBasedReflexAgentProgram()
+		init();
+!!!138754.java!!!	setState(inout state : DynamicState) : void
+		this.state = state;
+!!!138882.java!!!	setModel(inout model : Model) : void
+		this.model = model;
+!!!139010.java!!!	setRules(inout ruleSet : Set<Rule>) : void
+		rules = ruleSet;
+!!!139138.java!!!	execute(inout percept : Percept) : Action
+		// state <- UPDATE-STATE(state, action, percept, model)
+		state = updateState(state, action, percept, model);
+		// rule <- RULE-MATCH(state, rules)
+		Rule rule = ruleMatch(state, rules);
+		// action <- rule.ACTION
+		action = ruleAction(rule);
+		// return action
+		return action;
+!!!139522.java!!!	ruleMatch(inout state : DynamicState, inout rules : Set<Rule>) : Rule
+		for (Rule r : rules) {
+			if (r.evaluate(state)) {
+				return r;
+			}
+		}
+		return null;
+!!!139650.java!!!	ruleAction(inout r : Rule) : Action
+		return null == r ? NoOpAction.NO_OP : r.getAction();
