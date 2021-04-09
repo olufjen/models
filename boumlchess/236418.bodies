@@ -39,9 +39,9 @@ class PreferredMoveProcessor
 			}
 			
 		}
-		if (name.equals(otherName) && name.equals("WhiteBishop2")) {
+/*		if (name.equals(otherName) && name.equals("WhiteBishop2")) {
 			 System.out.println("PreferredMove: Checking bishop");
-		}
+		}*/
 		
 		heldPosition = from;
 		String color = p.getColor();
@@ -153,12 +153,17 @@ class PreferredMoveProcessor
 			for (Position temp:tempList) {
 				String posName = temp.getPositionName();
 //				logText.append(posName+"\n");
-				writer.println("Added removed position "+temp.toString()+" For "+pName);
-				removedPositions.add(temp);
+				Position posinTable =  (Position) removedPositions.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null); // Do not put position in removed table if it is there already
+				if (posinTable == null) {
+					writer.println("Added removed position "+temp.toString()+" For "+name);
+					removedPositions.add(temp);
+				}
+	
 			}
 //			tempList = null;
-			p.setRemovedPositions(removedPositions);
+//			p.setRemovedPositions(removedPositions); Must always set the removed positions for all pieces. olj 24.02.21
 		}
+		p.setRemovedPositions(removedPositions);
 /*		if (kn != null) {
 			
 		}*/
@@ -167,7 +172,7 @@ class PreferredMoveProcessor
 			for (Position removedPos:removedPositions) {
 				if (removedPos.getPositionName().equals(availablePos.getPositionName())) {
 					available = false;
-					writer.println("Removed position "+removedPos.toString());
+//					writer.println("Removed position "+removedPos.toString());
 					break;
 				}
 

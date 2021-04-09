@@ -1,6 +1,6 @@
 format 223
 "planning" // no::games::chess::planning
-  revision 2
+  revision 3
   modified_by 2 "bruker"
   // class settings
   
@@ -165,7 +165,8 @@ ${members}}
       mysql_decl ""
       
       comment "This class is a spesialized version of the 
-A problem factory to generate planning problems.
+Planning problem factory to generate planning problems.
+It is used for chess games in this project
 
 @author samagra
 "
@@ -253,7 +254,7 @@ STEPS : [Taxi (Home, SFO)] )
       operation 1653506 "getHlaAct"
 	class_operation public return_type class_ref 332546 // ChessHighLevelAction
 	nparams 1
-	  param inout name "problem" type class_ref 169986 // Problem
+	  param inout name "problem" type class_ref 356994 // ChessProblem
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -262,7 +263,9 @@ STEPS : [Taxi (Home, SFO)] )
 	
 	
 	comment "Generates the ChessHLA for a chess problem.
-
+Chapter 11.2.2 Searching for primitive solutions:
+For each primitive action a, provide one refinement of Act with steps {a,Act}.
+Act is the HLA.
 @param problem
 @return The Act HLA.
 "
@@ -308,10 +311,100 @@ HLA whose preconditions are satisfied by the specified state, outcome.
 
 @author samagra
 "
+      attribute 449538 "fw"
+	private explicit_type "FileWriter"
+	init_value "  null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 449666 "writer"
+	private explicit_type "PrintWriter"
+	init_value "  null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1760002 "ChessSearchAlgorithm"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "fw" explicit_type "FileWriter"
+	  param inout name "writer" explicit_type "PrintWriter"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1760130 "getFw"
+	public explicit_return_type "FileWriter"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1760258 "setFw"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fw" explicit_type "FileWriter"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1760386 "getWriter"
+	public explicit_return_type "PrintWriter"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1760514 "setWriter"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "writer" explicit_type "PrintWriter"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1653634 "heirarchicalSearch"
 	public return_type class_ref 169602 // ActionSchema
 	nparams 1
-	  param inout name "problem" type class_ref 169986 // Problem
+	  param inout name "problem" type class_ref 356994 // ChessProblem
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -345,6 +438,160 @@ satisfied by the specified state, outcome.
 @param hla     The hla to which the refinements are to be applied.
 @param outcome The state in which the refinements are to be applied.
 @return List of all refinements of the current hla in a given outcome state.
+"
+      end
+    end
+
+    class 356994 "ChessProblem"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "THis is the chess version of the Problem class
+
+Artificial Intelligence A Modern Approach (3rd Edition): page
+383.<br>
+<br>
+<p>
+A set of action schemas serves as a definition of a planning domain. A specific problem
+within the domain is defined with the addition of an initial state and a goal. The initial
+state is a conjunction of ground atoms.The goal is just like a
+precondition: a conjunction of literals (positive or negative) that may contain variables, such
+as At(p, SFO ) ∧ Plane(p). Any variables are treated as existentially quantified, so this goal
+is to have any plane at SFO. The problem is solved when we can find a sequence of actions
+that end in a state s that entails the goal.
+
+@author samagra
+"
+      classrelation 435586 // initialState (<unidirectional association>)
+	relation 435586 --->
+	  a role_name "initialState" package
+	    comment " initialState"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 435586 // initialState (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      classrelation 435714 // actionSchemas (<unidirectional association>)
+	relation 435714 --->
+	  stereotype "Set"
+	  a role_name "actionSchemas" package
+	    comment " Planning Domain"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 435714 // actionSchemas (<unidirectional association>)
+	  b parent class_ref 169602 // ActionSchema
+      end
+
+      classrelation 435842 // goalState (<unidirectional association>)
+	relation 435842 --->
+	  a role_name "goalState" package
+	    comment " goalState"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 435842 // goalState (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      operation 1759106 "ChessProblem"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "initialState" type class_ref 170242 // State
+	  param inout name "goalState" type class_ref 170242 // State
+	  param inout name "actionSchemas" explicit_type "Set<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1759234 "ChessProblem"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "initialState" type class_ref 170242 // State
+	  param inout name "goalState" type class_ref 170242 // State
+	  param inout name "" explicit_type "ActionSchema...actions"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1759362 "getInitialState"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1759490 "getActionSchemas"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1759618 "getGoalState"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1759746 "getProblemConstants"
+	public return_type class_ref 149506 // Constant
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Constants for a particular problem domain.
+"
+      end
+
+      operation 1759874 "getPropositionalisedActions"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return Propositionalises all the actionschemas to return a set of possible ground actions
 "
       end
     end
@@ -397,10 +644,32 @@ import aima.core.logic.planning.ActionSchema;
 import aima.core.logic.planning.PlanningProblemFactory;
 import aima.core.logic.planning.Problem;
 import aima.core.logic.planning.State;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.*;
 ${definition}"
       associated_elems
 	class_ref 332802 // ChessSearchAlgorithm
+      end
+    end
+
+    artifact 299778 "ChessProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.State;
+import aima.core.util.math.permute.PermutationGenerator;
+import no.games.chess.fol.util.ChessPermutationGenerator;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 356994 // ChessProblem
       end
     end
   end

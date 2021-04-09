@@ -21,6 +21,7 @@ class Position
 		centerrightlow = ycol == 4 && xrow == 3;
 		centerrighthigh = ycol == 4 && xrow == 4;
 		removedPieces = new Stack();
+		predicates = new ArrayList<String>();
 !!!725762.java!!!	Position(inout loc : XYLocation, inout inUse : boolean, inout usedBy : ChessPiece)
 		this.xyloc = loc;
 		this.usedBy = usedBy;
@@ -44,6 +45,21 @@ class Position
 		centerrightlow = ycol == 4 && xrow == 3;
 		centerrighthigh = ycol == 4 && xrow == 4;
 		removedPieces = new Stack();
+		predicates = new ArrayList<String>();
+!!!1768194.java!!!	getPiecePred() : String
+		return piecePred;
+!!!1768322.java!!!	setPiecePred(in piecePred : String) : void
+		this.piecePred = piecePred;
+!!!1768450.java!!!	getPredicate() : String
+		return predicate;
+!!!1768578.java!!!	setPredicate(in predicate : String) : void
+		this.predicate = predicate;
+		String str[] = this.predicate.split(";");
+		predicates = Arrays.asList(str);
+!!!1768706.java!!!	getPredicates() : List<String>
+		return predicates;
+!!!1768834.java!!!	setPredicates(inout predicates : List<String>) : void
+		this.predicates = predicates;
 !!!725890.java!!!	isCenterlefthigh() : boolean
 		return centerlefthigh;
 !!!726018.java!!!	setCenterlefthigh(inout centerlefthigh : boolean) : void
@@ -64,7 +80,7 @@ class Position
 		return xyloc;
 !!!727042.java!!!	setXyloc(inout xyloc : XYLocation) : void
 		this.xyloc = xyloc;
-!!!727170.java!!!	getPieces() : HashSet<Piece>
+!!!727170.java!!!	getPieces() : Piece
 		return pieces;
 !!!727298.java!!!	getRemovedPieces() : ChessPiece
 		return removedPieces;
@@ -129,6 +145,7 @@ class Position
 		    	}
 		    	usedBy.setOntlogyName(name);
 		    	usedBy.setFullName(irs);
+//		    	usedBy.setPredicate(piecePred);
 		    	System.out.println("setPieces: Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
 
 			}

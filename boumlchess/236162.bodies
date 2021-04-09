@@ -3,6 +3,8 @@ class ARook
 		super();
 		reachablesqueres = new int[size][size];
 		reachablepiecePosition = new String[size][size];
+		castlesqueres = new int[size][size];
+		castlepositions = new String[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				reachablesqueres[i][j] = 0;
@@ -11,19 +13,34 @@ class ARook
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				reachablepiecePosition[i][j] = null;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlepositions[i][j] = null;
 			}
 		}
 !!!780546.java!!!	ARook(inout myPosition : Position, inout myPiece : ChessPiece)
 		super();
 		color = myPiece.getColor();
-		if (color.equals("w"))
+		if (color.equals("w")) {
 			localColor = pieceColor.WHITE;
-		else
+		}
+		else {
 			localColor = pieceColor.BLACK;
+			castley = 7;
+		}
 		this.myPiece = myPiece;
 		this.myPosition = myPosition;
 		reachablesqueres = new int[size][size];
 		reachablepiecePosition = new String[size][size];
+		castlesqueres = new int[size][size];
+		castlepositions = new String[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				reachablesqueres[i][j] = 0;
@@ -34,11 +51,25 @@ class ARook
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlepositions[i][j] = null;
+			}
+		}
+		if (castlePositions == null)
+			castlePositions = new HashMap();
 		getLegalmoves(myPosition);
 !!!780674.java!!!	ARook(inout myPosition : Position)
 		super();
 		reachablesqueres = new int[size][size];
 		reachablepiecePosition = new String[size][size];
+		castlesqueres = new int[size][size];
+		castlepositions = new String[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				reachablesqueres[i][j] = 0;
@@ -49,6 +80,18 @@ class ARook
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlesqueres[i][j] = 0;
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				castlepositions[i][j] = null;
+			}
+		}
+		if (castlePositions == null)
+			castlePositions = new HashMap();
 		getLegalmoves(myPosition);
 !!!780802.java!!!	getColor() : String
 		return color;
@@ -92,6 +135,20 @@ class ARook
 		return reachablepiecePosition;
 !!!782722.java!!!	setReachablepiecePosition(inout reachablepiecePosition : String [[][]]) : void
 		this.reachablepiecePosition = reachablepiecePosition;
+!!!1779842.java!!!	getCastlePositions() : Position
+		return castlePositions;
+!!!1779970.java!!!	setCastlePositions(inout castlePositions : HashMap<String, Position>) : void
+		this.castlePositions = castlePositions;
+!!!1780098.java!!!	makeCastlemove() : void
+		castlesqueres[castlex][castley] = 1;
+		castlepositions[castlex][castley] = "K";
+		XYLocation newloc = new XYLocation(castlex,castley);
+		createPosition(castlePositions, newloc);
+		castlesqueres[castlexx][castley] = 1;
+		castlepositions[castlexx][castley] = "K";
+		XYLocation newlocx = new XYLocation(castlexx,castley);
+		createPosition(castlePositions, newlocx);
+		createontPosition(castlePositions);
 !!!782850.java!!!	getLegalmoves(inout position : Position) : void
 		XYLocation loc = position.getXyloc();
 		String posName = position.getPositionName();

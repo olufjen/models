@@ -27,7 +27,11 @@ class APlayer
 		pieceValues = new ArrayList<Integer>();
 		myontologyPieces = new ArrayList<Piece>();
 		namesAndrank = new HashMap();
-!!!772226.java!!!	getMyontologyPieces() : ArrayList<Piece>
+!!!1779586.java!!!	getNameOfplayer() : String
+		return nameOfplayer;
+!!!1779714.java!!!	setNameOfplayer(in nameOfplayer : String) : void
+		this.nameOfplayer = nameOfplayer;
+!!!772226.java!!!	getMyontologyPieces() : Piece
 		return myontologyPieces;
 !!!772354.java!!!	setMyontologyPieces(inout myontologyPieces : ArrayList<Piece>) : void
 		this.myontologyPieces = myontologyPieces;
@@ -132,6 +136,7 @@ class APlayer
 			Integer prn = new Integer(pn);
 			OpponentMoveProcessor op = new OpponentMoveProcessor(prn,name);
 			ApieceMove move = ChessFunctions.processChessgame(this, piece,op);
+			currentMove = move;
 		}
 !!!774402.java!!!	getMyPieces() : AgamePiece
 		return myPieces;
@@ -155,9 +160,11 @@ class APlayer
 		this.playerName = playerName;
 		if (playerName == whitePlayer) {
 			setWhitePlayer(playerName);
+			nameOfplayer = "WhitePlayer";
 		}
 		if (playerName == blackPlayer) {
 			setBlackPlayer(playerName);
+			nameOfplayer = "BlackPlayer";
 		}
 !!!775682.java!!!	isActive() : boolean
 		return active;

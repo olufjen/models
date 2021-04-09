@@ -1,0 +1,57 @@
+format 223
+
+classinstance 128002 class_ref 233986 // AChessAgent
+ name ""  xyz 479 267 2000
+classinstance 128130 class_ref 363906 // AChessProblemSolver
+ name ""  xyz 461 483 2005
+classinstance 128258 class_ref 332802 // ChessSearchAlgorithm
+ name ""  xyz 809 267 2000
+textcanvas 130562 "Returns a ChessProblem
+For details on this method see
+The ProblemSolver planProblem method diagram"
+  xyzwh 79 302 2000 170 79
+textcanvas 130818 "The heirarchicalSearch method is given the chessProblem and returns a set of ActionSchemas"
+  xyzwh 725 319 2000 173 63
+linkcanvas 128514
+  from ref 128002 z 2006 to ref 128130
+dirscanvas 128642 z 1000 linkcanvas_ref 128514
+  
+  forward_label "1 AChessProblemSolver()" xyz 539 380 3000
+linkcanvas 128770
+  from ref 128002 z 2001 to point 367 278
+  line 128898 z 2001 to point 363 490
+  line 129026 z 2001 to ref 128130
+dirscanvas 129154 z 1000 linkcanvas_ref 128770
+  
+  forward_label "2 planProblem()" xyz 387 296 3000
+linkcanvas 129282
+  from ref 128002 z 2001 to point 517 158
+  line 129410 z 2001 to point 866 158
+  line 129538 z 2001 to ref 128258
+dirscanvas 129666 z 1000 linkcanvas_ref 129410
+  
+  forward_label "3 ChessSearchAlgorithm()" xyz 631 129 3000
+linkcanvas 129794
+  from ref 128002 z 2001 to ref 128258
+dirscanvas 129922 z 1000 linkcanvas_ref 129794
+  
+  forward_label "4 heirarchicalSearch()" xyz 632 248 3000
+msgs
+  msg operation_ref 1772290 // "AChessProblemSolver(inout stateImpl : ChessStateImpl, inout localAction : ChessActionImpl, inout folKb : FOLKnowledgeBase, inout chessDomain : FOLDomain, inout forwardChain : FOLGamesFCAsk, inout backwardChain : FOLGamesBCAsk, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer)"
+    forward ranks 1 "1" dirscanvas_ref 128642
+    no_msg
+  msg operation_ref 1776770 // "planProblem(inout actions : ArrayList<ChessActionImpl>) : ChessProblem"
+    forward ranks 2 "2" dirscanvas_ref 129154
+    no_msg
+  msg operation_ref 1760002 // "ChessSearchAlgorithm(inout fw : FileWriter, inout writer : PrintWriter)"
+    forward ranks 3 "3" dirscanvas_ref 129666
+    no_msg
+  msg operation_ref 1653634 // "heirarchicalSearch(inout problem : ChessProblem) : ActionSchema"
+    forward ranks 4 "4" dirscanvas_ref 129922
+    no_msg
+msgsend
+line 130690 -_-_ decenter_begin 356
+  from ref 130562 z 2002 to ref 128898
+line 130946 -_-_
+  from ref 130818 z 2002 to ref 129794
+end

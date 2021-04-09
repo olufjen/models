@@ -1,8 +1,21 @@
 class ChessSearchAlgorithm
-!!!1653634.java!!!	heirarchicalSearch(inout problem : Problem) : ActionSchema
+!!!1760002.java!!!	ChessSearchAlgorithm(inout fw : FileWriter, inout writer : PrintWriter)
+	super();
+	this.fw = fw;
+	this.writer = writer;
+!!!1760130.java!!!	getFw() : FileWriter
+		return fw;
+!!!1760258.java!!!	setFw(inout fw : FileWriter) : void
+		this.fw = fw;
+!!!1760386.java!!!	getWriter() : PrintWriter
+		return writer;
+!!!1760514.java!!!	setWriter(inout writer : PrintWriter) : void
+		this.writer = writer;
+!!!1653634.java!!!	heirarchicalSearch(inout problem : ChessProblem) : ActionSchema
         // frontier ← a FIFO queue with [Act] as the only element
+ 
         Queue<List<ActionSchema>> frontier = new LinkedList<>();
-        frontier.add(new ArrayList<>(Collections.singletonList(PlanningProblemFactory.getHlaAct(problem))));
+        frontier.add(new ArrayList<>(Collections.singletonList(ChessPlanningProblemFactory.getHlaAct(problem))));
         // loop do
         while (true) {
             // if EMPTY?(frontier) then return failure

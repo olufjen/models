@@ -1,6 +1,6 @@
 format 223
 "model" // no::chess::web::model
-  revision 3
+  revision 4
   modified_by 2 "bruker"
   // class settings
   
@@ -419,9 +419,79 @@ It uses FEN syntax to show board positions
 	MysqlColumn
       end
 
-      attribute 279170 "blackPositions"
-	private explicit_type "BlackBoardPosition"
-	stereotype "HashSet"
+      classrelation 442370 // blackPositions (<unidirectional association>)
+	relation 442370 --->
+	  stereotype "HashSet"
+	  a role_name "blackPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 442370 // blackPositions (<unidirectional association>)
+	  b parent class_ref 295682 // BlackBoardPosition
+      end
+
+      classrelation 442498 // whitePositions (<unidirectional association>)
+	relation 442498 --->
+	  stereotype "HashSet"
+	  a role_name "whitePositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 442498 // whitePositions (<unidirectional association>)
+	  b parent class_ref 299138 // WhiteBoardPosition
+      end
+
+      classrelation 442626 // blackPieces (<unidirectional association>)
+	relation 442626 --->
+	  stereotype "HashSet"
+	  a role_name "blackPieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 442626 // blackPieces (<unidirectional association>)
+	  b parent class_ref 296450 // BlackPiece
+      end
+
+      classrelation 442754 // whitePieces (<unidirectional association>)
+	relation 442754 --->
+	  stereotype "HashSet"
+	  a role_name "whitePieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 442754 // whitePieces (<unidirectional association>)
+	  b parent class_ref 299266 // WhitePiece
+      end
+
+      classrelation 442882 // allTakenPositions (<unidirectional association>)
+	relation 442882 --->
+	  stereotype "HashSet"
+	  a role_name "allTakenPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 442882 // allTakenPositions (<unidirectional association>)
+	  b parent class_ref 297346 // Taken
+      end
+
+      classrelation 443010 // allVacantPositions (<unidirectional association>)
+	relation 443010 --->
+	  stereotype "HashSet"
+	  a role_name "allVacantPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 443010 // allVacantPositions (<unidirectional association>)
+	  b parent class_ref 298626 // Vacant
+      end
+
+      classrelation 443138 // allChessPositions (<unidirectional association>)
+	relation 443138 --->
+	  stereotype "HashSet"
+	  a role_name "allChessPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 443138 // allChessPositions (<unidirectional association>)
+	  b parent class_ref 295938 // ChessPosition
+      end
+
+      attribute 456194 "allClasses"
+	private explicit_type "OWLClass"
+	stereotype "NodeSet"
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
@@ -432,9 +502,9 @@ It uses FEN syntax to show board positions
 	MysqlColumn
       end
 
-      attribute 279298 "whitePositions"
-	private explicit_type "WhiteBoardPosition"
-	stereotype "HashSet"
+      attribute 456322 "allSetClasses"
+	private explicit_type "OWLClass"
+	stereotype "Set"
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
@@ -445,61 +515,9 @@ It uses FEN syntax to show board positions
 	MysqlColumn
       end
 
-      attribute 279426 "blackPieces"
-	private explicit_type "BlackPiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 279554 "whitePieces"
-	private explicit_type "WhitePiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 279682 "allTakenPositions"
-	private explicit_type "Taken"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 279810 "allVacantPositions"
-	private explicit_type "Vacant"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 279938 "allChessPositions"
-	private explicit_type "ChessPosition"
-	stereotype "HashSet"
+      attribute 456450 "allOntclasses"
+	private explicit_type "OWLClass"
+	stereotype "List"
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
@@ -1173,6 +1191,8 @@ with the SQWRLQueryEngine queryEngine
 This method creates positions on the chessboard given the ontology positions
 It is called when user wants the correct ontologypositions on the chessboard.
 OLJ 06.05.19 : Must be reworked when eightqueen problem has been run
+@since November 2020
+Adding predicates to pieces and positions
 "
       end
 
@@ -1542,6 +1562,7 @@ This method places the eight queens from NQueensBoard in the correct positions o
 The MoveMent class is used to places pieces correctly
 "
       end
+
     end
 
     class 232194 "ChessRules"
@@ -1821,6 +1842,46 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
 	MysqlColumn
       end
 
+      attribute 456706 "predicate"
+	private explicit_type "String"
+	init_value " \"none\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "The predicate used by this object"
+      end
+
+      attribute 456834 "piecePred"
+	private explicit_type "String"
+	init_value " \"none\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 456962 "predicates"
+	private explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       classrelation 290562 // usedBy (<unidirectional association>)
 	relation 290562 --->
 	  a role_name "usedBy" private
@@ -1849,43 +1910,32 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
 	  b parent class_ref 232578 // ChessPiece
       end
 
-      attribute 287490 "blackBoardPosition"
-	private explicit_type "BlackBoardPosition"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 444418 // blackBoardPosition (<unidirectional association>)
+	relation 444418 --->
+	  a role_name "blackBoardPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444418 // blackBoardPosition (<unidirectional association>)
+	  b parent class_ref 295682 // BlackBoardPosition
       end
 
-      attribute 287618 "whiteBoardPosition"
-	private explicit_type "WhiteBoardPosition"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 444546 // whiteBoardPosition (<unidirectional association>)
+	relation 444546 --->
+	  a role_name "whiteBoardPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444546 // whiteBoardPosition (<unidirectional association>)
+	  b parent class_ref 299138 // WhiteBoardPosition
       end
 
-      attribute 287746 "pieces"
-	private explicit_type "Piece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 444674 // pieces (<unidirectional association>)
+	relation 444674 --->
+	  stereotype "HashSet"
+	  a role_name "pieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444674 // pieces (<unidirectional association>)
+	  b parent class_ref 296578 // Piece
       end
 
       classrelation 290946 // xyloc (<unidirectional association>)
@@ -1921,6 +1971,81 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
 	  param inout name "usedBy" type class_ref 232578 // ChessPiece
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768194 "getPiecePred"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768322 "setPiecePred"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "piecePred" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768450 "getPredicate"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768578 "setPredicate"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "predicate" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768706 "getPredicates"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768834 "setPredicates"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "predicates" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2054,10 +2179,10 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
       end
 
       operation 727170 "getPieces"
-	public explicit_return_type "HashSet<Piece>"
+	public return_type class_ref 296578 // Piece
 	nparams 0
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2612,6 +2737,7 @@ ChessState object in the search process
 	
 	
       end
+
     end
 
     class 232450 "ChessMoves"
@@ -2946,58 +3072,42 @@ It contains information about the ontology chesspiece and its position.
 	comment " The type of piece: P,R, K etc."
       end
 
-      attribute 283522 "blackPiece"
-	private explicit_type "Piece"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 443266 // blackPiece (<unidirectional association>)
+	relation 443266 --->
+	  a role_name "blackPiece" init_value " null" private
+	    comment " The ontology piece for this piece if it is black."
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-	comment " The ontology piece for this piece if it is black."
+	    classrelation_ref 443266 // blackPiece (<unidirectional association>)
+	  b parent class_ref 296578 // Piece
       end
 
-      attribute 283650 "whitePiece"
-	private explicit_type "Piece"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 443394 // whitePiece (<unidirectional association>)
+	relation 443394 --->
+	  a role_name "whitePiece" init_value " null" private
+	    comment " The ontology piece for this piece if it is white."
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-	comment " The ontology piece for this piece if it is white."
+	    classrelation_ref 443394 // whitePiece (<unidirectional association>)
+	  b parent class_ref 296578 // Piece
       end
 
-      attribute 283778 "blackBoardPosition"
-	private explicit_type "BlackBoardPosition"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 443522 // blackBoardPosition (<unidirectional association>)
+	relation 443522 --->
+	  a role_name "blackBoardPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 443522 // blackBoardPosition (<unidirectional association>)
+	  b parent class_ref 295682 // BlackBoardPosition
       end
 
-      attribute 283906 "whiteBoardPosition"
-	private explicit_type "WhiteBoardPosition"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 443650 // whiteBoardPosition (<unidirectional association>)
+	relation 443650 --->
+	  a role_name "whiteBoardPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 443650 // whiteBoardPosition (<unidirectional association>)
+	  b parent class_ref 299138 // WhiteBoardPosition
       end
 
       attribute 284034 "ontlogyName"
@@ -3036,6 +3146,20 @@ It contains information about the ontology chesspiece and its position.
 	  b parent class_ref 232706 // AgamePiece
       end
 
+      attribute 456578 "predicate"
+	private explicit_type "String"
+	init_value " \"none\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "The predicate used by this object"
+      end
+
       operation 708994 "ChessPiece"
 	public explicit_return_type ""
 	nparams 4
@@ -3071,6 +3195,31 @@ It contains information about the ontology chesspiece and its position.
 	private explicit_return_type "void"
 	nparams 1
 	  param inout name "names" explicit_type "HashSet<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1767938 "getPredicate"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1768066 "setPredicate"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "predicate" explicit_type "String"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -3525,6 +3674,7 @@ The move is only accepted if it is an opposing piece that is removed
 	
 	
       end
+
     end
 
     class 232834 "EightQueenProblem"
@@ -4014,6 +4164,15 @@ ${members}}
 	MysqlColumn
       end
 
+      classrelation 443778 // saksbehandler (<unidirectional association>)
+	relation 443778 --->
+	  a role_name "saksbehandler" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 443778 // saksbehandler (<unidirectional association>)
+	  b parent class_ref 363778 // Saksbehandler
+      end
+
       operation 716802 "LoginModel"
 	public explicit_return_type ""
 	nparams 0
@@ -4141,30 +4300,24 @@ The piece remains there until it is free to move again.
 	  b parent class_ref 139522 // NQueensBoard
       end
 
-      attribute 285186 "movedblackPieces"
-	private explicit_type "BlackPiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 443906 // movedblackPieces (<unidirectional association>)
+	relation 443906 --->
+	  stereotype "HashSet"
+	  a role_name "movedblackPieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 443906 // movedblackPieces (<unidirectional association>)
+	  b parent class_ref 296450 // BlackPiece
       end
 
-      attribute 285314 "movedwhitePieces"
-	private explicit_type "WhitePiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 444034 // movedwhitePieces (<unidirectional association>)
+	relation 444034 --->
+	  stereotype "HashSet"
+	  a role_name "movedwhitePieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444034 // movedwhitePieces (<unidirectional association>)
+	  b parent class_ref 299266 // WhitePiece
       end
 
       classrelation 287490 // positions (<unidirectional association>)
@@ -4488,10 +4641,10 @@ The piece remains there until it is free to move again.
       end
 
       operation 720258 "getMovedblackPieces"
-	public explicit_return_type "HashSet<BlackPiece>"
+	public return_type class_ref 296450 // BlackPiece
 	nparams 0
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -4513,10 +4666,10 @@ The piece remains there until it is free to move again.
       end
 
       operation 720514 "getMovedwhitePieces"
-	public explicit_return_type "HashSet<WhitePiece>"
+	public return_type class_ref 299266 // WhitePiece
 	nparams 0
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -4560,6 +4713,7 @@ The piece remains there until it is free to move again.
 	
 	
       end
+
     end
 
     class 233474 "PlayGame"
@@ -4594,36 +4748,31 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
 @author oluf
 
 "
-      attribute 285442 "movedblackPieces"
-	private explicit_type "BlackPiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 444162 // movedblackPieces (<unidirectional association>)
+	relation 444162 --->
+	  stereotype "HashSet"
+	  a role_name "movedblackPieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444162 // movedblackPieces (<unidirectional association>)
+	  b parent class_ref 296450 // BlackPiece
       end
 
-      attribute 285570 "movedwhitePieces"
-	private explicit_type "WhitePiece"
-	stereotype "HashSet"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 444290 // movedwhitePieces (<unidirectional association>)
+	relation 444290 --->
+	  stereotype "HashSet"
+	  a role_name "movedwhitePieces" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 444290 // movedwhitePieces (<unidirectional association>)
+	  b parent class_ref 299266 // WhitePiece
       end
 
       classrelation 288514 // positions (<unidirectional association>)
 	relation 288514 --->
 	  stereotype "HashMap"
 	  a role_name "positions" private
+	    comment " The original HashMap of positions"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
 "
 	    classrelation_ref 288514 // positions (<unidirectional association>)
@@ -4780,6 +4929,7 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
       classrelation 290050 // activeState (<unidirectional association>)
 	relation 290050 --->
 	  a role_name "activeState" private
+	    comment " Is the active state of the game; a node in the game tree"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 290050 // activeState (<unidirectional association>)
@@ -5094,10 +5244,10 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
       end
 
       operation 723970 "getMovedblackPieces"
-	public explicit_return_type "HashSet<BlackPiece>"
+	public return_type class_ref 296450 // BlackPiece
 	nparams 0
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -5119,10 +5269,10 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
       end
 
       operation 724226 "getMovedwhitePieces"
-	public explicit_return_type "HashSet<WhitePiece>"
+	public return_type class_ref 299266 // WhitePiece
 	nparams 0
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -5309,6 +5459,7 @@ This method clears the list containing ApieceMove
 This method clears the aima chessboard
 "
       end
+
     end
 
     class 234498 "SaksbehandlerImpl"
@@ -5452,6 +5603,306 @@ Tilpasset endring/oppdatering av saksbehandlers passord
 	
       end
     end
+
+    class 363778 "Saksbehandler"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 1768962 "getSakbehandlerid"
+	public explicit_return_type "Long"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769090 "setSakbehandlerid"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "sakbehandlerid" explicit_type "Long"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769218 "getBehandernavn"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769346 "setBehandernavn"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "behandernavn" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769474 "getBehandlerepost"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769602 "setBehandlerepost"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "behandlerepost" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769730 "getBehandlertlf"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769858 "setBehandlertlf"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "behandlertlf" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1769986 "getBehandlerpassord"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770114 "setBehandlerpassord"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "behandlerpassord" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770242 "setParams"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770370 "getParams"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770498 "getTypes"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770626 "getUtypes"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770754 "getBehandlerFields"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1770882 "setBehandlerFields"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "behandlerFields" explicit_type "Map<String, String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771010 "savetoSaksbehandler"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771138 "getPwParams"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771266 "setPwParams"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pwParams" explicit_type "Object"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771394 "getPwtypes"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771522 "setPwtypes"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pwtypes" explicit_type "int"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771650 "getDbChoice"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1771778 "setDbChoice"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "dbChoice" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
   end
 
   deploymentview 142594 "model"
@@ -5472,6 +5923,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import org.protege.owl.codegeneration.WrappedIndividual;
 import org.restlet.Request;
 import org.semanticweb.owlapi.io.OWLObjectRenderer;
@@ -5489,6 +5941,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.SWRLAtom;
 import org.semanticweb.owlapi.model.SWRLPredicate;
 import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 import org.swrlapi.parser.SWRLParseException;
@@ -5690,6 +6143,7 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -5731,6 +6185,18 @@ import aima.core.util.datastructure.XYLocation;
 ${definition}"
       associated_elems
 	class_ref 232962 // QueensEnvironment
+      end
+    end
+
+    artifact 306562 "Saksbehandler"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Map;
+${definition}"
+      associated_elems
+	class_ref 363778 // Saksbehandler
       end
     end
   end

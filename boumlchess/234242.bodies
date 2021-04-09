@@ -16,6 +16,15 @@ class ChessActionImpl
 			preferredPosition = possibleMove.getToPosition();
 //		preferredPosition = player.calculatePreferredPosition(chessPiece,this);      
 		player.getHeldPositions().add(pr.getHeldPosition()); // This is the position held by the piece under consideration
+		actionName = this.chessPiece.getMyPiece().getOntlogyName();
+!!!1780226.java!!!	getActionName() : String
+		return actionName;
+!!!1780354.java!!!	setActionName(in actionName : String) : void
+		this.actionName = actionName;
+!!!1780482.java!!!	getActionValue() : Integer
+		return actionValue;
+!!!1780610.java!!!	setActionValue(inout actionValue : Integer) : void
+		this.actionValue = actionValue;
 !!!964994.java!!!	processPositions() : void
 		possibleMove = ChessFunctions.processChessgame(this,chessPiece, myProcessor);
 !!!784514.java!!!	getAttackedPositions() : Position
@@ -104,6 +113,18 @@ class ChessActionImpl
 		}
 		availablePositions = new ArrayList(positions.values());
 		positionRemoved = new ArrayList();
+		List<Position> castlePositions = null;
+		Position castlePosition = null;
+		ChessPieceType pieceType = chessPiece.getChessType();
+		if (pieceType instanceof Aking) {
+			castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+			castlePosition = castlePositions.get(0);
+		}
+		if (pieceType instanceof ARook) {
+			castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+			castlePosition = castlePositions.get(0);
+		}
+
 		List<AgamePiece> pieces = player.getMygamePieces(); 
 		for (Position position:availablePositions) {
 			for (AgamePiece otherPiece:pieces) {
@@ -113,11 +134,16 @@ class ChessActionImpl
 					if (pos != null) {
 						if (pos.isInUse()) { // OBS: Added 14.05.20 Are never active !! ??
 							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
-								positionRemoved.add(position);
+								String name = otherPiece.getMyPosition().getPositionName();
+								Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+								if (posinTable == null)
+									positionRemoved.add(position);
 							}
 						}else {
 							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
 						}
+						if (castlePosition != null)
+							checkCastling(pos, castlePositions);
 					}
 				}
 			}
@@ -126,6 +152,23 @@ class ChessActionImpl
 		}
 		return availablePositions;
 		
+!!!1780738.java!!!	checkCastling(inout otherPos : Position, inout castlePositions : List<Position>) : void
+	
+		for (Position castlePos:castlePositions) {
+			if (otherPos.getPositionName().equals(castlePos.getPositionName())) {
+				String name = otherPos.getPositionName();
+				Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+				if (posinTable == null) {
+					positionRemoved.add(castlePos);
+	//				System.out.println("Castle position: "+castlePos.toString());
+				}
+			}
+		}
+/*	
+		for (Position removed:positionRemoved) {
+			System.out.println(removed.toString());
+		}*/
+
 !!!789250.java!!!	getActions(inout theplayer : APlayer) : Position
 
 		List<AgamePiece> pieces = theplayer.getMygamePieces(); 
@@ -140,6 +183,19 @@ class ChessActionImpl
 			}
 			availablePositions = new ArrayList(positions.values());
 			positionRemoved = new ArrayList();
+			
+			List<Position> castlePositions = null;
+			Position castlePosition = null;
+			ChessPieceType pieceType = chessPiece.getChessType();
+			if (pieceType instanceof Aking) {
+				castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+				castlePosition = castlePositions.get(0);
+			}
+			if (pieceType instanceof ARook) {
+				castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+				castlePosition = castlePositions.get(0);
+			}
+			
 			for (Position position:availablePositions) {
 				for (AgamePiece otherPiece:pieces) {
 					if (otherPiece != chessPiece) {
@@ -148,7 +204,8 @@ class ChessActionImpl
 							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
 								positionRemoved.add(position);
 							}
-
+							if (castlePosition != null)
+								checkCastling(pos, castlePositions);
 						}
 					}
 				}
