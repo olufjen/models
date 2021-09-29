@@ -1,6 +1,6 @@
 format 223
 "model" // no::chess::web::model
-  revision 4
+  revision 9
   modified_by 2 "bruker"
   // class settings
   
@@ -692,6 +692,20 @@ It uses FEN syntax to show board positions
 	comment " True when a  piece move to an occupied position"
       end
 
+      attribute 485250 "castling"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " true when castling takes place"
+      end
+
       classrelation 286082 // positions (<unidirectional association>)
 	relation 286082 --->
 	  stereotype "HashMap"
@@ -1092,9 +1106,24 @@ This method clears the list of moves from the board
 	
 	comment "establishMoves
 This method creates a new move in the list of moves, it is stored in algebraic notation
+@since 26.03.21 enabled for castling
 @param chessBoard
 @param position The new position
 "
+      end
+
+      operation 1813122 "chessMoveAdm"
+	private explicit_return_type "void"
+	nparams 2
+	  param in name "pieceName" explicit_type "String"
+	  param in name "move" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
 
       operation 703618 "findMoves"
@@ -1539,6 +1568,7 @@ It is called:
 
 The chess piece that is moved receives the new position if it is accepted
 It uses the establishMoves method to create a move in algebraic notation
+And it uses the chesspiece acceptMove method to set the opposing piece passive
 
 "
       end
@@ -1562,7 +1592,6 @@ This method places the eight queens from NQueensBoard in the correct positions o
 The MoveMent class is used to places pieces correctly
 "
       end
-
     end
 
     class 232194 "ChessRules"
@@ -1948,6 +1977,76 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
 	  b parent class_ref 135938 // XYLocation
       end
 
+      attribute 495490 "nw"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "These booleans indicates which direction this position belongs to
+It is used when calculating removed positions for bishops olj 14.06.21	
+
+"
+      end
+
+      attribute 495618 "ne"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 495746 "sw"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 495874 "se"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 496002 "opponentRemove"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " True if this position is blocked by opponent"
+      end
+
       operation 725634 "Position"
 	public explicit_return_type ""
 	nparams 3
@@ -1971,6 +2070,131 @@ If it is occupied it contains the correct chesspiece (usedBy) and the equivalent
 	  param inout name "usedBy" type class_ref 232578 // ChessPiece
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832066 "isOpponentRemove"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832194 "setOpponentRemove"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponentRemove" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832322 "isNw"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832450 "setNw"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "nw" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832578 "isNe"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832706 "setNe"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ne" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832834 "isSw"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1832962 "setSw"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "sw" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833090 "isSe"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833218 "setSe"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "se" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2737,7 +2961,6 @@ ChessState object in the search process
 	
 	
       end
-
     end
 
     class 232450 "ChessMoves"
@@ -3674,7 +3897,6 @@ The move is only accepted if it is an opposing piece that is removed
 	
 	
       end
-
     end
 
     class 232834 "EightQueenProblem"
@@ -4713,7 +4935,6 @@ The piece remains there until it is free to move again.
 	
 	
       end
-
     end
 
     class 233474 "PlayGame"
@@ -4954,6 +5175,34 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
 	  b parent class_ref 234114 // ChessKnowledgeBase
       end
 
+      classrelation 466690 // deferredInitial (<unidirectional association>)
+	relation 466690 --->
+	  a role_name "deferredInitial" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 466690 // deferredInitial (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      classrelation 466818 // deferredGoal (<unidirectional association>)
+	relation 466818 --->
+	  a role_name "deferredGoal" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 466818 // deferredGoal (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      classrelation 466946 // deferredGoalstates (<unidirectional association>)
+	relation 466946 --->
+	  stereotype "Map"
+	  a role_name "deferredGoalstates" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 466946 // deferredGoalstates (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
       operation 721026 "PlayGame"
 	public explicit_return_type ""
 	nparams 2
@@ -4961,6 +5210,81 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
 	  param inout name "frontBoard" type class_ref 231938 // ChessBoard
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812226 "getDeferredGoalstates"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812354 "setDeferredGoalstates"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "deferredGoalstates" explicit_type "Map<String, State>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812482 "getDeferredInitial"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812610 "setDeferredInitial"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "deferredInitial" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812738 "getDeferredGoal"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1812866 "setDeferredGoal"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "deferredGoal" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -5353,6 +5677,24 @@ After each move a new search object is created to make a new search on the curre
 "
       end
 
+      operation 1812994 "checkCastling"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "player" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkCastling
+This method checks if the chess agent contains a castling action
+If that is the case, the method ensures that the rook is moved to the correct castling position
+@param player
+"
+      end
+
       operation 724994 "verifyAction"
 	private explicit_return_type "void"
 	nparams 4
@@ -5419,7 +5761,7 @@ This method is called from the chessState object during the makeDecision process
 	
 	
 	comment "createMove
-This method creates a move based on a move carried out in the proposeMove method
+This method creates a move based on a move carried out in the proposeMove method or by the opponent
 The game piece to be moved calculates new available positions from the new position it is moved to.
 This method is called from the proposemove method
 The method is also called when the opponent player makes a move (from RapporterChessStartServerResource)
@@ -5459,7 +5801,6 @@ This method clears the list containing ApieceMove
 This method clears the aima chessboard
 "
       end
-
     end
 
     class 234498 "SaksbehandlerImpl"
@@ -5971,6 +6312,7 @@ import no.chess.ontology.Vacant;
 import no.chess.ontology.WhiteBoardPosition;
 import no.chess.ontology.WhitePiece;
 import no.chess.ontology.impl.DefaultChessPiece;
+import no.games.chess.AbstractGamePiece.pieceType;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -6112,6 +6454,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import aima.core.environment.nqueens.NQueensBoard;
+import aima.core.logic.planning.State;
 import aima.core.search.adversarial.AdversarialSearch;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 import aima.core.search.adversarial.MinimaxSearch;

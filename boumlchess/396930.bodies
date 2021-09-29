@@ -1,0 +1,24 @@
+class ChessFolKnowledgeBase
+!!!1944322.java!!!	ChessFolKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure)
+		super(domain, inferenceProcedure);
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+!!!1944450.java!!!	createfacts(in fact : String, in pos : String, in piece : String) : void
+		Constant pieceVariable= new Constant(piece);
+		Constant posVariable = new Constant(pos);
+		List<Term> reachableTerms = new ArrayList<Term>();
+		reachableTerms.add(pieceVariable);
+		reachableTerms.add(posVariable);
+		Predicate factPredicate = new Predicate(fact,reachableTerms);
+		tell(factPredicate);
+		
+!!!1944578.java!!!	writeKnowledgebase() : void
+		writer.println("The first order knowledge base");
+		writer.println(this.toString());
+		writer.flush();
+		

@@ -1,0 +1,41 @@
+class ProbContextFreeGrammar
+!!!1824642.java!!!	ProbContextFreeGrammar()
+		type = 2; 
+		rules = null;
+!!!1824770.java!!!	addRules(inout ruleList : List<Rule>) : boolean
+		for( int i=0; i < ruleList.size(); i++ ) {
+			if( !super.validRule(ruleList.get(i)) || !validRule(ruleList.get(i)) ) {
+				return false;
+			}
+		}
+		this.rules = ruleList;
+		return true;
+!!!1824898.java!!!	addRule(inout r : Rule) : boolean
+		if( !super.validRule(r) || !validRule(r) ) {
+			return false;
+		}
+		rules.add(r);
+		return true;
+!!!1825026.java!!!	validRule(inout r : Rule) : boolean
+		if( !super.validRule(r) ){
+			return false;
+		}
+		// lhs must be a single non-terminal
+		if( r.lhs.size() != 1 || !isVariable(r.lhs.get(0)))
+		{
+			return false;
+		}
+	
+		return true;
+!!!1825154.java!!!	leftDerivesRight(inout lhs : ArrayList<String>, inout rhs : ArrayList<String>) : boolean
+		
+		// for each rule in the grammar 
+		for( int i=0; i < rules.size(); i++ ) {
+			Rule r = rules.get(i);
+			if( r.lhs.equals(lhs) && r.rhs.equals(rhs)) {
+				// matching rule found. left does derive the right in this grammar
+				return true;
+			}
+		}
+		// no match found
+		return false;

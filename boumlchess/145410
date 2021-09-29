@@ -1,6 +1,6 @@
 format 223
 "game" // no::chess::web::model::game
-  revision 7
+  revision 12
   modified_by 2 "bruker"
   // class settings
   
@@ -32,8 +32,6 @@ format 223
   
   java_dir "C:\\svnroot\\chess\\chess\\trunk\\chess_web\\src\\main\\java\\no/chess/web/model/game/"
   java_package "no.chess.web.model"
-  package_ref 197634 // game
-
   classview 142978 "game"
     
     classdiagramsettings member_max_width 0 end
@@ -97,6 +95,46 @@ pieceColor for BLACK or WHITE.
 "
 	    classrelation_ref 297602 // myPosition (<unidirectional association>)
 	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 475010 // northWest (<unidirectional association>)
+	relation 475010 --->
+	  stereotype "List"
+	  a role_name "northWest" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475010 // northWest (<unidirectional association>)
+	  b parent class_ref 135938 // XYLocation
+      end
+
+      classrelation 475138 // northEast (<unidirectional association>)
+	relation 475138 --->
+	  stereotype "List"
+	  a role_name "northEast" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475138 // northEast (<unidirectional association>)
+	  b parent class_ref 135938 // XYLocation
+      end
+
+      classrelation 475266 // southWest (<unidirectional association>)
+	relation 475266 --->
+	  stereotype "List"
+	  a role_name "southWest" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475266 // southWest (<unidirectional association>)
+	  b parent class_ref 135938 // XYLocation
+      end
+
+      classrelation 475394 // southEast (<unidirectional association>)
+	relation 475394 --->
+	  stereotype "List"
+	  a role_name "southEast" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475394 // southEast (<unidirectional association>)
+	  b parent class_ref 135938 // XYLocation
       end
 
       classrelation 297730 // heldPosition (<unidirectional association>)
@@ -179,6 +217,17 @@ pieceColor for BLACK or WHITE.
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 456834 // bishopPositions (<unidirectional association>)
+	relation 456834 --->
+	  stereotype "HashMap"
+	  a role_name "bishopPositions" private
+	    comment " Are only valid for queen"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 456834 // bishopPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       classrelation 335746 // attackPositions (<unidirectional association>)
 	relation 335746 --->
 	  stereotype "HashMap"
@@ -198,6 +247,17 @@ pieceColor for BLACK or WHITE.
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
 "
 	    classrelation_ref 448258 // castlePositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 475522 // bishopRemoved (<unidirectional association>)
+	relation 475522 --->
+	  stereotype "List"
+	  a role_name "bishopRemoved" private
+	    comment " This list contains removed positions for the queen in bishop movements"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475522 // bishopRemoved (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -312,6 +372,19 @@ pieceColor for BLACK or WHITE.
 	MysqlColumn
       end
 
+      attribute 477698 "castlingMove"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 752258 "AgamePiece"
 	public explicit_return_type ""
 	nparams 1
@@ -344,6 +417,156 @@ pieceColor for BLACK or WHITE.
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833474 "getNorthWest"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833602 "setNorthWest"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "northWest" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833730 "getNorthEast"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833858 "setNorthEast"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "northEast" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1833986 "getSouthWest"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1834114 "setSouthWest"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "southWest" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1834242 "getSouthEast"
+	public return_type class_ref 135938 // XYLocation
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1834370 "setSouthEast"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "southEast" explicit_type "List<XYLocation>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1834498 "getBishopRemoved"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1834626 "setBishopRemoved"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "bishopRemoved" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796226 "isCastlingMove"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796354 "setCastlingMove"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "castlingMove" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -441,6 +664,31 @@ pieceColor for BLACK or WHITE.
 	public explicit_return_type "void"
 	nparams 1
 	  param inout name "castlePositions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796482 "getBishopPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796610 "setBishopPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "bishopPositions" explicit_type "HashMap<String, Position>"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -568,6 +816,8 @@ Then determinePieceType is called
 	
 	comment "checkRemoved
 This method checks if a particular position is removed from the available positions
+@since 02.03.21
+Checks also position name
 @param pos
 @return true if removed
 "
@@ -728,6 +978,40 @@ It is called from the determinPieceType method
 	
       end
 
+      operation 1834754 "giveNewdirections"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "giveNewdirections
+This method calculates new directions if 
+the piece is of type bishop or queen
+
+"
+      end
+
+      operation 1834882 "calculateDirections"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "calculateDirections
+This method calculates the bishop directions given the current position of the bishop
+The XYLocations are stored in four different lists NW,NE,SW,SE
+
+"
+      end
+
       operation 754306 "determinePieceType"
 	public explicit_return_type "void"
 	nparams 0
@@ -814,6 +1098,19 @@ This methods return a set of legal moves available for the GamePiece
       end
 
       operation 755074 "setMyPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newPosition" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1958274 "settempMyposition"
 	public explicit_return_type "void"
 	nparams 1
 	  param inout name "newPosition" type class_ref 232322 // Position
@@ -1137,7 +1434,6 @@ or in case the piece has been moved as part of a search
 	
 	
       end
-
     end
 
     class 233602 "AchessGame"
@@ -1688,6 +1984,7 @@ the piece position must be set accordingly.
 This method is called from the PlayGame object to perform a move.
 It is called after a call to the chessboard .determineMove method
 The chessboard .determineMove method uses the position .setUsedBy method
+The determineMove method also uses the chesspiece acceptmove method to set the opposing piece passive
 @param piece
 @param to
 @param source
@@ -2374,8 +2671,9 @@ The state must be able to return an answer to the question whether this current 
 A final state is either a loss, a win or a draw.
 A ChessState is characterized by a AgameBoard and positions held in a HashMap.
 The positions tell which positions are vacant or occupied by a chessPiece. 
-There exists only one ChessState object, and the values of the state changes only when the .mark method is called.
-The current state represent the current node in the search tree. Alle the available actions to the state 
+There exists only one ChessState object, and the values of the state changes when the .mark method is called
+and when the .getActions() method is called. This method creates a new set of actions for the chess state.
+The current state represent the current node in a search tree. All the available actions to the state 
 represent leaves in the search tree.
 @since 25.08.20
 The Chessstate interface extends the AIMA Percept interface
@@ -2405,6 +2703,7 @@ The Chessstate interface extends the AIMA Percept interface
 	relation 309506 --->
 	  stereotype "HashMap"
 	  a role_name "positions" private
+	    comment " The HashMap of Positions from the ontology"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String, ${type}> ${name}${value};
 "
 	    classrelation_ref 309506 // positions (<unidirectional association>)
@@ -3120,6 +3419,29 @@ The utility value represent the performance measure
 
       operation 796802 "getActions"
 	cpp_inline public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "theplayer" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "getActions
+This method creates a set of actions belonging to theplayer 
+If theplayer is the chess state's player to move, the method returns null
+Otherwise this method creates a list of actions that belong to the opponent
+It is called from the OpponentAgent when it is created, and
+from the Aplayer calculateOpponentActions method.
+The calculateOpponentActions method is called whenever the opponent has made a move.
+@param theplayer
+@return
+"
+      end
+
+      operation 1835394 "getActions"
+	cpp_inline public return_type class_ref 223234 // ChessAction
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
@@ -3206,13 +3528,15 @@ ${members}}
       mysql_decl ""
       
       comment "This is a Knowledgebase agent derived from the generic knowledgebase agent of AIMA chapter 7.
+It is further adapted for the FOL knowledge base as described in chapter 10 and 11.
 It is created every time the PlayGame object makes a move.
 The state of the chess game implements the Percept interface.
 The ChessAction interface extends the AIMA Action interface.
-KBAgent is an abstract class extending the AbstracAgent class 
+KBAgent is an abstract class extending the AbstractAgent class 
 
 The agent main purpose is to choose the best action from the list of available actions.
 The available actions are held in the ChessState object (the Percept)
+So the agent program performs a mapping from the Percept to an action.
 For this purpose the agent must find:
 If the chosen action has a movement
 The number of moves so far
@@ -3259,8 +3583,8 @@ If the preferred position is a center position
 	  b parent class_ref 234114 // ChessKnowledgeBase
       end
 
-      classrelation 444802 // folKb (<unidirectional association>)
-	relation 444802 --->
+      classrelation 528514 // folKb (<unidirectional association>)
+	relation 528514 --->
 	  a role_name "folKb" private
 	    comment "
 A first order knowledge base
@@ -3268,8 +3592,8 @@ A first order knowledge base
 "
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 444802 // folKb (<unidirectional association>)
-	  b parent class_ref 162946 // FOLKnowledgeBase
+	    classrelation_ref 528514 // folKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
       end
 
       classrelation 444930 // chessDomain (<unidirectional association>)
@@ -3287,22 +3611,28 @@ ChessDomain:
 	  b parent class_ref 148994 // FOLDomain
       end
 
-      classrelation 445058 // forwardChain (<unidirectional association>)
-	relation 445058 --->
-	  a role_name "forwardChain" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      attribute 496130 "forwardChain"
+	private explicit_type "FOLGamesFCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 445058 // forwardChain (<unidirectional association>)
-	  b parent class_ref 350466 // FOLGamesFCAsk
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
-      classrelation 445186 // backwardChain (<unidirectional association>)
-	relation 445186 --->
-	  a role_name "backwardChain" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      attribute 496258 "backwardChain"
+	private explicit_type "FOLGamesBCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 445186 // backwardChain (<unidirectional association>)
-	  b parent class_ref 350338 // FOLGamesBCAsk
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
       classrelation 445314 // infp (<unidirectional association>)
@@ -3322,6 +3652,19 @@ ChessDomain:
 "
 	    classrelation_ref 293250 // actions (<unidirectional association>)
 	  b parent class_ref 234242 // ChessActionImpl
+      end
+
+      attribute 580098 "knowledgeFilename"
+	private explicit_type "String"
+	init_value " \"knowledgebase.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
       attribute 288770 "outputFileName"
@@ -3408,6 +3751,17 @@ ChessDomain:
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 336642 // positionList (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 535170 // positions (<unidirectional association>)
+	relation 535170 --->
+	  stereotype "HashMap"
+	  a role_name "positions" private
+	    comment " The original HashMap of positions"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 535170 // positions (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -3787,6 +4141,51 @@ ChessDomain:
 	MysqlColumn
       end
 
+      attribute 477570 "CASTLE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 496386 "OPPONENTTO"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 496514 "POSSIBLETHREAT"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 456706 // castleAction (<unidirectional association>)
+	relation 456706 --->
+	  a role_name "castleAction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 456706 // castleAction (<unidirectional association>)
+	  b parent class_ref 234242 // ChessActionImpl
+      end
+
       operation 740738 "AChessAgent"
 	public explicit_return_type ""
 	nparams 1
@@ -3846,6 +4245,31 @@ ChessDomain:
 	
       end
 
+      operation 1795970 "getCastleAction"
+	public return_type class_ref 234242 // ChessActionImpl
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796098 "setCastleAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "castleAction" type class_ref 234242 // ChessActionImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 741122 "execute"
 	public return_type class_ref 128002 // Action
 	nparams 1
@@ -3881,7 +4305,8 @@ ChessDomain:
 	
 	
 	comment "createConnected
-This method creates a goal sentence 
+This method creates rules to the fol knowledge base 
+@since 18.05.21 The Owner predicate is removed from the rules.
 @param name
 @param pos
 @param piece
@@ -3903,6 +4328,7 @@ This method creates a goal sentence
 	
 	comment "askMove
 This method asks the inference procedure which moves are available
+Given a ChessAction it tries to prove that the action has a move available in the FOL knowledge base
 @since 01.12.20:
 Reworked this method takes the piece from the current action
 @param player
@@ -3924,27 +4350,26 @@ Reworked this method takes the piece from the current action
 This method tells the FOL knowledgebase rules about how to capture opponent pieces
 It also tells the first order knowledge base and its domain fact about own pieces
 @since 29.01.21 Only active pieces are considered
+@since 07.04.21 Castling rules are added
+@since 14.08.21 The chesstypes KING,QUEEN,ROOK, etc are unary relations
 param t
 "
       end
 
       operation 741378 "makeSentences"
 	public explicit_return_type "void"
-	nparams 0
+	nparams 1
+	  param inout name "player" type class_ref 234370 // APlayer
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
 	
 	
 	comment "makeSentences
-This method creates simple facts about the current state of the game to the propositional knowledge base:
-Which pieces are available for the active player and their position and possible moves
-Which actions are available for the active player
-Which positions are empty on the board
-This method acts as the makePerceptSentence method:
-It creates simple facts about the current state of the game
+This method creates simple facts about the player's pieces to the FOL knowledge base:
+It creates the unary relation of type BISHOP(piecename) etc. for all the player's pieces
 "
       end
 
@@ -3979,9 +4404,8 @@ The opponent pieces and their positions to the propositional knowledge base.
 	
 	
 	comment "setOpponentpieces
-This method creates knowledge about the opponent and its pieces both to the propositional knowledge base
-and the first order knowledge base and its domain
-@since 29.01.21 Only active pieces are consideredhnjgfhg
+This method creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
+@since 29.01.21 Only active pieces are considered
 @param opponent
 "
       end
@@ -4892,7 +5316,7 @@ ${members}}
       
       comment "ChessActionImpl
 This class implements the ChessAction interface.
-A ChessAction is created by the call to the ChesState getActions() method
+A ChessAction is created by the call to the ChessState getActions() method
 It contains an AgamePiece and its available (reachable) positions
 Revised: From this a preferred position for this piece is calculated by the player
 From this a possible move is created and a preferred position is calculated
@@ -4932,10 +5356,32 @@ The PreferredMove processor uses this information to determine which positions a
 	  b parent class_ref 232706 // AgamePiece
       end
 
+      classrelation 457090 // pieceType (<unidirectional association>)
+	relation 457090 --->
+	  a role_name "pieceType" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 457090 // pieceType (<unidirectional association>)
+	  b parent class_ref 225922 // ChessPieceType
+      end
+
+      classrelation 457218 // type (<unidirectional association>)
+	relation 457218 --->
+	  a role_name "type" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 457218 // type (<unidirectional association>)
+	  b parent class_ref 224258 // pieceType
+      end
+
       classrelation 306818 // availablePositions (<unidirectional association>)
 	relation 306818 --->
 	  stereotype "List"
 	  a role_name "availablePositions" private
+	    comment "These four lists are recreated when the action is created and when the 
+action's getAction method is called
+
+"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 306818 // availablePositions (<unidirectional association>)
@@ -4946,9 +5392,32 @@ The PreferredMove processor uses this information to determine which positions a
 	relation 306946 --->
 	  stereotype "List"
 	  a role_name "positionRemoved" private
+	    comment " These are the positions blocked by other friendly pieces."
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 306946 // positionRemoved (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 475650 // opponentRemoved (<unidirectional association>)
+	relation 475650 --->
+	  stereotype "List"
+	  a role_name "opponentRemoved" private
+	    comment " These are the positions blocked by opponent pieces."
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 475650 // opponentRemoved (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 457346 // bishopRemoved (<unidirectional association>)
+	relation 457346 --->
+	  stereotype "List"
+	  a role_name "bishopRemoved" private
+	    comment " This list contains removed positions for the queen in bishop movements"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 457346 // bishopRemoved (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -4989,9 +5458,20 @@ The PreferredMove processor uses this information to determine which positions a
       classrelation 307330 // player (<unidirectional association>)
 	relation 307330 --->
 	  a role_name "player" private
+	    comment " The player for this action"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 307330 // player (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 457474 // opponent (<unidirectional association>)
+	relation 457474 --->
+	  a role_name "opponent" private
+	    comment " The opponent player"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 457474 // opponent (<unidirectional association>)
 	  b parent class_ref 234370 // APlayer
       end
 
@@ -5158,14 +5638,79 @@ The PreferredMove processor uses this information to determine which positions a
 	MysqlColumn
       end
 
+      attribute 477826 "evaluationValue"
+	private explicit_type "Double"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " An evaluation value for the action. It is produced by the ActionProcessor"
+      end
+
       operation 784386 "ChessActionImpl"
 	public explicit_return_type ""
-	nparams 3
+	nparams 4
 	  param inout name "positions" explicit_type "HashMap<String, Position>"
 	  param inout name "chessPiece" type class_ref 232706 // AgamePiece
 	  param inout name "player" type class_ref 234370 // APlayer
+	  param inout name "opponent" type class_ref 234370 // APlayer
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797250 "getOpponent"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797378 "setOpponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797506 "getEvaluationValue"
+	public explicit_return_type "Double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797634 "setEvaluationValue"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "evaluationValue" explicit_type "Double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -5329,6 +5874,31 @@ This method recalculates removed positions for this action.
 	public explicit_return_type "void"
 	nparams 1
 	  param inout name "protectedPositions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797762 "getBishopRemoved"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797890 "setBishopRemoved"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "bishopRemoved" explicit_type "List<Position>"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -5550,6 +6120,31 @@ This method recalculates removed positions for this action.
 	
       end
 
+      operation 1835138 "getOpponentRemoved"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1835266 "setOpponentRemoved"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponentRemoved" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 787714 "setPositionRemoved"
 	public explicit_return_type "void"
 	nparams 1
@@ -5708,6 +6303,45 @@ A ChessAction is created by the call to the ChesState getActions() method
 "
       end
 
+      operation 1798018 "checkOpponent"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkOpponent
+This method check for opponent pieces and their positions.
+If opponent pieces blocks movements for the active player,
+then these positions must be placed in the removed list
+@since 20.05.21 Opponent pieces that block movements for the active player
+must be put in a separate removed list.
+This is so because the opponent piece can be taken.
+
+"
+      end
+
+      operation 1798146 "checkQueen"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pos" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkQueen
+This method checks for removed positions for the queen and its bishop movements
+@param pos
+@return
+"
+      end
+
       operation 1780738 "checkCastling"
 	private explicit_return_type "void"
 	nparams 2
@@ -5741,8 +6375,8 @@ This method moves the castling positions in the removed list if necessary
 	comment "getActions
 This method returns all possible position reachable by the piece belonging to this action
 If a position is occupied by another piece for this action's player, this position is placed in the removed list
-This method is called from the ChessState mark method, when a move has been made during the search process.
-This is only done if the chosen player is the same as the action's player
+This method is called from the ChessState mark method, when a move has been made during the search process. - At present: turned off OLJ 25.02.21
+It is also called from the ActionProcessor which is used to give the action an evaluation value
 @since 25.02.21 Adapted for castling
 @return
 "
@@ -5758,6 +6392,10 @@ This is only done if the chosen player is the same as the action's player
 	
 	
 	
+	comment "	public  List<Position> getOpponentPositions(){
+
+return null;
+}"
       end
 
       operation 789506 "isNoOp"
@@ -6275,6 +6913,27 @@ if it is the same as one of the the heldpositions of the player's pieces.
 	
       end
 
+      operation 1796738 "checkCastling"
+	public return_type class_ref 232706 // AgamePiece
+	nparams 2
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	  param inout name "newPosition" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkCastling
+This method checks if a castling has taken place
+If that is the case it returns the castle piece that is involved
+@param piece
+@param newPosition
+@return
+"
+      end
+
       operation 774274 "calculatePreferredPosition"
 	public return_type class_ref 232322 // Position
 	nparams 2
@@ -6300,6 +6959,25 @@ Which pieces from opponent can I capture when I move this piece?
 "
       end
 
+      operation 1835010 "calculateOpponentActions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "state" type class_ref 233858 // ChessStateImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "calculateOpponentActions
+This method calculates the players actions
+It is used for the opponent player.
+This method replaces the calculateOpponentPositions method
+@param state
+"
+      end
+
       operation 963330 "calculateOpponentPositions"
 	public explicit_return_type "void"
 	nparams 0
@@ -6312,6 +6990,7 @@ Which pieces from opponent can I capture when I move this piece?
 	
 	comment "calculateOpponentPositions
 This method calculates all removed positions for opponent
+@deprecated 31.05.21
 "
       end
 
@@ -6539,7 +7218,6 @@ This method calculates all removed positions for opponent
 	
 	
       end
-
     end
 
     class 234626 "ABishop"
@@ -7401,6 +8079,7 @@ See notes (3) on Favourable positions.
 The results of the evaluations are shown in the file ontpositions(p).txt where (p) is the piece name
 @since 11.09.20
 Calculates attacked and protected positions.
+@since 14.05.21 The Action processor is in effect not used !!!
 @author oluf
 
 "
@@ -7513,6 +8192,7 @@ Calculates attacked and protected positions.
 	relation 296066 --->
 	  stereotype "List"
 	  a role_name "attackedPositions" init_value " null" private
+	    comment " Positions attacked by opponent"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 296066 // attackedPositions (<unidirectional association>)
@@ -7523,6 +8203,7 @@ Calculates attacked and protected positions.
 	relation 296194 --->
 	  stereotype "List"
 	  a role_name "notAttackedPos" init_value " null" private
+	    comment " Positions not attacked by opponent"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 296194 // notAttackedPos (<unidirectional association>)
@@ -7533,6 +8214,7 @@ Calculates attacked and protected positions.
 	relation 296322 --->
 	  stereotype "List"
 	  a role_name "notProtected" init_value " null" private
+	    comment " Positions not protected"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 296322 // notProtected (<unidirectional association>)
@@ -10180,10 +10862,20 @@ It implements the method legalMoves for the Queen
       classrelation 304770 // newPositions (<unidirectional association>)
 	relation 304770 --->
 	  stereotype "HashMap"
-	  a role_name "newPositions" package
+	  a role_name "newPositions" private
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
 "
 	    classrelation_ref 304770 // newPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 456962 // bishopPositions (<unidirectional association>)
+	relation 456962 --->
+	  stereotype "HashMap"
+	  a role_name "bishopPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 456962 // bishopPositions (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -10409,6 +11101,44 @@ It implements the method legalMoves for the Queen
 	
       end
 
+      operation 1796866 "getBishopPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1796994 "setBishopPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "bishopPositions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1797122 "setNewPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newPositions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 778242 "getLocalType"
 	public return_type class_ref 224258 // pieceType
 	nparams 0
@@ -10606,7 +11336,7 @@ This method creates a new chess position based on a XYLocation
 	
 	
 	
-	comment "createPosition
+	comment "createontPosition
 This method moves any ontologypositions to the list of positions reachable by this piece
 It is called from the determinPieceType method and the produceLegalmove method
 @param newPositions a HashMap of positions calculated by the piecetype
@@ -11404,13 +12134,15 @@ ${members}}
       
       comment "PreferredMoveProcessor
 This class calculates a preferred move (ApieceMove) for a given chessaction and its piece.
+It is an implementation of the ChessProcessor
 This ApieceMove contains a Preferred Position for a given piece and action.
 It is created and called when the chess action is created and from The active player's calculatepreferredPosition method.
 It is also created and used when an action is analyzed and found not to contain any preferred position (the action.getpreferredPosition() method).
 Then The active player's calculatepreferredPosition method is called, to determine a preferred position.
 This processor also removes additional positions from available positions of
 bishop,rook, and queen when positions are occupied by friendly pieces.
-
+@since 08.03.21 The queen has its own procedure for removed positions
+@since 14.06.21 The method for removing positions from bishops has been reworked.
 @author oluf
 
 "
@@ -11489,9 +12221,21 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	relation 336130 --->
 	  stereotype "List"
 	  a role_name "removedPositions" init_value " null" private
+	    comment " This is the action's removed positions"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 336130 // removedPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 457602 // bishopRemoved (<unidirectional association>)
+	relation 457602 --->
+	  stereotype "List"
+	  a role_name "bishopRemoved" init_value " null" private
+	    comment " This list contains removed positions for the queen in bishop movements"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 457602 // bishopRemoved (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -11521,6 +12265,9 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	
 	
 	
+	comment " (non-Javadoc)
+@see no.games.chess.ChessProcessor#processChessObject(java.lang.Object, java.lang.Object)
+"
       end
 
       operation 797698 "getHeldPosition"
@@ -11533,6 +12280,154 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	
 	
 	
+      end
+
+      operation 1839106 "checkBishopnwest"
+	private explicit_return_type "void"
+	nparams 4
+	  param inout name "availablePositions" explicit_type "List<Position>"
+	  param inout name "tempList" explicit_type "List<Position>"
+	  param inout name "removedPos" type class_ref 232322 // Position
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkBishopnwest
+@param availablePositions
+@param tempList
+@param removedPos
+@param piece
+"
+      end
+
+      operation 1839234 "checkBishopneast"
+	private explicit_return_type "void"
+	nparams 4
+	  param inout name "availablePositions" explicit_type "List<Position>"
+	  param inout name "tempList" explicit_type "List<Position>"
+	  param inout name "removedPos" type class_ref 232322 // Position
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param availablePositions
+@param tempList
+@param removedPos
+@param piece
+"
+      end
+
+      operation 1839362 "checkBishopseast"
+	private explicit_return_type "void"
+	nparams 4
+	  param inout name "availablePositions" explicit_type "List<Position>"
+	  param inout name "tempList" explicit_type "List<Position>"
+	  param inout name "removedPos" type class_ref 232322 // Position
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param availablePositions
+@param tempList
+@param removedPos
+@param piece
+"
+      end
+
+      operation 1839490 "checkBishopswest"
+	private explicit_return_type "void"
+	nparams 4
+	  param inout name "availablePositions" explicit_type "List<Position>"
+	  param inout name "tempList" explicit_type "List<Position>"
+	  param inout name "removedPos" type class_ref 232322 // Position
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param availablePositions
+@param tempList
+@param removedPos
+@param piece
+"
+      end
+
+      operation 1839618 "setDirection"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	  param inout name "positions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "setDirection
+This method calculates the directions (nw,ne,sw,se)
+for a set of positions and its piece
+It is called when the piece is a bishop
+@param piece
+@param positions
+
+
+@param piece
+@param positions
+"
+      end
+
+      operation 1839746 "calculateDirections"
+	private explicit_return_type "void"
+	nparams 3
+	  param inout name "nw" explicit_type "List<XYLocation>"
+	  param in name "dr" explicit_type "int"
+	  param inout name "positions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "calculateDirections
+This is a private method for setDirection
+@param nw
+@param dr
+@param positions
+"
+      end
+
+      operation 1839874 "resetDirections"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "positions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "resetDirections
+This method resets all directions for a position
+@param positions
+"
       end
     end
 
@@ -11720,7 +12615,7 @@ Based on piece type this class calculates available positions for the piece
       visibility public 
       nactuals 3
       actual class class_ref 225538 // ChessProcessor
-        rank 0 value class_ref 234370 // APlayer
+        rank 0 value class_ref 234242 // ChessActionImpl
       actual class class_ref 225538 // ChessProcessor
         rank 1 value class_ref 232706 // AgamePiece
       actual class class_ref 225538 // ChessProcessor
@@ -11736,14 +12631,13 @@ ${members}}
       mysql_decl ""
       
       comment "OpponentMoveProcessor
+This opponent move processor is based on the PreferredMoveProcessor.
 This class calculates a preferred move (ApieceMove) for a given chessaction and its piece.
 This ApieceMove contains a Preferred Position for a given piece and action.
-It is created and called when the chess action is created and from The active player's calculatepreferredPosition method.
-It is also created and used when an action is analyzed and found not to contain any preferred position (the action.getpreferredPosition() method).
-Then The active player's calculatepreferredPosition method is called, to determine a preferred position.
-This processor also removes positions from available positions of
+It is created and called when a chess game starts and when the opponent has made a move.
+This processor also removes additional positions from available positions of
 bishop,rook, and queen when positions are occupied by friendly pieces.
-
+@since 08.03.21 The queen has its own procedure for removed positions
 @author oluf
 
 "
@@ -11828,13 +12722,14 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	  b parent class_ref 232322 // Position
       end
 
-      classrelation 449154 // attackedPositions (<unidirectional association>)
-	relation 449154 --->
+      classrelation 476802 // bishopRemoved (<unidirectional association>)
+	relation 476802 --->
 	  stereotype "List"
-	  a role_name "attackedPositions" init_value " null" private
+	  a role_name "bishopRemoved" init_value " null" private
+	    comment " This list contains removed positions for the queen in bishop movements"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	    classrelation_ref 449154 // attackedPositions (<unidirectional association>)
+	    classrelation_ref 476802 // bishopRemoved (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
@@ -11845,6 +12740,20 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	  param in name "pname" explicit_type "String"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 963202 "processChessObject"
+	public explicit_return_type "ApieceMove"
+	nparams 2
+	  param inout name "action" type class_ref 234242 // ChessActionImpl
+	  param inout name "p" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -11863,76 +12772,6 @@ bishop,rook, and queen when positions are occupied by friendly pieces.
 	
 	
       end
-
-      operation 962690 "getRemovedPositions"
-	public return_type class_ref 232322 // Position
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 962818 "setRemovedPositions"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "removedPositions" explicit_type "List<Position>"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 962946 "getAttackedPositions"
-	public return_type class_ref 232322 // Position
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 963074 "setAttackedPositions"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "attackedPositions" explicit_type "List<Position>"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 963202 "processChessObject"
-	public explicit_return_type "ApieceMove"
-	nparams 2
-	  param inout name "p" explicit_type "APlayer"
-	  param inout name "q" explicit_type "AgamePiece"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-	comment " (non-Javadoc)
-@see no.games.chess.ChessProcessor#processChessObject(java.lang.Object, java.lang.Object)
-"
-      end
-
     end
 
     class 363906 "AChessProblemSolver"
@@ -11948,9 +12787,11 @@ ${members}}
       mysql_decl ""
       
       comment "AChessProblemSolver
-This class is used to find best moves in the chess game through planning as described in chapter 10 of 
-the aima book
-
+This class is used to find best moves in the chess game through planning as described in chapter 10 and 11 of 
+the aima book.
+The ProblemSolver is created in the ChessAgent's execute method.
+The problem solver creates a ChessProblem object for the ChessSearchAlgorithm to solve.
+The ChessProblem object contains one or more ActionSchemas. There is one ActionSchema for every ChessAction available for the player
 @author oluf
 
 "
@@ -12293,6 +13134,42 @@ the aima book
 	MysqlColumn
       end
 
+      attribute 477314 "CASTLE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 496642 "OPPONENTTO"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 496770 "POSSIBLETHREAT"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       attribute 464258 "typeofPiece"
 	private explicit_type "String"
 	cpp_decl ""
@@ -12387,8 +13264,8 @@ the aima book
 	  b parent class_ref 232322 // Position
       end
 
-      classrelation 446338 // folKb (<unidirectional association>)
-	relation 446338 --->
+      classrelation 528642 // folKb (<unidirectional association>)
+	relation 528642 --->
 	  a role_name "folKb" private
 	    comment "
 
@@ -12398,43 +13275,49 @@ A first order knowledge base
 "
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 446338 // folKb (<unidirectional association>)
-	  b parent class_ref 162946 // FOLKnowledgeBase
+	    classrelation_ref 528642 // folKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
       end
 
-      classrelation 446466 // chessDomain (<unidirectional association>)
-	relation 446466 --->
-	  a role_name "chessDomain" private
-	    comment "
-
+      attribute 496898 "forwardChain"
+	private explicit_type "FOLGamesFCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "
 ChessDomain:
  All pieces are constants
  all positions are constants
 
 
 "
+      end
+
+      classrelation 446466 // chessDomain (<unidirectional association>)
+	relation 446466 --->
+	  a role_name "chessDomain" private
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 446466 // chessDomain (<unidirectional association>)
 	  b parent class_ref 148994 // FOLDomain
       end
 
-      classrelation 446594 // forwardChain (<unidirectional association>)
-	relation 446594 --->
-	  a role_name "forwardChain" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      attribute 497026 "backwardChain"
+	private explicit_type "FOLGamesBCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 446594 // forwardChain (<unidirectional association>)
-	  b parent class_ref 350466 // FOLGamesFCAsk
-      end
-
-      classrelation 446722 // backwardChain (<unidirectional association>)
-	relation 446722 --->
-	  a role_name "backwardChain" private
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 446722 // backwardChain (<unidirectional association>)
-	  b parent class_ref 350338 // FOLGamesBCAsk
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The backward chain inference procedure"
       end
 
       attribute 464770 "writer"
@@ -12508,6 +13391,47 @@ ChessDomain:
 	  b parent class_ref 170242 // State
       end
 
+      classrelation 455682 // deferredInitial (<unidirectional association>)
+	relation 455682 --->
+	  a role_name "deferredInitial" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 455682 // deferredInitial (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      classrelation 455810 // deferredGoal (<unidirectional association>)
+	relation 455810 --->
+	  a role_name "deferredGoal" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 455810 // deferredGoal (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      classrelation 455938 // deferredGoalstates (<unidirectional association>)
+	relation 455938 --->
+	  stereotype "Map"
+	  a role_name "deferredGoalstates" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 455938 // deferredGoalstates (<unidirectional association>)
+	  b parent class_ref 170242 // State
+      end
+
+      attribute 477442 "deferredKey"
+	private explicit_type "String"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       classrelation 447490 // graphPlan (<unidirectional association>)
 	relation 447490 --->
 	  a role_name "graphPlan" init_value "  null" private
@@ -12569,15 +13493,83 @@ ChessDomain:
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 456066 // threatenedPieces (<unidirectional association>)
+	relation 456066 --->
+	  stereotype "Map"
+	  a role_name "threatenedPieces" init_value " null" private
+	    comment " Contains pieces that are threatened by the opponent"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 456066 // threatenedPieces (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 456194 // threadenedPositions (<unidirectional association>)
+	relation 456194 --->
+	  stereotype "Map"
+	  a role_name "threadenedPositions" init_value " null" private
+	    comment " Contains the positions of these pieces."
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 456194 // threadenedPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 456322 // opponentCatch (<unidirectional association>)
+	relation 456322 --->
+	  a role_name "opponentCatch" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 456322 // opponentCatch (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 456450 // opponentcatchPosition (<unidirectional association>)
+	relation 456450 --->
+	  a role_name "opponentcatchPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 456450 // opponentcatchPosition (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 521602 // actions (<unidirectional association>)
+	relation 521602 --->
+	  stereotype "List"
+	  a role_name "actions" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 521602 // actions (<unidirectional association>)
+	  b parent class_ref 234242 // ChessActionImpl
+      end
+
+      classrelation 456578 // castleAction (<unidirectional association>)
+	relation 456578 --->
+	  a role_name "castleAction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 456578 // castleAction (<unidirectional association>)
+	  b parent class_ref 234242 // ChessActionImpl
+      end
+
+      classrelation 474882 // opponentAgent (<unidirectional association>)
+	relation 474882 --->
+	  a role_name "opponentAgent" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 474882 // opponentAgent (<unidirectional association>)
+	  b parent class_ref 380162 // OpponentAgent
+      end
+
       operation 1772290 "AChessProblemSolver"
 	public explicit_return_type ""
 	nparams 9
 	  param inout name "stateImpl" type class_ref 233858 // ChessStateImpl
 	  param inout name "localAction" type class_ref 234242 // ChessActionImpl
-	  param inout name "folKb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "folKb" type class_ref 403458 // ChessFolKnowledgeBase
 	  param inout name "chessDomain" type class_ref 148994 // FOLDomain
-	  param inout name "forwardChain" type class_ref 350466 // FOLGamesFCAsk
-	  param inout name "backwardChain" type class_ref 350338 // FOLGamesBCAsk
+	  param inout name "forwardChain" explicit_type "FOLGamesFCAsk"
+	  param inout name "backwardChain" explicit_type "FOLGamesBCAsk"
 	  param inout name "game" type class_ref 233474 // PlayGame
 	  param inout name "myPlayer" type class_ref 234370 // APlayer
 	  param inout name "opponent" type class_ref 234370 // APlayer
@@ -12595,6 +13587,81 @@ ChessDomain:
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1794562 "getCastleAction"
+	public return_type class_ref 234242 // ChessActionImpl
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1794690 "setCastleAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "castleAction" type class_ref 234242 // ChessActionImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1794818 "getDeferredInitial"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1794946 "setDeferredInitial"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "deferredInitial" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1795074 "getDeferredGoal"
+	public return_type class_ref 170242 // State
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1795202 "setDeferredGoal"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "deferredGoal" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -12753,7 +13820,7 @@ ChessDomain:
       end
 
       operation 1774082 "getFolKb"
-	public return_type class_ref 162946 // FOLKnowledgeBase
+	public return_type class_ref 403458 // ChessFolKnowledgeBase
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
@@ -12767,7 +13834,7 @@ ChessDomain:
       operation 1774210 "setFolKb"
 	public explicit_return_type "void"
 	nparams 1
-	  param inout name "folKb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "folKb" type class_ref 403458 // ChessFolKnowledgeBase
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -12803,7 +13870,7 @@ ChessDomain:
       end
 
       operation 1774594 "getForwardChain"
-	public return_type class_ref 350466 // FOLGamesFCAsk
+	public explicit_return_type "FOLGamesFCAsk"
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
@@ -12817,7 +13884,7 @@ ChessDomain:
       operation 1774722 "setForwardChain"
 	public explicit_return_type "void"
 	nparams 1
-	  param inout name "forwardChain" type class_ref 350466 // FOLGamesFCAsk
+	  param inout name "forwardChain" explicit_type "FOLGamesFCAsk"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -12828,7 +13895,7 @@ ChessDomain:
       end
 
       operation 1774850 "getBackwardChain"
-	public return_type class_ref 350338 // FOLGamesBCAsk
+	public explicit_return_type "FOLGamesBCAsk"
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
@@ -12842,7 +13909,7 @@ ChessDomain:
       operation 1774978 "setBackwardChain"
 	public explicit_return_type "void"
 	nparams 1
-	  param inout name "backwardChain" type class_ref 350338 // FOLGamesBCAsk
+	  param inout name "backwardChain" explicit_type "FOLGamesBCAsk"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -12937,30 +14004,37 @@ ChessDomain:
 	
 	
 	
+	comment "checkPossiblePieces
+This method checks the two Maps possiblePieces and possiblePositions
+to see if there are opponent pieces that can be taken
+The two Maps are filled by the call to the checkOpponent method
+@return
+The name of the piece that can take this opponent piece
+It only returns a name if the opponent piece has a value greater or equal to the value of the active piece
+"
       end
 
-      operation 1776002 "checkpieceFacts"
-	public explicit_return_type "boolean"
-	nparams 4
-	  param in name "pieceName" explicit_type "String"
-	  param in name "pos" explicit_type "String"
+      operation 1795330 "checkoppoentThreat"
+	public explicit_return_type "String"
+	nparams 2
 	  param in name "fact" explicit_type "String"
 	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
 	
 	
-	comment "checkFacts
-This method checks the FOL knowledge base for certain facts about the player's pieces.
-These facts can be any of the available predicates in the FOL Domain (see the domain object)
-If an action is found belonging to the given piece, then this action is given the new position to move to
-@param pieceName The name of the piece
-@param pos The position to move to
-@param fact The predicate fact
-@param actions All the actions available to the player
+	comment "checkoppoentThreat
+This method checks if any of my pieces are threatened by the opponent player
+If there are no threatened pieces then it returns null.
+It is called from the prepareAction method
+OBS!:: Must empty the hashmaps before using them again. It is done at the start of this method
+@param fact
+@param actions
+@return The name of the pieces that is threatened if it has an action
+If it does not have an action, Find a piece that can protect it.
 "
       end
 
@@ -12978,65 +14052,18 @@ If an action is found belonging to the given piece, then this action is given th
 	
 	comment "checkOpponent
 This method finds which opponent pieces the active player can safely take.
-The pieces found are placed in a Map called possible Pieces.
+The pieces found are placed in a Map called possiblePieces, and its position is placed in a Map called possiblePositions
+@since 15.03.21 Only pieces that are active are considered
 @param fact
 @param actions
 @return
 "
       end
 
-      operation 1776258 "checkThreats"
-	public explicit_return_type "boolean"
-	nparams 3
-	  param in name "pieceName" explicit_type "String"
-	  param in name "pos" explicit_type "String"
-	  param in name "fact" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "checkThreats
-This method checks the FOL knowledge base for certain facts about the opponent's pieces.
-These facts can be any of the available predicates in the FOL Domain (see the domain object)
-@param pieceName
-@param pos
-@param fact
-@return
-"
-      end
-
-      operation 1776386 "checkFacts"
-	public explicit_return_type "void"
-	nparams 4
-	  param in name "pieceName" explicit_type "String"
-	  param in name "pos" explicit_type "String"
-	  param in name "fact" explicit_type "String"
-	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "checkFacts
-This method checks the FOL knowledge base for certain facts about a player's pieces.
-These facts can be any of the available predicates in the FOL Domain (see the domain object)
-The parameter pos is used to give the chosen action a new position to move to.
-@param pieceName THe name of the piece
-@param pos The position to move to
-@param fact The predicate fact
-@param actions All the actions available to the player
-"
-      end
-
       operation 1776514 "prepareAction"
-	public explicit_return_type "void"
+	public explicit_return_type "String"
 	nparams 1
-	  param inout name "action" type class_ref 234242 // ChessActionImpl
+	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -13044,6 +14071,68 @@ The parameter pos is used to give the chosen action a new position to move to.
 	
 	
 	
+	comment "prepareAction
+This method attempts to analyze the chess state and prepare for next move.
+It is called from the checkMovenumber method when the opening moves have been made.
+From the default case of checkmovenumber
+@param actions
+@return
+"
+      end
+
+      operation 1795458 "determineType"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "type" type class_ref 224258 // pieceType
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "determineType
+This method determines and sets the ChessProblem piecetype
+It is used when the initial and goal states are created
+@param type
+"
+      end
+
+      operation 1795586 "checkCastling"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkCastling
+This method check if castling with the white king is possible
+@param actions
+"
+      end
+
+      operation 1777282 "buildGoalstate"
+	public return_type class_ref 170242 // State
+	nparams 2
+	  param in name "pieceName" explicit_type "String"
+	  param in name "toPos" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "buildGoalstate
+This method builds a goal state based on a chosen piece name and a chosen position name
+@param pieceName
+@param toPos
+@return
+"
       end
 
       operation 1776642 "checkMovenumber"
@@ -13060,6 +14149,26 @@ The parameter pos is used to give the chosen action a new position to move to.
 	comment "checkMovenumber
 This method determine the first moves based on the queen gambit process
 After the first 4 moves, the default part of the case statement then determines the next move 
+@param actions
+@return
+"
+      end
+
+      operation 1795714 "deferredMove"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "deferredMove
+This method checks if any deferred move has been set.
+If so, it returns the deferred key
+A special case for castling
 @param actions
 @return
 "
@@ -13101,7 +14210,8 @@ At present, the High Level Problem contains one primitive action schema (chess a
 	
 	
 	comment "searchProblem
-For every available chessaction create an actionschema
+For every available chessaction that contains a possible move and that is not blocked
+create an actionschema
 @param actions
 @return
 "
@@ -13143,7 +14253,7 @@ using the Graphplan algorithm. (see p. 383 chapter 10.3)
 	
       end
 
-      operation 1777282 "buildGoalstate"
+      operation 1795842 "buildGoalstate"
 	public return_type class_ref 170242 // State
 	nparams 1
 	  param inout name "action" type class_ref 234242 // ChessActionImpl
@@ -13220,6 +14330,7 @@ This method adds protected literals to a state
 @return
 "
       end
+
     end
 
     class 364034 "KnowledgeBuilder"
@@ -13576,6 +14687,120 @@ This class contains constants and buildingblocks to be used in knowledgebases.
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      attribute 477954 "CASTLE"
+	class_attribute private explicit_type "String"
+	init_value " \"CASTLE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 497154 "OPPONENTTO"
+	class_attribute private explicit_type "String"
+	init_value " \"OPPONENTTO\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 497282 "POSSIBLETHREAT"
+	class_attribute private explicit_type "String"
+	init_value " \"POSSIBLETHREAT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1835522 "getOPPONENTTO"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1835650 "setOPPONENTTO"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "oPPONENTTO" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1835778 "getPOSSIBLETHREAT"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1835906 "setPOSSIBLETHREAT"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pOSSIBLETHREAT" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1798274 "getCASTLE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1798402 "setCASTLE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "cASTLE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
 
       operation 1781250 "getBOARD"
@@ -14261,6 +15486,1791 @@ This method returns the string type of the piece
 	
       end
     end
+
+    class 380162 "OpponentAgent"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The opponent agent object,
+contains all opponent available actions, and their action schemas.
+It is created whenever the chessproblemsolver is created
+The opponent agent object must be able to return with a best strategy for moves 
+@author olj
+
+"
+      classrelation 475778 // stateImpl (<unidirectional association>)
+	relation 475778 --->
+	  a role_name "stateImpl" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 475778 // stateImpl (<unidirectional association>)
+	  b parent class_ref 233858 // ChessStateImpl
+      end
+
+      classrelation 475906 // localAction (<unidirectional association>)
+	relation 475906 --->
+	  a role_name "localAction" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 475906 // localAction (<unidirectional association>)
+	  b parent class_ref 234242 // ChessActionImpl
+      end
+
+      classrelation 476034 // actions (<unidirectional association>)
+	relation 476034 --->
+	  stereotype "List"
+	  a role_name "actions" init_value " null" private
+	    comment " All actions available to the opponent"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 476034 // actions (<unidirectional association>)
+	  b parent class_ref 223234 // ChessAction
+      end
+
+      attribute 497410 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\opponent.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 497538 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 497666 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 476162 // game (<unidirectional association>)
+	relation 476162 --->
+	  a role_name "game" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 476162 // game (<unidirectional association>)
+	  b parent class_ref 233474 // PlayGame
+      end
+
+      classrelation 476290 // myPlayer (<unidirectional association>)
+	relation 476290 --->
+	  a role_name "myPlayer" init_value " null" private
+	    comment " This is the opponent of the game"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 476290 // myPlayer (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 476418 // opponent (<unidirectional association>)
+	relation 476418 --->
+	  a role_name "opponent" init_value " null" private
+	    comment " This is the chess player of the game"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 476418 // opponent (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 536194 // folKb (<unidirectional association>)
+	relation 536194 --->
+	  a role_name "folKb" init_value " null" private
+	    comment " The parent knowledge base"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 536194 // folKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
+      end
+
+      classrelation 476674 // chessDomain (<unidirectional association>)
+	relation 476674 --->
+	  a role_name "chessDomain" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 476674 // chessDomain (<unidirectional association>)
+	  b parent class_ref 148994 // FOLDomain
+      end
+
+      attribute 497794 "forwardChain"
+	private explicit_type "FOLGamesFCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 497922 "backwardChain"
+	private explicit_type "FOLGamesBCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 521858 // localKb (<unidirectional association>)
+	relation 521858 --->
+	  a role_name "localKb" private
+	    comment " The local strategy knowledge base"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 521858 // localKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
+      end
+
+      classrelation 521986 // possiblePositions (<unidirectional association>)
+	relation 521986 --->
+	  stereotype "Map"
+	  a role_name "possiblePositions" init_value " null" private
+	    comment " Contains the positions of possible positions"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 521986 // possiblePositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      attribute 573442 "positionKeys"
+	private explicit_type "String"
+	init_value " null"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 573570 "myPieceNames"
+	private explicit_type "String"
+	init_value " null"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498050 "ACTION"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498178 "PROTECTED"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498306 "simpleProtected"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498434 "ATTACKED"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498562 "CAPTURE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498690 "CONQUER"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498818 "THREATEN"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 498946 "OWNER"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499074 "MOVE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499202 "REACHABLE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499330 "CANMOVE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499458 "SAFEMOVE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499586 "STRIKE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499714 "PIECETYPE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499842 "PLAY"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 499970 "PAWN"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500098 "KNIGHT"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500226 "BISHOP"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500354 "ROOK"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500482 "KING"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500610 "QUEEN"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500738 "PAWNMOVE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500866 "playerName"
+	private explicit_type "String"
+	init_value " \"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 500994 "OCCUPIES"
+	private explicit_type "String"
+	init_value " \"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501122 "PAWNATTACK"
+	private explicit_type "String"
+	init_value "\"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501250 "BOARD"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501378 "PLAYER"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501506 "CASTLE"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501634 "OPPONENTTO"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 501762 "POSSIBLETHREAT"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1836034 "OpponentAgent"
+	public explicit_return_type ""
+	nparams 6
+	  param inout name "stateImpl" type class_ref 233858 // ChessStateImpl
+	  param inout name "game" type class_ref 233474 // PlayGame
+	  param inout name "myPlayer" type class_ref 234370 // APlayer
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	  param inout name "folKb" type class_ref 403458 // ChessFolKnowledgeBase
+	  param inout name "chessDomain" type class_ref 148994 // FOLDomain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836162 "setPredicatenames"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836290 "getStateImpl"
+	public return_type class_ref 233858 // ChessStateImpl
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836418 "setStateImpl"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "stateImpl" type class_ref 233858 // ChessStateImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836546 "getLocalAction"
+	public return_type class_ref 234242 // ChessActionImpl
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836674 "setLocalAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "localAction" type class_ref 234242 // ChessActionImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836802 "getActions"
+	public return_type class_ref 223234 // ChessAction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1836930 "setActions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "actions" explicit_type "List<ChessAction>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837058 "getGame"
+	public return_type class_ref 233474 // PlayGame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837186 "setGame"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "game" type class_ref 233474 // PlayGame
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837314 "getMyPlayer"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837442 "setMyPlayer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPlayer" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837570 "getOpponent"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837698 "setOpponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1837826 "defineFacts"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "defineFacts
+This method creates facts about the opponent pieces to the local knowledge base
+These facts are: which positions they occupy and where they can move to.
+It is called when the opponent agent is created.                           
+"
+      end
+
+      operation 1837954 "tellFacts"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "piece" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "predicate" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "tellFacts
+This method creates the OPPONENTTO fact to the knowledge base
+@param piece
+@param pos
+@param predicate
+"
+      end
+
+      operation 1838082 "probeConsequences"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "playerAction" type class_ref 234242 // ChessActionImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "probeConsequences
+This action examines consequences a player's action may have.                                                                                    
+@param playerAction
+"
+      end
+
+      operation 1958786 "checkFacts"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param in name "pieceName" explicit_type "String"
+	  param in name "posName" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkFacts
+This method checks if a given predicate is true in the local first order knowledge base.
+@param pieceName
+@param posName
+@param fact
+@return true if the predicate is true
+"
+      end
+
+      operation 1958914 "checkReachable"
+	private explicit_return_type "boolean"
+	nparams 3
+	  param in name "pieceName" explicit_type "String"
+	  param in name "posName" explicit_type "String"
+	  param in name "key" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1959042 "chooseStrategy"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "actions" explicit_type "List<ChessActionImpl>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "chooseStrategy
+Based on the facts found in the probepossibilities method
+This method chooses a strategy for the next move.
+@param actions The actions available to player
+"
+      end
+
+      operation 1959170 "probepossibilities"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "actions" explicit_type "List<ChessActionImpl>"
+	  param inout name "player" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "probepossibilities
+This method probes possible reachable positions given a
+possible occupied position from the available actions
+@param actions - The actions available to player
+@param player - The player of the game
+"
+      end
+
+      operation 1959298 "tellnewFacts"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "piece" type class_ref 232706 // AgamePiece
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "tellnewFacts
+This method creates new REACHABLE facts to the temporary knowledge base
+It is called from the probepossiblities method
+@param piece
+@param name
+"
+      end
+
+      operation 1959426 "writeFacts"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+    end
+
+    class 380290 "OpponentMoveProcessorgml"
+      visibility public 
+      nactuals 3
+      actual class class_ref 225538 // ChessProcessor
+        rank 0 value class_ref 234370 // APlayer
+      actual class class_ref 225538 // ChessProcessor
+        rank 1 value class_ref 232706 // AgamePiece
+      actual class class_ref 225538 // ChessProcessor
+        rank 2 value class_ref 233730 // ApieceMove
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "OpponentMoveProcessor
+This class calculates a preferred move (ApieceMove) for a given chessaction and its piece.
+This ApieceMove contains a Preferred Position for a given piece and action.
+It is created and called when the chess action is created and from The active player's calculatepreferredPosition method.
+It is also created and used when an action is analyzed and found not to contain any preferred position (the action.getpreferredPosition() method).
+Then The active player's calculatepreferredPosition method is called, to determine a preferred position.
+This processor also removes positions from available positions of
+bishop,rook, and queen when positions are occupied by friendly pieces.
+
+@author oluf
+
+"
+      classrelation 476930 // <realization>
+	relation 476930 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 476930 // <realization>
+	  b parent class_ref 225538 // ChessProcessor
+      end
+
+      attribute 501890 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 502018 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 502146 "processNumber"
+	private explicit_type "Integer"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The process number is created by the piece's introw*10 + intcolumn position"
+      end
+
+      attribute 502274 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 477058 // heldPosition (<unidirectional association>)
+	relation 477058 --->
+	  a role_name "heldPosition" private
+	    comment " This is the position held by the piece under consideration"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 477058 // heldPosition (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 477186 // removedPositions (<unidirectional association>)
+	relation 477186 --->
+	  stereotype "List"
+	  a role_name "removedPositions" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 477186 // removedPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 477314 // attackedPositions (<unidirectional association>)
+	relation 477314 --->
+	  stereotype "List"
+	  a role_name "attackedPositions" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 477314 // attackedPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 477442 // bishopRemoved (<unidirectional association>)
+	relation 477442 --->
+	  stereotype "List"
+	  a role_name "bishopRemoved" init_value " null" private
+	    comment " This list contains removed positions for the queen in bishop movements"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 477442 // bishopRemoved (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      operation 1838210 "OpponentMoveProcessorgml"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "processNumber" explicit_type "Integer"
+	  param in name "pname" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838338 "getHeldPosition"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838466 "getRemovedPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838594 "setRemovedPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "removedPositions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838722 "getAttackedPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838850 "setAttackedPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "attackedPositions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1838978 "processChessObject"
+	public return_type class_ref 233730 // ApieceMove
+	nparams 2
+	  param inout name "p" type class_ref 234370 // APlayer
+	  param inout name "q" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " (non-Javadoc)
+@see no.games.chess.ChessProcessor#processChessObject(java.lang.Object, java.lang.Object)
+"
+      end
+    end
+
+    class 403458 "ChessFolKnowledgeBase"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The  ChessFolKnowledgeBase is a subclass of the FOLKnowledgeBase.
+It is used to construct a local strategy First order knowledge base to search for the best move.
+It is filled with facts about possible new reachable positions and facts about opponent positions.
+Then we can determine which opponent pieces I can capture based on which move I make.
+
+@author oluf
+
+"
+      classrelation 521730 // <generalisation>
+	relation 521730 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 521730 // <generalisation>
+	  b parent class_ref 162946 // FOLKnowledgeBase
+      end
+
+      attribute 573058 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 573186 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 573314 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 580226 "fileName"
+	private explicit_type "String"
+	init_value "\"\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 580354 "backWardChain"
+	private explicit_type "FOLGamesBCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1958402 "ChessFolKnowledgeBase"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "domain" type class_ref 148994 // FOLDomain
+	  param inout name "inferenceProcedure" type class_ref 162690 // InferenceProcedure
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1965954 "ChessFolKnowledgeBase"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "domain" type class_ref 148994 // FOLDomain
+	  param inout name "inferenceProcedure" type class_ref 162690 // InferenceProcedure
+	  param in name "fileName" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1966082 "getFileName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1966210 "setFileName"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "fileName" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1966338 "getBackWardChain"
+	public explicit_return_type "FOLGamesBCAsk"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1966466 "setBackWardChain"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "backWardChain" explicit_type "FOLGamesBCAsk"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1975426 "checkmyProtection"
+	public explicit_return_type "boolean"
+	nparams 4
+	  param in name "pieceName" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "predName" explicit_type "String"
+	  param inout name "myPlayer" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkmyProtection
+This method checks if a piece is protected by other pieces than by itself
+@param pieceName
+@param pos
+@return true if it is protected
+"
+      end
+
+      operation 1966594 "checkThreats"
+	public explicit_return_type "boolean"
+	nparams 4
+	  param in name "pieceName" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkThreats
+This method checks the FOL knowledge base for certain facts about the opponent's pieces.
+These facts can be any of the available predicates in the FOL Domain (see the domain object)
+@param pieceName
+@param pos
+@param fact
+@return
+"
+      end
+
+      operation 1975554 "checkpieceFacts"
+	public explicit_return_type "boolean"
+	nparams 5
+	  param in name "pieceVar" explicit_type "String"
+	  param in name "pieceName" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkpieceFacts
+This method checks the FOL knowledge base for certain facts about the player's pieces.
+These facts can be any of the available predicates in the FOL Domain (see the domain object)
+If an action is found belonging to the given piece, then this action is given the new position to move to
+@param pieceName The name of the piece
+@param pos The position to move to
+@param fact The predicate fact
+@param actions All the actions available to the player
+"
+      end
+
+      operation 1975682 "checkFacts"
+	public explicit_return_type "boolean"
+	nparams 5
+	  param in name "pieceName" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
+	  param inout name "positionList" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkFacts
+This method checks the FOL knowledge base for certain facts about a player's pieces.
+These facts can be any of the available predicates in the FOL Domain (see the domain object)
+The parameter pos is used to give the chosen action a new position to move to.
+@param pieceName The name of the piece
+@param pos The position to move to
+@param fact The predicate fact
+@param actions All the actions available to the player
+"
+      end
+
+      operation 1958530 "createfacts"
+	public explicit_return_type "void"
+	nparams 3
+	  param in name "fact" explicit_type "String"
+	  param in name "pos" explicit_type "String"
+	  param in name "piece" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1958658 "writeKnowledgebase"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 409986 "APerformance"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "APerformance
+This class is responsible for calculating the performance measure.
+The questions to answer are:
+How many of my pieces can reach/protect a position? 
+What rank do these pieces have?
+How many of opponent pieces threaten this position?
+What rank do these pieces have?
+What makes a position valuable? So the it becomes important to control?
+What material gain do I achieve by controlling this position?
+What strategic advantage do I have from controlling this position?
+I have a control over a position if I have more pieces reaching it that my opponent.
+@author oluf
+
+"
+      classrelation 535298 // controlPositions (<unidirectional association>)
+	relation 535298 --->
+	  stereotype "List"
+	  a role_name "controlPositions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 535298 // controlPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 535426 // positions (<unidirectional association>)
+	relation 535426 --->
+	  stereotype "HashMap"
+	  a role_name "positions" private
+	    comment " The original HashMap of positions"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 535426 // positions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 535554 // myPlayer (<unidirectional association>)
+	relation 535554 --->
+	  a role_name "myPlayer" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 535554 // myPlayer (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 535682 // opponent (<unidirectional association>)
+	relation 535682 --->
+	  a role_name "opponent" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 535682 // opponent (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 535810 // folKb (<unidirectional association>)
+	relation 535810 --->
+	  a role_name "folKb" init_value " null" private
+	    comment " The parent knowledge base"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 535810 // folKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
+      end
+
+      classrelation 535938 // localKb (<unidirectional association>)
+	relation 535938 --->
+	  a role_name "localKb" private
+	    comment " The strategy knowledge base"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 535938 // localKb (<unidirectional association>)
+	  b parent class_ref 403458 // ChessFolKnowledgeBase
+      end
+
+      classrelation 536066 // chessDomain (<unidirectional association>)
+	relation 536066 --->
+	  a role_name "chessDomain" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 536066 // chessDomain (<unidirectional association>)
+	  b parent class_ref 148994 // FOLDomain
+      end
+
+      attribute 586882 "forwardChain"
+	private explicit_type "FOLGamesFCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 587010 "backwardChain"
+	private explicit_type "FOLGamesBCAsk"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1973122 "getControlPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973250 "setControlPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "controlPositions" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973378 "getPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973506 "setPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "positions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973634 "getMyPlayer"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973762 "setMyPlayer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPlayer" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1973890 "getOpponent"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974018 "setOpponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974146 "getFolKb"
+	public return_type class_ref 403458 // ChessFolKnowledgeBase
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974274 "setFolKb"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "folKb" type class_ref 403458 // ChessFolKnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974402 "getLocalKb"
+	public return_type class_ref 403458 // ChessFolKnowledgeBase
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974530 "setLocalKb"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "localKb" type class_ref 403458 // ChessFolKnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974658 "getChessDomain"
+	public return_type class_ref 148994 // FOLDomain
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974786 "setChessDomain"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "chessDomain" type class_ref 148994 // FOLDomain
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1974914 "getForwardChain"
+	public explicit_return_type "FOLGamesFCAsk"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1975042 "setForwardChain"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "forwardChain" explicit_type "FOLGamesFCAsk"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1975170 "getBackwardChain"
+	public explicit_return_type "FOLGamesBCAsk"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1975298 "setBackwardChain"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "backwardChain" explicit_type "FOLGamesBCAsk"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
   end
 
   deploymentview 142722 "game"
@@ -14350,6 +17360,7 @@ import aima.core.util.datastructure.Pair;
 import no.chess.web.model.PlayGame;
 import no.chess.web.model.Position;
 import no.games.chess.ChessPieceType;
+import no.games.chess.AbstractGamePiece.pieceType;
 import no.games.chess.fol.BCGamesAskHandler;
 import no.games.chess.fol.FOLGamesBCAsk;
 import no.games.chess.fol.FOLGamesFCAsk;
@@ -14720,6 +17731,7 @@ import no.chess.web.model.Position;
 import no.games.chess.ChessAction;
 import no.games.chess.ChessFunctions;
 import no.games.chess.ChessPieceType;
+import no.games.chess.AbstractGamePiece.pieceType;
 ${definition}"
       associated_elems
 	class_ref 234242 // ChessActionImpl
@@ -14807,6 +17819,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import aima.core.util.datastructure.XYLocation;
 import no.chess.web.model.Position;
 import no.games.chess.ChessFunctions;
 import no.games.chess.ChessPieceType;
@@ -14882,6 +17895,7 @@ import no.chess.web.model.PlayGame;
 import no.chess.web.model.Position;
 import no.games.chess.ChessPieceType;
 import no.games.chess.AbstractGamePiece.pieceType;
+import no.games.chess.fol.BCGamesAskHandler;
 import no.games.chess.fol.FOLGamesBCAsk;
 import no.games.chess.fol.FOLGamesFCAsk;
 import no.games.chess.planning.ChessProblem;
@@ -14907,6 +17921,106 @@ import no.games.chess.AbstractGamePiece.pieceType;
 ${definition}"
       associated_elems
 	class_ref 364034 // KnowledgeBuilder
+      end
+    end
+
+    artifact 326658 "OpponentAgent"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import aima.core.logic.fol.domain.FOLDomain;
+import aima.core.logic.fol.inference.InferenceResult;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Term;
+import no.chess.web.model.PlayGame;
+import no.chess.web.model.Position;
+import no.games.chess.ChessAction;
+import no.games.chess.fol.FOLGamesBCAsk;
+import no.games.chess.fol.FOLGamesFCAsk;
+${definition}"
+      associated_elems
+	class_ref 380162 // OpponentAgent
+      end
+    end
+
+    artifact 326786 "OpponentMoveProcessorgml"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import no.games.chess.AbstractGamePiece.pieceType;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import no.chess.web.model.Position;
+import no.games.chess.ChessFunctions;
+import no.games.chess.ChessPieceType;
+import no.games.chess.ChessProcessor;
+${definition}"
+      associated_elems
+	class_ref 380290 // OpponentMoveProcessorgml
+      end
+    end
+
+    artifact 346498 "ChessFolKnowledgeBase"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import aima.core.logic.fol.domain.FOLDomain;
+import aima.core.logic.fol.inference.InferenceProcedure;
+import aima.core.logic.fol.inference.InferenceResult;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+import no.chess.web.model.Position;
+import no.games.chess.fol.BCGamesAskHandler;
+import no.games.chess.fol.FOLGamesBCAsk;
+${definition}"
+      associated_elems
+	class_ref 403458 // ChessFolKnowledgeBase
+      end
+    end
+
+    artifact 353026 "APerformance"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import java.util.List;
+import aima.core.logic.fol.domain.FOLDomain;
+import no.chess.web.model.Position;
+import no.games.chess.fol.FOLGamesBCAsk;
+import no.games.chess.fol.FOLGamesFCAsk;
+${definition}"
+      associated_elems
+	class_ref 409986 // APerformance
       end
     end
   end

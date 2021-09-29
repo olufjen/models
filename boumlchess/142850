@@ -1,6 +1,6 @@
 format 223
 "robotics" // aima::gui::swing::applications::robotics
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -141,6 +141,106 @@ Additionally, the key {@link AbstractSettingsListener}{@code .MAP_FILE_KEY} is u
 "
 	    classrelation_ref 266626 // settingsGui (<unidirectional association>)
 	  b parent class_ref 215682 // Settings
+      end
+
+      classrelation 266754 // core (<unidirectional association>)
+	relation 266754 --->
+	  a role_name "core" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 266754 // core (<unidirectional association>)
+	  b parent class_ref 215810 // MclCore
+      end
+
+      classrelation 266882 // gui (<unidirectional association>)
+	relation 266882 --->
+	  a role_name "gui" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 266882 // gui (<unidirectional association>)
+	  b parent class_ref 215938 // MclGui
+      end
+
+      attribute 238594 "lastMapFile"
+	protected explicit_type "File"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 604546 "GenericMonteCarloLocalization2DApp"
+	cpp_inline public explicit_return_type ""
+	nparams 5
+	  param inout name "mcl" type class_ref 188034 // MonteCarloLocalization
+	  param inout name "map" type class_ref 189314 // MclCartesianPlot2D
+	  param inout name "robot" type class_ref 187778 // IMclRobot
+	  param inout name "robotGui" type class_ref 215554 // IRobotGui
+	  param inout name "settingsGui" type class_ref 215682 // Settings
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<P,Angle,M,AbstractRangeReading> ${p0}, ${t1}<P, M, AbstractRangeReading> ${p1}, ${t2}<Angle,M,AbstractRangeReading> ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param mcl an instance of {@link MonteCarloLocalization} for the type parameters {@code <P>}, {@code Angle}, {@code <M>}, {@code AbstractRangeReading}.
+@param map an instance of {@link MclCartesianPlot2D} for the type parameters {@code <P>}, {@code <M>}, {@code AbstractRangeReading}.
+@param robot an instance of a class implementing {@link IMclRobot} for the type parameters {@code Angle}, {@code <M>}, {@code AbstractRangeReading}.
+@param robotGui an instance of a class implementing {@link IRobotGui} that is able to manage the robot used with this Monte-Carlo-Localization.
+@param settingsGui an instance of {@link Settings} which has all those settings loaded that should be accessible for manipulation by the user and
+those settings mentioned in this class' documentation.
+"
+      end
+
+      operation 604674 "show"
+	cpp_inline public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Shows the application.
+"
+      end
+
+      operation 604802 "constructApplicationFrame"
+	cpp_inline public explicit_return_type "JFrame"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates the {@code JFrame} of the application and returns it.
+@return the main frame of the application.
+"
+      end
+
+      operation 604930 "runInBackground"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param in name "runnable" explicit_type "Runnable"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Executes a runnable in the background without freezing the GUI. Therefore it disables and re-enables the GUI's buttons to prevent concurrency.
+@param runnable the code to be run in background.
+"
       end
 
       class 215810 "MclCore"
@@ -370,15 +470,6 @@ the terminating condition is met, that is, the robot is located with sufficient 
 	  
 	  
 	end
-      end
-
-      classrelation 266754 // core (<unidirectional association>)
-	relation 266754 --->
-	  a role_name "core" protected
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 266754 // core (<unidirectional association>)
-	  b parent class_ref 215810 // MclCore
       end
 
       class 215938 "MclGui"
@@ -654,6 +745,374 @@ ${members}}
 	  MysqlColumn
 	end
 
+	classrelation 268418 // scrollListener (<unidirectional association>)
+	  relation 268418 --->
+	    a role_name "scrollListener" init_value " new ScrollListener()" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 268418 // scrollListener (<unidirectional association>)
+	    b parent class_ref 217090 // ScrollListener
+	end
+
+	classrelation 268546 // md (<unidirectional association>)
+	  relation 268546 --->
+	    a role_name "md" protected
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 268546 // md (<unidirectional association>)
+	    b parent class_ref 217218 // MapDrawer
+	end
+
+	attribute 243202 "mapWidth"
+	  private explicit_type "double"
+	  init_value " 1.0d"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243330 "mapHeight"
+	  private explicit_type "double"
+	  init_value " 1.0d"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243458 "translateX"
+	  private explicit_type "double"
+	  init_value " 0.0d"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243586 "translateY"
+	  private explicit_type "double"
+	  init_value " 0.0d"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243714 "moveRowHeight"
+	  private explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243842 "horizontalScrollValue"
+	  private explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 243970 "verticalScrollValue"
+	  private explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 244098 "runInitRobot"
+	  protected explicit_type "Runnable"
+	  init_value " new Runnable() {
+			@Override
+			public void run() {
+				md.drawRobot(robotGui.initializeRobot());
+				buttons[0].setText(robotGui.getButtonString());
+				enableButtons(previousButtonState);
+			}
+		}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment "Called upon pressing \"Initialize Robot\".
+
+"
+	end
+
+	classrelation 268674 // mapLoader (<unidirectional association>)
+	  relation 268674 --->
+	    a role_name "mapLoader" init_value " new MapLoader()" protected
+	      comment "
+Called upon pressing \"Load Map\".
+
+"
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 268674 // mapLoader (<unidirectional association>)
+	    b parent class_ref 217346 // MapLoader
+	end
+
+	attribute 244226 "runStep"
+	  protected explicit_type "Runnable"
+	  init_value " new Runnable() {
+			@Override
+			public void run() {
+				try {
+					core.step();
+				} catch(NullPointerException e) {
+					/*A NullPointerException may happen if the robot wasn't initialized before.*/
+					robotGui.notifyInitialize();
+				} catch(RobotException e) {
+					/*A RobotException may be thrown if the robot disconnected for some reason.*/
+				}
+				enableButtons(gui.buttonStateNormal);
+			}
+		}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment "Called upon pressing \"Step\".
+
+"
+	end
+
+	attribute 244354 "runClean"
+	  protected explicit_type "Runnable"
+	  init_value " new Runnable() {
+			@Override
+			public void run() {
+				runNotifyClean.run();
+				core.generateParticles();
+				enableButtons(gui.buttonStateNormal);
+			}
+		}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment "Called upon pressing \"Clear GUI\".
+
+"
+	end
+
+	attribute 244482 "runNotifyClean"
+	  protected explicit_type "Runnable"
+	  init_value " new Runnable() {
+			@Override
+			public void run() {
+				movesModel.clear();
+				clearResult();
+				md.clearMap();
+				jTMoves.setRowHeight(1);
+				jtARangeReading.setText(\"\");
+			}
+		}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 610562 "buildPanels"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Creates all components and action listeners for the GUI.
+"
+	end
+
+	operation 610690 "enableButtons"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 1
+	    param inout name "buttonStates" explicit_type "boolean"
+	  multiplicity "[]"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "(de)activate all buttons. For each button a boolean describing its state is passed.
+@param buttonStates one of the four boolean arrays {@code buttonStateStart, buttonStateNormal, buttonStateInit, buttonStateAuto}.
+"
+	end
+
+	operation 610818 "saveButtonState"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Saves the current activation state of all buttons into {@code previousButtonState}.
+"
+	end
+
+	operation 610946 "createMap"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Tells the {@link MapDrawer} {@code md} to display the loaded {@link MclCartesianPlot2D} {@code map}.
+"
+	end
+
+	operation 611074 "findMapSize"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Determines the map size by the smallest and greatest values of the shapes to be drawn. 
+"
+	end
+
+	operation 611202 "displayRangeReadings"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 1
+	    param inout name "rangeReadings" type class_ref 188674 // AbstractRangeReading
+	  multiplicity "[]"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Shows a set of {@link AbstractRangeReading}.
+@param rangeReadings the range readings to be displayed.
+"
+	end
+
+	operation 611330 "displayMove"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 1
+	    param in name "move" explicit_type "M"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Shows a {@code M} move.
+@param move the move to be displayed.
+"
+	end
+
+	operation 611458 "displaySamples"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 1
+	    param inout name "samples" explicit_type "Set<P>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Displays the sample cloud on the map.
+@param samples the set of samples to be displayed.
+"
+	end
+
+	operation 611586 "displayResult"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 1
+	    param inout name "result" explicit_type "P"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Shows the localized position of the robot on the map and in a label.
+@param result the position of the robot to be displayed.
+"
+	end
+
+	operation 611714 "clearResult"
+	  cpp_inline protected explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Clears the result that may has been set.
+"
+	end
+
 	class 217090 "ScrollListener"
 	  visibility protected 
 	  cpp_decl ""
@@ -719,13 +1178,82 @@ ${members}}
 	  end
 	end
 
-	classrelation 268418 // scrollListener (<unidirectional association>)
-	  relation 268418 --->
-	    a role_name "scrollListener" init_value " new ScrollListener()" protected
-	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+	class 217346 "MapLoader"
+	  visibility protected 
+	  cpp_decl ""
+	  java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
 "
-	      classrelation_ref 268418 // scrollListener (<unidirectional association>)
-	    b parent class_ref 217090 // ScrollListener
+	  php_decl ""
+	  python_2_2 python_decl ""
+	  idl_decl ""
+	  explicit_switch_type ""
+	  mysql_decl ""
+	  
+	  classrelation 268930 // <realization>
+	    relation 268930 -_-|>
+	      a public
+		java "${type}"
+		classrelation_ref 268930 // <realization>
+	      b parent class_ref 216066 // Runnable
+	  end
+
+	  attribute 244738 "chooser"
+	    private explicit_type "JFileChooser"
+	    cpp_decl ""
+	    java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    php_decl ""
+	    python_decl ""
+	    idl_decl ""
+	    mysql_decl ""
+	    MysqlColumn
+	  end
+
+	  operation 612098 "MapLoader"
+	    cpp_inline protected explicit_return_type ""
+	    nparams 0
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	    comment "Constructs a new map loader.
+"
+	  end
+
+	  operation 612226 "run"
+	    cpp_inline public explicit_return_type "void"
+	    nparams 0
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    java_annotation "@Override
+"
+	    
+	    
+	    
+	  end
+
+	  operation 612354 "loadMap"
+	    cpp_inline protected explicit_return_type "void"
+	    nparams 0
+	    nexceptions 1
+	      explicit_exception "Exception"
+	    
+	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	    
+	    
+	    
+	    comment "Tries to load the map file into the {@link MclCartesianPlot2D} {@code map}.
+@throws Exception may be thrown if either the map file is not found or is not valid in some way.
+"
+	  end
 	end
 
 	class 217218 "MapDrawer"
@@ -1025,534 +1553,6 @@ ${members}}
 	    
 	  end
 	end
-
-	classrelation 268546 // md (<unidirectional association>)
-	  relation 268546 --->
-	    a role_name "md" protected
-	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	      classrelation_ref 268546 // md (<unidirectional association>)
-	    b parent class_ref 217218 // MapDrawer
-	end
-
-	attribute 243202 "mapWidth"
-	  private explicit_type "double"
-	  init_value " 1.0d"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243330 "mapHeight"
-	  private explicit_type "double"
-	  init_value " 1.0d"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243458 "translateX"
-	  private explicit_type "double"
-	  init_value " 0.0d"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243586 "translateY"
-	  private explicit_type "double"
-	  init_value " 0.0d"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243714 "moveRowHeight"
-	  private explicit_type "int"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243842 "horizontalScrollValue"
-	  private explicit_type "int"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 243970 "verticalScrollValue"
-	  private explicit_type "int"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 244098 "runInitRobot"
-	  protected explicit_type "Runnable"
-	  init_value " new Runnable() {
-			@Override
-			public void run() {
-				md.drawRobot(robotGui.initializeRobot());
-				buttons[0].setText(robotGui.getButtonString());
-				enableButtons(previousButtonState);
-			}
-		}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	  comment "Called upon pressing \"Initialize Robot\".
-
-"
-	end
-
-	class 217346 "MapLoader"
-	  visibility protected 
-	  cpp_decl ""
-	  java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	  php_decl ""
-	  python_2_2 python_decl ""
-	  idl_decl ""
-	  explicit_switch_type ""
-	  mysql_decl ""
-	  
-	  classrelation 268930 // <realization>
-	    relation 268930 -_-|>
-	      a public
-		java "${type}"
-		classrelation_ref 268930 // <realization>
-	      b parent class_ref 216066 // Runnable
-	  end
-
-	  attribute 244738 "chooser"
-	    private explicit_type "JFileChooser"
-	    cpp_decl ""
-	    java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    php_decl ""
-	    python_decl ""
-	    idl_decl ""
-	    mysql_decl ""
-	    MysqlColumn
-	  end
-
-	  operation 612098 "MapLoader"
-	    cpp_inline protected explicit_return_type ""
-	    nparams 0
-	    
-	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	    
-	    
-	    
-	    comment "Constructs a new map loader.
-"
-	  end
-
-	  operation 612226 "run"
-	    cpp_inline public explicit_return_type "void"
-	    nparams 0
-	    
-	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	    java_annotation "@Override
-"
-	    
-	    
-	    
-	  end
-
-	  operation 612354 "loadMap"
-	    cpp_inline protected explicit_return_type "void"
-	    nparams 0
-	    nexceptions 1
-	      explicit_exception "Exception"
-	    
-	    preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	    
-	    
-	    
-	    comment "Tries to load the map file into the {@link MclCartesianPlot2D} {@code map}.
-@throws Exception may be thrown if either the map file is not found or is not valid in some way.
-"
-	  end
-	end
-
-	classrelation 268674 // mapLoader (<unidirectional association>)
-	  relation 268674 --->
-	    a role_name "mapLoader" init_value " new MapLoader()" protected
-	      comment "
-Called upon pressing \"Load Map\".
-
-"
-	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	      classrelation_ref 268674 // mapLoader (<unidirectional association>)
-	    b parent class_ref 217346 // MapLoader
-	end
-
-	attribute 244226 "runStep"
-	  protected explicit_type "Runnable"
-	  init_value " new Runnable() {
-			@Override
-			public void run() {
-				try {
-					core.step();
-				} catch(NullPointerException e) {
-					/*A NullPointerException may happen if the robot wasn't initialized before.*/
-					robotGui.notifyInitialize();
-				} catch(RobotException e) {
-					/*A RobotException may be thrown if the robot disconnected for some reason.*/
-				}
-				enableButtons(gui.buttonStateNormal);
-			}
-		}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	  comment "Called upon pressing \"Step\".
-
-"
-	end
-
-	attribute 244354 "runClean"
-	  protected explicit_type "Runnable"
-	  init_value " new Runnable() {
-			@Override
-			public void run() {
-				runNotifyClean.run();
-				core.generateParticles();
-				enableButtons(gui.buttonStateNormal);
-			}
-		}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	  comment "Called upon pressing \"Clear GUI\".
-
-"
-	end
-
-	attribute 244482 "runNotifyClean"
-	  protected explicit_type "Runnable"
-	  init_value " new Runnable() {
-			@Override
-			public void run() {
-				movesModel.clear();
-				clearResult();
-				md.clearMap();
-				jTMoves.setRowHeight(1);
-				jtARangeReading.setText(\"\");
-			}
-		}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 610562 "buildPanels"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Creates all components and action listeners for the GUI.
-"
-	end
-
-	operation 610690 "enableButtons"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 1
-	    param inout name "buttonStates" explicit_type "boolean"
-	  multiplicity "[]"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "(de)activate all buttons. For each button a boolean describing its state is passed.
-@param buttonStates one of the four boolean arrays {@code buttonStateStart, buttonStateNormal, buttonStateInit, buttonStateAuto}.
-"
-	end
-
-	operation 610818 "saveButtonState"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Saves the current activation state of all buttons into {@code previousButtonState}.
-"
-	end
-
-	operation 610946 "createMap"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Tells the {@link MapDrawer} {@code md} to display the loaded {@link MclCartesianPlot2D} {@code map}.
-"
-	end
-
-	operation 611074 "findMapSize"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Determines the map size by the smallest and greatest values of the shapes to be drawn. 
-"
-	end
-
-	operation 611202 "displayRangeReadings"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 1
-	    param inout name "rangeReadings" type class_ref 188674 // AbstractRangeReading
-	  multiplicity "[]"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Shows a set of {@link AbstractRangeReading}.
-@param rangeReadings the range readings to be displayed.
-"
-	end
-
-	operation 611330 "displayMove"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 1
-	    param in name "move" explicit_type "M"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Shows a {@code M} move.
-@param move the move to be displayed.
-"
-	end
-
-	operation 611458 "displaySamples"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 1
-	    param inout name "samples" explicit_type "Set<P>"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Displays the sample cloud on the map.
-@param samples the set of samples to be displayed.
-"
-	end
-
-	operation 611586 "displayResult"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 1
-	    param inout name "result" explicit_type "P"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Shows the localized position of the robot on the map and in a label.
-@param result the position of the robot to be displayed.
-"
-	end
-
-	operation 611714 "clearResult"
-	  cpp_inline protected explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Clears the result that may has been set.
-"
-	end
-      end
-
-      classrelation 266882 // gui (<unidirectional association>)
-	relation 266882 --->
-	  a role_name "gui" protected
-	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	    classrelation_ref 266882 // gui (<unidirectional association>)
-	  b parent class_ref 215938 // MclGui
-      end
-
-      attribute 238594 "lastMapFile"
-	protected explicit_type "File"
-	init_value " null"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      operation 604546 "GenericMonteCarloLocalization2DApp"
-	cpp_inline public explicit_return_type ""
-	nparams 5
-	  param inout name "mcl" type class_ref 188034 // MonteCarloLocalization
-	  param inout name "map" type class_ref 189314 // MclCartesianPlot2D
-	  param inout name "robot" type class_ref 187778 // IMclRobot
-	  param inout name "robotGui" type class_ref 215554 // IRobotGui
-	  param inout name "settingsGui" type class_ref 215682 // Settings
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<P,Angle,M,AbstractRangeReading> ${p0}, ${t1}<P, M, AbstractRangeReading> ${p1}, ${t2}<Angle,M,AbstractRangeReading> ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "@param mcl an instance of {@link MonteCarloLocalization} for the type parameters {@code <P>}, {@code Angle}, {@code <M>}, {@code AbstractRangeReading}.
-@param map an instance of {@link MclCartesianPlot2D} for the type parameters {@code <P>}, {@code <M>}, {@code AbstractRangeReading}.
-@param robot an instance of a class implementing {@link IMclRobot} for the type parameters {@code Angle}, {@code <M>}, {@code AbstractRangeReading}.
-@param robotGui an instance of a class implementing {@link IRobotGui} that is able to manage the robot used with this Monte-Carlo-Localization.
-@param settingsGui an instance of {@link Settings} which has all those settings loaded that should be accessible for manipulation by the user and
-those settings mentioned in this class' documentation.
-"
-      end
-
-      operation 604674 "show"
-	cpp_inline public explicit_return_type "void"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Shows the application.
-"
-      end
-
-      operation 604802 "constructApplicationFrame"
-	cpp_inline public explicit_return_type "JFrame"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Creates the {@code JFrame} of the application and returns it.
-@return the main frame of the application.
-"
-      end
-
-      operation 604930 "runInBackground"
-	cpp_inline public explicit_return_type "void"
-	nparams 1
-	  param in name "runnable" explicit_type "Runnable"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Executes a runnable in the background without freezing the GUI. Therefore it disables and re-enables the GUI's buttons to prevent concurrency.
-@param runnable the code to be run in background.
-"
       end
     end
 

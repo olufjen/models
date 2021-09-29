@@ -1,0 +1,1049 @@
+format 223
+"grammars" // aima::core::nlp::parsing::grammars
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/nlp/parsing/grammars/"
+  java_package "aima.core.nlp.parsing.grammars"
+  classview 221954 "grammars"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 377858 "ProbCNFGrammar"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The CYK algorithm exploits the structure of grammars in 
+Chomsky Normal Form in order to parse efficiently. 
+
+A context-free grammar is in Chomsky Normal Form (CNF) if each
+rule has one of the following forms:
+
+1. A -> BC,
+2. A -> a,
+3. S -> null, where B,C are non-start variables (V - {S}), 
+and a is a terminal.
+
+@author Jonathon
+
+"
+      classrelation 474370 // <generalisation>
+	relation 474370 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 474370 // <generalisation>
+	  b parent class_ref 378114 // ProbContextFreeGrammar
+      end
+
+      operation 1825282 "ProbCNFGrammar"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " TODO: Implement conversion from ContextFree to ChomskyNormalForm
+ default constructor"
+      end
+
+      operation 1825410 "ProbCNFGrammar"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "grammar" type class_ref 377858 // ProbCNFGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1825538 "addRules"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a ruleList as the grammar's rule list if all rules in it pass
+both the restrictions of the Context-free grammar, and all rules 
+or in Chomsky-Normal-Form
+"
+      end
+
+      operation 1825666 "addRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a rule to the grammar's rule list if it passes
+both the restrictions of the Context-free grammar, and the rule is
+in Chomsky Normal Form.
+"
+      end
+
+      operation 1825794 "validRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For a grammar rule to be valid in a context-free grammar, 
+all the restrictions of the context-free grammar must hold,
+and the rule must be in one of three forms.
+
+1. A -> BC,
+2. A -> a,
+3. S -> null, where B,C are non-start variables (V - {S}), 
+and a is a terminal.
+
+@param r,  a rule
+@return true, if rule is in CNF. false, otherwise
+"
+      end
+    end
+
+    class 378114 "ProbContextFreeGrammar"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 474114 // <generalisation>
+	relation 474114 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 474114 // <generalisation>
+	  b parent class_ref 379266 // ProbContextSensitiveGrammar
+      end
+
+      classrelation 474242 // <realization>
+	relation 474242 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 474242 // <realization>
+	  b parent class_ref 379138 // ProbabilisticGrammar
+      end
+
+      operation 1824642 "ProbContextFreeGrammar"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " default constructor"
+      end
+
+      operation 1824770 "addRules"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a ruleList as the grammar's rule list if all rules in it pass
+both the restrictions of the parent grammars (unrestricted and context-sens)
+and this grammar's restrictions.
+"
+      end
+
+      operation 1824898 "addRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a rule to the grammar's rule list if it passes
+both the restrictions of the parent grammars (unrestricted and context-sens)
+and this grammar's restrictions.
+"
+      end
+
+      operation 1825026 "validRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For a grammar rule to be valid in a context-free grammar, 
+all the restrictions of the parent grammars must hold, and the restriction
+of the context-free grammar must hold. The restriction is that the lhs must 
+consist of a single non-terminal (variable). There are no restrictions on the rhs
+
+"
+      end
+
+      operation 1825154 "leftDerivesRight"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "lhs" explicit_type "ArrayList<String>"
+	  param inout name "rhs" explicit_type "ArrayList<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Test whether LHS -> RHS is a rule in the grammar. 
+Note: it must be a DIRECT derivation
+@param lhs
+@param rhs
+@return
+"
+      end
+    end
+
+    class 378626 "ProbUnrestrictedGrammar"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Represents the most general grammatical formalism,
+the Unrestricted (or Recrusively Enumerable) Grammar.
+All other grammars can derive from this grammar, imposing extra
+restrictions.
+@author Jonathon
+
+"
+      classrelation 473602 // <realization>
+	relation 473602 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 473602 // <realization>
+	  b parent class_ref 379138 // ProbabilisticGrammar
+      end
+
+      attribute 492162 "UNRESTRICTED"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " types of grammars
+"
+      end
+
+      attribute 492290 "CONTEXT_SENSITIVE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 1"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 492418 "CONTEXT_FREE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 2"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 492546 "REGULAR"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 3"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 492674 "CNFGRAMMAR"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 4"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 492802 "PROB_CONTEXT_FREE"
+	class_attribute const_attribute public explicit_type "int"
+	init_value " 5"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 473730 // rules (<unidirectional association>)
+	relation 473730 --->
+	  stereotype "List"
+	  a role_name "rules" public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 473730 // rules (<unidirectional association>)
+	  b parent class_ref 378754 // Rule
+      end
+
+      attribute 492930 "vars"
+	public explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 493058 "terminals"
+	public explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 493186 "type"
+	public explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1822850 "ProbUnrestrictedGrammar"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " default constructor. has no rules"
+      end
+
+      operation 1822978 "addRules"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a number of rules at once, testing each in turn
+for validity, and then testing the batch for probability validity.
+@param ruleList
+@return true if rules are valid and incorporated into the grammar. false, otherwise
+"
+      end
+
+      operation 1823106 "addRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rule" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a single rule the grammar, testing it for structural 
+and probability validity.
+@param rule
+@return true if rule is incorporated. false, otherwise
+
+ TODO: More sophisticated probability distribution management"
+      end
+
+      operation 1823234 "validateRuleProbabilities"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For a set of rules, test whether each batch of rules with the same 
+LHS have their probabilities sum to exactly 1.0
+@param ruleList
+@return true if the probabilities are valid. false, otherwise
+"
+      end
+
+      operation 1823362 "validRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Test validity of the LHS and RHS of grammar rule.
+In unrestricted grammar, the only invalid rule type is
+a rule with a null LHS.
+@param r ( a rule )
+@return true, if rule has valid form. false, otherwise
+"
+      end
+
+      operation 1823490 "updateVarsAndTerminals"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Whenever a new rule is added to the grammar, we want to 
+update the list of variables and terminals with any new grammar symbols
+"
+      end
+
+      operation 1823618 "updateVarsAndTerminals"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Update variable and terminal lists with a single rule's symbols,
+if there a new symbols
+@param r
+"
+      end
+
+      operation 1823746 "isVariable"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "s" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Check if we have a variable, as they are uppercase strings.
+@param s
+@return
+"
+      end
+
+      operation 1823874 "isTerminal"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param in name "s" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Check if we have a terminal, as they are lowercase strings
+@param s
+@return true, if string must be a terminal. false, otherwise
+"
+      end
+
+      operation 1824002 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 378754 "Rule"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A derivation rule that is contained within a grammar. This rule is probabilistic, in that it 
+has an associated probability representing the likelihood that the RHS follows from the LHS, given 
+the presence of the LHS.
+@author Jonathon (thundergolfer)
+
+"
+      attribute 493314 "PROB"
+	const_attribute public explicit_type "float"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 493442 "lhs"
+	const_attribute public explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Left hand side of derivation rule"
+      end
+
+      attribute 493570 "rhs"
+	const_attribute public explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Right hand side of derivation rule"
+      end
+
+      operation 1825922 "Rule"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "lhs" explicit_type "List<String>"
+	  param inout name "rhs" explicit_type "List<String>"
+	  param in name "probability" explicit_type "float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Basic constructor"
+      end
+
+      operation 1826050 "Rule"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "lhs" explicit_type "List<String>"
+	  param in name "probability" explicit_type "float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " null RHS rule constructor"
+      end
+
+      operation 1826178 "Rule"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "lhs" explicit_type "String"
+	  param in name "rhs" explicit_type "String"
+	  param in name "probability" explicit_type "float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " string split constructor"
+      end
+
+      operation 1826306 "validateProb"
+	private explicit_return_type "float"
+	nparams 1
+	  param in name "prob" explicit_type "float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Currently a hack to ensure rule has a valid probablity value.
+Don't really want to throw an exception.
+"
+      end
+
+      operation 1826434 "derives"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "sentForm" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1826562 "derives"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "terminal" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1826690 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 379138 "ProbabilisticGrammar"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 1822082 "addRules"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1822210 "addRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1822338 "validRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1822466 "validateRuleProbabilities"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "List<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1822594 "updateVarsAndTerminals"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1822722 "updateVarsAndTerminals"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 379266 "ProbContextSensitiveGrammar"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A context-sensitive grammar is less restrictive than context-free and more powerful, but
+more restrictive than an unrestricted grammar (an less powerfull).
+@author Jonathon
+
+"
+      classrelation 473858 // <generalisation>
+	relation 473858 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 473858 // <generalisation>
+	  b parent class_ref 378626 // ProbUnrestrictedGrammar
+      end
+
+      classrelation 473986 // <realization>
+	relation 473986 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 473986 // <realization>
+	  b parent class_ref 379138 // ProbabilisticGrammar
+      end
+
+      operation 1824130 "ProbContextSensitiveGrammar"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " default constructor"
+      end
+
+      operation 1824258 "addRules"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "ruleList" explicit_type "ArrayList<Rule>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a ruleList as the grammar's rule list if all rules in it pass
+both the restrictions of the parent grammar (unrestricted) and
+this grammar's restrictions.
+"
+      end
+
+      operation 1824386 "addRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a rule to the grammar's rule list if it passes
+both the restrictions of the parent grammar (unrestricted) and
+this grammar's restrictions.
+"
+      end
+
+      operation 1824514 "validRule"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "r" type class_ref 378754 // Rule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "For a grammar rule to be valid in a context sensitive grammar, 
+all the restrictions of the parent grammar (unrestricted) must hold, 
+and the number of RHS symbols must be equal or greater than the number
+of LHS symbols.
+"
+      end
+    end
+  end
+
+  deploymentview 202626 "grammars"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 324866 "ProbabilisticGrammar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 379138 // ProbabilisticGrammar
+      end
+    end
+
+    artifact 324994 "ProbUnrestrictedGrammar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 378626 // ProbUnrestrictedGrammar
+      end
+    end
+
+    artifact 325122 "ProbContextSensitiveGrammar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+${definition}"
+      associated_elems
+	class_ref 379266 // ProbContextSensitiveGrammar
+      end
+    end
+
+    artifact 325250 "ProbContextFreeGrammar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 378114 // ProbContextFreeGrammar
+      end
+    end
+
+    artifact 325378 "ProbCNFGrammar"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 377858 // ProbCNFGrammar
+      end
+    end
+
+    artifact 325506 "Rule"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+${definition}"
+      associated_elems
+	class_ref 378754 // Rule
+      end
+    end
+  end
+end

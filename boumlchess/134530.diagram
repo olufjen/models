@@ -2,8 +2,6 @@ format 223
 
 classinstance 128002 class_ref 237954 // RapporterChessStartServerResourceHTML
  name ""  xyz 278 384 2000
-classinstance 128130 class_ref 272770 // Chess_player
- name ""  xyz 51 31 2000
 textcanvas 128770 "User wants to play a game"
   xyzwh 101 7 2000 130 14
 classinstance 129026 class_ref 233474 // PlayGame
@@ -21,98 +19,65 @@ textcanvas 132738 "The PlayGame object is created when the user chooses to play 
 textcanvas 133250 "When the PlayGame object is created, it creates the AchessGame object, which in turn creates the initial ChessState object.
 This is the only time the ChessState object is created."
   xyzwh 199 604 2000 203 76
-linkcanvas 128386 decenter_end 472
-  from ref 128130 z 2001 to point 378 50
-  line 128514 z 2001 to ref 128002
-dirscanvas 128642 z 1000 linkcanvas_ref 128386
-  
-  forward_label "1 getChess()" xyz 221 20 3000
-  backward_label "7 Present chessboard" xyz 198 69 3000
 linkcanvas 129154
   from ref 128002 z 2001 to ref 129026
 dirscanvas 129282 z 1000 linkcanvas_ref 129154
   
-  forward_label "6 proposeMove()" xyz 406 460 3000
+  forward_label "5 proposeMove()" xyz 406 460 3000
 linkcanvas 129666 decenter_begin 824
   from ref 128002 z 2001 to point 461 263
   line 130434 z 2001 to ref 129538
 dirscanvas 129794 z 1000 linkcanvas_ref 130434
   
-  forward_label "2 ChessBoard()
-3 createFen()" xyz 538 219 3000
+  forward_label "1 ChessBoard()
+2 createFen()" xyz 538 219 3000
 selflinkcanvas 129922 classinstance_ref 128002 // :RapporterChessStartServerResourceHTML
   xy 278 409
   
-  forward_label "4 establishRules()" xyz 174 409 3000
+  forward_label "3 establishRules()" xyz 174 409 3000
 linkcanvas 130562
   from ref 128002 z 2001 to ref 130050
 dirscanvas 130690 z 1000 linkcanvas_ref 130562
   
-  forward_label "5 setSessionObject()" xyz 538 366 3000
-linkcanvas 130946
-  from ref 128130 z 2001 to point 84 391
-  line 131074 z 2001 to ref 128002
-dirscanvas 131202 z 1000 linkcanvas_ref 130946
-  
-  forward_label "8 storeChess()" xyz 104 225 3000
-  backward_label "10 Present new chessboard" xyz -54 230 3000
+  forward_label "4 setSessionObject()" xyz 538 366 3000
 linkcanvas 131714 decenter_begin 933
   from ref 128002 z 2001 to point 483 438
   line 131970 z 2001 to point 723 437
   line 131842 z 2001 to ref 130050
 dirscanvas 132098 z 1000 linkcanvas_ref 131970
   
-  forward_label "9 getSessionObject()" xyz 554 409 3000
+  forward_label "6 getSessionObject()" xyz 554 409 3000
 linkcanvas 132226 decenter_begin 949
   from ref 128002 z 2001 to point 487 332
   line 132354 z 2001 to point 725 334
   line 132482 z 2001 to ref 129538
 dirscanvas 132610 z 1000 linkcanvas_ref 132354
   
-  forward_label "11 emptyGame()" xyz 569 304 3000
+  forward_label "7 emptyGame()" xyz 572 304 3000
 msgs
-  msg operation_ref 806530 // "getChess() : Representation"
-    forward ranks 1 "1" dirscanvas_ref 128642
+  msg operation_ref 700674 // "ChessBoard(in fileName : String)"
+    forward ranks 1 "1" dirscanvas_ref 129794
+    no_msg
+  msg operation_ref 706690 // "createFen() : String"
+    forward ranks 2 "2" dirscanvas_ref 129794
+    no_msg
+  msg operation_ref 806274 // "establishRules(inout chessBoard : ChessBoard) : void"
+    forward ranks 3 "3" selflinkcanvas_ref 129922
     msgs
-      msg operation_ref 700674 // "ChessBoard(in fileName : String)"
-	forward ranks 2 "1.1" dirscanvas_ref 129794
+      msg operation_ref 697602 // "setSessionObject(inout request : Request, inout o : Object, in idKey : String) : void"
+	forward ranks 4 "3.1" dirscanvas_ref 130690
 	no_msg
-      msg operation_ref 706690 // "createFen() : String"
-	forward ranks 3 "1.2" dirscanvas_ref 129794
-	no_msg
-      msg operation_ref 806274 // "establishRules(inout chessBoard : ChessBoard) : void"
-	forward ranks 4 "1.3" selflinkcanvas_ref 129922
-	msgs
-	  msg operation_ref 697602 // "setSessionObject(inout request : Request, inout o : Object, in idKey : String) : void"
-	    forward ranks 5 "1.3.1" dirscanvas_ref 130690
-	    no_msg
-	msgsend
-      msg operation_ref 724866 // "proposeMove() : void"
-	forward ranks 6 "1.4" dirscanvas_ref 129282
-	no_msg
-      explicitmsg "Present chessboard"
-	backward ranks 7 "1.5" dirscanvas_ref 128642
-	msgs
-	  msg operation_ref 806658 // "storeChess(inout form : Form) : Representation"
-	    forward ranks 8 "1.5.1" dirscanvas_ref 131202
-	    msgs
-	      msg operation_ref 698242 // "getSessionObject(inout request : Request, in idKey : String) : Object"
-		forward ranks 9 "1.5.1.1" dirscanvas_ref 132098
-		no_msg
-	      explicitmsg "Present new chessboard"
-		backward ranks 10 "1.5.1.2" dirscanvas_ref 131202
-		no_msg
-	      msg operation_ref 703362 // "emptyGame() : void"
-		forward ranks 11 "1.5.1.3" dirscanvas_ref 132610
-		no_msg
-	    msgsend
-	msgsend
     msgsend
+  msg operation_ref 724866 // "proposeMove() : void"
+    forward ranks 5 "4" dirscanvas_ref 129282
+    no_msg
+  msg operation_ref 698242 // "getSessionObject(inout request : Request, in idKey : String) : Object"
+    forward ranks 6 "5" dirscanvas_ref 132098
+    no_msg
+  msg operation_ref 703362 // "emptyGame() : void"
+    forward ranks 7 "6" dirscanvas_ref 132610
+    no_msg
 msgsend
-line 128898 -_-_
-  from ref 128130 z 2001 to ref 128770
-line 131330 -_-_
-  from ref 128130 z 2001 to ref 129410
 line 131586 -_-_
   from ref 129154 z 2002 to ref 131458
 line 133122 -_-_

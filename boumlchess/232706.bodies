@@ -10,10 +10,38 @@ class AgamePiece
 		heldPositions = new Stack();
 		moveNumbers = new ArrayList<Integer>();
 		predicates = new ArrayList<String>();
+		northEast = new ArrayList<XYLocation>();
+		northWest = new ArrayList<XYLocation>();
+		southEast = new ArrayList<XYLocation>();
+		southWest = new ArrayList<XYLocation>();
 //		determinePieceType(); Moved to setOntologyPositions: Then new available positions are replaced by ontology positions
 !!!752514.java!!!	AgamePiece()
 		super();
 		
+!!!1833474.java!!!	getNorthWest() : XYLocation
+		return northWest;
+!!!1833602.java!!!	setNorthWest(inout northWest : List<XYLocation>) : void
+		this.northWest = northWest;
+!!!1833730.java!!!	getNorthEast() : XYLocation
+		return northEast;
+!!!1833858.java!!!	setNorthEast(inout northEast : List<XYLocation>) : void
+		this.northEast = northEast;
+!!!1833986.java!!!	getSouthWest() : XYLocation
+		return southWest;
+!!!1834114.java!!!	setSouthWest(inout southWest : List<XYLocation>) : void
+		this.southWest = southWest;
+!!!1834242.java!!!	getSouthEast() : XYLocation
+		return southEast;
+!!!1834370.java!!!	setSouthEast(inout southEast : List<XYLocation>) : void
+		this.southEast = southEast;
+!!!1834498.java!!!	getBishopRemoved() : Position
+		return bishopRemoved;
+!!!1834626.java!!!	setBishopRemoved(inout bishopRemoved : List<Position>) : void
+		this.bishopRemoved = bishopRemoved;
+!!!1796226.java!!!	isCastlingMove() : boolean
+		return castlingMove;
+!!!1796354.java!!!	setCastlingMove(inout castlingMove : boolean) : void
+		this.castlingMove = castlingMove;
 !!!1777794.java!!!	getPredicate() : String
 		return predicate;
 !!!1777922.java!!!	setPredicate(in predicate : String) : void
@@ -34,6 +62,10 @@ class AgamePiece
 		return castlePositions;
 !!!1778562.java!!!	setCastlePositions(inout castlePositions : HashMap<String, Position>) : void
 		this.castlePositions = castlePositions;
+!!!1796482.java!!!	getBishopPositions() : Position
+		return bishopPositions;
+!!!1796610.java!!!	setBishopPositions(inout bishopPositions : HashMap<String, Position>) : void
+		this.bishopPositions = bishopPositions;
 !!!752770.java!!!	setOntologyPositions(inout ontologyPositions : HashMap<String, Position>) : void
 		this.ontologyPositions = ontologyPositions;
 		determinePieceType();
@@ -53,9 +85,15 @@ class AgamePiece
 		this.removedPositions = removedPositions;
 !!!965378.java!!!	checkRemoved(inout pos : Position) : boolean
 		boolean removed = false;
+		String posName = pos.getPositionName();
 		if (removedPositions != null) {
 			for (Position position:removedPositions) {
+				String pName = position.getPositionName();
 				if (pos == position) {
+					removed = true;
+					break;
+				}
+				if (posName.equals(pName)) {
 					removed = true;
 					break;
 				}
@@ -99,6 +137,51 @@ class AgamePiece
 		king.test(this);
 		
 		
+!!!1834754.java!!!	giveNewdirections() : void
+		if (myType == myType.BISHOP || myType == myType.QUEEN) {
+			calculateDirections();
+		}
+!!!1834882.java!!!	calculateDirections() : void
+		XYLocation myLocation = myPosition.getXyloc();
+		northWest.clear();
+		northEast.clear();
+		southWest.clear();
+		southEast.clear();
+		int ocol = myLocation.getXCoOrdinate();
+		int orow = myLocation.getYCoOrdinate();
+		int col = ocol; int row = orow;
+		boolean nWest = col > 0 && row < 7;
+		while (nWest) {
+			col--;row++;
+			XYLocation nwest = new XYLocation(col,row);
+			northWest.add(nwest);
+			nWest = col > 0 && row < 7;
+		}
+		col = ocol;row = orow;
+		boolean nEast = col < 7 && row < 7;
+		while (nEast) {
+			col++;row++;
+			XYLocation neast = new XYLocation(col,row);
+			northEast.add(neast);
+			nEast = col < 7 && row < 7;
+		}
+		col = ocol;row = orow;
+		boolean sw = col > 0 && row > 0;
+		while(sw) {
+			col--;row--;
+			XYLocation swest = new XYLocation(col,row);
+			southWest.add(swest);
+			sw = col > 0 && row > 0;
+		}
+		col = ocol;row = orow;
+		boolean se = col < 7 && row > 0;
+		while(se) {
+			col++;row--;
+			XYLocation seast = new XYLocation(col,row);
+			southEast.add(seast);
+			se = col < 7 && row > 0;
+		}
+		
 !!!754306.java!!!	determinePieceType() : void
 		String name = myPiece.getPieceName();
 		color = myPiece.getColor();
@@ -135,6 +218,7 @@ class AgamePiece
 				gamePiece.setOntologyPositions(ontologyPositions);
 //				reacablePositions = chessType.getNewPositions();
 				newlistPositions = new ArrayList(reacablePositions.values());
+				calculateDirections();
 /*				for (Position pos:newlistPositions) {
 					System.out.println(pieceColorB+" Bishop positions: "+pos.getPositionName() + " " + pos.getPositionColor());
 				}*/
@@ -195,11 +279,16 @@ class AgamePiece
 				chessType = new AQueen(myPosition,myPiece);
 				String pieceColorQ = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
+				AQueen queen = (AQueen) chessType;
 				reacablePositions = gamePiece.getNewPositions();
+				bishopPositions = queen.getBishopPositions();
 				createPosition(reacablePositions); // To replace created positions with ontology positions
+				createPosition(bishopPositions);
 				gamePiece.setOntologyPositions(ontologyPositions);
 //				reacablePositions = chessType.getNewPositions();
 				newlistPositions = new ArrayList(reacablePositions.values());
+				newlistPositions.addAll(bishopPositions.values());
+				calculateDirections();
 /*				for (Position pos:newlistPositions) {
 					System.out.println(pieceColorQ+" Queens positions: "+pos.getPositionName() + " " + pos.getPositionColor());
 				}*/				
@@ -224,6 +313,8 @@ class AgamePiece
 			heldPositions.push(this.myPosition);
 			this.heldPosition = myPosition;
 		}
+		this.myPosition = newPosition;
+!!!1958274.java!!!	settempMyposition(inout newPosition : Position) : void
 		this.myPosition = newPosition;
 !!!755202.java!!!	setMypositionEmpty(inout position : Position) : void
 		heldPosition = myPosition;
@@ -284,28 +375,79 @@ class AgamePiece
 		StringBuilder result = new StringBuilder();
 		String posName = "Removed!!!";
 		XYLocation localXY = new XYLocation(0,0);
-		
+		String pActive = " Active";
+		if (!active)
+			pActive = " Taken!!!";
 		if (myPosition != null) {
 			posName = myPosition.getPositionName();
 			localXY = myPosition.getXyloc();
 		}
 		
-		result.append("Piece position"+posName + " X, Y "+localXY.toString()  + " "+myPiece.getName()+ " "+myPiece.getPosition().toString()+ myType);
+		result.append("Piece position "+posName + " X, Y "+localXY.toString()  + " "+myPiece.getName()+ " "+myPiece.getPosition().toString()+" "+ myType+pActive);
 	
 		String na = myPiece.getPieceName();
 		result.append("Name " + na + "\n" + "Available positions\n");
 		for (Position pos:newlistPositions) {
-			result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString() + "\n");
-
+			result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString() );
+			if (pos.isInUse()) {
+				result.append(" Occupied by: "+pos.getUsedBy().getOntlogyName() + "\n");
+			}else {
+				result.append("\n");
+			}
 		}
 		result.append("Removed positions\n");
 		if (removedPositions != null && !removedPositions.isEmpty()) {
 			for (Position pos:removedPositions) {
-				result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString() + "\n");
+				result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString());
+				if (pos.isInUse()) {
+					result.append(" Occupied by: "+pos.getUsedBy().getOntlogyName() + "\n");
+				}else {
+					result.append("\n");
+				}
 
 			}	
 		}
+		result.append("Northwest positions\n");
+		if (northWest != null && !northWest.isEmpty()) {
+			for (XYLocation pos:northWest) {
+				result.append(" X, Y "+pos.toString());
+				}
 
+		}	
+		result.append("\nNortheast positions\n");
+		if (northEast != null && !northEast.isEmpty()) {
+			for (XYLocation pos:northEast) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}
+		result.append("\nSoutheast positions\n");
+		if (southEast != null && !southEast.isEmpty()) {
+			for (XYLocation pos:southEast) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}	
+		result.append("\nSouthwest positions\n");
+		if (southWest != null && !southWest.isEmpty()) {
+			for (XYLocation pos:southWest) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}	
+		if(castlePositions != null && !castlePositions.isEmpty() && (myType == myType.KING || myType == myType.ROOK) && nofMoves == 0) {
+			List<Position> castle = new ArrayList(castlePositions.values());
+			result.append("castle positions\n");
+			for (Position pos:castle) {
+				result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString());
+				if (pos.isInUse()) {
+					result.append(" Occupied by: "+pos.getUsedBy().getOntlogyName() + "\n");
+				}else {
+					result.append("\n");
+				}
+			}
+		}
+	
 		return result.toString();
 !!!757122.java!!!	test(inout piece : GamePiece) : boolean
 		// TODO Auto-generated method stub

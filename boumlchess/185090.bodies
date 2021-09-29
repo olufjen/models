@@ -10,7 +10,7 @@ class POMDPValueIteration
         HashMap<List<A>, List<Double>> u = new HashMap<>();
         List<Double> utilities = new ArrayList<>();
 
-        // U′  a set containing just the empty plan [], with α[](s) = R(s)
+        // U′ ← a set containing just the empty plan [], with α[](s) = R(s)
         for (S state :
                 pomdp.states()) {
             utilities.add(pomdp.reward(state));
@@ -19,9 +19,9 @@ class POMDPValueIteration
         uDash.put(new ArrayList<>(), utilities);
         int i = 0; // For maintaining tree depth
 
-        // repeat until MAX-DIFFERENCE OLJ This comment has been changed
+        // repeat until MAX-DIFFERENCE(U, U′) < ε(1 − γ) ⁄ γ
         while (maxDifference(u, uDash) < maxError * (1 - pomdp.getDiscount()) / pomdp.getDiscount() || (i <= this.depth)) {
-            // U  U′
+            // U ← U′
             u = new HashMap<>(uDash);
             // the set of all plans consisting of an action and, for each possible next percept,
             // a plan in U with utility vectors computed according to Equation(??)

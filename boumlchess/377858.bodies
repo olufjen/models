@@ -1,0 +1,37 @@
+class ProbCNFGrammar
+!!!1825282.java!!!	ProbCNFGrammar()
+		type = 4; 
+		rules = new ArrayList<Rule>();
+!!!1825410.java!!!	ProbCNFGrammar(inout grammar : ProbCNFGrammar)
+		type = 4;
+		rules = grammar.rules;
+!!!1825538.java!!!	addRules(inout ruleList : List<Rule>) : boolean
+		for (Rule aRuleList : ruleList) {
+			if (!validRule(aRuleList))
+				return false;
+		}
+		if (!validateRuleProbabilities(ruleList))
+			return false;
+		rules = ruleList;
+		updateVarsAndTerminals();
+		return true;
+!!!1825666.java!!!	addRule(inout r : Rule) : boolean
+		if (!validRule(r))
+			return false;
+		rules.add(r);
+		updateVarsAndTerminals(r);
+		return true;
+!!!1825794.java!!!	validRule(inout r : Rule) : boolean
+		if (!super.validRule(r))
+			return false;
+		// 3. rhs is null
+		if (r.rhs == null || r.rhs.size() == 0)
+			return true;
+		// 2. rhs is a terminal (a)
+		else if (r.rhs.size() == 1 && isTerminal(r.rhs.get(0)))
+			return true;
+		// 1. rhs is 2 variables (BC)
+		else if (r.rhs.size() == 2 && isVariable(r.rhs.get(0)) && isVariable(r.rhs.get(1)))
+			return true;
+		// rule is not in one of the 3 CNF forms
+		return false;

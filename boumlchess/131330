@@ -1,6 +1,6 @@
 format 223
 "vacuum" // aima::core::environment::vacuum
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -209,42 +209,6 @@ goal is to clean up all the dirt.
 @author Mike Stampone
 @author Ruediger Lunde
 "
-      class 141314 "LocationState"
-	visibility public stereotype "enum"
-	cpp_decl ""
-	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
-${items};
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 145922 "Clean"
-	  public type class_ref 141314 // LocationState
-	  cpp_decl ""
-	  java_decl "  ${@}${name}${value},${comment}"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 146050 "Dirty"
-	  public type class_ref 141314 // LocationState
-	  cpp_decl ""
-	  java_decl "  ${@}${name}${value},${comment}"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-      end
-
       classrelation 143362 // <generalisation>
 	relation 143362 ---|>
 	  a public
@@ -306,6 +270,42 @@ ${members}}
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      class 141314 "LocationState"
+	visibility public stereotype "enum"
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}enum ${name}${implements} {
+${items};
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 145922 "Clean"
+	  public type class_ref 141314 // LocationState
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 146050 "Dirty"
+	  public type class_ref 141314 // LocationState
+	  cpp_decl ""
+	  java_decl "  ${@}${name}${value},${comment}"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
       end
 
       attribute 146178 "locations"
@@ -1210,9 +1210,9 @@ ${members}}
 	visibility private 
 	nactuals 2
 	actual class class_ref 142338 // ResultsFunction
-	  rank 0 explicit_value ""
+	  rank 0 value class_ref 141698 // VacuumEnvironmentState
 	actual class class_ref 142338 // ResultsFunction
-	  rank 1 explicit_value ""
+	  rank 1 value class_ref 128002 // Action
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

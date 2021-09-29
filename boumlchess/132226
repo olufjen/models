@@ -1,6 +1,6 @@
 format 223
 "parsing" // aima::core::logic::propositional::parsing
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -58,7 +58,7 @@ format 223
       visibility public 
       nactuals 1
       actual class class_ref 156290 // Parser
-        rank 0 explicit_value ""
+        rank 0 value class_ref 144514 // Sentence
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -171,67 +171,6 @@ will be parsed as:
 	
 	comment " PROTECTED
 "
-      end
-
-      class 173058 "ParseNode"
-	visibility private 
-	cpp_decl ""
-	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 178946 "node"
-	  public explicit_type "Object"
-	  init_value " null"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	classrelation 198658 // token (<unidirectional association>)
-	  relation 198658 --->
-	    a role_name "token" init_value " null" public
-	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	      classrelation_ref 198658 // token (<unidirectional association>)
-	    b parent class_ref 155778 // Token
-	end
-
-	operation 376834 "ParseNode"
-	  public explicit_return_type ""
-	  nparams 2
-	    param inout name "node" explicit_type "Object"
-	    param inout name "token" type class_ref 155778 // Token
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 376962 "toString"
-	  public explicit_return_type "String"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
       end
 
       operation 375170 "parseSentence"
@@ -397,6 +336,67 @@ ${members}}
 	
 	
       end
+
+      class 173058 "ParseNode"
+	visibility private 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 178946 "node"
+	  public explicit_type "Object"
+	  init_value " null"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	classrelation 198658 // token (<unidirectional association>)
+	  relation 198658 --->
+	    a role_name "token" init_value " null" public
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	      classrelation_ref 198658 // token (<unidirectional association>)
+	    b parent class_ref 155778 // Token
+	end
+
+	operation 376834 "ParseNode"
+	  public explicit_return_type ""
+	  nparams 2
+	    param inout name "node" explicit_type "Object"
+	    param inout name "token" type class_ref 155778 // Token
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 376962 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
     end
 
     class 172546 "PLVisitor"
@@ -507,9 +507,9 @@ testing and allows some recursive code that is hard with the former .
         explicit_extends ""
       nactuals 2
       actual class class_ref 172546 // PLVisitor
-        rank 0 explicit_value ""
+        rank 0 explicit_value "A"
       actual class class_ref 172546 // PLVisitor
-        rank 1 explicit_value ""
+        rank 1 value class_ref 144514 // Sentence
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

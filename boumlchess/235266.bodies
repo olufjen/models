@@ -33,9 +33,10 @@ class ActionProcessor
 		if (movements != null && !movements.isEmpty()) {
 			noofMoves = movements.size();
 			movefactor = noofMoves -1;
+			writer.println("===== Previous moves ====== ");
 			for (ApieceMove move:movements) {
 				lastPiece = move.getPiece();
-				writer.println("===== Previous moves ====== \n"+move.toString());
+				writer.println(move.toString());
 			}
 //			move = movements.get(movefactor);
 		}
@@ -64,6 +65,7 @@ class ActionProcessor
 			writer.println("Piece is inactive ======================:\n"+piece.toString());
 			Double evaluation = new Double(0);
 		    writer.close();
+		    p.setEvaluationValue(evaluation);
 			return evaluation;
 		}
 		ApieceMove actionMove = p.getPossibleMove();
@@ -71,12 +73,14 @@ class ActionProcessor
 			writer.println("Action has no move  ======================:\n"+p.toString());
 			Double evaluation = new Double(0);
 		    writer.close();
+		    p.setEvaluationValue(evaluation);
 			return evaluation;
 		}
 		if (position == null) {
 			writer.println("No preferred position  ======================:\n"+p.toString());
 			Double evaluation = new Double(0);
 		    writer.close();
+		    p.setEvaluationValue(evaluation);
 			return evaluation;
 		}
 		boolean checkMoves = false;
@@ -86,6 +90,7 @@ class ActionProcessor
 				writer.println("Moveconflict !!!! ======================:\n"+p.toString());
 				Double evaluation = new Double(0);
 			    writer.close();
+			    p.setEvaluationValue(evaluation);
 				return evaluation;
 			}
 		}
@@ -108,7 +113,7 @@ class ActionProcessor
 			opponent = whitePlayer;
 			playerTomove = blackPlayer;
 		}
-		List<Position> opponentPos = p.getActions(opponent);
+		List<Position> opponentPos = p.getActions(opponent); // This does not work !! The chessAction belong to the active player !!
 		List<Position> opponentRemoved = p.getPositionRemoved();
 		List<Position> playerTomovePositions = p.getActions(playerTomove);
 		List<Position> playerRemoved = p.getPositionRemoved();
@@ -247,28 +252,28 @@ class ActionProcessor
 
 
 		for (Position pos:otherattackedPositions) {
-			writer.println("Other attacked positions "+pos.toString()+"\n");
+			writer.println("Other attacked positions "+pos.toString()+"");
 		}
 		for (Position pos:otherprotectedPositions) {
-			writer.println("Other protected positions "+pos.toString()+"\n");
+			writer.println("Other protected positions "+pos.toString()+"");
 		}	
 		for (Position pos:notProtected) {
-			writer.println("Not protected positions "+pos.toString()+"\n");
+			writer.println("Not protected positions "+pos.toString()+"");
 		}
 		if (protectedPositions != null && !protectedPositions.isEmpty() ) {
 			for (Position pos:protectedPositions) {
-				writer.println("Protected positions "+pos.toString()+"\n");
+				writer.println("Protected positions "+pos.toString()+"");
 			}
 		}
 
 		if (attackedPositions != null && !attackedPositions.isEmpty()) {
 			for (Position pos:attackedPositions) {
-				writer.println("Attacked positions "+pos.toString()+"\n");
+				writer.println("Attacked positions "+pos.toString()+"");
 			}
 		}
 
 		for (Position pos:notAttackedPos) {
-			writer.println("Not attacked positions "+pos.toString()+"\n");
+			writer.println("Not attacked positions "+pos.toString()+"");
 		}
 		p.setAttacked(attacked);
 		p.setAttackedPositions(attackedPositions);
@@ -315,6 +320,7 @@ class ActionProcessor
 		writer.println("Evaluation value:\n");
 		writer.println(evaluation.toString());
         writer.close();
+	    p.setEvaluationValue(evaluation);
 		return evaluation;
 !!!748290.java!!!	getStrikePosition() : Position
 		return strikePosition;

@@ -1,0 +1,91 @@
+class FOLGamesFCAsk
+!!!1804162.java!!!	ask(inout KB : FOLKnowledgeBase, inout query : Sentence) : InferenceResult
+		// Assertions on the type of queries this Inference procedure
+		// supports
+		if (!(query instanceof AtomicSentence)) {
+			throw new IllegalArgumentException(
+					"Only Atomic Queries are supported.");
+		}
+
+		FCGamesAskAnswerHandler ansHandler = new FCGamesAskAnswerHandler();
+
+		Literal alpha = new Literal((AtomicSentence) query);
+
+		// local variables: new, the new sentences inferred on each iteration
+		List<Literal> newSentences = new ArrayList<Literal>();
+
+		// Ensure query is not already a know fact before
+		// attempting forward chaining.
+//		KB.clear();
+		Set<Map<Variable, Term>> answers = KB.fetch(alpha);
+		if (answers.size() > 0) {
+			ansHandler.addProofStep(new ProofStepFoChAlreadyAFact(alpha));
+			ansHandler.setAnswers(answers);
+			return ansHandler;
+		}
+
+		// repeat until new is empty
+		do {
+
+			// new <- {}
+			newSentences.clear();
+			// for each rule in KB do
+			// (p1 ^ ... ^ pn => q) <-STANDARDIZE-VARIABLES(rule)
+			for (Clause impl : KB.getAllDefiniteClauseImplications()) {
+				impl = KB.standardizeApart(impl);
+				// for each theta such that SUBST(theta, p1 ^ ... ^ pn) =
+				// SUBST(theta, p'1 ^ ... ^ p'n)
+				// --- for some p'1,...,p'n in KB
+				for (Map<Variable, Term> theta : KB.fetch(invert(impl
+						.getNegativeLiterals()))) {
+					// q' <- SUBST(theta, q)
+					Literal qDelta = KB.subst(theta, impl.getPositiveLiterals()
+							.get(0));
+					// if q' does not unify with some sentence already in KB or
+					// new then do
+					if (!KB.isRenaming(qDelta)
+							&& !KB.isRenaming(qDelta, newSentences)) {
+						// add q' to new
+						newSentences.add(qDelta);
+						ansHandler.addProofStep(impl, qDelta, theta);
+						// theta <- UNIFY(q', alpha)
+						theta = KB.unify(qDelta.getAtomicSentence(),
+								alpha.getAtomicSentence());
+						// if theta is not fail then return theta
+						if (null != theta) {
+							for (Literal l : newSentences) {
+								Sentence s = null;
+								if (l.isPositiveLiteral()) {
+									s = l.getAtomicSentence();
+								} else {
+									s = new NotSentence(l.getAtomicSentence());
+								}
+								KB.tell(s);
+							}
+							ansHandler.setAnswers(KB.fetch(alpha));
+							return ansHandler;
+						}
+					}
+				}
+			}
+			// add new to KB
+			for (Literal l : newSentences) {
+				Sentence s = null;
+				if (l.isPositiveLiteral()) {
+					s = l.getAtomicSentence();
+				} else {
+					s = new NotSentence(l.getAtomicSentence());
+				}
+				KB.tell(s);
+			}
+		} while (newSentences.size() > 0);
+
+		// return false
+		return ansHandler;
+!!!1804290.java!!!	invert(inout lits : List<Literal>) : Literal
+		List<Literal> invLits = new ArrayList<Literal>();
+		for (Literal l : lits) {
+			invLits.add(new Literal(l.getAtomicSentence(), (l
+					.isPositiveLiteral() ? true : false)));
+		}
+		return invLits;

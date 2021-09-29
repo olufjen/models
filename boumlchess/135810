@@ -1,6 +1,6 @@
 format 223
 "planning" // aima::core::logic::planning
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -941,15 +941,15 @@ ${members}}
 
 function GRAPHPLAN(problem) returns solution or failure
 
- graph  INITIAL-PLANNING-GRAPH(problem)
- goals  CONJUNCTS(problem.GOAL)
- nogoods  an empty hash table
+ graph ← INITIAL-PLANNING-GRAPH(problem)
+ goals ← CONJUNCTS(problem.GOAL)
+ nogoods ← an empty hash table
  for tl = 0 to ∞ do
    if goals all non-mutex in St of graph then
-     solution  EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
+     solution ← EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
      if solution ≠ failure then return solution
    if graph and nogoods have both leveled off then return failure
-   graph  EXPAND-GRAPH(graph, problem)
+   graph ← EXPAND-GRAPH(graph, problem)
 </pre>
 <p>
 Figure 10.9 The GRAPHPLAN algorithm. GRAPHPLAN calls EXPAND-GRAPH to add a

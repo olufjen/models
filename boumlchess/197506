@@ -1,6 +1,6 @@
 format 223
 "planning" // no::games::chess::planning
-  revision 3
+  revision 6
   modified_by 2 "bruker"
   // class settings
   
@@ -83,7 +83,7 @@ by definition).
       end
 
       attribute 396674 "refinements"
-	package explicit_type "List<ActionSchema>"
+	private explicit_type "List<ActionSchema>"
 	stereotype "List"
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
@@ -263,6 +263,7 @@ STEPS : [Taxi (Home, SFO)] )
 	
 	
 	comment "Generates the ChessHLA for a chess problem.
+
 Chapter 11.2.2 Searching for primitive solutions:
 For each primitive action a, provide one refinement of Act with steps {a,Act}.
 Act is the HLA.
@@ -335,6 +336,25 @@ HLA whose preconditions are satisfied by the specified state, outcome.
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      classrelation 460034 // problem (<unidirectional association>)
+	relation 460034 --->
+	  a role_name "problem" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 460034 // problem (<unidirectional association>)
+	  b parent class_ref 356994 // ChessProblem
+      end
+
+      classrelation 460162 // reserveplan (<unidirectional association>)
+	relation 460162 --->
+	  stereotype "List"
+	  a role_name "reserveplan" init_value " new ArrayList<ActionSchema>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 460162 // reserveplan (<unidirectional association>)
+	  b parent class_ref 169602 // ActionSchema
       end
 
       operation 1760002 "ChessSearchAlgorithm"
@@ -501,6 +521,57 @@ that end in a state s that entails the goal.
 	  b parent class_ref 170242 // State
       end
 
+      attribute 478594 "predSymbol"
+	private explicit_type "String"
+	init_value " \"occupies\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 478722 "pieceNames"
+	private explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1805314 "getPieceNames"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1805442 "setPieceNames"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pieceNames" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1759106 "ChessProblem"
 	public explicit_return_type ""
 	nparams 3
@@ -567,6 +638,19 @@ that end in a state s that entails the goal.
 	
       end
 
+      operation 1805570 "determinConstants"
+	public return_type class_ref 149506 // Constant
+	nparams 1
+	  param inout name "literals" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1759746 "getProblemConstants"
 	public return_type class_ref 149506 // Constant
 	nparams 0
@@ -578,6 +662,7 @@ that end in a state s that entails the goal.
 	
 	
 	comment "@return Constants for a particular problem domain.
+@since 11.02.21 
 "
       end
 
@@ -591,7 +676,32 @@ that end in a state s that entails the goal.
 	
 	
 	
-	comment "@return Propositionalises all the actionschemas to return a set of possible ground actions
+	comment "getPropositionalisedActions
+In the original version, this method returns all permutations of the action schema based on all the
+Constants.
+This method must be reworked so that it returns a proper set of refinements for an HLA.
+The refinements are primitive actions produced by this method
+See section 11.2.1 p. 406
+
+@return Propositionalises all the actionschemas to return a set of possible ground actions
+"
+      end
+
+      operation 1805698 "getGroundActions"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "getGroundActions
+This method returns a proper set of refinements for an HLA.
+The refinements are primitive actions produced by this method
+See section 11.2.1 p. 406
+@return
 "
       end
     end
@@ -640,6 +750,7 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
+import aima.core.logic.fol.kb.data.Literal;
 import aima.core.logic.planning.ActionSchema;
 import aima.core.logic.planning.PlanningProblemFactory;
 import aima.core.logic.planning.Problem;
@@ -660,6 +771,7 @@ ${definition}"
 ${package}
 ${imports}
 import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
 import aima.core.logic.fol.parsing.ast.Constant;
 import aima.core.logic.fol.parsing.ast.Term;
 import aima.core.logic.planning.ActionSchema;
@@ -667,6 +779,7 @@ import aima.core.logic.planning.State;
 import aima.core.util.math.permute.PermutationGenerator;
 import no.games.chess.fol.util.ChessPermutationGenerator;
 import java.util.*;
+import java.util.stream.Collectors;
 ${definition}"
       associated_elems
 	class_ref 356994 // ChessProblem

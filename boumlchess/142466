@@ -1,6 +1,6 @@
 format 223
 "framework" // aima::gui::swing::framework
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -447,145 +447,6 @@ always be necessary.
 	  b parent class_ref 213250 // SimulationThread
       end
 
-      class 213506 "SelectorContainer"
-	visibility private 
-	cpp_decl ""
-	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 233474 "selectorNames"
-	  package explicit_type "String"
-	  multiplicity "[]"
-	  init_value " new String[] {}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 233602 "selectorDefaults"
-	  package explicit_type "int"
-	  multiplicity "[]"
-	  init_value " new int[] {}"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 233730 "combos"
-	  package explicit_type "JComboBox<Object>"
-	  init_value " new ArrayList<JComboBox<Object>>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	  comment " JPanel selectorPanel = new JPanel();
-"
-	end
-
-	operation 594946 "setSelectors"
-	  public explicit_return_type "void"
-	  nparams 2
-	    param inout name "selectorNames" explicit_type "String"
-	  multiplicity "[]"
-	    param inout name "tooltips" explicit_type "String"
-	  multiplicity "[]"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595074 "setSelectorItems"
-	  public explicit_return_type "void"
-	  nparams 3
-	    param in name "selectorName" explicit_type "String"
-	    param inout name "items" explicit_type "Object"
-	  multiplicity "[]"
-	    param in name "defaultIdx" explicit_type "int"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595202 "setDefaults"
-	  public explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595330 "getSelection"
-	  public return_type class_ref 213762 // SelectionState
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595458 "getCombo"
-	  package explicit_return_type "JComboBox<Object>"
-	  nparams 1
-	    param in name "selectorName" explicit_type "String"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595586 "getName"
-	  package explicit_return_type "String"
-	  nparams 1
-	    param inout name "combo" explicit_type "JComboBox<Object>"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-      end
-
       classrelation 262274 // selectors (<unidirectional association>)
 	relation 262274 --->
 	  a role_name "selectors" private
@@ -595,42 +456,6 @@ ${members}}
 "
 	    classrelation_ref 262274 // selectors (<unidirectional association>)
 	  b parent class_ref 213506 // SelectorContainer
-      end
-
-      class 213634 "FrameActionListener"
-	visibility private 
-	cpp_decl ""
-	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	classrelation 262786 // <realization>
-	  relation 262786 -_-|>
-	    a public
-	      java "${type}"
-	      classrelation_ref 262786 // <realization>
-	    b parent class_ref 211970 // ActionListener
-	end
-
-	operation 594818 "actionPerformed"
-	  public explicit_return_type "void"
-	  nparams 1
-	    param inout name "evt" explicit_type "ActionEvent"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  java_annotation "@SuppressWarnings({ \"deprecation\", \"unchecked\" })
-"
-	  
-	  
-	  
-	end
       end
 
       classrelation 262402 // actionListener (<unidirectional association>)
@@ -855,162 +680,6 @@ first item has index 0.
 	comment " Adjusts selection state of all selectors. "
       end
 
-      class 213762 "SelectionState"
-	visibility public 
-	cpp_decl ""
-	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 233858 "selectors"
-	  const_attribute private explicit_type "String"
-	  init_value " new ArrayList<String>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 233986 "selIndices"
-	  const_attribute private explicit_type "Integer"
-	  init_value " new ArrayList<Integer>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 234114 "selItems"
-	  const_attribute private explicit_type "Object"
-	  init_value " new ArrayList<Object>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 595714 "SelectionState"
-	  protected explicit_return_type ""
-	  nparams 1
-	    param inout name "selectors" explicit_type "String"
-	  multiplicity "[]"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 595842 "size"
-	  public explicit_return_type "int"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment " Returns the number of selectors currently available. "
-	end
-
-	operation 595970 "setState"
-	  package explicit_return_type "void"
-	  nparams 3
-	    param in name "selectorIdx" explicit_type "int"
-	    param in name "valIdx" explicit_type "int"
-	    param inout name "value" explicit_type "Object"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment "Sets the selection state of a specified selector to a specified item.
-"
-	end
-
-	operation 596098 "getIndex"
-	  public explicit_return_type "int"
-	  nparams 1
-	    param in name "selectorIdx" explicit_type "int"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment " Returns the index of the selected item of a specified selector. "
-	end
-
-	operation 596226 "getIndex"
-	  public explicit_return_type "int"
-	  nparams 1
-	    param in name "selector" explicit_type "String"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment " Returns the index of the selected item of a specified selector. "
-	end
-
-	operation 596354 "getValue"
-	  public explicit_return_type "Object"
-	  nparams 1
-	    param in name "selector" explicit_type "String"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	  comment " Returns the selected item of a specified selector. "
-	end
-
-	operation 596482 "toString"
-	  public explicit_return_type "String"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  java_annotation "@Override
-"
-	  
-	  
-	  
-	  comment " Returns a readable representation of the selection state. "
-	end
-      end
-
       operation 593282 "getSelection"
 	public return_type class_ref 213762 // SelectionState
 	nparams 0
@@ -1182,6 +851,337 @@ agents in their environment.
 	
 	
 	comment " Tells the controller to prepare simulation and updates enabled state. "
+      end
+
+      class 213634 "FrameActionListener"
+	visibility private 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 262786 // <realization>
+	  relation 262786 -_-|>
+	    a public
+	      java "${type}"
+	      classrelation_ref 262786 // <realization>
+	    b parent class_ref 211970 // ActionListener
+	end
+
+	operation 594818 "actionPerformed"
+	  public explicit_return_type "void"
+	  nparams 1
+	    param inout name "evt" explicit_type "ActionEvent"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@SuppressWarnings({ \"deprecation\", \"unchecked\" })
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 213506 "SelectorContainer"
+	visibility private 
+	cpp_decl ""
+	java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 233474 "selectorNames"
+	  package explicit_type "String"
+	  multiplicity "[]"
+	  init_value " new String[] {}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 233602 "selectorDefaults"
+	  package explicit_type "int"
+	  multiplicity "[]"
+	  init_value " new int[] {}"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 233730 "combos"
+	  package explicit_type "JComboBox<Object>"
+	  init_value " new ArrayList<JComboBox<Object>>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	  comment " JPanel selectorPanel = new JPanel();
+"
+	end
+
+	operation 594946 "setSelectors"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "selectorNames" explicit_type "String"
+	  multiplicity "[]"
+	    param inout name "tooltips" explicit_type "String"
+	  multiplicity "[]"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595074 "setSelectorItems"
+	  public explicit_return_type "void"
+	  nparams 3
+	    param in name "selectorName" explicit_type "String"
+	    param inout name "items" explicit_type "Object"
+	  multiplicity "[]"
+	    param in name "defaultIdx" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}[] ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595202 "setDefaults"
+	  public explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595330 "getSelection"
+	  public return_type class_ref 213762 // SelectionState
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595458 "getCombo"
+	  package explicit_return_type "JComboBox<Object>"
+	  nparams 1
+	    param in name "selectorName" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595586 "getName"
+	  package explicit_return_type "String"
+	  nparams 1
+	    param inout name "combo" explicit_type "JComboBox<Object>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
+      class 213762 "SelectionState"
+	visibility public 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 233858 "selectors"
+	  const_attribute private explicit_type "String"
+	  init_value " new ArrayList<String>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 233986 "selIndices"
+	  const_attribute private explicit_type "Integer"
+	  init_value " new ArrayList<Integer>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 234114 "selItems"
+	  const_attribute private explicit_type "Object"
+	  init_value " new ArrayList<Object>()"
+	  stereotype "List"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 595714 "SelectionState"
+	  protected explicit_return_type ""
+	  nparams 1
+	    param inout name "selectors" explicit_type "String"
+	  multiplicity "[]"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 595842 "size"
+	  public explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns the number of selectors currently available. "
+	end
+
+	operation 595970 "setState"
+	  package explicit_return_type "void"
+	  nparams 3
+	    param in name "selectorIdx" explicit_type "int"
+	    param in name "valIdx" explicit_type "int"
+	    param inout name "value" explicit_type "Object"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Sets the selection state of a specified selector to a specified item.
+"
+	end
+
+	operation 596098 "getIndex"
+	  public explicit_return_type "int"
+	  nparams 1
+	    param in name "selectorIdx" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns the index of the selected item of a specified selector. "
+	end
+
+	operation 596226 "getIndex"
+	  public explicit_return_type "int"
+	  nparams 1
+	    param in name "selector" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns the index of the selected item of a specified selector. "
+	end
+
+	operation 596354 "getValue"
+	  public explicit_return_type "Object"
+	  nparams 1
+	    param in name "selector" explicit_type "String"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment " Returns the selected item of a specified selector. "
+	end
+
+	operation 596482 "toString"
+	  public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment " Returns a readable representation of the selection state. "
+	end
       end
     end
 

@@ -1,0 +1,53 @@
+class ApieceMove
+!!!1893378.java!!!	ApieceMove(inout toPosition : Position, inout piece : AgamePiece)
+		super();
+		this.toPosition = toPosition;
+		this.piece = piece;
+		this.moveNumber = 0;
+//		this.fromPosition = piece.getmyPosition();
+		this.fromPosition = piece.getHeldPosition();
+		if (fromPosition == null)
+			this.fromPosition = piece.getmyPosition();
+		this.moveNotation = ""; // Calculate the move notation
+		blackMove = piece.checkBlack();
+		whiteMove = piece.checkWhite();
+		creation = "Created from gamepiece preferred position";
+		
+!!!1893506.java!!!	ApieceMove(inout piece : AgamePiece, inout fromPosition : Position, inout toPosition : Position, in movenr : int, in moveNotation : String)
+		super();
+		this.fromPosition = fromPosition;
+		this.toPosition = toPosition;
+		this.moveNumber = movenr;
+		this.moveNotation = moveNotation;
+		this.piece = piece;
+		blackMove = piece.checkBlack();
+		whiteMove = piece.checkWhite();		
+		creation = "Created with from and to position";
+!!!1893634.java!!!	getPreferredPositions() : List<Position>
+		return preferredPositions;
+!!!1893762.java!!!	setPreferredPositions(inout preferredPositions : List<Position>) : void
+		this.preferredPositions = preferredPositions;
+!!!1893890.java!!!	isBlackMove() : boolean
+		return blackMove;
+!!!1894018.java!!!	setBlackMove(inout blackMove : boolean) : void
+		this.blackMove = blackMove;
+!!!1894146.java!!!	isWhiteMove() : boolean
+		return whiteMove;
+!!!1894274.java!!!	setWhiteMove(inout whiteMove : boolean) : void
+		this.whiteMove = whiteMove;
+!!!1894402.java!!!	getPiece() : AgamePiece
+		return piece;
+!!!1894530.java!!!	setPiece(inout piece : AgamePiece) : void
+		this.piece = piece;
+!!!1894658.java!!!	setFromPosition(inout fromPosition : Position) : void
+		this.fromPosition = fromPosition;
+!!!1894786.java!!!	setToPosition(inout toPosition : Position) : void
+		this.toPosition = toPosition;
+!!!1894914.java!!!	getFromPosition() : Position
+		
+		return fromPosition;
+!!!1895042.java!!!	getToPosition() : Position
+		
+		return toPosition;
+!!!1895170.java!!!	toString() : String
+		return "Move\nPiece "+piece.toString()+"\nFrom position "+fromPosition.toString()+"\nTo position "+toPosition.toString()+" Move number "+moveNumber+moveNotation+"\nCreation "+creation;

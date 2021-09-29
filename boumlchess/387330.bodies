@@ -1,0 +1,316 @@
+class ChessActionImpl
+!!!1909250.java!!!	ChessActionImpl(inout positions : HashMap<String, Position>, inout chessPiece : AgamePiece, inout player : APlayer, inout opponent : APlayer)
+		super();
+		this.positions = positions;
+		this.chessPiece = chessPiece;
+		this.player = player;
+		this.opponent = opponent;
+		pieceType = chessPiece.getChessType();
+		type = chessPiece.getPieceType();
+		this.availablePositions = getActions(); // The positionRemoved are also created and filled. They are positions occupied by other pieces owned by the player
+		String name = this.chessPiece.getMyPiece().getPieceName();
+		pn = this.chessPiece.getMyPosition().getIntRow()*10;
+		pny = this.chessPiece.getMyPosition().getIntColumn();
+		Integer prn = new Integer(pn+pny);
+		PreferredMoveProcessor pr = new PreferredMoveProcessor(prn,name);
+		myProcessor = pr;
+		possibleMove = ChessFunctions.processChessgame(this,chessPiece, pr); // The processor can be replaced by a lambda expression?
+		if (possibleMove != null)
+			preferredPosition = possibleMove.getToPosition();
+//		preferredPosition = player.calculatePreferredPosition(chessPiece,this);      
+		player.getHeldPositions().add(pr.getHeldPosition()); // This is the position held by the piece under consideration
+		actionName = this.chessPiece.getMyPiece().getOntlogyName();
+!!!1909378.java!!!	getOpponent() : APlayer
+		return opponent;
+!!!1909506.java!!!	setOpponent(inout opponent : APlayer) : void
+		this.opponent = opponent;
+!!!1909634.java!!!	getEvaluationValue() : Double
+		return evaluationValue;
+!!!1909762.java!!!	setEvaluationValue(inout evaluationValue : Double) : void
+		this.evaluationValue = evaluationValue;
+!!!1909890.java!!!	getActionName() : String
+		return actionName;
+!!!1910018.java!!!	setActionName(in actionName : String) : void
+		this.actionName = actionName;
+!!!1910146.java!!!	getActionValue() : Integer
+		return actionValue;
+!!!1910274.java!!!	setActionValue(inout actionValue : Integer) : void
+		this.actionValue = actionValue;
+!!!1910402.java!!!	processPositions() : void
+		ApieceMove newMove = ChessFunctions.processChessgame(this,chessPiece, myProcessor);
+		if (possibleMove != null && newMove != null) {
+			possibleMove = newMove;
+		}
+		if (newMove == null) {
+			System.out.println("Action.processPosition new move is null "+possibleMove.toString());
+		}
+			
+!!!1910530.java!!!	getAttackedPositions() : List<Position>
+		return attackedPositions;
+!!!1910658.java!!!	setAttackedPositions(inout attackedPositions : List<Position>) : void
+		this.attackedPositions = attackedPositions;
+!!!1910786.java!!!	getNotAttackedPos() : List<Position>
+		return notAttackedPos;
+!!!1910914.java!!!	setNotAttackedPos(inout notAttackedPos : List<Position>) : void
+		this.notAttackedPos = notAttackedPos;
+!!!1911042.java!!!	getNotProtected() : List<Position>
+		return notProtected;
+!!!1911170.java!!!	setNotProtected(inout notProtected : List<Position>) : void
+		this.notProtected = notProtected;
+!!!1911298.java!!!	getProtectedPositions() : List<Position>
+		return protectedPositions;
+!!!1911426.java!!!	setProtectedPositions(inout protectedPositions : List<Position>) : void
+		this.protectedPositions = protectedPositions;
+!!!1911554.java!!!	getBishopRemoved() : List<Position>
+		return bishopRemoved;
+!!!1911682.java!!!	setBishopRemoved(inout bishopRemoved : List<Position>) : void
+		this.bishopRemoved = bishopRemoved;
+!!!1911810.java!!!	getAttacked() : AgamePiece
+		return attacked;
+!!!1911938.java!!!	setAttacked(inout attacked : List<AgamePiece>) : void
+		this.attacked = attacked;
+!!!1912066.java!!!	getOtherattackedPositions() : List<Position>
+		return otherattackedPositions;
+!!!1912194.java!!!	setOtherattackedPositions(inout otherattackedPositions : List<Position>) : void
+		this.otherattackedPositions = otherattackedPositions;
+!!!1912322.java!!!	getOtherprotectedPositions() : List<Position>
+		return otherprotectedPositions;
+!!!1912450.java!!!	setOtherprotectedPositions(inout otherprotectedPositions : List<Position>) : void
+		this.otherprotectedPositions = otherprotectedPositions;
+!!!1912578.java!!!	getSentence() : Sentence
+		return sentence;
+!!!1912706.java!!!	setSentence(inout sentence : Sentence) : void
+		this.sentence = sentence;
+!!!1912834.java!!!	isBlocked() : boolean
+		return blocked;
+!!!1912962.java!!!	setBlocked(inout blocked : boolean) : void
+		this.blocked = blocked;
+!!!1913090.java!!!	getStrikePosition() : Position
+		return strikePosition;
+!!!1913218.java!!!	setStrikePosition(inout strikePosition : Position) : void
+		this.strikePosition = strikePosition;
+!!!1913346.java!!!	isStrike() : boolean
+		return strike;
+!!!1913474.java!!!	setStrike(inout strike : boolean) : void
+		this.strike = strike;
+!!!1913602.java!!!	getPossibleMove() : ApieceMove
+		return possibleMove;
+!!!1913730.java!!!	setPossibleMove(inout possibleMove : ApieceMove) : void
+		this.possibleMove = possibleMove;
+!!!1913858.java!!!	getPositionRemoved() : List<Position>
+		return positionRemoved;
+!!!1913986.java!!!	getOpponentRemoved() : List<Position>
+		return opponentRemoved;
+!!!1914114.java!!!	setOpponentRemoved(inout opponentRemoved : List<Position>) : void
+		this.opponentRemoved = opponentRemoved;
+!!!1914242.java!!!	setPositionRemoved(inout positionRemoved : List<Position>) : void
+		this.positionRemoved = positionRemoved;
+!!!1914370.java!!!	getPlayer() : APlayer
+		return player;
+!!!1914498.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!1914626.java!!!	getChessPiece() : AgamePiece
+		return chessPiece;
+!!!1914754.java!!!	setChessPiece(inout chessPiece : AgamePiece) : void
+		this.chessPiece = chessPiece;
+!!!1914882.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!1915010.java!!!	getPositions() : HashMap<String,Position>
+		return positions;
+!!!1915138.java!!!	getAvailablePositions() : List<Position>
+		return availablePositions;
+!!!1915266.java!!!	setAvailablePositions(inout availablePositions : List<Position>) : void
+		this.availablePositions = availablePositions;
+!!!1915394.java!!!	getPreferredPosition() : Position
+		if (preferredPosition == null) {
+			preferredPosition = player.calculatePreferredPosition(chessPiece,this);
+		}
+		return preferredPosition;
+!!!1915522.java!!!	setPreferredPosition(inout preferredPosition : Position) : void
+		this.preferredPosition = preferredPosition;
+!!!1915650.java!!!	getActions() : List<Position>
+		if (availablePositions != null) {
+			availablePositions.clear();
+			availablePositions = null;
+		}
+		if (positionRemoved != null) {
+			positionRemoved.clear();
+			positionRemoved = null;
+		}
+		if (bishopRemoved != null) {
+			bishopRemoved.clear();
+			bishopRemoved = null;
+		}
+		if (opponentRemoved != null) {
+			opponentRemoved.clear();
+			opponentRemoved = null;
+		}
+		ChessPieceType pieceType = chessPiece.getChessType();
+		availablePositions = new ArrayList(positions.values());
+		if (pieceType instanceof AQueen) {
+			List<Position> bishopPositions = new ArrayList(chessPiece.getBishopPositions().values());
+			availablePositions.addAll(bishopPositions);
+		}
+		
+		positionRemoved = new ArrayList();
+		opponentRemoved = new ArrayList();
+		bishopRemoved = new ArrayList();
+		List<Position> castlePositions = null;
+		Position castlePosition = null;
+		
+		if (pieceType instanceof Aking) {
+			castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+			castlePosition = castlePositions.get(0);
+		}
+		if (pieceType instanceof ARook) {
+			castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+			castlePosition = castlePositions.get(0);
+		}
+
+		List<AgamePiece> pieces = player.getMygamePieces(); 
+		for (Position position:availablePositions) {
+			for (AgamePiece otherPiece:pieces) {
+				boolean inuse = otherPiece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
+				if (inuse && otherPiece.isActive() && otherPiece != chessPiece) { // Added 31.07.20 Check if piece is active
+					Position pos = otherPiece.getMyPosition();
+					if (pos != null) {
+						if (pos.isInUse()) { // OBS: Added 14.05.20 Are never active !! ??
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								String name = otherPiece.getMyPosition().getPositionName();
+								String pName = otherPiece.getMyPiece().getOntlogyName();
+/*								if (pieceType instanceof AQueen)
+									System.out.println("!!!!!! piece and position "+pName+" "+name);*/
+								Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+								if (posinTable == null && !checkQueen(pos))
+									positionRemoved.add(position);
+							}
+						}else {
+							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
+						}
+						if (castlePosition != null)
+							checkCastling(pos, castlePositions);
+					}
+				}
+			}
+
+		
+		}
+		checkOpponent();
+		return availablePositions;
+		
+!!!1915778.java!!!	checkOpponent() : void
+		List<AgamePiece> pieces = opponent.getMygamePieces(); 
+		for (Position position:availablePositions) {
+			position.setOpponentRemove(false);
+			for (AgamePiece otherPiece:pieces) {
+				boolean inuse = otherPiece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
+				if (inuse) {
+					Position pos = otherPiece.getMyPosition();
+					if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+						if (!checkQueen(pos) && type != type.KNIGHT) {
+							opponentRemoved.add(position);
+							position.setOpponentRemove(true);
+							String playerId = opponent.getPlayerId();
+							if (type == type.BISHOP && playerId.equals("WHITE")) {
+								System.out.println("=== Opponent removed === "+position.toString());
+							}
+						}
+						if (type == type.PAWN)
+							positionRemoved.add(position);
+					}
+				}
+			}
+		}
+!!!1915906.java!!!	checkQueen(inout pos : Position) : boolean
+		boolean queen = false;
+		if (pieceType instanceof AQueen) {
+			List<Position>bishopPositions = new ArrayList(chessPiece.getBishopPositions().values());
+			String name = pos.getPositionName();
+/*			if (name.equals("c2") || name.equals("e2")) {
+				System.out.println("Pos !!! "+name);
+			}*/
+			Position posinTable =  (Position)bishopPositions.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null);
+			if (posinTable != null) { // If position is a bishopPosition remove it
+				bishopRemoved.add(pos);
+				queen = true;
+			}
+	
+		}
+		chessPiece.setBishopRemoved(bishopRemoved);
+		return queen;
+!!!1916034.java!!!	checkCastling(inout otherPos : Position, inout castlePositions : List<Position>) : void
+	
+		for (Position castlePos:castlePositions) {
+			if (otherPos.getPositionName().equals(castlePos.getPositionName())) {
+				String name = otherPos.getPositionName();
+				Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+				if (posinTable != null) {
+					positionRemoved.add(castlePos);
+	//				System.out.println("Castle position: "+castlePos.toString());
+				}
+			}
+		}
+/*	
+		for (Position removed:positionRemoved) {
+			System.out.println(removed.toString());
+		}*/
+
+!!!1916162.java!!!	getActions(inout theplayer : APlayer) : List<Position>
+
+		List<AgamePiece> pieces = theplayer.getMygamePieces(); 
+		if (theplayer == player) {
+			if (availablePositions != null) {
+				availablePositions.clear();
+				availablePositions = null;
+			}
+			if (positionRemoved != null) {
+				positionRemoved.clear();
+				positionRemoved = null;
+			}
+			availablePositions = new ArrayList(positions.values());
+			positionRemoved = new ArrayList();
+			
+			List<Position> castlePositions = null;
+			Position castlePosition = null;
+			ChessPieceType pieceType = chessPiece.getChessType();
+			if (pieceType instanceof Aking) {
+				castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+				castlePosition = castlePositions.get(0);
+			}
+			if (pieceType instanceof ARook) {
+				castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
+				castlePosition = castlePositions.get(0);
+			}
+			
+			for (Position position:availablePositions) {
+				for (AgamePiece otherPiece:pieces) {
+					if (otherPiece != chessPiece && otherPiece.isActive()) {
+						Position pos = otherPiece.getMyPosition();
+						if (pos != null) {
+							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
+								positionRemoved.add(position);
+							}
+							if (castlePosition != null)
+								checkCastling(pos, castlePositions);
+						}
+					}
+				}
+
+			
+			}
+		}
+
+		return availablePositions;
+		
+!!!1916290.java!!!	toString() : String
+		String posName = "Unknown";
+		String pMove = " === No move ===";
+		if (possibleMove != null)
+			pMove = possibleMove.toString();
+		if (preferredPosition != null)
+			posName = preferredPosition.getPositionName();
+		StringBuffer logText = new StringBuffer("ChessAction: Preferred Position " + posName+ " Piece " + chessPiece.toString()+" Possible move "+pMove);
+		return logText.toString();
+!!!1916418.java!!!	isNoOp() : boolean
+		// TODO Auto-generated method stub
+		return false;

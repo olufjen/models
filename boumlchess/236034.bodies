@@ -80,6 +80,12 @@ class AQueen
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+!!!1796866.java!!!	getBishopPositions() : Position
+		return bishopPositions;
+!!!1796994.java!!!	setBishopPositions(inout bishopPositions : HashMap<String, Position>) : void
+		this.bishopPositions = bishopPositions;
+!!!1797122.java!!!	setNewPositions(inout newPositions : HashMap<String, Position>) : void
+		this.newPositions = newPositions;
 !!!778242.java!!!	getLocalType() : AbstractGamePiece::pieceType
 		return localType;
 !!!778370.java!!!	setLocalType(inout localType : AbstractGamePiece::pieceType) : void
@@ -102,6 +108,8 @@ class AQueen
 		
 		if (newPositions == null)
 			newPositions = new HashMap();
+		if (bishopPositions == null)
+			bishopPositions = new HashMap();
 		for (XYLocation xloc:locations) {
 			int x = xloc.getXCoOrdinate();
 			int y = xloc.getYCoOrdinate();
@@ -114,7 +122,7 @@ class AQueen
 			int y = xloc.getYCoOrdinate();
 			reachablesqueres[x][y] = 1;
 			reachablepiecePosition[x][y] = "P";
-			createPosition(newPositions,xloc);
+			createPosition(bishopPositions,xloc);
 		}		
 		
 /*		
@@ -207,9 +215,11 @@ class AQueen
 		return myPosition;
 !!!779778.java!!!	produceLegalmoves(inout position : Position) : void
 		newPositions.clear();
+		bishopPositions.clear();
 		myPosition = position;
 		getLegalmoves(position);
 		createontPosition(newPositions);
+		createontPosition(bishopPositions);
 !!!779906.java!!!	createontPosition(inout newPositions : HashMap<String,Position>) : void
 //		XYLocation newloc = new XYLocation(x,y);
 		List<Position> tempPositions = new ArrayList(newPositions.values());

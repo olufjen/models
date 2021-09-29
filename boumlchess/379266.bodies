@@ -1,0 +1,35 @@
+class ProbContextSensitiveGrammar
+!!!1824130.java!!!	ProbContextSensitiveGrammar()
+		type = 1; 
+		rules = null;
+!!!1824258.java!!!	addRules(inout ruleList : ArrayList<Rule>) : boolean
+		for (Rule aRuleList : ruleList) {
+			if (!super.validRule(aRuleList))
+				return false;
+			if (!validRule(aRuleList))
+				return false;
+		}
+		rules = ruleList;
+		updateVarsAndTerminals();
+		return true;
+!!!1824386.java!!!	addRule(inout r : Rule) : boolean
+		if (!super.validRule(r))
+			return false;
+		else if (!validRule(r))
+			return false;
+
+		rules.add(r);
+		updateVarsAndTerminals(r);
+		return true;
+!!!1824514.java!!!	validRule(inout r : Rule) : boolean
+		if (!super.validRule(r))
+			return false;
+
+		// len(rhs) >= len(lhs) must hold in context-sensitive.
+		else if (r.rhs == null)
+			return false;
+
+		else if (r.rhs.size() < r.lhs.size())
+			return false;
+
+		return true;

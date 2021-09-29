@@ -1,0 +1,134 @@
+class ChessFolKnowledgeBase
+!!!1958402.java!!!	ChessFolKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure)
+		super(domain, inferenceProcedure);
+		fileName = "tempknowledgebase";
+		outputFileName = outputFileName+this.fileName;
+		
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+!!!1965954.java!!!	ChessFolKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure, in fileName : String)
+		super(domain, inferenceProcedure);
+		this.fileName = fileName;
+		outputFileName = outputFileName+this.fileName;
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+!!!1966082.java!!!	getFileName() : String
+		return fileName;
+!!!1966210.java!!!	setFileName(in fileName : String) : void
+		this.fileName = fileName;
+!!!1966338.java!!!	getBackWardChain() : FOLGamesBCAsk
+		return backWardChain;
+!!!1966466.java!!!	setBackWardChain(inout backWardChain : FOLGamesBCAsk) : void
+		this.backWardChain = backWardChain;
+!!!1975426.java!!!	checkmyProtection(in pieceName : String, in pos : String, in predName : String, inout myPlayer : APlayer) : boolean
+	  List<AgamePiece> myPieces = myPlayer.getMygamePieces();
+	  boolean protectedpiece = false;
+	  for (AgamePiece piece:myPieces) {
+		  String name = piece.getMyPiece().getOntlogyName();
+		  if (!name.equals(pieceName)) {
+				Constant pieceVariable= new Constant(name);
+				Constant posVariable = new Constant(pos);
+				List<Term> reachableTerms = new ArrayList<Term>();
+				reachableTerms.add(pieceVariable);
+				reachableTerms.add(posVariable);
+				Predicate reachablePredicate = new Predicate(predName,reachableTerms);
+				InferenceResult backWardresult =  backWardChain.ask(this, reachablePredicate);
+				protectedpiece = backWardresult.isTrue();
+				if (protectedpiece)
+					return protectedpiece;
+		  }
+	  }
+	return protectedpiece;
+!!!1966594.java!!!	checkThreats(in pieceName : String, in pos : String, in fact : String, inout opponent : APlayer) : boolean
+		  List<AgamePiece> pieces = opponent.getMygamePieces();
+		  AgamePiece piece = pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().equals(pieceName)).findAny().orElse(null);
+		  Constant pieceVariable = null;
+		  Variable pieceVar = null;
+		  List<Term> reachableTerms = new ArrayList<Term>();
+		  if (piece != null && piece.isActive()) {
+			  pieceVariable = new Constant(pieceName);
+			  reachableTerms.add(pieceVariable);
+		  }else if(piece == null) {
+			  pieceVar = new Variable(pieceName);
+			  reachableTerms.add(pieceVar);
+		  }
+		  Constant posVariable = new Constant(pos);
+		  reachableTerms.add(posVariable);
+		  Predicate threatPredicate = new Predicate(fact,reachableTerms);
+//		  writer.println("Trying to prove\n"+threatPredicate.toString());
+		  InferenceResult backWardresult =  backWardChain.ask(this,threatPredicate);
+//		  writer.println(InferenceResultPrinter.printInferenceResult(backWardresult));
+
+		  return backWardresult.isTrue();
+		  
+!!!1975554.java!!!	checkpieceFacts(in pieceVar : String, in pieceName : String, in pos : String, in fact : String, inout actions : ArrayList<ChessActionImpl>) : boolean
+			Variable pieceVarx = null;
+			if (pieceVar.equals("x"))
+				pieceVarx = new Variable(pieceVar);
+			Constant pieceVariable= new Constant(pieceName);
+			Constant posVariable = new Constant(pos);
+			List<Term> reachableTerms = new ArrayList<Term>();
+			if (pieceVarx != null) {
+				reachableTerms.add(pieceVarx);
+			}else
+				reachableTerms.add(pieceVariable);
+			reachableTerms.add(posVariable);
+			Predicate reachablePredicate = new Predicate(fact,reachableTerms);
+//			writer.println("PieceFacts Trying to prove\n"+reachablePredicate.toString());
+			InferenceResult backWardresult =  backWardChain.ask(this, reachablePredicate);
+			BCGamesAskHandler handler = (BCGamesAskHandler)backWardresult;
+			HashMap vars = null;
+			Term usedTerm = null;
+			String termName = null;
+			boolean properProtection = false;
+			List<HashMap<Variable, Term>> finals = handler.getFinalList();
+			if (finals != null && !finals.isEmpty() && pieceVarx != null) {
+				vars = finals.get(0);
+				usedTerm = (Term) vars.get(pieceVarx);
+				termName = usedTerm.getSymbolicName(); // Finds which piece is protecting this position. This is only true if fact is PROTECTEDBY
+				properProtection = !termName.equals(pieceName);
+//				writer.println("PieceFacts: position "+pos+" protected by "+termName+" and reachable by "+pieceName);
+				return properProtection;
+			}
+			return backWardresult.isTrue();
+
+!!!1975682.java!!!	checkFacts(in pieceName : String, in pos : String, in fact : String, inout actions : ArrayList<ChessActionImpl>, inout positionList : List<Position>) : boolean
+			Constant pieceVariable= new Constant(pieceName);
+			Constant posVariable = new Constant(pos);
+			List<Term> reachableTerms = new ArrayList<Term>();
+			reachableTerms.add(pieceVariable);
+			reachableTerms.add(posVariable);
+			Predicate reachablePredicate = new Predicate(fact,reachableTerms);
+			InferenceResult backWardresult =  backWardChain.ask(this, reachablePredicate);
+		    ChessActionImpl naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().contains(pieceName)).findAny().orElse(null);
+		    Position position =  (Position) positionList.stream().filter(c -> c.getPositionName().contains(pos)).findAny().orElse(null);
+			if (backWardresult.isTrue() && naction != null) {
+				naction.getPossibleMove().setToPosition(position);
+				naction.setPreferredPosition(position);
+				return true;
+			}
+			return false;
+!!!1958530.java!!!	createfacts(in fact : String, in pos : String, in piece : String) : void
+		Constant pieceVariable= new Constant(piece);
+		Constant posVariable = new Constant(pos);
+		List<Term> reachableTerms = new ArrayList<Term>();
+		reachableTerms.add(pieceVariable);
+		reachableTerms.add(posVariable);
+		Predicate factPredicate = new Predicate(fact,reachableTerms);
+		tell(factPredicate);
+		
+!!!1958658.java!!!	writeKnowledgebase() : void
+		writer.println("The first order knowledge base");
+		writer.println(this.toString());
+		writer.flush();
+		

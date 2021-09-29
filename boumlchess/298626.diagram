@@ -1,0 +1,148 @@
+format 223
+
+classinstance 128002 class_ref 363906 // AChessProblemSolver
+ name ""  xyz 466 256 2000
+textcanvas 128130 "The prepareAction method"
+  xyzwh 101 56 2000 128 14
+classinstance 129922 class_ref 233474 // PlayGame
+ name ""  xyz 960 258 2000
+textcanvas 132994 "Checks if any of my pieces are threatened by any of the opponent pieces.
+Creates a HashMap of my pieces. and positions.
+These HashMaps must be cleared before they are used.
+Which of these pieces have an action?
+Which of these pieces are protected, or can be protected?"
+  xyzwh 20 136 2000 217 145
+textcanvas 133378 "Checks if Bishop is in f1.
+If cannot move, it checks for the blocking pawn
+"
+  xyzwh 582 110 2000 129 68
+textcanvas 133634 "checkCastling is called if the bishop can move"
+  xyzwh 590 554 2000 221 14
+textcanvas 133890 "For a deferred action"
+  xyzwh 398 470 2000 102 14
+classinstance 134402 class_ref 363906 // AChessProblemSolver
+ name ""  xyz 937 488 2000
+linkcanvas 128258 decenter_end 71
+  from ref 128002 z 2001 to point 281 275
+  line 128386 z 2001 to point 286 189
+  line 128514 z 2001 to ref 128002
+dirscanvas 128642 z 1000 linkcanvas_ref 128514
+  
+  backward_label "1 checkoppoentThreat()" xyz 315 240 3000
+linkcanvas 129282 decenter_begin 268 decenter_end 819
+  from ref 128002 z 2001 to point 491 127
+  line 129410 z 2001 to point 555 127
+  line 129538 z 2001 to ref 128002
+dirscanvas 129794 z 1000 linkcanvas_ref 129538
+  
+  backward_label "2 checkpieceFacts" xyz 452 190 3000
+linkcanvas 130050
+  from ref 128002 z 2001 to point 299 319
+  line 130178 z 2001 to point 307 369
+  line 130306 z 2001 to ref 128002
+dirscanvas 130434 z 1000 linkcanvas_ref 130306
+  
+  backward_label "3 buildGoalstate()" xyz 372 346 3000
+linkcanvas 131330 decenter_begin 259 decenter_end 340
+  from ref 128002 z 2001 to point 498 374
+  line 131458 z 2001 to point 523 371
+  line 131586 z 2001 to ref 128002
+dirscanvas 131714 z 1000 linkcanvas_ref 131586
+  
+  backward_label "4 buildInitialstate()" xyz 537 308 3000
+linkcanvas 132738
+  from ref 128002 z 2001 to ref 129922
+dirscanvas 132866 z 1000 linkcanvas_ref 132738
+  
+  forward_label "12 setDeferredGoalstates()
+13 setDeferredGoal()
+14 setDeferredInitial()" xyz 708 209 3000
+linkcanvas 134914
+  from ref 134402 z 2001 to ref 128002
+dirscanvas 135042 z 1000 linkcanvas_ref 134914
+  
+  backward_label "5 checkCastling()" xyz 737 351 3000
+linkcanvas 135170
+  from ref 134402 z 2001 to point 848 536
+  line 135298 z 2001 to point 821 455
+  line 135426 z 2001 to ref 134402
+dirscanvas 135554 z 1000 linkcanvas_ref 135426
+  
+  backward_label "6 checkpieceFacts" xyz 836 490 3000
+linkcanvas 135682 decenter_begin 284 decenter_end 819
+  from ref 134402 z 2001 to point 967 590
+  line 135810 z 2001 to point 1053 593
+  line 135938 z 2001 to ref 134402
+dirscanvas 136066 z 1000 linkcanvas_ref 135938
+  
+  backward_label "7 buildGoalstate()" xyz 1067 534 3000
+linkcanvas 136194
+  from ref 134402 z 2001 to point 1170 446
+  line 136322 z 2001 to point 1178 531
+  line 136450 z 2001 to ref 134402
+dirscanvas 136578 z 1000 linkcanvas_ref 136450
+  
+  backward_label "8 buildInitialstate()" xyz 1082 491 3000
+linkcanvas 136706
+  from ref 134402 z 2001 to ref 129922
+dirscanvas 136834 z 1000 linkcanvas_ref 136706
+  
+  forward_label "9 setDeferredGoalstates()
+10 setDeferredGoal()
+11 setDeferredInitial()" xyz 851 367 3000
+msgs
+  msg operation_ref 1795330 // "checkoppoentThreat(in fact : String, inout actions : ArrayList<ChessActionImpl>) : String"
+    backward ranks 1 "1" dirscanvas_ref 128642
+    no_msg
+  explicitmsg "checkpieceFacts"
+    backward ranks 2 "2" dirscanvas_ref 129794
+    no_msg
+  msg operation_ref 1777282 // "buildGoalstate(in pieceName : String, in toPos : String) : State"
+    backward ranks 3 "3" dirscanvas_ref 130434
+    no_msg
+  msg operation_ref 1777538 // "buildInitialstate(in piece : String, in posName : String) : State"
+    backward ranks 4 "4" dirscanvas_ref 131714
+    no_msg
+  msg operation_ref 1795586 // "checkCastling(inout actions : ArrayList<ChessActionImpl>) : void"
+    backward ranks 5 "5" dirscanvas_ref 135042
+    msgs
+      explicitmsg "checkpieceFacts"
+	backward ranks 6 "5.1" dirscanvas_ref 135554
+	no_msg
+      msg operation_ref 1777282 // "buildGoalstate(in pieceName : String, in toPos : String) : State"
+	backward ranks 7 "5.2" dirscanvas_ref 136066
+	no_msg
+      msg operation_ref 1777538 // "buildInitialstate(in piece : String, in posName : String) : State"
+	backward ranks 8 "5.3" dirscanvas_ref 136578
+	no_msg
+      msg operation_ref 1812354 // "setDeferredGoalstates(inout deferredGoalstates : Map<String, State>) : void"
+	forward ranks 9 "5.4" dirscanvas_ref 136834
+	no_msg
+      msg operation_ref 1812866 // "setDeferredGoal(inout deferredGoal : State) : void"
+	forward ranks 10 "5.5" dirscanvas_ref 136834
+	no_msg
+      msg operation_ref 1812610 // "setDeferredInitial(inout deferredInitial : State) : void"
+	forward ranks 11 "5.6" dirscanvas_ref 136834
+	no_msg
+    msgsend
+  msg operation_ref 1812354 // "setDeferredGoalstates(inout deferredGoalstates : Map<String, State>) : void"
+    forward ranks 12 "6" dirscanvas_ref 132866
+    no_msg
+  msg operation_ref 1812866 // "setDeferredGoal(inout deferredGoal : State) : void"
+    forward ranks 13 "7" dirscanvas_ref 132866
+    no_msg
+  msg operation_ref 1812610 // "setDeferredInitial(inout deferredInitial : State) : void"
+    forward ranks 14 "8" dirscanvas_ref 132866
+    no_msg
+msgsend
+line 133122 -_-_ decenter_begin 902
+  from ref 132994 z 2007 to ref 128258
+line 133506 -_-_
+  from ref 133378 z 2008 to ref 129538
+line 134146 -_-_
+  from ref 133890 z 2002 to ref 130306
+line 134274 -_-_
+  from ref 133890 z 2002 to ref 131330
+line 136962 -_-_
+  from ref 133634 z 2002 to ref 134914
+end

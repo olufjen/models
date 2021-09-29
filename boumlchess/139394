@@ -1,6 +1,6 @@
 format 223
 "qsearch" // aima::core::search::framework::qsearch
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -359,9 +359,9 @@ first search.
         explicit_extends ""
       nactuals 2
       actual class class_ref 194690 // QueueSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "S"
       actual class class_ref 194690 // QueueSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "A"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -459,90 +459,6 @@ helpful to avoid failures.
 	MysqlColumn
 	comment " index 0: original problem, index 2: reverse problem
 "
-      end
-
-      class 195586 "ExtendedNode"
-	visibility private 
-	nformals 2
-	formal name "S" type "" explicit_default_value ""
-	  explicit_extends ""
-	formal name "A" type "" explicit_default_value ""
-	  explicit_extends ""
-	nactuals 2
-	actual class class_ref 135170 // Node
-	  rank 0 explicit_value ""
-	actual class class_ref 135170 // Node
-	  rank 1 explicit_value ""
-	cpp_decl ""
-	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	classrelation 233474 // <realization>
-	  relation 233474 -_-|>
-	    stereotype "bind"
-	    a public
-	      java "${type}"
-	      classrelation_ref 233474 // <realization>
-	    b parent class_ref 135170 // Node
-	end
-
-	attribute 191746 "problemIndex"
-	  package explicit_type "int"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 470402 "ExtendedNode"
-	  cpp_inline package explicit_return_type ""
-	  nparams 2
-	    param inout name "node" type class_ref 135170 // Node
-	    param in name "problemIndex" explicit_type "int"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 470530 "getProblemIndex"
-	  cpp_inline package explicit_return_type "int"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 470658 "toString"
-	  cpp_inline public explicit_return_type "String"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  java_annotation "@Override
-"
-	  
-	  
-	  
-	end
       end
 
       classrelation 233346 // goalStateNode (<unidirectional association>)
@@ -783,6 +699,90 @@ state of the node's parent, if such an action exists in problem
 	
 	
       end
+
+      class 195586 "ExtendedNode"
+	visibility private 
+	nformals 2
+	formal name "S" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "A" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 135170 // Node
+	  rank 0 explicit_value "S"
+	actual class class_ref 135170 // Node
+	  rank 1 explicit_value "A"
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 233474 // <realization>
+	  relation 233474 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 233474 // <realization>
+	    b parent class_ref 135170 // Node
+	end
+
+	attribute 191746 "problemIndex"
+	  package explicit_type "int"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 470402 "ExtendedNode"
+	  cpp_inline package explicit_return_type ""
+	  nparams 2
+	    param inout name "node" type class_ref 135170 // Node
+	    param in name "problemIndex" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 470530 "getProblemIndex"
+	  cpp_inline package explicit_return_type "int"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 470658 "toString"
+	  cpp_inline public explicit_return_type "String"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	end
+      end
     end
 
     class 195714 "GraphSearch"
@@ -794,9 +794,9 @@ state of the node's parent, if such an action exists in problem
         explicit_extends ""
       nactuals 2
       actual class class_ref 194690 // QueueSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "S"
       actual class class_ref 194690 // QueueSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "A"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -988,9 +988,9 @@ of the frontier.
         explicit_extends ""
       nactuals 2
       actual class class_ref 194690 // QueueSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "S"
       actual class class_ref 194690 // QueueSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "A"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1176,9 +1176,9 @@ state to the explored set, and returns the node.
         explicit_extends ""
       nactuals 2
       actual class class_ref 194690 // QueueSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "S"
       actual class class_ref 194690 // QueueSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "A"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1394,9 +1394,9 @@ state to the explored set, and returns the node.
         explicit_extends ""
       nactuals 2
       actual class class_ref 194690 // QueueSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "S"
       actual class class_ref 194690 // QueueSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "A"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

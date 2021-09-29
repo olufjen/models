@@ -1,4 +1,8 @@
 class ChessProblem
+!!!1805314.java!!!	getPieceNames() : List<String>
+		return pieceNames;
+!!!1805442.java!!!	setPieceNames(inout pieceNames : List<String>) : void
+		this.pieceNames = pieceNames;
 !!!1759106.java!!!	ChessProblem(inout initialState : State, inout goalState : State, inout actionSchemas : Set<ActionSchema>)
         this.initialState = initialState;
         this.actionSchemas = actionSchemas;
@@ -11,9 +15,40 @@ class ChessProblem
         return actionSchemas;
 !!!1759618.java!!!	getGoalState() : State
         return goalState;
+!!!1805570.java!!!	determinConstants(inout literals : List<Literal>) : Constant
+    	List<Constant> constants = new ArrayList<>();
+     	for (Literal l:literals) {
+    		AtomicSentence s = l.getAtomicSentence();
+    		String name = s.getSymbolicName();
+    		if (name.equals(predSymbol)) {
+				List<Term> terms = (List<Term>) s.getArgs();
+				Term f = terms.get(0);
+				Term p = terms.get(1);
+				if(f instanceof Constant) {
+					 if (!constants.contains((Constant) f))
+	                        constants.add((Constant) f);
+				}
+				if(p instanceof Constant) {
+					 if (!constants.contains((Constant) p))
+	                        constants.add((Constant) p);
+				}
+
+    		}
+    	}
+     	return constants;
 !!!1759746.java!!!	getProblemConstants() : Constant
-        List<Constant> constants = new ArrayList<>();
-        for (Literal literal :
+    	List<Constant> constants = determinConstants(getInitialState().getFluents());
+     	List<Constant> goallConstants = determinConstants(getGoalState().getFluents());
+
+     	for (Constant gc:goallConstants) {
+     		if (!constants.contains(gc)) {
+     			constants.add(gc);
+     		}
+     	}
+ /*     	if (!constants.containsAll(goallConstants)) {
+     		constants.addAll(goallConstants);
+     	}*/
+   /*        for (Literal literal :
                 getInitialState().getFluents()) {
             for (Term term :
                     literal.getAtomicSentence().getArgs()) {
@@ -32,7 +67,7 @@ class ChessProblem
                         constants.add((Constant) term);
                 }
             }
-        }
+        }*/
         for (ActionSchema actionSchema :
                 getActionSchemas()) {
             for (Constant constant :
@@ -54,3 +89,14 @@ class ChessProblem
             }
         }
         return result;
+!!!1805698.java!!!	getGroundActions() : ActionSchema
+    	List<ActionSchema> result = new ArrayList<>();
+    	List<Constant> problemConstants = getProblemConstants();
+    	List<ActionSchema> schemas = new ArrayList<ActionSchema>(getActionSchemas());
+    	ActionSchema schema = schemas.get(0);
+    	result.add(schema);
+    	 for (ActionSchema actionSchema :
+             getActionSchemas()) {
+    		 result.add(actionSchema.getActionBySubstitution(problemConstants)); 
+    	 }
+    	return result;

@@ -1,0 +1,457 @@
+format 223
+"parsing" // aima::core::nlp::parsing
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/nlp/parsing/"
+  java_package "aima.core.nlp.parsing"
+  package_ref 224258 // grammars
+
+  classview 222210 "parsing"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 378370 "Lexicon"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The Lexicon Object appears on pg. 891 of the text and defines a simple
+set of words for a certain language category and their associated probabilities.
+
+Defining and using a lexicon saves us from listing out a large number of rules to
+derive terminal strings in a grammar.
+
+@author Jonathon
+
+"
+      classrelation 473474 // <realization>
+	relation 473474 -_-|>
+	  a public
+	    java "${type}<String,ArrayList<LexWord>>"
+	    classrelation_ref 473474 // <realization>
+	  b parent class_ref 201858 // HashMap
+      end
+
+      attribute 491778 "serialVersionUID"
+	class_attribute const_attribute private explicit_type "long"
+	init_value " 1L"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1820930 "getTerminalRules"
+	public return_type class_ref 378754 // Rule
+	nparams 1
+	  param in name "partOfSpeech" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ArrayList<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821058 "getAllTerminalRules"
+	public return_type class_ref 378754 // Rule
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ArrayList<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821186 "addEntry"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param in name "category" explicit_type "String"
+	  param in name "word" explicit_type "String"
+	  param in name "prob" explicit_type "float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821314 "addLexWords"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "" explicit_type "String...vargs"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821442 "addLexWords"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "lexicon" type class_ref 378370 // Lexicon
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add words to an lexicon from an existing lexicon. Using this 
+you can combine lexicons.
+@param lexicon
+"
+      end
+    end
+
+    class 378498 "CYK"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 894.<br>
+<br>
+
+<pre>
+function CYK-PARSE(words, grammar) returns P, a table of probabilities
+  N <- LENGTH(words)
+  M <- the number of nonterminal symbols in grammar
+  P <- an array of size[M,N,N], initially all 0
+  /* Insert Lexical rules for each word *\\
+  for i = 1 to N do
+  	for each rule of form( X -> words<sub>i</sub>[p]) do
+  		P[X,i,1] <- p
+  /* Combine first and second parts of right-hand sides of rules, from short to long *\\
+  for length = 2 to N do
+  	for start = 1 to N - length + 1 do
+  		for len1 = 1 to N -1 do 
+  			len2 <- length - len1
+  		for each rule of the form( X -> Y Z [p] ) do
+  			p[X, start, length] <- MAX(P[X, start, length],
+  						P[Y, start, len1] * P[Z, start + len1, len2] * p)
+  return P
+</pre>
+
+Figure 23.5 The CYK algorithm for parsing. Given a sequence of words,
+it finds the most probable derivation for the whole sequence and for
+each subsequence. It returns the whole table, P, in which an entry 
+P[X, start, len] is the probability of the most probable X of length
+len starting at position start. If there is no X of that size at that
+location, the probability is 0.<br>
+<br>
+
+@author Jonathon Belotti (thundergolfer)
+
+"
+      operation 1820418 "parse"
+	public explicit_return_type "float"
+	nparams 2
+	  param inout name "words" explicit_type "List<String>"
+	  param inout name "grammar" type class_ref 377858 // ProbCNFGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][][] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1820546 "length"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "ls" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Simple function to make algorithm more closely resemble pseudocode
+@param ls
+@return the length of the list
+"
+      end
+
+      operation 1820674 "printProbTable"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "probTable" explicit_type "float"
+	multiplicity "[][][]"
+	  param inout name "words" explicit_type "List<String>"
+	  param inout name "g" type class_ref 378626 // ProbUnrestrictedGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][][] ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Print out the probability table produced by the CYK Algorithm
+@param probTable
+@param words
+@param g
+"
+      end
+
+      operation 1820802 "getMostProbableDerivation"
+	public explicit_return_type "ArrayList<String>"
+	nparams 2
+	  param inout name "probTable" explicit_type "float"
+	multiplicity "[][][]"
+	  param inout name "g" type class_ref 378626 // ProbUnrestrictedGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][][] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The probability table get's us halfway there, but this method can provide the 
+derivation chain that most probably derives the words provided to the parser.
+@param probTable
+@param g
+@return
+"
+      end
+    end
+
+    class 378882 "LexWord"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 491906 "word"
+	package explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 492034 "prob"
+	package explicit_type "Float"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1821570 "LexWord"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "word" explicit_type "String"
+	  param inout name "prob" explicit_type "Float"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821698 "getWord"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1821826 "getProb"
+	public explicit_return_type "Float"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 379010 "RunCYK"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "A simple runner class to test out one parsing scenario on CYK.
+@author Jonathon
+
+"
+      operation 1821954 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 202498 "parsing"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 324354 "CYK"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.nlp.parsing.grammars.ProbCNFGrammar;
+import aima.core.nlp.parsing.grammars.ProbUnrestrictedGrammar;
+import aima.core.nlp.parsing.grammars.Rule;
+${definition}"
+      associated_elems
+	class_ref 378498 // CYK
+      end
+    end
+
+    artifact 324482 "Lexicon"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.*;
+import aima.core.nlp.parsing.grammars.Rule;
+${definition}"
+      associated_elems
+	class_ref 378370 // Lexicon
+      end
+    end
+
+    artifact 324610 "LexWord"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 378882 // LexWord
+      end
+    end
+
+    artifact 324738 "RunCYK"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import aima.core.nlp.data.grammars.ProbCNFGrammarExamples;
+import aima.core.nlp.parsing.grammars.ProbCNFGrammar;
+${definition}"
+      associated_elems
+	class_ref 379010 // RunCYK
+      end
+    end
+  end
+end

@@ -17,7 +17,11 @@ textcanvas 133762 "Called from searchProblem"
   xyzwh 794 210 2000 129 14
 textcanvas 133890 "Called from searchProblem"
   xyzwh 798 367 2000 129 14
-linkcanvas 128642 decenter_begin 72
+textcanvas 134786 "An initial and goal state for every ActionSchema"
+  xyzwh 885 273 2000 231 14
+textcanvas 135170 "Determines the piece type"
+  xyzwh 379 517 2000 125 14
+linkcanvas 128642 decenter_begin 71
   from ref 128002 z 2001 to point 545 187
   line 128770 z 2001 to point 422 185
   line 128898 z 2001 to point 430 274
@@ -40,7 +44,7 @@ linkcanvas 130306 decenter_begin 902
 dirscanvas 130818 z 1000 linkcanvas_ref 130306
   
   backward_label "3 buildInitialstate()" xyz 678 222 3000
-linkcanvas 130946 decenter_begin 917
+linkcanvas 130946 decenter_begin 916
   from ref 128002 z 2001 to point 655 367
   line 131074 z 2001 to point 710 367
   line 131202 z 2001 to point 706 285
@@ -49,13 +53,20 @@ linkcanvas 130946 decenter_begin 917
 dirscanvas 131586 z 1000 linkcanvas_ref 131202
   
   backward_label "4 buildGoalstate()" xyz 727 319 3000
-linkcanvas 132482 decenter_end 202
-  from ref 128002 z 2001 to point 610 139
+linkcanvas 132482 decenter_begin 707 decenter_end 202
+  from ref 128002 z 2001 to point 637 140
   line 132610 z 2001 to point 564 140
   line 132738 z 2001 to ref 128002
 dirscanvas 132866 z 1000 linkcanvas_ref 132482
   
-  backward_label "5 checkMovenumber()" xyz 620 156 3000
+  backward_label "6 checkMovenumber()" xyz 659 202 3000
+linkcanvas 134274
+  from ref 128002 z 2007 to point 584 180
+  line 134402 z 2007 to point 614 181
+  line 134530 z 2007 to ref 128002
+dirscanvas 134658 z 1000 linkcanvas_ref 134274
+  
+  backward_label "5 deferredMove()" xyz 618 206 3000
 msgs
   msg operation_ref 1776898 // "searchProblem(inout actions : ArrayList<ChessActionImpl>) : ActionSchema"
     backward ranks 1 "1" dirscanvas_ref 129154
@@ -66,11 +77,14 @@ msgs
   msg operation_ref 1777538 // "buildInitialstate(in piece : String, in posName : String) : State"
     backward ranks 3 "3" dirscanvas_ref 130818
     no_msg
-  msg operation_ref 1777282 // "buildGoalstate(inout action : ChessActionImpl) : State"
+  msg operation_ref 1777282 // "buildGoalstate(in pieceName : String, in toPos : String) : State"
     backward ranks 4 "4" dirscanvas_ref 131586
     no_msg
+  msg operation_ref 1795714 // "deferredMove(inout actions : ArrayList<ChessActionImpl>) : String"
+    backward ranks 5 "5" dirscanvas_ref 134658
+    no_msg
   msg operation_ref 1776642 // "checkMovenumber(inout actions : ArrayList<ChessActionImpl>) : String"
-    backward ranks 5 "5" dirscanvas_ref 132866
+    backward ranks 6 "6" dirscanvas_ref 132866
     no_msg
 msgsend
 line 133122 -_-_
@@ -81,4 +95,10 @@ line 134018 -_-_
   from ref 133762 z 2002 to ref 130562
 line 134146 -_-_
   from ref 133890 z 2008 to ref 131202
+line 134914 -_-_
+  from ref 134786 z 2002 to ref 130562
+line 135042 -_-_
+  from ref 134914 z 2003 to ref 131202
+line 135298 -_-_
+  from ref 135170 z 2002 to ref 129794
 end

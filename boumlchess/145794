@@ -1,6 +1,6 @@
 format 223
 "resource" // no::chess::web::server::resource
-  revision 4
+  revision 8
   modified_by 2 "bruker"
   // class settings
   
@@ -158,6 +158,19 @@ ${members}}
       attribute 300034 "fenPosid"
 	protected explicit_type "String"
 	init_value " \"fenpos\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 502402 "popupId"
+	protected explicit_type "String"
+	init_value "\"popup\""
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
@@ -1483,6 +1496,22 @@ Such moves also includes restart of game etc.
 @return
 "
       end
+
+      operation 1840002 "castleMove"
+	private return_type class_ref 232322 // Position
+	nparams 4
+	  param inout name "castle" explicit_type "AgamePiece"
+	  param inout name "newPosition" type class_ref 232322 // Position
+	  param inout name "opponent" explicit_type "APlayer"
+	  param inout name "chessBoard" type class_ref 231938 // ChessBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 238082 "RapporterGameServerResourceHTML"
@@ -1950,7 +1979,6 @@ ${members}}
 	
       end
     end
-
   end
 
   deploymentview 142978 "resource"
@@ -2052,6 +2080,7 @@ import no.chess.web.model.EightQueenProblem;
 import no.chess.web.model.PlayGame;
 import no.chess.web.model.Position;
 import no.chess.web.model.QueensEnvironment;
+import no.chess.web.model.game.APlayer;
 import no.chess.web.model.game.AgamePiece;
 import no.chess.web.model.game.ApieceMove;
 import org.restlet.Request;

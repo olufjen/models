@@ -1,10 +1,10 @@
 class GraphPlanAlgorithm
 !!!351362.java!!!	graphPlan(inout problem : Problem) : List<List<ActionSchema>>
-        //graph  INITIAL-PLANNING-GRAPH(problem)
+        //graph ← INITIAL-PLANNING-GRAPH(problem)
         Graph graph = initialPlanningGraph(problem);
-        // goals  CONJUNCTS(problem.GOAL)
+        // goals ← CONJUNCTS(problem.GOAL)
         List<Literal> goals = conjuncts(problem.getGoalState());
-        // nogoods  an empty hash table
+        // nogoods ← an empty hash table
         Hashtable<Integer, List<Literal>> nogoods = new Hashtable<>();
         Level state;
         // for tl = 0 to ∞ do
@@ -13,7 +13,7 @@ class GraphPlanAlgorithm
             state = graph.getLevels().get(2 * tl);
             // if goals all non-mutex in St of graph then
             if (checkAllGoalsNonMutex(state, goals)) {
-                // solution  EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
+                // solution ← EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
                 List<List<ActionSchema>> solution = extractSolution(graph, goals, graph.numLevels(), nogoods);
                 //if solution ≠ failure then return solution
                 if (solution != null && solution.size() != 0)
@@ -23,7 +23,7 @@ class GraphPlanAlgorithm
             if (levelledOff(graph) && leveledOff(nogoods)) {
                 return null;
             }
-            //   graph  EXPAND-GRAPH(graph, problem)
+            //   graph ← EXPAND-GRAPH(graph, problem)
             graph = expandGraph(graph);
         }
 !!!351490.java!!!	extractSolution(inout graph : Graph, inout goals : List<Literal>, in numLevel : int, inout nogoods : Hashtable<Integer, List<Literal>>) : List<List<ActionSchema>>

@@ -57,12 +57,12 @@ class ChessStateImpl
 //			localAction.set
 			AgamePiece piece = (AgamePiece) localAction.getChessPiece();
 			String name = piece.getMyPiece().getPieceName();
-			ActionProcessor actionProcessor = new ActionProcessor(pNumber,name);
-			Double d  = ChessFunctions.processChessgame(localAction, gamer,actionProcessor);
+/*			ActionProcessor actionProcessor = new ActionProcessor(pNumber,name);
+			Double d  = ChessFunctions.processChessgame(localAction, gamer,actionProcessor);The action Processor is turned off */ 
 			pn++;
 			
 		}
-		analyzeutility();
+		analyzeutility(); //Determines a preferred action within the state
 		orginalUtility = utility;
 		playerTomove.setActions(actions);
 
@@ -438,18 +438,35 @@ class ChessStateImpl
 		return chessAction;
 !!!796674.java!!!	setChessAction(inout chessAction : ChessActionImpl) : void
 		this.chessAction = chessAction;
-!!!796802.java!!!	getActions() : ChessAction
+!!!796802.java!!!	getActions(inout theplayer : APlayer) : ChessAction
+		APlayer localPlayer = theplayer;
+		List<ChessAction> opponentActions = new ArrayList<ChessAction>();
+		if (theplayer == playerTomove) {
+			return null;
+		}
+		APlayer localOpponent = playerTomove;
+		ArrayList<AgamePiece> pieces = theplayer.getMygamePieces();
+		for (AgamePiece piece : pieces) {
+			if (piece.isActive()) {
+				HashMap<String,Position> reachablePositions = piece.getReacablePositions();
+				ChessAction action = new ChessActionImpl(reachablePositions,piece,localPlayer,localOpponent);
+				opponentActions.add(action);
+			}
+		}
+		return opponentActions;
+!!!1835394.java!!!	getActions() : ChessAction
 //		movements.clear(); // This causes the actions to to lose their movements !!! 
 		if (actions != null)
 			actions.clear();
 		actions = null; // When actions are removed, the movements list is also cleared !!
-		List<ChessAction> actions = new ArrayList<ChessAction>();
+//		List<ChessAction> actions = new ArrayList<ChessAction>(); OLJ Removed 03.03.21
+		actions = new ArrayList<ChessAction>();
 		playerTomove.emptyPositions(); //empties the positions held by the player's pieces
 		ArrayList<AgamePiece> pieces = playerTomove.getMygamePieces();
 		for (AgamePiece piece : pieces) {
 			if (piece.isActive()) {
 				HashMap<String,Position> reachablePositions = piece.getReacablePositions();
-				ChessAction action = new ChessActionImpl(reachablePositions,piece,playerTomove);
+				ChessAction action = new ChessActionImpl(reachablePositions,piece,playerTomove,opponent);
 				actions.add(action);
 			}
 		}

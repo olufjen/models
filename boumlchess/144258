@@ -1,6 +1,6 @@
 format 223
 "chess" // no::games::chess
-  revision 4
+  revision 7
   modified_by 2 "bruker"
   // class settings
   
@@ -56,11 +56,11 @@ format 223
       abstract visibility public 
       nactuals 3
       actual class class_ref 223362 // ChessGame
-        rank 0 explicit_value ""
+        rank 0 explicit_value "ChessState<GameBoard>"
       actual class class_ref 223362 // ChessGame
-        rank 1 explicit_value ""
+        rank 1 value class_ref 223234 // ChessAction
       actual class class_ref 223362 // ChessGame
-        rank 2 explicit_value ""
+        rank 2 explicit_value "ChessPlayer<GamePiece, PieceMove>"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -947,11 +947,11 @@ This interface represent the ChessAction in a game of chess
         explicit_extends ""
       nactuals 3
       actual class class_ref 133762 // Game
-        rank 0 explicit_value ""
+        rank 0 explicit_value "ChessState"
       actual class class_ref 133762 // Game
-        rank 1 explicit_value ""
+        rank 1 explicit_value "ChessAction"
       actual class class_ref 133762 // Game
-        rank 2 explicit_value ""
+        rank 2 explicit_value "ChessPlayer"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}
@@ -1796,7 +1796,7 @@ A position is either occupied by a chesspiece or vacant.
         explicit_extends ""
       nactuals 1
       actual class class_ref 223746 // GamePiece
-        rank 0 explicit_value ""
+        rank 0 explicit_value "P"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1813,6 +1813,28 @@ ${members}}
 @param <P> REpresent the position for the piece
 
 "
+      classrelation 280066 // <realization>
+	relation 280066 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280066 // <realization>
+	  b parent class_ref 223746 // GamePiece
+      end
+
+      attribute 263298 "name"
+	protected explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Name of piece"
+      end
+
       class 224258 "pieceType"
 	visibility public stereotype "enum"
 	cpp_decl ""
@@ -1927,28 +1949,6 @@ ${members}}
 	  mysql_decl ""
 	  MysqlColumn
 	end
-      end
-
-      classrelation 280066 // <realization>
-	relation 280066 -_-|>
-	  stereotype "bind"
-	  a public
-	    java "${type}"
-	    classrelation_ref 280066 // <realization>
-	  b parent class_ref 223746 // GamePiece
-      end
-
-      attribute 263298 "name"
-	protected explicit_type "String"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-	comment " Name of piece"
       end
 
       attribute 264450 "value"
@@ -2088,9 +2088,9 @@ ${members}}
         explicit_extends ""
       nactuals 2
       actual class class_ref 224642 // PieceMove
-        rank 0 explicit_value ""
+        rank 0 explicit_value "F"
       actual class class_ref 224642 // PieceMove
-        rank 1 explicit_value ""
+        rank 1 explicit_value "T"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -2253,9 +2253,9 @@ a toPosition
         explicit_extends ""
       nactuals 2
       actual class class_ref 223874 // ChessPlayer
-        rank 0 explicit_value ""
+        rank 0 explicit_value "GamePiece"
       actual class class_ref 223874 // ChessPlayer
-        rank 1 explicit_value ""
+        rank 1 explicit_value "PieceMove"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -2273,6 +2273,15 @@ The AbstractPlayer has an enumeration that indicate if the player is black or wh
 @param <GamePiece>
 @param <PieceMove>
 "
+      classrelation 280322 // <realization>
+	relation 280322 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 280322 // <realization>
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
       class 224898 "player"
 	visibility protected stereotype "enum"
 	cpp_decl ""
@@ -2307,15 +2316,6 @@ ${members}}
 	  mysql_decl ""
 	  MysqlColumn
 	end
-      end
-
-      classrelation 280322 // <realization>
-	relation 280322 -_-|>
-	  stereotype "bind"
-	  a public
-	    java "${type}"
-	    classrelation_ref 280322 // <realization>
-	  b parent class_ref 223874 // ChessPlayer
       end
 
       classrelation 280450 // whitePlayer (<unidirectional association>)
@@ -2441,11 +2441,11 @@ ${members}}
       visibility public 
       nactuals 5
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "ChessState<GameBoard>"
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "ChessAction<?, ?, ?,  GamePiece<?>, ?>"
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
-        rank 2 explicit_value ""
+        rank 2 explicit_value "ChessPlayer<GamePiece, PieceMove>"
       actual class class_ref 133506 // AdversarialSearch
         rank 0 explicit_value ""
       actual class class_ref 133506 // AdversarialSearch
@@ -2568,87 +2568,13 @@ This object is created and called for every new call to the proposemove method o
 	MysqlColumn
       end
 
-      class 225154 "Timer"
-	visibility private 
-	cpp_decl ""
-	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 265858 "duration"
-	  private explicit_type "long"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 265986 "startTime"
-	  private explicit_type "long"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 664450 "Timer"
-	  package explicit_return_type ""
-	  nparams 1
-	    param in name "maxSeconds" explicit_type "int"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 664578 "start"
-	  package explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 664706 "timeOutOccurred"
-	  package explicit_return_type "boolean"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-      end
-
-      classrelation 281474 // timer (<unidirectional association>)
-	relation 281474 --->
+      classrelation 457730 // timer (<unidirectional association>)
+	relation 457730 --->
 	  a role_name "timer" private
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 281474 // timer (<unidirectional association>)
-	  b parent class_ref 225154 // Timer
+	    classrelation_ref 457730 // timer (<unidirectional association>)
+	  b parent class_ref 133890 // Timer
       end
 
       operation 663426 "ChessAlphaBetaSearch"
@@ -2796,143 +2722,6 @@ This method attempts to analyze the various features of the current state
 This method can only be used for active player, not the opponent player
 
 
-"
-      end
-
-      class 225282 "ActionStore"
-	visibility private 
-	nformals 1
-	formal name "A" type "" explicit_default_value ""
-	  explicit_extends ""
-	cpp_decl ""
-	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 266114 "actions"
-	  private explicit_type "A"
-	  init_value " new ArrayList<>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 266242 "utilValues"
-	  private explicit_type "Double"
-	  init_value " new ArrayList<>()"
-	  stereotype "List"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 664834 "add"
-	  cpp_inline package explicit_return_type "void"
-	  nparams 2
-	    param inout name "action" explicit_type "A"
-	    param in name "utilValue" explicit_type "double"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 664962 "size"
-	  cpp_inline package explicit_return_type "int"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 665090 "toString"
-	  cpp_inline public explicit_return_type "String"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-      end
-
-      operation 665218 "incrementDepthLimit"
-	protected explicit_return_type "void"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Primitive operation which is called at the beginning of one depth limited
-search step. This implementation increments the current depth limit by
-one.
-"
-      end
-
-      operation 665346 "isSignificantlyBetter"
-	protected explicit_return_type "boolean"
-	nparams 2
-	  param in name "newUtility" explicit_type "double"
-	  param in name "utility" explicit_type "double"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Primitive operation which is used to stop iterative deepening search in
-situations where a clear best action exists. This implementation returns
-false if both utilities are 0.
-Otherwise it returns true. This makes sure that the returned action belongs to the gameplayer and not the opponent
-"
-      end
-
-      operation 665474 "hasSafeWinner"
-	protected explicit_return_type "boolean"
-	nparams 1
-	  param in name "resultUtility" explicit_type "double"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	comment "Primitive operation which is used to stop iterative deepening search in
-situations where a safe winner has been identified. This implementation
-returns true if the given value (for the currently preferred action
-result is the highest or lowest utility value possible.
-@since 05.05.20
-The resultutlity is divided by 100 since utilMax  is 1 and utilmin is 0.
 "
       end
     end
@@ -3481,80 +3270,6 @@ ${members}}
 	comment " indicates that non-terminal"
       end
 
-      class 226306 "Timer"
-	visibility private 
-	cpp_decl ""
-	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-	php_decl ""
-	python_2_2 python_decl ""
-	idl_decl ""
-	explicit_switch_type ""
-	mysql_decl ""
-	
-	attribute 267266 "duration"
-	  private explicit_type "long"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	attribute 267394 "startTime"
-	  private explicit_type "long"
-	  cpp_decl ""
-	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	  php_decl ""
-	  python_decl ""
-	  idl_decl ""
-	  mysql_decl ""
-	  MysqlColumn
-	end
-
-	operation 669442 "Timer"
-	  package explicit_return_type ""
-	  nparams 1
-	    param in name "maxSeconds" explicit_type "int"
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 669570 "start"
-	  package explicit_return_type "void"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-
-	operation 669698 "timeOutOccurred"
-	  package explicit_return_type "boolean"
-	  nparams 0
-	  
-	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	  
-	  
-	  
-	end
-      end
-
       classrelation 281858 // timer (<unidirectional association>)
 	relation 281858 --->
 	  a role_name "timer" private
@@ -3805,6 +3520,80 @@ The type A for action is casted to ChessAction interface
 	
       end
 
+      class 226306 "Timer"
+	visibility private 
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	attribute 267266 "duration"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	attribute 267394 "startTime"
+	  private explicit_type "long"
+	  cpp_decl ""
+	  java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	  php_decl ""
+	  python_decl ""
+	  idl_decl ""
+	  mysql_decl ""
+	  MysqlColumn
+	end
+
+	operation 669442 "Timer"
+	  package explicit_return_type ""
+	  nparams 1
+	    param in name "maxSeconds" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 669570 "start"
+	  package explicit_return_type "void"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 669698 "timeOutOccurred"
+	  package explicit_return_type "boolean"
+	  nparams 0
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+      end
+
       class 226434 "ActionStore"
 	visibility private 
 	nformals 1
@@ -4039,23 +3828,8 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import aima.core.search.adversarial.AdversarialSearch;
-import aima.core.search.adversarial.Game;
-import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
-import aima.core.search.framework.Metrics;
-import no.games.chess.ChessAction;
-import no.games.chess.ChessState;
-import no.games.chess.ChessPlayer;
 ${definition}"
       associated_elems
-	class_ref 225026 // ChessAlphaBetaSearch
       end
     end
 

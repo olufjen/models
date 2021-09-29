@@ -1,6 +1,6 @@
 format 223
 "search" // aima::core::probability::mdp::search
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -195,13 +195,13 @@ function POMDP-VALUE-ITERATION(pomdp, ε) returns a utility function
      ε, the maximum error allowed in the utility of any state
  local variables: U, U′, sets of plans p with associated utility vectors αp
 
- U′  a set containing just the empty plan [], with α[](s) = R(s)
+ U′ ← a set containing just the empty plan [], with α[](s) = R(s)
  repeat
-   U  U′
-   U′  the set of all plans consisting of an action and, for each possible next percept,
+   U ← U′
+   U′ ← the set of all plans consisting of an action and, for each possible next percept,
      a plan in U with utility vectors computed according to Equation(17.13)
-   U′  REMOVE-DOMINATED-PLANS(U′)
- until MAX-DIFFERENCE OLJ THis comment has been changed
+   U′ ← REMOVE-DOMINATED-PLANS(U′)
+ until MAX-DIFFERENCE(U, U′) < ε(1 − γ) ⁄ γ
  return U
 </pre>
 <p>

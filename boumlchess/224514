@@ -1,0 +1,1040 @@
+format 223
+"ranking" // aima::core::nlp::ranking
+  revision 1
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\aima/core/nlp/ranking/"
+  java_package "aima.core.nlp.ranking"
+  classview 222338 "ranking"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 379394 "HITS"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 871.<br>
+<br>
+
+<pre>
+function HITS(query) returns pages (with hub and authority numbers)
+  pages &larr; EXPAND-PAGES(RELEVANT-PAGES(query))
+  for each p in pages do 
+  	p.AUTHORITY &larr; 1
+  	p.HUB &larr; 1
+  repeat until convergence do
+  	for each p in pages do
+  		p.AUTHORITY &larr; &Sigma;<sub>i</sub> INLINK<sub>i</sub>(p).HUB
+  		p.HUB &larr; &Sigma;<sub>i</sub> OUTLINK<sub>i</sub>(p).AUTHORITY
+  	NORMALIZE(pages)
+  return pages
+</pre>
+
+Figure 22.1 The HITS algorithm for computing hubs and authorities with
+respect to a query. RELEVANT-PAGES fetches the pages that match the query,
+and EXPAND-PAGES add in every page that links to or is linked from one of the
+relevant pages. NORMALIZE divides each page's score by the sum of the squares
+of all pages' scores (separately for both the authority and hubs scores.<br>
+<br>
+
+@author Jonathon Belotti (thundergolfer)
+
+"
+      attribute 493698 "RANK_HISTORY_DEPTH"
+	const_attribute package explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 493826 "DELTA_TOLERANCE"
+	const_attribute package explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " somewhat arbitrary"
+      end
+
+      classrelation 474498 // pTable (<unidirectional association>)
+	relation 474498 --->
+	  stereotype "Map"
+	  a role_name "pTable" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String, ${type}> ${name}${value};
+"
+	    classrelation_ref 474498 // pTable (<unidirectional association>)
+	  b parent class_ref 379522 // Page
+      end
+
+      attribute 493954 "prevAuthVals"
+	package explicit_type "double"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " DETECT CONVERGENCE VARS
+"
+      end
+
+      attribute 494082 "prevHubVals"
+	package explicit_type "double"
+	multiplicity "[]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494210 "prevAveHubDelta"
+	package explicit_type "double"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494338 "prevAveAuthDelta"
+	package explicit_type "double"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1826818 "HITS"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "pTable" explicit_type "Map<String, Page>"
+	  param in name "rank_hist_depth" explicit_type "int"
+	  param in name "delta_tolerance" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "//////////////////////////
+ TODO: Improve the convergence detection functionality"
+      end
+
+      operation 1826946 "HITS"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "pTable" explicit_type "Map<String, Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1827074 "hits"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param in name "query" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function HITS(query) returns pages with hub and authority number"
+      end
+
+      operation 1827202 "relevantPages"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param in name "query" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Fetches and returns all pages that match the query
+
+@param query
+@return
+@throws UnsupportedEncodingException
+"
+      end
+
+      operation 1827330 "matches"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param in name "query" explicit_type "String"
+	  param in name "text" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Simple check if query string is a substring of a block of text.
+
+@param query
+@param text
+@return
+"
+      end
+
+      operation 1827458 "expandPages"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param inout name "pages" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds pages that are linked to or is linked from one of the pages passed
+as argument.
+
+@param pages
+@return
+"
+      end
+
+      operation 1827586 "normalize"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param inout name "pages" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " end expandPages();
+
+Divides each page's score by the sum of the squares of all pages' scores
+(separately for both the authority and hubs scores
+
+@param pages
+@return
+"
+      end
+
+      operation 1827714 "SumInlinkHubScore"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "page" type class_ref 379522 // Page
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " end normalize()
+
+Calculate the Authority score of a page by summing the Hub scores of that
+page's inlinks.
+
+@param page
+@param pagesTable
+@return
+"
+      end
+
+      operation 1827842 "SumOutlinkAuthorityScore"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "page" type class_ref 379522 // Page
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " end SumInlinkHubScore()
+
+Calculate the Hub score of a page by summing the Authority scores of that
+page's outlinks.
+
+@param page
+@param pagesTable
+@return
+"
+      end
+
+      operation 1827970 "convergence"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pages" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "pg. 872 : \"If we then normalize the scores and repeat k times the process
+will converge\"
+
+@return
+"
+      end
+
+      operation 1828098 "getAveDelta"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "curr" explicit_type "double"
+	multiplicity "[]"
+	  param inout name "prev" explicit_type "double"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}, ${t1}[] ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine how much values in a list are changing. Useful for detecting
+convergence of data values.
+
+@param r
+@return
+"
+      end
+
+      operation 1828226 "getMaxHub"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param inout name "result" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return from a set of Pages the Page with the greatest Hub value
+
+@param pageTable
+@return
+"
+      end
+
+      operation 1828354 "getMaxAuthority"
+	public return_type class_ref 379522 // Page
+	nparams 1
+	  param inout name "result" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return from a set of Pages the Page with the greatest Authority value
+
+@param pageTable
+@return
+"
+      end
+
+      operation 1828482 "sortHub"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "result" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Organize the list of pages according to their descending Hub scores.
+
+@param result
+"
+      end
+
+      operation 1828610 "sortAuthority"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "result" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Organize the list of pages according to their descending Authority Scores
+
+@param result
+"
+      end
+
+      operation 1828738 "report"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "result" explicit_type "List<Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Simple console display of HITS Algorithm results.
+
+@param result
+"
+      end
+    end
+
+    class 379522 "Page"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@author Jonathon Belotti (thundergolfer)
+
+"
+      attribute 494466 "authority"
+	public explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494594 "hub"
+	public explicit_type "double"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494722 "location"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494850 "content"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 494978 "linkTo"
+	private explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 495106 "linkedFrom"
+	private explicit_type "String"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 1829122 "Page"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1829250 "getLocation"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1829378 "getContent"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1829506 "setContent"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "content" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1829634 "getInlinks"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1829762 "getOutlinks"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 379650 "LinkFinder"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@author Jonathon Belotti (thundergolfer)
+
+"
+      operation 1828866 "getOutlinks"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param inout name "page" type class_ref 379522 // Page
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Take a Page object and return its outlinks as a list of strings. The Page
+object must therefore possess the information to determine what it links
+to.
+
+@param page
+@return
+"
+      end
+
+      operation 1828994 "getInlinks"
+	public explicit_return_type "List<String>"
+	nparams 2
+	  param inout name "page" type class_ref 379522 // Page
+	  param inout name "pageTable" explicit_type "Map<String, Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Take a Page object and return its inlinks (who links to it) as a list of
+strings.
+
+@param page
+@param pageTable
+@return
+"
+      end
+    end
+
+    class 379778 "PagesDataset"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@author Jonathon Belotti (thundergolfer)
+
+"
+      attribute 495234 "wikiPagesFolderPath"
+	class_attribute package explicit_type "String"
+	init_value " \"src\\\\main\\\\resources\\\\aima\\\\core\\\\ranking\\\\data\\\\pages\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 495362 "testFilesFolderPath"
+	class_attribute package explicit_type "String"
+	init_value " \"src\\\\main\\\\resources\\\\aima\\\\core\\\\ranking\\\\data\\\\pages\\\\test_pages\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 474626 // wlf (<unidirectional association>)
+	relation 474626 --->
+	  a role_name "wlf" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 474626 // wlf (<unidirectional association>)
+	  b parent class_ref 379906 // WikiLinkFinder
+      end
+
+      operation 1829890 "loadDefaultPages"
+	class_operation public return_type class_ref 379522 // Page
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1830018 "loadTestPages"
+	class_operation public return_type class_ref 379522 // Page
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1830146 "loadPages"
+	class_operation public return_type class_ref 379522 // Page
+	nparams 1
+	  param in name "folderPath" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Access a folder of .txt files containing wikipedia html source, and give
+back a hashtable of pages, which each page having it's correct inlink
+list and outlink list.
+
+@param folderPath
+@return a hashtable of Page objects, accessed by article name (which is a
+        location for wikipedia: \\wiki\\*article name*)
+"
+      end
+
+      operation 1830274 "wikiPageFromFile"
+	class_operation public return_type class_ref 379522 // Page
+	nparams 2
+	  param inout name "folder" explicit_type "File"
+	  param inout name "f" explicit_type "File"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " end loadPages()"
+      end
+
+      operation 1830402 "determineAllInlinks"
+	class_operation public return_type class_ref 379522 // Page
+	nparams 1
+	  param inout name "pageTable" explicit_type "Map<String, Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1830530 "getPageName"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "f" explicit_type "File"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1830658 "loadFileText"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param inout name "folder" explicit_type "File"
+	  param inout name "file" explicit_type "File"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " end getPageName()"
+      end
+    end
+
+    class 379906 "WikiLinkFinder"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@author Jonathon Belotti (thundergolfer)
+
+"
+      classrelation 474754 // <realization>
+	relation 474754 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 474754 // <realization>
+	  b parent class_ref 379650 // LinkFinder
+      end
+
+      operation 1830914 "getOutlinks"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param inout name "page" type class_ref 379522 // Page
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " TODO
+ Make more intelligent link search"
+      end
+
+      operation 1831042 "getInlinks"
+	public explicit_return_type "List<String>"
+	nparams 2
+	  param inout name "target" type class_ref 379522 // Page
+	  param inout name "pageTable" explicit_type "Map<String, Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 380034 "RunHITS"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "
+@author Jonathon Belotti (thundergolfer)
+
+"
+      operation 1830786 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 202754 "ranking"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 325634 "HITS"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 379394 // HITS
+      end
+    end
+
+    artifact 325762 "LinkFinder"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Map;
+${definition}"
+      associated_elems
+	class_ref 379650 // LinkFinder
+      end
+    end
+
+    artifact 325890 "Page"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 379522 // Page
+      end
+    end
+
+    artifact 326018 "PagesDataset"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+${definition}"
+      associated_elems
+	class_ref 379778 // PagesDataset
+      end
+    end
+
+    artifact 326146 "RunHITS"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import java.util.Map;
+${definition}"
+      associated_elems
+	class_ref 380034 // RunHITS
+      end
+    end
+
+    artifact 326274 "WikiLinkFinder"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+${definition}"
+      associated_elems
+	class_ref 379906 // WikiLinkFinder
+      end
+    end
+  end
+end

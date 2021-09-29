@@ -21,6 +21,11 @@ class PreferredMoveProcessor
 	            + "' is an invalid output file.");
 	      }	*/
 !!!797570.java!!!	processChessObject(inout action : ChessActionImpl, inout p : AgamePiece) : ApieceMove
+		HashMap<String,Position> reacablePositions = null;
+		HashMap<String,Position> bishopPositions = null;
+		List<Position> queenscastlePositions = null;
+		List<Position> queenbishopPositions = null;
+		List<Position>opponentRemoved = action.getOpponentRemoved();
 		removedPositions =  (List<Position>) action.getPositionRemoved(); // Removed positions are positions occupied by friendly pieces
 		List<Position> availablePositions = (List<Position>) action.getAvailablePositions();
 		List<Position> preferredPositions = new ArrayList<>();
@@ -57,7 +62,7 @@ class PreferredMoveProcessor
 			p.setActive(false);
 			return null;
 		}
-			
+		List<Position> tempList = null;	
 		APawn pn = null;
 		ABishop b = null;
 		ARook r = null;
@@ -70,13 +75,80 @@ class PreferredMoveProcessor
 		}
 		if (pieceType instanceof ABishop) {
 			b = (ABishop) pieceType;
+			setDirection(p, availablePositions);
+			setDirection(p, removedPositions);
 		}
 		if (pieceType instanceof ARook) {
 			r = (ARook) pieceType;
 		}
 		if (pieceType instanceof AQueen) {
 			qt = (AQueen) pieceType;
-			writer.println("the piece is a queen ");
+			if (p.checkBlack()) {
+				writer.println("The black queen");
+			}
+		
+			setDirection(p, availablePositions);
+			setDirection(p, removedPositions);
+//			writer.println("the piece is a queen ");
+			bishopRemoved = action.getBishopRemoved();
+			bishopPositions = p.getBishopPositions();
+			reacablePositions = p.getReacablePositions();
+			List<Position> queenAvailablepositions = p.getNewlistPositions();
+			queenscastlePositions = new ArrayList(reacablePositions.values()); // The queen castle movements
+			queenbishopPositions = new ArrayList(bishopPositions.values());		// The queen bishop movements
+			setDirection(p, queenbishopPositions);
+			setDirection(p,bishopRemoved);
+			tempList = new ArrayList<>();
+			int pcol = from.getIntColumn();
+			int prow = from.getIntRow();
+			for (Position removedPos:bishopRemoved) {
+//			for (Position removedPos:bishopRemoved) { // OBS: The removed positions must be separated: bishop positions and rook positions
+				int row = removedPos.getIntRow();
+				int col = removedPos.getIntColumn();
+				String pName = removedPos.getPositionName();
+/*				if (pName.equals("c2") || pName.equals("e2")) {
+					System.out.println("Pos !!! "+pName);
+				}*/
+				checkBishopnwest(queenbishopPositions, tempList, removedPos, p);
+				checkBishopneast(queenbishopPositions, tempList, removedPos, p);
+				checkBishopseast(queenbishopPositions, tempList, removedPos, p);
+				checkBishopswest(queenbishopPositions, tempList, removedPos, p);
+				
+/*				for (Position availablePos:queenbishopPositions) {
+					int arow = availablePos.getIntRow();
+					int acol = availablePos.getIntColumn();
+					if (col < pcol && arow >= row && acol <= col) { // <= OBS !! OLJ 10.03.21
+						tempList.add(availablePos);
+
+					}
+					if (col < pcol && arow < row && acol < col) {
+						tempList.add(availablePos);
+					}
+					if (col > pcol && arow >= row && acol >= col) { // >= OBS !! OLJ 10.03.21
+						tempList.add(availablePos);
+					}
+				}*/
+			}
+			for (Position removedPos:removedPositions) {
+				int row = removedPos.getIntRow();
+				int col = removedPos.getIntColumn();
+				for (Position availablePos:queenscastlePositions) {
+					int arow = availablePos.getIntRow();
+					int acol = availablePos.getIntColumn();
+					if (prow < row && pcol == col && arow >= row && acol == col) {
+						tempList.add(availablePos);
+					}
+					if (prow > row && pcol == col && arow <= row && acol == col) {
+						tempList.add(availablePos);
+					}
+					if (pcol< col && prow == row && acol <= col && arow == row) { //Horizontal to right
+						tempList.add(availablePos);
+					}
+					if (pcol> col && prow == row && acol <= col && arow == row) { //Horizontal to left
+						tempList.add(availablePos);
+					}
+				}
+			}
 		}
 		if (pieceType instanceof AKnight) {
 			kn = (AKnight) pieceType;
@@ -112,9 +184,10 @@ class PreferredMoveProcessor
  * 
  */
 		if (b != null || r != null || qt != null || pn != null) {
-			String pName = p.toString();
+			String pName = p.getMyPiece().getOntlogyName();
 			writer.println("Checking additional removals For "+pName);
-			List<Position> tempList = new ArrayList<>();
+			if (tempList == null)
+				tempList = new ArrayList<>();
 			int pcol = from.getIntColumn();
 			int prow = from.getIntRow();
 			for (Position removedPos:removedPositions) {
@@ -123,32 +196,101 @@ class PreferredMoveProcessor
 				for (Position availablePos:availablePositions) {
 					int arow = availablePos.getIntRow();
 					int acol = availablePos.getIntColumn();
-					if ((r != null || pn != null || qt != null) && prow < row && pcol == col && arow > row && acol == col) { // not applicable when from row > row
-						tempList.add(availablePos);
+					String posName = availablePos.getPositionName();
+					Position posinTable =  (Position) tempList.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null); // Do not put position in removed table if it is there already
+					if (posinTable == null) { //This is added 08.08.21
+						if ((r != null || pn != null ) && prow < row && pcol == col && arow > row && acol == col) { // not applicable when from row > row
+							tempList.add(availablePos);
+						}
+						if ((r != null || pn != null ) && prow > row && pcol == col && arow < row && acol == col) { // Not applicable when the from row < row
+							tempList.add(availablePos);
+						}
+						if (r != null && pcol< col && prow == row && acol <= col && arow == row) { //Horizontal to right
+							tempList.add(availablePos);
+						}
+						if (r != null && pcol> col && prow == row && acol <= col && arow == row) { //Horizontal to left
+							tempList.add(availablePos);
+						}
 					}
-					if ((r != null || pn != null || qt != null) && prow > row && pcol == col && arow < row && acol == col) { // Not applicable when the from row < row
-						tempList.add(availablePos);
-					}
+
 /*
- * Check for bishop	and queen				
+ * Check for bishop	OBS OBS Check again The queen option removed !!!!			
  */
-					if ((b != null || qt != null) && col < pcol && arow > row && acol < col) {
+/*					if ((b != null ) && col < pcol && arow > row && acol < col) {
 						tempList.add(availablePos);
 					}
-					if ((b != null || qt != null) && col < pcol && arow < row && acol < col) {
+					if ((b != null ) && col < pcol && arow < row && acol < col) {
 						tempList.add(availablePos);
 					}
-					if ((b != null || qt != null) && col > pcol && arow < row && acol > col) {
+					if ((b != null ) && col > pcol && arow < row && acol > col) {
 						tempList.add(availablePos);
 					}
-					if ((b != null || qt != null) && col > pcol && arow > row && acol > col) {
+					if ((b != null ) && col > pcol && arow > row && acol > col) { // OBS !!!
 						tempList.add(availablePos);
-					}
+					}*/
 /*					if (b != null && arow < row && acol >= col) {
 						tempList.add(availablePos);
 					}
 */
 				}
+				if (b != null) {
+					checkBishopnwest(availablePositions, tempList, removedPos, p);
+					checkBishopneast(availablePositions, tempList, removedPos, p);
+					checkBishopseast(availablePositions, tempList, removedPos, p);
+					checkBishopswest(availablePositions, tempList, removedPos, p);
+				}
+
+			}
+			for (Position removedPos:opponentRemoved) {
+				int row = removedPos.getIntRow();
+				int col = removedPos.getIntColumn();
+				for (Position availablePos:availablePositions) {
+					int arow = availablePos.getIntRow();
+					int acol = availablePos.getIntColumn();
+					String posName = availablePos.getPositionName();
+					Position posinTable =  (Position) tempList.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null); // Do not put position in removed table if it is there already
+					if (posinTable == null) { //This is added 08.08.21
+						if ((r != null || pn != null ) && prow < row && pcol == col && arow > row && acol == col) { // not applicable when from row > row
+							tempList.add(availablePos);
+						}
+						if ((r != null || pn != null ) && prow > row && pcol == col && arow < row && acol == col) { // Not applicable when the from row < row
+							tempList.add(availablePos);
+						}
+						if (r != null && pcol< col && prow == row && acol < col && arow == row) { //Horizontal to right
+							tempList.add(availablePos);
+						}
+						if (r != null && pcol> col && prow == row && acol < col && arow == row) { //Horizontal to left
+							tempList.add(availablePos);
+						}
+					}
+
+/*
+ * Check for bishop	OBS OBS Check again The queen option removed !!!!			
+ */
+/*					if ((b != null ) && col < pcol && arow > row && acol < col) {
+						tempList.add(availablePos);
+					}
+					if ((b != null ) && col < pcol && arow < row && acol < col) {
+						tempList.add(availablePos);
+					}
+					if ((b != null ) && col > pcol && arow < row && acol > col) {
+						tempList.add(availablePos);
+					}
+					if ((b != null ) && col > pcol && arow > row && acol > col) { // OBS !!!
+						tempList.add(availablePos);
+					}*/
+/*					if (b != null && arow < row && acol >= col) {
+						tempList.add(availablePos);
+					}
+*/
+				}
+				if (b != null) {
+					checkBishopnwest(availablePositions, tempList, removedPos, p);
+					checkBishopneast(availablePositions, tempList, removedPos, p);
+					checkBishopseast(availablePositions, tempList, removedPos, p);
+					checkBishopswest(availablePositions, tempList, removedPos, p);
+				}
+
 			}
 			for (Position temp:tempList) {
 				String posName = temp.getPositionName();
@@ -181,6 +323,23 @@ class PreferredMoveProcessor
 				preferredPositions.add(availablePos);
 			}
 		}
+/*		if (qt != null) {
+			for (Position availablePos:availablePositions) {
+				boolean available = true;
+				for (Position removedPos:bishopRemoved) {
+					if (removedPos.getPositionName().equals(availablePos.getPositionName())) {
+						available = false;
+//						writer.println("Removed position "+removedPos.toString());
+						break;
+					}
+
+				}
+				if (available) {
+					preferredPositions.add(availablePos);
+				}
+			}
+		}*/
+
 		if (preferredPositions.isEmpty()) {
 			p.setPreferredPositions(null);
 			writer.println("No preferred position\n"+"piece: "+p.toString());
@@ -198,8 +357,117 @@ class PreferredMoveProcessor
 		}
 		ApieceMove move = new ApieceMove(preferredPosition,p);	
 		move.setPreferredPositions(preferredPositions);
+		resetDirections(availablePositions);
+		resetDirections(removedPositions);
 		writer.println("Move: "+move.toString()+"\n"+"piece: "+p.toString());
 		writer.close();
 	return move;
 !!!797698.java!!!	getHeldPosition() : Position
 		return heldPosition;
+!!!1839106.java!!!	checkBishopnwest(inout availablePositions : List<Position>, inout tempList : List<Position>, inout removedPos : Position, inout piece : AgamePiece) : void
+		List<XYLocation> nw = piece.getNorthWest();
+		XYLocation loc = removedPos.getXyloc();
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		for (XYLocation nwloc:nw) {
+			int nwx = nwloc.getXCoOrdinate();
+			int nwy = nwloc.getYCoOrdinate();
+			if (nwx <= x && nwy >= y && removedPos.isNw()) { // If both x and y are less, then this position must be removed
+				for (Position pos:availablePositions) {
+					int ax = pos.getXyloc().getXCoOrdinate();
+					int ay = pos.getXyloc().getYCoOrdinate();
+					if (ax == nwx && ay == nwy && pos.isNw() && !pos.isOpponentRemove()) {
+						tempList.add(pos);
+					}
+				}
+			}
+		}
+!!!1839234.java!!!	checkBishopneast(inout availablePositions : List<Position>, inout tempList : List<Position>, inout removedPos : Position, inout piece : AgamePiece) : void
+		List<XYLocation> nw = piece.getNorthEast();
+		XYLocation loc = removedPos.getXyloc();
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		for (XYLocation nwloc:nw) { // All available xylocations north west
+			int nwx = nwloc.getXCoOrdinate();
+			int nwy = nwloc.getYCoOrdinate();
+			if (nwx >= x && nwy >= y && removedPos.isNe()) { // If both x and y are greater, then this position must be removed
+				for (Position pos:availablePositions) { // Search all available positions
+					int ax = pos.getXyloc().getXCoOrdinate();
+					int ay = pos.getXyloc().getYCoOrdinate();
+					if (ax == nwx && ay == nwy && pos.isNe() && !pos.isOpponentRemove()) { // If this position contains the current xylocation then
+						tempList.add(pos); // remove it
+					}
+				}
+			}
+		}
+!!!1839362.java!!!	checkBishopseast(inout availablePositions : List<Position>, inout tempList : List<Position>, inout removedPos : Position, inout piece : AgamePiece) : void
+		List<XYLocation> nw = piece.getSouthEast();
+		XYLocation loc = removedPos.getXyloc(); // The removed position must belong to the same direction.
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		for (XYLocation nwloc:nw) {
+			int nwx = nwloc.getXCoOrdinate();
+			int nwy = nwloc.getYCoOrdinate();
+			if (nwx >= x && nwy <= y && removedPos.isSe()) { // If x is greater and y is less, then this position must be removed
+				for (Position pos:availablePositions) {
+					int ax = pos.getXyloc().getXCoOrdinate();
+					int ay = pos.getXyloc().getYCoOrdinate();
+					if (ax == nwx && ay == nwy && pos.isSe() && !pos.isOpponentRemove()) {
+						tempList.add(pos);
+					}
+				}
+			}
+		}
+!!!1839490.java!!!	checkBishopswest(inout availablePositions : List<Position>, inout tempList : List<Position>, inout removedPos : Position, inout piece : AgamePiece) : void
+		List<XYLocation> nw = piece.getSouthWest();
+		XYLocation loc = removedPos.getXyloc();
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		for (XYLocation nwloc:nw) {
+			int nwx = nwloc.getXCoOrdinate();
+			int nwy = nwloc.getYCoOrdinate();
+			if (nwx <= x && nwy <= y && removedPos.isSw()) { // If both x and y are less, then this position must be removed
+				for (Position pos:availablePositions) {
+					int ax = pos.getXyloc().getXCoOrdinate();
+					int ay = pos.getXyloc().getYCoOrdinate();
+					if (ax == nwx && ay == nwy && pos.isSw() && !pos.isOpponentRemove()) {
+						tempList.add(pos);
+					}
+				}
+			}
+		}
+!!!1839618.java!!!	setDirection(inout piece : AgamePiece, inout positions : List<Position>) : void
+		List<XYLocation> nw = piece.getNorthWest();
+//		Position pos =  (Position) removedPositions.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+		calculateDirections(nw,0,positions);
+		List<XYLocation> ne = piece.getNorthEast();
+		calculateDirections(ne,1,positions);
+		List<XYLocation> sw = piece.getSouthWest();
+		calculateDirections(sw,2,positions);
+		List<XYLocation> se = piece.getSouthEast();
+		calculateDirections(se,3,positions);
+!!!1839746.java!!!	calculateDirections(inout nw : List<XYLocation>, in dr : int, inout positions : List<Position>) : void
+		for (Position pos:positions) {
+			XYLocation loc = pos.getXyloc();
+			int x = loc.getXCoOrdinate();
+			int y = loc.getYCoOrdinate();
+			for (XYLocation nwloc:nw) {
+				int nwx = nwloc.getXCoOrdinate();
+				int nwy = nwloc.getYCoOrdinate();
+				if (x == nwx && y == nwy && dr == 0)
+					pos.setNw(true);
+				if (x == nwx && y == nwy && dr == 1)
+					pos.setNe(true);
+				if (x == nwx && y == nwy && dr == 2)
+					pos.setSw(true);
+				if (x == nwx && y == nwy && dr == 3)
+					pos.setSe(true);
+			}
+		}
+!!!1839874.java!!!	resetDirections(inout positions : List<Position>) : void
+		for (Position pos:positions) {
+			pos.setNe(false);
+			pos.setNw(false);
+			pos.setSe(false);
+			pos.setSw(false);
+		}

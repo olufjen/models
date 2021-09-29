@@ -1,0 +1,261 @@
+class OpponentAgent
+!!!1836034.java!!!	OpponentAgent(inout stateImpl : ChessStateImpl, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer, inout folKb : FOLKnowledgeBase, inout chessDomain : FOLDomain)
+		super();
+		this.stateImpl = stateImpl;
+		this.game = game;
+		this.myPlayer = myPlayer;
+		this.opponent = opponent;
+		this.folKb = folKb;
+		this.chessDomain = chessDomain;
+		forwardChain = new FOLGamesFCAsk(); // A Forward Chain inference procedure see p. 332
+		backwardChain = new FOLGamesBCAsk(); // A backward Chain inference procedure see p. 337
+		localKb = new ChessFolKnowledgeBase(chessDomain, forwardChain);
+		actions = this.stateImpl.getActions(myPlayer);
+		this.myPlayer.setActions(actions);
+		possiblePositions = new HashMap<String,Position>(); // Which positions are reachable
+		positionKeys = new ArrayList<String>();// The key for positions that are reachable
+		myPieceNames = new ArrayList<String>(); // A list of opponent pieces that are active
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+	    setPredicatenames();
+	    defineFacts();
+	    
+	    writer.flush();
+!!!1836162.java!!!	setPredicatenames() : void
+			ACTION = KnowledgeBuilder.getACTION();
+			ATTACKED = KnowledgeBuilder.getATTACKED();
+			CANMOVE = KnowledgeBuilder.getCANMOVE();
+			CAPTURE =  KnowledgeBuilder.getCAPTURE();
+			CONQUER = KnowledgeBuilder.getCONQUER();
+			MOVE =  KnowledgeBuilder.getMOVE();
+			OWNER = KnowledgeBuilder.getOWNER();
+			PROTECTED =  KnowledgeBuilder.getPROTECTED();
+			REACHABLE = KnowledgeBuilder.getREACHABLE();
+			SAFEMOVE = KnowledgeBuilder.getSAFEMOVE();
+			STRIKE = KnowledgeBuilder.getSTRIKE();
+			simpleProtected =  KnowledgeBuilder.getSimpleProtected();
+			THREATEN = KnowledgeBuilder.getTHREATEN();
+			PIECETYPE = KnowledgeBuilder.getPIECETYPE();
+			PLAY = 	KnowledgeBuilder.getPLAY();
+			PAWN = KnowledgeBuilder.getPAWN();
+			KNIGHT = KnowledgeBuilder.getKNIGHT();
+			BISHOP = KnowledgeBuilder.getBISHOP();
+			ROOK = KnowledgeBuilder.getROOK();
+			KING = KnowledgeBuilder.getKING();
+			QUEEN = KnowledgeBuilder.getQUEEN();
+			OCCUPIES = KnowledgeBuilder.getOCCUPIES();
+			PAWNMOVE = KnowledgeBuilder.getPAWNMOVE();
+			PAWNATTACK = KnowledgeBuilder.getPAWNATTACK();
+			BOARD = KnowledgeBuilder.getBOARD();
+			PLAYER = KnowledgeBuilder.getPLAYER();
+			CASTLE = KnowledgeBuilder.getCASTLE();
+			OPPONENTTO = KnowledgeBuilder.getOPPONENTTO();
+			POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
+
+!!!1836290.java!!!	getStateImpl() : ChessStateImpl
+		return stateImpl;
+!!!1836418.java!!!	setStateImpl(inout stateImpl : ChessStateImpl) : void
+		this.stateImpl = stateImpl;
+!!!1836546.java!!!	getLocalAction() : ChessActionImpl
+		return localAction;
+!!!1836674.java!!!	setLocalAction(inout localAction : ChessActionImpl) : void
+		this.localAction = localAction;
+!!!1836802.java!!!	getActions() : ChessAction
+		return actions;
+!!!1836930.java!!!	setActions(inout actions : List<ChessAction>) : void
+		this.actions = actions;
+!!!1837058.java!!!	getGame() : PlayGame
+		return game;
+!!!1837186.java!!!	setGame(inout game : PlayGame) : void
+		this.game = game;
+!!!1837314.java!!!	getMyPlayer() : APlayer
+		return myPlayer;
+!!!1837442.java!!!	setMyPlayer(inout myPlayer : APlayer) : void
+		this.myPlayer = myPlayer;
+!!!1837570.java!!!	getOpponent() : APlayer
+		return opponent;
+!!!1837698.java!!!	setOpponent(inout opponent : APlayer) : void
+		this.opponent = opponent;
+!!!1837826.java!!!	defineFacts() : void
+		Position heldPosition = null;
+		for (AgamePiece piece:myPlayer.getMygamePieces()) {
+			if (piece.isActive()){
+				heldPosition = piece.getMyPosition();
+				if (heldPosition == null) {
+					heldPosition = piece.getHeldPosition();
+				}
+				String occupies = piece.returnPredicate();
+				String pieceName = piece.getMyPiece().getOntlogyName();
+				String posName = heldPosition.getPositionName();
+				localKb.createfacts(occupies, posName, pieceName);
+				myPieceNames.add(pieceName);
+			}
+		}
+		for (ChessAction action:actions) {
+			ChessActionImpl localAction = (ChessActionImpl) action;
+			ApieceMove move = localAction.getPossibleMove();
+			AgamePiece piece = localAction.getChessPiece();
+			String pieceName = piece.getMyPiece().getOntlogyName();
+			if (move != null) {
+				List<Position> available = localAction.getAvailablePositions();
+				List<Position> removed = localAction.getPositionRemoved();
+				for (Position apos: available) {
+					String posName = apos.getPositionName();
+					Position pos =  (Position) removed.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+//					if (pos != null) {
+						if(!piece.checkRemoved(apos)) {
+							String posA = apos.getPositionName();
+							tellFacts(pieceName,posA,OPPONENTTO);
+						}
+//					}
+				}
+			}
+		}
+!!!1837954.java!!!	tellFacts(in piece : String, in pos : String, in predicate : String) : void
+		Constant pieceVariable = new Constant(piece);
+		Constant posVariable = new Constant(pos);
+		List<Term> terms = new ArrayList<Term>();
+		terms.add(pieceVariable);
+		terms.add(posVariable);
+		Predicate folPredicate = new Predicate(predicate,terms);
+		folKb.tell(folPredicate);
+		localKb.tell(folPredicate);
+//		writer.println("Opponent piece "+piece+"\ncan move to "+pos);
+!!!1838082.java!!!	probeConsequences(inout playerAction : ChessActionImpl) : void
+		writer.println("Chosen action\n"+playerAction);
+		writer.println("Opponent actions:");
+		for (ChessAction action:actions) {
+			ChessActionImpl localAction = (ChessActionImpl) action;
+			writer.println(localAction);
+		}
+!!!1958786.java!!!	checkFacts(in pieceName : String, in posName : String, in fact : String) : boolean
+		boolean result = false;
+		Constant pieceVariable= new Constant(pieceName);
+		Constant posVariable = new Constant(posName);
+		List<Term> reachableTerms = new ArrayList<Term>();
+		reachableTerms.add(pieceVariable);
+		reachableTerms.add(posVariable);
+		Predicate reachablePredicate = new Predicate(fact,reachableTerms);
+		InferenceResult backWardresult =  backwardChain.ask(localKb, reachablePredicate);
+		result = backWardresult.isTrue();
+		return result;
+!!!1958914.java!!!	checkReachable(in pieceName : String, in posName : String, in key : String) : boolean
+		boolean result = false;
+		String lastPos = null;
+		String sep = "_";
+		int posIndex = key.indexOf(posName);
+		if ( posIndex > 0) {
+			lastPos = key.substring(posIndex-2,posIndex);
+			if (lastPos != null && !lastPos.isEmpty()) {
+				result = checkFacts(pieceName+sep+lastPos,posName,REACHABLE);
+				return result;
+			}
+		}
+		return result;
+!!!1959042.java!!!	chooseStrategy(inout actions : List<ChessActionImpl>) : void
+		writer.println("Choose strategy");
+
+		for (ChessAction action:actions) {
+			ChessActionImpl localAction = (ChessActionImpl) action;
+			ApieceMove move = localAction.getPossibleMove();
+			AgamePiece piece = localAction.getChessPiece();
+			String pieceName = piece.getMyPiece().getOntlogyName();
+			String sep = "_";
+			if (move != null) {
+				List<Position> available = localAction.getAvailablePositions();
+				List<Position> removed = localAction.getPositionRemoved();
+				for (Position apos: available) {
+					String posName = apos.getPositionName();
+					Position pos =  (Position) removed.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+					if(!piece.checkRemoved(apos)) {
+//						String posA = apos.getPositionName();
+						boolean posOccupies = checkFacts(pieceName,posName,OCCUPIES);
+						for (String key: positionKeys) {
+							if (key.contains(pieceName+sep+posName)) {
+								Position possiblepos = possiblePositions.get(key);
+								if (possiblepos != null) {
+									String posA = possiblepos.getPositionName();
+									boolean reachpos = checkReachable(pieceName, posA, key);
+									writer.println("Checking reachable for key "+key+" occupies is "+posOccupies+" for position "+posName+" is reachable "+reachpos+" for pos "+posA);
+								}
+							}
+						}
+  					}
+				}
+			}
+		}
+		for (String key: positionKeys) {
+			Position pos = possiblePositions.get(key);
+			if (pos != null) {
+				writer.println(key);
+				writer.println(pos.toString());
+			}
+			
+		}
+!!!1959170.java!!!	probepossibilities(inout actions : List<ChessActionImpl>, inout player : APlayer) : void
+		Position heldPosition = null;
+		possiblePositions.clear();
+		positionKeys.clear();
+		for (ChessAction action:actions) {
+			ChessActionImpl localAction = (ChessActionImpl) action;
+			AgamePiece piece = localAction.getChessPiece();
+			heldPosition = piece.getMyPosition();
+			if (heldPosition == null) {
+				heldPosition = piece.getHeldPosition();
+			}
+			String occupiesNow = piece.returnPredicate();
+			String piecenameNow = piece.getMyPiece().getOntlogyName();
+			String posnameNow = heldPosition.getPositionName();
+			localKb.createfacts(occupiesNow, posnameNow, piecenameNow); //Must also set current occupied position
+			List<Position> availablePositions = piece.getNewlistPositions();
+			List<Position> actionAvailablePositions = new ArrayList();
+			actionAvailablePositions.addAll(availablePositions);
+			List<Position> actionRemoved = new ArrayList();
+			actionRemoved.addAll(piece.getRemovedPositions());
+			for (Position pos:actionAvailablePositions) {
+				String posName = pos.getPositionName();
+				Position rpos =  (Position) actionRemoved.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+				if (rpos == null) {
+//					piece.setMyPosition(pos);// This causes the moved piece to appear in two places !!!
+					piece.settempMyposition(pos);
+					piece.produceLegalmoves(pos); // Produces new reachable positions
+					HashMap<String,Position> reachablePositions = piece.getReacablePositions();
+					ChessActionImpl tempaction = new ChessActionImpl(reachablePositions,piece,player,myPlayer); // Creates new removed positions
+//					player.calculatePreferredPosition(piece, tempaction); // MUst use a new action
+					String occupies = piece.returnPredicate();
+					String piecename = piece.getMyPiece().getOntlogyName();
+					String posname = pos.getPositionName();
+					localKb.createfacts(occupies, posname, piecename);
+					piecename = piecename+"_"+posname; //OBS: Separate piece and position !!!
+					tellnewFacts(piece,piecename);
+				}
+			}
+//			piece.setMyPosition(heldPosition);
+			piece.settempMyposition(heldPosition);
+			piece.produceLegalmoves(heldPosition);
+			player.calculatePreferredPosition(piece, localAction);
+		}
+		localKb.writeKnowledgebase();
+!!!1959298.java!!!	tellnewFacts(inout piece : AgamePiece, in name : String) : void
+		List<Position> availablePositions = piece.getNewlistPositions();
+		String piecename = piece.getMyPiece().getOntlogyName();
+		if (piecename.equals("WhiteRook2")) {
+			writer.println("TellnewFacts from position "+name);
+			writer.println(piece.toString());
+		}
+		for (Position pos:availablePositions) {
+			if (!piece.checkRemoved(pos)) {
+//				String piecename = piece.getMyPiece().getOntlogyName();
+				String posname = pos.getPositionName();
+				possiblePositions.put(name+posname, pos);
+				positionKeys.add(name+posname);
+				localKb.createfacts(REACHABLE, posname, name);
+			}
+		}
+!!!1959426.java!!!	writeFacts() : void
+		localKb.writeKnowledgebase();

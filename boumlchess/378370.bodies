@@ -1,0 +1,63 @@
+class Lexicon
+!!!1820930.java!!!	getTerminalRules(in partOfSpeech : String) : Rule
+		final String partOfSpeechUpperCase = partOfSpeech.toUpperCase();
+		final ArrayList<Rule> rules = new ArrayList<>();
+
+		Optional.ofNullable(this.get(partOfSpeechUpperCase)).ifPresent(lexWords -> {
+			for (LexWord word : lexWords)
+				rules.add(new Rule(partOfSpeechUpperCase, word.word, word.prob));
+		});
+
+		return rules;
+!!!1821058.java!!!	getAllTerminalRules() : Rule
+		final ArrayList<Rule> allRules = new ArrayList<>();
+		final Set<String> keys = this.keySet();
+
+		for (String key : keys)
+			allRules.addAll( this.getTerminalRules(key));
+
+		return allRules;
+!!!1821186.java!!!	addEntry(in category : String, in word : String, in prob : float) : boolean
+		if( this.containsKey(category))
+			this.get(category).add( new LexWord( word, prob ));
+		else
+			this.put(category, new ArrayList<>(Collections.singletonList(new LexWord(word,prob))));
+		
+		return true;
+!!!1821314.java!!!	addLexWords(inout  : String...vargs) : boolean
+		ArrayList<LexWord> lexWords = new ArrayList<>();
+		boolean containsKey = false;
+		// number of arguments must be key (1) + lexWord pairs ( x * 2 )
+		if (vargs.length % 2 != 1)
+			return false;
+
+		String key = vargs[0].toUpperCase();
+		if (this.containsKey(key)) { containsKey = true; }
+			
+		for (int i=1; i < vargs.length; i++) {
+			try {
+				if( containsKey )
+					this.get(key).add( new LexWord( vargs[i], Float.valueOf(vargs[i+1])));
+				else
+					lexWords.add( new LexWord( vargs[i], Float.valueOf(vargs[i+1])));
+				i++;
+			} catch( NumberFormatException e ) {
+				System.err.println("Supplied args have incorrect format.");
+				return false;
+			}
+		}
+		if (!containsKey) { this.put(key, lexWords); }
+		return true;
+		
+!!!1821442.java!!!	addLexWords(inout lexicon : Lexicon) : void
+		for (Map.Entry<String, ArrayList<LexWord>> pair : lexicon.entrySet()) {
+			final String key = pair.getKey();
+			final ArrayList<LexWord> lexWords = pair.getValue();
+
+			if (this.containsKey(key)) {
+				for (LexWord word : lexWords)
+					this.get(key).add(word);
+			} else {
+				this.put(key, lexWords);
+			}
+		}

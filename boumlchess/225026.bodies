@@ -27,7 +27,7 @@ class ChessAlphaBetaSearch
     	ChessState mystate = (ChessState)state;
     	
         metrics = new Metrics();
-        StringBuffer logText = null;
+        StringBuffer logText = new StringBuffer("Log\n");
         StringBuffer store = new StringBuffer("Ordered actions");
         ChessPlayer player =  (ChessPlayer) game.getPlayer(mystate);
         ChessGame chessGame = (ChessGame) game;
@@ -79,7 +79,7 @@ class ChessAlphaBetaSearch
             }
             store.append(newResults.toString());
  //           writer.println(logText);
-        } while (!timer.timeOutOccurred() && heuristicEvaluationUsed);
+        } while (!timer.timeOutOccurred() && heuristicEvaluationUsed ); // Added test of depthlimit removed 
         writer.println(logText);
         writer.println(store);
         writer.close();
@@ -87,6 +87,7 @@ class ChessAlphaBetaSearch
 !!!663810.java!!!	orderActions(inout state : ChessState, inout list : List<ChessAction>, inout player : ChessPlayer, in depth : int) : ChessAction
     	ActionStore<ChessAction> newResults = new ActionStore<>();
         ChessGame chessGame = (ChessGame) game;
+        writer.println("Ordering actions "+"depth/depthlimit "+depth+"/"+currDepthLimit+"\n");
 //        System.out.println("From orderAction\n");
     	for (ChessAction action:list) {
     		double rank = chessGame.analyzePieceandPosition(action);
@@ -97,10 +98,14 @@ class ChessAlphaBetaSearch
 !!!663938.java!!!	maxValue(inout state : ChessState, inout player : ChessPlayer, in alpha : double, in beta : double, in depth : int) : double
         updateMetrics(depth);
         if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+        	writer.println("maxValue Calling eval "+"depth/depthlimit "+depth+"/"+currDepthLimit+"\n");
             return eval(state, player);
         } else {
             double value = Double.NEGATIVE_INFINITY;
-            List<ChessAction> localActions = game.getActions(state);
+            List<ChessAction> localActions = game.getActions(state); //Produces a new set of actions for this state
+            if(player.getPlayerName() == player.getBlackPlayer()) {
+            	writer.println("Maxvalue Opponent to play "+player.getPlayerName()+"\n");
+            }
             for (ChessAction action : orderActions(state, localActions, player, depth)) {
                 value = Math.max(value, minValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
@@ -113,10 +118,14 @@ class ChessAlphaBetaSearch
 !!!664066.java!!!	minValue(inout state : ChessState, inout player : ChessPlayer, in alpha : double, in beta : double, in depth : int) : double
         updateMetrics(depth);
         if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+        	writer.println("minValue Calling eval "+"depth/depthlimit "+depth+"/"+currDepthLimit+"\n");
             return eval(state, player);
         } else {
             double value = Double.POSITIVE_INFINITY;
-            List<ChessAction> localActions = game.getActions(state);
+            List<ChessAction> localActions = game.getActions(state);//Produces a new set of actions for this state
+            if(player.getPlayerName() == player.getBlackPlayer()) {
+            	writer.println("Minvalue Opponent to play "+player.getPlayerName()+"\n");
+            }
             for (ChessAction action : orderActions(state,localActions, player, depth)) {
                 value = Math.min(value, maxValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
@@ -137,10 +146,13 @@ class ChessAlphaBetaSearch
 //          heuristicEvaluationUsed = true; Set in comment olj 10.08.20
         ChessGame chessGame = (ChessGame) game;
         double returnValue = chessGame.analyzeState(state);
-        if (returnValue == 0) {
+ /*       if (returnValue == 0) {
         	 heuristicEvaluationUsed = true; // indicates opponent to move
         }
-        return chessGame.analyzeState(state);
+
+        return chessGame.analyzeState(state);*/
+        heuristicEvaluationUsed = false;
+        return returnValue;
           
 /*          List<ChessAction> chessActions = chessState.getActions();
           ChessAction action = chessState.getAction();
@@ -151,15 +163,3 @@ class ChessAlphaBetaSearch
         	  return 0;
 */
         }
-!!!665218.java!!!	incrementDepthLimit() : void
-        currDepthLimit++;
-!!!665346.java!!!	isSignificantlyBetter(in newUtility : double, in utility : double) : boolean
-    	if (newUtility == utility && newUtility == 0)
-    		return false;
-        return newUtility >= utility;
-!!!665474.java!!!	hasSafeWinner(in resultUtility : double) : boolean
-    	if (resultUtility == 0)
-    		return false;
-    	double localUtil = resultUtility/100;
-    	return localUtil <= utilMin || localUtil >= utilMax;
-//        return resultUtility <= utilMin || resultUtility >= utilMax;
