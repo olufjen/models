@@ -184,17 +184,19 @@ class ChessActionImpl
 								if (posinTable == null && !checkQueen(pos))
 									positionRemoved.add(position);
 							}
+							if (castlePosition != null) // OBS castle positions are removedeveral times !!!
+								checkCastling(pos, castlePositions);
 						}else {
 							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
 						}
-						if (castlePosition != null)
-							checkCastling(pos, castlePositions);
+
 					}
 				}
 			}
 
 		
 		}
+;
 		checkOpponent();
 		return availablePositions;
 		
@@ -207,7 +209,7 @@ class ChessActionImpl
 				if (inuse) {
 					Position pos = otherPiece.getMyPosition();
 					if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
-						if (!checkQueen(pos) && type != type.KNIGHT) {
+						if (type != type.KNIGHT) { // !checkQueen(pos) &&  the check for queen is removed !!! olj 06.10.21
 							opponentRemoved.add(position);
 							position.setOpponentRemove(true);
 							String playerId = opponent.getPlayerId();
@@ -244,7 +246,7 @@ class ChessActionImpl
 			if (otherPos.getPositionName().equals(castlePos.getPositionName())) {
 				String name = otherPos.getPositionName();
 				Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
-				if (posinTable != null) {
+				if (posinTable == null) {
 					positionRemoved.add(castlePos);
 	//				System.out.println("Castle position: "+castlePos.toString());
 				}

@@ -122,7 +122,8 @@ class AChessAgent
 		Sentence playSentence = kb.newSymbol(kb.TOPLAY+playerName, noofMoves);
 		kb.tell(playSentence);
 		
-		makeRules(noofMoves); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		makeRules(myPlayer,"g1","c1"); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		makeRules(opponent,"g8","c8"); // tells the FOL knowledgebase rules about how to capture opponent pieces
 		HashSet<String> chessConstants = (HashSet<String>) chessDomain.getConstants();
 		HashSet<String> chessPredicates = (HashSet<String>) chessDomain.getPredicates();
 		String sample = "WhitePawn1";
@@ -399,8 +400,8 @@ class AChessAgent
 		}
 		
 
-!!!741250.java!!!	makeRules(in t : int) : void
-		APlayer player= stateImpl.getMyPlayer();
+!!!741250.java!!!	makeRules(in player : APlayer, in castleone : String, in castle2 : String) : void
+//		APlayer player= stateImpl.getMyPlayer();
 		chessDomain.addConstant(player.getNameOfplayer());
 //		chessDomain.addPredicate(OWNER);
 		Constant ownerVariable = new Constant(player.getNameOfplayer());
@@ -468,7 +469,8 @@ class AChessAgent
 				if (availablePositions != null && !availablePositions.isEmpty()) {
 //					chessDomain.addPredicate(REACHABLE);
 					for (Position pos:availablePositions){
-						
+						//if(!piece.checkRemoved(pos)) 
+						//if(!piece.checkFriend(pos))
 						if(!piece.checkRemoved(pos)) {
 							String position = pos.getPositionName();
 							Constant protectorVariable = new Constant(name);
@@ -480,7 +482,7 @@ class AChessAgent
 							Predicate reachablePredicate = new Predicate(REACHABLE,protectedTerms);
 							if (!pawnattack) {
 								folKb.tell(protectorPredicate);
-								kb.tellCaptureRules(t, position, name);
+//								kb.tellCaptureRules(t, position, name);
 							}
 							folKb.tell(reachablePredicate);
 							chessDomain.addConstant(position);
@@ -494,6 +496,12 @@ class AChessAgent
 									}
 									if (cPosname.equals("c1")) {
 										xposname = "d1";
+									}
+									if (cPosname.equals("g8")) {
+										xposname = "f8";
+									}
+									if (cPosname.equals("c8")) {
+										xposname = "d8";
 									}
 									String xxpos = xposname;
 									Position xposn =  (Position) removedKing.stream().filter(c -> c.getPositionName().contains(xxpos)).findAny().orElse(null);
@@ -525,7 +533,7 @@ class AChessAgent
 							folKb.tell(protectorPredicate);
 							folKb.tell(pawnAttack);
 							chessDomain.addConstant(position);
-							kb.tellCaptureRules(t, position, name);
+//							kb.tellCaptureRules(t, position, name);
 						}
 				 	}
 				}
@@ -668,6 +676,7 @@ class AChessAgent
 					availablePositions = attackPositions;
 				if (availablePositions != null && !availablePositions.isEmpty()) {
 					for (Position pos:availablePositions ){
+						// if(!piece.checkRemoved(pos)) 
 						if(!piece.checkRemoved(pos)) {
 							String position = pos.getPositionName();
 							Constant protectorVariable = new Constant(name);

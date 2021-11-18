@@ -1,5 +1,5 @@
 class OpponentAgent
-!!!1836034.java!!!	OpponentAgent(inout stateImpl : ChessStateImpl, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer, inout folKb : FOLKnowledgeBase, inout chessDomain : FOLDomain)
+!!!1836034.java!!!	OpponentAgent(inout stateImpl : ChessStateImpl, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer, inout folKb : ChessFolKnowledgeBase, inout chessDomain : FOLDomain)
 		super();
 		this.stateImpl = stateImpl;
 		this.game = game;
@@ -24,7 +24,7 @@ class OpponentAgent
 	    writer = new PrintWriter(new BufferedWriter(fw));	
 	    setPredicatenames();
 	    defineFacts();
-	    
+	    performanceMeasure = new APerformance(positions,myPlayer,opponent,folKb,localKb,chessDomain,forwardChain,backwardChain);
 	    writer.flush();
 !!!1836162.java!!!	setPredicatenames() : void
 			ACTION = KnowledgeBuilder.getACTION();
@@ -57,6 +57,10 @@ class OpponentAgent
 			OPPONENTTO = KnowledgeBuilder.getOPPONENTTO();
 			POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
 
+!!!1991938.java!!!	getPositions() : Position
+		return positions;
+!!!1992066.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
 !!!1836290.java!!!	getStateImpl() : ChessStateImpl
 		return stateImpl;
 !!!1836418.java!!!	setStateImpl(inout stateImpl : ChessStateImpl) : void
@@ -159,7 +163,10 @@ class OpponentAgent
 		return result;
 !!!1959042.java!!!	chooseStrategy(inout actions : List<ChessActionImpl>) : void
 		writer.println("Choose strategy");
-
+		performanceMeasure.setPositions(positions);
+		performanceMeasure.setPositionKeys(positionKeys); // contains position keys of the form: WhiteBishop2_c4d5:
+		performanceMeasure.occupiedPositions();
+		performanceMeasure.findReachable();
 		for (ChessAction action:actions) {
 			ChessActionImpl localAction = (ChessActionImpl) action;
 			ApieceMove move = localAction.getPossibleMove();
@@ -197,6 +204,7 @@ class OpponentAgent
 			}
 			
 		}
+	    writer.flush();
 !!!1959170.java!!!	probepossibilities(inout actions : List<ChessActionImpl>, inout player : APlayer) : void
 		Position heldPosition = null;
 		possiblePositions.clear();
@@ -204,6 +212,7 @@ class OpponentAgent
 		for (ChessAction action:actions) {
 			ChessActionImpl localAction = (ChessActionImpl) action;
 			AgamePiece piece = localAction.getChessPiece();
+			ChessPieceType pieceType = piece.getChessType();
 			heldPosition = piece.getMyPosition();
 			if (heldPosition == null) {
 				heldPosition = piece.getHeldPosition();
@@ -221,33 +230,49 @@ class OpponentAgent
 				String posName = pos.getPositionName();
 				Position rpos =  (Position) actionRemoved.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
 				if (rpos == null) {
+	
 //					piece.setMyPosition(pos);// This causes the moved piece to appear in two places !!!
 					piece.settempMyposition(pos);
 					piece.produceLegalmoves(pos); // Produces new reachable positions
+					piece.giveNewdirections(); // In case of bishop or queen or rook
 					HashMap<String,Position> reachablePositions = piece.getReacablePositions();
+					if (pieceType instanceof AQueen && piece.checkWhite() ) {
+						writer.println("Checking reachable for white queen\n"+piece.toString());
+					}
 					ChessActionImpl tempaction = new ChessActionImpl(reachablePositions,piece,player,myPlayer); // Creates new removed positions
 //					player.calculatePreferredPosition(piece, tempaction); // MUst use a new action
+
 					String occupies = piece.returnPredicate();
 					String piecename = piece.getMyPiece().getOntlogyName();
 					String posname = pos.getPositionName();
 					localKb.createfacts(occupies, posname, piecename);
 					piecename = piecename+"_"+posname; //OBS: Separate piece and position !!!
 					tellnewFacts(piece,piecename);
+					if (pieceType instanceof APawn) {
+						HashMap<String,Position> attackPositions = piece.getAttackPositions();
+						List<Position> attackedPositions = new ArrayList(attackPositions.values());
+						for (Position attackpos:attackedPositions) {
+							String aposName = attackpos.getPositionName();
+							localKb.createfacts(PAWNATTACK, aposName, piecename);
+						}
+					}
 				}
 			}
 //			piece.setMyPosition(heldPosition);
 			piece.settempMyposition(heldPosition);
 			piece.produceLegalmoves(heldPosition);
+			piece.giveNewdirections();
 			player.calculatePreferredPosition(piece, localAction);
+	
 		}
 		localKb.writeKnowledgebase();
 !!!1959298.java!!!	tellnewFacts(inout piece : AgamePiece, in name : String) : void
 		List<Position> availablePositions = piece.getNewlistPositions();
 		String piecename = piece.getMyPiece().getOntlogyName();
-		if (piecename.equals("WhiteRook2")) {
+/*		if (piecename.equals("WhiteRook2")) {
 			writer.println("TellnewFacts from position "+name);
 			writer.println(piece.toString());
-		}
+		}*/
 		for (Position pos:availablePositions) {
 			if (!piece.checkRemoved(pos)) {
 //				String piecename = piece.getMyPiece().getOntlogyName();

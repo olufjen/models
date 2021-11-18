@@ -1,4 +1,26 @@
 class APerformance
+!!!1990274.java!!!	APerformance(inout positions : HashMap<String, Position>, inout opponent : APlayer, inout myPlayer : APlayer, inout folKb : ChessFolKnowledgeBase, inout localKb : ChessFolKnowledgeBase, inout chessDomain : FOLDomain, inout forwardChain : FOLGamesFCAsk, inout backwardChain : FOLGamesBCAsk)
+		super();
+		this.positions = positions;
+		this.myPlayer = myPlayer;
+		this.opponent = opponent;
+		this.folKb = folKb;
+		this.localKb = localKb;
+		this.chessDomain = chessDomain;
+		this.forwardChain = forwardChain;
+		this.backwardChain = backwardChain;
+		occupiedPositions = new HashMap();
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+!!!1990402.java!!!	getPositionKeys() : List<String>
+		return positionKeys;
+!!!1990530.java!!!	setPositionKeys(inout positionKeys : List<String>) : void
+		this.positionKeys = positionKeys;
 !!!1973122.java!!!	getControlPositions() : Position
 		return controlPositions;
 !!!1973250.java!!!	setControlPositions(inout controlPositions : List<Position>) : void
@@ -35,3 +57,49 @@ class APerformance
 		return backwardChain;
 !!!1975298.java!!!	setBackwardChain(inout backwardChain : FOLGamesBCAsk) : void
 		this.backwardChain = backwardChain;
+!!!1990658.java!!!	occupiedPositions() : void
+//		List<Position> allPositions = (List<Position>) positions.values();
+		List<AgamePiece> pieces = opponent.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			if (piece.isActive()) {
+				String name = piece.getMyPiece().getOntlogyName();
+				int rank = piece.getValue();
+				Position pos = piece.getmyPosition();
+				if (pos == null)
+					pos = piece.getHeldPosition();
+				occupiedPositions.put(name, pos);
+			}
+		}
+!!!1990786.java!!!	findReachable() : void
+//		List<Position> occupied = (List<Position>) occupiedPositions.values();
+		String foundKey = null;
+		for (String key:positionKeys) { //Reachable positions: piecename_frompostopos
+			int l = key.length();
+			int index = l-2;
+			String toPosname = key.substring(index);
+			Position toPos = positions.get(toPosname); // The map of all positions
+			if (toPos != null) {
+				if (occupiedPositions.containsValue(toPos)) {
+					writer.println("An occupied position: "+toPos.toString());
+					for (Map.Entry<String,Position> entry:occupiedPositions.entrySet()) {
+//						writer.println("Key of entry set: "+entry.getKey()+ " value of entry set: "+entry.getValue().toString());
+						Position entryPos = entry.getValue();
+						if (entryPos == toPos) {
+							foundKey = entry.getKey();
+							writer.println("A found key "+foundKey); // The key is the name of the piece which occupies this position and it is an opponent piece
+							break;
+						}
+					}
+					if (foundKey != null) {
+						writer.println("Must find which piece can reach this position "+foundKey+"\n");
+					}
+				}
+			}
+		}
+		List<AgamePiece> pieces = myPlayer.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			if (piece.isActive()) {
+				
+			}
+		}
+	    writer.flush();

@@ -14,10 +14,30 @@ class AgamePiece
 		northWest = new ArrayList<XYLocation>();
 		southEast = new ArrayList<XYLocation>();
 		southWest = new ArrayList<XYLocation>();
+		north = new ArrayList<XYLocation>();
+		south = new ArrayList<XYLocation>();
+		east = new ArrayList<XYLocation>();
+		west = new ArrayList<XYLocation>();
 //		determinePieceType(); Moved to setOntologyPositions: Then new available positions are replaced by ontology positions
 !!!752514.java!!!	AgamePiece()
 		super();
 		
+!!!1988866.java!!!	getSouth() : XYLocation
+		return south;
+!!!1988994.java!!!	setSouth(inout south : List<XYLocation>) : void
+		this.south = south;
+!!!1989122.java!!!	getNorth() : XYLocation
+		return north;
+!!!1989250.java!!!	setNorth(inout north : List<XYLocation>) : void
+		this.north = north;
+!!!1989378.java!!!	getEast() : XYLocation
+		return east;
+!!!1989506.java!!!	setEast(inout east : List<XYLocation>) : void
+		this.east = east;
+!!!1989634.java!!!	getWest() : XYLocation
+		return west;
+!!!1989762.java!!!	setWest(inout west : List<XYLocation>) : void
+		this.west = west;
 !!!1833474.java!!!	getNorthWest() : XYLocation
 		return northWest;
 !!!1833602.java!!!	setNorthWest(inout northWest : List<XYLocation>) : void
@@ -83,6 +103,27 @@ class AgamePiece
 		return removedPositions;
 !!!965250.java!!!	setRemovedPositions(inout removedPositions : List<Position>) : void
 		this.removedPositions = removedPositions;
+!!!1989890.java!!!	checkFriend(inout pos : Position) : boolean
+		boolean removed = false;
+		String posName = pos.getPositionName();
+		if (removedPositions != null) {
+			for (Position position:removedPositions) {
+				if (pos == position) {
+					if(pos.isInUse()) {
+						AgamePiece piece = pos.getUsedBy().getMyPiece();
+						if(piece.getPieceColor() == this.getPieceColor()){
+							removed = false;
+							break;
+						}
+					}
+					removed = true;
+					break;
+				}
+
+			}
+		}
+
+		return removed;
 !!!965378.java!!!	checkRemoved(inout pos : Position) : boolean
 		boolean removed = false;
 		String posName = pos.getPositionName();
@@ -141,6 +182,9 @@ class AgamePiece
 		if (myType == myType.BISHOP || myType == myType.QUEEN) {
 			calculateDirections();
 		}
+		if (myType == myType.ROOK || myType == myType.QUEEN) {
+			calculatenorthSouth();
+		}
 !!!1834882.java!!!	calculateDirections() : void
 		XYLocation myLocation = myPosition.getXyloc();
 		northWest.clear();
@@ -182,6 +226,46 @@ class AgamePiece
 			se = col < 7 && row > 0;
 		}
 		
+!!!1990018.java!!!	calculatenorthSouth() : void
+		XYLocation myLocation = myPosition.getXyloc();
+		north.clear();
+		east.clear();
+		west.clear();
+		south.clear();
+		int ocol = myLocation.getXCoOrdinate();
+		int orow = myLocation.getYCoOrdinate();
+		int col = ocol; int row = orow;
+		boolean wwest = col > 0;
+		while (wwest) {
+			col--;
+			XYLocation wxwest = new XYLocation(col,row);
+			west.add(wxwest);
+			wwest = col > 0;
+		}
+		col = ocol;row = orow;
+		boolean eest = col < 7;
+		while (eest) {
+			col++;
+			XYLocation wxwest = new XYLocation(col,row);
+			east.add(wxwest);
+			eest = col < 7;
+		}
+		col = ocol;row = orow;
+		boolean nnorth = row < 7;
+		while (nnorth) {
+			row++;
+			XYLocation nxnorth = new XYLocation(col,row);
+			north.add(nxnorth);
+			nnorth = row < 7;
+		}
+		col = ocol;row = orow;
+		boolean ssouth = row > 0;
+		while (ssouth) {
+			row--;
+			XYLocation sxsouth = new XYLocation(col,row);
+			south.add(sxsouth);
+			ssouth = row > 0;
+		}		
 !!!754306.java!!!	determinePieceType() : void
 		String name = myPiece.getPieceName();
 		color = myPiece.getColor();
@@ -270,6 +354,7 @@ class AgamePiece
 				}				
 //				reacablePositions = chessType.getNewPositions();
 				newlistPositions = new ArrayList(reacablePositions.values());
+				calculatenorthSouth();
 /*				for (Position pos:newlistPositions) {
 					System.out.println(pieceColorR+" Rook positions: "+pos.getPositionName() + " " + pos.getPositionColor());
 				}*/
@@ -280,7 +365,7 @@ class AgamePiece
 				String pieceColorQ = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
 				AQueen queen = (AQueen) chessType;
-				reacablePositions = gamePiece.getNewPositions();
+				reacablePositions = gamePiece.getNewPositions(); // Creates two sets of reachable positions: reacablePositions,bishopPositions
 				bishopPositions = queen.getBishopPositions();
 				createPosition(reacablePositions); // To replace created positions with ontology positions
 				createPosition(bishopPositions);
@@ -289,6 +374,7 @@ class AgamePiece
 				newlistPositions = new ArrayList(reacablePositions.values());
 				newlistPositions.addAll(bishopPositions.values());
 				calculateDirections();
+				calculatenorthSouth();
 /*				for (Position pos:newlistPositions) {
 					System.out.println(pieceColorQ+" Queens positions: "+pos.getPositionName() + " " + pos.getPositionColor());
 				}*/				
@@ -435,9 +521,37 @@ class AgamePiece
 				}
 
 		}	
+		result.append("\nSouth positions\n");
+		if (south != null && !south.isEmpty()) {
+			for (XYLocation pos:south) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}
+		result.append("\nNorth positions\n");
+		if (north != null && !north.isEmpty()) {
+			for (XYLocation pos:north) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}
+		result.append("\nWest positions\n");
+		if (west != null && !west.isEmpty()) {
+			for (XYLocation pos:west) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}
+		result.append("\nEast positions\n");
+		if (east != null && !east.isEmpty()) {
+			for (XYLocation pos:east) {
+				result.append(" X, Y "+pos.toString());
+				}
+
+		}
 		if(castlePositions != null && !castlePositions.isEmpty() && (myType == myType.KING || myType == myType.ROOK) && nofMoves == 0) {
 			List<Position> castle = new ArrayList(castlePositions.values());
-			result.append("castle positions\n");
+			result.append("\ncastle positions\n");
 			for (Position pos:castle) {
 				result.append("Position: "+pos.getPositionName() + " " + pos.getPositionColor() + " X, Y "+pos.getXyloc().toString());
 				if (pos.isInUse()) {
@@ -509,7 +623,8 @@ class AgamePiece
 //		reacablePositions =  chessType.getNewPositions();
 		newlistPositions = null;
 		newlistPositions = new ArrayList(reacablePositions.values());
-		
+		if (bishopPositions != null)
+			newlistPositions.addAll(bishopPositions.values()); // In case of queen olj 05.10.21
 !!!757634.java!!!	checkPositions() : boolean
 		boolean newPos = false;
 		if (newlistPositions == null || newlistPositions.isEmpty()) {

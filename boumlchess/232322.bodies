@@ -22,6 +22,7 @@ class Position
 		centerrighthigh = ycol == 4 && xrow == 4;
 		removedPieces = new Stack();
 		predicates = new ArrayList<String>();
+		mydirection = direction.NONE;
 !!!725762.java!!!	Position(inout loc : XYLocation, inout inUse : boolean, inout usedBy : ChessPiece)
 		this.xyloc = loc;
 		this.usedBy = usedBy;
@@ -46,6 +47,93 @@ class Position
 		centerrighthigh = ycol == 4 && xrow == 4;
 		removedPieces = new Stack();
 		predicates = new ArrayList<String>();
+		mydirection = direction.NONE;
+!!!1983106.java!!!	getSumNorth() : int
+		return sumNorth;
+!!!1983234.java!!!	setSumNorth(in sumNorth : int) : void
+		this.sumNorth = sumNorth;
+!!!1983362.java!!!	getSumSouth() : int
+		return sumSouth;
+!!!1983490.java!!!	setSumSouth(in sumSouth : int) : void
+		this.sumSouth = sumSouth;
+!!!1983618.java!!!	getSumEast() : int
+		return sumEast;
+!!!1983746.java!!!	setSumEast(in sumEast : int) : void
+		this.sumEast = sumEast;
+!!!1983874.java!!!	getSumWest() : int
+		return sumWest;
+!!!1984002.java!!!	setSumWest(in sumWest : int) : void
+		this.sumWest = sumWest;
+!!!1984130.java!!!	isNorth() : boolean
+		return north;
+!!!1984258.java!!!	setNorth(inout north : boolean) : void
+		this.north = north;
+		mydirection = direction.NORTH;
+!!!1984386.java!!!	isSouth() : boolean
+		return south;
+!!!1984514.java!!!	setSouth(inout south : boolean) : void
+		this.south = south;
+		mydirection = direction.SOUTH;
+!!!1984642.java!!!	isEast() : boolean
+		return east;
+!!!1984770.java!!!	setEast(inout east : boolean) : void
+		this.east = east;
+		mydirection = direction.EAST;
+!!!1984898.java!!!	isWest() : boolean
+		return west;
+!!!1985026.java!!!	setWest(inout west : boolean) : void
+		this.west = west;
+		mydirection = direction.WEST;
+!!!1985154.java!!!	getNorthDirection() : Position::direction
+		return northDirection;
+!!!1985282.java!!!	setNorthDirection(inout northDirection : Position::direction) : void
+		this.northDirection = northDirection;
+!!!1985410.java!!!	getSouthDirection() : Position::direction
+		return southDirection;
+!!!1985538.java!!!	setSouthDirection(inout southDirection : Position::direction) : void
+		this.southDirection = southDirection;
+!!!1985666.java!!!	getWestDirection() : Position::direction
+		return westDirection;
+!!!1985794.java!!!	setWestDirection(inout westDirection : Position::direction) : void
+		this.westDirection = westDirection;
+!!!1985922.java!!!	getEastDirection() : Position::direction
+		return eastDirection;
+!!!1986050.java!!!	setEastDirection(inout eastDirection : Position::direction) : void
+		this.eastDirection = eastDirection;
+!!!1986178.java!!!	getNeDirection() : Position::direction
+		return neDirection;
+!!!1986306.java!!!	setNeDirection(inout neDirection : Position::direction) : void
+		this.neDirection = neDirection;
+!!!1986434.java!!!	getnWDirection() : Position::direction
+		return nWDirection;
+!!!1986562.java!!!	setnWDirection(inout nWDirection : Position::direction) : void
+		this.nWDirection = nWDirection;
+!!!1986690.java!!!	getSeDirection() : Position::direction
+		return seDirection;
+!!!1986818.java!!!	setSeDirection(inout seDirection : Position::direction) : void
+		this.seDirection = seDirection;
+!!!1986946.java!!!	getSwDirection() : Position::direction
+		return swDirection;
+!!!1987074.java!!!	setSwDirection(inout swDirection : Position::direction) : void
+		this.swDirection = swDirection;
+!!!1987202.java!!!	getLastDirection() : Position::direction
+		return lastDirection;
+!!!1987330.java!!!	setLastDirection(inout lastDirection : Position::direction) : void
+		this.lastDirection = lastDirection;
+!!!1987458.java!!!	getMydirection() : Position::direction
+		return mydirection;
+!!!1987586.java!!!	setMydirection(inout mydirection : Position::direction) : void
+		this.mydirection = mydirection;
+!!!1987714.java!!!	setDefaultdirection() : void
+		this.mydirection = direction.NONE;
+		sumNorth = 0;
+		sumSouth = 0;
+		sumEast = 0;
+		sumWest = 0;
+!!!1987842.java!!!	getSumDif() : Integer
+		return sumDif;
+!!!1987970.java!!!	setSumDif(inout sumDif : Integer) : void
+		this.sumDif = sumDif;
 !!!1832066.java!!!	isOpponentRemove() : boolean
 		return opponentRemove;
 !!!1832194.java!!!	setOpponentRemove(inout opponentRemove : boolean) : void
@@ -54,18 +142,22 @@ class Position
 		return nw;
 !!!1832450.java!!!	setNw(inout nw : boolean) : void
 		this.nw = nw;
+		mydirection = direction.NW;
 !!!1832578.java!!!	isNe() : boolean
 		return ne;
 !!!1832706.java!!!	setNe(inout ne : boolean) : void
 		this.ne = ne;
+		mydirection = direction.NE;
 !!!1832834.java!!!	isSw() : boolean
 		return sw;
 !!!1832962.java!!!	setSw(inout sw : boolean) : void
 		this.sw = sw;
+		mydirection = direction.SW;
 !!!1833090.java!!!	isSe() : boolean
 		return se;
 !!!1833218.java!!!	setSe(inout se : boolean) : void
 		this.se = se;
+		mydirection = direction.SE;
 !!!1768194.java!!!	getPiecePred() : String
 		return piecePred;
 !!!1768322.java!!!	setPiecePred(in piecePred : String) : void
@@ -326,5 +418,5 @@ class Position
 			gp = usedBy.getMyPiece().getName();
 		}
 		
-		builder.append(positionName+ " Color "+positionColor+" Piece  "+p+" "+inUse+" gamepiece "+gp+"\n");
+		builder.append(positionName+ " Color "+positionColor+" Direction "+mydirection+" sumdif "+ sumDif+" Piece  "+p+" "+inUse+" gamepiece "+gp+"\n");
 		return builder.toString();

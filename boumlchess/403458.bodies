@@ -1,7 +1,7 @@
 class ChessFolKnowledgeBase
 !!!1958402.java!!!	ChessFolKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure)
 		super(domain, inferenceProcedure);
-		fileName = "tempknowledgebase";
+		fileName = "tempknowledgebase.txt";
 		outputFileName = outputFileName+this.fileName;
 		
 		try {
@@ -11,6 +11,8 @@ class ChessFolKnowledgeBase
 			e1.printStackTrace();
 		}
 	    writer = new PrintWriter(new BufferedWriter(fw));	
+	    setPieceTypes();
+	 
 !!!1965954.java!!!	ChessFolKnowledgeBase(inout domain : FOLDomain, inout inferenceProcedure : InferenceProcedure, in fileName : String)
 		super(domain, inferenceProcedure);
 		this.fileName = fileName;
@@ -21,7 +23,22 @@ class ChessFolKnowledgeBase
 
 			e1.printStackTrace();
 		}
-	    writer = new PrintWriter(new BufferedWriter(fw));	
+	    writer = new PrintWriter(new BufferedWriter(fw));
+	    setPieceTypes();
+!!!1991682.java!!!	setPieceTypes() : void
+		PAWN = KnowledgeBuilder.getPAWN();
+		KNIGHT = KnowledgeBuilder.getKNIGHT();
+		BISHOP = KnowledgeBuilder.getBISHOP();
+		ROOK = KnowledgeBuilder.getROOK();
+		KING = KnowledgeBuilder.getKING();
+		QUEEN = KnowledgeBuilder.getQUEEN();
+		pieceTypes = new ArrayList<String>();
+		pieceTypes.add(PAWN);
+		pieceTypes.add(BISHOP);
+		pieceTypes.add(KNIGHT);
+		pieceTypes.add(ROOK);
+		pieceTypes.add(KING);
+		pieceTypes.add(QUEEN);
 !!!1966082.java!!!	getFileName() : String
 		return fileName;
 !!!1966210.java!!!	setFileName(in fileName : String) : void
@@ -30,6 +47,19 @@ class ChessFolKnowledgeBase
 		return backWardChain;
 !!!1966466.java!!!	setBackWardChain(inout backWardChain : FOLGamesBCAsk) : void
 		this.backWardChain = backWardChain;
+!!!1991810.java!!!	checkPieceType(in name : String) : void
+		String foundType = null;
+		Constant pieceVariable= new Constant(name);
+		List<Term> typeTerms = new ArrayList<Term>();
+		for (String type:pieceTypes) {
+			Predicate typePredicate = new Predicate(type,typeTerms);
+			InferenceResult backWardresult =  backWardChain.ask(this, typePredicate);
+			if (backWardresult.isTrue()) {
+				foundType = type;
+				break;
+			}
+		}
+ 
 !!!1975426.java!!!	checkmyProtection(in pieceName : String, in pos : String, in predName : String, inout myPlayer : APlayer) : boolean
 	  List<AgamePiece> myPieces = myPlayer.getMygamePieces();
 	  boolean protectedpiece = false;

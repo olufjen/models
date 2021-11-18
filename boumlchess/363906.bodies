@@ -10,7 +10,9 @@ class AChessProblemSolver
 		this.game = game;
 		this.myPlayer = myPlayer;
 		this.opponent = opponent;
+		positions = this.game.getPositions();
 		opponentAgent = new OpponentAgent(this.stateImpl,this.game,this.opponent,this.myPlayer,this.folKb,chessDomain);
+		opponentAgent.setPositions(positions);
 		playerName = this.myPlayer.getNameOfplayer();
 		playSide = playerName.substring(0,5);
 		noofMoves = game.getMovements().size();
@@ -70,6 +72,10 @@ class AChessProblemSolver
 		CASTLE = KnowledgeBuilder.getCASTLE();
 		OPPONENTTO = KnowledgeBuilder.getOPPONENTTO();
 		POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
+!!!1988610.java!!!	getPositions() : Position
+	return positions;
+!!!1988738.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+	this.positions = positions;
 !!!1794562.java!!!	getCastleAction() : ChessActionImpl
 	return castleAction;
 !!!1794690.java!!!	setCastleAction(inout castleAction : ChessActionImpl) : void
@@ -265,7 +271,7 @@ class AChessProblemSolver
 	State goal = null;
 	State initstate = null;
 	if (bishop) {
-		String name = pieceName;
+		String name = pieceName; // Check to see if piecename has an action
 		ChessActionImpl naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().contains(name)).findAny().orElse(null);
 		if (naction != null) {
 			AgamePiece piece = naction.getChessPiece();
