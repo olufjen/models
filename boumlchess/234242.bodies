@@ -37,9 +37,14 @@ class ChessActionImpl
 !!!1780610.java!!!	setActionValue(inout actionValue : Integer) : void
 		this.actionValue = actionValue;
 !!!964994.java!!!	processPositions() : void
+		Position movePos = null;
+		if (possibleMove != null) {
+			movePos = possibleMove.getToPosition();
+		}
 		ApieceMove newMove = ChessFunctions.processChessgame(this,chessPiece, myProcessor);
 		if (possibleMove != null && newMove != null) {
 			possibleMove = newMove;
+			possibleMove.setToPosition(movePos);
 		}
 		if (newMove == null) {
 			System.out.println("Action.processPosition new move is null "+possibleMove.toString());
@@ -166,13 +171,17 @@ class ChessActionImpl
 			castlePositions = new ArrayList(chessPiece.getCastlePositions().values());
 			castlePosition = castlePositions.get(0);
 		}
-
+		boolean bKnight = false;
+		if (pieceType instanceof AKnight) {
+			bKnight = true;
+		}
 		List<AgamePiece> pieces = player.getMygamePieces(); 
 		for (Position position:availablePositions) {
 			for (AgamePiece otherPiece:pieces) {
 				boolean inuse = otherPiece.getMyPiece().isUse();// inuse is false if a piece is removed permanently olj 1.08.20
 				if (inuse && otherPiece.isActive() && otherPiece != chessPiece) { // Added 31.07.20 Check if piece is active
 					Position pos = otherPiece.getMyPosition();
+//					pos.setFriendlyPosition(false);
 					if (pos != null) {
 						if (pos.isInUse()) { // OBS: Added 14.05.20 Are never active !! ??
 							if (otherPiece.getMyPosition().getPositionName().equals(position.getPositionName())) {
@@ -181,10 +190,13 @@ class ChessActionImpl
 /*								if (pieceType instanceof AQueen)
 									System.out.println("!!!!!! piece and position "+pName+" "+name);*/
 								Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
-								if (posinTable == null && !checkQueen(pos))
+								if (posinTable == null && !checkQueen(pos) && ! bKnight) { //The bKnight added nov. 21. All positions are available to the knight
 									positionRemoved.add(position);
+									chessPiece.determinFriendPosition(pos);
+									//position.setFriendlyPosition(true);
+								}
 							}
-							if (castlePosition != null) // OBS castle positions are removedeveral times !!!
+							if (castlePosition != null) 
 								checkCastling(pos, castlePositions);
 						}else {
 							 System.out.println("??????? piece has position that is not in use ?????????????? "+otherPiece.toString()+"\n Posisjon: "+pos.toString()+"\n"+this.toString());
@@ -234,6 +246,7 @@ class ChessActionImpl
 			Position posinTable =  (Position)bishopPositions.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null);
 			if (posinTable != null) { // If position is a bishopPosition remove it
 				bishopRemoved.add(pos);
+				chessPiece.determinFriendPosition(pos); // Only friendly positions
 				queen = true;
 			}
 	
@@ -248,6 +261,7 @@ class ChessActionImpl
 				Position posinTable =  (Position) positionRemoved.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
 				if (posinTable == null) {
 					positionRemoved.add(castlePos);
+					chessPiece.determinFriendPosition(castlePos);
 	//				System.out.println("Castle position: "+castlePos.toString());
 				}
 			}

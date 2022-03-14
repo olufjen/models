@@ -1,6 +1,6 @@
 format 223
 "game" // no::chess::web::model::game
-  revision 13
+  revision 16
   modified_by 2 "bruker"
   // class settings
   
@@ -412,6 +412,60 @@ pieceColor for BLACK or WHITE.
 	MysqlColumn
       end
 
+      classrelation 558594 // myqueen (<unidirectional association>)
+	relation 558594 --->
+	  a role_name "myqueen" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 558594 // myqueen (<unidirectional association>)
+	  b parent class_ref 236034 // AQueen
+      end
+
+      classrelation 558722 // myrook (<unidirectional association>)
+	relation 558722 --->
+	  a role_name "myrook" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 558722 // myrook (<unidirectional association>)
+	  b parent class_ref 236162 // ARook
+      end
+
+      classrelation 558850 // mybishop (<unidirectional association>)
+	relation 558850 --->
+	  a role_name "mybishop" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 558850 // mybishop (<unidirectional association>)
+	  b parent class_ref 234626 // ABishop
+      end
+
+      classrelation 572418 // myKnight (<unidirectional association>)
+	relation 572418 --->
+	  a role_name "myKnight" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 572418 // myKnight (<unidirectional association>)
+	  b parent class_ref 235522 // AKnight
+      end
+
+      classrelation 572546 // myKing (<unidirectional association>)
+	relation 572546 --->
+	  a role_name "myKing" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 572546 // myKing (<unidirectional association>)
+	  b parent class_ref 235394 // Aking
+      end
+
+      classrelation 572674 // myPawn (<unidirectional association>)
+	relation 572674 --->
+	  a role_name "myPawn" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 572674 // myPawn (<unidirectional association>)
+	  b parent class_ref 235778 // APawn
+      end
+
       attribute 477698 "castlingMove"
 	private explicit_type "boolean"
 	init_value " false"
@@ -423,6 +477,20 @@ pieceColor for BLACK or WHITE.
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      attribute 618754 "myValue"
+	private explicit_type "Integer"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " This is the chess value of the piece represented as an Integer"
       end
 
       operation 752258 "AgamePiece"
@@ -856,6 +924,31 @@ Then determinePieceType is called
 "
       end
 
+      operation 2019842 "getMyValue"
+	public explicit_return_type "Integer"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2019970 "setMyValue"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "myValue" explicit_type "Integer"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1778690 "getNofMoves"
 	public explicit_return_type "int"
 	nparams 0
@@ -1202,6 +1295,67 @@ The XYLocations are stored in four different lists NORTH,SOUTH,EAST,WEST
 	comment "determinePieceType
 This method determines the type of the piece:
 Pawn, Rook, Knight,Bishop,King and Queen
+"
+      end
+
+      operation 2000130 "clearfriendPositions"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000258 "determinFriendPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pos" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "determinFriendPosition
+This method puts a friendly position in the friendly list.
+A friendly position is a position occupied by a friendly piece
+@param pos
+"
+      end
+
+      operation 2000386 "removeFriendPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pos" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000514 "checkFriendlyPosition"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pos" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkFriendlyPosition
+This method checks if a position is occupied by a friendly piece which is reachable
+@param pos
+@return
 "
       end
 
@@ -2531,7 +2685,7 @@ ${members}}
       
       comment "ApieceMove represent the implementation of a piece move made by a player.
 It contains a from position and a to position
-It is created when a piece has been moved
+It is created when the ChessAction is created and the PreferredMove processor finds a possible move for this action
 The <F,T> is replaced by the Position class
 @author oluf
 @param <F> Type parameter for from Position
@@ -3833,6 +3987,16 @@ ChessDomain:
 	  b parent class_ref 234242 // ChessActionImpl
       end
 
+      classrelation 558466 // opponentActions (<unidirectional association>)
+	relation 558466 --->
+	  stereotype "List"
+	  a role_name "opponentActions" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 558466 // opponentActions (<unidirectional association>)
+	  b parent class_ref 234242 // ChessActionImpl
+      end
+
       attribute 580098 "knowledgeFilename"
 	private explicit_type "String"
 	init_value " \"knowledgebase.txt\""
@@ -4407,7 +4571,7 @@ ChessDomain:
 	
 	comment "This is constructor used by PlayGame
 @param KB
-@param localAction
+@param localAction At present null
 @param game
 "
       end
@@ -4436,10 +4600,48 @@ ChessDomain:
 	
       end
 
+      operation 1999746 "getPAWNATTACK"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1999874 "setPAWNATTACK"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "pAWNATTACK" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1796098 "setCastleAction"
 	public explicit_return_type "void"
 	nparams 1
 	  param inout name "castleAction" type class_ref 234242 // ChessActionImpl
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000002 "clearFriends"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "player" type class_ref 234370 // APlayer
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -5963,6 +6165,10 @@ action's getAction method is called
 	
 	comment "processPositions
 This method recalculates removed positions for this action.
+@since 6.01.22
+When recalculating removed position, then the possible move must keep the original to position ???
+@deprecated
+12.01.22 This method is no longer necessary
 "
       end
 
@@ -7519,6 +7725,17 @@ It implements the method legalMoves for the Bishop
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 558338 // friendPositions (<unidirectional association>)
+	relation 558338 --->
+	  stereotype "HashMap"
+	  a role_name "friendPositions" private
+	    comment " Represent positions occupied by friendly pieces"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 558338 // friendPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       attribute 288514 "size"
 	private explicit_type "int"
 	init_value " 8"
@@ -7672,6 +7889,31 @@ ${members}}
 	  param inout name "myPosition" type class_ref 232322 // Position
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1999490 "getFriendPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 1999618 "setFriendPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "friendPositions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -8143,6 +8385,8 @@ This ruler calculates all legal moves for a bishop
 and returns a list of XYLocations reachable by the bishop.
 @since 16.08.20
 Changed  <7 to <=7 olj
+@since 0.2.12.21
+	if (j>=0) { //Changed from i>0
 @author oluf
 
 "
@@ -10843,6 +11087,7 @@ This method creates a new chess position based on a XYLocation
 	
 	comment "checkPawnremovals
 This method moves the removed list to the processor's removed list
+@since 01.02.22 Added a removed position at start
 @param availablePositions
 @param removedPositions
 @return
@@ -11250,6 +11495,17 @@ It implements the method legalMoves for the Queen
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 559106 // friendPositions (<unidirectional association>)
+	relation 559106 --->
+	  stereotype "HashMap"
+	  a role_name "friendPositions" private
+	    comment " Represent positions occupied by friendly pieces"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 559106 // friendPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       attribute 293890 "size"
 	private explicit_type "int"
 	init_value " 8"
@@ -11373,6 +11629,31 @@ It implements the method legalMoves for the Queen
 	public explicit_return_type "void"
 	nparams 1
 	  param inout name "myPiece" type class_ref 232578 // ChessPiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000898 "getFriendPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001026 "setFriendPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "friendPositions" explicit_type "HashMap<String, Position>"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
@@ -11949,6 +12230,17 @@ It implements the method legalMoves for the Rook
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 559234 // friendPositions (<unidirectional association>)
+	relation 559234 --->
+	  stereotype "HashMap"
+	  a role_name "friendPositions" private
+	    comment " Represent positions occupied by friendly pieces"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 559234 // friendPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       attribute 294402 "size"
 	private explicit_type "int"
 	init_value " 8"
@@ -12063,6 +12355,31 @@ It implements the method legalMoves for the Rook
 	  param inout name "myPosition" type class_ref 232322 // Position
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001154 "getFriendPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001282 "setFriendPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "friendPositions" explicit_type "HashMap<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -13345,6 +13662,7 @@ ${members}}
 This class is used to find best moves in the chess game through planning as described in chapter 10 and 11 of 
 the aima book.
 The ProblemSolver is created in the ChessAgent's execute method.
+In search for the best move, the ChessProblemSolver creates an opponent Agent object and a performance measure object.
 The problem solver creates a ChessProblem object for the ChessSearchAlgorithm to solve.
 The ChessProblem object contains one or more ActionSchemas. There is one ActionSchema for every ChessAction available for the player
 @author oluf
@@ -14759,7 +15077,7 @@ After the first 4 moves, the default part of the case statement then determines 
 	comment "deferredMove
 This method checks if any deferred move has been set.
 If so, it returns the deferred key
-A special case for castling
+This is a special case for castling
 @param actions
 @return
 "
@@ -14777,15 +15095,12 @@ A special case for castling
 	
 	
 	comment "planProblem
+This is the main method of the ProblemSolver
 This method creates and returns a High Level Action Problem given the available actions
 Hierarchical Task networks and High Level Actions are described in  chapter 11.
 At present, the High Level Problem contains one primitive action schema (chess action).
 @param actions
-@return
-
-
-@param actions
-@return
+@return a ChessProblem
 "
       end
 
@@ -14803,8 +15118,10 @@ At present, the High Level Problem contains one primitive action schema (chess a
 	comment "searchProblem
 For every available chessaction that contains a possible move and that is not blocked
 create an actionschema
+@Since 17.12.21
+Preconditions and Effects are populated with Constants, the given piecename, posname and owner
 @param actions
-@return
+@return a List of ActionSchemas
 "
       end
 
@@ -14819,13 +15136,10 @@ create an actionschema
 	
 	
 	
-	comment "solveProblem
+	comment "OBS: NOT USED
+solveProblem
 This method solves a Problem for a given ChessAction
 using the Graphplan algorithm. (see p. 383 chapter 10.3)
-@param action
-@return
-
-
 @param action
 @return
 "
@@ -14842,6 +15156,10 @@ using the Graphplan algorithm. (see p. 383 chapter 10.3)
 	
 	
 	
+	comment "OBS: NOT USED
+@param action
+@return
+"
       end
 
       operation 1795842 "buildGoalstate"
@@ -14876,6 +15194,8 @@ If the piece of the action is an officer or a pawn.
 If the piece of the action has been moved recently
 If the piece with its new position protects/reaches a centre position.
 If the piece with its new position can capture an opponent piece.
+@since 12.01.22
+Recalculation of removed position no longer necessary
 @param localAction
 "
       end
@@ -14894,7 +15214,7 @@ If the piece with its new position can capture an opponent piece.
 	
 	comment "buildInitialstate
 THis method creates an initial state for a problem 
-with a given piece name
+with a given piece name and posname
 @param piece
 @return
 "
@@ -16096,7 +16416,7 @@ contains all opponent available actions, and their action schemas.
 It is created whenever the chessproblemsolver is created.
 It also contains a FOL strategy Knowledge base, that contains
 knowledge of possible moves one ply ahead.
-Based on the knowledge from the strategy knowledge base, the agent maintains a Performance measure.
+Based on the knowledge from the strategy knowledge base, the agent creates and maintains a Performance measure.
 The opponent agent object must be able to return with a best strategy for moves 
 @author olj
 
@@ -16258,6 +16578,17 @@ The opponent agent object must be able to return with a best strategy for moves
 "
 	    classrelation_ref 551682 // performanceMeasure (<unidirectional association>)
 	  b parent class_ref 409986 // APerformance
+      end
+
+      classrelation 559362 // protectedPositions (<unidirectional association>)
+	relation 559362 --->
+	  stereotype "Map"
+	  a role_name "protectedPositions" init_value " null" private
+	    comment " Contains the set of protected positions"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 559362 // protectedPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
       end
 
       classrelation 521986 // possiblePositions (<unidirectional association>)
@@ -16708,6 +17039,131 @@ The opponent agent object must be able to return with a best strategy for moves
 	
       end
 
+      operation 2022402 "getPerformanceMeasure"
+	public return_type class_ref 409986 // APerformance
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2022530 "setPerformanceMeasure"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "performanceMeasure" type class_ref 409986 // APerformance
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001538 "getPROTECTED"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001666 "setPROTECTED"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "pROTECTED" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001794 "getREACHABLE"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2001922 "setREACHABLE"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "rEACHABLE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2002050 "getTHREATEN"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2002178 "setTHREATEN"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "tHREATEN" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2002306 "getPIECETYPE"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2002434 "setPIECETYPE"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "pIECETYPE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1991938 "getPositions"
 	public return_type class_ref 232322 // Position
 	nparams 0
@@ -16883,6 +17339,31 @@ The opponent agent object must be able to return with a best strategy for moves
 	
       end
 
+      operation 2002562 "getPAWNATTACK"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2002690 "setPAWNATTACK"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "pAWNATTACK" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1837826 "defineFacts"
 	public explicit_return_type "void"
 	nparams 0
@@ -16894,7 +17375,7 @@ The opponent agent object must be able to return with a best strategy for moves
 	
 	
 	comment "defineFacts
-This method creates facts about the opponent pieces to the local knowledge base
+This method creates facts about the opponent pieces to the local strategy knowledge base
 These facts are: which positions they occupy and where they can move to.
 It is called when the opponent agent is created.                           
 "
@@ -16996,6 +17477,7 @@ This method checks if a certain piece can reach a certain position
 	comment "chooseStrategy
 Based on the facts found in the probepossibilities method
 This method chooses a strategy for the next move.
+It is called from the ChessProblemSolver
 @param actions The actions available to player
 "
       end
@@ -17018,7 +17500,8 @@ possible occupied position from the available actions for the player of the game
 Facts of the form
 occupies(WhiteBishop2,c4)
 REACHABLE(WhiteBishop2_c4,d5)
-are created. - From position c4, the bishop can reach d5
+are created in the strategy KB. - From position c4, the bishop can reach d5
+It is called from the ChessProblemSolver
 @param actions - The actions available to player
 @param player - The player of the game
 "
@@ -17038,9 +17521,10 @@ are created. - From position c4, the bishop can reach d5
 	
 	comment "tellnewFacts
 This method creates new REACHABLE facts to the strategy knowledge base
+It also checks to see if the new reachable position is protected.
 It is called from the probepossiblities method
 @param piece
-@param name
+@param name name is of type piecename + _ + posname
 "
       end
 
@@ -17299,7 +17783,9 @@ ${members}}
       mysql_decl ""
       
       comment "The  ChessFolKnowledgeBase is a subclass of the FOLKnowledgeBase.
-It is used to construct a local strategy First order knowledge base to search for the best move.
+It is used to construct a First order knowledge base to search for the best move.
+Two separate First order knowledge bases are maintained. The parent knowledge base and the
+strategy knowledge base. The strategy knowledge base contains knowledge about chess state one ply ahead.
 It is filled with facts about possible new reachable positions and facts about opponent positions.
 Then we can determine which opponent pieces I can capture based on which move I make.
 
@@ -17555,7 +18041,7 @@ Then we can determine which opponent pieces I can capture based on which move I 
       end
 
       operation 1991810 "checkPieceType"
-	public explicit_return_type "void"
+	public explicit_return_type "String"
 	nparams 1
 	  param in name "name" explicit_type "String"
 	
@@ -17565,6 +18051,11 @@ Then we can determine which opponent pieces I can capture based on which move I 
 	
 	
 	
+	comment "checkPieceType
+This method checks what type of piece a chesspiece is
+@param name The name of the piece
+@return the type of the piece
+"
       end
 
       operation 1975426 "checkmyProtection"
@@ -17609,20 +18100,19 @@ These facts can be any of the available predicates in the FOL Domain (see the do
 @param pieceName
 @param pos
 @param fact
-@return
+@return true if the fact is true
 "
       end
 
       operation 1975554 "checkpieceFacts"
 	public explicit_return_type "boolean"
-	nparams 5
+	nparams 4
 	  param in name "pieceVar" explicit_type "String"
 	  param in name "pieceName" explicit_type "String"
 	  param in name "pos" explicit_type "String"
 	  param in name "fact" explicit_type "String"
-	  param inout name "actions" explicit_type "ArrayList<ChessActionImpl>"
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -17631,11 +18121,12 @@ These facts can be any of the available predicates in the FOL Domain (see the do
 	comment "checkpieceFacts
 This method checks the FOL knowledge base for certain facts about the player's pieces.
 These facts can be any of the available predicates in the FOL Domain (see the domain object)
-If an action is found belonging to the given piece, then this action is given the new position to move to
+It is called from the ProblemSolver's checkOpponent, prepareAction, and checkCastling methods.
+@since 22.10.21 The list of actions are not used
 @param pieceName The name of the piece
 @param pos The position to move to
 @param fact The predicate fact
-@param actions All the actions available to the player
+@param actions All the actions available to the player - removed 22.10.21
 "
       end
 
@@ -17665,6 +18156,29 @@ The parameter pos is used to give the chosen action a new position to move to.
 "
       end
 
+      operation 2001410 "searchFacts"
+	public explicit_return_type "List<String>"
+	nparams 3
+	  param in name "pieceName" explicit_type "String"
+	  param in name "posName" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "searchFacts
+This method returns a list of term names (ontology names of pieces)
+It is used to find which pieces can reach/protect/threaten a given position
+@param pieceName
+@param posName
+@param fact
+@return a List of term names (or empty list
+"
+      end
+
       operation 1958530 "createfacts"
 	public explicit_return_type "void"
 	nparams 3
@@ -17678,6 +18192,12 @@ The parameter pos is used to give the chosen action a new position to move to.
 	
 	
 	
+	comment "createfacts
+This method creates fact about a piece and its position to the knowledge base
+@param fact
+@param pos
+@param piece
+"
       end
 
       operation 1958658 "writeKnowledgebase"
@@ -17707,6 +18227,19 @@ ${members}}
       
       comment "APerformance
 This class is responsible for calculating the performance measure.
+It is used to create temporal information to the planning problem.
+It represent the scheduling phase. (See chapter 11) :
+Examples of temporal information:
+The from position d5 investigated
+	protectorPieces:
+	Piece WhiteBishop2 is protector of d5 from c4
+	Piece WhiteBishop2 is protector of d5 from e4
+	Piece WhiteQueen is protector of d5 from b3
+	needprotectionPieces:
+	Piece WhiteKnight1 with value 3 must have a protection for d5
+	These pieces threatens the piece (at the from position):
+	BlackKnight2
+It is created by the opponent agent when the opponent agent is created
 The questions to answer are:
 How many of my pieces can reach/protect a position? 
 What rank do these pieces have?
@@ -17718,8 +18251,8 @@ What strategic advantage do I have from controlling this position?
 I have a control over a position if I have more pieces reaching it than my opponent.
 So:
 I have a map of positions occupied by my opponent
-From the strategy rule base I know which positions these pieces can reach (OPPONENTTO)
-From the strategy rule base I know which of my pieces can reach these positions one ply down 
+From the parent KB I know which positions these pieces can reach (OPPONENTTO)
+From the strategy KB I know which of my pieces can reach these positions one ply down 
 @author oluf
 
 "
@@ -17727,6 +18260,7 @@ From the strategy rule base I know which of my pieces can reach these positions 
 	relation 535298 --->
 	  stereotype "List"
 	  a role_name "controlPositions" private
+	    comment " The original set of positions as a list"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
 	    classrelation_ref 535298 // controlPositions (<unidirectional association>)
@@ -17748,15 +18282,28 @@ From the strategy rule base I know which of my pieces can reach these positions 
 	relation 551554 --->
 	  stereotype "Map"
 	  a role_name "occupiedPositions" private
+	    comment "Positions occupied by the opponent pieces. The key is the name of the piece"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
 "
 	    classrelation_ref 551554 // occupiedPositions (<unidirectional association>)
 	  b parent class_ref 232322 // Position
       end
 
+      classrelation 565890 // takenPositions (<unidirectional association>)
+	relation 565890 --->
+	  stereotype "Map"
+	  a role_name "takenPositions" private
+	    comment "Positions occupied by the player's pieces. The key is the name of the piece"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 565890 // takenPositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       classrelation 535554 // myPlayer (<unidirectional association>)
 	relation 535554 --->
 	  a role_name "myPlayer" init_value " null" private
+	    comment " The player of the game"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 535554 // myPlayer (<unidirectional association>)
@@ -17766,6 +18313,7 @@ From the strategy rule base I know which of my pieces can reach these positions 
       classrelation 535682 // opponent (<unidirectional association>)
 	relation 535682 --->
 	  a role_name "opponent" init_value " null" private
+	    comment " The opponent of the game"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 535682 // opponent (<unidirectional association>)
@@ -17837,7 +18385,325 @@ From the strategy rule base I know which of my pieces can reach these positions 
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
-	comment " The key for positions that are reachable"
+	comment " The key for positions that are reachable. The key is of the form: piecename_frompostopos"
+      end
+
+      attribute 604418 "reachablePieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "to position reachable from strategy KB. Contains piecenames of the form WhiteQueen_c4, with a position name as a key"
+      end
+
+      attribute 611074 "tothreatPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " to position threats from parent KB"
+      end
+
+      attribute 611202 "toreachablePieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " to position reachable from parent KB"
+      end
+
+      attribute 611330 "topawnthreatPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " to position pawn threats from parent KB"
+      end
+
+      attribute 611458 "fromreachablePieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "From position reachable from strategy KB"
+      end
+
+      attribute 611586 "fromthreatparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "From position threats from parent KB"
+      end
+
+      attribute 611714 "fromreachparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "From position reachable from parent KB"
+      end
+
+      attribute 611842 "frompawnparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "From position pawnthreats from parent KB"
+      end
+
+      attribute 611970 "threatparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " position threats from parent KB contains positions occupied by player's pieces"
+      end
+
+      attribute 612098 "reachparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " position reachable from parent KB contains positions occupied by player's pieces"
+      end
+
+      attribute 612226 "pawnparentPieces"
+	private explicit_type "String,ArrayList<String>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " position pawnthreats from parent KB contains positions occupied by player's pieces"
+      end
+
+      attribute 604546 "reachableOpponent"
+	private explicit_type "String,String"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " A map of reachable opponent pieces. Contains piece names of the form BlackPawn5, with a position name like d5 as a key"
+      end
+
+      attribute 618882 "movablePieces"
+	private explicit_type "String,ArrayList<AgamePiece>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Pieces that can be moved with no need for protection"
+      end
+
+      classrelation 572802 // needprotectionPieces (<unidirectional association>)
+	relation 572802 --->
+	  stereotype "Map"
+	  a role_name "needprotectionPieces" private
+	    comment " Pieces that can be moved that need protection"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 572802 // needprotectionPieces (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 572930 // protectorPieces (<unidirectional association>)
+	relation 572930 --->
+	  stereotype "Map"
+	  a role_name "protectorPieces" private
+	    comment "Pieces that protect other pieces from a new position"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 572930 // protectorPieces (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 573058 // takePieces (<unidirectional association>)
+	relation 573058 --->
+	  stereotype "Map"
+	  a role_name "takePieces" private
+	    comment "Opponent pieces that that can be taken"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 573058 // takePieces (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 573186 // canlosePieces (<unidirectional association>)
+	relation 573186 --->
+	  stereotype "Map"
+	  a role_name "canlosePieces" private
+	    comment "Opponent pieces that that can be lost to the opponent"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String,${type}> ${name}${value};
+"
+	    classrelation_ref 573186 // canlosePieces (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      attribute 619010 "knownprotectorPieces"
+	private explicit_type "String,List<AgamePiece>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Pieces that protect a given position"
+      end
+
+      attribute 619138 "knownopponentPieces"
+	private explicit_type "String,List<AgamePiece>"
+	stereotype "Map"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Pieces that threaten a given position"
+      end
+
+      classrelation 573314 // resourcePositions (<unidirectional association>)
+	relation 573314 --->
+	  stereotype "List"
+	  a role_name "resourcePositions" private
+	    comment " ResourcePositions are reachable positions"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 573314 // resourcePositions (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 573442 // chosenPiece (<unidirectional association>)
+	relation 573442 --->
+	  a role_name "chosenPiece" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 573442 // chosenPiece (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 573570 // chosenPosition (<unidirectional association>)
+	relation 573570 --->
+	  a role_name "chosenPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 573570 // chosenPosition (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      attribute 619266 "opponentColor"
+	private explicit_type "String"
+	init_value " \"Black\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 619394 "playerColor"
+	private explicit_type "String"
+	init_value " \"White\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 558978 // agent (<unidirectional association>)
+	relation 558978 --->
+	  a role_name "agent" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 558978 // agent (<unidirectional association>)
+	  b parent class_ref 380162 // OpponentAgent
       end
 
       attribute 596610 "outputFileName"
@@ -17892,6 +18758,531 @@ From the strategy rule base I know which of my pieces can reach these positions 
 	  param inout name "backwardChain" explicit_type "FOLGamesBCAsk"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} ${p6}, ${t7} ${p7}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020098 "getOpponentColor"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020226 "setOpponentColor"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "opponentColor" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020354 "getPlayerColor"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020482 "setPlayerColor"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "playerColor" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020610 "getChosenPiece"
+	public return_type class_ref 232706 // AgamePiece
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020738 "setChosenPiece"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "chosenPiece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020866 "getChosenPosition"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2020994 "setChosenPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "chosenPosition" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021122 "getMovablePieces"
+	public explicit_return_type "Map<String, ArrayList<AgamePiece>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021250 "setMovablePieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "movablePieces" explicit_type "Map<String, ArrayList<AgamePiece>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021378 "getNeedprotectionPieces"
+	public return_type class_ref 232706 // AgamePiece
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021506 "setNeedprotectionPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "needprotectionPieces" explicit_type "Map<String, AgamePiece>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021634 "getProtectorPieces"
+	public return_type class_ref 232706 // AgamePiece
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2021762 "setProtectorPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "protectorPieces" explicit_type "Map<String, AgamePiece>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009218 "getTakenPositions"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009346 "setTakenPositions"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "takenPositions" explicit_type "Map<String, Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009474 "getThreatparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009602 "setThreatparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "threatparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009730 "getReachparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009858 "setReachparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "reachparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2009986 "getPawnparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010114 "setPawnparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "pawnparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010242 "getReachablePieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010370 "setReachablePieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "reachablePieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010498 "getTothreatPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010626 "setTothreatPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "tothreatPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010754 "getToreachablePieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2010882 "setToreachablePieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "toreachablePieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011010 "getTopawnthreatPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011138 "setTopawnthreatPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "topawnthreatPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011266 "getFromreachablePieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011394 "setFromreachablePieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fromreachablePieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011522 "getFromthreatparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011650 "setFromthreatparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fromthreatparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011778 "getFromreachparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2011906 "setFromreachparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fromreachparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2012034 "getFrompawnparentPieces"
+	public explicit_return_type "Map<String, ArrayList<String>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2012162 "setFrompawnparentPieces"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "frompawnparentPieces" explicit_type "Map<String, ArrayList<String>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2012290 "getReachableOpponent"
+	public explicit_return_type "Map<String, String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2012418 "setReachableOpponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "reachableOpponent" explicit_type "Map<String, String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000642 "getAgent"
+	public return_type class_ref 380162 // OpponentAgent
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2000770 "setAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 380162 // OpponentAgent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -18161,6 +19552,8 @@ From the strategy rule base I know which of my pieces can reach these positions 
 	
 	comment "occupiedPositions
 This method creates a map of positions occupied by the opponent's pieces
+and a map of positions occupied by the player's pieces
+The key is the name of the piece
 "
       end
 
@@ -18174,6 +19567,93 @@ This method creates a map of positions occupied by the opponent's pieces
 	
 	
 	
+	comment "findReachable()
+This method runs through all positions occupied by opponent pieces to see
+if any of the player's pieces can reach these positions and safely take the opponent piece.
+Important elements:
+positionKeys: Reachable positions: piecename_frompostopos
+positions: A Map of all positions. 
+occupiedPositions : A Map of positions occupied by opponent pieces
+"
+      end
+
+      operation 2021890 "simpleSearch"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "simpleSearch
+This method runs through all positions on the board and
+investigates positions that are reachable from the parent KB
+and which pieces that possibly can protect these reachable positions.
+this results in three different Maps:
+protectorPieces - pieces that protect a position from a new position
+needprotectionPieces - pieces that need a protection in a new position.
+movablePieces - pieces that can be moved to a new position without a threat.
+"
+      end
+
+      operation 2022018 "evaluate"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "evaluate
+This method tries to evaluate the best move to take next
+@return
+"
+      end
+
+      operation 2022146 "checkOpponent"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "posName" explicit_type "String"
+	  param inout name "reachablePieces" explicit_type "ArrayList<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkOpponent
+This method checks if there are opponent pieces among the reachable pieces.
+If the opponent piece is a pawn, it then searches for opponent pawns that may have an attack position
+These pieces are put in a map called knownopponentPieces with posName as key
+that is posName
+@param posName,reachablePieces
+"
+      end
+
+      operation 2022274 "checkMypieces"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param in name "posName" explicit_type "String"
+	  param inout name "reachablePieces" explicit_type "ArrayList<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "checkMypieces
+This method checks which of the player's pieces protect a given position 
+These pieces are put in a map called knownprotectorPieces with posName as key
+@param posName The given position
+@param reachablePieces
+@return true if the position has a protection
+"
       end
     end
   end
@@ -18783,8 +20263,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import aima.core.logic.fol.Connectors;
 import aima.core.logic.fol.domain.FOLDomain;
 import aima.core.logic.fol.inference.FOLFCAsk;
@@ -18851,6 +20333,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18939,8 +20422,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import aima.core.logic.fol.domain.FOLDomain;
+import no.chess.web.model.ChessPiece;
 import no.chess.web.model.Position;
+import no.games.chess.ChessPieceType;
 import no.games.chess.fol.FOLGamesBCAsk;
 import no.games.chess.fol.FOLGamesFCAsk;
 ${definition}"

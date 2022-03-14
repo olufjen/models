@@ -13,6 +13,7 @@ class AQueen
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 !!!776706.java!!!	AQueen(inout myPosition : Position, inout myPiece : ChessPiece)
 		super();
 		color = myPiece.getColor();
@@ -22,6 +23,7 @@ class AQueen
 			localColor = pieceColor.BLACK;
 		this.myPiece = myPiece;
 		this.myPosition = myPosition;
+		value= 9;
 		reachablesqueres = new int[size][size];
 		reachablepiecePosition = new String[size][size];
 		for (int i = 0; i < size; i++) {
@@ -34,6 +36,7 @@ class AQueen
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 		getLegalmoves(myPosition);
 !!!776834.java!!!	AQueen(inout myPosition : Position)
 		super();
@@ -49,6 +52,7 @@ class AQueen
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 		getLegalmoves(myPosition);
 !!!776962.java!!!	getColor() : String
 		return color;
@@ -58,6 +62,10 @@ class AQueen
 		return myPiece;
 !!!777346.java!!!	setMyPiece(inout myPiece : ChessPiece) : void
 		this.myPiece = myPiece;
+!!!2000898.java!!!	getFriendPositions() : Position
+		return friendPositions;
+!!!2001026.java!!!	setFriendPositions(inout friendPositions : HashMap<String, Position>) : void
+		this.friendPositions = friendPositions;
 !!!777474.java!!!	getMyPosition() : Position
 		return myPosition;
 !!!777602.java!!!	setMyPosition(inout myPosition : Position) : void
@@ -260,6 +268,8 @@ class AQueen
 		return tempList;
 !!!1991170.java!!!	addPositions(inout availablePositions : List<Position>, inout removedPositions : List<Position>) : Position
 		Optional<Position> minpos = Optional.empty();
+		Optional<Position> availmin = Optional.empty();
+		List<Position>friendlyList = new ArrayList<Position>();
 		List<Position>tempAvail2 = new ArrayList();
 		List<Position>tempAvail = new ArrayList<Position>();
 		List<Position>tempList = new ArrayList<Position>();
@@ -272,17 +282,42 @@ class AQueen
 				System.out.println("CheckRemovals The min position: "+minx.toString());
 			}
 			tempList = removedPositions.stream().filter(p -> minx.getMydirection() == p.getMydirection()).collect(Collectors.toList());
+			// Find all available positions that have the same direction:
 			tempAvail = availablePositions.stream().filter(p -> minx.getMydirection() == p.getMydirection()).collect(Collectors.toList());
 			if (tempAvail != null && !tempAvail.isEmpty()) {
 				tempAvail2 = tempAvail.stream().filter(p -> minx.getSumDif() < p.getSumDif()).collect(Collectors.toList());
 			}
+			if (tempAvail2 != null && !tempAvail2.isEmpty()) {
+				availmin = tempAvail2.stream().reduce((p1,p2) -> p1.getSumDif() < p2.getSumDif() ? p1 : p2);
+			}
+			if (availmin.isPresent()){
+				Position availx = availmin.get();
+				int nx = minx.getSumDif().intValue();
+				int ny = availx.getSumDif().intValue();
+				if (tempAvail != null && !tempAvail.isEmpty()) {
+					friendlyList = tempAvail.stream().filter(p -> availx.getSumDif() < p.getSumDif()).collect(Collectors.toList());
+				}
+				if (nx < ny) {
+					friendlyList = null;
+					friendlyList = tempAvail.stream().filter(p -> minx.getSumDif() < p.getSumDif()).collect(Collectors.toList());
+				}
+				if (friendlyList != null && !friendlyList.isEmpty()) {
+					for (Position friend:friendlyList) {
+						String name = friend.getPositionName();
+						friendPositions.remove(name);
+					//	friend.setFriendlyPosition(false);
+					}
+				}
+			}
 			tempList.addAll(tempAvail2);
 			// must do the same with available positions !!!!
 		}
+
+	
 		return tempList;
 !!!1991298.java!!!	checkNorthSouthremovals(inout availablePositions : List<Position>, inout removedPositions : List<Position>) : Position
 		List<Position>tempList = new ArrayList<Position>();
-		List<Position>tempAvail = new ArrayList<Position>();
+//		List<Position>tempAvail = new ArrayList<Position>();
 		XYLocation heldLoc = myPosition.getXyloc();
 		int x = heldLoc.getXCoOrdinate();
 		int y = heldLoc.getYCoOrdinate();

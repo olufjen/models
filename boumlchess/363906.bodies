@@ -233,16 +233,16 @@ class AChessProblemSolver
 				  boolean pawn = false;
 				  boolean pieceProtected = false;
 				  if (type  == type.PAWN) {
-					  pawn = folKb.checkpieceFacts("y",name, posName, PAWNATTACK, actions);
+					  pawn = folKb.checkpieceFacts("y",name, posName, PAWNATTACK);
 					  if (pawn) {
 						  possiblePieces.put(name, piece);
 						  possiblePositions.put(name, position);
 					  }
 				  }
 				  if (type  != type.PAWN) {
-					  reachable = folKb.checkpieceFacts("y",name,posName,REACHABLE,actions);
+					  reachable = folKb.checkpieceFacts("y",name,posName,REACHABLE);
 					  if (reachable) {
-						 pieceProtected = folKb.checkpieceFacts("x",name,posName,PROTECTED,actions);
+						 pieceProtected = folKb.checkpieceFacts("x",name,posName,PROTECTED);
 						  if (pieceProtected) {
 							  possiblePieces.put(name, piece);
 							  possiblePositions.put(name, position);
@@ -263,11 +263,13 @@ class AChessProblemSolver
 	  }
 	
 !!!1776514.java!!!	prepareAction(inout actions : ArrayList<ChessActionImpl>) : String
+	opponentAgent.probepossibilities(actions, myPlayer);
+	opponentAgent.chooseStrategy(actions);
 	String pname = checkoppoentThreat(THREATEN,actions); // returns null if no pieces are threatened
 	String pieceName = "WhiteBishop2";
 	String fpos = "f1";
 	String toPos = "d3";
-	boolean bishop = folKb.checkpieceFacts("y",pieceName,fpos,OCCUPIES,actions); // Rook occupies f1 !!??
+	boolean bishop = folKb.checkpieceFacts("y",pieceName,fpos,OCCUPIES); // Rook occupies f1 !!??
 	State goal = null;
 	State initstate = null;
 	if (bishop) {
@@ -283,7 +285,7 @@ class AChessProblemSolver
 			if (pos != null) { // The bishop cannot be moved
 				String pawnName = "WhitePawn5";
 				String pawnPos = "e2";
-				boolean pawn = folKb.checkpieceFacts("y",pawnName,pawnPos,OCCUPIES,actions);
+				boolean pawn = folKb.checkpieceFacts("y",pawnName,pawnPos,OCCUPIES);
 				if (pawn) {
 					typeofPiece = PAWN;
 					moveName = "pawnmove";
@@ -396,7 +398,7 @@ class AChessProblemSolver
 			String bishopName = "WhiteBishop2";
 			String fpos = "f1";
 			String toPos = "d3";
-			boolean bishop = folKb.checkpieceFacts("y",bishopName,fpos,OCCUPIES,actions);
+			boolean bishop = folKb.checkpieceFacts("y",bishopName,fpos,OCCUPIES);
 			if (bishop) {
 				String castlePos = "g1";
 				typeofPiece = KING;
@@ -448,7 +450,7 @@ class AChessProblemSolver
 		Literal player = new Literal((AtomicSentence)playerPredicate);
 		
 		literals.add(pos);
-		literals.add(own);
+//		literals.add(own);
 		literals.add(types);
 //		literals.add(player);
 		literals.add(boards);
@@ -513,8 +515,18 @@ class AChessProblemSolver
  * Here we must find a safe move		  
  */
 		  pieceName = prepareAction(actions);
-		  if (pieceName == null)
-			  pieceName = "WhitePawn1";
+		  if (pieceName == null) {
+			  AgamePiece chosen = opponentAgent.getPerformanceMeasure().getChosenPiece();
+			  Position chosenpos = opponentAgent.getPerformanceMeasure().getChosenPosition();
+			  if (chosen != null && chosenpos != null) {
+				  pieceName = chosen.getMyPiece().getOntlogyName();
+				  String pchosenPosname = chosenpos.getPositionName();
+				  folKb.checkFacts(pieceName, pchosenPosname, REACHABLE, actions,positionList);
+			  }
+			  if (pieceName == null) {
+				  pieceName = "WhitePawn1";
+			  }
+		  }
 		  break;
 	  }
 	  return pieceName;
@@ -554,11 +566,12 @@ class AChessProblemSolver
 	return null;
 //	return deferredKey; This does not perform castling
 !!!1776770.java!!!	planProblem(inout actions : ArrayList<ChessActionImpl>) : ChessProblem
-	  searchProblem(actions); // Builds an ActionSchema for every Chess Action.
+//	  searchProblem(actions); // Builds an ActionSchema for every Chess Action. This is the planning phase
 	  String pieceName = null;
 	  ChessProblem problem = null;
-	  String actionName = deferredMove(actions);
-      pieceName = checkMovenumber(actions);
+	  String actionName = deferredMove(actions); // For castling
+      pieceName = checkMovenumber(actions); // Returns a possible piecename - a piece to be moved - calls the prepareAction method
+      searchProblem(actions); // Builds an ActionSchema for every Chess Action. This is the planning phase
 	  if (actionName != null && !pieceName.equals(actionName)) {
 		  pieceName = actionName;
 		  deferredKey = null;
@@ -586,11 +599,21 @@ class AChessProblemSolver
 		    	 writer.println(literal.toString());
 		      }		      
 		  }
+ /*
+  * The initial and goal states are determined here
+  * given the name of the piece.
+ */
+
 		  writer.println("Chosen action Schema\n"+movedAction.toString());
 		  ChessActionImpl naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(nactionName)).findAny().orElse(null);
+		  String newPos = naction.getPossibleMove().getToPosition().getPositionName(); // Get newPos from Preferred position ??!!
+		  String newprefPos = naction.getPreferredPosition().getPositionName(); 
+		  writer.println("The new position and the preferred position\n"+newPos+"\n"+newprefPos);
 		  State initState = initStates.get(pieceName);
 		  State goal = goalStates.get(pieceName);
-		  problem = new ChessProblem(initState,goal,movedAction);
+		  Set<ActionSchema> aSchemas =  new HashSet<ActionSchema>(actionSchemas.values());
+//		  problem = new ChessProblem(initState,goal,movedAction);
+		  problem = new ChessProblem(initState,goal,aSchemas);		  
 		  writer.println("The fluents of the init state");
 	      for (Literal literal :
 	    	  initState.getFluents()) {
@@ -620,9 +643,12 @@ class AChessProblemSolver
 	  return problem;
 !!!1776898.java!!!	searchProblem(inout actions : ArrayList<ChessActionImpl>) : ActionSchema
 	  List<ActionSchema> schemas = new ArrayList<ActionSchema>();
+	  List<AgamePiece> pieces = myPlayer.getMygamePieces();
 	  for (ChessActionImpl action:actions) {
 			if (action.getPossibleMove()!= null && !action.isBlocked()) {
 				determineParameters(action);
+				String newPos = action.getPossibleMove().getToPosition().getPositionName(); // Get newPos from Preferred position ??!!
+//				String newPos = action.getPreferredPosition().getPositionName(); !!!
 				String pieceName = action.getChessPiece().getMyPiece().getOntlogyName();
 				Position position = action.getChessPiece().getHeldPosition();
 				if (position == null) {
@@ -634,17 +660,50 @@ class AChessProblemSolver
 				State localgoalState = buildGoalstate(action);
 				initStates.put(pieceName, localinitialState);
 				goalStates.put(pieceName, localgoalState);
-				Variable piece = new Variable("piece");
-				Variable pos = new Variable("pos");
-				Variable toPos = new Variable("topos");
+				ArrayList<String>reachparentNames = (ArrayList<String>) folKb.searchFacts("x", newPos, PROTECTED);
+//				Variable piece = new Variable("piece");
+//				Variable pos = new Variable("pos");
+//				Variable toPos = new Variable("topos");
+				Constant piece = new Constant(pieceName);
+				Constant pos = new Constant(posName);
+				Constant toPos = new Constant(newPos);
 				Constant type = new Constant(typeofPiece);
 //				Variable ownerVar = new Variable("owner");
 				Constant ownerVar = new Constant(playerName);
-				List variables = new ArrayList<Variable>(Arrays.asList(piece,pos,toPos));
+//				List variables = new ArrayList<Variable>(Arrays.asList(piece,pos,toPos));
+				List variables = new ArrayList<Constant>(Arrays.asList(piece,pos,toPos));
 				List<Term> terms = new ArrayList<Term>();
 				List<Term> ownerterms = new ArrayList<Term>();
 				List<Term> newterms = new ArrayList<Term>();
 				List<Term> typeTerms = new ArrayList<Term>();
+				
+				List<Term> protectorTerms = new ArrayList();
+				Predicate protectedBy = null;
+				Constant protector = null;
+				String protectorName = null;
+				List<Literal> precondition = new ArrayList();
+				List<Literal> effects = new ArrayList();
+				if (reachparentNames != null && !reachparentNames.isEmpty() ) {
+					int psize = reachparentNames.size();
+					for (int i = 0;i<psize;i++) {
+						protectorName = reachparentNames.get(i);
+						String p = protectorName;
+						AgamePiece gpiece =  (AgamePiece) pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().contains(p)).findAny().orElse(null);
+						if (gpiece != null &&!pieceName.equals(protectorName)) {
+							protector = new Constant(protectorName);
+//							Variable protector = new Variable("x"); //Cannot use Variable in preconditions and effects?
+							protectorTerms.add(protector);
+							protectorTerms.add(toPos);
+							protectedBy = new Predicate(PROTECTED,protectorTerms);
+							if (!typeofPiece.equals(PAWN)) {
+								precondition.add(new Literal((AtomicSentence) protectedBy));
+								variables.add(protector);
+							}
+							protectorTerms.clear();
+						}
+					}
+
+				}
 				ownerterms.add(ownerVar);
 				ownerterms.add(piece);
 				terms.add(piece);
@@ -658,15 +717,13 @@ class AChessProblemSolver
 				Predicate pospred = new Predicate(OCCUPIES,terms);
 				Predicate ownerPred = new Predicate(OWNER,ownerterms);
 				Predicate newPospred = new Predicate(OCCUPIES,newterms);
-				List<Literal> precondition = new ArrayList();
-				List<Literal> effects = new ArrayList();
 				precondition.add(new Literal((AtomicSentence) pospred));
-				precondition.add(new Literal((AtomicSentence) ownerPred));
+//				precondition.add(new Literal((AtomicSentence) ownerPred));
 				precondition.add(new Literal((AtomicSentence) typePred));
 //				Literal notAt = new Literal(pospred, true);
 //				effects.add(notAt);
 				effects.add(new Literal( (AtomicSentence)newPospred));
-				effects.add(new Literal( (AtomicSentence)ownerPred));
+//				effects.add(new Literal( (AtomicSentence)ownerPred));
 				effects.add(new Literal( (AtomicSentence)typePred));
 				ActionSchema movedAction = new ActionSchema(actionName,variables,precondition,effects);
 				actionSchemas.put(pieceName, movedAction);
@@ -818,7 +875,7 @@ class AChessProblemSolver
 		Literal player = new Literal((AtomicSentence)playerPredicate);
 		
 		literals.add(pos);
-		literals.add(own);
+//		literals.add(own);
 		literals.add(types);
 //		literals.add(player);
 		literals.add(boards);
@@ -826,7 +883,7 @@ class AChessProblemSolver
 		return gState;
 !!!1777410.java!!!	determineParameters(inout localAction : ChessActionImpl) : void
 		String name = localAction.getChessPiece().getMyPiece().getOntlogyName();
-		localAction.processPositions();//This method recalculates removed positions for this action. Why is this necessary?
+//		localAction.processPositions();//This method recalculates removed positions for this action. Why is this necessary?
 		AgamePiece piece = localAction.getChessPiece();
 		pieceType type = piece.getPieceType();
 //		int totalmoves = localAction.getMoveNumber().intValue();
@@ -892,7 +949,8 @@ class AChessProblemSolver
 		String owner = null;
 		List<String> reachablePos = new ArrayList<String>();
 		List<Literal> literals = new ArrayList();
-
+		List<String> attackablePos = new ArrayList<String>();
+		List<String> castlePos = new ArrayList<String>();
 		for (Sentence s : folSentences) {
 			String symName = s.getSymbolicName();
 			if (symName.equals(OCCUPIES)) {
@@ -912,7 +970,7 @@ class AChessProblemSolver
 				}
 	
 			}
-			if (symName.equals(OWNER)) {
+/*			if (symName.equals(OWNER)) {
 				List<Term> terms = (List<Term>) s.getArgs();
 				Term f = terms.get(0);
 				ArrayList<Term> literalTerms = new ArrayList<>();
@@ -920,15 +978,15 @@ class AChessProblemSolver
 				Term last = terms.get(1);
 				String p = last.getSymbolicName();
 				if (owner.equals(playerName)&& p.equals(piece)) {
-	/*				Term term = new Constant(owner);
+					Term term = new Constant(owner);
 					Term ps = new Constant(p);
 					literalTerms.add(term);
 					literalTerms.add(ps);
-					Literal l = new Literal(new Predicate(symName, literalTerms));*/
+					Literal l = new Literal(new Predicate(symName, literalTerms));
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
 				}
-			}
+			}*/
 			if (symName.equals(REACHABLE)) {
 				List<Term> terms = (List<Term>) s.getArgs();
 				ArrayList<Term> literalTerms = new ArrayList<>();
@@ -975,23 +1033,56 @@ class AChessProblemSolver
 					literals.add(l);
 				}
 			}
-/*			if (symName.equals(PLAYER)) {
+			if (symName.equals(PAWNATTACK)) {
 				List<Term> terms = (List<Term>) s.getArgs();
 				ArrayList<Term> literalTerms = new ArrayList<>();
 				Term f = terms.get(0);
+				Term last = terms.get(1);
+				String pos = last.getSymbolicName();
 				String p = f.getSymbolicName();
-				if (p.equals(playerName)) {
+				if (p.equals(piece)) {
+					attackablePos.add(pos);
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
+					Constant posVar = new Constant(pos);
+					List<Term> boardTerms = new ArrayList<Term>();
+					boardTerms.add(posVar);
+					Predicate boardPredicate = new Predicate(BOARD,boardTerms);
+					Literal boards = new Literal((AtomicSentence)boardPredicate);
+					literals.add(boards);
 				}
-			}*/
+			}
+			if (symName.equals(CASTLE)) {
+				List<Term> terms = (List<Term>) s.getArgs();
+				ArrayList<Term> literalTerms = new ArrayList<>();
+				Term f = terms.get(0);
+				Term last = terms.get(1);
+				String pos = last.getSymbolicName();
+				String p = f.getSymbolicName();
+				if (p.equals(piece)) {
+					Literal l = new Literal((AtomicSentence) s);
+					literals.add(l);
+					castlePos.add(pos);
+					Constant posVar = new Constant(pos);
+					List<Term> boardTerms = new ArrayList<Term>();
+					boardTerms.add(posVar);
+					Predicate boardPredicate = new Predicate(BOARD,boardTerms);
+					Literal boards = new Literal((AtomicSentence)boardPredicate);
+					literals.add(boards);
+				}
+			}
 		}
 		List<Literal>temp = addProtected(folSentences,reachablePos,piece);
 		literals.addAll(temp);
+		List<Literal>attacktemp = addProtected(folSentences,attackablePos,piece);
+		List<Literal>castletemp = addProtected(folSentences,castlePos,piece);
+		literals.addAll(attacktemp);
+		literals.addAll(castletemp);
 		return initState = new State(literals);
 		
 !!!1777666.java!!!	addProtected(inout folSentences : List<Sentence>, inout reachablePos : List<String>, in piece : String) : Literal
 		List<Literal> literals = new ArrayList();
+		List<AgamePiece> pieces = myPlayer.getMygamePieces();
 		for (Sentence s : folSentences) {
 			String symName = s.getSymbolicName();
 			if (symName.equals(PROTECTED)) {
@@ -1000,8 +1091,9 @@ class AChessProblemSolver
 				Term last = terms.get(1);
 				String p = f.getSymbolicName();
 				String pos = last.getSymbolicName();
+				AgamePiece gpiece =  (AgamePiece) pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().contains(p)).findAny().orElse(null);
 				String posto = reachablePos.stream().filter(pos::equals).findAny().orElse(null);
-				if (!p.equals(piece) &&posto != null) {
+				if (!p.equals(piece) && posto != null && gpiece != null) {
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
 				}

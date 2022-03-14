@@ -16,6 +16,9 @@ class AChessAgent
 		actions = new ArrayList<ChessActionImpl>();
 		opponentPieces = new ArrayList<String>();
 		positionList = game.getPositionlist();
+		for (Position pos:positionList) {
+			pos.setFriendlyPosition(false);
+		}
 		chessDomain = new FOLDomain();
 		setPredicatenames();
 !!!740994.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl, inout game : PlayGame)
@@ -33,6 +36,9 @@ class AChessAgent
 		actions = new ArrayList<ChessActionImpl>();
 		opponentPieces = new ArrayList<String>();
 		positionList = game.getPositionlist();
+		for (Position pos:positionList) {
+			pos.setFriendlyPosition(false);
+		}
 		positions = game.getPositions();
 		chessDomain = new FOLDomain();
 		setPredicatenames();
@@ -96,8 +102,17 @@ class AChessAgent
 			chessDomain.addPredicate(KNIGHT);
 !!!1795970.java!!!	getCastleAction() : ChessActionImpl
 		return castleAction;
+!!!1999746.java!!!	getPAWNATTACK() : String
+		return PAWNATTACK;
+!!!1999874.java!!!	setPAWNATTACK(in pAWNATTACK : String) : void
+		PAWNATTACK = pAWNATTACK;
 !!!1796098.java!!!	setCastleAction(inout castleAction : ChessActionImpl) : void
 		this.castleAction = castleAction;
+!!!2000002.java!!!	clearFriends(inout player : APlayer) : void
+		List<AgamePiece>pieces = player.getMygamePieces();
+		for (AgamePiece piece:pieces) {
+			piece.clearfriendPositions();
+		}
 !!!741122.java!!!	execute(inout state : Percept) : Action
 		stateImpl = (ChessStateImpl)state;
 //		Variable kingJohn = new Variable("John");
@@ -115,28 +130,40 @@ class AChessAgent
 		folKb = new ChessFolKnowledgeBase(chessDomain, forwardChain,knowledgeFilename);
 		folKb.setBackWardChain(backwardChain);
 //		folKb.tell(mKing);
-		setOpponentpieces(opponent);//creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
+		// Moved to behind makerules !! 20.11.21
+//		setOpponentpieces(opponent);//creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
 		kb.setOpponentPieces(opponentPieces);
 		noofMoves = game.getMovements().size();
 		String playerName = stateImpl.getMyPlayer().getNameOfplayer();
 		Sentence playSentence = kb.newSymbol(kb.TOPLAY+playerName, noofMoves);
 		kb.tell(playSentence);
-		
+	
 		makeRules(myPlayer,"g1","c1"); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		for (Position pos:positionList) {
+			pos.setFriendlyPosition(false);
+		}
+
+		// 04.11.21 This is done to create opponent friendly positions
+		opponentActions = this.stateImpl.getActions(opponent); // These are the opponent's actions
+		
+		// OBS uses white friendly positions: !!!!
 		makeRules(opponent,"g8","c8"); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		setOpponentpieces(opponent);//creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
+		clearFriends(myPlayer);
+		clearFriends(opponent);
 		HashSet<String> chessConstants = (HashSet<String>) chessDomain.getConstants();
 		HashSet<String> chessPredicates = (HashSet<String>) chessDomain.getPredicates();
 		String sample = "WhitePawn1";
 		List<String> chessConstant = chessConstants.stream().collect(Collectors.toList());
 		List<String> chesspredicateList = chessPredicates.stream().collect(Collectors.toList());
-		writer.println("The chessdomain constants");
+/*		writer.println("The chessdomain constants");
 		for (String c:chessConstant) {
 			writer.println(c);
 		}
 		writer.println("The chessdomain predicates");
 		for (String c:chesspredicateList) {
 			writer.println(c);
-		}
+		}*/
 		String pieceConstant = chessConstants.stream().filter(sample::equals).findAny().orElse(null);
 		String chessPr = chesspredicateList.get(0);
 		
@@ -417,6 +444,13 @@ class AChessAgent
 				
 				ownerTerms.add(ownerVariable);
 				String name = piece.getMyPiece().getOntlogyName(); 
+/*				if (name.equals("WhiteQueen")) {
+					writer.println("The white queen\n"+piece.toString());
+				}
+				if (name.contains("WhiteRook")) {
+					writer.println("The white rook "+name);
+					writer.println("Piece "+piece.toString());
+				}*/
 				String posName = piece.getmyPosition().getPositionName();
 				chessDomain.addConstant(posName);
 				chessDomain.addConstant(name);
@@ -471,7 +505,10 @@ class AChessAgent
 					for (Position pos:availablePositions){
 						//if(!piece.checkRemoved(pos)) 
 						//if(!piece.checkFriend(pos))
-						if(!piece.checkRemoved(pos)) {
+						if(!piece.checkRemoved(pos) || piece.checkFriendlyPosition(pos)) { // isFriendlyPosition() added 01.11.21
+/*							if (pos.isFriendlyPosition()) {
+								writer.println("=========== position is friendly !!"+pos.toString());
+							}*/
 							String position = pos.getPositionName();
 							Constant protectorVariable = new Constant(name);
 							Constant protectedVariable = new Constant(position);
@@ -485,6 +522,10 @@ class AChessAgent
 //								kb.tellCaptureRules(t, position, name);
 							}
 							folKb.tell(reachablePredicate);
+/*							if (player == opponent) {
+								Predicate threatenPredicate = new Predicate(THREATEN,protectedTerms);
+								folKb.tell(threatenPredicate);
+							}*/
 							chessDomain.addConstant(position);
 							if (type == type.KING && castlePositions != null) {
 								List<Position> removedKing = piece.getRemovedPositions();

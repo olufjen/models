@@ -1,0 +1,130 @@
+format 223
+
+classinstance 128002 class_ref 233474 // PlayGame
+ name ""  xyz 204 215 2000
+classinstance 128130 class_ref 233602 // AchessGame
+ name ""  xyz 464 79 2005
+classinstance 128514 class_ref 237954 // RapporterChessStartServerResourceHTML
+ name ""  xyz 208 22 2000
+note 129282 "The opponent has made a move"
+  xyzwh 677 24 2000 111 61
+classinstance 129538 class_ref 225026 // ChessAlphaBetaSearch
+ name ""  xyz 178 466 2000
+classinstance 129922 class_ref 234114 // ChessKnowledgeBase
+ name ""  xyz 494 265 2011
+classinstance 131202 class_ref 233986 // AChessAgent
+ name ""  xyz 605 401 2000
+classinstance 132610 class_ref 233602 // AchessGame
+ name ""  xyz 17 372 2000
+classinstance 132866 class_ref 231938 // ChessBoard
+ name ""  xyz 19 67 2000
+classinstance 133378 class_ref 233858 // ChessStateImpl
+ name ""  xyz 15 126 2000
+textcanvas 134402 "This diagram shows the the process performed when a user (opponent makes a move.
+For details on the makeDecision process, see the diagram:
+A minimax search for all sorted actions.
+OBS: The minimax search has been removed!!!"
+  xyzwh 71 613 2000 425 62
+textcanvas 134658 "For details on the execute function see
+the diagram The Chess Agent execute function"
+  xyzwh 581 464 2000 188 55
+textcanvas 134914 "The makeDecision and the use of AlphaBetaSearch has been removed"
+  xyzwh 115 513 2000 340 14
+linkcanvas 128258 decenter_end 716
+  from ref 128002 z 2006 to ref 128130
+dirscanvas 128386 z 1000 linkcanvas_ref 128258
+  
+  forward_label "10 getInitialState()" xyz 337 129 3000
+linkcanvas 128642 decenter_begin 97
+  from ref 128514 z 2001 to ref 128002
+dirscanvas 128770 z 1000 linkcanvas_ref 128642
+  
+  forward_label "1 proposeMove()" xyz 250 123 3000
+linkcanvas 129666 decenter_begin 142 decenter_end 282
+  from ref 128002 z 2001 to ref 129538
+dirscanvas 129794 z 1000 linkcanvas_ref 129666
+  
+  forward_label "2 makeDecision()" xyz 231 346 3000
+linkcanvas 130050 decenter_begin 652
+  from ref 128002 z 2012 to point 311 230
+  line 130562 z 2012 to point 314 268
+  line 130434 z 2012 to ref 129922
+dirscanvas 130178 z 1000 linkcanvas_ref 130434
+  
+  forward_label "3 ChessKnowledgeBase()" xyz 342 241 3000
+linkcanvas 130690 decenter_begin 856
+  from ref 128002 z 2012 to point 257 316
+  line 130818 z 2012 to point 552 319
+  line 130946 z 2012 to ref 129922
+dirscanvas 131074 z 1000 linkcanvas_ref 130818
+  
+  forward_label "4 setStateImpl()" xyz 370 289 3000
+linkcanvas 131330 decenter_end 888
+  from ref 128002 z 2006 to point 493 229
+  line 134530 z 2006 to point 681 229
+  line 131970 z 2006 to ref 131202
+dirscanvas 132354 z 1000 linkcanvas_ref 131330
+  
+  forward_label "5 AChessAgent()" xyz 340 198 3000
+linkcanvas 132098
+  from ref 128002 z 2001 to point 238 404
+  line 132226 z 2001 to ref 131202
+dirscanvas 132482 z 1000 linkcanvas_ref 132226
+  
+  forward_label "6 execute()" xyz 395 378 3000
+linkcanvas 132994 decenter_begin 142
+  from ref 128002 z 2001 to point 205 79
+  line 133122 z 2001 to ref 132866
+dirscanvas 133250 z 1000 linkcanvas_ref 133122
+  
+  forward_label "7 determineMove()" xyz 105 98 3000
+linkcanvas 133506 decenter_end 407
+  from ref 128002 z 2001 to point 43 226
+  line 133634 z 2001 to ref 132610
+dirscanvas 133762 z 1000 linkcanvas_ref 133506
+  
+  forward_label "8 movePiece()" xyz 90 246 3000
+linkcanvas 133890 decenter_begin 142
+  from ref 128002 z 2001 to point 150 136
+  line 134018 z 2001 to ref 133378
+dirscanvas 134146 z 1000 linkcanvas_ref 133890
+  
+  forward_label "9 switchActivePlayer()" xyz 95 194 3000
+msgs
+  msg operation_ref 724866 // "proposeMove() : void"
+    forward ranks 1 "1" dirscanvas_ref 128770
+    msgs
+      msg operation_ref 663682 // "makeDecision(inout state : ChessState) : ChessAction"
+	forward ranks 2 "1.1" dirscanvas_ref 129794
+	no_msg
+      msg operation_ref 789634 // "ChessKnowledgeBase()"
+	forward ranks 3 "1.2" dirscanvas_ref 130178
+	no_msg
+      msg operation_ref 791554 // "setStateImpl(inout stateImpl : ChessStateImpl) : void"
+	forward ranks 4 "1.3" dirscanvas_ref 131074
+	no_msg
+      msg operation_ref 740738 // "AChessAgent(inout kb : KnowledgeBase)"
+	forward ranks 5 "1.4" dirscanvas_ref 132354
+	no_msg
+      msg operation_ref 741122 // "execute(inout state : Percept) : Action"
+	forward ranks 6 "1.5" dirscanvas_ref 132482
+	no_msg
+      msg operation_ref 707330 // "determineMove(in oldPos : String, in newPos : String, in piece : String) : void"
+	forward ranks 7 "1.6" dirscanvas_ref 133250
+	no_msg
+      msg operation_ref 745090 // "movePiece(inout piece : AgamePiece, inout to : Position, in source : String) : void"
+	forward ranks 8 "1.7" dirscanvas_ref 133762
+	no_msg
+      msg operation_ref 794754 // "switchActivePlayer() : void"
+	forward ranks 9 "1.8" dirscanvas_ref 134146
+	no_msg
+    msgsend
+  msg operation_ref 747266 // "getInitialState() : ChessState"
+    forward ranks 10 "2" dirscanvas_ref 128386
+    no_msg
+msgsend
+line 134786 -_-_
+  from ref 134658 z 2002 to ref 132226
+line 135042 -_-_
+  from ref 134914 z 2002 to ref 129666
+end
