@@ -1,6 +1,6 @@
 format 223
 "planning" // no::games::chess::planning
-  revision 7
+  revision 11
   modified_by 2 "bruker"
   // class settings
   
@@ -289,7 +289,8 @@ ${members}}
 Artificial Intelligence A Modern Approach (3rd Edition): Figure 11.5, page
 409.<br>
 <br>
-
+@since August 2022
+A list  List<ActionSchema> allPrefix has been added to search the initial state of all prefixes
 <pre>
 function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
  frontier ← a FIFO queue with [Act] as the only element
@@ -357,6 +358,36 @@ HLA whose preconditions are satisfied by the specified state, outcome.
 	  b parent class_ref 169602 // ActionSchema
       end
 
+      attribute 646658 "allPrefix"
+	private explicit_type "List<ActionSchema>"
+	init_value " null"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 646786 "noPlan"
+	private explicit_type "boolean"
+	init_value " false"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "noPlan is true if the search returns a reserve plan	
+
+"
+      end
+
       operation 1760002 "ChessSearchAlgorithm"
 	public explicit_return_type ""
 	nparams 2
@@ -421,6 +452,31 @@ HLA whose preconditions are satisfied by the specified state, outcome.
 	
       end
 
+      operation 2054786 "isNoPlan"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2054914 "setNoPlan"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "noPlan" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 1653634 "heirarchicalSearch"
 	public return_type class_ref 169602 // ActionSchema
 	nparams 1
@@ -457,7 +513,7 @@ satisfied by the specified state, outcome.
 
 @param hla     The hla to which the refinements are to be applied.
 @param outcome The state in which the refinements are to be applied.
-@return List of all refinements of the current hla in a given outcome state.
+@return List of all applicable refinements of the current hla in a given outcome state.
 "
       end
     end
@@ -705,6 +761,982 @@ See section 11.2.1 p. 406
 "
       end
     end
+
+    class 423170 "PerceptSchema"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Artificial Intelligence A Modern Approach (3rd Edition): page 416.<br>
+<p>
+A Percept Schema is created to solve a partially observable problem as described on page 416
+A Precept Schema is essentially a copy of the Action Schema, with the following changes:
+The schema consists of the percept  name, a list of all the variables used in the schema, and a
+precondition. A precept schema has no effects.
+The rule (p. 368) An action a is applicable in state s if the preconditions of a are satisfied by s.
+@author Oluf Jensen
+"
+      classrelation 600322 // variables (<unidirectional association>)
+	relation 600322 --->
+	  stereotype "List"
+	  a role_name "variables" package
+	    comment " list of variables"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 600322 // variables (<unidirectional association>)
+	  b parent class_ref 160770 // Term
+      end
+
+      classrelation 600450 // precondition (<unidirectional association>)
+	relation 600450 --->
+	  stereotype "List"
+	  a role_name "precondition" package
+	    comment "PRECONDITION: treated as a conjunction of fluents"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 600450 // precondition (<unidirectional association>)
+	  b parent class_ref 148738 // Literal
+      end
+
+      attribute 653442 "name"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "action name"
+      end
+
+      operation 2061570 "PerceptSchema"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "name" explicit_type "String"
+	  param inout name "variables" explicit_type "List<Term>"
+	  param inout name "precondition" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2061698 "PerceptSchema"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "name" explicit_type "String"
+	  param inout name "variables" explicit_type "List<Term>"
+	  param in name "precondition" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2061826 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2061954 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2062082 "hashCode"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2062210 "getActionBySubstitution"
+	public return_type class_ref 423170 // PerceptSchema
+	nparams 1
+	  param inout name "constants" explicit_type "List<Constant>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This function generates ground actions from a given actionschema.
+
+@param constants The list of constants from which to generate ground actions.
+@return A ground action.
+"
+      end
+
+      operation 2062338 "getConstants"
+	public return_type class_ref 149506 // Constant
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "To extract constants from an action.
+
+@return A list of constants from the acton.
+"
+      end
+
+      operation 2062466 "extractConstant"
+	public return_type class_ref 149506 // Constant
+	nparams 1
+	  param inout name "list" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2062594 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2062722 "getVariables"
+	public return_type class_ref 160770 // Term
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2062850 "getPrecondition"
+	public return_type class_ref 148738 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 442882 "ChessGraph"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This is the ChessGraph specialization of Graph 
+Oluf Jensen 8.3.23
+Artificial Intelligence A Modern Approach (3rd Edition): page 379.<br>
+<p>
+A planning graph is a directed graph organized into levels: first a level S 0 for the initial
+state, consisting of nodes representing each fluent that holds in S 0 ; then a level A 0 consisting
+of nodes for each ground action that might be applicable in S 0 ; then alternating levels S i
+followed by A i ; until we reach a termination condition.
+
+@author samagra
+"
+      classrelation 636290 // levels (<unidirectional association>)
+	relation 636290 --->
+	  stereotype "ArrayList"
+	  a role_name "levels" package
+	    comment " ChessLevels"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 636290 // levels (<unidirectional association>)
+	  b parent class_ref 443010 // ChessLevel
+      end
+
+      classrelation 636418 // problem (<unidirectional association>)
+	relation 636418 --->
+	  a role_name "problem" package
+	    comment " The planning problem"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 636418 // problem (<unidirectional association>)
+	  b parent class_ref 356994 // ChessProblem
+      end
+
+      classrelation 636546 // propositionalisedActions (<unidirectional association>)
+	relation 636546 --->
+	  stereotype "List"
+	  a role_name "propositionalisedActions" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 636546 // propositionalisedActions (<unidirectional association>)
+	  b parent class_ref 169602 // ActionSchema
+      end
+
+      operation 2105218 "ChessGraph"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "problem" type class_ref 356994 // ChessProblem
+	  param inout name "initialLevel" type class_ref 443010 // ChessLevel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2105346 "numLevels"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2105474 "getLevels"
+	public return_type class_ref 443010 // ChessLevel
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ArrayList<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2105602 "getProblem"
+	public return_type class_ref 356994 // ChessProblem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2105730 "getPropositionalisedActions"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2105858 "addLevel"
+	public return_type class_ref 442882 // ChessGraph
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 443010 "ChessLevel"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This is a chess version of
+The data structure for calculating and holding the levels of a planning graph.
+
+@author samagra
+
+Oluf Jensen 8.3.23
+"
+      attribute 690818 "levelObjects"
+	private explicit_type "Object"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 690946 "mutexLinks"
+	package explicit_type "Object, List<Object>"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "can be planned alternatively"
+      end
+
+      attribute 691074 "nextLinks"
+	package explicit_type "Object, List<Object>"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 691202 "prevLinks"
+	package explicit_type "Object, List<Object>"
+	stereotype "HashMap"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " The prevLinks is a HashMap containing an empty List with the LevelObject as a key"
+      end
+
+      classrelation 636802 // problem (<unidirectional association>)
+	relation 636802 --->
+	  a role_name "problem" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 636802 // problem (<unidirectional association>)
+	  b parent class_ref 356994 // ChessProblem
+      end
+
+      classrelation 636930 // prevLevel (<unidirectional association>)
+	relation 636930 --->
+	  a role_name "prevLevel" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 636930 // prevLevel (<unidirectional association>)
+	  b parent class_ref 443010 // ChessLevel
+      end
+
+      operation 2107906 "ChessLevel"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "prevLevel" type class_ref 443010 // ChessLevel
+	  param inout name "problem" type class_ref 356994 // ChessProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108034 "ChessLevel"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "prevLevel" type class_ref 443010 // ChessLevel
+	  param inout name "problem" type class_ref 356994 // ChessProblem
+	  param in name "extraLiterals" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108162 "addExtraLiterals"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "s" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108290 "getLevelObjects"
+	public explicit_return_type "List<Object>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108418 "getMutexLinks"
+	public explicit_return_type "HashMap<Object, List<Object>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108546 "getNextLinks"
+	public explicit_return_type "HashMap<Object, List<Object>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108674 "getPrevLinks"
+	public explicit_return_type "HashMap<Object, List<Object>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108802 "getProblem"
+	public return_type class_ref 356994 // ChessProblem
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2108930 "addPersistentActions"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109058 "addNoPrecondActions"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109186 "calculateMutexLinks"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "prevLevel" type class_ref 443010 // ChessLevel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109314 "checkInterference"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param inout name "firstActionPreconditions" explicit_type "List<Literal>"
+	  param inout name "secondActionEffects" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109442 "addToHashMap"
+	private explicit_return_type "void"
+	nparams 3
+	  param inout name "firstObject" explicit_type "Object"
+	  param inout name "secondObject" explicit_type "Object"
+	  param inout name "map" explicit_type "HashMap<Object, List<Object>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109570 "calculateNextLinks"
+	private explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109698 "getPrevLevel"
+	public return_type class_ref 443010 // ChessLevel
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109826 "printLevelObject"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2109954 "equals"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "obj" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 443138 "ChessGraphPlanAlgorithm"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This is the Chess specialization of the Graphplan algorithm
+Oluf Jensen 8.3.23
+Artificial Intelligence A Modern Approach (3rd Edition): Figure 10.9 page
+383.<br>
+<br>
+
+<pre>
+
+function GRAPHPLAN(problem) returns solution or failure
+
+ graph ← INITIAL-PLANNING-GRAPH(problem)
+ goals ← CONJUNCTS(problem.GOAL)
+ nogoods ← an empty hash table
+ for tl = 0 to ∞ do
+   if goals all non-mutex in St of graph then
+     solution ← EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
+     if solution ≠ failure then return solution
+   if graph and nogoods have both leveled off then return failure
+   graph ← EXPAND-GRAPH(graph, problem)
+</pre>
+<p>
+Figure 10.9 The GRAPHPLAN algorithm. GRAPHPLAN calls EXPAND-GRAPH to add a
+level until either a solution is found by EXTRACT-SOLUTION, or no solution
+is possible.
+
+@author samagra
+"
+      attribute 690690 "theLevel"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 636674 // theChesslevel (<unidirectional association>)
+	relation 636674 --->
+	  a role_name "theChesslevel" private
+	    comment " Contains the last level"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 636674 // theChesslevel (<unidirectional association>)
+	  b parent class_ref 443010 // ChessLevel
+      end
+
+      operation 2105986 "graphPlan"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 1
+	  param inout name "problem" type class_ref 356994 // ChessProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function GRAPHPLAN(problem) returns solution or failure
+
+@param problem the planning problem for which the plan is to be created
+@return a solution or null
+"
+      end
+
+      operation 2106114 "getTheLevel"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2106242 "setTheLevel"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "theLevel" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2106370 "getTheChesslevel"
+	public return_type class_ref 443010 // ChessLevel
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2106498 "setTheChesslevel"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "theChesslevel" type class_ref 443010 // ChessLevel
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2106626 "extractSolution"
+	private explicit_return_type "List<List<ActionSchema>>"
+	nparams 4
+	  param inout name "graph" type class_ref 442882 // ChessGraph
+	  param inout name "goals" explicit_type "List<Literal>"
+	  param in name "numLevel" explicit_type "int"
+	  param inout name "nogoods" explicit_type "Hashtable<Integer, List<Literal>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method extracts a solution from the planning graph.
+<p>
+Artificial Intelligence A Modern Approach (3rd Edition): page 384.<br>
+<p>
+We can define EXTRACT -SOLUTION as a backward search problem, where
+each state in the search contains a pointer to a level in the planning graph and a set of unsat-
+isfied goals. We define this search problem as follows:
+• The initial state is the last level of the planning graph, S n , along with the set of goals
+from the planning problem.
+• The actions available in a state at level S i are to select any conflict-free subset of the
+actions in A i−1 whose effects cover the goals in the state. The resulting state has level
+S i−1 and has as its set of goals the preconditions for the selected set of actions. By
+“conflict free,” we mean a set of actions such that no two of them are mutex and no two
+of their preconditions are mutex.
+• The goal is to reach a state at level S 0 such that all the goals are satisfied.
+• The cost of each action is 1.
+
+@param graph    The planning graph.
+@param goals    Goals of the planning problem.
+@param numLevel Number of levels in the graph.
+@param nogoods  A hash table to store previously calculated results.
+@return a solution if found else null
+"
+      end
+
+      operation 2106754 "checkAllGoalsNonMutex"
+	private explicit_return_type "boolean"
+	nparams 2
+	  param inout name "level" type class_ref 443010 // ChessLevel
+	  param inout name "goals" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method is used to check if all goals are present in a particular state
+and none of them has a mutex link.
+
+@param level The current level in which to check for the goals.
+@param goals List of goals to be checked
+@return Boolean representing if goals all non mutex in St
+"
+      end
+
+      operation 2106882 "expandGraph"
+	private return_type class_ref 442882 // ChessGraph
+	nparams 1
+	  param inout name "graph" type class_ref 442882 // ChessGraph
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method adds a new state (a state level and an action level both) to the planning graph.
+
+@param graph The planning graph.
+@return The expanded graph.
+"
+      end
+
+      operation 2107010 "leveledOff"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "nogoods" explicit_type "Hashtable<Integer, List<Literal>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A graph is said to be levelled off if two consecutive levels are identical.
+
+@param nogoods
+@return Boolean stating if the hashtable is levelled off.
+"
+      end
+
+      operation 2107138 "levelledOff"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "graph" type class_ref 442882 // ChessGraph
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A graph is said to be levelled off if two consecutive levels are identical.
+
+@param graph
+@return Boolean stating if the graph is levelled off.
+"
+      end
+
+      operation 2107266 "conjuncts"
+	private return_type class_ref 148738 // Literal
+	nparams 1
+	  param inout name "goalState" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a list of literals in a state.
+
+@param goalState
+@return List of literals.
+"
+      end
+
+      operation 2107394 "initialPlanningGraph"
+	private return_type class_ref 442882 // ChessGraph
+	nparams 1
+	  param inout name "problem" type class_ref 356994 // ChessProblem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method initialises the planning graph for a particular problem.
+
+@param problem The planning problem.
+@return Graph for the planning problem.
+"
+      end
+
+      operation 2107522 "combineTwoLists"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 2
+	  param inout name "firstList" explicit_type "List<ActionSchema>"
+	  param inout name "secondList" explicit_type "List<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Helper methods for combinations and permutations."
+      end
+
+      operation 2107650 "combineExtraList"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 2
+	  param inout name "combinedList" explicit_type "List<List<ActionSchema>>"
+	  param inout name "newList" explicit_type "List<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2107778 "generateCombinations"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 1
+	  param inout name "actionLists" explicit_type "List<List<ActionSchema>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
   end
 
   deploymentview 169474 "planning"
@@ -783,6 +1815,70 @@ import java.util.stream.Collectors;
 ${definition}"
       associated_elems
 	class_ref 356994 // ChessProblem
+      end
+    end
+
+    artifact 366210 "PerceptSchema"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+import aima.core.logic.planning.Utils;
+import no.games.chess.ChessVariables;
+import java.util.ArrayList;
+import java.util.List;
+${definition}"
+      associated_elems
+	class_ref 423170 // PerceptSchema
+      end
+    end
+
+    artifact 385922 "ChessGraph"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.logic.planning.ActionSchema;
+${definition}"
+      associated_elems
+	class_ref 442882 // ChessGraph
+      end
+    end
+
+    artifact 386050 "ChessGraphPlanAlgorithm"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.State;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 443138 // ChessGraphPlanAlgorithm
+      end
+    end
+
+    artifact 386178 "ChessLevel"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.Utils;
+import java.util.*;
+${definition}"
+      associated_elems
+	class_ref 443010 // ChessLevel
       end
     end
   end

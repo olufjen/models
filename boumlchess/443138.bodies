@@ -1,0 +1,171 @@
+class ChessGraphPlanAlgorithm
+!!!2105986.java!!!	graphPlan(inout problem : ChessProblem) : List<List<ActionSchema>>
+        //graph ← INITIAL-PLANNING-GRAPH(problem)
+        ChessGraph graph = initialPlanningGraph(problem);
+        // goals ← CONJUNCTS(problem.GOAL)
+        List<Literal> goals = conjuncts(problem.getGoalState());
+        // nogoods ← an empty hash table
+        Hashtable<Integer, List<Literal>> nogoods = new Hashtable<>();
+        ChessLevel state;
+        // for tl = 0 to ∞ do
+        for (int tl = 0; ; tl++) {
+            //St
+            state = graph.getLevels().get(2 * tl);
+            // if goals all non-mutex in St of graph then
+            if (checkAllGoalsNonMutex(state, goals)) {
+                // solution ← EXTRACT-SOLUTION(graph, goals, NUMLEVELS(graph), nogoods)
+                List<List<ActionSchema>> solution = extractSolution(graph, goals, graph.numLevels(), nogoods);
+                theLevel = graph.numLevels() - 1;
+                ArrayList<ChessLevel> alllevel = graph.getLevels();
+               theChesslevel = alllevel.get(theLevel);
+                //if solution ≠ failure then return solution
+                if (solution != null && solution.size() != 0)
+                    return solution;
+            }
+            // if graph and nogoods have both leveled off then return failure
+            if (levelledOff(graph) && leveledOff(nogoods)) {
+                return null;
+            }
+            //   graph ← EXPAND-GRAPH(graph, problem)
+            graph = expandGraph(graph);
+        }
+!!!2106114.java!!!	getTheLevel() : int
+		return theLevel;
+!!!2106242.java!!!	setTheLevel(in theLevel : int) : void
+		this.theLevel = theLevel;
+!!!2106370.java!!!	getTheChesslevel() : ChessLevel
+		return theChesslevel;
+!!!2106498.java!!!	setTheChesslevel(inout theChesslevel : ChessLevel) : void
+		this.theChesslevel = theChesslevel;
+!!!2106626.java!!!	extractSolution(inout graph : ChessGraph, inout goals : List<Literal>, in numLevel : int, inout nogoods : Hashtable<Integer, List<Literal>>) : List<List<ActionSchema>>
+        if (nogoods.contains(numLevel))
+            return null;
+
+        int level = (graph.numLevels() - 1) / 2;
+        List<Literal> goalsCurr = goals;
+        List<List<ActionSchema>> solution = new ArrayList<>();
+        ChessLevel currLevel = graph.getLevels().get(2 * level);
+        while (level > 0) {
+            List<List<ActionSchema>> setOfPossibleActions = new ArrayList<>();
+            HashMap<Object, List<Object>> mutexLinks = currLevel.getPrevLevel().getMutexLinks();
+            for (Literal literal :
+                    goalsCurr) {
+                List<ActionSchema> possiBleActionsPerLiteral = new ArrayList<>();
+                for (Object action :
+                        currLevel.getPrevLinks().get(literal)) {
+                    possiBleActionsPerLiteral.add((ActionSchema) action);
+                }
+                setOfPossibleActions.add(possiBleActionsPerLiteral);
+            }
+            List<List<ActionSchema>> allPossibleSubSets = generateCombinations(setOfPossibleActions);
+            boolean validSet;
+            List<ActionSchema> setToBeTaken = null;
+            for (List<ActionSchema> possibleSet :
+                    allPossibleSubSets) {
+                validSet = true;
+                ActionSchema firstAction, secondAction;
+                for (int i = 0; i < possibleSet.size(); i++) {
+                    firstAction = possibleSet.get(i);
+                    for (int j = i + 1; j < possibleSet.size(); j++) {
+                        secondAction = possibleSet.get(j);
+                        if (mutexLinks.containsKey(firstAction) && mutexLinks.get(firstAction).contains(secondAction))
+                            validSet = false;
+                    }
+                }
+                if (validSet) {
+                    setToBeTaken = possibleSet;
+                    break;
+                }
+            }
+            if (setToBeTaken == null) {
+                nogoods.put(level, goalsCurr);
+                return null;
+            }
+
+            level--;
+            currLevel = graph.getLevels().get(2 * level);
+            goalsCurr.clear();
+            solution.add(setToBeTaken);
+            for (ActionSchema action :
+                    setToBeTaken) {
+                for (Literal literal :
+                        action.getPrecondition()) {
+                    if (!goalsCurr.contains(literal)) {
+                        goalsCurr.add(literal);
+                    }
+                }
+            }
+        }
+        return solution;
+!!!2106754.java!!!	checkAllGoalsNonMutex(inout level : ChessLevel, inout goals : List<Literal>) : boolean
+        if (!level.getLevelObjects().containsAll(goals)) { // Are the goals applicable in levelobjects?. The level objects are the fluents of the initial state
+            return false;
+        }
+        boolean mutexCheck = false;
+        for (Object literal :
+                goals) {
+            List<Object> mutexOfGoal = level.getMutexLinks().get(literal);
+            if (mutexOfGoal != null) {
+                for (Object object :
+                        mutexOfGoal) {
+                    if (goals.contains((Literal) object)) {
+                        mutexCheck = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return (!mutexCheck);
+!!!2106882.java!!!	expandGraph(inout graph : ChessGraph) : ChessGraph
+        return graph.addLevel().addLevel();
+!!!2107010.java!!!	leveledOff(inout nogoods : Hashtable<Integer, List<Literal>>) : boolean
+        if (nogoods.size() < 2)
+            return false;
+        return nogoods.get(nogoods.size() - 1).equals(nogoods.get(nogoods.size() - 2));
+!!!2107138.java!!!	levelledOff(inout graph : ChessGraph) : boolean
+        if (graph.numLevels() < 2)
+            return false;
+        return graph.levels.get(graph.numLevels() - 1).equals(graph.levels.get(graph.numLevels() - 2));
+!!!2107266.java!!!	conjuncts(inout goalState : State) : Literal
+        return goalState.getFluents();
+!!!2107394.java!!!	initialPlanningGraph(inout problem : ChessProblem) : ChessGraph
+        ChessLevel initialLevel = new ChessLevel(null, problem);
+        return new ChessGraph(problem, initialLevel);
+!!!2107522.java!!!	combineTwoLists(inout firstList : List<ActionSchema>, inout secondList : List<ActionSchema>) : List<List<ActionSchema>>
+        List<List<ActionSchema>> result = new ArrayList<>();
+        for (ActionSchema firstAction :
+                firstList) {
+            for (ActionSchema secondAction :
+                    secondList) {
+                result.add(Arrays.asList(firstAction, secondAction));
+            }
+        }
+        return result;
+!!!2107650.java!!!	combineExtraList(inout combinedList : List<List<ActionSchema>>, inout newList : List<ActionSchema>) : List<List<ActionSchema>>
+        List<List<ActionSchema>> result = new ArrayList<>();
+        for (List<ActionSchema> combined :
+                combinedList) {
+            for (ActionSchema action :
+                    newList) {
+                List<ActionSchema> tempList = new ArrayList<>(combined);
+                tempList.add(action);
+                result.add(tempList);
+            }
+        }
+        return result;
+!!!2107778.java!!!	generateCombinations(inout actionLists : List<List<ActionSchema>>) : List<List<ActionSchema>>
+        List<List<ActionSchema>> result = new ArrayList<>();
+        if (actionLists.size() == 1) {
+            result.add(actionLists.get(0));
+            return result;
+        }
+        if (actionLists.size() == 2) {
+            return combineTwoLists(actionLists.get(0), actionLists.get(1));
+        } else {
+            result = combineTwoLists(actionLists.get(0), actionLists.get(1));
+            for (int i = 2; i < actionLists.size(); i++) {
+                result = combineExtraList(result, actionLists.get(i));
+            }
+            return result;
+        }
+

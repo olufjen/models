@@ -6,22 +6,65 @@ classinstance 128130 class_ref 380162 // OpponentAgent
  name ""  xyz 420 260 2000
 note 128258 " probepossibilities
  This method probes possible reachable positions given a
- possible occupied position from the available actions for the player of the game.
+ possible occupied position from the available actions for the players of the game.
  Facts of the form
 occupies(WhiteBishop2,c4)
 REACHABLE(WhiteBishop2_c4,d5)
 are created in the strategy KB. From position c4, the bishop can reach d5.
 The strategy KB represents possible moves one ply down.
-It is called from the ChessProblemSolver"
-  xyzwh 10 19 2000 283 201
+It is called from the ChessProblemSolver
+ It is also called from the defineFact method when the opponent agent is created, to create facts about the opponent pieces to the 
+ strategy knowledge base."
+  xyzwh 36 10 2000 421 231
+textcanvas 128642 "For all actions available to the chosen  player
+"
+  xyzwh 624 171 2000 163 31
+textcanvas 129026 "This is the strategy knowledge base"
+  xyzwh 906 218 2000 175 14
+textcanvas 130690 "This method creates new REACHABLE facts to the strategy knowledge base.
+This is done by calling the strategy knowledge base createfacts method.
+ It also checks to see if the new reachable position is protected.
+ It is called from the probepossiblities method"
+  xyzwh 308 447 2000 326 97
+textcanvas 130946 "Two Maps are maintained:  Map<String,Position>protectedPositions Contains the set of positions protected by the player of the game
+ Key: A piece x is protected at pos y when it moves from pos z to y. ex: WhiteBishop1_d2e1. This means that the
+Bishop is protected by another player's piece if it moves from d2 to e1.
+ With the key: BlackBishop2_a3c1, then this opponent Bishop is threatened by another player's piece if it moves from 
+a3 to c1 This map is filled in the tellnewfacts method.
+ Map<String,Position>possiblePositions Contains the set of possible reachable positions in the strategy KB
+ The key for these two maps is of the form: WhiteBishop2_c4d5"
+  xyzwh 60 577 2000 699 98
+textcanvas 131202 "This creates facts about which piece occupies what position to the strategy knowlwdge base"
+  xyzwh 707 321 2000 256 79
 linkcanvas 128386
   from ref 128130 z 2001 to ref 128002
 dirscanvas 128514 z 1000 linkcanvas_ref 128386
   
   forward_label "1 createfacts()" xyz 603 243 3000
+linkcanvas 130050
+  from ref 128130 z 2001 to point 296 274
+  line 130178 z 2001 to point 300 377
+  line 130306 z 2001 to point 433 383
+  line 130434 z 2001 to ref 128130
+dirscanvas 130562 z 1000 linkcanvas_ref 130434
+  
+  backward_label "2 tellnewFacts()" xyz 467 344 3000
 msgs
   msg operation_ref 1958530 // "createfacts(in fact : String, in pos : String, in piece : String) : void"
     forward ranks 1 "1" dirscanvas_ref 128514
     no_msg
+  msg operation_ref 1959298 // "tellnewFacts(inout piece : AgamePiece, in name : String, in posnameNow : String) : void"
+    backward ranks 2 "2" dirscanvas_ref 130562
+    no_msg
 msgsend
+line 128770 -_-_
+  from ref 128642 z 2002 to ref 128386
+line 129154 -_-_
+  from ref 129026 z 2001 to ref 128002
+line 130818 -_-_
+  from ref 130690 z 2002 to ref 130434
+line 131074 -_-_ decenter_begin 165
+  from ref 130946 z 2002 to ref 130178
+line 131330 -_-_
+  from ref 131202 z 2002 to ref 128386
 end

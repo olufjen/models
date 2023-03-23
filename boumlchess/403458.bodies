@@ -3,7 +3,7 @@ class ChessFolKnowledgeBase
 		super(domain, inferenceProcedure);
 		fileName = "tempknowledgebase.txt";
 		outputFileName = outputFileName+this.fileName;
-		
+		movePieces = new ArrayList<AgamePiece>();
 		try {
 			fw = new FileWriter(outputFileName, true);
 		} catch (IOException e1) {
@@ -24,6 +24,7 @@ class ChessFolKnowledgeBase
 			e1.printStackTrace();
 		}
 	    writer = new PrintWriter(new BufferedWriter(fw));
+		movePieces = new ArrayList<AgamePiece>();
 	    setPieceTypes();
 !!!1991682.java!!!	setPieceTypes() : void
 		PAWN = KnowledgeBuilder.getPAWN();
@@ -39,6 +40,10 @@ class ChessFolKnowledgeBase
 		pieceTypes.add(ROOK);
 		pieceTypes.add(KING);
 		pieceTypes.add(QUEEN);
+!!!2047106.java!!!	getMovePieces() : AgamePiece
+		return movePieces;
+!!!2047234.java!!!	setMovePieces(inout movePieces : List<AgamePiece>) : void
+		this.movePieces = movePieces;
 !!!1966082.java!!!	getFileName() : String
 		return fileName;
 !!!1966210.java!!!	setFileName(in fileName : String) : void
@@ -80,6 +85,7 @@ class ChessFolKnowledgeBase
 	  }
 	return protectedpiece;
 !!!1966594.java!!!	checkThreats(in pieceName : String, in pos : String, in fact : String, inout opponent : APlayer) : boolean
+		  movePieces.clear();	
 		  List<AgamePiece> pieces = opponent.getMygamePieces();
 		  AgamePiece piece = pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().equals(pieceName)).findAny().orElse(null);
 		  Constant pieceVariable = null;
@@ -97,9 +103,35 @@ class ChessFolKnowledgeBase
 		  Predicate threatPredicate = new Predicate(fact,reachableTerms);
 //		  writer.println("Trying to prove\n"+threatPredicate.toString());
 		  InferenceResult backWardresult =  backWardChain.ask(this,threatPredicate);
+//		  boolean result = backWardresult.isTrue();
+		  boolean result = false;
 //		  writer.println(InferenceResultPrinter.printInferenceResult(backWardresult));
-
-		  return backWardresult.isTrue();
+/*
+ * Added 28.5.22:
+ */
+		  List<String> termNames = new ArrayList<String>();
+		  BCGamesAskHandler handler = (BCGamesAskHandler)backWardresult;
+		  List<HashMap<Variable, Term>> finals = handler.getFinalList();
+		  int noofFinals = finals.size();
+		  HashMap vars = null;
+		  Term usedTerm = null;
+		  String termName = null;
+		  if (finals != null && !finals.isEmpty() && pieceVar != null) {
+			  for (int i = 0;i<noofFinals;i++) {
+				  vars = finals.get(i);
+				  usedTerm = (Term) vars.get(pieceVar);
+				  termName = usedTerm.getSymbolicName(); // Finds which piece(s) is protecting/threatening this position.
+				  termNames.add(termName);
+			  }
+			  for (String name:termNames) {
+				  AgamePiece opponentpiece = pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().equals(name)).findAny().orElse(null);
+				  if (opponentpiece != null && opponentpiece.isActive()) {
+					  movePieces.add(opponentpiece);
+					  result = true;
+				  }
+			  }
+		  }
+		  return result;
 		  
 !!!1975554.java!!!	checkpieceFacts(in pieceVar : String, in pieceName : String, in pos : String, in fact : String) : boolean
 			Variable pieceVarx = null;
@@ -198,3 +230,74 @@ class ChessFolKnowledgeBase
 		writer.println(this.toString());
 		writer.flush();
 		
+!!!2029186.java!!!	findFacts(in name : String, in fact : String) : List<String>
+		Constant nameConstant = new Constant(name);
+		Variable nameVar = new Variable("x");
+		List<Term> reachableTerms = new ArrayList<Term>();
+		List<String> termNames = new ArrayList<String>();
+		reachableTerms.add(nameVar);
+		reachableTerms.add(nameConstant);
+		Predicate factPredicate = new Predicate(fact,reachableTerms);
+		InferenceResult backWardresult =  backWardChain.ask(this, factPredicate);
+		BCGamesAskHandler handler = (BCGamesAskHandler)backWardresult;
+		HashMap vars = null;
+		Term usedTerm = null;
+		String termName = null;
+		List<HashMap<Variable, Term>> finals = handler.getFinalList();
+		int noofFinals = finals.size();
+		if (finals != null && !finals.isEmpty() && nameConstant != null) {
+			for (int i = 0;i<noofFinals;i++) {
+				vars = finals.get(i);
+				usedTerm = (Term) vars.get(nameVar);
+				termName = usedTerm.getSymbolicName(); // Finds which name of piece
+				termNames.add(termName);
+			}
+		}
+		return termNames;
+!!!2029314.java!!!	checkPosition(in name : String, in fact : String) : String
+		Constant pieceVariable= new Constant(name);
+		Variable posVar = new Variable("x");
+		List<Term> reachableTerms = new ArrayList<Term>();
+		reachableTerms.add(pieceVariable);
+		reachableTerms.add(posVar);
+		Predicate factPredicate = new Predicate(fact,reachableTerms);
+		InferenceResult backWardresult =  backWardChain.ask(this, factPredicate);
+		BCGamesAskHandler handler = (BCGamesAskHandler)backWardresult;
+		HashMap vars = null;
+		Term usedTerm = null;
+		String termName = null;
+		List<HashMap<Variable, Term>> finals = handler.getFinalList();
+		int noofFinals = finals.size();
+		if (finals != null && !finals.isEmpty() && pieceVariable != null) {
+			for (int i = 0;i<noofFinals;i++) {
+				vars = finals.get(i);
+				usedTerm = (Term) vars.get(posVar);
+				termName = usedTerm.getSymbolicName(); // Finds which position this is used.
+//				termNames.add(termName);
+			}
+		}
+		return termName;
+!!!2047362.java!!!	searchKing(in namePredicate : String, in kingPos : String) : List<String>
+		Constant kingPosition = new Constant(kingPos);
+		Variable posVar = new Variable("x");
+		List<String> termNames = new ArrayList<String>();
+		List<Term> reachableTerms = new ArrayList<Term>();
+		reachableTerms.add(posVar);
+		reachableTerms.add(kingPosition);
+		Predicate factPredicate = new Predicate(namePredicate,reachableTerms);
+		InferenceResult backWardresult =  backWardChain.ask(this, factPredicate);
+		BCGamesAskHandler handler = (BCGamesAskHandler)backWardresult;
+		HashMap vars = null;
+		Term usedTerm = null;
+		String termName = null;
+		List<HashMap<Variable, Term>> finals = handler.getFinalList();
+		int noofFinals = finals.size();
+		if (finals != null && !finals.isEmpty() && kingPosition != null) {
+			for (int i = 0;i<noofFinals;i++) {
+				vars = finals.get(i);
+				usedTerm = (Term) vars.get(posVar);
+				termName = usedTerm.getSymbolicName(); // Finds which position this is used.
+				termNames.add(termName);
+			}
+		}
+		return termNames;

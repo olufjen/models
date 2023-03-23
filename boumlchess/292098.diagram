@@ -1,69 +1,167 @@
 format 223
 
 classinstance 128002 class_ref 363906 // AChessProblemSolver
- name ""  xyz 528 270 2000
-textcanvas 128130 "This diagram shows the default part of the checkMovenumber method"
-  xyzwh 43 40 2000 305 47
+ name ""  xyz 356 277 2000
+textcanvas 128130 "This diagram shows the default part of the checkMovenumber method.
+This method is only called once from the planProblem method"
+  xyzwh 21 17 2000 357 47
 textcanvas 128770 "Creates a list of opponent pieces that can be taken"
-  xyzwh 242 264 2000 139 47
-textcanvas 129666 "checkThreats:
-1: BlackBishop at g4
-2: Opponent piece at d5
+  xyzwh 70 271 2000 139 47
+textcanvas 129666 "BlackBishop at g3
 "
-  xyzwh 812 232 2000 115 56
+  xyzwh 845 303 2000 98 23
 textcanvas 130434 "Checks if any opponent piece can be safely taken from the list of opponent pieces"
-  xyzwh 686 383 2000 144 50
+  xyzwh 229 481 2000 144 50
 textcanvas 131202 "prepareAction is called if none of the previous checks results in a move"
-  xyzwh 660 93 2000 177 66
+  xyzwh 122 127 2000 177 66
+classinstance 131458 class_ref 403458 // ChessFolKnowledgeBase
+ name ""  xyz 861 340 2000
+classinstance 131586 class_ref 380162 // OpponentAgent
+ name ""  xyz 745 158 2000
+classinstance 132610 class_ref 409986 // APerformance
+ name ""  xyz 1005 54 2000
+textcanvas 133506 "This method produces facts to the strategy KB of the form:
+ BISHOP(h7,g8) - which says that the position g8 is reachable from h7 by a BISHOP
+ The position g8 is the current position of the opponent king"
+  xyzwh 889 183 2000 290 74
+classinstance 133890 class_ref 403458 // ChessFolKnowledgeBase
+ name ""  xyz 878 495 2000
+textcanvas 134274 "This call checks to see if the d5 position is occupied"
+  xyzwh 760 548 2000 161 45
+classinstance 134786 class_ref 403458 // ChessFolKnowledgeBase
+ name ""  xyz 684 621 2000
+textcanvas 135170 "Checks to see if whitepawn3 can take piece at d5"
+  xyzwh 518 594 2000 143 41
+classinstance 135938 class_ref 380162 // OpponentAgent
+ name ""  xyz 559 50 2000
+textcanvas 136322 "Finds pieces that can reach the opponent king's position"
+  xyzwh 603 92 2000 110 51
+classinstance 136578 class_ref 403458 // ChessFolKnowledgeBase
+ name ""  xyz 865 257 2005
 linkcanvas 128258 decenter_begin 71
-  from ref 128002 z 2001 to point 423 328
-  line 128386 z 2001 to point 421 269
+  from ref 128002 z 2001 to point 251 335
+  line 128386 z 2001 to point 249 276
   line 128514 z 2001 to ref 128002
 dirscanvas 128642 z 1000 linkcanvas_ref 128514
   
-  backward_label "1 checkOpponent()" xyz 427 292 3000
-linkcanvas 129026
-  from ref 128002 z 2001 to point 706 326
-  line 129154 z 2001 to point 709 243
-  line 129282 z 2001 to point 633 267
-  line 129410 z 2001 to ref 128002
-dirscanvas 129538 z 1000 linkcanvas_ref 129282
-  
-  backward_label "2 checkThreats" xyz 628 227 3000
+  backward_label "1 checkOpponent()" xyz 255 299 3000
 linkcanvas 129922
-  from ref 128002 z 2001 to point 554 423
-  line 130050 z 2001 to point 654 425
-  line 130178 z 2001 to ref 128002
-dirscanvas 130306 z 1000 linkcanvas_ref 130178
+  from ref 128002 z 2001 to point 239 442
+  line 130050 z 2001 to point 343 454
+  line 134658 z 2001 to ref 128002
+dirscanvas 130306 z 1000 linkcanvas_ref 134658
   
-  backward_label "3 checkPossiblePieces()" xyz 617 331 3000
-linkcanvas 130690
-  from ref 128002 z 2001 to point 531 125
-  line 130818 z 2001 to point 631 128
+  backward_label "9 checkPossiblePieces()" xyz 375 396 3000
+linkcanvas 130690 decenter_begin 71 decenter_end 170
+  from ref 128002 z 2001 to point 298 133
+  line 130818 z 2001 to point 389 129
   line 130946 z 2001 to ref 128002
 dirscanvas 131074 z 1000 linkcanvas_ref 130690
   
-  backward_label "4 prepareAction()" xyz 578 170 3000
+  backward_label "10 prepareAction()" xyz 341 175 3000
+linkcanvas 131714
+  from ref 128002 z 2001 to ref 131458
+dirscanvas 131842 z 1000 linkcanvas_ref 131714
+  
+  forward_label "2 checkThreats()" xyz 631 288 3000
+linkcanvas 132354
+  from ref 128002 z 2001 to ref 131586
+dirscanvas 132482 z 1000 linkcanvas_ref 132354
+  
+  forward_label "6 setOpponentKingPosition()" xyz 522 200 3000
+linkcanvas 132738
+  from ref 131586 z 2001 to point 781 60
+  line 132866 z 2001 to ref 132610
+dirscanvas 132994 z 1000 linkcanvas_ref 132866
+  
+  forward_label "7 setOpponentKingPosition()" xyz 826 33 3000
+linkcanvas 133122
+  from ref 131586 z 2001 to point 1043 134
+  line 133250 z 2001 to ref 132610
+dirscanvas 133378 z 1000 linkcanvas_ref 133122
+  
+  forward_label "8 findKingsReachable()" xyz 880 119 3000
+linkcanvas 134018
+  from ref 128002 z 2001 to ref 133890
+dirscanvas 134146 z 1000 linkcanvas_ref 134018
+  
+  forward_label "3 searchFacts()" xyz 657 368 3000
+linkcanvas 134914
+  from ref 128002 z 2001 to ref 134786
+dirscanvas 135042 z 1000 linkcanvas_ref 134914
+  
+  forward_label "4 checkFacts()" xyz 574 430 3000
+linkcanvas 136066
+  from ref 128002 z 2001 to ref 135938
+dirscanvas 136194 z 1000 linkcanvas_ref 136066
+  
+  forward_label "11 findPiece()" xyz 445 144 3000
+linkcanvas 136706
+  from ref 128002 z 2006 to ref 136578
+dirscanvas 136834 z 1000 linkcanvas_ref 136706
+  
+  forward_label "5 checkPosition()" xyz 629 248 3000
 msgs
   msg operation_ref 1776130 // "checkOpponent(in fact : String, inout actions : ArrayList<ChessActionImpl>) : void"
     backward ranks 1 "1" dirscanvas_ref 128642
     no_msg
-  explicitmsg "checkThreats"
-    backward ranks 2 "2" dirscanvas_ref 129538
+  msg operation_ref 1966594 // "checkThreats(in pieceName : String, in pos : String, in fact : String, inout opponent : APlayer) : boolean"
+    forward ranks 2 "2" dirscanvas_ref 131842
     no_msg
+  msg operation_ref 2001410 // "searchFacts(in pieceName : String, in posName : String, in fact : String) : List<String>"
+    forward ranks 3 "3" dirscanvas_ref 134146
+    no_msg
+  msg operation_ref 1975682 // "checkFacts(in pieceName : String, in pos : String, in fact : String, inout actions : List<ChessActionImpl>, inout positionList : List<Position>) : boolean"
+    forward ranks 4 "4" dirscanvas_ref 135042
+    no_msg
+  msg operation_ref 2029314 // "checkPosition(in name : String, in fact : String) : String"
+    forward ranks 5 "5" dirscanvas_ref 136834
+    no_msg
+  msg operation_ref 2038658 // "setOpponentKingPosition(in opponentKingPosition : String) : void"
+    forward ranks 6 "6" dirscanvas_ref 132482
+    msgs
+      msg operation_ref 2036738 // "setOpponentKingPosition(in opponentKingPosition : String) : void"
+	forward ranks 7 "6.1" dirscanvas_ref 132994
+	no_msg
+      msg operation_ref 2036866 // "findKingsReachable() : void"
+	forward ranks 8 "6.2" dirscanvas_ref 133378
+	no_msg
+    msgsend
   msg operation_ref 1775874 // "checkPossiblePieces() : String"
-    backward ranks 3 "3" dirscanvas_ref 130306
+    backward ranks 9 "7" dirscanvas_ref 130306
     no_msg
   msg operation_ref 1776514 // "prepareAction(inout actions : ArrayList<ChessActionImpl>) : String"
-    backward ranks 4 "4" dirscanvas_ref 131074
+    backward ranks 10 "8" dirscanvas_ref 131074
+    no_msg
+  msg operation_ref 2029442 // "findPiece(in pos : String, in fact : String) : List<String>"
+    forward ranks 11 "9" dirscanvas_ref 136194
     no_msg
 msgsend
 line 128898 -_-_
   from ref 128770 z 2002 to ref 128386
-line 129794 -_-_
-  from ref 129666 z 2002 to ref 129154
 line 130562 -_-_
-  from ref 130434 z 2002 to ref 130178
+  from ref 130434 z 2002 to ref 130050
 line 131330 -_-_
   from ref 131202 z 2002 to ref 130946
+line 132226 -_-_
+  from ref 131714 z 2002 to ref 129666
+line 133634 -_-_
+  from ref 133506 z 3006 to point 958 133
+  line 133762 z 3006 to ref 133122
+line 134402 -_-_
+  from ref 134274 z 2002 to ref 134018
+line 135298 -_-_
+  from ref 135170 z 2002 to ref 134914
+line 135426 -_-_
+  from ref 135170 z 2002 to ref 134914
+line 135554 -_-_
+  from ref 135170 z 2002 to ref 134914
+line 135682 -_-_
+  from ref 135170 z 2002 to ref 134914
+line 135810 -_-_
+  from ref 135170 z 2001 to ref 134786
+line 136450 -_-_
+  from ref 136322 z 2002 to ref 136066
+line 136962 -_-_
+  from ref 129666 z 2002 to ref 131714
 end

@@ -19,7 +19,7 @@ class AChessAgent
 		for (Position pos:positionList) {
 			pos.setFriendlyPosition(false);
 		}
-		chessDomain = new FOLDomain();
+		chessDomain = new ChessDomain();
 		setPredicatenames();
 !!!740994.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl, inout game : PlayGame)
 		super(KB);
@@ -40,7 +40,7 @@ class AChessAgent
 			pos.setFriendlyPosition(false);
 		}
 		positions = game.getPositions();
-		chessDomain = new FOLDomain();
+		chessDomain = new ChessDomain();
 		setPredicatenames();
 !!!1771906.java!!!	setPredicatenames() : void
 			ACTION = KnowledgeBuilder.getACTION();
@@ -72,8 +72,12 @@ class AChessAgent
 			CASTLE = KnowledgeBuilder.getCASTLE();
 			OPPONENTTO = KnowledgeBuilder.getOPPONENTTO();
 			POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
+			POSSIBLEPROTECT = KnowledgeBuilder.getPOSSIBLEPROTECT();
+			POSSIBLEREACH = KnowledgeBuilder.getPOSSIBLEREACH();
 			chessDomain.addPredicate(OPPONENTTO);
 			chessDomain.addPredicate(POSSIBLETHREAT);
+			chessDomain.addPredicate(POSSIBLEPROTECT);
+			chessDomain.addPredicate(POSSIBLEREACH);
 			chessDomain.addPredicate(PROTECTED);
 			chessDomain.addPredicate(MOVE);
 			chessDomain.addPredicate(ACTION);
@@ -100,6 +104,15 @@ class AChessAgent
 			chessDomain.addPredicate(PAWN);
 			chessDomain.addPredicate(BISHOP);
 			chessDomain.addPredicate(KNIGHT);
+
+!!!2085250.java!!!	getStrategyKB() : ChessFolKnowledgeBase
+		return strategyKB;
+!!!2085378.java!!!	setStrategyKB(inout strategyKB : ChessFolKnowledgeBase) : void
+		this.strategyKB = strategyKB;
+!!!2085506.java!!!	getFolKb() : ChessFolKnowledgeBase
+		return folKb;
+!!!2085634.java!!!	setFolKb(inout folKb : ChessFolKnowledgeBase) : void
+		this.folKb = folKb;
 !!!1795970.java!!!	getCastleAction() : ChessActionImpl
 		return castleAction;
 !!!1999746.java!!!	getPAWNATTACK() : String
@@ -303,7 +316,9 @@ class AChessAgent
 			ActionSchema actionSchema = actionSchemas.get(0);
 
 			String nactionName = actionSchema.getName();
-			naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(nactionName)).findAny().orElse(null);
+			int nIndex = nactionName.indexOf("_");
+			String chessName = nactionName.substring(0, nIndex);
+			naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(chessName)).findAny().orElse(null);
 		}
 
 		for (ChessActionImpl action:actions) {
@@ -341,7 +356,10 @@ class AChessAgent
 		castleAction = solver.getCastleAction();
 		writer.println("The first order knowledge base");
 		writer.println(folKb.toString());
+		writer.println("The domain of the knowledge base");
+		writer.println(chessDomain.toString());
 		writer.flush();
+		strategyKB =  solver.getOpponentAgent().getLocalKb();
 		if (naction != null)
 			localAction = naction;
 		return localAction;
@@ -505,6 +523,19 @@ class AChessAgent
 					for (Position pos:availablePositions){
 						//if(!piece.checkRemoved(pos)) 
 						//if(!piece.checkFriend(pos))
+						String possibleposition = pos.getPositionName();
+						Constant possibleprotectorVariable = new Constant(name);
+						Constant possibleprotectedVariable = new Constant(possibleposition);
+						List<Term> possibleprotectedTerms = new ArrayList<Term>();
+						possibleprotectedTerms.add(possibleprotectorVariable);
+						possibleprotectedTerms.add(possibleprotectedVariable);
+						Predicate possibleprotectorPredicate = new Predicate(POSSIBLEPROTECT,possibleprotectedTerms);
+						Predicate possiblereachablePredicate = new Predicate(POSSIBLEREACH,possibleprotectedTerms);
+						if (!pawnattack) {
+							folKb.tell(possibleprotectorPredicate);
+//							kb.tellCaptureRules(t, position, name);
+						}
+						folKb.tell(possiblereachablePredicate);
 						if(!piece.checkRemoved(pos) || piece.checkFriendlyPosition(pos)) { // isFriendlyPosition() added 01.11.21
 /*							if (pos.isFriendlyPosition()) {
 								writer.println("=========== position is friendly !!"+pos.toString());
@@ -666,7 +697,7 @@ class AChessAgent
 !!!966018.java!!!	setOpponentpieces(inout opponent : APlayer) : void
 		List<AgamePiece> pieces = opponent.getMygamePieces();
 		chessDomain.addConstant(opponent.getNameOfplayer());
-		Variable ownerVariable = new Variable(opponent.getNameOfplayer());
+		Constant ownerVariable = new Constant(opponent.getNameOfplayer());
 		String predicate = "";
 		chessDomain.addPredicate(THREATEN);
 		for (AgamePiece piece:pieces) {
@@ -824,7 +855,7 @@ class AChessAgent
 				Sentence sentence = kb.newSymbol(moveNotation+name+"_"+toPos, t);*/
 //				kb.tell(sentence);
 				Sentence sentence = kb.newSymbol(ACTION+name+"_AT"+position, t);
-				thisAction.setSentence(sentence);
+//				thisAction.setSentence(sentence); Removed 13.2.23 olj
 //				kb.tell(sentence);
 				kb.tellmoveRule(kb.newSymbol(ACTION+name+"_TO"+toPos, t), "AT"+position, t);
 				return sentence;

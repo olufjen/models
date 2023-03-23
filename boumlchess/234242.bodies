@@ -82,10 +82,6 @@ class ChessActionImpl
 		return otherprotectedPositions;
 !!!786178.java!!!	setOtherprotectedPositions(inout otherprotectedPositions : List<Position>) : void
 		this.otherprotectedPositions = otherprotectedPositions;
-!!!786306.java!!!	getSentence() : Sentence
-		return sentence;
-!!!786434.java!!!	setSentence(inout sentence : Sentence) : void
-		this.sentence = sentence;
 !!!786562.java!!!	isBlocked() : boolean
 		return blocked;
 !!!786690.java!!!	setBlocked(inout blocked : boolean) : void
@@ -195,6 +191,11 @@ class ChessActionImpl
 									chessPiece.determinFriendPosition(pos);
 									//position.setFriendlyPosition(true);
 								}
+								if (posinTable == null && bKnight) { // If piece is a Knight
+//									positionRemoved.add(position);
+//									String posName = position.getPositionName();
+									chessPiece.determinFriendPosition(pos);
+								}
 							}
 							if (castlePosition != null) 
 								checkCastling(pos, castlePositions);
@@ -208,7 +209,7 @@ class ChessActionImpl
 
 		
 		}
-;
+
 		checkOpponent();
 		return availablePositions;
 		

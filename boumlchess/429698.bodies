@@ -1,0 +1,104 @@
+class APerceptor
+!!!2077570.java!!!	APerceptor(inout posin : Position, in reach : String, in type : String, in typeofPiece : String, in playerName : String)
+	super();
+	setPredicatenames();
+	this.playerName = playerName;
+	ChessVariables.setPlayerName(playerName);
+	pos = posin;
+	String posname = pos.getPositionName();
+	reaches = reach;
+	types = type;
+	pieceName = new Variable("piecename");
+	typeTerms = new ArrayList<Term>();
+	typeTerms.add(pieceName); // Two terms for the piecetype predicate
+	if (typeofPiece == null) {
+		pieceType = new Variable("type");
+		typeTerms.add(pieceType);
+	}else {
+		typePiece = new Constant(typeofPiece);
+		typeTerms.add(typePiece);
+	}
+	topos = new Constant(posname);
+	precondition = new ArrayList();
+	reachTerms = new ArrayList<Term>();
+	variables = new ArrayList<Term>();
+	reachTerms.add(pieceName); // Two terms for the reachable predicate
+	reachTerms.add(topos);
+	variables.addAll(reachTerms);
+	variables.addAll(typeTerms);
+	reachPredicate = new Predicate(reaches,reachTerms);
+	typePredicate = new Predicate(types,typeTerms);
+	precondition.add(new Literal((AtomicSentence) reachPredicate));
+	precondition.add(new Literal((AtomicSentence)typePredicate));
+	percept = new PerceptSchema("MOVE",variables,precondition);
+!!!2086274.java!!!	setPredicatenames() : void
+		ACTION = KnowledgeBuilder.getACTION();
+		ATTACKED = KnowledgeBuilder.getATTACKED();
+		CANMOVE = KnowledgeBuilder.getCANMOVE();
+		CAPTURE =  KnowledgeBuilder.getCAPTURE();
+		CONQUER = KnowledgeBuilder.getCONQUER();
+		MOVE =  KnowledgeBuilder.getMOVE();
+		OWNER = KnowledgeBuilder.getOWNER();
+		PROTECTED =  KnowledgeBuilder.getPROTECTED();
+		REACHABLE = KnowledgeBuilder.getREACHABLE();
+		SAFEMOVE = KnowledgeBuilder.getSAFEMOVE();
+		STRIKE = KnowledgeBuilder.getSTRIKE();
+		simpleProtected =  KnowledgeBuilder.getSimpleProtected();
+		THREATEN = KnowledgeBuilder.getTHREATEN();
+		PIECETYPE = KnowledgeBuilder.getPIECETYPE();
+		PLAY = 	KnowledgeBuilder.getPLAY();
+		PAWN = KnowledgeBuilder.getPAWN();
+		KNIGHT = KnowledgeBuilder.getKNIGHT();
+		BISHOP = KnowledgeBuilder.getBISHOP();
+		ROOK = KnowledgeBuilder.getROOK();
+		KING = KnowledgeBuilder.getKING();
+		QUEEN = KnowledgeBuilder.getQUEEN();
+		OCCUPIES = KnowledgeBuilder.getOCCUPIES();
+		PAWNMOVE = KnowledgeBuilder.getPAWNMOVE();
+		PAWNATTACK = KnowledgeBuilder.getPAWNATTACK();
+		BOARD = KnowledgeBuilder.getBOARD();
+		PLAYER = KnowledgeBuilder.getPLAYER();
+		CASTLE = KnowledgeBuilder.getCASTLE();
+		OPPONENTTO = KnowledgeBuilder.getOPPONENTTO();
+		POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
+		POSSIBLEPROTECT = KnowledgeBuilder.getPOSSIBLEPROTECT();
+		POSSIBLEREACH = KnowledgeBuilder.getPOSSIBLEREACH();
+!!!2077698.java!!!	getPercept() : PerceptSchema
+	return percept;
+!!!2077826.java!!!	setPercept(inout percept : PerceptSchema) : void
+	this.percept = percept;
+!!!2077954.java!!!	getPieceName() : Variable
+	return pieceName;
+!!!2078082.java!!!	setPieceName(inout pieceName : Variable) : void
+	this.pieceName = pieceName;
+!!!2078210.java!!!	getPieceType() : Variable
+	return pieceType;
+!!!2078338.java!!!	setPieceType(inout pieceType : Variable) : void
+	this.pieceType = pieceType;
+!!!2078466.java!!!	getPos() : Position
+	return pos;
+!!!2078594.java!!!	setPos(inout pos : Position) : void
+	this.pos = pos;
+!!!2078722.java!!!	checkPercept(inout initStates : Map<String,State>) : State
+	List<State> allStates = new ArrayList<State>(initStates.values());
+	List<Constant> stateconstants = new ArrayList<Constant>();
+	List<Literal> preconditions = percept.getPrecondition();
+	for (State state:allStates) {
+		List<Literal> literals = state.getFluents();
+		for (Literal lit:literals) {
+			Predicate p = (Predicate) lit.getAtomicSentence();
+			List<Term> terms = p.getTerms(); // Must find the correct type of constants, piece piecetype etc!!
+			for (Term t:terms) {
+				Constant c = (Constant)t;
+				if (!stateconstants.contains(t))
+					stateconstants.add(c);
+			}
+		}
+		PerceptSchema conPercept = percept.getActionBySubstitution(stateconstants);
+		boolean found = state.getFluents().containsAll(conPercept.getPrecondition());//is applicable in state s if the precondition of the percept action is satisfied by s.
+		stateconstants.clear();
+		if (found) {
+			return state;
+		}
+	}
+	return null;

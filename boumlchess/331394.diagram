@@ -1,0 +1,48 @@
+format 223
+
+classinstance 128002 class_ref 380162 // OpponentAgent
+ name ""  xyz 489 277 2000
+classinstance 128130 class_ref 409986 // APerformance
+ name ""  xyz 849 277 2000
+textcanvas 129282 "When the opponent agent is created.
+ The Opponent Agent is both a utility based agent and a goal based agent.
+ (For definition see p. 52 and p. 53.)
+ The opponent agent object, is a Knowledge based agent and it
+ contains all opponent available actions, and their action schemas.
+ It is created whenever the chessproblemsolver is created.
+ It also contains a FOL strategy Knowledge base, that contains
+ knowledge of possible moves one ply ahead.
+ Based on the knowledge from the strategy knowledge base, the agent creates and maintains a Performance measure.
+The opponent agent object must be able to return with a best strategy for moves 
+"
+  xyzwh 35 20 2000 574 154
+textcanvas 129410 " This method creates facts about the opponent pieces to the local strategy knowledge base
+ This is done by calling the probePossibilities method (See Opponent agent probepossibilities)
+ These facts are: which positions they occupy and where they can move to.
+ It is called when the opponent agent is created.     "
+  xyzwh 89 248 2000 227 137
+linkcanvas 128258
+  from ref 128002 z 2001 to ref 128130
+dirscanvas 128386 z 1000 linkcanvas_ref 128258
+  
+  forward_label "1 APerformance()" xyz 672 258 3000
+linkcanvas 128514 decenter_end 361
+  from ref 128002 z 2001 to point 535 366
+  line 128642 z 2001 to point 390 368
+  line 128770 z 2001 to point 389 220
+  line 128898 z 2001 to point 520 220
+  line 129026 z 2001 to ref 128002
+dirscanvas 129154 z 1000 linkcanvas_ref 128898
+  
+  backward_label "2 defineFacts()" xyz 420 240 3000
+msgs
+  msg operation_ref 1990274 // "APerformance(inout positions : HashMap<String, Position>, inout opponent : APlayer, inout myPlayer : APlayer, inout folKb : ChessFolKnowledgeBase, inout localKb : ChessFolKnowledgeBase, inout chessDomain : ChessDomain, inout forwardChain : FOLGamesFCAsk, inout backwardChain : FOLGamesBCAsk)"
+    forward ranks 1 "1" dirscanvas_ref 128386
+    no_msg
+  msg operation_ref 1837826 // "defineFacts() : void"
+    backward ranks 2 "2" dirscanvas_ref 129154
+    no_msg
+msgsend
+line 129538 -_-_
+  from ref 129410 z 2002 to ref 128770
+end

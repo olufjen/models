@@ -8,6 +8,7 @@ class APlayer
 		pieceValues = new ArrayList<Integer>();
 		myontologyPieces = new ArrayList<Piece>();
 		namesAndrank = new HashMap();
+		inactivePieces = new ArrayList<AgamePiece>();
 !!!771970.java!!!	APlayer()
 		super();
 		mygamePieces = new ArrayList<AgamePiece>();
@@ -17,6 +18,7 @@ class APlayer
 		pieceValues = new ArrayList<Integer>();
 		myontologyPieces = new ArrayList<Piece>();
 		namesAndrank = new HashMap();
+		inactivePieces = new ArrayList<AgamePiece>();
 !!!772098.java!!!	APlayer(inout playerName : AbstractPlayer::player)
 		super();
 		this.playerName = playerName;
@@ -27,8 +29,27 @@ class APlayer
 		pieceValues = new ArrayList<Integer>();
 		myontologyPieces = new ArrayList<Piece>();
 		namesAndrank = new HashMap();
+		inactivePieces = new ArrayList<AgamePiece>();
 !!!1779586.java!!!	getNameOfplayer() : String
 		return nameOfplayer;
+!!!2070530.java!!!	showPieceactivity() : void
+		inactivePieces.clear();
+		for (AgamePiece piece:mygamePieces) {
+			if (piece.isActive()) {
+				int thisactivity = piece.getMyMoves().size();
+				if (thisactivity <= 0) {
+					inactivePieces.add(piece);
+				}
+			}
+		}
+!!!2070658.java!!!	getNamesAndrank() : HashMap<String, Integer>
+		return namesAndrank;
+!!!2070786.java!!!	setNamesAndrank(inout namesAndrank : HashMap<String, Integer>) : void
+		this.namesAndrank = namesAndrank;
+!!!2070914.java!!!	getInactivePieces() : AgamePiece
+		return inactivePieces;
+!!!2071042.java!!!	setInactivePieces(inout inactivePieces : List<AgamePiece>) : void
+		this.inactivePieces = inactivePieces;
 !!!1779714.java!!!	setNameOfplayer(in nameOfplayer : String) : void
 		this.nameOfplayer = nameOfplayer;
 !!!772226.java!!!	getMyontologyPieces() : Piece

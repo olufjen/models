@@ -9,6 +9,7 @@ class AgamePiece
 		this.myPiece = myPiece;
 		heldPositions = new Stack();
 		moveNumbers = new ArrayList<Integer>();
+		myMoves = new ArrayList<ApieceMove>();
 		predicates = new ArrayList<String>();
 		northEast = new ArrayList<XYLocation>();
 		northWest = new ArrayList<XYLocation>();
@@ -22,6 +23,14 @@ class AgamePiece
 !!!752514.java!!!	AgamePiece()
 		super();
 		
+!!!2069506.java!!!	getMyMoves() : ApieceMove
+		return myMoves;
+!!!2069634.java!!!	setMyMoves(inout myMoves : List<ApieceMove>) : void
+		this.myMoves = myMoves;
+!!!2046210.java!!!	getNameType() : String
+		return nameType;
+!!!2046338.java!!!	setNameType(in nameType : String) : void
+		this.nameType = nameType;
 !!!1988866.java!!!	getSouth() : XYLocation
 		return south;
 !!!1988994.java!!!	setSouth(inout south : List<XYLocation>) : void
@@ -167,6 +176,10 @@ class AgamePiece
 		return attackPositions;
 !!!965634.java!!!	setAttackPositions(inout attackPositions : HashMap<String, Position>) : void
 		this.attackPositions = attackPositions;
+!!!2069762.java!!!	getMyPawn() : APawn
+		return myPawn;
+!!!2069890.java!!!	setMyPawn(inout myPawn : APawn) : void
+		this.myPawn = myPawn;
 !!!754050.java!!!	createPosition(inout newPositions : HashMap<String,Position>) : void
 //		XYLocation newloc = new XYLocation(x,y);
 		List<Position> tempPositions = new ArrayList(newPositions.values());
@@ -285,19 +298,16 @@ class AgamePiece
 				myType = pieceType.PAWN;
 				chessType = new APawn(myPosition,myPiece);
 				APawn pawn = (APawn) chessType;
+				nameType = pawn.getChesstype();
 				myPawn = pawn;
 				value = myPawn.getValue();
 //				pawn.setMother(this);
 				attackPositions = pawn.getAttackPositions();
 				gamePiece = (GamePiece) chessType;
-//				gamePiece.g
 				reacablePositions = gamePiece.getNewPositions();
 				createPosition(reacablePositions); // To replace created positions with ontology positions
 				gamePiece.setOntologyPositions(ontologyPositions);
 				newlistPositions = new ArrayList(reacablePositions.values());
-/*				for (Position pos:newlistPositions) {
-					System.out.println("Pawn positions: "+pos.getPositionName() + " " + pos.getPositionColor());
-				}*/
 				break;
 			case"B":	
 				myType = pieceType.BISHOP;
@@ -305,6 +315,7 @@ class AgamePiece
 				String pieceColorB = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
 				ABishop bishop = (ABishop) chessType;
+				nameType = bishop.getChesstype();
 				mybishop = bishop;
 				value = mybishop.getValue();
 				reacablePositions = gamePiece.getNewPositions();
@@ -323,6 +334,7 @@ class AgamePiece
 				String pieceColorK = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
 				AKnight knight = (AKnight) chessType;
+				nameType = knight.getChesstype();
 				myKnight = knight;
 				value = myKnight.getValue();
 				reacablePositions = gamePiece.getNewPositions();
@@ -339,6 +351,7 @@ class AgamePiece
 				chessType = new Aking(myPosition,myPiece);
 				gamePiece = (GamePiece) chessType;
 				Aking king = (Aking) chessType;
+				nameType = king.getChesstype();
 				myKing = king;
 				value = myKing.getValue();
 				reacablePositions = gamePiece.getNewPositions();
@@ -360,6 +373,7 @@ class AgamePiece
 				String pieceColorR = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
 				ARook rook = (ARook) chessType;
+				nameType = rook.getChesstype();
 				myrook = rook;
 				value = myrook.getValue();
 				reacablePositions = gamePiece.getNewPositions();
@@ -382,6 +396,7 @@ class AgamePiece
 				String pieceColorQ = myPiece.getColor();
 				gamePiece = (GamePiece) chessType;
 				AQueen queen = (AQueen) chessType;
+				nameType = queen.getChesstype();
 				myqueen = queen;
 				value = myqueen.getValue();
 				reacablePositions = gamePiece.getNewPositions(); // Creates two sets of reachable positions: reacablePositions,bishopPositions
@@ -412,6 +427,9 @@ class AgamePiece
 		if (myType == pieceType.BISHOP) {
 			mybishop.getFriendPositions().clear();
 		}
+		if (myType == pieceType.KNIGHT) {
+			myKnight.getFriendPositions().clear();
+		}
 !!!2000258.java!!!	determinFriendPosition(inout pos : Position) : void
 		if (myType == pieceType.QUEEN) {
 			//AQueen queen = (AQueen) chessType;
@@ -429,6 +447,11 @@ class AgamePiece
 			//AQueen queen = (AQueen) chessType;
 			String name = pos.getPositionName();
 			HashMap<String,Position> friendly = mybishop.getFriendPositions();
+			friendly.put(name, pos);
+		}
+		if (myType == pieceType.KNIGHT) {
+			String name = pos.getPositionName();
+			HashMap<String,Position> friendly = myKnight.getFriendPositions();
 			friendly.put(name, pos);
 		}
 !!!2000386.java!!!	removeFriendPosition(inout pos : Position) : void
@@ -464,6 +487,13 @@ class AgamePiece
 		if (myType == pieceType.BISHOP) {
 			HashMap<String,Position> friendly = mybishop.getFriendPositions();
 			friendpos = friendly.containsKey(name);
+		}
+		if (myType == pieceType.KNIGHT) {
+			HashMap<String,Position> friendly = myKnight.getFriendPositions();
+			friendpos = friendly.containsKey(name);
+		}
+		if (myType == pieceType.KING) {
+			friendpos = true;
 		}
 		return friendpos;
 !!!754434.java!!!	getPreferredPositions() : Position

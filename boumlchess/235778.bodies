@@ -51,6 +51,8 @@ class APawn
 			}
 		}
 		getLegalmoves(myPosition);
+!!!2046722.java!!!	getChesstype() : String
+		return chessType;
 !!!963458.java!!!	getMother() : AgamePiece
 		return mother;
 !!!963586.java!!!	setMother(inout mother : AgamePiece) : void
@@ -105,6 +107,31 @@ class APawn
 		return reachablepiecePosition;
 !!!768386.java!!!	setReachablepiecePosition(inout reachablepiecePosition : String [[][]]) : void
 		this.reachablepiecePosition = reachablepiecePosition;
+!!!2036482.java!!!	produceAttack(inout pos : Position) : Position
+		int diff = -1;
+		if (localColor == pieceColor.BLACK) {
+			diff = 1;
+		}
+		XYLocation loc = pos.getXyloc();
+		int x = loc.getXCoOrdinate() - 1;
+		int y = loc.getYCoOrdinate() + diff;
+		Position attackOne = null;
+		Position attackTwo = null;
+		XYLocation attacklocLeft = null;
+		XYLocation attackRight = null;
+		List<Position> attackPositions = new ArrayList<Position>();
+		if (x >= 0 && y >= 0 ) {
+			attacklocLeft = new XYLocation(x,y);
+			attackOne = new Position(attacklocLeft,false,null);
+			attackPositions.add(attackOne);
+		}
+		int xRight = loc.getXCoOrdinate() + 1;
+		if (xRight <= 7 && y >= 0) {
+			attackRight = new XYLocation(xRight,y);
+			attackTwo = new Position(attackRight,false,null);
+			attackPositions.add(attackTwo);
+		}
+		return attackPositions;
 !!!768514.java!!!	getLegalmoves(inout position : Position) : void
 	
 		XYLocation loc = position.getXyloc();

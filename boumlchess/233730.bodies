@@ -22,6 +22,11 @@ class ApieceMove
 		this.piece = piece;
 		blackMove = piece.checkBlack();
 		whiteMove = piece.checkWhite();		
+		if (piece.getPieceType() == piece.getMyType().ROOK && moveNotation.equals("o-o")) {
+			this.moveNotation = moveNotation+"x";
+			moveNumber--;
+		}
+
 		creation = "Created with from and to position";
 !!!964738.java!!!	getPreferredPositions() : Position
 		return preferredPositions;
@@ -50,4 +55,4 @@ class ApieceMove
 		
 		return toPosition;
 !!!771714.java!!!	toString() : String
-		return "Move\nPiece "+piece.toString()+"\nFrom position "+fromPosition.toString()+"\nTo position "+toPosition.toString()+" Move number "+moveNumber+moveNotation+"\nCreation "+creation;
+		return "Move\nPiece "+piece.getMyPiece().getOntlogyName()+"From position "+fromPosition.toString()+"To position "+toPosition.toString()+" Move number "+moveNumber+" "+moveNotation+"Creation "+creation;
