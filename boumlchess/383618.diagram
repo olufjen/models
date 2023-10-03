@@ -1,0 +1,99 @@
+format 223
+
+classinstance 128002 class_ref 237954 // RapporterChessStartServerResourceHTML
+ name ""  xyz 84 148 2000
+classinstancecanvas 128514 classinstance_ref 128002 // chessboard
+  xyz 539 298 2000
+end
+classinstancecanvas 131330 classinstance_ref 128130 // Document
+  xyz 540 145 2000
+end
+classinstancecanvas 132098 classinstance_ref 128002 // chessboard
+  xyz 784 300 2000
+end
+classinstancecanvas 134274 classinstance_ref 128002 // chessboard
+  xyz 787 409 2000
+end
+classinstancecanvas 134786 classinstance_ref 134658 // cfg
+  xyz 157 263 2000
+end
+classinstancecanvas 138498 classinstance_ref 128002 // chessboard
+  xyz 887 594 2000
+end
+linkcanvas 134402
+  from ref 128002 z 2001 to ref 131330
+dirscanvas 134530 z 1000 linkcanvas_ref 134402
+  
+  forward_label "1 documentready()" xyz 377 127 3000
+linkcanvas 134914 decenter_begin 578
+  from ref 131330 z 2001 to ref 128514
+dirscanvas 135042 z 1000 linkcanvas_ref 134914
+  
+  forward_label "2 chessboard()" xyz 620 228 3000
+linkcanvas 135298
+  from ref 128514 z 2001 to ref 132098
+dirscanvas 135426 z 1000 linkcanvas_ref 135298
+  
+  forward_label "3 init()" xyz 712 280 3000
+linkcanvas 136194
+  from ref 132098 z 2001 to ref 134274
+dirscanvas 136322 z 1000 linkcanvas_ref 136194
+  
+  forward_label "4 initDom()" xyz 869 359 3000
+linkcanvas 137730
+  from ref 134274 z 2001 to point 682 417
+  line 137858 z 2001 to point 686 491
+  line 137986 z 2001 to point 852 491
+  line 138242 z 2001 to ref 134274
+dirscanvas 138114 z 1000 linkcanvas_ref 138242
+  
+  forward_label "5 createElIds()
+6 buildBoardContainer()" xyz 722 453 3000
+linkcanvas 139138
+  from ref 134274 z 2001 to point 945 416
+  line 139266 z 2001 to ref 138498
+dirscanvas 139394 z 1000 linkcanvas_ref 139266
+  
+  forward_label "7 addEvents()" xyz 970 498 3000
+linkcanvas 139522
+  from ref 138498 z 2001 to point 1063 605
+  line 139650 z 2001 to point 1061 663
+  line 139778 z 2001 to point 944 660
+  line 140034 z 2001 to ref 138498
+dirscanvas 140162 z 1000 linkcanvas_ref 139778
+  
+  forward_label "8 updatePlayerPiece()" xyz 952 682 3000
+msgs
+  msg operation_ref 2116610 // "documentready()"
+    forward ranks 1 "1" dirscanvas_ref 134530
+    msgs
+      msg operation_ref 2116482 // "chessboard()"
+	forward ranks 2 "1.1" dirscanvas_ref 135042
+	msgs
+	  msg operation_ref 2123138 // "init()"
+	    forward ranks 3 "1.1.1" dirscanvas_ref 135426
+	    msgs
+	      msg operation_ref 2129794 // "initDom()"
+		forward ranks 4 "1.1.1.1" dirscanvas_ref 136322
+		msgs
+		  msg operation_ref 2129922 // "createElIds()"
+		    forward ranks 5 "1.1.1.1.1" dirscanvas_ref 138114
+		    msgs
+		      msg operation_ref 2149890 // "buildBoardContainer()"
+			forward ranks 6 "1.1.1.1.1.1" dirscanvas_ref 138114
+			msgs
+			  msg operation_ref 2136450 // "addEvents()"
+			    forward ranks 7 "1.1.1.1.1.1.1" dirscanvas_ref 139394
+			    msgs
+			      msg operation_ref 2156418 // "updatePlayerPiece()"
+				forward ranks 8 "1.1.1.1.1.1.1.1" dirscanvas_ref 140162
+				no_msg
+			    msgsend
+			msgsend
+		    msgsend
+		msgsend
+	    msgsend
+	msgsend
+    msgsend
+msgsend
+end
