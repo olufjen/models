@@ -11,22 +11,31 @@ Hierarchical Task networks and High Level Actions are described in  chapter 11.
 textcanvas 132994 "For every available chessaction that contains a possible move and that is not blocked:
  create an actionschema.
 These action schemas are held in the Map actionSchemas with the name of the piece as the key."
-  xyzwh 484 341 2000 173 118
+  xyzwh 410 384 2000 173 118
 textcanvas 134786 "An initial and goal state for every ActionSchema"
   xyzwh 16 434 2000 120 46
 classinstance 135554 class_ref 363906 // AChessProblemSolver
  name ""  xyz 156 268 2000
-textcanvas 136834 "  Parameters that determine the structure of the Problem, and the states:
+textcanvas 136834 "This method is called from the searchProblem method.
+  Parameters that determine the structure of the Problem, and the states:
 OBS: At present only the piece type is determined OLJ 06.02.21"
   xyzwh 277 120 2000 202 99
 classinstance 137346 class_ref 403458 // ChessFolKnowledgeBase
- name ""  xyz 142 616 2000
+ name ""  xyz 146 494 2000
 textcanvas 140162 "This call checks to see if the end position of the chessaction move is protected"
-  xyzwh 333 506 2000 182 61
+  xyzwh 236 416 2000 182 61
 textcanvas 140546 "This call is for castling"
   xyzwh 918 367 2000 107 14
 textcanvas 140802 "These calls are made in the searchProblem method"
   xyzwh 283 349 2000 101 56
+classinstance 141058 class_ref 443138 // ChessGraphPlanAlgorithm
+ name ""  xyz 741 486 2000
+textcanvas 141442 " Planning graphs p. 379.
+ S0 - A0 - S1
+ A0 contains ground actions that might be applicable in S0
+S0 consists of nodes representing fluents that holds in S0	
+Returns a solution ( a set of action schemas) if there is one  "
+  xyzwh 855 551 2000 292 70
 linkcanvas 132482 decenter_begin 707 decenter_end 202
   from ref 128002 z 2001 to point 635 188
   line 135426 z 2001 to point 637 140
@@ -69,11 +78,16 @@ linkcanvas 139010
 dirscanvas 139394 z 1000 linkcanvas_ref 139266
   
   forward_label "4 buildGoalstate()" xyz 63 303 3000
-linkcanvas 139650
+linkcanvas 139650 decenter_end 521
   from ref 135554 z 2001 to ref 137346
 dirscanvas 139778 z 1000 linkcanvas_ref 139650
   
-  forward_label "5 searchFacts()" xyz 235 448 3000
+  forward_label "5 searchFacts()" xyz 222 319 3000
+linkcanvas 141186
+  from ref 128002 z 2001 to ref 141058
+dirscanvas 141314 z 1000 linkcanvas_ref 141186
+  
+  forward_label "8 graphPlan()" xyz 704 361 3000
 msgs
   msg operation_ref 1776898 // "searchProblem(inout actions : ArrayList<ChessActionImpl>) : ActionSchema"
     forward ranks 1 "1" dirscanvas_ref 136066
@@ -100,6 +114,9 @@ msgs
   msg operation_ref 1776642 // "checkMovenumber(inout actions : ArrayList<ChessActionImpl>) : String"
     backward ranks 7 "3" dirscanvas_ref 132866
     no_msg
+  msg operation_ref 2105986 // "graphPlan(inout problem : ChessProblem) : List<List<ActionSchema>>"
+    forward ranks 8 "4" dirscanvas_ref 141314
+    no_msg
 msgsend
 line 136706 -_-_
   from ref 132994 z 2002 to ref 135938
@@ -113,4 +130,6 @@ line 140674 -_-_
   from ref 140546 z 2008 to ref 136962
 line 140930 -_-_
   from ref 140802 z 2001 to ref 135554
+line 141570 -_-_
+  from ref 141442 z 2001 to ref 141058
 end
