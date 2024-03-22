@@ -1,0 +1,68 @@
+format 223
+
+activityactioncanvas 128002 activityaction_ref 128002 // activity action an action
+  
+  show_opaque_action_definition default
+  xyzwh 145 224 2000 100 60
+end
+activityactioncanvas 128130 activityaction_ref 128130 // activity action another action
+  
+  show_opaque_action_definition default
+  xyzwh 425 223 2000 100 60
+end
+note 128258 "An activity graph is a special form of state machine intended to model computation and workflows.
+ see p. 81 UML reference"
+  xyzwh 200 78 2000 261 85
+activitycanvas 128386 activity_ref 134530 // this activity
+  
+  xyzwh 749 307 2005 400 400
+end
+note 128514 "An activity is specified by a class or an instantiation of a class (an object).
+- In Bouml."
+  xyzwh 101 431 2000 217 69
+activityobjectcanvas 128898 activityobject_ref 128002 // activity object an object
+  
+  xyzwh 321 348 2000 61 31
+end
+note 129410 "The activity graphs show the flow of activities but not the objects that perform the activities.
+The collaboration diagrams implements the activity graph.(p. 84)"
+  xyzwh 718 101 2000 273 109
+note 129538 "An activity is an ongoing nonatomic execution within a state machine. (p. 133)
+An activity is part of a use case (Bouml).
+And an activity can be described in an activity graph.
+An activity graph is a special form of state machine intended to model computations and workflows."
+  xyzwh 391 555 2000 257 141
+note 129794 "An action is an atomic computation.
+It cannot be terminated externally.
+It can be attached to a transition in a state machine, or to a step in an interaction.
+Actions are the discrete steps out of which behaviour is built.
+When attached to a transition, they are executed when the transition fires."
+  xyzwh 485 327 2000 221 141
+flowcanvas 128770 flow_ref 128002 // flow of control - a transition
+  
+  from ref 128002 z 2001 label "flow of control - a transition
+[A guard condition]" xyz 267 238 2001 to ref 128130
+   write_horizontally default
+end
+flowcanvas 129026 flow_ref 128130 // <flow>
+  
+  from ref 128002 z 2001 to ref 128898
+   write_horizontally default
+end
+flowcanvas 129154 flow_ref 128258 // <flow>
+  
+  from ref 128898 z 2001 to ref 128130
+   write_horizontally default
+end
+simplerelationcanvas 129282 simplerelation_ref 128002
+  decenter_begin 143
+  decenter_end 90
+  from ref 128898 z 2001 to ref 128002
+end
+line 128642 -_-_
+  from ref 128514 z 2006 to ref 128386
+line 129666 -_-_
+  from ref 129538 z 2006 to ref 128386
+line 129922 -_-_
+  from ref 129794 z 2001 to ref 128130
+end

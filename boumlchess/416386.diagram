@@ -1,0 +1,264 @@
+format 223
+
+activityobjectcanvas 128130 activityobject_ref 161282 // activity object PlayGame
+  
+  xyzwh 234 184 2000 67 45
+end
+activityobjectcanvas 128258 activityobject_ref 161410 // activity object ChessFolKnowledgeBase
+  
+  xyzwh 192 477 2000 145 45 label_xy 192 522
+end
+activityobjectcanvas 128514 activityobject_ref 161538 // activity object AchessAgent
+  
+  xyzwh 223 314 2000 87 45
+end
+activityactioncanvas 128898 activityaction_ref 135042 // activity action Find initial move
+  
+  show_opaque_action_definition default
+  xyzwh 10 116 2006 100 60
+  pre 
+  information 129026 "<<localPrecondition>>
+The Player is White player"
+    xyzwh -13 11 2000 145 48
+end
+activityobjectcanvas 129794 activityobject_ref 168066 // activity object AChessProblemSolver
+  
+  xyzwh 484 389 2000 127 45
+end
+activityobjectcanvas 129922 activityobject_ref 174594 // activity object ChessProblem
+  
+  xyzwh 561 625 2000 89 45
+end
+activityobjectcanvas 130050 activityobject_ref 174722 // activity object ChessAction
+  
+  xyzwh 837 244 2000 97 45 label_xy 837 289
+end
+activityobjectcanvas 130178 activityobject_ref 174850 // activity object ChessState
+  
+  xyzwh 354 250 2000 91 45 label_xy 354 295
+end
+activityactioncanvas 131330 activityaction_ref 167938 // activity action Find the best move
+  
+  show_opaque_action_definition default
+  xyzwh 363 13 2000 100 60
+end
+activitynodecanvas 131714 activitynode_ref 177026 // merge
+  xyz 253 125 2000
+end
+activitynodecanvas 132226 activitynode_ref 177154 // fork
+  xyz 351 28 2005
+end
+activitynodecanvas 133122 activitynode_ref 177410 // join
+  xyz 105 130 2011
+end
+note 133634 "The opponent has made a move"
+  xyzwh 592 11 2000 131 69
+activityobjectcanvas 133890 activityobject_ref 181378 // activity object ChessState
+  
+  xyzwh 367 99 2000 91 45
+end
+note 134274 "The state of the game.
+Collected from the session.
+The ChessState contains all available Chess Actions. Every possible move a chess piece can make."
+  xyzwh 551 126 2000 257 91
+activitynodecanvas 134914 activitynode_ref 183938 // activity_final
+  xyz 92 718 2000
+end
+activityobjectcanvas 135042 activityobject_ref 187906 // activity object Aperceptor
+  
+  xyzwh 721 343 2000 75 45
+end
+activityobjectcanvas 136450 activityobject_ref 188034 // activity object ChessSearchAlgorithm
+  
+  xyzwh 391 544 2000 131 45
+end
+activityobjectcanvas 136578 activityobject_ref 188162 // activity object ChessPlanGraphAlgorithm
+  
+  xyzwh 854 695 2000 145 45
+end
+activityactioncanvas 136706 activityaction_ref 148226 // activity action Create the move
+  
+  show_opaque_action_definition default
+  xyzwh 59 316 2000 100 60
+end
+activitynodecanvas 136962 activitynode_ref 190466 // join
+  xyz 106 291 2005
+end
+activityactioncanvas 137346 activityaction_ref 167810 // activity action Display the move
+  
+  show_opaque_action_definition default
+  xyzwh 55 552 2000 100 60
+end
+activityobjectcanvas 137602 activityobject_ref 194690 // activity object Player Move
+  
+  xyzwh 64 450 2006 79 45
+end
+activitynodecanvas 137730 activitynode_ref 190594 // join
+  xyz 97 427 2011
+end
+activitynodecanvas 137858 activitynode_ref 190722 // fork
+  xyz 96 373 2005
+end
+activitynodecanvas 138114 activitynode_ref 190850 // join
+  xyz 95 529 2005
+end
+activitynodecanvas 138370 activitynode_ref 190978 // join
+   xyzwh 97 693 2005 15 25
+end
+activitynodecanvas 138498 activitynode_ref 191106 // fork
+   xyzwh 95 609 2005 15 35
+end
+note 139138 "This activity diagram shows all
+ objects  active in the activity of finding the best move"
+  xyzwh 908 98 2000 217 113
+activityobjectcanvas 139266 activityobject_ref 201218 // activity object State
+  
+  xyzwh 401 708 2000 45 45 label_xy 401 753
+end
+activityobjectcanvas 139394 activityobject_ref 201346 // activity object ActionSchema
+  
+  xyzwh 252 625 2000 89 45 label_xy 252 670
+end
+flowcanvas 128642 flow_ref 199426 // The execute function
+  
+  from ref 128130 z 2001 label "The execute 
+function
+[To decide on 
+a move
+]" max_width 22 xyz 234 235 2001 to ref 128514
+   write_horizontally default
+end
+flowcanvas 128770 flow_ref 199554 // Knowledgebase
+  
+  from ref 128514 z 2001 label "Knowledgebase
+[FOL Knowledgebase created and filled with rules]" xyz 142 403 2001 to ref 128258
+   write_horizontally default
+end
+flowcanvas 130946 flow_ref 206210 // <flow>
+  decenter_end 577
+  
+  from ref 130178 z 2001 to point 394 337
+  line 131074 z 2001 to ref 128514
+   write_horizontally default
+end
+flowcanvas 132610 flow_ref 207874 // PlayGame
+  
+  from ref 132226 z 2006 label "PlayGame
+[The propose move function]" xyz 170 55 2006 to point 264 38
+  line 132738 z 2006 to ref 131714
+   write_horizontally default
+end
+flowcanvas 132866 flow_ref 208002 // <flow>
+  decenter_begin 638
+  
+  from ref 131714 z 2001 to ref 128130
+   write_horizontally default
+end
+flowcanvas 133250 flow_ref 208130 // PlayGame
+  
+  from ref 133122 z 2012 label "PlayGame
+[The propose move function]" xyz 122 149 2012 to ref 131714
+   write_horizontally default
+end
+flowcanvas 133378 flow_ref 208258 // <flow>
+  
+  from ref 128130 z 2001 to point 396 204
+  line 133506 z 2001 to ref 130178
+   write_horizontally default
+end
+flowcanvas 134018 flow_ref 214786 // <flow>
+  decenter_end 865
+  
+  from ref 133890 z 2001 to point 289 116
+  line 134146 z 2001 to ref 128130
+   write_horizontally default
+end
+flowcanvas 134658 flow_ref 221314 // Available actions
+  
+  from ref 130178 z 2001 label "Available actions
+[All available actions are created]" xyz 559.5 254 2001 to ref 130050
+   write_horizontally default
+end
+flowcanvas 135170 flow_ref 227970 // The problemsolver
+  decenter_begin 800
+  
+  from ref 128514 z 2001 label "The problemsolver
+[Creates the Problemsolver]" xyz 405 336 2001 to point 543 351
+  line 135298 z 2001 to ref 129794
+   write_horizontally default
+end
+flowcanvas 135682 flow_ref 228098 // Current state
+  decenter_begin 800
+  decenter_end 888
+  
+  from ref 130178 z 2001 label "Current state
+[With current state]" xyz 547 312 2001 to point 590 297
+  line 135810 z 2001 to ref 129794
+   write_horizontally default
+end
+flowcanvas 136066 flow_ref 228226 // FOL knowledge base
+  decenter_end 448
+  
+  from ref 128258 z 2001 label "FOL knowledge base
+[The FOL knowledge base]" xyz 373 485 2001 to point 538 498
+  line 136194 z 2001 to ref 129794
+   write_horizontally default
+end
+flowcanvas 136322 flow_ref 228354 // The Problem
+  decenter_begin 929
+  
+  from ref 129794 z 2001 label "The Problem
+[Returns a Problem]" xyz 555 514 2001 to ref 129922
+   write_horizontally default
+end
+flowcanvas 137090 flow_ref 235010 // Best move
+  
+  from ref 128130 z 2001 label "Best move
+[The best move has been found]" xyz 38 222 2001 to point 112 204
+  line 137218 z 2001 to ref 136962
+   write_horizontally default
+end
+flowcanvas 137986 flow_ref 235266 // <flow>
+  decenter_begin 600
+  
+  from ref 137858 z 2012 label "[Player move has been created]" xyz 28 404 2012 to ref 137730
+   write_horizontally default
+end
+flowcanvas 138242 flow_ref 235394 // <flow>
+  
+  from ref 137602 z 2007 label "[Rendered]" xyz 76 504 2007 to ref 138114
+   write_horizontally default
+end
+flowcanvas 139010 flow_ref 235650 // <flow>
+  
+  from ref 138498 z 2006 to ref 138370
+   write_horizontally default
+end
+flowcanvas 139522 flow_ref 242178 // intial and goal states
+  
+  from ref 129922 z 2001 label "intial and goal states" xyz 557 692 2001 to point 605 727
+  line 139650 z 2001 to ref 139266
+   write_horizontally default
+end
+flowcanvas 139778 flow_ref 242306 // A set of action schemas
+  
+  from ref 129922 z 2001 label "A set of action schemas" xyz 390 650 2001 to ref 139394
+   write_horizontally default
+end
+flowcanvas 139906 flow_ref 242434 // ChessActions to ActionSchemas and States
+  
+  from ref 130050 z 2001 label "ChessActions to ActionSchemas and States" xyz 804.5 467.5 2001 to point 885 641
+  line 140034 z 2001 to ref 129922
+   write_horizontally default
+end
+line 129154 -_-_ decenter_begin 509
+  from ref 128898 z 2007 to ref 129026
+line 133762 -_-_
+  from ref 133634 z 2001 to ref 131330
+line 134402 -_-_
+  from ref 134274 z 2001 to ref 133890
+line 134530 -_-_
+  from ref 134274 z 2001 to ref 130178
+line 140162 -_-_
+  from ref 134274 z 2001 to ref 130050
+end

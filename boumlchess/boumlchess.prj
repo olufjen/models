@@ -1,6 +1,6 @@
 format 223
 "boumlchess"
-  revision 46
+  revision 77
   modified_by 2 "bruker"
 
 
@@ -56,7 +56,7 @@ format 223
 
   package_ref 171266 // diagrams
 
-  usecaseview 128002 "Play Chess"
+  usecaseview 128002 "The chess game"
     
     usecasediagramsettings end
     
@@ -77,11 +77,7 @@ format 223
     
     activitydiagramsettings
      end
-    usecasediagram 141186 "Play Chess"
-      usecasediagramsettings end
-      size A4-Landscape
-    end
-
+    comment "This is the name of the chess game system"
     class 463106 "A_player"
       visibility package stereotype "actor"
       cpp_decl ""
@@ -94,6 +90,81 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
+    end
+
+    usecase 134530 "a use case"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      ncouples 6
+      key "summary" value ""
+      key "Context" value "Provides the environment for the elements."
+      key "Pre-condition" value "A boolean expression that must be true before the call to this operation"
+      key "Description" value ""
+      key "Post-condition" value "A boolean expression that must be true after the execution of an operation is complete"
+      key "Exceptions" value ""
+      comment "A use case is a coherent unit of functionality provided by a classifier (a system, subsystem or class). It is manifested by sequences of messages exchanged among the system and one or more outside users (actors), together with actions performed by the system.
+The purpose is to define a piece of behaviour of a classifier without revealing its internal structure. Each use case specifies a service the classifer provides to its users.
+(see p. 488).
+"
+      activity 134530 "this activity"
+	comment "An ongoing nonatomic execution within a state machine. (p. 133)"
+      end
+
+      activity 128002 "activity"
+	activitydiagram 396802 "activity"
+	  activitydiagramsettings
+	   end
+	  size A4-Landscape
+	end
+
+	activityaction 128002 "an action"
+	  opaque_action
+	  flow 128002 "flow of control - a transition"
+	    on activityaction_ref 128130 // activity action another action
+	      uml_guard "A guard condition"
+	    comment "A transition between two actions"
+	  end
+
+	  flow 128130 "<flow>"
+	    on activityobject_ref 128002 // activity object an object
+	  end
+	end
+
+	activityaction 128130 "another action"
+	  opaque_action
+	end
+
+	activityobject 128002 "an object"
+	   explicit_type ""
+	  unordered 
+	  flow 128258 "<flow>"
+	    on activityaction_ref 128130 // activity action another action
+	  end
+
+	  simplerelation 128002
+	    -_->
+	      on activityaction_ref 128002 // activity action an action
+	  end
+	end
+      end
     end
 
     usecase 128002 "Play chess"
@@ -121,17 +192,666 @@ ${members}}
       key "Summary" value ""
       key "Context" value "Provides the environment for the elements."
       key "Pre-Conditions" value "A boolean expression that must be true before the call to this operation"
-      key "Description" value "A user wants to play a game oif chess"
+      key "Description" value "A user wants to play a game of chess"
       key "Post-Conditions" value "A boolean expression that must be true after the execution of an operation is complete"
       key "Exceptions" value ""
+      usecase 141058 "Respond to move"
+	
+	usecasediagramsettings end
+	
+	sequencediagramsettings end
+	
+	collaborationdiagramsettings end
+	
+	classdiagramsettings member_max_width 0 end
+	
+	classcompositediagramsettings end
+	
+	objectdiagramsettings end
+	
+	objectcompositediagramsettings end
+	
+	statediagramsettings
+	 end
+	
+	activitydiagramsettings
+	 end
+	ncouples 6
+	key "Summary" value ""
+	key "Context" value ""
+	key "Pre-condition" value "The player has made a move"
+	key "Description" value "The chess system produces a response according to rules and strategies"
+	key "Post-condition" value ""
+	key "Exceptions" value ""
+	comment "The chess system produces a response according to rules and strategies."
+	usecase 141314 "Show game position"
+	  
+	  usecasediagramsettings end
+	  
+	  sequencediagramsettings end
+	  
+	  collaborationdiagramsettings end
+	  
+	  classdiagramsettings member_max_width 0 end
+	  
+	  classcompositediagramsettings end
+	  
+	  objectdiagramsettings end
+	  
+	  objectcompositediagramsettings end
+	  
+	  statediagramsettings
+	   end
+	  
+	  activitydiagramsettings
+	   end
+	end
+
+	usecase 147842 "Determine best move"
+	  
+	  usecasediagramsettings end
+	  
+	  sequencediagramsettings end
+	  
+	  collaborationdiagramsettings end
+	  
+	  classdiagramsettings member_max_width 0 end
+	  
+	  classcompositediagramsettings end
+	  
+	  objectdiagramsettings end
+	  
+	  objectcompositediagramsettings end
+	  
+	  statediagramsettings
+	   end
+	  
+	  activitydiagramsettings
+	   end
+	  ncouples 6
+	  key "Summary" value ""
+	  key "Context" value ""
+	  key "Pre-condtion" value ""
+	  key "Description" value "Determines best move according to rules and strategies"
+	  key "Post-condition" value ""
+	  key "Exception" value ""
+	  comment "Determines best move according to rules and strategies"
+	  activity 141186 "Determine best move"
+	      pre_uml "The user (opponent) has made a move.
+Or: The system represent the White player"
+	    activitydiagram 409858 "Determine the best move"
+	      activitydiagramsettings
+	       end
+	      size A4-Landscape
+	    end
+
+	    activityaction 135042 "Find initial move"
+		pre_uml "The Player is White player"
+	      start_object_behavior_action
+	      synchronous
+	      flow 190978 "the flow"
+		on activityobject_ref 147586 // activity object PlayGame
+		  uml_guard "Creates the Playgame object"
+		  java_guard "Creates the Playgame object"
+	      end
+	    end
+
+	    activitynode 134914 initial_node "The White player"
+	      flow 142338 ""
+		on activitynode_ref 135042 // decision
+		  uml_guard "Opponent move available
+The White player"
+	      end
+	    end
+
+	    activityaction 161282 "Create opponent move"
+	      opaque_action
+	    end
+
+	    activitynode 135042 decision ""
+	      flow 142466 "<flow>"
+		on activityaction_ref 135042 // activity action Find initial move
+		  uml_guard "The White player"
+	      end
+	    end
+
+	    activityaction 148226 "Create the move"
+	      opaque_action
+	      flow 157058 "<flow>"
+		on activityobject_ref 141058 // activity object Player move
+		  uml_guard "Player move available"
+	      end
+	    end
+
+	    activityobject 141058 "Player move"
+	       type class_ref 232450 // ChessMoves
+	       multiplicity "1" unordered 
+	      flow 206594 "<flow>"
+		on activitynode_ref 176386 // merge
+	      end
+	    end
+
+	    activitynode 161794 initial_node "The player move"
+	      comment "The Player represent the system,and must decide the next move"
+	      flow 197762 "Start of game"
+		on activitynode_ref 168706 // join
+		  uml_guard "Start of game.
+The user has chosen to play a game of chess"
+	      end
+	    end
+
+	    activityobject 147586 "PlayGame"
+	       type class_ref 233474 // PlayGame
+	       multiplicity "1" unordered 
+	      flow 198658 "the AchessGame object"
+		on activityobject_ref 161026 // activity object AchessGame
+	      end
+	    end
+
+	    activityobject 154114 "Position"
+	       type class_ref 232322 // Position
+	       multiplicity "1..64" unordered 
+	      comment "All positions on the board and if they are occupied or vacant"
+	    end
+
+	    activityobject 154242 "Aplayer"
+	       type class_ref 234370 // APlayer
+	       multiplicity "2" unordered 
+	      flow 198786 "pieces for players"
+		on activityobject_ref 154498 // activity object AgamePiece
+	      end
+	    end
+
+	    activityobject 154370 "ChessPiece"
+	       type class_ref 232578 // ChessPiece
+	       multiplicity "1..16" unordered 
+	      flow 199042 "active pieces occupy positions"
+		on activityobject_ref 154114 // activity object Position
+	      end
+	    end
+
+	    activityobject 154498 "AgamePiece"
+	       type class_ref 232706 // AgamePiece
+	       multiplicity "1..16" unordered 
+	      flow 198914 "pieces for the board"
+		on activityobject_ref 154370 // activity object ChessPiece
+	      end
+	    end
+
+	    activitynode 168706 join ""
+	    end
+
+	    activitynode 168834 join ""
+	      flow 197890 "Creates and maintaines the players"
+		on activityobject_ref 154242 // activity object Aplayer
+	      end
+	    end
+
+	    activitynode 168962 join ""
+	      flow 198018 "<flow>"
+		on activityobject_ref 147586 // activity object PlayGame
+		  uml_guard "Collects Playgame object from session"
+	      end
+	    end
+
+	    activitynode 169090 join ""
+	      flow 198146 "The PlayGame object"
+		on activityobject_ref 147586 // activity object PlayGame
+		  uml_guard "Creates PlayGame object"
+	      end
+	    end
+
+	    activitynode 169218 join ""
+	      flow 198274 "<flow>"
+		on activityaction_ref 161282 // activity action Create opponent move
+		  uml_guard "Opponent move collected"
+		comment "Opponent move collected"
+	      end
+	    end
+
+	    activitynode 169346 join "op"
+	      flow 198402 "<flow>"
+		on activitynode_ref 169474 // join
+		  uml_guard "Opponent move created"
+		comment "Opponent move created"
+	      end
+	    end
+
+	    activitynode 169474 join "ch"
+	    end
+
+	    activitynode 169602 join ""
+	      flow 234882 "<flow>"
+		on activityaction_ref 148226 // activity action Create the move
+	      end
+	    end
+
+	    activitynode 169730 join ""
+	      flow 198530 "Intial or best move available"
+		on activitynode_ref 169602 // join
+		  uml_guard "Intial or best move available"
+		comment "Intial or best move available"
+	      end
+	    end
+
+	    activityobject 161026 "AchessGame"
+	       type class_ref 233602 // AchessGame
+	       multiplicity "1" unordered 
+	    end
+
+	    activitynode 169858 join ""
+	      flow 206850 "<flow>"
+		on activitynode_ref 176386 // merge
+	      end
+	    end
+
+	    activityaction 167810 "Display the move"
+	      opaque_action
+	      flow 207106 "<flow>"
+		on activitynode_ref 176514 // activity_final
+	      end
+	    end
+
+	    activitynode 176386 merge ""
+	      flow 206978 "<flow>"
+		on activityaction_ref 167810 // activity action Display the move
+	      end
+	    end
+
+	    activitynode 176514 activity_final ""
+	    end
+
+	    activityaction 167938 "Find the best move"
+	      opaque_action
+	      flow 207234 "From session"
+		on activityobject_ref 147586 // activity object PlayGame
+		  uml_guard "PlayGame object collected"
+	      end
+	    end
+
+	    activitynode 176770 fork ""
+	      flow 207362 "opponent move"
+		on activitynode_ref 176898 // join
+		  uml_guard "opponent move available"
+	      end
+	    end
+
+	    activitynode 176898 join ""
+	    end
+	  end
+
+	  simplerelation 147842
+	    -_->
+	      stereotype "include"
+	      on usecase_ref 141314 // Show game position
+	    comment "THe white player has made the first move"
+	  end
+
+	  activity 147714 "Determine the move"
+	    associated_diagram activitydiagram_ref 409858 // Determine the best move
+	    activitydiagram 416386 "Determine the move"
+	      activitydiagramsettings
+	       end
+	      size A4-Landscape
+	    end
+
+	    activityobject 161154 "AchessGame"
+	       type class_ref 233602 // AchessGame
+	      unordered 
+	    end
+
+	    activityobject 161282 "PlayGame"
+	       type class_ref 233474 // PlayGame
+	      unordered 
+	      flow 199426 "The execute function"
+		on activityobject_ref 161538 // activity object AchessAgent
+		  uml_guard "To decide on a move
+"
+	      end
+
+	      flow 208258 "<flow>"
+		on activityobject_ref 174850 // activity object ChessState
+	      end
+
+	      flow 221442 "<flow>"
+		on activityobject_ref 161154 // activity object AchessGame
+	      end
+
+	      flow 235010 "Best move"
+		on activitynode_ref 190466 // join
+		  uml_guard "The best move has been found"
+	      end
+	    end
+
+	    activityobject 161410 "ChessFolKnowledgeBase"
+	       type class_ref 403458 // ChessFolKnowledgeBase
+	       multiplicity "1" unordered 
+	      flow 228226 "FOL knowledge base"
+		on activityobject_ref 168066 // activity object AChessProblemSolver
+		  uml_guard "The FOL knowledge base"
+	      end
+	    end
+
+	    activityobject 161538 "AchessAgent"
+	       type class_ref 233986 // AChessAgent
+	      unordered 
+	      flow 199554 "Knowledgebase"
+		on activityobject_ref 161410 // activity object ChessFolKnowledgeBase
+		  uml_guard "FOL Knowledgebase created and filled with rules"
+	      end
+
+	      flow 227970 "The problemsolver"
+		on activityobject_ref 168066 // activity object AChessProblemSolver
+		  uml_guard "Creates the Problemsolver"
+	      end
+	    end
+
+	    activityobject 168066 "AChessProblemSolver"
+	       type class_ref 363906 // AChessProblemSolver
+	      unordered 
+	      flow 228354 "The Problem"
+		on activityobject_ref 174594 // activity object ChessProblem
+		  uml_guard "Returns a Problem"
+	      end
+	    end
+
+	    activityobject 174594 "ChessProblem"
+	       type class_ref 356994 // ChessProblem
+	      unordered 
+	      flow 242178 "intial and goal states"
+		on activityobject_ref 201218 // activity object State
+	      end
+
+	      flow 242306 "A set of action schemas"
+		on activityobject_ref 201346 // activity object ActionSchema
+	      end
+	    end
+
+	    activityobject 174722 "ChessAction"
+	       type class_ref 234242 // ChessActionImpl
+	       multiplicity "1..*" unordered 
+	      comment "All Actions available in this ChessState"
+	      flow 242434 "ChessActions to ActionSchemas and States"
+		on activityobject_ref 174594 // activity object ChessProblem
+		comment "ChessActions to ActionSchemas"
+	      end
+	    end
+
+	    activityobject 174850 "ChessState"
+	       type class_ref 233858 // ChessStateImpl
+	       multiplicity "1" unordered 
+	      comment "The current ChessState"
+	      flow 206210 "<flow>"
+		on activityobject_ref 161538 // activity object AchessAgent
+	      end
+
+	      flow 221314 "Available actions"
+		on activityobject_ref 174722 // activity object ChessAction
+		  uml_guard "All available actions are created"
+	      end
+
+	      flow 228098 "Current state"
+		on activityobject_ref 168066 // activity object AChessProblemSolver
+		  uml_guard "With current state"
+	      end
+	    end
+
+	    activitynode 177026 merge ""
+	      flow 208002 "<flow>"
+		on activityobject_ref 161282 // activity object PlayGame
+	      end
+	    end
+
+	    activitynode 177154 fork "the node"
+	      flow 207874 "PlayGame"
+		on activitynode_ref 177026 // merge
+		  uml_guard "The propose move function"
+	      end
+	    end
+
+	    activitynode 177410 join ""
+	      flow 208130 "PlayGame"
+		on activitynode_ref 177026 // merge
+		  uml_guard "The propose move function"
+	      end
+	    end
+
+	    activityobject 181378 "ChessState"
+	       type class_ref 233858 // ChessStateImpl
+	      unordered 
+	      flow 214786 "<flow>"
+		on activityobject_ref 161282 // activity object PlayGame
+	      end
+	    end
+
+	    activitynode 183938 activity_final ""
+	    end
+
+	    activityobject 187906 "Aperceptor"
+	       type class_ref 429698 // APerceptor
+	      unordered 
+	    end
+
+	    activityobject 188034 "ChessSearchAlgorithm"
+	       type class_ref 332802 // ChessSearchAlgorithm
+	      unordered 
+	    end
+
+	    activityobject 188162 "ChessPlanGraphAlgorithm"
+	       type class_ref 443138 // ChessGraphPlanAlgorithm
+	      unordered 
+	    end
+
+	    activitynode 190466 join ""
+	    end
+
+	    activityobject 194690 "Player Move"
+	       type class_ref 232450 // ChessMoves
+	      unordered 
+	      flow 235394 "<flow>"
+		on activitynode_ref 190850 // join
+		  uml_guard "Rendered"
+	      end
+	    end
+
+	    activitynode 190594 join ""
+	    end
+
+	    activitynode 190722 fork ""
+	      flow 235266 "<flow>"
+		on activitynode_ref 190594 // join
+		  uml_guard "Player move has been created"
+	      end
+	    end
+
+	    activitynode 190850 join ""
+	    end
+
+	    activitynode 190978 join ""
+	    end
+
+	    activitynode 191106 fork ""
+	      flow 235650 "<flow>"
+		on activitynode_ref 190978 // join
+	      end
+	    end
+
+	    activityobject 201218 "State"
+	       type class_ref 170242 // State
+	       multiplicity "1..2" unordered 
+	    end
+
+	    activityobject 201346 "ActionSchema"
+	       type class_ref 169602 // ActionSchema
+	       multiplicity "1..*" unordered 
+	      comment "A set of ActionSchemas"
+	    end
+	  end
+	end
+
+	simplerelation 141058
+	  -_->
+	    stereotype "include"
+	    on usecase_ref 147842 // Determine best move
+	end
+      end
+
+      usecase 147970 "Show start position"
+	
+	usecasediagramsettings end
+	
+	sequencediagramsettings end
+	
+	collaborationdiagramsettings end
+	
+	classdiagramsettings member_max_width 0 end
+	
+	classcompositediagramsettings end
+	
+	objectdiagramsettings end
+	
+	objectcompositediagramsettings end
+	
+	statediagramsettings
+	 end
+	
+	activitydiagramsettings
+	 end
+      end
+
+      simplerelation 141186
+	-_->
+	  stereotype "include"
+	  on usecase_ref 147970 // Show start position
+	comment "The user is the white player
+"
+      end
+
+      usecase 141186 "Show available moves"
+	
+	usecasediagramsettings end
+	
+	sequencediagramsettings end
+	
+	collaborationdiagramsettings end
+	
+	classdiagramsettings member_max_width 0 end
+	
+	classcompositediagramsettings end
+	
+	objectdiagramsettings end
+	
+	objectcompositediagramsettings end
+	
+	statediagramsettings
+	 end
+	
+	activitydiagramsettings
+	 end
+	ncouples 6
+	key "Summary" value ""
+	key "Context" value ""
+	key "Pre-condition" value "The p.layer has marked a piece"
+	key "Description" value "This use case shows all available moves for the piece marked by the player"
+	key "Post-condition" value ""
+	key "Exception" value ""
+	comment "This use case shows all available moves for the piece marked by the player"
+      end
+
+      usecasediagram 141186 "A chess game"
+	usecasediagramsettings end
+	size A4-Landscape
+      end
+
+      collaborationdiagram 383618 "Document ready"
+	collaborationdiagramsettings end
+	size A4-Landscape
+      end
+
       collaborationdiagram 134530 "A game of chess"
 	collaborationdiagramsettings end
 	size A4-Landscape
       end
 
-      collaborationdiagram 390274 "play"
-	collaborationdiagramsettings end
-	size A4-Landscape
+      activity 134658 "The Play chess activity"
+	comment "This activity and its activity graph models the actions and activities iwhen a player has chosen to play a game of chess."
+	activitydiagram 403330 "The Play chess activity graph"
+	  activitydiagramsettings
+	   end
+	  size A4-Landscape
+	end
+
+	activitynode 128002 initial_node "Start of game"
+	  comment "The user has chosen to play a game of chess"
+	  flow 149122 "Start of game"
+	    on activitynode_ref 141570 // decision
+	      uml_guard "Start of game"
+	  end
+	end
+
+	activityaction 134786 "Show initial positions"
+	  accept_event_action
+	  flow 164098 "<flow>"
+	    on activitynode_ref 155266 // join
+	      uml_guard "Waiting for opponent"
+	  end
+	end
+
+	activityaction 134914 "Collect player's move"
+	  accept_event_action
+	end
+
+	activityaction 141570 "Show the new board position"
+	  opaque_action
+	  flow 164354 "<flow>"
+	    on activitynode_ref 155266 // join
+	      uml_guard "Waiting for opponent"
+	  end
+	end
+
+	activitynode 141570 decision ""
+	  flow 149250 "<flow>"
+	    on activityaction_ref 134786 // activity action Show initial positions
+	      uml_guard "The user is White player"
+	  end
+	end
+
+	activityobject 134530 "Opponent move"
+	   type class_ref 232450 // ChessMoves
+	   multiplicity "1" unordered 
+	  flow 156930 "<flow>"
+	    on activitynode_ref 148482 // decision
+	      uml_guard "Opponent move is available"
+	  end
+	end
+
+	activitynode 148482 decision ""
+	  flow 157314 "<flow>"
+	    on activityaction_ref 141570 // activity action Show the new board position
+	      uml_guard "Move is available"
+	  end
+	end
+
+	activitynode 148610 join ""
+	  flow 157186 "<flow>"
+	    on activitynode_ref 148482 // decision
+	      uml_guard "Player move is available"
+	  end
+	end
+
+	activitynode 155266 join ""
+	  flow 164226 "<flow>"
+	    on activityaction_ref 134914 // activity action Collect player's move
+	      uml_guard "Opponent has made a move"
+	  end
+	end
+      end
+
+      simplerelation 147714
+	-_->
+	  stereotype "include"
+	  on usecase_ref 147842 // Determine best move
+	comment "The user is black player"
       end
     end
   end

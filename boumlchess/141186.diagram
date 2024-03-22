@@ -2,14 +2,44 @@ format 223
 
 classcanvas 128130 class_ref 463106 // A_player
   simpleclassdiagramsettings end
-  xyz 91 98 2000
-end
-usecasecanvas 128258 usecase_ref 128002 // Play chess
-  xyzwh 452 147 3005 65 87 label_xy 457 179
+  xyz 82 103 2000
 end
 usecasecanvas 128514 usecase_ref 128002 // Play chess
-  xyzwh 312 305 3005 64 32 label_xy 317 337
+  xyzwh 423 85 3005 64 32 label_xy 428 117
 end
-line 128386 ---- decenter_end 896
-  from ref 128130 z 3006 label "Choose to play a game of chess" max_width 255 xyz 218.5 163.5 3006 to ref 128258
+usecasecanvas 128770 usecase_ref 141058 // Respond to move
+  xyzwh 399 343 3005 64 32 label_xy 389 375
+end
+usecasecanvas 129026 usecase_ref 141186 // Show available moves
+  xyzwh 408 192 3005 64 32 label_xy 386 224
+end
+subject 129282 "A subject dialog"
+  xyzwh 817 30 2000 342 215
+usecasecanvas 129410 usecase_ref 141314 // Show game position
+  xyzwh 741 461 3005 64 32 label_xy 725 493
+end
+usecasecanvas 129922 usecase_ref 147842 // Determine best move
+  xyzwh 634 309 3005 64 32 label_xy 616 341
+end
+usecasecanvas 130178 usecase_ref 147970 // Show start position
+  xyzwh 638 120 3005 64 32 label_xy 623 152
+end
+line 128642 ----
+  from ref 128130 z 3006 label "The player wants to play a game of chess" max_width 255 xyz 176 101 3006 to ref 128514
+line 128898 --->
+  from ref 128130 z 3006 label "The player has made a move" max_width 255 xyz 201 233 3006 to ref 128770
+line 129154 --->
+  from ref 128130 z 3006 label "The player has marked a piece" max_width 255 xyz 196 155 3006 to ref 129026
+simplerelationcanvas 130050 simplerelation_ref 141058
+  from ref 128770 z 3006 stereotype "<<include>>" xyz 517 338 3000 to ref 129922
+end
+simplerelationcanvas 130306 simplerelation_ref 141186
+  from ref 128514 z 3006 stereotype "<<include>>" xyz 532 117 3000 to ref 130178
+end
+simplerelationcanvas 130434 simplerelation_ref 147714
+  from ref 128514 z 3006 stereotype "<<include>>" xyz 530 212 3000 to ref 129922
+end
+simplerelationcanvas 130562 simplerelation_ref 147842
+  from ref 129922 z 3006 stereotype "<<include>>" xyz 689 399 3000 to ref 129410
+end
 end
