@@ -66,7 +66,7 @@ activitynodecanvas 134914 activitynode_ref 183938 // activity_final
 end
 activityobjectcanvas 135042 activityobject_ref 187906 // activity object Aperceptor
   
-  xyzwh 721 343 2000 75 45
+  xyzwh 763 390 2000 75 45
 end
 activityobjectcanvas 136450 activityobject_ref 188034 // activity object ChessSearchAlgorithm
   
@@ -74,7 +74,7 @@ activityobjectcanvas 136450 activityobject_ref 188034 // activity object ChessSe
 end
 activityobjectcanvas 136578 activityobject_ref 188162 // activity object ChessPlanGraphAlgorithm
   
-  xyzwh 854 695 2000 145 45
+  xyzwh 751 712 2000 145 45
 end
 activityactioncanvas 136706 activityaction_ref 148226 // activity action Create the move
   
@@ -119,6 +119,11 @@ activityobjectcanvas 139394 activityobject_ref 201346 // activity object ActionS
   
   xyzwh 252 625 2000 89 45 label_xy 252 670
 end
+note 140290 "These are ground actions with name:
+piecename_topos (WhitePawn8_h4)"
+  xyzwh 170 722 2000 171 75
+note 140546 "There is an init state and a goal state for every ground action schema"
+  xyzwh 501 765 2000 201 59
 flowcanvas 128642 flow_ref 199426 // The execute function
   
   from ref 128130 z 2001 label "The execute 
@@ -131,7 +136,7 @@ end
 flowcanvas 128770 flow_ref 199554 // Knowledgebase
   
   from ref 128514 z 2001 label "Knowledgebase
-[FOL Knowledgebase created and filled with rules]" xyz 142 403 2001 to ref 128258
+[FOL Knowledgebase created and filled with facts and rules]" xyz 117 403 2001 to ref 128258
    write_horizontally default
 end
 flowcanvas 130946 flow_ref 206210 // <flow>
@@ -176,7 +181,7 @@ end
 flowcanvas 134658 flow_ref 221314 // Available actions
   
   from ref 130178 z 2001 label "Available actions
-[All available actions are created]" xyz 559.5 254 2001 to ref 130050
+[All available actions are created]" xyz 559 254 2001 to ref 130050
    write_horizontally default
 end
 flowcanvas 135170 flow_ref 227970 // The problemsolver
@@ -192,7 +197,7 @@ flowcanvas 135682 flow_ref 228098 // Current state
   decenter_end 888
   
   from ref 130178 z 2001 label "Current state
-[With current state]" xyz 547 312 2001 to point 590 297
+[With current state]" xyz 553 315 2001 to point 590 297
   line 135810 z 2001 to ref 129794
    write_horizontally default
 end
@@ -247,8 +252,22 @@ flowcanvas 139778 flow_ref 242306 // A set of action schemas
 end
 flowcanvas 139906 flow_ref 242434 // ChessActions to ActionSchemas and States
   
-  from ref 130050 z 2001 label "ChessActions to ActionSchemas and States" xyz 804.5 467.5 2001 to point 885 641
+  from ref 130050 z 2001 label "ChessActions to ActionSchemas and States" xyz 791 583 2001 to point 885 641
   line 140034 z 2001 to ref 129922
+   write_horizontally default
+end
+flowcanvas 140802 flow_ref 248962 // <flow>
+  
+  from ref 129794 z 2001 label "[a Perceptor is created]" xyz 637 390 2001 to ref 135042
+   write_horizontally default
+end
+flowcanvas 140930 flow_ref 255490 // Init state
+  decenter_end 929
+  
+  from ref 135042 z 2001 label "Init state
+[An init state is chosen]" xyz 741 438 2001 to point 795 468
+  line 141058 z 2001 to point 661 468
+  line 141186 z 2001 to ref 129794
    write_horizontally default
 end
 line 129154 -_-_ decenter_begin 509
@@ -261,4 +280,8 @@ line 134530 -_-_
   from ref 134274 z 2001 to ref 130178
 line 140162 -_-_
   from ref 134274 z 2001 to ref 130050
+line 140418 -_-_
+  from ref 140290 z 2001 to ref 139394
+line 140674 -_-_
+  from ref 140546 z 2001 to ref 139266
 end

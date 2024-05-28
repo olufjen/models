@@ -1,6 +1,6 @@
 format 223
 "boumlchess"
-  revision 77
+  revision 81
   modified_by 2 "bruker"
 
 
@@ -537,7 +537,7 @@ The user has chosen to play a game of chess"
 	      unordered 
 	      flow 199554 "Knowledgebase"
 		on activityobject_ref 161410 // activity object ChessFolKnowledgeBase
-		  uml_guard "FOL Knowledgebase created and filled with rules"
+		  uml_guard "FOL Knowledgebase created and filled with facts and rules"
 	      end
 
 	      flow 227970 "The problemsolver"
@@ -552,6 +552,12 @@ The user has chosen to play a game of chess"
 	      flow 228354 "The Problem"
 		on activityobject_ref 174594 // activity object ChessProblem
 		  uml_guard "Returns a Problem"
+	      end
+
+	      flow 248962 "<flow>"
+		on activityobject_ref 187906 // activity object Aperceptor
+		  uml_guard "a Perceptor is created"
+		comment "A perceptor"
 	      end
 	    end
 
@@ -630,6 +636,12 @@ The user has chosen to play a game of chess"
 	    activityobject 187906 "Aperceptor"
 	       type class_ref 429698 // APerceptor
 	      unordered 
+	      flow 255490 "Init state"
+		on activityobject_ref 168066 // activity object AChessProblemSolver
+		  uml_guard "An init state is chosen"
+		  java_guard "An init state is chosen"
+		comment "An init state"
+	      end
 	    end
 
 	    activityobject 188034 "ChessSearchAlgorithm"
@@ -797,7 +809,7 @@ The user has chosen to play a game of chess"
 	  end
 	end
 
-	activityaction 134914 "Collect player's move"
+	activityaction 134914 "Collect opponent''s move"
 	  accept_event_action
 	end
 
@@ -841,7 +853,7 @@ The user has chosen to play a game of chess"
 
 	activitynode 155266 join ""
 	  flow 164226 "<flow>"
-	    on activityaction_ref 134914 // activity action Collect player's move
+	    on activityaction_ref 134914 // activity action Collect opponent''s move
 	      uml_guard "Opponent has made a move"
 	  end
 	end
