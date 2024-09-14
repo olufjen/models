@@ -24,6 +24,18 @@ class PlayGame
 		}
 	    writer = new PrintWriter(new BufferedWriter(fw));
 //		kb = new ChessKnowledgeBase();
+!!!2173186.java!!!	getOldPosition() : Position
+		return oldPosition;
+!!!2173314.java!!!	setOldPosition(inout oldPosition : Position) : void
+		this.oldPosition = oldPosition;
+!!!2173442.java!!!	getNewPosition() : Position
+		return newPosition;
+!!!2173570.java!!!	setNewPosition(inout newPosition : Position) : void
+		this.newPosition = newPosition;
+!!!2173698.java!!!	getLastPiece() : AgamePiece
+		return lastPiece;
+!!!2173826.java!!!	setLastPiece(inout lastPiece : AgamePiece) : void
+		this.lastPiece = lastPiece;
 !!!1812226.java!!!	getDeferredGoalstates() : State
 		return deferredGoalstates;
 !!!1812354.java!!!	setDeferredGoalstates(inout deferredGoalstates : Map<String, State>) : void
@@ -328,6 +340,9 @@ class PlayGame
 		piece.getMoveNumbers().add(moveNumber);
 //		checkCastling(stateImpl.getMyPlayer()); The call to checkCastling is moved 07.10.22
 		stateImpl.switchActivePlayer(); // 16.04.20 After a move, must switch active player
+		lastPiece = piece; // Set the lastpiece to be moved
+		newPosition = position;
+		this.oldPosition = oldPosition;
 //		localAction.getActions(playerTomove); // Added 24.02.20 When a move has been made then the pieces belonging to the same player must get new
 //available positions calculated
 
@@ -337,7 +352,7 @@ class PlayGame
 			 writer.println(pos.toString());
 		 }*/
 		 writer.println("Knowledge base after last move \n"+chessAgent.getFolKb().toString());
-		 writer.println("Straegy Knowledge base after last move \n"+chessAgent.getStrategyKB().toString());
+		 writer.println("Strategy Knowledge base after last move \n"+chessAgent.getStrategyKB().toString());
 		 writer.flush();
 !!!2069378.java!!!	moveStatistics(inout myplayer : APlayer) : void
 		List<AgamePiece> inactivePieces = myplayer.getInactivePieces();

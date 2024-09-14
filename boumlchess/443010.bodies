@@ -14,8 +14,13 @@ class ChessLevel
                         thisLevelObjects) {
                     if (levelObjects.contains(nextNode)) {
                         List<Object> tempPrevLink = prevLinks.get(nextNode);
-                        tempPrevLink.add(node);
-                        prevLinks.put(nextNode, tempPrevLink);
+                        if (tempPrevLink != null) { // Added 20.3.23
+                            tempPrevLink.add(node);
+                            prevLinks.put(nextNode, tempPrevLink);
+                        } else {
+                        	message = "Prev link is null\n";
+                        }
+
                     } else {
                         levelObjects.add(nextNode);
                         prevLinks.put(nextNode, new ArrayList<>(Collections.singletonList(node)));
@@ -231,7 +236,7 @@ class ChessLevel
 !!!2109698.java!!!	getPrevLevel() : ChessLevel
         return prevLevel;
 !!!2109826.java!!!	printLevelObject() : String
-    	String level = "";
+    	String level = message;
     	if (levelObjects.get(0) instanceof Literal) {
     		level = level +"Literals \n";
     		ArrayList<Literal>literals = new ArrayList(levelObjects);
@@ -249,6 +254,10 @@ class ChessLevel
     	level = level + "\nPrevious level \n";
     	if (prevLevel != null)
     		level = level + prevLevel.printLevelObject();
+    	else
+    		level = level + "\nprevious level is empty";
+    	int mx = mutexLinks.size() - 1;
+    	level = level + "\n number of mutex " + mx;
     	return level;
 !!!2109954.java!!!	equals(inout obj : Object) : boolean
         if (!(obj instanceof ChessLevel))

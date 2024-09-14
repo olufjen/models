@@ -1,6 +1,6 @@
 format 223
 "planning" // no::games::chess::planning
-  revision 11
+  revision 18
   modified_by 2 "bruker"
   // class settings
   
@@ -1195,6 +1195,19 @@ Oluf Jensen 8.3.23
 	  b parent class_ref 443010 // ChessLevel
       end
 
+      attribute 717442 "message"
+	private explicit_type "String"
+	init_value " \"No message\\n\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       operation 2107906 "ChessLevel"
 	public explicit_return_type ""
 	nparams 2
@@ -1737,6 +1750,768 @@ and none of them has a mutex link.
 	
       end
     end
+
+    class 476290 "PlannerGame"
+      visibility public stereotype "interface"
+      nformals 3
+      formal name "PlannerState" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessActionSchema" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessPlayer" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 3
+      actual class class_ref 133762 // Game
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 133762 // Game
+        rank 1 explicit_value "ChessActionSchema"
+      actual class class_ref 133762 // Game
+        rank 2 explicit_value "ChessPlayer"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface represent a PlannerGame
+It extends the Game interface
+The Game interface has three type parameters:
+<S> A type representing the states of the game
+<A> A type representing the actions of the game
+<P> A type representing the players of the game
+In the PlannerGame interface these types are represented by the
+PlannerState, 
+ChessActionSchema, and
+ChessPlayer interfaces
+The <PlannerState, ChessActionSchema, ChessPlayer> type definition for the ChessGame interface is
+necessary for defining the PlannerState, ChessActionSchema, ChessPlayer interfaces in the Game extend definition.
+@author oluf
+
+"
+      classrelation 659330 // <realization>
+	relation 659330 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 659330 // <realization>
+	  b parent class_ref 133762 // Game
+      end
+
+      operation 2202754 "analyzeState"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "state" explicit_type "no.games.chess.planning.PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2210434 "analyzePieceandPosition"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "action" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 476418 "PlannerState"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "PlannerState 
+This interface represent the Planner state of the game.
+It contains a set of Planner Actions, which again contains
+ground or lifted action schemas
+@author oluf
+
+"
+      operation 2194690 "getAction"
+	public return_type class_ref 483074 // ChessPlannerAction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2194818 "getActions"
+	public return_type class_ref 483074 // ChessPlannerAction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2211074 "getActionSchema"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2211202 "getActionSchemas"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2194946 "setAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "action" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195074 "getUtility"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195202 "setUtility"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2211330 "getPlayerTomove"
+	public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 476546 "AbstractPlannerGame"
+      abstract visibility public 
+      nactuals 3
+      actual class class_ref 476290 // PlannerGame
+        rank 0 value class_ref 476418 // PlannerState
+      actual class class_ref 476290 // PlannerGame
+        rank 1 value class_ref 483074 // ChessPlannerAction
+      actual class class_ref 476290 // PlannerGame
+        rank 2 value class_ref 223874 // ChessPlayer
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "AbstractPlannerGame
+The implementation of this class must create an initial state containing available action schemas and lifted action schemas 
+from the chess planning process (See chapter 10 and 11 of the AIMA book).
+The initial state is also called a situation (p. 388).
+The lifted action schemas are generated based on the current PlannerState, the move number in the game, 
+and information available from the KB.
+The information from the KB is of the form of relations or fluents.
+These fluents are of the form: 
+	PIECETYPE(BlackPawn4,PAWN)
+	THREATENEDBY(BlackPawn4,c4)
+	THREATENEDBY(BlackPawn4,e4)
+	occupies(BlackQueen,d8)
+The result of an action is also a situation.	
+@author oluf
+
+"
+      classrelation 659458 // <realization>
+	relation 659458 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 659458 // <realization>
+	  b parent class_ref 476290 // PlannerGame
+      end
+
+      classrelation 659586 // whitePlayer (<unidirectional association>)
+	relation 659586 --->
+	  a role_name "whitePlayer" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece<?>, PieceMove<?,?>> ${name}${value};
+"
+	    classrelation_ref 659586 // whitePlayer (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      classrelation 659714 // blackPlayer (<unidirectional association>)
+	relation 659714 --->
+	  a role_name "blackPlayer" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece<?>, PieceMove<?,?>> ${name}${value};
+"
+	    classrelation_ref 659714 // blackPlayer (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      operation 2195330 "getInitialState"
+	abstract public return_type class_ref 476418 // PlannerState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195458 "getPlayers"
+	abstract public return_type class_ref 223874 // ChessPlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece, PieceMove>[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195586 "getPlayer"
+	abstract public return_type class_ref 223874 // ChessPlayer
+	nparams 1
+	  param inout name "state" type class_ref 476418 // PlannerState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GamePiece, PieceMove> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195714 "getActions"
+	abstract public return_type class_ref 483074 // ChessPlannerAction
+	nparams 1
+	  param inout name "state" type class_ref 476418 // PlannerState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2195842 "getResult"
+	abstract public return_type class_ref 476418 // PlannerState
+	nparams 2
+	  param inout name "plannerState" type class_ref 476418 // PlannerState
+	  param inout name "action" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "getResult
+This method returns a new state based on the current state and the
+action chosen by the search algorithm
+@param state The current state
+@param action The action chosen by the search algorithm
+@return
+"
+      end
+
+      operation 2195970 "isTerminal"
+	abstract public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 476418 // PlannerState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2196098 "getUtility"
+	abstract public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 476418 // PlannerState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1}<GamePiece, PieceMove> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2196226 "analyzePieceandPosition"
+	abstract public explicit_return_type "double"
+	nparams 1
+	  param inout name "action" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 483074 "ChessPlannerAction"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "ActionSchema" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessPlannerAction
+This interface represent the chess planner action
+It contains ground action schemas or lifted Action schemas.
+Ground action schemas are based on available chess actions.
+The action schemas contains preconditions and effects.
+To each chess action schema there is an initial state and a goal state.
+Lifted action schemas are produced based on the current planner state and its available ground action schemas, 
+the move number, and information from the two FOL KB.
+
+
+@author oluf
+
+"
+      classrelation 666242 // <generalisation>
+	relation 666242 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 666242 // <generalisation>
+	  b parent class_ref 128002 // Action
+      end
+
+      operation 2210562 "getActionSchema"
+	cpp_inline public explicit_return_type "ActionSchema"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2210690 "getActionSchemas"
+	cpp_inline public explicit_return_type "List<ActionSchema>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 489602 "ChessPlannerSearch"
+      visibility public 
+      nactuals 3
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 0 value class_ref 476418 // PlannerState
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 1 value class_ref 483074 // ChessPlannerAction
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 2 value class_ref 223874 // ChessPlayer
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessPlannerSearch is a subclass of IterativeDeepeningAlphaBetaSearch
+and performs, through its makeDecision method, an iterative deepening Minimax search with alpha-beta pruning and
+action ordering of Planner states and Action schemas. Maximal computation time is specified in seconds.
+This object is created and called from the chess Problem solver
+
+@author Oluf
+
+@param <S> The type representing chess states
+@param <A> The type representing chess actions
+@param <P> The type representing chess players
+"
+      classrelation 672770 // <realization>
+	relation 672770 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 672770 // <realization>
+	  b parent class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+      end
+
+      classrelation 672898 // player (<unidirectional association>)
+	relation 672898 --->
+	  a role_name "player" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GamePiece, PieceMove> ${name}${value};
+"
+	    classrelation_ref 672898 // player (<unidirectional association>)
+	  b parent class_ref 223874 // ChessPlayer
+      end
+
+      classrelation 673026 // plannerState (<unidirectional association>)
+	relation 673026 --->
+	  a role_name "plannerState" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 673026 // plannerState (<unidirectional association>)
+	  b parent class_ref 476418 // PlannerState
+      end
+
+      classrelation 673154 // plannerAction (<unidirectional association>)
+	relation 673154 --->
+	  a role_name "plannerAction" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<ActionSchema> ${name}${value};
+"
+	    classrelation_ref 673154 // plannerAction (<unidirectional association>)
+	  b parent class_ref 483074 // ChessPlannerAction
+      end
+
+      attribute 723970 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\plannerlogs.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 724098 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 724226 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 724354 "timecount"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 673282 // timer (<unidirectional association>)
+	relation 673282 --->
+	  a role_name "timer" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 673282 // timer (<unidirectional association>)
+	  b parent class_ref 133890 // Timer
+      end
+
+      operation 2202882 "ChessPlannerSearch"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "game" type class_ref 476290 // PlannerGame
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<PlannerState,ChessPlannerAction,ChessPlayer> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2210818 "createFor"
+	class_operation public return_type class_ref 489602 // ChessPlannerSearch
+	nparams 4
+	  param inout name "game" type class_ref 476290 // PlannerGame
+	  param in name "utilMin" explicit_type "double"
+	  param in name "utilMax" explicit_type "double"
+	  param in name "time" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<PlannerState,ChessPlannerAction,ChessPlayer> ${type} ${name}${(}${t0}<PlannerState,ChessPlannerAction,ChessPlayer> ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2203010 "makeDecision"
+	public return_type class_ref 483074 // ChessPlannerAction
+	nparams 1
+	  param inout name "state" type class_ref 476418 // PlannerState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "makeDecision
+This method is controlling the search. It is based on iterative
+deepening and tries to make to a good decision in limited time. 
+The type S for state is casted to the correct interface
+
+@param <PlannerState> The state of the game
+@return A ChessPlannerAction
+"
+      end
+
+      operation 2203138 "maxValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 476418 // PlannerState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2203266 "minValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 476418 // PlannerState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " returns an utility value"
+      end
+
+      operation 2210946 "orderActions"
+	public return_type class_ref 483074 // ChessPlannerAction
+	nparams 4
+	  param inout name "state" type class_ref 476418 // PlannerState
+	  param inout name "actions" explicit_type "List<ChessPlannerAction<ActionSchema>>"
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "orderActions
+This method orders the actions such that actions containing preferred positions comes first.
+This method should order the actions the same way as chessGame.analyzePieceandPosition(action);
+The type A for action is casted to ChessAction interface
+@author Oluf
+"
+      end
+
+      operation 2203394 "updateMetrics"
+	private explicit_return_type "void"
+	nparams 1
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2203522 "eval"
+	protected explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 476418 // PlannerState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "When overriding, first call the super implementation???!
+This overided version of eval must produce:
+- When the state is not terminal:
+A utility value that is max for a central position on the board + the value (rank) 
+of the piece
+@since January 2020
+This method attempts to analyze the various features of the current state
+This method can only be used for active player, not the opponent player
+
+
+"
+      end
+
+      operation 2203650 "incrementDepthLimit"
+	protected explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is called at the beginning of one depth limited
+search step. This implementation increments the current depth limit by
+one.
+@since 2.10.20 Max depth is 1 OJN
+"
+      end
+
+      operation 2203778 "isSignificantlyBetter"
+	protected explicit_return_type "boolean"
+	nparams 2
+	  param in name "newUtility" explicit_type "double"
+	  param in name "utility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a clear best action exists. This implementation returns
+false if both utilities are 0.
+Otherwise it returns true. This makes sure that the returned action belongs to the gameplayer and not the opponent
+"
+      end
+
+      operation 2203906 "hasSafeWinner"
+	protected explicit_return_type "boolean"
+	nparams 1
+	  param in name "resultUtility" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Primitive operation which is used to stop iterative deepening search in
+situations where a safe winner has been identified. This implementation
+returns true if the given value (for the currently preferred action
+result is the highest or lowest utility value possible.
+@since 05.05.20
+The resultutlity is divided by 100 since utilMax  is 1 and utilmin is 0.
+"
+      end
+    end
   end
 
   deploymentview 169474 "planning"
@@ -1879,6 +2654,92 @@ import java.util.*;
 ${definition}"
       associated_elems
 	class_ref 443010 // ChessLevel
+      end
+    end
+
+    artifact 399362 "PlannerGame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.adversarial.Game;
+${definition}"
+      associated_elems
+	class_ref 476290 // PlannerGame
+      end
+    end
+
+    artifact 399490 "PlannerState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.logic.planning.ActionSchema;
+import no.games.chess.ChessPlayer;
+${definition}"
+      associated_elems
+	class_ref 476418 // PlannerState
+      end
+    end
+
+    artifact 399618 "AbstractPlannerGame"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.logic.planning.ActionSchema;
+import no.games.chess.ChessAction;
+import no.games.chess.ChessPlayer;
+import no.games.chess.ChessState;
+import no.games.chess.GameBoard;
+import no.games.chess.GamePiece;
+import no.games.chess.PieceMove;
+${definition}"
+      associated_elems
+	class_ref 476546 // AbstractPlannerGame
+      end
+    end
+
+    artifact 406146 "ChessPlannerAction"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.agent.Action;
+import aima.core.logic.planning.ActionSchema;
+${definition}"
+      associated_elems
+	class_ref 483074 // ChessPlannerAction
+      end
+    end
+
+    artifact 412674 "ChessPlannerSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.search.adversarial.Game;
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.framework.Metrics;
+import no.games.chess.ChessAction;
+import no.games.chess.ChessAlphaBetaSearch;
+import no.games.chess.ChessGame;
+import no.games.chess.ChessPlayer;
+import no.games.chess.ChessState;
+import no.games.chess.GameBoard;
+import no.games.chess.GamePiece;
+import no.games.chess.PieceMove;
+${definition}"
+      associated_elems
+	class_ref 489602 // ChessPlannerSearch
       end
     end
   end

@@ -1,5 +1,5 @@
 class AChessProblemSolver
-!!!1772290.java!!!	AChessProblemSolver(inout stateImpl : ChessStateImpl, inout localAction : ChessActionImpl, inout folKb : ChessFolKnowledgeBase, inout chessDomain : FOLDomain, inout forwardChain : FOLGamesFCAsk, inout backwardChain : FOLGamesBCAsk, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer)
+!!!1772290.java!!!	AChessProblemSolver(inout stateImpl : ChessStateImpl, inout localAction : ChessActionImpl, inout folKb : ChessFolKnowledgeBase, inout chessDomain : ChessDomain, inout forwardChain : FOLGamesFCAsk, inout backwardChain : FOLGamesBCAsk, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer)
 		super();
 		this.stateImpl = stateImpl;
 		this.localAction = localAction;
@@ -13,7 +13,7 @@ class AChessProblemSolver
 		positions = this.game.getPositions();
 		opponentAgent = new OpponentAgent(this.stateImpl,this.game,this.opponent,this.myPlayer,this.folKb,chessDomain);
 		opponentAgent.setPositions(positions);
-
+		localKb = opponentAgent.getLocalKb();
 		playerName = this.myPlayer.getNameOfplayer();
 		playSide = playerName.substring(0,5);
 		noofMoves = game.getMovements().size();
@@ -28,6 +28,7 @@ class AChessProblemSolver
 	    setPredicatenames();
 	    actionSchemas = new HashMap<String,ActionSchema>();
 	    actionSchemalist = new ArrayList<ActionSchema>();
+	    initialStates = new ArrayList<List>();
 	    initStates = new HashMap<String,State>(); 
 	    goalStates = new HashMap<String,State>();
 	    possiblePieces = new HashMap<String,AgamePiece>();
@@ -49,6 +50,7 @@ class AChessProblemSolver
 	    findOpponentKing();
 	    stateLiterals = new ArrayList<Literal>();
 	    theState = new State(stateLiterals);
+
 !!!2029058.java!!!	findOpponentKing() : void
 	  String firstKing = "WhiteKing";
 	  String lastKing = "BlackKing";
@@ -87,6 +89,7 @@ class AChessProblemSolver
 		ROOK = KnowledgeBuilder.getROOK();
 		KING = KnowledgeBuilder.getKING();
 		QUEEN = KnowledgeBuilder.getQUEEN();
+		PIECE = KnowledgeBuilder.getPIECE();
 		OCCUPIES = KnowledgeBuilder.getOCCUPIES();
 		PAWNMOVE = KnowledgeBuilder.getPAWNMOVE();
 		PAWNATTACK = KnowledgeBuilder.getPAWNATTACK();
@@ -97,6 +100,14 @@ class AChessProblemSolver
 		POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
 		POSSIBLEPROTECT = KnowledgeBuilder.getPOSSIBLEPROTECT();
 		POSSIBLEREACH = KnowledgeBuilder.getPOSSIBLEREACH();
+!!!2173954.java!!!	getInitialStates() : List<List>
+	return initialStates;
+!!!2174082.java!!!	setInitialStates(inout initialStates : List<List>) : void
+	this.initialStates = initialStates;
+!!!2174210.java!!!	getTheSolution() : ActionSchema
+	return theSolution;
+!!!2174338.java!!!	setTheSolution(inout theSolution : ActionSchema) : void
+	this.theSolution = theSolution;
 !!!2085762.java!!!	getOpponentAgent() : OpponentAgent
 	return opponentAgent;
 !!!2085890.java!!!	setOpponentAgent(inout opponentAgent : OpponentAgent) : void
@@ -153,9 +164,9 @@ class AChessProblemSolver
 		return folKb;
 !!!1774210.java!!!	setFolKb(inout folKb : ChessFolKnowledgeBase) : void
 		this.folKb = folKb;
-!!!1774338.java!!!	getChessDomain() : FOLDomain
+!!!1774338.java!!!	getChessDomain() : ChessDomain
 		return chessDomain;
-!!!1774466.java!!!	setChessDomain(inout chessDomain : FOLDomain) : void
+!!!1774466.java!!!	setChessDomain(inout chessDomain : ChessDomain) : void
 		this.chessDomain = chessDomain;
 !!!1774594.java!!!	getForwardChain() : FOLGamesFCAsk
 		return forwardChain;
@@ -412,10 +423,24 @@ class AChessProblemSolver
 !!!1776514.java!!!	prepareAction(inout actions : ArrayList<ChessActionImpl>) : String
 	String pname = null;
 	String piecePos = "_";
+	  String pieceName = "";
+	  APerceptor thePerceptor = null;
+	  State thechosenState = null;
+	  Position posin = null;
 //	opponentAgent.probepossibilities(actions, myPlayer);
 //	opponentAgent.chooseStrategy(actions);
 	checkoppoentThreat(THREATEN,actions); // fills the threatenedPieces and threatenedPositions if any. This is temporal information 
-	String pieceName = "WhiteBishop2"; //Rewrite: Must find player's bishop
+//	String pieceName = "WhiteBishop2"; //Rewrite: Must find player's bishop
+	
+	  posin = positions.get("d3");
+	  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+	  fillthePerceptor(thePerceptor);
+	  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+	  thePerceptor.findReachable(posin);
+	  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
+//	  folKb.checkFacts(pieceName, pos, REACHABLE, actions,positionList);
+	  piecePos = pieceName + piecePos + "d3";
+	
 	String fpos = "f1"; // Must find player's bishop first position
 	String toPos = "d3"; // and player's bishop destination
 	boolean bishop = folKb.checkpieceFacts("y",pieceName,fpos,OCCUPIES); // Rook occupies f1 !!?? This is part of GOAL: Opening positions
@@ -432,16 +457,20 @@ class AChessProblemSolver
 			List<Position> removed = piece.getRemovedPositions();
 			Position pos =  (Position) removed.stream().filter(c -> c.getPositionName().contains(toPos)).findAny().orElse(null);
 			if (pos != null) { // The bishop cannot be moved
-				String pawnName = "WhitePawn5";
+				String pawnName = null;
 				String pawnPos = "e2";
 				boolean pawn = folKb.checkpieceFacts("y",pawnName,pawnPos,OCCUPIES);
 				if (pawn) {
 					typeofPiece = PAWN;
 					moveName = "pawnmove";
-					initstate = buildInitialstate(pawnName, pawnPos);
+					String newPos = "e3";
+					initstate = buildInitialstate(pawnName, pawnPos,newPos);
 					Position d2posin = positions.get("e3");
 					APerceptor d2perceptor = new APerceptor(d2posin,REACHABLE,PIECETYPE,PAWN,playerName);
+					fillthePerceptor(d2perceptor);
 					State d2chosenState = d2perceptor.checkPercept(initStates); // A hash table of available init states.
+					  d2perceptor.findReachable(d2posin);
+					  pawnName = d2perceptor.getPlayerPiece().getMyPiece().getOntlogyName();
 					if (d2chosenState != null) {
 						chosenInitstate = d2chosenState;
 					}
@@ -557,7 +586,7 @@ class AChessProblemSolver
 				goal = buildGoalstate(pieceName,castlePos);
 				typeofPiece = BISHOP;
 				moveName = "bishopmove";
-				initstate = buildInitialstate(bishopName, toPos);
+				initstate = buildInitialstate(bishopName,fpos, toPos);
 				deferredInitial = initstate;
 				deferredGoal = goal;
 				deferredGoalstates.put(pieceName, goal);
@@ -608,70 +637,120 @@ class AChessProblemSolver
 		State gState = new State(literals);
 		return gState;
 	  
+!!!2174466.java!!!	fillthePerceptor(inout thePerceptor : APerceptor) : void
+	  thePerceptor.setMyPlayer(myPlayer);
+	  thePerceptor.setOpponent(opponent);
+	  thePerceptor.setAgent(opponentAgent);
+	  thePerceptor.setFolKb(folKb);
+	  thePerceptor.setLocalKb(localKb);
+	  thePerceptor.setInitStates(initStates);
+	  thePerceptor.setGoalStates(goalStates);
 !!!1776642.java!!!	checkMovenumber(inout actions : ArrayList<ChessActionImpl>) : String
 	  String pieceName = "";
 	  String piecePos = "_";
+	  APerceptor thePerceptor = null;
+	  State thechosenState = null;
+	  Position posin = null;
 	  switch(noofMoves) {
 	  case 0:
-		  pieceName = "WhitePawn4";
+//		  pieceName = "WhitePawn4";
+		  posin = positions.get("d4");
+		  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+		  fillthePerceptor(thePerceptor);
+		  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+		  thePerceptor.findReachable(posin);
+		  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
+		  thePerceptor.createLiftedActions(null,null,"d4",null);
+		  initialState = thePerceptor.getInitState();
+		  goalState = thePerceptor.getGoalState();
+		  otherSchemas = thePerceptor.getOtherSchemas();
+		  otherSchemaList = thePerceptor.getOtherActions();
 		  piecePos = pieceName + piecePos + "d4";
-		  Position posin = positions.get("d4");
-		  APerceptor perceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
-		  State chosenState = perceptor.checkPercept(initStates); // A hash table of available init states.
-		  if (chosenState != null) {
-			  chosenInitstate = chosenState;
+		  if (thechosenState != null) {
+			  chosenInitstate = thechosenState;
 		  }
 		  break;
 	  case 2:
-		  pieceName = "WhitePawn3";
+//		  pieceName = "WhitePawn3";
 		  String pos = "c4";
-		  piecePos = pieceName + piecePos + pos;
-		  folKb.checkFacts(pieceName, pos, REACHABLE, actions,positionList);
-		  Position case2posin = positions.get("c4");
-		  APerceptor case2perceptor = new APerceptor(case2posin,REACHABLE,PIECETYPE,null,playerName);
-		  State case2chosenState = case2perceptor.checkPercept(initStates); // A hash table of available init states.
-		  if (case2chosenState != null) {
-			  chosenInitstate = case2chosenState;
+//		  folKb.checkFacts(pieceName, pos, REACHABLE, actions,positionList);
+		  posin = positions.get("c4");
+		  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+		  fillthePerceptor(thePerceptor);
+		  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+		  thePerceptor.findReachable(posin);
+		  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
+//		  folKb.checkFacts(pieceName, pos, REACHABLE, actions,positionList);
+		  piecePos = pieceName + piecePos + "c4";
+		  writer.println("The percept schema "+thePerceptor.getPercept().toString());
+		  thePerceptor.createLiftedActions(null,null,"c4",null);
+		  initialState = thePerceptor.getInitState();
+		  goalState = thePerceptor.getGoalState();
+		  otherSchemas = thePerceptor.getOtherSchemas();
+		  if (thechosenState != null) {
+			  chosenInitstate = thechosenState;
 		  }
 		  break;
 	  case 4:
 		  checkOpponent("", actions);
-		  pieceName = "WhiteKnight1";
+//		  pieceName = "WhiteKnight1";
+		  posin = positions.get("c3");
+		  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+		  fillthePerceptor(thePerceptor);
+		  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+		  thePerceptor.findReachable(posin);
+		  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
 		  piecePos = pieceName + piecePos + "c3";
-		  Position case4posin = positions.get("c3");
-		  APerceptor case4perceptor = new APerceptor(case4posin,REACHABLE,PIECETYPE,null,playerName);
-		  State case4chosenState = case4perceptor.checkPercept(initStates); // A hash table of available init states.
-		  if (case4chosenState != null) {
-			  chosenInitstate = case4chosenState;
+		  thePerceptor.createLiftedActions(null,null,"c3",null);
+		  initialState = thePerceptor.getInitState();
+		  goalState = thePerceptor.getGoalState();
+		  otherSchemas = thePerceptor.getOtherSchemas();// A Set of propositionalized action schemas from the lifted action schema
+		  if (thechosenState != null) {
+			  chosenInitstate = thechosenState;
 		  }
 		  break;
 	  case 6:
 		  checkOpponent("", actions);
-		  pieceName = "WhiteKnight2";
+//		  pieceName = "WhiteKnight2";
 		  String posx = "f3";
+		  posin = positions.get("f3");
+		  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+		  fillthePerceptor(thePerceptor);
+		  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+		  thePerceptor.findReachable(posin);
+		  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
+//		  folKb.checkFacts(pieceName, posx, REACHABLE, actions,positionList);
 		  piecePos = pieceName + piecePos + posx;
-		  folKb.checkFacts(pieceName, posx, REACHABLE, actions,positionList);
-		  Position case6posin = positions.get("f3");
-		  APerceptor case6perceptor = new APerceptor(case6posin,REACHABLE,PIECETYPE,null,playerName);
-		  State case6chosenState = case6perceptor.checkPercept(initStates); // A hash table of available init states.
-		  if (case6chosenState != null) {
-			  chosenInitstate = case6chosenState;
+		  thePerceptor.createLiftedActions(null,null,posx,KnowledgeBuilder.getKNIGHT());
+		  initialState = thePerceptor.getInitState();
+		  goalState = thePerceptor.getGoalState();
+		  otherSchemas = thePerceptor.getOtherSchemas();// A Set of propositionalized action schemas from the lifted action schema
+		  if (thechosenState != null) {
+			  chosenInitstate = thechosenState;
 		  }
 		  break;
 	  default:
-		  checkOpponent("", actions); // Result: A list of opponent pieces that can be taken
+		  checkOpponent("", actions); // Result: A list of opponent pieces that can be taken possiblePieces and possiblePositions
 		  String blackpieceName = "BlackBishop1"; // Find opponent bishop
 		  String blackpos = "g4";
 		  if (folKb.checkThreats(blackpieceName, blackpos, OCCUPIES,opponent)) {
-			  pieceName = "WhitePawn8"; // Result: This pawn is moved to h3. OBS change piecename to player's pawn 8
+//			  pieceName = "WhitePawn8"; // Result: This pawn is moved to h3. OBS change piecename to player's pawn 8
+//			  piecePos = pieceName + piecePos + "h3";
+			  posin = positions.get("h3");
+			  thePerceptor = new APerceptor(posin,REACHABLE,PIECETYPE,null,playerName);
+			  fillthePerceptor(thePerceptor);
+			  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+			  thePerceptor.findReachable(posin);
+			  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
 			  piecePos = pieceName + piecePos + "h3";
-			  Position d1posin = positions.get("h3");
-			  APerceptor d1perceptor = new APerceptor(d1posin,REACHABLE,PIECETYPE,null,playerName);
-			  State d1chosenState = d1perceptor.checkPercept(initStates); // A hash table of available init states.
-			  if (d1chosenState != null) {
-				  chosenInitstate = d1chosenState;
+			  thePerceptor.createLiftedActions(null,null,"h3",KnowledgeBuilder.getPAWN()); // A piece at H3
+			  initialState = thePerceptor.getInitState();
+			  goalState = thePerceptor.getGoalState();
+			  otherSchemas = thePerceptor.getOtherSchemas();// A Set of propositionalized action schemas from the lifted action schema
+			  if (thechosenState != null) {
+				  chosenInitstate = thechosenState;
 			  }
-			  break;
+			  break; // Black bishop at g4: If this is true then pawn at h2 is moved to h3
 		  }
 		  String pname = "x";
 		  String bpos = "d5";
@@ -686,19 +765,24 @@ class AChessProblemSolver
 				  pieceName = "WhitePawn3";
 				  String wpos = "d5";
 				  if (folKb.checkFacts(pieceName, wpos, PAWNATTACK, actions,positionList)) {
+					  posin = positions.get("d5");
+					  thePerceptor = new APerceptor(posin,PAWNATTACK,PIECETYPE,PAWN,playerName);
+					  fillthePerceptor(thePerceptor);
+					  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+					  thePerceptor.findReachable(posin);
+					  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
 					  piecePos = pieceName + piecePos + wpos;
-					  Position d2posin = positions.get("d5");
-					  APerceptor d2perceptor = new APerceptor(d2posin,PAWNATTACK,PIECETYPE,PAWN,playerName);
-					  State d2chosenState = d2perceptor.checkPercept(initStates); // A hash table of available init states.
-					  if (d2chosenState != null) {
-						  chosenInitstate = d2chosenState;
+					  thePerceptor.createLiftedActions(null,null,wpos,KnowledgeBuilder.getPAWN()); // A piece at d5
+					  initialState = thePerceptor.getInitState();
+					  goalState = thePerceptor.getGoalState();
+					  otherSchemas = thePerceptor.getOtherSchemas();// A Set of propositionalized action schemas from the lifted action schema
+					  if (thechosenState != null) {
+						  chosenInitstate = thechosenState;
 					  }
 					  break; // If this is true then the white pawn takes the opponent piece at d5
 				  }
 			  }
 		  }
-		  //			  pieceName = "WhitePawn3";
-
 		  String kingName = opponentKing.getMyPiece().getOntlogyName();
 		  String kingPos = folKb.checkPosition(kingName, OCCUPIES);
 		  opponentKingPosition = kingPos;
@@ -722,12 +806,15 @@ class AChessProblemSolver
 					  if (pawn) {
 						  predicate = PAWNATTACK;
 					  }
+					  posin = positions.get(oppPosName);
+					  thePerceptor = new APerceptor(posin,predicate,PIECETYPE,nameType,playerName);
+					  fillthePerceptor(thePerceptor);
+					  thechosenState = thePerceptor.checkPercept(initStates); // A hash table of available init states.
+					  thePerceptor.findReachable(posin);
+					  pieceName = thePerceptor.getPlayerPiece().getMyPiece().getOntlogyName();
 					  piecePos = pieceName + piecePos + oppPosName;
-					  Position d2posin = positions.get(oppPosName);
-					  APerceptor d2perceptor = new APerceptor(d2posin,predicate,PIECETYPE,nameType,playerName);
-					  State d2chosenState = d2perceptor.checkPercept(initStates); // A hash table of available init states.
-					  if (d2chosenState != null) {
-						  chosenInitstate = d2chosenState;
+					  if (thechosenState != null) {
+						  chosenInitstate = thechosenState;
 					  }
 					  break;
 				  }else {
@@ -765,6 +852,7 @@ class AChessProblemSolver
 			  }
 		  }
 		  if (pieceName == null) { // prepareAction returns with no piece. There are no threats and castling is done
+			  writer.println("prepareAction returns with no piece. There are no threats and castling is done");
 			  AgamePiece chosen = opponentAgent.getPerformanceMeasure().getChosenPiece();
 			  Position chosenpos = opponentAgent.getPerformanceMeasure().getChosenPosition();
 			  boolean takeKing = opponentAgent.getPerformanceMeasure().isCanTakeKing();
@@ -806,9 +894,10 @@ class AChessProblemSolver
 			AgamePiece castle = myPlayer.checkCastling(movedPiece, toCastle); // Returns the castle piece to do castling with
 			String piecepos = key+"_"+posx;
 			String kingPos = "e1";
+			String toPos = "c1";
 			typeofPiece = KING;
 			moveName =  theCastling;;
-			State localinitialState = buildInitialstate(key,kingPos);
+			State localinitialState = buildInitialstate(key,kingPos,toPos);
 			State localgoalState = buildGoalstate(key, posx);//buildGoalstate(action);
 			initStates.put(piecepos, localinitialState);
 			goalStates.put(piecepos, localgoalState);
@@ -843,14 +932,26 @@ class AChessProblemSolver
 	  opponentAgent.setGoalStates(goalStates);
 	  String pieceName = null;
 	  ChessProblem problem = null;
-	  String actionName = deferredMove(actions); // For castling
+		
+	  State theInitState = null;
+      State theGoal = null;
+ 	  String actionName = deferredMove(actions); // For castling
 	  // 11.07.22 Changes this to return piece name and possible position
 	  // This is the only call to checkMovenumber Changed the key pieceName
       pieceName = checkMovenumber(actions); // Returns a possible piecename A String A piecename pointer: The pieceName + "_" + PosName
 //      - a piece to be moved - calls the prepareAction method
-//      searchProblem(actions); // Builds an ActionSchema for every Chess Action. This is the planning phase
 //		Plan first schedule later
+      PlannerState plannerState = new PlannerStateImpl(myPlayer,actionSchemalist,otherSchemaList,noofMoves);
+      plannerGame = new AplannerGame(myPlayer,plannerState);
+      //		AdversarialSearch<PlannerState, ChessPlannerAction> search; // FILL IN !!!! IterativeDeepeningAlphaBetaSearch
+      // Create the plannerGame first
+      IterativeDeepeningAlphaBetaSearch<PlannerState, ChessPlannerAction,ChessPlayer> search;
+      search = ChessPlannerSearch.createFor(plannerGame, 0.0, 1.0, 1); // Changed timer from 2 to 1.
+      search = (ChessPlannerSearch) search;
+      search.setLogEnabled(true);
+      
       String pieceKey = null;
+      List<AgamePiece>  pieces = myPlayer.getMygamePieces();
 /*
  * Added 10.12.22 
  * The APerceptor object checks for a percept action to see if it
@@ -881,14 +982,16 @@ class AChessProblemSolver
 		  game.setDeferredGoalstates(deferredGoalstates);
 		  game.setDeferredGoal(deferredGoal);
 		  game.setDeferredInitial(deferredInitial);		
-/*	  }else {
-		 pieceName = checkMovenumber(actions);*/
 	  }
+	  State goal = null;
+	  State initState = null;
 	  ActionSchema movedAction = actionSchemas.get(pieceName);
-	  if (movedAction != null) {
+	  
+/*	  if (movedAction != null) {
 		  String nactionName = movedAction.getName();
 		  int nIndex = nactionName.indexOf("_");
 		  String chessName = nactionName.substring(0, nIndex);
+		  String posName = nactionName.substring(nIndex+1,nactionName.length());
 		  if (deferredInitial != null && deferredGoal != null) {
 			  writer.println("Deferred initial and goal states\n");
 		      for (Literal literal :
@@ -901,32 +1004,46 @@ class AChessProblemSolver
 		    	 writer.println(literal.toString());
 		      }		      
 		  }
- /*
+ 
   * The initial and goal states are determined here
   * given the name of the piece.
   * 10.12.22 The init state is determined by a percept schema
   * If the percept schema finds an init state then the chosenInitstate is not null.
- */
+ 
 
 		  writer.println("Chosen action Schema\n"+movedAction.toString());
+		  writer.println("Chessname for chess action "+chessName);
 		  ChessActionImpl naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(chessName)).findAny().orElse(null);
+		  writer.println("Chosen action "+naction.toString());
+		  List<Position>available = naction.getAvailablePositions();
+		  Position toPos = (Position) available.stream().filter(c -> c.getPositionName().equals(posName)).findAny().orElse(null);
 		  String newPos = naction.getPossibleMove().getToPosition().getPositionName(); // Get newPos from Preferred position ??!!
 		  String newprefPos = naction.getPreferredPosition().getPositionName(); 
-		  writer.println("The new position and the preferred position\n"+newPos+"\n"+newprefPos);
-		  State initState = initStates.get(pieceName);
-		  State goal = goalStates.get(pieceName);
+		  writer.println("The new position and the preferred position and chosen position\n"+newPos+"\n"+newprefPos+"\n"+toPos.getPositionName());
+		  initState = initStates.get(pieceName);
+		  goal = goalStates.get(pieceName);
 		  Set<ActionSchema> aSchemas =  new HashSet<ActionSchema>(actionSchemas.values());
 //		  problem = new ChessProblem(initState,goal,movedAction);
 		  problem = new ChessProblem(initState,goal,aSchemas);	
-/*
+		  FunctionContect fcon = new FunctionContect();
+		  for ( List<State> states:initialStates) {
+			  writer.println("The fluents of the alternative init states");
+			  for (State state:states) {
+			      for (Literal literal :
+			    	  state.getFluents()) {
+			    	 writer.println(literal.toString());
+			      }
+			  }
+		  }
+
  * The object variable theState contains all Literals of the current ChessState.
- * Then the are too many preconditions from the list of actionschemas that can be entailed by the initial state.
+ * Then there are too many preconditions from the list of actionschemas that can be entailed by the initial state.
  * The initial state may contain more fluents than the precondition.		  
- */
+ 
 //		  problem = new ChessProblem(theState,goal,aSchemas);
-/*
+
  * The initial state and goal state is determined by the choice of piece		  
- */
+ 
 		  writer.println("The fluents of the init state");
 	      for (Literal literal :
 	    	  initState.getFluents()) {
@@ -946,15 +1063,65 @@ class AChessProblemSolver
 		   int s = schemas.size();
 		   int listSize = actionSchemalist.size();
 		   writer.println("No of permuted primitive actions from problem "+s+" No of schemas in list (chessActions) "+listSize);
+		   writer.println("The ground actions in problem: ");
 		   for (ActionSchema primitiveAction :
 			   schemas) {
 			   writer.println(primitiveAction.toString());
+			   writer.println("The constants in action: "+primitiveAction.getName());
+			   for(Constant c : primitiveAction.getConstants()) {
+				   writer.println(c.toString());
+			   }
 		   }
 		  writer.println("Chosen action\n"+naction.getActionName());
 	  }
+*/
+	
+/*
+ * Planning graphs p. 379.
+ * S0 - A0 - S1
+ * A0 contains ground actions that might be applicable in S0
+ * S0 consists of nodes representing fluents that holds in S0	  
+ */
+
+/*
+ * Now part of APerceptor	  
+ */
+/*
+ *  End Now part of APerceptor	  
+*/	  
+	  ChessProblem differentProblem = new ChessProblem(initialState,goalState,otherSchemas);
+	  ChessGraphPlanAlgorithm graphplan = new ChessGraphPlanAlgorithm(); // Added graphplan 8.3.23
+//	  List<List<ActionSchema>> solutions = graphplan.graphPlan(problem);
+	  List<List<ActionSchema>> solutions = graphplan.graphPlan(differentProblem);
+	  if (solutions != null && !solutions.isEmpty()) {
+		  for (List<ActionSchema> solutionschemas:solutions) {
+			  writer.println("Solutions from graphplan - levelled off at "+graphplan.getTheLevel());
+			  writer.println("The levels \n"+ graphplan.getTheChesslevel().printLevelObject());
+			  for (ActionSchema asolution:solutionschemas) {
+				  String solutionName = asolution.getName();
+				  if (!solutionName.equals("No-op")) {
+					  theSolution = asolution;
+					  writer.println("The solution name "+solutionName+"\n"+asolution.toString());
+					  List<Constant>solConstants = theSolution.getConstants();
+					  for (Constant constant:solConstants) {
+						  writer.println(constant.getSymbolicName());
+						  String symName = constant.getSymbolicName();
+						  AgamePiece gpiece =  (AgamePiece) pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().contains(symName)).findAny().orElse(null);
+						  if (gpiece != null) {
+							 
+							  break;
+						  }
+					  }
+				  }
+			  }
+		  }
+	  }else {
+		  writer.println("No solutions from graphplan\n");
+	  }
 
 	  writer.flush();
-	  return problem;
+//	  return problem;
+	  return differentProblem;
 !!!1776898.java!!!	searchProblem(inout actions : ArrayList<ChessActionImpl>) : ActionSchema
 	  List<ActionSchema> schemas = new ArrayList<ActionSchema>();
 	//  List<AgamePiece> pieces = myPlayer.getMygamePieces();
@@ -965,15 +1132,15 @@ class AChessProblemSolver
 				List<Position> removedPos = action.getPositionRemoved();
 				String newPos = action.getPossibleMove().getToPosition().getPositionName(); // Get newPos from Preferred position ??!!
 //				String newPos = action.getPreferredPosition().getPositionName(); !!!
-				String pieceName = action.getChessPiece().getMyPiece().getOntlogyName();
+				String pieceName = action.getChessPiece().getMyPiece().getOntlogyName(); // Ontology name of piece
 				Position position = action.getChessPiece().getHeldPosition();
 				if (position == null) {
 					position = action.getChessPiece().getMyPosition();
 				}
 				String posName = position.getPositionName();
 				String actionName = action.getActionName()+"_"+newPos;
-				
-				State localinitialState = buildInitialstate(pieceName,posName);
+// OJN 28.05.24: To return a list of init states for this piece:				
+				State localinitialState = buildInitialstate(pieceName,posName,newPos);// Ontology name of piece, name of occupied position
 				State localgoalState = buildGoalstate(action);
 				String apiecepos = pieceName+"_"+newPos;
 				initStates.put(apiecepos, localinitialState);
@@ -985,12 +1152,13 @@ class AChessProblemSolver
 					String aposName = apos.getPositionName();
 					Position pos =  (Position) removedPos.stream().filter(c -> c.getPositionName().contains(aposName)).findAny().orElse(null);
 					if (pos == null) {
-						State anotherinitialState = buildInitialstate(pieceName,posName);
+						State anotherinitialState = buildInitialstate(pieceName,posName,aposName); //This is the same initial state
 						State anothergoalstate = buildGoalstate(pieceName, aposName);
 						String piecepos = pieceName+"_"+aposName;
-						initStates.put(piecepos, anotherinitialState);
+						initStates.put(piecepos, anotherinitialState);//The same initial state with a different key
 						goalStates.put(piecepos, anothergoalstate);
 						ActionSchema anotherActionschema = makeActionSchemas(pieceName, piecepos, posName, aposName);
+//Parameters: Ontology name of piece, Ontology name of piece+ name of available position,name of occupied position,name of available position
 						schemas.add(anotherActionschema);
 					}
 				}
@@ -1002,7 +1170,7 @@ class AChessProblemSolver
 							String aposName = apos.getPositionName();
 							Position pos =  (Position) removedPos.stream().filter(c -> c.getPositionName().contains(aposName)).findAny().orElse(null);
 							if (pos == null) {
-								State anotherinitialState = buildInitialstate(pieceName,posName);
+								State anotherinitialState = buildInitialstate(pieceName,posName,aposName);
 								State anothergoalstate = buildGoalstate(pieceName, aposName);
 								String piecepos = pieceName+"_"+aposName;
 								initStates.put(piecepos, anotherinitialState);
@@ -1035,12 +1203,15 @@ class AChessProblemSolver
 	  List<Term> newterms = new ArrayList<Term>();
 	  List<Term> typeTerms = new ArrayList<Term>();
 	  List<Term> castlingTerms = null;
+	  List<Term> boardTerms = new ArrayList<Term>();
 	  Predicate protectedBy = null;
 	  Constant protector = null;
 	  String protectorName = null;
 	  //		Constant toPos = new Constant(toPosit);
 	  List<Literal> precondition = new ArrayList();
 	  List<Literal> effects = new ArrayList();
+	  boolean protectorFlag = false;
+	  boolean attackFlag = false;
 	  if (reachparentNames != null && !reachparentNames.isEmpty() ) { // A list of piece names that protect a given position
 		  int psize = reachparentNames.size();
 		  for (int i = 0;i<psize;i++) {
@@ -1056,6 +1227,7 @@ class AChessProblemSolver
 				  if (!typeofPiece.equals(PAWN)) {
 					  precondition.add(new Literal((AtomicSentence) protectedBy));
 					  variables.add(protector);
+					  protectorFlag = true;
 				  }
 				  protectorTerms.clear();
 				  if (typeofPiece.equals(PAWN)) {
@@ -1068,6 +1240,7 @@ class AChessProblemSolver
 								String aposName = apos.getPositionName();
 								String occupant= null;
 								AgamePiece ownpiece = null;
+								 attackFlag = true;
 								ArrayList<String>occupier = (ArrayList<String>)folKb.searchFacts("x", aposName, OCCUPIES);
 								if (!occupier.isEmpty()) {
 									occupant = occupier.get(0);
@@ -1092,19 +1265,21 @@ class AChessProblemSolver
 					  
 				  }
 			  }
-		  }
+		  } // End for all piece names that protect a given position
 
-	  }
+	  } // end if protector names
 //	  ownerterms.add(ownerVar);
 //	  ownerterms.add(piece);
 	  terms.add(piece);
 	  terms.add(pos);
+	  boardTerms.add(pos);
 	  newterms.add(piece);
 	  newterms.add(toPos);
 	  typeTerms.add(piece);
 	  typeTerms.add(type);
 	  Predicate typePred = new Predicate(PIECETYPE,typeTerms);
 	  Predicate reachablePredicate = new Predicate(REACHABLE,newterms);
+	  Predicate boardPredicate = new Predicate(BOARD,boardTerms);
 	  Predicate attackPredicate = null;
 	  if (!attackTerms.isEmpty()) {
 		  attackPredicate = new Predicate(PAWNATTACK,attackTerms);
@@ -1112,25 +1287,43 @@ class AChessProblemSolver
 	  Predicate pospred = new Predicate(OCCUPIES,terms);
 	  //		Predicate ownerPred = new Predicate(OWNER,ownerterms);
 	  Predicate newPospred = new Predicate(OCCUPIES,newterms);
-	  precondition.add(new Literal((AtomicSentence) pospred));
-	  if (attackPredicate != null)
+/*	  precondition.add(new Literal((AtomicSentence) pospred));
+	  precondition.add(new Literal((AtomicSentence) boardPredicate)); // The board predicate is added to the precondition
+	  precondition.add(new Literal((AtomicSentence) typePred)); // The type predicate is moved in position before the reachable predicate
+*/	  if (attackPredicate != null) {
 		  precondition.add(new Literal((AtomicSentence) attackPredicate));
-	  if (attackPredicate == null)
+		  precondition.add(new Literal((AtomicSentence) pospred));
+		  precondition.add(new Literal((AtomicSentence) boardPredicate)); // The board predicate is added to the precondition
+		  precondition.add(new Literal((AtomicSentence) typePred)); // The type predicate is moved in position before the reachable predicate
+		  effects.add(new Literal( (AtomicSentence)newPospred));
+		  //		effects.add(new Literal( (AtomicSentence)ownerPred));
+		  effects.add(new Literal( (AtomicSentence)typePred));
+	  }
+	  if (!attackFlag ) { // To prevent pawn attack position to become a reachable action schema OJN 31.05.24
 		  precondition.add(new Literal((AtomicSentence) reachablePredicate));
+		  precondition.add(new Literal((AtomicSentence) pospred));
+		  precondition.add(new Literal((AtomicSentence) boardPredicate)); // The board predicate is added to the precondition
+		  precondition.add(new Literal((AtomicSentence) typePred)); // The type predicate is moved in position before the reachable predicate
+		  effects.add(new Literal( (AtomicSentence)newPospred));
+		  //		effects.add(new Literal( (AtomicSentence)ownerPred));
+		  effects.add(new Literal( (AtomicSentence)typePred));
+	  }
 	  Predicate castlingPredicate = null;
 	  if (castlingTerms != null) {
 		  castlingPredicate = new Predicate(CASTLE,castlingTerms);
 		  precondition.add(new Literal((AtomicSentence) castlingPredicate));
 	  }
-	  precondition.add(new Literal((AtomicSentence) typePred));
+	
 	  //		Literal notAt = new Literal(pospred, true);
 	  //		effects.add(notAt);
-	  effects.add(new Literal( (AtomicSentence)newPospred));
-	  //		effects.add(new Literal( (AtomicSentence)ownerPred));
-	  effects.add(new Literal( (AtomicSentence)typePred));
-	  ActionSchema movedAction = new ActionSchema(actionName,variables,precondition,effects);
+	  ActionSchema movedAction = null;
+	  if (!precondition.isEmpty()) {
+		  movedAction = new ActionSchema(actionName,variables,precondition,effects);
+		  actionSchemas.put(piecepos, movedAction);
+	  }
+	
 	  
-	  actionSchemas.put(piecepos, movedAction);
+
 	  //		schemas.add(movedAction);
 	  return movedAction;
 !!!1777026.java!!!	solveProblem(inout action : ChessActionImpl) : List<List<ActionSchema>>
@@ -1160,7 +1353,7 @@ class AChessProblemSolver
 			position = action.getChessPiece().getMyPosition();
 		}
 		String posName = position.getPositionName();
-		initialState = buildInitialstate(pieceName,posName);
+		initialState = buildInitialstate(pieceName,posName,posName);
 		goalState = buildGoalstate(action);
 		Variable piece = new Variable("piece");
 		Variable pos = new Variable("pos");
@@ -1343,7 +1536,7 @@ class AChessProblemSolver
 		if (type != type.PAWN && !bNr) {
 			
 		}*/
-!!!1777538.java!!!	buildInitialstate(in piece : String, in posName : String) : State
+!!!1777538.java!!!	buildInitialstate(in piece : String, in posName : String, in newPos : String) : State
 		List<Sentence> folSentences = folKb.getOriginalSentences();
 		State initState = null;
 		String pieceName = null;
@@ -1352,8 +1545,11 @@ class AChessProblemSolver
 		List<Literal> literals = new ArrayList();
 		List<String> attackablePos = new ArrayList<String>();
 		List<String> castlePos = new ArrayList<String>();
+		List<State> states = new ArrayList<State>();
+		boolean reachable = false; // added 25.05.24 - only one reachable fluent in initial state
 		for (Sentence s : folSentences) {
 			String symName = s.getSymbolicName();
+			List<Literal> localLiterals = new ArrayList();
 			if (symName.equals(OCCUPIES)) {
 				 ArrayList<Term> literalTerms = new ArrayList<>();
 				List<Term> terms = (List<Term>) s.getArgs();
@@ -1368,6 +1564,7 @@ class AChessProblemSolver
 					Literal l = new Literal(new Predicate(symName, literalTerms));*/
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
+					localLiterals.add(l);
 				}
 	
 			}
@@ -1401,8 +1598,9 @@ class AChessProblemSolver
 					literalTerms.add(term);
 					literalTerms.add(ps);
 					Literal l = new Literal(new Predicate(symName, literalTerms));*/
-					Literal l = new Literal((AtomicSentence) s);
+/*					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
+					localLiterals.add(l);*/
 					reachablePos.add(pos);
 					Constant posVar = new Constant(pos);
 					Constant pieceC = new Constant(p);
@@ -1415,11 +1613,27 @@ class AChessProblemSolver
 					Predicate reachPredicate = new Predicate(REACHABLE,reachTerms);
 					Literal boards = new Literal((AtomicSentence)boardPredicate);
 					Literal reaches = new Literal((AtomicSentence)reachPredicate);
-					literals.add(boards);
-					if (pos.equals(posName))
+					literals.add(boards); 
+					localLiterals.add(boards);
+					if (!reachable)
+						localLiterals.add(reaches);
+					reachable = true;
+					if (pos.equals(newPos))
 						literals.add(reaches);
+					
 				}
 			}
+			if (symName.equals(PIECE)) { // Added new initial state fluent : The piece name as PIECE OJN 18.05.24
+				List<Term> terms = (List<Term>) s.getArgs();
+				ArrayList<Term> literalTerms = new ArrayList<>();
+				Term f = terms.get(0);
+				String p = f.getSymbolicName();
+				if (p.equals(piece)) {
+					Literal l = new Literal((AtomicSentence) s);
+					literals.add(l);
+					localLiterals.add(l);
+				}
+			} 
 			if (symName.equals(PIECETYPE)) {
 				List<Term> terms = (List<Term>) s.getArgs();
 				ArrayList<Term> literalTerms = new ArrayList<>();
@@ -1430,6 +1644,7 @@ class AChessProblemSolver
 				if (p.equals(piece) && type.equals(typeofPiece)) {
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
+					localLiterals.add(l);
 				}
 			}
 			if (symName.equals(BOARD)) {
@@ -1440,8 +1655,9 @@ class AChessProblemSolver
 				if (p.equals(posName)) {
 					Literal l = new Literal((AtomicSentence) s);
 					literals.add(l);
+					localLiterals.add(l);
 				}
-			}
+			} //The board fluent is removed OJN 7.05.24
 			if (symName.equals(PAWNATTACK)) {
 				List<Term> terms = (List<Term>) s.getArgs();
 				ArrayList<Term> literalTerms = new ArrayList<>();
@@ -1459,6 +1675,7 @@ class AChessProblemSolver
 					Predicate boardPredicate = new Predicate(BOARD,boardTerms);
 					Literal boards = new Literal((AtomicSentence)boardPredicate);
 					literals.add(boards);
+					localLiterals.add(boards);
 				}
 			}
 			if (symName.equals(CASTLE)) {
@@ -1485,15 +1702,25 @@ class AChessProblemSolver
 					Literal boards = new Literal((AtomicSentence)boardPredicate);
 					literals.add(boards);
 					literals.add(reaches);
+					localLiterals.add(boards);
+					localLiterals.add(reaches);
 				}
 			}
-		}
-		List<Literal>temp = addProtected(folSentences,reachablePos,piece);
-		literals.addAll(temp);
-		List<Literal>attacktemp = addProtected(folSentences,attackablePos,piece);
-		List<Literal>castletemp = addProtected(folSentences,castlePos,piece);
-		literals.addAll(attacktemp);
-		literals.addAll(castletemp);
+			State localState = null;
+			if (!localLiterals.isEmpty()) {
+				localState = new State(localLiterals);
+				states.add(localState);
+			}
+			initialStates.add(states);
+			states.clear();
+			reachable = false;
+		} // end for all sentences in knowledge base
+//		List<Literal>temp = addProtected(folSentences,reachablePos,piece); Removed protected sentences ojn 20.05.24
+//		literals.addAll(temp);
+//		List<Literal>attacktemp = addProtected(folSentences,attackablePos,piece);
+//		List<Literal>castletemp = addProtected(folSentences,castlePos,piece);
+//		literals.addAll(attacktemp);
+//		literals.addAll(castletemp);
 		stateLiterals.addAll(literals);
 		return initState = new State(literals);
 		

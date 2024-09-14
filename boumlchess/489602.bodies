@@ -1,0 +1,162 @@
+class ChessPlannerSearch
+!!!2202882.java!!!	ChessPlannerSearch(inout game : PlannerGame, in utilMin : double, in utilMax : double, in time : int)
+		super(game, utilMin, utilMax, time);
+		
+!!!2210818.java!!!	createFor(inout game : PlannerGame, in utilMin : double, in utilMax : double, in time : int) : ChessPlannerSearch
+    	
+        return new ChessPlannerSearch((PlannerGame<no.games.chess.planning.PlannerState, no.games.chess.planning.ChessPlannerAction, no.games.chess.ChessPlayer>) game, utilMin, utilMax, time);
+!!!2203010.java!!!	makeDecision(inout state : PlannerState) : ChessPlannerAction
+    	PlannerState mystate = (PlannerState)state;
+    	
+        metrics = new Metrics();
+        StringBuffer logText = new StringBuffer("Log\n");
+        StringBuffer store = new StringBuffer("Ordered actions");
+        ChessPlayer player =  (ChessPlayer) game.getPlayer(mystate);
+        PlannerGame plannerGame = (PlannerGame) game;
+        List<ChessPlannerAction> actions = plannerGame.getActions(mystate);
+        List<ChessPlannerAction> results =  orderActions(mystate, actions, player, 0); // Analysis of ChessPlannerAction and the Action Schemas
+        timer.start();
+        currDepthLimit = 1;
+        do {
+            incrementDepthLimit();
+            if (logEnabled)
+                logText = new StringBuffer("New while with depth " + currDepthLimit + ": \n");
+            heuristicEvaluationUsed = false;
+            ActionStore<ChessPlannerAction> newResults = new ActionStore<>();
+/*
+ * Here we need an alternative to a minimax search!! OJN 23.08.24            
+ */
+            for (ChessPlannerAction action : results) { // Do a minimax search on ordered actions
+                double value = minValue(game.getResult(state, action), player, Double.NEGATIVE_INFINITY,
+                        Double.POSITIVE_INFINITY, 1);
+/*                if (timer.timeOutOccurred())
+                    break; // exit from action loop
+*/                newResults.add(action, value);
+                if (logEnabled)
+                    logText.append(action).append("\n -> ").append(value).append(" Metrics ").append(metrics).append("\n").append("From action store:\n");
+            }
+            if (logEnabled) {
+            	 if (newResults.size() > 0) {
+            		 logText.append(newResults.actions.get(0)).append(" Utilvalue ").append(newResults.utilValues.get(0)).append("\n");
+            	 }
+            }
+            logText.append("new depth " + currDepthLimit + ": \n");
+
+//           System.out.println(newResults.toString());
+//            writer.println(newResults.toString());
+            if (newResults.size() > 0) {
+                results = newResults.actions;
+                logText.append("Checking ordered actions \n");
+/*
+ * Use this structure to ensure that the makeDecision method always return actions belonging to the active player, not the opponent  
+ * The minimax search has run through all actions.  See above!            
+ */
+//                if (!timer.timeOutOccurred()) {
+                   if (hasSafeWinner(newResults.utilValues.get(0))) {
+                	   logText.append(" Has a safe winner "+newResults.actions.get(0).toString()+"\n");
+                       break; // exit from iterative deepening loop
+                   }else if (newResults.size() > 1
+                           && isSignificantlyBetter(newResults.utilValues.get(0), newResults.utilValues.get(1))) {
+                	   logText.append(" Is better " +newResults.actions.get(0).toString()+"\n");
+                       break; // exit from iterative deepening loop
+                   }
+//                }
+            }
+            store.append(newResults.toString());
+ //           writer.println(logText);
+        } while (!timer.timeOutOccurred() && heuristicEvaluationUsed ); // Added test of depthlimit removed 
+        writer.println(logText);
+        writer.println(store);
+        writer.close();
+        return results.get(0); // Returns the best ChessPlannerAction
+!!!2203138.java!!!	maxValue(inout state : PlannerState, inout player : ChessPlayer, in alpha : double, in beta : double, in depth : int) : double
+    	     updateMetrics(depth);
+        if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+        	writer.println("maxValue Calling eval "+"depth/depthlimit "+depth+"/"+currDepthLimit+"\n");
+            return eval(state, player);
+        } else {
+            double value = Double.NEGATIVE_INFINITY;
+            List<ChessPlannerAction> localActions = game.getActions(state); //Produces a new set of actions for this state
+            if(player.getPlayerName() == player.getBlackPlayer()) {
+            	writer.println("Maxvalue Opponent to play "+player.getPlayerName()+"\n");
+            }
+            for (ChessPlannerAction action : orderActions(state, localActions, player, depth)) {
+                value = Math.max(value, minValue(game.getResult(state, action), //
+                        player, alpha, beta, depth + 1));
+                if (value >= beta)
+                    return value;
+                alpha = Math.max(alpha, value);
+            }
+            return value;
+        }
+!!!2203266.java!!!	minValue(inout state : PlannerState, inout player : ChessPlayer, in alpha : double, in beta : double, in depth : int) : double
+        updateMetrics(depth);
+        if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred()) {
+        	writer.println("minValue Calling eval "+"depth/depthlimit "+depth+"/"+currDepthLimit+"\n");
+            return eval(state, player);
+        } else {
+            double value = Double.POSITIVE_INFINITY;
+            List<ChessPlannerAction> localActions = game.getActions(state);//Produces a new set of actions for this state
+            if(player.getPlayerName() == player.getBlackPlayer()) {
+            	writer.println("Minvalue Opponent to play "+player.getPlayerName()+"\n");
+            }
+            for (ChessPlannerAction action : orderActions(state,localActions, player, depth)) {
+                value = Math.min(value, maxValue(game.getResult(state, action), //
+                        player, alpha, beta, depth + 1));
+                if (value <= alpha)
+                    return value;
+                beta = Math.min(beta, value);
+            }
+            return value;
+        }
+!!!2210946.java!!!	orderActions(inout state : PlannerState, inout actions : List<ChessPlannerAction<ActionSchema>>, inout player : ChessPlayer, in depth : int) : ChessPlannerAction
+    	ActionStore<ChessPlannerAction> newResults = new ActionStore<>();
+        PlannerGame plannerGame = (PlannerGame)game;
+    	for (ChessPlannerAction action:actions) {
+  
+    		double rank = plannerGame.analyzePieceandPosition(action);
+    		newResults.add(action, rank);
+    	}
+  
+        return  newResults.actions;
+!!!2203394.java!!!	updateMetrics(in depth : int) : void
+        metrics.incrementInt(METRICS_NODES_EXPANDED);
+        metrics.set(METRICS_MAX_DEPTH, Math.max(metrics.getInt(METRICS_MAX_DEPTH), depth));
+!!!2203522.java!!!	eval(inout state : PlannerState, inout player : ChessPlayer) : double
+//    	double primValue = super.eval(state, player);
+        if (game.isTerminal(state)) {
+            return game.getUtility(state, player);
+        } else {
+//          heuristicEvaluationUsed = true; Set in comment olj 10.08.20
+        PlannerGame plannerGame = (PlannerGame) game;
+        double returnValue = plannerGame.analyzeState(state);
+ /*       if (returnValue == 0) {
+        	 heuristicEvaluationUsed = true; // indicates opponent to move
+        }
+
+        return PlannerGame.analyzeState(state);*/
+        heuristicEvaluationUsed = false;
+        return returnValue;
+          
+/*          List<ChessPlannerAction> ChessPlannerActions = PlannerState.getActions();
+          ChessPlannerAction action = PlannerState.getAction();
+          PlannerGame chessGame = (PlannerGame) game;
+          if (action != null)
+        	  return PlannerGame.analyzePieceandPosition(action);
+          else
+        	  return 0;
+*/
+        }
+!!!2203650.java!!!	incrementDepthLimit() : void
+        currDepthLimit++;
+
+!!!2203778.java!!!	isSignificantlyBetter(in newUtility : double, in utility : double) : boolean
+    	if (newUtility == utility && newUtility == 0)
+    		return false;
+        return newUtility >= utility;
+!!!2203906.java!!!	hasSafeWinner(in resultUtility : double) : boolean
+    	if (resultUtility == 0)
+    		return false;
+    	double localUtil = resultUtility/100;
+    	return localUtil <= utilMin || localUtil >= utilMax;
+//        return resultUtility <= utilMin || resultUtility >= utilMax;

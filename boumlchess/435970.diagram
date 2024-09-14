@@ -1,0 +1,69 @@
+format 223
+
+classinstance 128002 class_ref 496514 // AplannerGame
+ name "plannerGame"  xyz 317 259 2000
+classinstancecanvas 128130 classinstance_ref 141186 // player
+  xyz 117 156 2005
+end
+classinstance 128258 class_ref 497026 // PlannerStateImpl
+ name ""  xyz 250 449 2005
+classinstance 128386 class_ref 169602 // ActionSchema
+ name ""  xyz 93 367 2010
+classinstance 128514 class_ref 497282 // ChessPlannerActionImpl
+ name ""  xyz 545 538 2000
+classinstance 128642 class_ref 489602 // ChessPlannerSearch
+ name ""  xyz 633 263 2000
+classinstance 128770 class_ref 483074 // ChessPlannerAction
+ name ""  xyz 564 72 2005
+classinstance 128898 class_ref 223874 // ChessPlayer
+ name ""  xyz 753 79 2005
+classinstancecanvas 129026 classinstance_ref 141314 // game
+  xyz 361 95 2005
+end
+classinstancecanvas 129154 classinstance_ref 141442 // state
+  xyz 959 415 2005
+end
+classinstance 130306 class_ref 363906 // AChessProblemSolver
+ name ""  xyz 941 181 2000
+textcanvas 131202 "Returns a new Planner State"
+  xyzwh 571 141 2000 139 14
+selflinkcanvas 129666 classinstance_ref 128642 // :ChessPlannerSearch
+  xy 679 289
+  
+  forward_label "3 orderActions()" xyz 617 308 3000
+linkcanvas 130434
+  from ref 130306 z 2001 to ref 128642
+dirscanvas 130562 z 1000 linkcanvas_ref 130434
+  
+  forward_label "1 makeDecision()" xyz 803 252 3000
+linkcanvas 131714
+  from ref 128642 z 2001 to ref 128002
+dirscanvas 131842 z 1000 linkcanvas_ref 131714
+  
+  forward_label "2 getActions()" xyz 515 291 3000
+linkcanvas 131970
+  from ref 128642 z 2001 to point 709 372
+  line 132098 z 2001 to point 407 368
+  line 132226 z 2001 to ref 128002
+dirscanvas 132354 z 1000 linkcanvas_ref 132098
+  
+  forward_label "4 analyzePieceandPosition()" xyz 492 390 3000
+msgs
+  msg operation_ref 2203010 // "makeDecision(inout state : PlannerState) : ChessPlannerAction"
+    forward ranks 1 "1" dirscanvas_ref 130562
+    msgs
+      msg operation_ref 2216450 // "getActions(inout state : PlannerState) : List<ChessPlannerAction>"
+	forward ranks 2 "1.1" dirscanvas_ref 131842
+	no_msg
+      msg operation_ref 2210946 // "orderActions(inout state : PlannerState, inout actions : List<ChessPlannerAction<ActionSchema>>, inout player : ChessPlayer, in depth : int) : ChessPlannerAction"
+	forward ranks 3 "1.2" selflinkcanvas_ref 129666
+	msgs
+	  msg operation_ref 2216834 // "analyzePieceandPosition(inout action : ChessPlannerAction) : double"
+	    forward ranks 4 "1.2.1" dirscanvas_ref 132354
+	    no_msg
+	msgsend
+    msgsend
+msgsend
+line 129538 -_-_
+  from ref 128002 z 2006 to ref 129026
+end

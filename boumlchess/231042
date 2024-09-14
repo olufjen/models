@@ -1,0 +1,428 @@
+format 223
+"search" // no::games::chess::search
+  revision 2
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no/games/chess/search/"
+  java_package "no.games.chess.search"
+  classview 228866 "search"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 504066 "ChessSearchProblem"
+      visibility public 
+      nactuals 2
+      actual class class_ref 134914 // Problem
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 134914 // Problem
+        rank 1 explicit_value "ChessPlannerAction"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessSearchProblem
+This class implements the search Problem interface as described in section 3.1.1 p. 66 in the AIMA textbook.
+
+@author oluf
+
+"
+      classrelation 696322 // <realization>
+	relation 696322 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 696322 // <realization>
+	  b parent class_ref 134914 // Problem
+      end
+
+      attribute 753026 "state"
+	private explicit_type "PlannerState"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 753154 "action"
+	private explicit_type "ChessPlannerAction"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 753282 "actions"
+	private explicit_type "ChessPlannerAction"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 2234754 "getInitialState"
+	public explicit_return_type "PlannerState"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2234882 "getActions"
+	public explicit_return_type "List<ChessPlannerAction>"
+	nparams 1
+	  param inout name "state" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235010 "getResult"
+	public explicit_return_type "PlannerState"
+	nparams 2
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235138 "testGoal"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235266 "getStepCosts"
+	public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param inout name "stateDelta" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 504194 "PlannerIterativeSearch"
+      visibility public 
+      nformals 2
+      formal name "PlannerState" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessPlannerAction" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 199554 // IterativeDeepeningSearch
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 199554 // IterativeDeepeningSearch
+        rank 1 explicit_value "ChessPlannerAction"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 696450 // <realization>
+	relation 696450 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 696450 // <realization>
+	  b parent class_ref 199554 // IterativeDeepeningSearch
+      end
+
+      attribute 745986 "state"
+	private explicit_type "PlannerState"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 746114 "action"
+	private explicit_type "ChessPlannerAction"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 746242 "outputFileName"
+	private explicit_type "String"
+	init_value " \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\plannerlogs.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 746370 "writer"
+	private explicit_type "PrintWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 746498 "fw"
+	private explicit_type "FileWriter"
+	init_value " null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 2235394 "PlannerIterativeSearch"
+	cpp_inline public explicit_return_type ""
+	nparams 3
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<PlannerState, ChessPlannerAction> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2235522 "findActions"
+	cpp_inline public explicit_return_type "Optional<List<ChessPlannerAction>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235650 "findState"
+	cpp_inline public explicit_return_type "Optional<PlannerState>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235778 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2235906 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2236034 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 209282 "search"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 426882 "ChessSearchProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.search.framework.problem.Problem;
+import no.games.chess.planning.ChessPlannerAction;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 504066 // ChessSearchProblem
+      end
+    end
+
+    artifact 427010 "PlannerIterativeSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.search.framework.Metrics;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.uninformed.IterativeDeepeningSearch;
+${definition}"
+      associated_elems
+	class_ref 504194 // PlannerIterativeSearch
+      end
+    end
+  end
+end

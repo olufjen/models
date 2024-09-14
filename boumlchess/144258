@@ -1,6 +1,6 @@
 format 223
 "chess" // no::games::chess
-  revision 11
+  revision 13
   modified_by 2 "bruker"
   // class settings
   
@@ -964,10 +964,10 @@ ${members}}
       
       comment "This interface represent a ChessGame
 It extends the Game interface
-The Game intrerface has three type parameters:
+The Game interface has three type parameters:
 <S> A type representing the states of the game
 <A> A type representing the actions of the game
-<P> A type representing the playeers of the game
+<P> A type representing the players of the game
 In the ChessGame interface these types are represented by the
 ChessState, 
 ChessAction, and
@@ -3079,6 +3079,11 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
+      comment "ChessSearch 
+This interface is for the minimax search
+@author 
+
+"
       operation 667010 "makeDecision"
 	public return_type class_ref 223234 // ChessAction
 	nparams 1
@@ -3178,6 +3183,11 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
+      comment "@since Jan 2021 NOT USED
+@see ChessAlphaBetaSearch. Both of these searchclasses are for minimax search
+@author oluf
+
+"
       classrelation 281602 // <realization>
 	relation 281602 -_-|>
 	  a public
@@ -3693,8 +3703,8 @@ ${members}}
       
       comment "ChessVariables
 This class contains constants used in the process of replacing Variable type elements
-It is used in the game of chess.
 in the preconditions and effects of an action schema with constants or ground elements.
+It is used in the game of chess.
 (See chapter 10 in the AIMA book)
 @author oluf
 
@@ -4338,4 +4348,6 @@ ${definition}"
   package_ref 190978 // fol
 
   package_ref 197506 // planning
+
+  package_ref 231042 // search
 end

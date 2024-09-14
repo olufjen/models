@@ -1,0 +1,106 @@
+format 223
+
+classinstance 128002 class_ref 199554 // IterativeDeepeningSearch
+ name ""  xyz 337 221 2000
+classinstance 128258 class_ref 504194 // PlannerIterativeSearch
+ name ""  xyz 49 218 2000
+classinstance 128386 class_ref 194306 // NodeExpander
+ name ""  xyz 361 403 2000
+classinstance 129026 class_ref 195330 // SearchUtils
+ name ""  xyz 632 222 2000
+textcanvas 129410 "The call to findActions
+using an uninformed search"
+  xyzwh 10 33 2000 133 92
+classinstance 130818 class_ref 135170 // Node
+ name ""  xyz 640 316 2000
+textcanvas 131330 "Until root node is found"
+  xyzwh 780 289 2000 105 40
+textcanvas 131714 "Returns a linked list of ChessPlannerActions"
+  xyzwh 169 102 2000 120 53
+classinstance 131970 class_ref 199426 // DepthLimitedSearch
+ name ""  xyz 359 102 2000
+textcanvas 134146 "Call the testSolution method of Problem"
+  xyzwh 488 42 2000 186 14
+linkcanvas 128514
+  from ref 128258 z 2001 to ref 128002
+dirscanvas 128642 z 1000 linkcanvas_ref 128514
+  
+  forward_label "1 findActions()" xyz 219 200 3000
+linkcanvas 128770
+  from ref 128002 z 2001 to ref 128386
+dirscanvas 128898 z 1000 linkcanvas_ref 128770
+  
+  forward_label "5 useParentLinks()" xyz 423 318 3000
+linkcanvas 129794
+  from ref 128002 z 2001 to ref 129026
+dirscanvas 129922 z 1000 linkcanvas_ref 129794
+  
+  forward_label "6 toActions()" xyz 522 202 3000
+linkcanvas 130178
+  from ref 129026 z 2001 to point 663 133
+  line 130306 z 2001 to point 766 134
+  line 130434 z 2001 to point 763 230
+  line 130562 z 2001 to ref 129026
+dirscanvas 130690 z 1000 linkcanvas_ref 130562
+  
+  backward_label "7 getSequenceOfActions()" xyz 668 202 3000
+linkcanvas 131074
+  from ref 129026 z 2001 to ref 130818
+dirscanvas 131202 z 1000 linkcanvas_ref 131074
+  
+  forward_label "8 getAction()" xyz 683 275 3000
+linkcanvas 132354
+  from ref 128002 z 2001 to ref 131970
+dirscanvas 132482 z 1000 linkcanvas_ref 132354
+  
+  forward_label "2 findNode()" xyz 330 164 3000
+linkcanvas 132994
+  from ref 128002 z 2001 to point 600 115
+  line 133122 z 2001 to ref 131970
+dirscanvas 133250 z 1000 linkcanvas_ref 132994
+  
+  forward_label "4 isCutoffResult()" xyz 455 137 3000
+linkcanvas 133506
+  from ref 131970 z 2001 to point 317 109
+  line 133634 z 2001 to point 314 33
+  line 133762 z 2001 to point 407 34
+  line 133890 z 2001 to ref 131970
+dirscanvas 134018 z 1000 linkcanvas_ref 133762
+  
+  backward_label "3 recursiveDLS()" xyz 321 54 3000
+msgs
+  msg operation_ref 493314 // "findActions(inout p : Problem) : Optional<List<A>>"
+    forward ranks 1 "1" dirscanvas_ref 128642
+    msgs
+      msg operation_ref 492162 // "findNode(inout p : Problem) : Node"
+	forward ranks 2 "1.1" dirscanvas_ref 132482
+	msgs
+	  msg operation_ref 492290 // "recursiveDLS(inout node : Node, inout problem : Problem, in limit : int) : Node"
+	    backward ranks 3 "1.1.1" dirscanvas_ref 134018
+	    no_msg
+	msgsend
+      msg operation_ref 492418 // "isCutoffResult(inout node : Optional<Node<S, A>>) : boolean"
+	forward ranks 4 "1.2" dirscanvas_ref 133250
+	no_msg
+      msg operation_ref 462978 // "useParentLinks(inout s : boolean) : NodeExpander"
+	forward ranks 5 "1.3" dirscanvas_ref 128898
+	no_msg
+      msg operation_ref 467074 // "toActions(inout node : Optional<Node<S, A>>) : Optional<List<A>>"
+	forward ranks 6 "1.4" dirscanvas_ref 129922
+	msgs
+	  msg operation_ref 466946 // "getSequenceOfActions(inout node : Node) : List<A>"
+	    backward ranks 7 "1.4.1" dirscanvas_ref 130690
+	    no_msg
+	  msg operation_ref 462466 // "getAction() : A"
+	    forward ranks 8 "1.4.2" dirscanvas_ref 131202
+	    no_msg
+	msgsend
+    msgsend
+msgsend
+line 131458 -_-_
+  from ref 131330 z 2007 to ref 131074
+line 131842 -_-_
+  from ref 131714 z 2002 to ref 128514
+line 134274 -_-_
+  from ref 134146 z 2002 to ref 133890
+end

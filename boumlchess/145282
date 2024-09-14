@@ -1,6 +1,6 @@
 format 223
 "model" // no::chess::web::model
-  revision 18
+  revision 20
   modified_by 2 "bruker"
   // class settings
   
@@ -6057,6 +6057,34 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
 	  b parent class_ref 170242 // State
       end
 
+      classrelation 643586 // lastPiece (<unidirectional association>)
+	relation 643586 --->
+	  a role_name "lastPiece" init_value " null" private
+	    comment " last piece moved by player "
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 643586 // lastPiece (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      classrelation 643714 // oldPosition (<unidirectional association>)
+	relation 643714 --->
+	  a role_name "oldPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 643714 // oldPosition (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      classrelation 643842 // newPosition (<unidirectional association>)
+	relation 643842 --->
+	  a role_name "newPosition" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 643842 // newPosition (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
       operation 721026 "PlayGame"
 	public explicit_return_type ""
 	nparams 2
@@ -6064,6 +6092,81 @@ When a piece is moved a new ApieceMove object is created and placed in the list 
 	  param inout name "frontBoard" type class_ref 231938 // ChessBoard
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173186 "getOldPosition"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173314 "setOldPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "oldPosition" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173442 "getNewPosition"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173570 "setNewPosition"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "newPosition" type class_ref 232322 // Position
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173698 "getLastPiece"
+	public return_type class_ref 232706 // AgamePiece
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173826 "setLastPiece"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "lastPiece" type class_ref 232706 // AgamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -7111,6 +7214,1547 @@ ${members}}
 	
       end
     end
+
+    class 469634 "KnowledgeBuilder"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "KnowledgeBuilder
+This class contains constants and knowledge base facts to be used in knowledgebases used in a chess game.
+All these constants act as predicates in first order logic.
+@since 18.01.22
+Added two more knowledge base facts: POSSIBLEPROTECT, POSSIBLEREACH
+All available positions for a piece are possible to protect or possible to reach
+@author oluf
+
+"
+      attribute 697730 "ACTION"
+	class_attribute private explicit_type "String"
+	init_value "  \"ACTION\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Predicate names	
+
+"
+      end
+
+      attribute 697858 "PLAY"
+	class_attribute private explicit_type "String"
+	init_value "  \"PLAY\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 697986 "PROTECTED"
+	class_attribute private explicit_type "String"
+	init_value "  \"PROTECTEDBY\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698114 "simpleProtected"
+	class_attribute private explicit_type "String"
+	init_value "  \"PROTECTED\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698242 "ATTACKED"
+	class_attribute private explicit_type "String"
+	init_value "  \"ATTACKEDBY\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698370 "CAPTURE"
+	class_attribute private explicit_type "String"
+	init_value "  \"CAPTURE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698498 "CONQUER"
+	class_attribute private explicit_type "String"
+	init_value "  \"CONQUER\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698626 "THREATEN"
+	class_attribute private explicit_type "String"
+	init_value "  \"THREATENEDBY\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698754 "OWNER"
+	class_attribute private explicit_type "String"
+	init_value "  \"OWNER\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 698882 "MOVE"
+	class_attribute private explicit_type "String"
+	init_value "  \"MOVE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699010 "REACHABLE"
+	class_attribute private explicit_type "String"
+	init_value "  \"REACHABLE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699138 "CANMOVE"
+	class_attribute private explicit_type "String"
+	init_value "  \"CANMOVE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699266 "SAFEMOVE"
+	class_attribute private explicit_type "String"
+	init_value "  \"SAFEMOVE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699394 "STRIKE"
+	class_attribute private explicit_type "String"
+	init_value "  \"STRIKE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699522 "PIECETYPE"
+	class_attribute private explicit_type "String"
+	init_value "  \"PIECETYPE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699650 "PIECE"
+	class_attribute private explicit_type "String"
+	init_value " \"PIECE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699778 "PAWNMOVE"
+	class_attribute private explicit_type "String"
+	init_value "  \"PAWNMOVE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 699906 "PAWN"
+	class_attribute private explicit_type "String"
+	init_value "  \"PAWN\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700034 "KNIGHT"
+	class_attribute private explicit_type "String"
+	init_value "  \"KNIGHT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700162 "BISHOP"
+	class_attribute private explicit_type "String"
+	init_value "  \"BISHOP\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700290 "ROOK"
+	class_attribute private explicit_type "String"
+	init_value "  \"ROOK\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700418 "KING"
+	class_attribute private explicit_type "String"
+	init_value "  \"KING\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700546 "QUEEN"
+	class_attribute private explicit_type "String"
+	init_value "  \"QUEEN\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700674 "OCCUPIES"
+	class_attribute private explicit_type "String"
+	init_value " \"occupies\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700802 "PAWNATTACK"
+	class_attribute private explicit_type "String"
+	init_value " \"PAWNATTACK\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 700930 "BOARD"
+	class_attribute private explicit_type "String"
+	init_value " \"BOARD\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 701058 "PLAYER"
+	class_attribute private explicit_type "String"
+	init_value " \"PLAYER\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 701186 "CASTLE"
+	class_attribute private explicit_type "String"
+	init_value " \"CASTLE\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 701314 "OPPONENTTO"
+	class_attribute private explicit_type "String"
+	init_value " \"OPPONENTTO\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 701442 "POSSIBLETHREAT"
+	class_attribute private explicit_type "String"
+	init_value " \"POSSIBLETHREAT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " All available positions for a piece are possibly threatened by that piece"
+      end
+
+      attribute 701570 "POSSIBLEPROTECT"
+	class_attribute private explicit_type "String"
+	init_value " \"POSSIBLEPROTECT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " All available positions for a piece are possibly protected by that piece"
+      end
+
+      attribute 701698 "POSSIBLEREACH"
+	class_attribute private explicit_type "String"
+	init_value " \"POSSIBLEREACH\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " All available positions for a piece are possibly reachable by that piece"
+      end
+
+      attribute 701826 "OCCUPY"
+	class_attribute private explicit_type "String"
+	init_value " \"OCCUPY\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment "Additional predicate names  
+
+ Move to occupy a position"
+      end
+
+      attribute 701954 "PROTECT"
+	class_attribute private explicit_type "String"
+	init_value " \"PROTECT\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Move to protect a position"
+      end
+
+      attribute 702082 "MAKESTRONG"
+	class_attribute private explicit_type "String"
+	init_value " \"MAKESTRONG\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Make a position strong"
+      end
+
+      classrelation 643458 // allconstants (<unidirectional association>)
+	relation 643458 --->
+	  stereotype "List"
+	  a role_name "allconstants" init_value " new ArrayList()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 643458 // allconstants (<unidirectional association>)
+	  b parent class_ref 149506 // Constant
+      end
+
+      operation 2163074 "getPIECE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163202 "setPIECE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pIECE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163330 "getOPPONENTTO"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163458 "getPOSSIBLEPROTECT"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163586 "setPOSSIBLEPROTECT"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pOSSIBLEPROTECT" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163714 "getPOSSIBLEREACH"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163842 "setPOSSIBLEREACH"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pOSSIBLEREACH" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2163970 "setOPPONENTTO"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "oPPONENTTO" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164098 "getPOSSIBLETHREAT"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164226 "setPOSSIBLETHREAT"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pOSSIBLETHREAT" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164354 "getCASTLE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164482 "setCASTLE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "cASTLE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164610 "getBOARD"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164738 "setBOARD"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "bOARD" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164866 "getPLAYER"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2164994 "setPLAYER"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pLAYER" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165122 "getPAWNATTACK"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165250 "setPAWNATTACK"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pAWNATTACK" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165378 "getOCCUPIES"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165506 "setOCCUPIES"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "oCCUPIES" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165634 "getPLAY"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165762 "setPLAY"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pLAY" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2165890 "getPAWN"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166018 "setPAWN"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pAWN" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166146 "getKNIGHT"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166274 "setKNIGHT"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "kNIGHT" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166402 "getBISHOP"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166530 "setBISHOP"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "bISHOP" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166658 "getROOK"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166786 "setROOK"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "rOOK" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2166914 "getKING"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167042 "setKING"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "kING" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167170 "getQUEEN"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167298 "setQUEEN"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "qUEEN" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167426 "getPAWNMOVE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167554 "setPAWNMOVE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pAWNMOVE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167682 "getPIECETYPE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167810 "setPIECETYPE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pIECETYPE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2167938 "getACTION"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168066 "setACTION"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "aCTION" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168194 "getPROTECTED"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168322 "setPROTECTED"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pROTECTED" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168450 "getSimpleProtected"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168578 "setSimpleProtected"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "simpleProtected" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168706 "getATTACKED"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168834 "setATTACKED"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "aTTACKED" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2168962 "getCAPTURE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169090 "setCAPTURE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "cAPTURE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169218 "getCONQUER"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169346 "setCONQUER"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "cONQUER" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169474 "getTHREATEN"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169602 "setTHREATEN"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "tHREATEN" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169730 "getOWNER"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169858 "setOWNER"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "oWNER" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2169986 "getMOVE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170114 "setMOVE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "mOVE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170242 "getREACHABLE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170370 "setREACHABLE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "rEACHABLE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170498 "getCANMOVE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170626 "setCANMOVE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "cANMOVE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170754 "getSAFEMOVE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2170882 "setSAFEMOVE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "sAFEMOVE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171010 "getSTRIKE"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171138 "setSTRIKE"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "sTRIKE" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171266 "getOCCUPY"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171394 "setOCCUPY"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "oCCUPY" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171522 "getPROTECT"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171650 "setPROTECT"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "pROTECT" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171778 "getMAKESTRONG"
+	class_operation public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2171906 "setMAKESTRONG"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param in name "mAKESTRONG" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2172034 "getAllconstants"
+	class_operation public return_type class_ref 149506 // Constant
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2172162 "setAllconstants"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "allconstants" explicit_type "List<Constant>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2172290 "getPieceType"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "piece" explicit_type "AgamePiece"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "getPieceType
+This method returns the string type of the piece
+@param piece
+@return The piecetype as a string
+"
+      end
+
+      operation 2172418 "parseSentence"
+	class_operation public explicit_return_type "void"
+	nparams 3
+	  param in name "sentence" explicit_type "String"
+	  param in name "goalSentence" explicit_type "String"
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "parseSentence
+This method takes two first order logic sentences and creates a rule 
+to be stored in the knowledge base.
+@param sentence
+@param goalSentence
+@param kb
+"
+      end
+
+      operation 2172546 "createOccupyaction"
+	class_operation public return_type class_ref 169602 // ActionSchema
+	nparams 1
+	  param inout name "" explicit_type "String...names"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "createOccupyaction
+This method creates an action schema of the form 
+Action (\"occupy_pos\",posx,byPiece)
+PRECONDITION: (REACHABLE(byPiece,posx)
+EFFECT: (occupies(byPiece,posx)
+The action schema contains any number of variables
+@param names - if parameters are given they are used as constants in preconditions or effects in the returned action schema
+@return A lifted action Schema
+"
+      end
+
+      operation 2172674 "findApplicable"
+	class_operation public return_type class_ref 169602 // ActionSchema
+	nparams 2
+	  param inout name "initStates" explicit_type "Map<String,State>"
+	  param inout name "action" type class_ref 169602 // ActionSchema
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "findApplicable
+This method returns a list of applicable action schemas
+given an action schema containing variables
+@param initStates a set of ground initial states
+@param action The lifted action schema (with variables)
+@return a list of propositionalized action schemas that are applicable
+"
+      end
+
+      operation 2172802 "makeProp"
+	class_operation private explicit_return_type "void"
+	nparams 4
+	  param inout name "action" type class_ref 169602 // ActionSchema
+	  param inout name "stateconstants" explicit_type "List<Constant>"
+	  param inout name "state" type class_ref 170242 // State
+	  param inout name "actions" explicit_type "List<ActionSchema>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "makeProp
+This method creates propositionalized action schemas given a lifted action schema
+@param action - a lifted action schema
+@param stateconstants - state constants to be used in the proposItionalization
+@param state - The state used to check if the propositionalized action schema is applicable
+@param actions - The list of propositionalized action schemas that are applicable in this state
+"
+      end
+
+      operation 2172930 "extract"
+	class_operation public explicit_return_type "String"
+	nparams 2
+	  param in name "s" explicit_type "String"
+	  param inout name "f" explicit_type "Function<String,String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2173058 "extractString"
+	class_operation public explicit_return_type "String"
+	nparams 3
+	  param in name "line" explicit_type "String"
+	  param in name "separator" explicit_type "char"
+	  param in name "startindex" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "extractString
+This routine extracts a substring from a string  using the Function interface
+It finds the last index of a string using separator
+@param line The original string
+@param separator The separator
+@param startindex The startindex
+@return the substring
+"
+      end
+    end
   end
 
   deploymentview 142594 "model"
@@ -7407,6 +9051,34 @@ import java.util.Map;
 ${definition}"
       associated_elems
 	class_ref 363778 // Saksbehandler
+      end
+    end
+
+    artifact 392706 "KnowledgeBuilder"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import aima.core.logic.fol.Connectors;
+import aima.core.logic.fol.kb.FOLKnowledgeBase;
+import aima.core.logic.fol.kb.data.Literal;
+import aima.core.logic.fol.parsing.ast.AtomicSentence;
+import aima.core.logic.fol.parsing.ast.ConnectedSentence;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Predicate;
+import aima.core.logic.fol.parsing.ast.Term;
+import aima.core.logic.fol.parsing.ast.Variable;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.logic.planning.State;
+import aima.core.logic.planning.Utils;
+import no.games.chess.AbstractGamePiece.pieceType;
+${definition}"
+      associated_elems
+	class_ref 469634 // KnowledgeBuilder
       end
     end
   end

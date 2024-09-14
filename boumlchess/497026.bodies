@@ -1,0 +1,55 @@
+class PlannerStateImpl
+!!!2227202.java!!!	PlannerStateImpl(inout player : APlayer, inout actionSchemas : List<ActionSchema>, inout otherSchemaList : List<ActionSchema>, in moveNr : int)
+		super();
+		this.player = player;
+		this.actionSchemas = actionSchemas;
+		this.otherSchemaList = otherSchemaList;
+		this.moveNr = moveNr;
+		plannerActions = new ArrayList<ChessPlannerAction>();
+		createplannerActions();
+!!!2227330.java!!!	createplannerActions() : void
+		for (ActionSchema schema:actionSchemas) {
+			ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr);
+			plannerActions.add(plannerAction);
+		}
+		for (ActionSchema schema:otherSchemaList) {
+			ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr);
+			plannerActions.add(plannerAction);
+		}
+!!!2219906.java!!!	getPlannerActions() : List<ChessPlannerAction>
+		return plannerActions;
+!!!2220034.java!!!	setPlannerActions(inout plannerActions : List<ChessPlannerAction>) : void
+		this.plannerActions = plannerActions;
+!!!2220162.java!!!	getPlannerAction() : ChessPlannerAction
+		return plannerAction;
+!!!2220290.java!!!	setPlannerAction(inout plannerAction : ChessPlannerAction) : void
+		this.plannerAction = plannerAction;
+!!!2218498.java!!!	getActionSchemas() : ActionSchema
+		return actionSchemas;
+!!!2218626.java!!!	setActionSchemas(inout actionSchemas : List<ActionSchema>) : void
+		this.actionSchemas = actionSchemas;
+!!!2218754.java!!!	getPlayer() : APlayer
+		return player;
+!!!2218882.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!2219010.java!!!	getUtility() : double
+		// TODO Auto-generated method stub
+		return 0;
+!!!2219138.java!!!	setUtility(in utility : double) : void
+		// TODO Auto-generated method stub
+
+!!!2219266.java!!!	getPlayerTomove() : ChessPlayer
+		// TODO Auto-generated method stub
+		return player;
+!!!2219394.java!!!	getAction() : ChessPlannerAction
+		// TODO Auto-generated method stub
+		return null;
+!!!2219522.java!!!	getActions() : List<ChessPlannerAction>
+		// TODO Auto-generated method stub
+		return null;
+!!!2219650.java!!!	getActionSchema() : ActionSchema
+		// TODO Auto-generated method stub
+		return null;
+!!!2219778.java!!!	setAction(inout action : ChessPlannerAction) : void
+		// TODO Auto-generated method stub
+		

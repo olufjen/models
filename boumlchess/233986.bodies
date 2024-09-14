@@ -64,6 +64,7 @@ class AChessAgent
 			ROOK = KnowledgeBuilder.getROOK();
 			KING = KnowledgeBuilder.getKING();
 			QUEEN = KnowledgeBuilder.getQUEEN();
+			PIECE = KnowledgeBuilder.getPIECE();
 			OCCUPIES = KnowledgeBuilder.getOCCUPIES();
 			PAWNMOVE = KnowledgeBuilder.getPAWNMOVE();
 			PAWNATTACK = KnowledgeBuilder.getPAWNATTACK();
@@ -100,6 +101,7 @@ class AChessAgent
 			chessDomain.addPredicate(CASTLE);
 			chessDomain.addPredicate(KING);
 			chessDomain.addPredicate(QUEEN);
+			chessDomain.addPredicate(PIECE);
 			chessDomain.addPredicate(ROOK);
 			chessDomain.addPredicate(PAWN);
 			chessDomain.addPredicate(BISHOP);
@@ -199,7 +201,7 @@ class AChessAgent
 		
 		Predicate folPredicate = new Predicate(chessPr,terms);  // The folPredicate is OWNER
 		QuantifiedSentence qSentence = new QuantifiedSentence("FORALL",variables,folPredicate);
-//		folKb.tell(qSentence);
+		folKb.tell(qSentence); // Returned to code 28.02.23
 		createConnected("player", "y", "x");
 		String s1 = "occupies(o,px)^occupies(pi,py)";
 		String s2 = "MOVE(pi,pz)";
@@ -302,6 +304,7 @@ class AChessAgent
 		
 		ChessActionImpl naction = null;
 		ChessProblem problem = solver.planProblem((ArrayList<ChessActionImpl>) actions);
+		List<AgamePiece>  pieces = myPlayer.getMygamePieces();
 		if (problem != null) {
 			chessSearch = new ChessSearchAlgorithm(fw,writer);
 //			List<List<ActionSchema>> solution = solver.solveProblem(localAction);
@@ -314,11 +317,50 @@ class AChessAgent
  * Must wait for the opponent move, first !! See section 11.2.2 p. 408	 		
  */
 			ActionSchema actionSchema = actionSchemas.get(0);
+			List<Constant>solConstants = actionSchema.getConstants();
+
+
+			String aName = null;
+			for (Constant constant:solConstants) {
+				writer.println(constant.getSymbolicName());
+				String symName = constant.getSymbolicName();
+				AgamePiece gpiece =  (AgamePiece) pieces.stream().filter(c -> c.getMyPiece().getOntlogyName().contains(symName)).findAny().orElse(null);
+				if (gpiece != null) {
+					aName = symName;
+					break;
+				}
+			}
 
 			String nactionName = actionSchema.getName();
+			String chessName = null;
 			int nIndex = nactionName.indexOf("_");
-			String chessName = nactionName.substring(0, nIndex);
-			naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(chessName)).findAny().orElse(null);
+			if (nIndex != -1)
+				chessName = nactionName.substring(0, nIndex);
+			else
+				chessName = aName;
+			String newName = chessName;
+			naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(newName)).findAny().orElse(null);
+			Position altPos = null;
+			List<Literal>effects = actionSchema.getEffects(); // Find alt. new position
+			for (Literal literal:effects) {
+				aima.core.logic.fol.parsing.ast.AtomicSentence sentence = literal.getAtomicSentence();
+				List<Term> effectterms = sentence.getArgs();
+				String posname = "";
+				Position  toPos = null;
+				for (Term effectTerm:effectterms) {
+					posname = effectTerm.getSymbolicName();
+					toPos = positions.get(posname);
+					if (toPos != null) {
+						altPos = toPos;
+						break;
+					}
+				}
+
+//				Position  toPos = (Position) positionList.stream().filter(c -> c.getPositionName().contains(posname)).findAny().orElse(null);
+			}
+			if (altPos != null) {
+				naction.setPreferredPosition(altPos);
+			}
 		}
 
 		for (ChessActionImpl action:actions) {
@@ -354,12 +396,14 @@ class AChessAgent
 //		Sentence sentence = makePerceptSentence(state, 0);
 //		KB.tell(sentence);
 		castleAction = solver.getCastleAction();
-		writer.println("The first order knowledge base");
-		writer.println(folKb.toString());
-		writer.println("The domain of the knowledge base");
-		writer.println(chessDomain.toString());
-		writer.flush();
+//		writer.println("The first order knowledge base");
+//		writer.println(folKb.toString());
+
+		folKb.writeKnowledgebase();
+		chessDomain.printDomain();
 		strategyKB =  solver.getOpponentAgent().getLocalKb();
+		strategyKB.writeKnowledgebase();
+		writer.flush();
 		if (naction != null)
 			localAction = naction;
 		return localAction;
@@ -452,7 +496,6 @@ class AChessAgent
 		Constant ownerVariable = new Constant(player.getNameOfplayer());
 		playerName = player.getNameOfplayer();
 		String predicate = "";
-
 		List<AgamePiece> pieces = player.getMygamePieces();
 		for (AgamePiece piece:pieces) {
 			if (piece.isActive()) {
@@ -462,6 +505,11 @@ class AChessAgent
 				
 				ownerTerms.add(ownerVariable);
 				String name = piece.getMyPiece().getOntlogyName(); 
+				if (name.equals("BlackBishop1")) {
+					String xx = name;
+					xx = xx + piece.getMyPosition().getPositionName();
+				}
+					
 /*				if (name.equals("WhiteQueen")) {
 					writer.println("The white queen\n"+piece.toString());
 				}
@@ -624,6 +672,10 @@ class AChessAgent
 		for (AgamePiece piece:pieces) {
 			String name = piece.getMyPiece().getOntlogyName();
 			Constant nameVariable = new Constant(name);
+			List<Term> nameTerms = new ArrayList<Term>();
+			nameTerms.add(nameVariable);
+			Predicate piecePredicate = new Predicate(PIECE,nameTerms);
+			folKb.tell(piecePredicate);
 			typeTerms.clear();
 			typeTerms.add(nameVariable);
 			piece.setPredicate(piece.getMyPiece().getPredicate());

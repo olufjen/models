@@ -1,4 +1,8 @@
 class KnowledgeBuilder
+!!!2178050.java!!!	getPIECE() : String
+	return PIECE;
+!!!2178178.java!!!	setPIECE(in pIECE : String) : void
+	  PIECE = pIECE;
 !!!1835522.java!!!	getOPPONENTTO() : String
 	return OPPONENTTO;
 !!!2087298.java!!!	getPOSSIBLEPROTECT() : String
@@ -123,39 +127,215 @@ class KnowledgeBuilder
 		return STRIKE;
 !!!1787778.java!!!	setSTRIKE(in sTRIKE : String) : void
 		STRIKE = sTRIKE;
+!!!2178306.java!!!	getOCCUPY() : String
+	return OCCUPY;
+!!!2178434.java!!!	setOCCUPY(in oCCUPY : String) : void
+	OCCUPY = oCCUPY;
+!!!2178562.java!!!	getPROTECT() : String
+	return PROTECT;
+!!!2178690.java!!!	setPROTECT(in pROTECT : String) : void
+	PROTECT = pROTECT;
+!!!2178818.java!!!	getMAKESTRONG() : String
+	return MAKESTRONG;
+!!!2178946.java!!!	setMAKESTRONG(in mAKESTRONG : String) : void
+	MAKESTRONG = mAKESTRONG;
+!!!2179074.java!!!	getAllconstants() : Constant
+	return allconstants;
+!!!2179202.java!!!	setAllconstants(inout allconstants : List<Constant>) : void
+	KnowledgeBuilder.allconstants = allconstants;
 !!!1787906.java!!!	getPieceType(inout piece : AgamePiece) : String
 	  pieceType type = piece.getPieceType();
-		if (type == type.PAWN) {
-			return PAWN;
-		}
-		if (type == type.BISHOP) {
-			return BISHOP;
-		}		
-		if (type == type.ROOK) {
-			return ROOK;
-		}			
-		if (type == type.KNIGHT) {
-			return KNIGHT;
-		}
-		if (type == type.QUEEN) {
-			return QUEEN;
-		}
-		if (type == type.KING) {
-			return KING;
-		}	
+	  if (type == type.PAWN) {
+		  return PAWN;
+	  }
+	  if (type == type.BISHOP) {
+		  return BISHOP;
+	  }		
+	  if (type == type.ROOK) {
+		  return ROOK;
+	  }			
+	  if (type == type.KNIGHT) {
+		  return KNIGHT;
+	  }
+	  if (type == type.QUEEN) {
+		  return QUEEN;
+	  }
+	  if (type == type.KING) {
+		  return KING;
+	  }	
 	  return null;
 !!!1788034.java!!!	parseSentence(in sentence : String, in goalSentence : String, inout kb : FOLKnowledgeBase) : void
-	List<Literal> rules = Utils.parse(sentence);
-	List<Literal> goals = Utils.parse(goalSentence);
-	ConnectedSentence premise = null;
-	int s = rules.size();
-	for (int i= 0; i < s;i=i+2) {
-		Predicate p = (Predicate) rules.get(i).getAtomicSentence();
-		Predicate y = (Predicate) rules.get(i+1).getAtomicSentence();	
-		premise = new ConnectedSentence(Connectors.AND,p,y);
+	  List<Literal> rules = Utils.parse(sentence);
+	  List<Literal> goals = Utils.parse(goalSentence);
+	  ConnectedSentence premise = null;
+	  int s = rules.size();
+	  for (int i= 0; i < s;i=i+2) {
+		  Predicate p = (Predicate) rules.get(i).getAtomicSentence();
+		  Predicate y = (Predicate) rules.get(i+1).getAtomicSentence();	
+		  premise = new ConnectedSentence(Connectors.AND,p,y);
+
+	  }
+	  Predicate g = (Predicate)goals.get(0).getAtomicSentence();
+	  ConnectedSentence goal = new ConnectedSentence(Connectors.IMPLIES,premise,g);
+	  kb.tell(goal);
+
+!!!2179330.java!!!	createOccupyaction(inout  : String...names) : ActionSchema
+	int nargs = names.length;
+	int noofKeys = keys.length;
+	HashMap cparams = new HashMap<String,Constant>();
+	HashMap vparams = new HashMap<String,Variable>();
+	FunctionContect contex = new FunctionContect(); // Used to register and run functions
+/*	String apos = null;
+	Variable posname = new Variable("posx"); // The end position as a variable
+	Constant newPos = null; // The end position as a constant
+	Constant givenPos = null; // The start position as a Constant
+	Variable startPos = null; // The start position as a Variable
+	Variable pieceName = null; // The piece name as a variable
+	Constant namedPiece = null; //The piece name as a constant 
+	Variable typeofPiece = null; // The type of piece as a variable
+	Constant givenType = null; // THe type of piece as a constant
+	*/
+	List<Term> othervariables = new ArrayList<Term>(); // The list of Terms for the occupy predicate
+	List<Term> totalvariables = new ArrayList<Term>(); // The list of all terms
+	List<Term> boardTerms = new ArrayList<Term>(); // The list of terms for the board predicate
+	List<Term> variables = new ArrayList<Term>(); // The list of Terms for the reachable predicate and the occupy predicate in the Effect.
+	List<Term> typevariables = new ArrayList<Term>();// The list of Terms for the piecetype predicate
+	ANewposfunction newPosfunction = new ANewposfunction(variables);
+	AStartposfunction startPosfunction = new AStartposfunction(othervariables);
+	APiecetypefunction pieceTypefunction = new APiecetypefunction(typevariables);
+	ABoardtermFunction boardTermfunction = new ABoardtermFunction(boardTerms);
+	contex.register(keys[2], newPosfunction);
+	contex.register(keys[1], boardTermfunction);
+	contex.register(keys[0], startPosfunction);
+	contex.register(keys[3], pieceTypefunction);
+/*	pieceName = new Variable("byPiece");
+	typeofPiece = new Variable("type");*/
+
+	if (nargs > 0) {
+		for (int i = 0;i<nargs;i++) {
+			AChessExecutor exec = null;
+			if (names[i] == null) {
+				exec = new AChessExecutor(i); // Creates a Variable Term
+				Variable var = (Variable)exec.execute();
+				vparams.put(keys[i], var);
+			}else {
+				exec = new AChessExecutor(names[i]); //Creates a Constant Term
+				Constant var = (Constant)exec.execute();
+				cparams.put(keys[i], var);
+			}
+
+		}
+		for (int i = 0;i<noofKeys;i++) {
+			contex.get(keys[i]).buildTerms(cparams, vparams);
+		}
+//		contex.get(keys[0]).buildTerms(cparams, vparams);
+		List<Term> thevariables = newPosfunction.getVariables();
+		totalvariables.add(othervariables.get(0));
+		totalvariables.add(othervariables.get(1));
+		totalvariables.add(typevariables.get(1));
+		totalvariables.add(variables.get(1));
 
 	}
-	Predicate g = (Predicate)goals.get(0).getAtomicSentence();
-	ConnectedSentence goal = new ConnectedSentence(Connectors.IMPLIES,premise,g);
-	kb.tell(goal);
+	if (nargs == 0) {
+		for (int i = 0;i<noofKeys;i++) {
+			AChessExecutor exec = new AChessExecutor(i); // Creates a Variable Term
+			Variable var = (Variable)exec.execute();
+			vparams.put(keys[i], var);
+		}
+		for (int i = 0;i<noofKeys;i++) {
+			contex.get(keys[i]).buildTerms(cparams, vparams);
+		}
+/*		startPos = new Variable("posy");*/
+		totalvariables.add(othervariables.get(0));
+		totalvariables.add(othervariables.get(1));
+		totalvariables.add(typevariables.get(1));
+		totalvariables.add(variables.get(1));
+
+	}
+	List<Literal> precondition = new ArrayList();
+	List<Literal> effects = new ArrayList();
+	String actionName = "occupypos";
+	Predicate firstposPredicate = new Predicate(OCCUPIES,othervariables); 
+	Predicate reachPredicate = new Predicate(REACHABLE,variables);
+	Predicate typePredicate = new Predicate(PIECETYPE,typevariables);
+	Predicate boardPredicate = new Predicate(BOARD,boardTerms);
+	precondition.add(new Literal((AtomicSentence)firstposPredicate));
+	precondition.add(new Literal((AtomicSentence) boardPredicate));
+	precondition.add(new Literal((AtomicSentence) typePredicate));
+	precondition.add(new Literal((AtomicSentence) reachPredicate));
+	Predicate occupyPredicate = new Predicate(OCCUPIES,variables); 
+	effects.add(new Literal((AtomicSentence) occupyPredicate));
+	ActionSchema occupyAction = new ActionSchema(actionName,totalvariables,precondition,effects);
+	return occupyAction;
+!!!2179458.java!!!	findApplicable(inout initStates : Map<String,State>, inout action : ActionSchema) : ActionSchema
+	  List<State> allStates = new ArrayList<State>(initStates.values());
+	  List<Constant> stateconstants = new ArrayList<Constant>();
+	  List<Constant> tempconstants = new ArrayList<Constant>();
+	  allconstants.clear();
+	  List<ActionSchema> actions = new ArrayList<ActionSchema>();
+	  for (State state:allStates) {
+		  List<Literal> literals = state.getFluents(); // The initial states have only ground atoms
+		  for (Literal lit:literals) {
+			  Predicate p = (Predicate) lit.getAtomicSentence();
+			  List<Term> terms = p.getTerms(); 
+			  for (Term t:terms) {
+				  Constant c = (Constant)t;
+				  if (!stateconstants.contains(t)) {
+					  stateconstants.add(c);
+					  allconstants.add(c);
+				  }
+				  
+			  }
+		  }
+		  ActionSchema propAction = null;
+		  int nofVar = action.getVariables().size();
+		  int noC = stateconstants.size(); // This value changes when elements are removed
+//		  List<Term> vars = action.getVariables();
+/*		  tempconstants.add(stateconstants.get(0));
+		  for (int i = 1;i<nofVar;i++) {
+			  tempconstants.add(stateconstants.get(i));
+		  }*/
+		  int diff = noC-nofVar;
+		  for (int i = 0;i<diff;i++) {
+			  makeProp(action, stateconstants, state, actions);
+			  stateconstants.remove(nofVar-1);
+		  }
+		  stateconstants.clear();
+	  }
+	  return actions;
+
+	  
+!!!2179586.java!!!	makeProp(inout action : ActionSchema, inout stateconstants : List<Constant>, inout state : State, inout actions : List<ActionSchema>) : void
+		ActionSchema propAction = null;
+		propAction = action.getActionBySubstitution(stateconstants); // a propositionalized action schema
+		boolean found = state.getFluents().containsAll(propAction.getPrecondition());//is applicable in state s if the precondition of the action is satisfied by s.
+		boolean finnes = false;
+		if (!actions.isEmpty()) {
+			for (ActionSchema schema:actions) {
+				finnes = schema.getPrecondition().containsAll(propAction.getPrecondition());
+				if (finnes)
+					break;
+			}
+		}
+		if (found && !finnes) {
+		
+			actions.add(propAction);
+		}
+		//		  }
+		/*		  else {
+			  actions.add(action);
+		  }*/
+!!!2179714.java!!!	extract(in s : String, inout f : Function<String,String>) : String
+	  return f.apply(s);
+!!!2179842.java!!!	extractString(in line : String, in separator : char, in startindex : int) : String
+	  int index = line.lastIndexOf(separator);
+	  if (index == -1)
+		  return null;
+	  Function<String,String> f = (String s) -> line.substring(startindex,index);
+	  Function<String,String> ef = (String s) -> line.substring(index+1);
+//	  Function<String,String> xef = String::substring(index+1);
+	  if (startindex == -1)
+		  return extract(line,ef);
+	  else
+		  return extract(line,f);
 

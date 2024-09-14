@@ -1,16 +1,37 @@
 class ChessDomain
 !!!2095234.java!!!	ChessDomain()
 		super();
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
 		
 !!!2095362.java!!!	ChessDomain(inout toCopy : FOLDomain)
 		super(toCopy);
-		
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
 !!!2095490.java!!!	ChessDomain(inout constants : Set<String>, inout functions : Set<String>, inout predicates : Set<String>)
 		super(constants, functions, predicates);
-		
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
 !!!2095618.java!!!	toString() : String
-		return "ChessDomain [getConstants()=" + getConstants() + ", getFunctions()=" + getFunctions()
-				+ ", getPredicates()=" + getPredicates() + ", addSkolemConstant()=" + addSkolemConstant()
-				+ ", addSkolemFunction()=" + addSkolemFunction() + ", addAnswerLiteral()=" + addAnswerLiteral()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+		return "ChessDomain [getConstants()=" + getConstants() + "\n getFunctions()=" + getFunctions()
+				+ "\n getPredicates()=" + getPredicates() + "\n addSkolemConstant()=" + addSkolemConstant()
+				+ "\n addSkolemFunction()=" + addSkolemFunction() + "\n addAnswerLiteral()=" + addAnswerLiteral()
 				+ "]";
+!!!2177922.java!!!	printDomain() : void
+		writer.println("The model\n"+toString());
+		writer.flush();
