@@ -1,6 +1,6 @@
 format 223
 "search" // no::games::chess::search
-  revision 2
+  revision 6
   modified_by 2 "bruker"
   // class settings
   
@@ -54,11 +54,15 @@ format 223
      end
     class 504066 "ChessSearchProblem"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 134914 // Problem
         rank 0 explicit_value "PlannerState"
       actual class class_ref 134914 // Problem
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 134786 // GeneralProblem
+        rank 0 explicit_value ""
+      actual class class_ref 134786 // GeneralProblem
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -75,6 +79,15 @@ This class implements the search Problem interface as described in section 3.1.1
 @author oluf
 
 "
+      classrelation 709890 // (<generalisation>)
+	relation 709890 -_-|> name "<generalisation>"
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 709890 // (<generalisation>)
+	  b parent class_ref 134786 // GeneralProblem
+      end
+
       classrelation 696322 // <realization>
 	relation 696322 -_-|>
 	  stereotype "bind"
@@ -82,6 +95,22 @@ This class implements the search Problem interface as described in section 3.1.1
 	    java "${type}"
 	    classrelation_ref 696322 // <realization>
 	  b parent class_ref 134914 // Problem
+      end
+
+      operation 2257154 "ChessSearchProblem"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "initialState" explicit_type "PlannerState"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultFn" type class_ref 135426 // ResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
 
       attribute 753026 "state"
@@ -382,6 +411,444 @@ ${members}}
 	
       end
     end
+
+    class 510722 "PlannerQueueBasedSearch"
+      visibility public 
+      nactuals 6
+      actual class class_ref 196354 // BestFirstSearch
+        rank 0 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 1 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 0 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 0 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This is the chess game subclass of QueueBasedSearch.
+It uses the subclass PlannerQueueSearch as the implementation for QueueSearch
+@author oluf
+
+"
+      classrelation 716546 // <realization>
+	relation 716546 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 716546 // <realization>
+	  b parent class_ref 196354 // BestFirstSearch
+      end
+
+      classrelation 703106 // <realization>
+	relation 703106 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 703106 // <realization>
+	  b parent class_ref 137730 // SearchForActions
+      end
+
+      classrelation 703234 // <realization>
+	relation 703234 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 703234 // <realization>
+	  b parent class_ref 194562 // SearchForStates
+      end
+
+      attribute 759810 "state"
+	private explicit_type "PlannerState"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 759938 "action"
+	private explicit_type "ChessPlannerAction"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 716674 // impl (<unidirectional association>)
+	relation 716674 --->
+	  a role_name "impl" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 716674 // impl (<unidirectional association>)
+	  b parent class_ref 510850 // PlannerQueueSearch
+      end
+
+      operation 2257282 "PlannerQueueBasedSearch"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "impl" type class_ref 510850 // PlannerQueueSearch
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2257410 "PlannerQueueBasedSearch"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "impl" type class_ref 510850 // PlannerQueueSearch
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PlannerQueueBasedSearch
+This constructor creates a root node
+@param impl The implementation of the queue search
+@param queue A queue of nodes initially empty
+@param state a planner state
+@param action a chess planner action
+"
+      end
+
+      operation 2250114 "getState"
+	public explicit_return_type "PlannerState"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2250242 "setState"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "state" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2250370 "getAction"
+	public explicit_return_type "ChessPlannerAction"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2250498 "setAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2242690 "findActions"
+	public explicit_return_type "Optional<List<ChessPlannerAction>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2242818 "findState"
+	public explicit_return_type "Optional<PlannerState>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2242946 "addNodeListener"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      class 517506 "EvalFunction"
+	visibility public 
+	nformals 2
+	formal name "PlannerState" type "" explicit_default_value ""
+	  explicit_extends ""
+	formal name "ChessPlannerAction" type "" explicit_default_value ""
+	  explicit_extends ""
+	nactuals 2
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 0 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 1 explicit_value ""
+	cpp_decl ""
+	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+	php_decl ""
+	python_2_2 python_decl ""
+	idl_decl ""
+	explicit_switch_type ""
+	mysql_decl ""
+	
+	classrelation 716802 // <realization>
+	  relation 716802 -_-|>
+	    stereotype "bind"
+	    a public
+	      java "${type}"
+	      classrelation_ref 716802 // <realization>
+	    b parent class_ref 196738 // HeuristicEvaluationFunction
+	end
+
+	classrelation 716930 // g (<unidirectional association>)
+	  relation 716930 --->
+	    stereotype "ToDoubleFunction"
+	    a role_name "g" private
+	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	      classrelation_ref 716930 // g (<unidirectional association>)
+	    b parent class_ref 135170 // Node
+	end
+
+	operation 2257538 "EvalFunction"
+	  cpp_inline public explicit_return_type ""
+	  nparams 1
+	    param inout name "h" explicit_type "ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 2257666 "applyAsDouble"
+	  cpp_inline public explicit_return_type "double"
+	  nparams 1
+	    param inout name "n" type class_ref 135170 // Node
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  java_annotation "@Override
+"
+	  
+	  
+	  
+	  comment "Returns <em>g(n)</em> the cost to reach the node, plus <em>h(n)</em> the
+heuristic cost to get from the specified node to the goal.
+
+@param n a node
+@return g(n) + h(n)
+"
+	end
+      end
+
+    end
+
+    class 510850 "PlannerQueueSearch"
+      visibility public 
+      nactuals 2
+      actual class class_ref 194690 // QueueSearch
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 194690 // QueueSearch
+        rank 1 explicit_value "ChessPlannerAction"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "PlannerQueueSearch
+This is a subclass of the Base class for queue-based search implementations.
+It is used as the implementation for the PlannerQueueBasedSearch
+@author oluf
+
+"
+      classrelation 703362 // <realization>
+	relation 703362 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 703362 // <realization>
+	  b parent class_ref 194690 // QueueSearch
+      end
+
+      operation 2243074 "PlannerQueueSearch"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "nodeExpander" type class_ref 194306 // NodeExpander
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This constructor was protected ??
+@param nodeExpander
+"
+      end
+
+      operation 2243202 "addToFrontier"
+	protected explicit_return_type "void"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2243330 "removeFromFrontier"
+	protected return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PlannerState, ChessPlannerAction> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2243458 "isFrontierEmpty"
+	protected explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 517378 "ChessNode"
+      visibility public 
+      nactuals 2
+      actual class class_ref 135170 // Node
+        rank 0 explicit_value ""
+      actual class class_ref 135170 // Node
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessNode
+This is the subclass of the aima.core.search.framework Node
+
+@author oluf
+
+"
+      classrelation 716418 // <realization>
+	relation 716418 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 716418 // <realization>
+	  b parent class_ref 135170 // Node
+      end
+
+      operation 2257026 "ChessNode"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "state" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
   end
 
   deploymentview 209282 "search"
@@ -394,7 +861,11 @@ ${members}}
 ${package}
 ${imports}
 import java.util.List;
+import aima.core.search.framework.problem.ActionsFunction;
+import aima.core.search.framework.problem.GeneralProblem;
+import aima.core.search.framework.problem.GoalTest;
 import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.problem.ResultFunction;
 import no.games.chess.planning.ChessPlannerAction;
 import no.games.chess.planning.PlannerState;
 ${definition}"
@@ -422,6 +893,66 @@ import aima.core.search.uninformed.IterativeDeepeningSearch;
 ${definition}"
       associated_elems
 	class_ref 504194 // PlannerIterativeSearch
+      end
+    end
+
+    artifact 433538 "PlannerQueueBasedSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.QueueBasedSearch;
+import aima.core.search.framework.QueueFactory;
+import aima.core.search.framework.SearchForActions;
+import aima.core.search.framework.SearchForStates;
+import aima.core.search.framework.problem.Problem;
+import aima.core.search.framework.qsearch.QueueSearch;
+import aima.core.search.informed.BestFirstSearch;
+import aima.core.search.informed.HeuristicEvaluationFunction;
+import aima.core.search.informed.GreedyBestFirstSearch.EvalFunction;
+import no.games.chess.planning.ChessPlannerAction;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 510722 // PlannerQueueBasedSearch
+      end
+    end
+
+    artifact 433666 "PlannerQueueSearch"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.qsearch.QueueSearch;
+import no.games.chess.planning.ChessPlannerAction;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 510850 // PlannerQueueSearch
+      end
+    end
+
+    artifact 440194 "ChessNode"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.Node;
+import no.games.chess.planning.ChessPlannerAction;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 517378 // ChessNode
       end
     end
   end

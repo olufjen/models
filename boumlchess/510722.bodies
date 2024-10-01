@@ -1,0 +1,31 @@
+class PlannerQueueBasedSearch
+!!!2257282.java!!!	PlannerQueueBasedSearch(inout impl : PlannerQueueSearch, inout h : ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>)
+		super(impl,new EvalFunction<>(h));
+
+!!!2257410.java!!!	PlannerQueueBasedSearch(inout impl : PlannerQueueSearch, inout state : PlannerState, inout action : ChessPlannerAction, inout h : ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>)
+		super(impl,new EvalFunction<>(h)); // This call makes the following call: QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)))
+		this.state = state;
+		this.action = action;
+		NodeExpander exp = impl.getNodeExpander().useParentLinks(true);
+		Node<PlannerState, ChessPlannerAction> node = exp.createRootNode(state);
+		this.impl =  impl;
+		this.impl.addToFrontier(node);
+//		queue.add(node);
+		
+!!!2250114.java!!!	getState() : PlannerState
+		return state;
+!!!2250242.java!!!	setState(inout state : PlannerState) : void
+		this.state = state;
+!!!2250370.java!!!	getAction() : ChessPlannerAction
+		return action;
+!!!2250498.java!!!	setAction(inout action : ChessPlannerAction) : void
+		this.action = action;
+!!!2242690.java!!!	findActions(inout p : Problem) : Optional<List<ChessPlannerAction>>
+		// TODO Auto-generated method stub
+		return super.findActions(p);
+!!!2242818.java!!!	findState(inout p : Problem) : Optional<PlannerState>
+		// TODO Auto-generated method stub
+		return super.findState(p);
+!!!2242946.java!!!	addNodeListener(inout listener : Consumer<Node<PlannerState, ChessPlannerAction>>) : void
+		// TODO Auto-generated method stub
+		super.addNodeListener(listener);
