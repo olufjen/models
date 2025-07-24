@@ -1,21 +1,102 @@
 class PlannerStateImpl
-!!!2227202.java!!!	PlannerStateImpl(inout player : APlayer, inout actionSchemas : List<ActionSchema>, inout otherSchemaList : List<ActionSchema>, in moveNr : int)
+!!!2227202.java!!!	PlannerStateImpl(inout player : APlayer, inout opponent : APlayer, inout actionSchemas : List<ActionSchema>, in otherSchemaList : List<ActionSchema>, in moveNr : int)
 		super();
 		this.player = player;
+		this.opponent = opponent;
 		this.actionSchemas = actionSchemas;
 		this.otherSchemaList = otherSchemaList;
 		this.moveNr = moveNr;
 		plannerActions = new ArrayList<ChessPlannerAction>();
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
 		createplannerActions();
+
+
+	    if (liftedKey == null || Arrays.stream(liftedKey).allMatch(Objects::isNull)) {
+	    	writer.println("liftedkey is empty");
+	    }
+	    List<ChessAction> opponentActions = opponent.getActions();
+	    writer.println("Available opponent actions");
+	    for (ChessAction opponentAction:opponentActions) {
+	    	writer.println(opponentAction.toString());
+	    }
+!!!2298882.java!!!	PlannerStateImpl(inout player : APlayer, inout opponent : APlayer, inout actionSchemas : List<ActionSchema>, in moveNr : int, inout thePerceptor : APerceptor)
+		super();
+		this.player = player;
+		this.opponent = opponent;
+		this.actionSchemas = actionSchemas;
+		this.moveNr = moveNr;
+		this.thePerceptor = thePerceptor;
+		plannerActions = new ArrayList<ChessPlannerAction>();
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+
+		createplannerActions();
+
+	    writer.println("Planning");
+	    if (liftedKey == null || Arrays.stream(liftedKey).allMatch(Objects::isNull)) {
+	    	writer.println("liftedkey is empty");
+	    }
+/*
+ * Statistics:	    
+ */
+	    List<ChessAction> opponentActions = opponent.getActions();
+	    List<ChessAction> playerActions = player.getActions();
+	    int noofplayeractions = playerActions.size();
+	    int opponenttotals = opponentActions.size();
+	    List<ChessAction> activplayerActions =  (List<ChessAction>) playerActions.stream().filter(c -> ((ChessActionImpl) c).isMoveFlag()).collect(Collectors.toList());
+	    writer.println("Available opponent actions");
+		List<ChessAction> activActions =  (List<ChessAction>) opponentActions.stream().filter(c -> ((ChessActionImpl) c).isMoveFlag()).collect(Collectors.toList());
+
+	    for (ChessAction opponentAction:activActions) {
+	    	ChessActionImpl localAction = (ChessActionImpl)opponentAction;
+	    	writer.println(localAction.toString());
+	    	writer.println("----");
+	    	noofopponentActions++;
+	    }
+	    writer.println("Sum opponent "+noofopponentActions+" Totals "+opponenttotals);
+	    writer.println("Available player actions");
+	    for (ChessAction playerAction:activplayerActions) {
+	    	ChessActionImpl localAction = (ChessActionImpl)playerAction;
+	    	writer.println(localAction.toString());
+	    	writer.println("----");
+	    	noofplayerActions++;
+	    }
+	    int noofschemas = plannerActions.size();
+	    writer.println("Sum "+noofplayerActions+" Totals "+noofplayeractions+" Schemas "+noofschemas);
+	    writer.flush();
 !!!2227330.java!!!	createplannerActions() : void
+		writer.println("Player's action schemas");
 		for (ActionSchema schema:actionSchemas) {
-			ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr);
+			ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr, this);
 			plannerActions.add(plannerAction);
+			writer.println("Action schema "+schema.getName());
 		}
-		for (ActionSchema schema:otherSchemaList) {
-			ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr);
-			plannerActions.add(plannerAction);
+		if (otherSchemaList != null) {
+			for (ActionSchema schema:otherSchemaList) {
+				ChessPlannerAction plannerAction = new ChessPlannerActionImpl(schema,player, moveNr, this);
+				plannerActions.add(plannerAction);
+			}
 		}
+
+		plannerAction = plannerActions.get(0);
+!!!2299010.java!!!	isCastling() : boolean
+		boolean flag = castling;
+		castling = false;
+		return flag;
+!!!2299138.java!!!	setCastling(inout castling : boolean) : void
+		this.castling = castling;
 !!!2219906.java!!!	getPlannerActions() : List<ChessPlannerAction>
 		return plannerActions;
 !!!2220034.java!!!	setPlannerActions(inout plannerActions : List<ChessPlannerAction>) : void
@@ -32,6 +113,10 @@ class PlannerStateImpl
 		return player;
 !!!2218882.java!!!	setPlayer(inout player : APlayer) : void
 		this.player = player;
+!!!2299266.java!!!	getOtherSchemaList() : ActionSchema
+		return otherSchemaList;
+!!!2299394.java!!!	setOtherSchemaList(inout otherSchemaList : List<ActionSchema>) : void
+		this.otherSchemaList = otherSchemaList;
 !!!2219010.java!!!	getUtility() : double
 		// TODO Auto-generated method stub
 		return 0;
@@ -42,14 +127,236 @@ class PlannerStateImpl
 		// TODO Auto-generated method stub
 		return player;
 !!!2219394.java!!!	getAction() : ChessPlannerAction
-		// TODO Auto-generated method stub
-		return null;
+	
+		return this.plannerAction;
 !!!2219522.java!!!	getActions() : List<ChessPlannerAction>
-		// TODO Auto-generated method stub
-		return null;
+			return getPlannerActions();
 !!!2219650.java!!!	getActionSchema() : ActionSchema
-		// TODO Auto-generated method stub
+		
 		return null;
 !!!2219778.java!!!	setAction(inout action : ChessPlannerAction) : void
-		// TODO Auto-generated method stub
+		this.plannerAction = action;
 		
+!!!2299522.java!!!	selectStrategy() : boolean
+		String[] paramKey = new String[5];
+		boolean flag = moveNr/2 < 6; // Signals the first 5 opening moves
+		String name = null;
+		String posName = null;
+		String pieceType = null;
+		int totopval = 0;
+		int myval = 0;
+		boolean take = false;
+		String alName = null; // The algebraic name of a piece
+		String algebraicKey = null;
+
+		Map<String,AgamePiece> pieces = thePerceptor.getPossiblePieces(); // Opponent pieces that can be taken. Key name of piece of player + position of the piece that can be taken
+		Map<String,Position> positions = thePerceptor.getPossiblePositions(); // At these positions
+		Map<String, ArrayList<AgamePiece>> attackers = thePerceptor.getAttackers();// Contains opponent pieces that can capture a piece. The key is the name of the piece that they can capture.
+		Map<String,AgamePiece> victims = thePerceptor.getThreatenedPieces();// Contains pieces that are threatened by the opponent
+		Map<String,Position> threatPositions = thePerceptor.getThreadenedPositions();
+		
+		List<AgamePiece> opponentPieces = opponent.getMygamePieces();
+		List<AgamePiece> myPieces = player.getMygamePieces();
+		List<AgamePiece> listPieces = new ArrayList<AgamePiece>(pieces.values());
+		if (pieces != null && !pieces.isEmpty()) { // Opponent pieces that can be taken
+			for (AgamePiece piece:listPieces) {
+				String opposName = piece.getmyPosition().getPositionName();
+				for (AgamePiece mypiece:myPieces) {
+					String pName = mypiece.getMyPiece().getOntlogyName();
+//					myval = mypiece.getMyValue().intValue(); 
+					alName = mypiece.getmyPosition().getPositionName();
+					String nameKey = pName + opposName;
+					AgamePiece oppPiece = pieces.get(nameKey);
+					Position pos = positions.get(nameKey);
+					if (oppPiece != null) {
+						name = mypiece.getMyPiece().getOntlogyName();
+//						opval = oppPiece.getMyValue().intValue();
+						pieceType = mypiece.getNameType();
+						writer.println("Opponent piece found from map key: "+nameKey);
+						writer.println("Opponent piece "+oppPiece.getMyPiece().getOntlogyName() + " at position"+pos.getPositionName());
+					}
+					if (pos != null) {
+						posName = pos.getPositionName();
+						algebraicKey = alName+"x"+posName;
+						writer.println("Opponent piece is at "+pos.getPositionName()+" and map key: "+nameKey);
+						String fact = KnowledgeBuilder.getTHREATEN();
+						List<AgamePiece> threatpieces = thePerceptor.checkOpponentthreat("x", posName, fact);
+						int antThreat = 0;
+						if (threatpieces != null) { // If this is the case, find an alternative move !!!
+							for (AgamePiece threatpiece:threatpieces) {
+								writer.println("This position "+ posName + " is protected by opponent "+threatpiece.getMyPiece().getOntlogyName());
+								int oppvalue = threatpiece.getMyValue().intValue();
+								antThreat++;
+							}
+
+						}
+						String pawnfact = KnowledgeBuilder.getPAWNATTACK();
+						List<AgamePiece> pawnpieces = thePerceptor.checkOpponentthreat("x", posName, pawnfact);
+						if (pawnpieces != null) {
+							for (AgamePiece pawnpiece:pawnpieces) {
+								writer.println("This position "+ posName + " is under pawn attack from opponent "+pawnpiece.getMyPiece().getOntlogyName());
+								int oppvalue = pawnpiece.getMyValue().intValue();
+								antThreat++;
+							}
+						}
+						int rank = antThreat;
+						paramKey[0]= null;
+						paramKey[1] = name;
+						paramKey[2] = posName;
+						paramKey[3] = pieceType;
+						if (pieceType.equals("PAWN")) {
+							paramKey[4] = "pawn";
+							rank = 0;
+						}
+						writer.println("Param keys to executable: "+paramKey[0]+" "+paramKey[1]+" "+paramKey[2]+" "+paramKey[3]+" "+paramKey[4]+" Algebraic key "+algebraicKey+ " Rank "+rank);
+						writer.flush();
+						peas.addExecutable(algebraicKey, rank, paramKey);
+	//					flag = true;
+					}
+
+				}
+			} // End for all my pieces
+		} // End opponent pieces that can be taken
+		flag = totopval >= myval && flag; // flag is true if still in opening phase
+/*		if (!flag && name != null && posName != null) {
+			int rank = 0;
+			paramKey[0]= null;
+			paramKey[1] = name;
+			paramKey[2] = posName;
+			paramKey[3] = pieceType;
+			if (pieceType.equals("PAWN"))
+				paramKey[4] = "pawn";
+			writer.println("Param keys: "+paramKey[0]+" "+paramKey[1]+" "+paramKey[2]+" "+paramKey[3]+" "+paramKey[4]+" Algebraic key "+algebraicKey);
+			writer.flush();
+			peas.addExecutable(algebraicKey, rank, paramKey);
+		}*/
+		return flag;
+!!!2299650.java!!!	checkCastling() : boolean
+		String theplayerName = player.getPlayerId();
+		String[] castlingKey = new String[5];
+		String pieceName = null;
+		AgamePiece piece = null;
+		boolean canCastle = false;
+		String pieceType = null;
+		String fact = KnowledgeBuilder.getCASTLE();
+/*		writer.println("Checking castling with "+theplayerName+ " and "+playerName);
+		writer.flush();*/
+		if (theplayerName.equals(playerName)) {
+			pieceName = whiteKing;
+/*			writer.println("Checking castling player is "+theplayerName+ " and piece "+pieceName);
+			writer.flush();*/
+			piece = player.getChosenPiece(pieceName);
+			pieceType = piece.getNameType();
+			HashMap<String,Position> castlePos = piece.getCastlePositions();
+			Set<String> posCastle = castlePos.keySet();
+			String keyName = null;
+			for (String key:posCastle ) {
+//				writer.println("Castle position key "+key);
+				keyName = key;
+				break;
+			}
+			int thisactivity = piece.getMyMoves().size();
+			Position pos = piece.getMyPosition();
+			String posName = pos.getPositionName();
+			writer.println("Test for castling with "+pieceName+ " Position "+keyName+" Predicate "+fact);
+			canCastle = thePerceptor.getFolKb().checkpieceFacts("y", pieceName, keyName, fact);
+			if (canCastle && thisactivity <= 0 && posName.equals(kingPos)) { // If this is the case then first create an executable case for the rook
+				writer.println("Castling can take place for "+pieceName+ " to castle position "+castlePos.get(keyName)+" Predicate "+fact+" Flag "+canCastle);
+				writer.flush();
+				piece.setCastlingMove(true);
+				int rank = 0;
+//				String algebraicKey = "o-o";
+				castlingKey[0]= posName;
+				castlingKey[1] = pieceName;
+				castlingKey[2] = keyName; // Should be keyName
+				castlingKey[3] = pieceType;
+				castlingKey[4] = "castle";
+				String kingCastleKey = KnowledgeBuilder.getKingCastleKey();
+//				peas.addExecutable(kingCastleKey, rank, castlingKey);
+				String rookName = whiteRook;
+				player.getChosenPiece(rookName).setCastlingMove(true);
+				createCastlingRook(rookName);
+				peas.addExecutable(forCastlingKey, rank, rookcastlingKey);
+				castling = true; // This is the only time this flag is set true
+			}
+		}
+		return canCastle;
+!!!2299778.java!!!	createCastlingRook(in pieceName : String) : void
+		AgamePiece piece = player.getChosenPiece(pieceName);
+		Position pos = piece.getMyPosition();
+		String posName = pos.getPositionName();
+		String pieceType = piece.getNameType();
+		rookcastlingKey[0] = posName;
+		rookcastlingKey[1] = pieceName;
+		HashMap<String,Position> castlePos = piece.getCastlePositions();
+		Set<String> posCastle = castlePos.keySet();
+		String keyName = null;
+		for (String key:posCastle ) {
+//			writer.println("Castle position key "+key);
+			keyName = key;
+			break;
+		}	
+		rookcastlingKey[2] = keyName; // Should be keyName
+		rookcastlingKey[3] = pieceType;
+!!!2299906.java!!!	performKingCastling() : void
+		String kingCastleKey = KnowledgeBuilder.getKingCastleKey();
+//		liftedKey = peas.selectExecwithKey(kingCastleKey);
+		liftedKey = peas.selectExecwithKey(forCastlingKey);
+		writer.println("Castling: Making king castling with: "+liftedKey[0]+" "+liftedKey[1]+" "+liftedKey[2]+" "+liftedKey[3]+" "+liftedKey[4]+" ");
+		writer.flush();
+		boolean flag = thePerceptor.createLiftedActions(liftedKey);	
+		this.otherSchemaList = thePerceptor.getOtherActions(); // The propositionalized action schemas
+!!!2284674.java!!!	testEnd(inout a : ChessPlannerAction) : boolean
+		List<ActionSchema> schemas = a.getActionSchemas();
+		peas = new ThePeas(player,opponent,moveNr);
+		int move = moveNr/2;
+		boolean flag = false;
+		boolean selectFlag = false;
+		String newPos = null;
+		selectFlag = selectStrategy(); // true if still in opening phase
+		boolean castling = checkCastling();
+		if (castling) {
+			String kingCastleKey = KnowledgeBuilder.getKingCastleKey();
+			liftedKey = peas.selectExecwithKey(forCastlingKey); // Moves the castle 
+			writer.println("Castling: Making a lifted action with: "+liftedKey[0]+" "+liftedKey[1]+" "+liftedKey[2]+" "+liftedKey[3]+" "+liftedKey[4]+" ");
+			writer.flush();
+			flag = thePerceptor.createLiftedActions(liftedKey);
+			selectFlag = true;
+		}
+//		boolean keyflag = (liftedKey == null || Arrays.stream(liftedKey).allMatch(Objects::isNull));
+		if (!selectFlag) { //: SelectStrategy finished opening moves
+			liftedKey = peas.selectExecutable();
+			newPos = liftedKey[2];
+			String fact = KnowledgeBuilder.getTHREATEN();
+/*			List<AgamePiece> pieces = thePerceptor.checkOpponentthreat("x", newPos, fact);
+			if (pieces != null) {
+				for (AgamePiece piece:pieces) {
+					writer.println("The position "+ newPos + " is threatened by "+piece.getMyPiece().getOntlogyName());
+				}
+			}*/
+			writer.println("selectStrategy: Making a lifted action with: "+liftedKey[0]+" "+liftedKey[1]+" "+liftedKey[2]+" "+liftedKey[3]+" "+liftedKey[4]+" ");
+			writer.flush();
+			flag = thePerceptor.createLiftedActions(liftedKey);// Creates the initial and goal states based on this action schema
+		}else if(!castling && selectFlag){
+			writer.println("Making a lifted action with: "+notations[move]+" and move number "+move);
+			String[] param = peas.selectPerformance(notations[move]);
+			newPos = param[2];
+			String fact = KnowledgeBuilder.getTHREATEN();
+			List<AgamePiece> pieces = thePerceptor.checkOpponentthreat("x", newPos, fact);
+			if (pieces != null) { // If this is the case, find an alternative move !!!
+				for (AgamePiece piece:pieces) {
+					writer.println("The position "+ newPos + " is threatened by "+piece.getMyPiece().getOntlogyName());
+				}
+			}
+			flag = thePerceptor.createLiftedActions(param); // Creates the initial and goal states based on this action schema
+			writer.flush();
+		}
+	
+		if (flag) { // If flag is true the lifted action had no solution !!!
+			writer.println("Failure: Making a lifted action with: "+notations[7]);
+			writer.flush();
+			String[]param = peas.selectPerformance(notations[7]);
+			flag = thePerceptor.createLiftedActions(param);// Creates the initial and goal states based on this action schema
+		}
+		this.otherSchemaList = thePerceptor.getOtherActions(); // The propositionalized action schemas
+		return true;

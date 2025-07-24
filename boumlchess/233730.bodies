@@ -12,7 +12,9 @@ class ApieceMove
 		blackMove = piece.checkBlack();
 		whiteMove = piece.checkWhite();
 		creation = "Created from gamepiece preferred position";
-		
+		this.moveNotation = null;
+		plannedMove = true;
+		executedMove = false;
 !!!770306.java!!!	ApieceMove(inout piece : AgamePiece, inout fromPosition : Position, inout toPosition : Position, in movenr : int, in moveNotation : String)
 		super();
 		this.fromPosition = fromPosition;
@@ -26,8 +28,21 @@ class ApieceMove
 			this.moveNotation = moveNotation+"x";
 			moveNumber--;
 		}
-
+		plannedMove = false;;
+		executedMove = true;
 		creation = "Created with from and to position";
+!!!2296194.java!!!	isPlannedMove() : boolean
+		return plannedMove;
+!!!2296322.java!!!	setPlannedMove(inout plannedMove : boolean) : void
+		this.plannedMove = plannedMove;
+!!!2296450.java!!!	isExecutedMove() : boolean
+		return executedMove;
+!!!2296578.java!!!	setExecutedMove(inout executedMove : boolean) : void
+		this.executedMove = executedMove;
+!!!2296706.java!!!	getCapturedName() : String
+		return capturedName;
+!!!2296834.java!!!	setCapturedName(in capturedName : String) : void
+		this.capturedName = capturedName;
 !!!964738.java!!!	getPreferredPositions() : Position
 		return preferredPositions;
 !!!964866.java!!!	setPreferredPositions(inout preferredPositions : List<Position>) : void
@@ -55,4 +70,4 @@ class ApieceMove
 		
 		return toPosition;
 !!!771714.java!!!	toString() : String
-		return "Move\nPiece "+piece.getMyPiece().getOntlogyName()+" From position "+fromPosition.toString()+"To position "+toPosition.toString()+" Move number "+moveNumber+" "+moveNotation+"Creation "+creation;
+		return "Move\nPiece "+piece.getMyPiece().getOntlogyName()+" From position "+fromPosition.getPositionName()+" To position "+toPosition.getPositionName()+" Move number "+moveNumber+" Notation "+moveNotation+" Creation "+creation+"\nMove notation "+moveNotation+" Captured piece "+capturedName;

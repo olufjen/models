@@ -1,6 +1,6 @@
 format 223
 "search" // no::games::chess::search
-  revision 6
+  revision 11
   modified_by 2 "bruker"
   // class settings
   
@@ -55,14 +55,14 @@ format 223
     class 504066 "ChessSearchProblem"
       visibility public 
       nactuals 4
+      actual class class_ref 134786 // GeneralProblem
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 134786 // GeneralProblem
+        rank 1 explicit_value "ChessPlannerAction"
       actual class class_ref 134914 // Problem
         rank 0 explicit_value "PlannerState"
       actual class class_ref 134914 // Problem
         rank 1 explicit_value "ChessPlannerAction"
-      actual class class_ref 134786 // GeneralProblem
-        rank 0 explicit_value ""
-      actual class class_ref 134786 // GeneralProblem
-        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -75,7 +75,9 @@ ${members}}
       
       comment "ChessSearchProblem
 This class implements the search Problem interface as described in section 3.1.1 p. 66 in the AIMA textbook.
-
+The ActionFunction is a Function interface with signature: Function<S,A> S -> A;
+The ResultFunction is a BiFunction interface with signature: BiFunction<S,A,S> (S,A) -> S
+The Goaltest function is Predicate interface, used to test for a goal state.
 @author oluf
 
 "
@@ -95,22 +97,6 @@ This class implements the search Problem interface as described in section 3.1.1
 	    java "${type}"
 	    classrelation_ref 696322 // <realization>
 	  b parent class_ref 134914 // Problem
-      end
-
-      operation 2257154 "ChessSearchProblem"
-	public explicit_return_type ""
-	nparams 4
-	  param inout name "initialState" explicit_type "PlannerState"
-	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
-	  param inout name "resultFn" type class_ref 135426 // ResultFunction
-	  param inout name "goalTest" type class_ref 135554 // GoalTest
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
       end
 
       attribute 753026 "state"
@@ -148,6 +134,71 @@ This class implements the search Problem interface as described in section 3.1.1
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      classrelation 730242 // resultFn (<unidirectional association>)
+	relation 730242 --->
+	  a role_name "resultFn" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<PlannerState, ChessPlannerAction> ${name}${value};
+"
+	    classrelation_ref 730242 // resultFn (<unidirectional association>)
+	  b parent class_ref 135426 // ResultFunction
+      end
+
+      classrelation 730370 // goalTest (<unidirectional association>)
+	relation 730370 --->
+	  a role_name "goalTest" private
+	    comment " GoalTest is a predicate"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<PlannerState> ${name}${value};
+"
+	    classrelation_ref 730370 // goalTest (<unidirectional association>)
+	  b parent class_ref 135554 // GoalTest
+      end
+
+      operation 2257154 "ChessSearchProblem"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "initialState" explicit_type "PlannerState"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultFn" type class_ref 135426 // ResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<PlannerState, ChessPlannerAction> ${p1}, ${t2}<PlannerState, ChessPlannerAction> ${p2}, ${t3}<?> ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2264322 "ChessSearchProblem"
+	public explicit_return_type ""
+	nparams 8
+	  param inout name "initialState" explicit_type "PlannerState"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultFn" type class_ref 135426 // ResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	  param inout name "stepCostFn" type class_ref 135682 // StepCostFunction
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param inout name "actions" explicit_type "List<ChessPlannerAction>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<PlannerState, ChessPlannerAction> ${p1}, ${t2}<PlannerState, ChessPlannerAction> ${p2}, ${t3}<PlannerState> ${p3}, ${t4}<PlannerState, ChessPlannerAction> ${p4}, ${t5} ${p5}, ${t6} ${p6}, ${t7} ${p7}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The constructor of the chess search problem
+@param initialState
+@param actionsFn
+@param resultFn
+@param goalTest
+@param stepCostFn
+@param state
+@param action
+@param actions
+"
       end
 
       operation 2234754 "getInitialState"
@@ -193,6 +244,15 @@ This class implements the search Problem interface as described in section 3.1.1
 	
 	
 	
+	comment "getResult
+This method applies the result function.
+The resultfunction extends the BIFunction<S,A,S> interface with the signature (S,A) -> S (p. 53 Java 8)
+A description of what each action does; the formal name for this is the
+transition model, specified by a function RESULT(s, a) that returns the state
+that results from doing action a in state s. We also use the term successor
+to refer to any state reachable from a given state by a single action.
+The PlannerAction has a findPlannerState method
+"
       end
 
       operation 2235138 "testGoal"
@@ -225,6 +285,31 @@ This class implements the search Problem interface as described in section 3.1.1
 	
 	
 	
+      end
+
+      operation 2278146 "testSolution"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Tests whether a node represents an acceptable solution. The default implementation
+delegates the check to the goal test. Other implementations could make use of the additional
+information given by the node (e.g. the sequence of actions leading to the node). A
+solution tester implementation could for example always return false and internally collect
+the paths of all nodes whose state passes the goal test. Search implementations should always
+access the goal test via this method to support solution acceptance testing.
+
+This method is called from the PlannerQueueSearch findNode method.
+implementation
+"
       end
     end
 
@@ -416,9 +501,9 @@ ${members}}
       visibility public 
       nactuals 6
       actual class class_ref 196354 // BestFirstSearch
-        rank 0 explicit_value ""
+        rank 0 explicit_value "PlannerState"
       actual class class_ref 196354 // BestFirstSearch
-        rank 1 explicit_value ""
+        rank 1 explicit_value "ChessPlannerAction"
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value ""
       actual class class_ref 137730 // SearchForActions
@@ -437,7 +522,9 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
-      comment "This is the chess game subclass of QueueBasedSearch.
+      comment "This is the chess game subclass of BestFirstSearch and QueueBasedSearch.
+BestFirstSearch is described in Chapter 3.5 page 92 in the AIMA book.
+The algorithm for the search is shown in fig 3.14 p. 84 
 It uses the subclass PlannerQueueSearch as the implementation for QueueSearch
 @author oluf
 
@@ -496,10 +583,29 @@ It uses the subclass PlannerQueueSearch as the implementation for QueueSearch
       classrelation 716674 // impl (<unidirectional association>)
 	relation 716674 --->
 	  a role_name "impl" private
+	    comment "The implementation of the queue search"
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
 	    classrelation_ref 716674 // impl (<unidirectional association>)
 	  b parent class_ref 510850 // PlannerQueueSearch
+      end
+
+      classrelation 730498 // chNode (<unidirectional association>)
+	relation 730498 --->
+	  a role_name "chNode" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 730498 // chNode (<unidirectional association>)
+	  b parent class_ref 135170 // Node
+      end
+
+      classrelation 730626 // chessNode (<unidirectional association>)
+	relation 730626 --->
+	  a role_name "chessNode" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 730626 // chessNode (<unidirectional association>)
+	  b parent class_ref 517378 // ChessNode
       end
 
       operation 2257282 "PlannerQueueBasedSearch"
@@ -531,7 +637,7 @@ It uses the subclass PlannerQueueSearch as the implementation for QueueSearch
 	
 	
 	comment "PlannerQueueBasedSearch
-This constructor creates a root node
+This constructor creates a priority queue and a root node
 @param impl The implementation of the queue search
 @param queue A queue of nodes initially empty
 @param state a planner state
@@ -617,6 +723,12 @@ This constructor creates a root node
 	
 	
 	
+	comment "Receives a problem and a queue implementing the search strategy and
+computes a node referencing a goal state, if such a state was found.
+@param problem
+           the search problem
+ 
+"
       end
 
       operation 2242946 "addNodeListener"
@@ -643,9 +755,9 @@ This constructor creates a root node
 	  explicit_extends ""
 	nactuals 2
 	actual class class_ref 196738 // HeuristicEvaluationFunction
-	  rank 0 explicit_value ""
+	  rank 0 explicit_value "PlannerState"
 	actual class class_ref 196738 // HeuristicEvaluationFunction
-	  rank 1 explicit_value ""
+	  rank 1 explicit_value "ChessPlannerAction"
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -665,13 +777,13 @@ ${members}}
 	    b parent class_ref 196738 // HeuristicEvaluationFunction
 	end
 
-	classrelation 716930 // g (<unidirectional association>)
-	  relation 716930 --->
+	classrelation 730754 // g (<unidirectional association>)
+	  relation 730754 --->
 	    stereotype "ToDoubleFunction"
 	    a role_name "g" private
 	      java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	      classrelation_ref 716930 // g (<unidirectional association>)
+	      classrelation_ref 730754 // g (<unidirectional association>)
 	    b parent class_ref 135170 // Node
 	end
 
@@ -709,7 +821,6 @@ heuristic cost to get from the specified node to the goal.
 "
 	end
       end
-
     end
 
     class 510850 "PlannerQueueSearch"
@@ -789,6 +900,66 @@ It is used as the implementation for the PlannerQueueBasedSearch
 	
       end
 
+      operation 2271106 "setExplored"
+	private explicit_return_type "void"
+	nparams 1
+	  param inout name "result" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2277890 "findNode"
+	public return_type class_ref 135170 // Node
+	nparams 2
+	  param inout name "problem" type class_ref 134914 // Problem
+	  param inout name "frontier" explicit_type "Queue<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<PlannerState, ChessPlannerAction>> ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "Receives a problem and a queue implementing the search strategy and
+computes a node referencing a goal state, if such a state was found.
+This is a customised version of the template method for tree and graph search
+through nodes containing PlannerState and PlannerActions.
+
+The primitive operations {@link #addToFrontier(Node)},
+{@link #removeFromFrontier()}, and {@link #isFrontierEmpty()}
+are investigated to improve the search.
+
+Also the Problem testSolution method and the local getSolution method are investigated.
+How to investigate the root node such that all available action schemas are explored !!!
+@param problem
+           the search problem
+@param frontier
+           the data structure for nodes that are waiting to be expanded
+
+@return a node referencing a goal state, if the goal was found, otherwise empty;
+"
+      end
+
+      operation 2278018 "getSolution"
+	private return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}<PlannerState, ChessPlannerAction>> ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 2243458 "isFrontierEmpty"
 	protected explicit_return_type "boolean"
 	nparams 0
@@ -802,15 +973,40 @@ It is used as the implementation for the PlannerQueueBasedSearch
 	
 	
       end
+
+      operation 2271234 "getFrontier"
+	public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Queue<${type}<PlannerState, ChessPlannerAction>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2271362 "setFrontier"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "frontier" explicit_type "Queue<Node<PlannerState, ChessPlannerAction>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 517378 "ChessNode"
       visibility public 
       nactuals 2
       actual class class_ref 135170 // Node
-        rank 0 explicit_value ""
+        rank 0 explicit_value "PlannerState"
       actual class class_ref 135170 // Node
-        rank 1 explicit_value ""
+        rank 1 explicit_value "ChessPlannerAction"
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -848,6 +1044,128 @@ This is the subclass of the aima.core.search.framework Node
 	
 	
       end
+
+      operation 2270978 "ChessNode"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "parent" type class_ref 517378 // ChessNode
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param in name "pathCost" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 524034 "ChessGoalTest"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "PlannerState" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 1
+      actual class class_ref 135554 // GoalTest
+        rank 0 explicit_value "PlannerState"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessGoalTest
+This interface extends the GoalTest interface
+which determines whether a given state is a goal state.
+The Goaltest interface extends the Predicate function interface
+
+@author oluf
+
+@param <PlannerState>
+"
+      classrelation 723458 // <realization>
+	relation 723458 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 723458 // <realization>
+	  b parent class_ref 135554 // GoalTest
+      end
+
+      operation 2264194 "or"
+	cpp_inline public return_type class_ref 524034 // ChessGoalTest
+	nparams 1
+	  param inout name "other" type class_ref 524034 // ChessGoalTest
+	
+	preserve_java_body_indent default java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<PlannerState> ${name}${(}${t0}<? super PlannerState> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 524162 "ChessStepCostImpl"
+      visibility public 
+      nformals 1
+      formal name "PlannerState" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 2
+      actual class class_ref 135682 // StepCostFunction
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 135682 // StepCostFunction
+        rank 1 explicit_value "ChessPlannerAction"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ChessStepCostImpl
+This class is an implementation of the StepCostFunction interface
+The <b>step cost</b> of taking action a in state s to reach state s' is
+denoted by c(s, a, s').
+
+@author oluf
+
+@param <PlannerState>
+"
+      classrelation 723586 // <realization>
+	relation 723586 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 723586 // <realization>
+	  b parent class_ref 135682 // StepCostFunction
+      end
+
+      operation 2264450 "applyAsDouble"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "s" explicit_type "PlannerState"
+	  param inout name "a" explicit_type "ChessPlannerAction"
+	  param inout name "sDelta" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
     end
   end
 
@@ -861,11 +1179,14 @@ This is the subclass of the aima.core.search.framework Node
 ${package}
 ${imports}
 import java.util.List;
+import aima.core.logic.planning.ActionSchema;
+import aima.core.search.framework.Node;
 import aima.core.search.framework.problem.ActionsFunction;
 import aima.core.search.framework.problem.GeneralProblem;
 import aima.core.search.framework.problem.GoalTest;
 import aima.core.search.framework.problem.Problem;
 import aima.core.search.framework.problem.ResultFunction;
+import aima.core.search.framework.problem.StepCostFunction;
 import no.games.chess.planning.ChessPlannerAction;
 import no.games.chess.planning.PlannerState;
 ${definition}"
@@ -913,6 +1234,7 @@ import aima.core.search.framework.QueueBasedSearch;
 import aima.core.search.framework.QueueFactory;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.SearchForStates;
+import aima.core.search.framework.SearchUtils;
 import aima.core.search.framework.problem.Problem;
 import aima.core.search.framework.qsearch.QueueSearch;
 import aima.core.search.informed.BestFirstSearch;
@@ -931,9 +1253,15 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
+import java.util.LinkedList;
+import java.util.Optional;
+import java.util.Queue;
+import aima.core.logic.planning.ActionSchema;
 import aima.core.search.framework.Node;
 import aima.core.search.framework.NodeExpander;
+import aima.core.search.framework.problem.Problem;
 import aima.core.search.framework.qsearch.QueueSearch;
+import aima.core.util.Tasks;
 import no.games.chess.planning.ChessPlannerAction;
 import no.games.chess.planning.PlannerState;
 ${definition}"
@@ -955,5 +1283,36 @@ ${definition}"
 	class_ref 517378 // ChessNode
       end
     end
+
+    artifact 446722 "ChessGoalTest"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Objects;
+import aima.core.search.framework.problem.GoalTest;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 524034 // ChessGoalTest
+      end
+    end
+
+    artifact 446850 "ChessStepCostImpl"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import aima.core.search.framework.problem.StepCostFunction;
+import no.games.chess.planning.ChessPlannerAction;
+${definition}"
+      associated_elems
+	class_ref 524162 // ChessStepCostImpl
+      end
+    end
   end
+
+  package_ref 237570 // online
+
+  package_ref 244098 // nondeterministic
 end

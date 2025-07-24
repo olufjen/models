@@ -1,0 +1,149 @@
+format 223
+
+classcanvas 128002 class_ref 510722 // PlannerQueueBasedSearch
+  classdiagramsettings member_max_width 0 end
+  xyz 359 355 2000
+end
+classcanvas 128130 class_ref 137730 // SearchForActions
+  classdiagramsettings member_max_width 0 end
+  xyz 805 395 3005
+end
+classcanvas 128386 class_ref 196354 // BestFirstSearch
+  classdiagramsettings member_max_width 0 end
+  xyz 355 147 3010
+end
+classcanvas 128642 class_ref 135170 // Node
+  classdiagramsettings member_max_width 0 end
+  xyz 952 14 3016
+end
+classcanvas 129410 class_ref 510850 // PlannerQueueSearch
+  classdiagramsettings member_max_width 0 end
+  xyz 29 319 3021
+end
+classcanvas 129666 class_ref 194562 // SearchForStates
+  classdiagramsettings member_max_width 0 end
+  xyz 802 237 2006
+end
+classcanvas 129922 class_ref 517378 // ChessNode
+  classdiagramsettings member_max_width 0 end
+  xyz 560 188 3022
+end
+classcanvas 130434 class_ref 194434 // QueueBasedSearch
+  classdiagramsettings member_max_width 0 end
+  xyz 503 10 3028
+end
+classcanvas 131074 class_ref 196482 // Informed
+  classdiagramsettings member_max_width 0 end
+  xyz 67 122 3034
+end
+classcanvas 131330 class_ref 194690 // QueueSearch
+  classdiagramsettings member_max_width 0 end
+  hidden_operations
+    operation_ref 467330 // QueueSearch
+    operation_ref 467458 // findNode
+    operation_ref 467586 // addToFrontier
+    operation_ref 467714 // removeFromFrontier
+    operation_ref 467842 // isFrontierEmpty
+    operation_ref 467970 // setEarlyGoalTest
+    operation_ref 468098 // getNodeExpander
+    operation_ref 468226 // getMetrics
+    operation_ref 468354 // clearMetrics
+    operation_ref 468482 // updateMetrics
+    operation_ref 468610 // getSolution
+  xyz 74 593 3034
+end
+textcanvas 132098 "PlannerQueueBasedSearch - an implementation of an informed search strategy described in chapter 3.5 p. 92
+ The general approach is called best first search.    "
+  xyzwh 290 674 2000 224 101
+relationcanvas 128258 relation_ref 703106 // <realization>
+  from ref 128002 z 3006 stereotype "<<bind>>" xyz 640 456 3006 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128514 relation_ref 716546 // <realization>
+  from ref 128002 z 3011 label "<S->PlannerState, A->ChessPlannerAction>" max_width 255 xyz 231 340 3011 stereotype "<<bind>>" xyz 420 293 3011 to ref 128386
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128770 relation_ref 231938 // <unidirectional association>
+  from ref 128642 z 3017 to point 923 60
+  line 128898 z 3017 to point 923 90
+  line 129026 z 3017 to ref 128642
+  role_a_pos 910 90 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129154 relation_ref 730498 // <unidirectional association>
+  from ref 128002 z 3017 to ref 128642
+  role_a_pos 904 119 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129282 relation_ref 234498 // <unidirectional association>
+  from ref 128386 z 3017 stereotype "<<ToDoubleFunction>>" xyz 658 151 3017 to ref 128642
+  role_a_pos 909 106 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129538 relation_ref 716674 // <unidirectional association>
+  from ref 128002 z 3022 to ref 129410
+  role_a_pos 167 398 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129794 relation_ref 703234 // <realization>
+  from ref 128002 z 2007 stereotype "<<bind>>" xyz 638 371 2007 to ref 129666
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130050 relation_ref 716418 // <realization>
+  from ref 129922 z 3023 label "<S->PlannerState, A->ChessPlannerAction>" max_width 255 xyz 468 575 3023 stereotype "<<bind>>" xyz 771 168 3023 to ref 128642
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130178 relation_ref 730626 // <unidirectional association>
+  from ref 128002 z 3023 to ref 129922
+  role_a_pos 581 259 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130562 relation_ref 232066 // <realization>
+  from ref 130434 z 3029 label "<S->S, A->A>" max_width 255 xyz 683 258 3029 stereotype "<<bind>>" xyz 694 272 3029 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130690 relation_ref 232194 // <realization>
+  from ref 130434 z 3029 stereotype "<<bind>>" xyz 690 190 3029 to ref 129666
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130818 relation_ref 232450 // <unidirectional association>
+  from ref 130434 z 3029 stereotype "<<Queue>>" xyz 758 101 3029 to ref 128642
+  role_a_pos 906 99 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130946 relation_ref 234242 // <realization>
+  from ref 128386 z 3029 label "<S->S, A->A>" max_width 255 xyz 332 123 3029 stereotype "<<bind>>" xyz 448 130 3029 to ref 130434
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131202 relation_ref 234370 // <realization>
+  from ref 128386 z 3035 stereotype "<<bind>>" xyz 269 161 3035 to ref 131074
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131458 relation_ref 232962 // <unidirectional association>
+  from ref 131330 z 3035 to point 975 668
+  line 131842 z 3035 stereotype "<<Queue>>" xyz 953 450 3035 to ref 128642
+  role_a_pos 997 237 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131586 relation_ref 232322 // <unidirectional association>
+  from ref 130434 z 3035 to point 238 55
+  line 131970 z 3035 to ref 131330
+  role_a_pos 167 574 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131714 relation_ref 703362 // <realization>
+  from ref 129410 z 3035 label "<S->PlannerState, A->ChessPlannerAction>" max_width 255 xyz 16 529 3035 stereotype "<<bind>>" xyz 99 543 3035 to ref 131330
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+line 132226 -_-_
+  from ref 132098 z 2001 to ref 128002
+end

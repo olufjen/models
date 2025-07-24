@@ -1,13 +1,67 @@
 class PlannerQueueSearch
 !!!2243074.java!!!	PlannerQueueSearch(inout nodeExpander : NodeExpander)
-		super(nodeExpander);
-		// TODO Auto-generated constructor stub
+		super(nodeExpander); // This call adds a Consumer functional interface as a node listener.
+//		nodeExpander.addNodeListener((node) -> metrics.incrementInt(METRIC_NODES_EXPANDED)); Create an alternative nodelistener. !!! ???
+// See page 51 Java 8 for examples.		
+		frontier = new LinkedList<Node<PlannerState, ChessPlannerAction>>();
+		
 !!!2243202.java!!!	addToFrontier(inout node : Node) : void
 		super.frontier.add(node);
 		
 !!!2243330.java!!!	removeFromFrontier() : Node
-		
-		return null;
-!!!2243458.java!!!	isFrontierEmpty() : boolean
+//		cleanUpFrontier(); // not really necessary because isFrontierEmpty
+		// should be called before...
+		Node<PlannerState, ChessPlannerAction> result = null;
+		result = frontier.remove();
+		updateMetrics(frontier.size());
+		// add the node to the explored set of the corresponding problem
+//		setExplored(result);
+		return result;
+
+!!!2271106.java!!!	setExplored(inout result : Node) : void
 		// TODO Auto-generated method stub
-		return false;
+		
+!!!2277890.java!!!	findNode(inout problem : Problem, inout frontier : Queue<Node<PlannerState, ChessPlannerAction>>) : Node
+		this.frontier = frontier;
+		clearMetrics();
+		earlyGoalTest = true;
+		// initialize the frontier using the initial state of the problem
+		Node<PlannerState, ChessPlannerAction> root = nodeExpander.createRootNode(problem.getInitialState());
+		addToFrontier(root);
+		if (earlyGoalTest && problem.testSolution(root))
+			return getSolution(root);
+
+		while (!isFrontierEmpty() && !Tasks.currIsCancelled()) {
+			// choose a leaf node and remove it from the frontier
+			Node<PlannerState, ChessPlannerAction> nodeToExpand = removeFromFrontier();
+			// only need to check the nodeToExpand if have not already
+			// checked before adding to the frontier
+			// THe node to expand contains an action but no state OJN 01.11 2024 ???
+			if (!earlyGoalTest && problem.testSolution(nodeToExpand))
+				// if the node contains a goal state then return the
+				// corresponding solution
+				return getSolution(nodeToExpand);
+
+			// expand the chosen node, adding the resulting nodes to the
+			// frontier
+			// This process only add successors that contain actions but no state
+			// The expand method notifies NodeListeners. They are Consumer functional interface with an .accept method. One implementation is:
+			// (node) -> metrics.incrementInt(METRIC_NODES_EXPANDED)
+			for (Node<PlannerState, ChessPlannerAction> successor : nodeExpander.expand(nodeToExpand, problem)) {
+				addToFrontier(successor);
+				if (earlyGoalTest && problem.testSolution(successor))
+					return getSolution(successor);
+			}
+		}
+		// if the frontier is empty then return failure
+		return Optional.empty();
+!!!2278018.java!!!	getSolution(inout node : Node) : Node
+		metrics.set(METRIC_PATH_COST, node.getPathCost());
+		return Optional.of(node);
+!!!2243458.java!!!	isFrontierEmpty() : boolean
+		boolean empty = frontier.isEmpty();
+		return empty;
+!!!2271234.java!!!	getFrontier() : Node
+		return frontier;
+!!!2271362.java!!!	setFrontier(inout frontier : Queue<Node<PlannerState, ChessPlannerAction>>) : void
+		this.frontier = frontier;

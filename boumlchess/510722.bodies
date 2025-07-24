@@ -1,16 +1,19 @@
 class PlannerQueueBasedSearch
 !!!2257282.java!!!	PlannerQueueBasedSearch(inout impl : PlannerQueueSearch, inout h : ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>)
 		super(impl,new EvalFunction<>(h));
-
+		this.impl = impl;
 !!!2257410.java!!!	PlannerQueueBasedSearch(inout impl : PlannerQueueSearch, inout state : PlannerState, inout action : ChessPlannerAction, inout h : ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>)
-		super(impl,new EvalFunction<>(h)); // This call makes the following call: QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)))
+		super(impl,new EvalFunction<PlannerState, ChessPlannerAction>(h)); // This call makes the following call: QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)))
 		this.state = state;
 		this.action = action;
 		NodeExpander exp = impl.getNodeExpander().useParentLinks(true);
-		Node<PlannerState, ChessPlannerAction> node = exp.createRootNode(state);
-		this.impl =  impl;
-		this.impl.addToFrontier(node);
-//		queue.add(node);
+		chNode = new ChessNode(state);		
+/*		Node node = exp.createRootNode(state);
+		chNode = node;*/
+		chessNode = (ChessNode) chNode;
+		this.impl =  impl; // The implementation of the queue search
+		this.impl.addToFrontier(chNode);
+//		queue.add(node);ch
 		
 !!!2250114.java!!!	getState() : PlannerState
 		return state;
@@ -24,8 +27,26 @@ class PlannerQueueBasedSearch
 		// TODO Auto-generated method stub
 		return super.findActions(p);
 !!!2242818.java!!!	findState(inout p : Problem) : Optional<PlannerState>
-		// TODO Auto-generated method stub
-		return super.findState(p);
+		/*
+		 * copied from super.findstate
+		 */
+		impl.getNodeExpander().useParentLinks(false);
+		impl.getFrontier().clear();
+		Node localnode = null;
+		PlannerState state = null;
+
+		Optional<Node<PlannerState, ChessPlannerAction>> node = impl.findNode(p,impl.getFrontier());
+		if (node.isPresent()) {
+			localnode = node.get();
+			state =(PlannerState) localnode.getState();
+			Optional<PlannerState> optstate = Optional.ofNullable(state);
+			if(optstate.isPresent()) {
+				return SearchUtils.toState(node);
+			}
+		}
+		Optional<PlannerState> optState = Optional.ofNullable(state);
+		return optState;
+
 !!!2242946.java!!!	addNodeListener(inout listener : Consumer<Node<PlannerState, ChessPlannerAction>>) : void
 		// TODO Auto-generated method stub
 		super.addNodeListener(listener);

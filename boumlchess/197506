@@ -1,6 +1,6 @@
 format 223
 "planning" // no::games::chess::planning
-  revision 18
+  revision 19
   modified_by 2 "bruker"
   // class settings
   
@@ -530,8 +530,8 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
-      comment "THis is the chess version of the Problem class
-
+      comment "This is the chess version of the Problem class used in planning procedures
+See also page 368
 Artificial Intelligence A Modern Approach (3rd Edition): page
 383.<br>
 <br>
@@ -1845,8 +1845,18 @@ This interface represent the Planner state of the game.
 It contains a set of Planner Actions, which again contains
 ground or lifted action schemas
 @author oluf
+@since 29.04.25
+This interface extends the Percept interface
 
 "
+      classrelation 745986 // <generalisation>
+	relation 745986 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 745986 // <generalisation>
+	  b parent class_ref 128386 // Percept
+      end
+
       operation 2194690 "getAction"
 	public return_type class_ref 483074 // ChessPlannerAction
 	nparams 0
@@ -1938,6 +1948,31 @@ ground or lifted action schemas
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2303618 "testEnd"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "a" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2303746 "getOtherSchemaList"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2173,6 +2208,32 @@ the move number, and information from the two FOL KB.
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2303362 "findPlannerState"
+	cpp_inline public return_type class_ref 476418 // PlannerState
+	nparams 1
+	  param inout name "s" type class_ref 476418 // PlannerState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2303490 "findPlannerState"
+	cpp_inline public return_type class_ref 476418 // PlannerState
+	nparams 1
+	  param inout name "a" type class_ref 483074 // ChessPlannerAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2675,6 +2736,7 @@ ${definition}"
 ${package}
 ${imports}
 import java.util.List;
+import aima.core.agent.Percept;
 import aima.core.logic.planning.ActionSchema;
 import no.games.chess.ChessPlayer;
 ${definition}"

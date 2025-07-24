@@ -6,23 +6,81 @@ class ChessPlannerActionImpl
 		this.moveNr = moveNr;
 		actionName = actionSchema.getName();
 		actionValue = new Double(0);
+!!!2297218.java!!!	ChessPlannerActionImpl(inout actionSchema : ActionSchema, inout player : APlayer, in moveNr : int, inout state : PlannerState)
+		super();
+		this.actionSchema = actionSchema;
+		this.player = player;
+		this.moveNr = moveNr;
+		actionName = actionSchema.getName();
+		actionValue = new Double(0);
+		this.plannerState = state;
 !!!2217858.java!!!	isNoOp() : boolean
 		// TODO Auto-generated method stub
 		return false;
 !!!2217986.java!!!	getActionSchema() : ActionSchema
 		// TODO Auto-generated method stub
-		return null;
+		return actionSchema;
 !!!2218114.java!!!	getActionSchemas() : ActionSchema
-		// TODO Auto-generated method stub
-		return null;
+			return actionSchemas;
 !!!2218242.java!!!	setActionSchemas(inout actionSchemas : List<ActionSchema>) : void
 		this.actionSchemas = actionSchemas;
 !!!2218370.java!!!	setActionSchema(inout actionSchema : ActionSchema) : void
 		this.actionSchema = actionSchema;
 !!!2227074.java!!!	findactionValue() : Double
 		List<Literal> effectLiterals = actionSchema.getEffects();
+		int size = effectLiterals.size();
+		String name = null;
+		List<Term>terms = null;
 		for (Literal l: effectLiterals) {
 			AtomicSentence atom = l.getAtomicSentence();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+            name = atom.getSymbolicName(); 
+            Predicate thePredicate = (Predicate)atom;
+            terms = thePredicate.getArgs(); // Terms are constants or variables
+ 		}
+		if (terms != null) { // If any term is a variable then this action schema is a lifted action schema
+			List<Variable> variableList = new ArrayList();
+			List<Constant> constantList = new ArrayList();
+			for (Term term:terms) {
+				if (term instanceof Constant) {
+					Constant termName = (Constant) term;
+					constantList.add(termName);
+				}
+				if (term instanceof Variable) {
+					Variable termName = (Variable) term;
+					variableList.add(termName);
+				}
+			}
 		}
 		return actionValue;
+!!!2297346.java!!!	getPlayer() : APlayer
+		return player;
+!!!2297474.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!2297602.java!!!	getActionName() : String
+		return actionName;
+!!!2297730.java!!!	setActionName(in actionName : String) : void
+		this.actionName = actionName;
+!!!2297858.java!!!	getMoveNr() : int
+		return moveNr;
+!!!2297986.java!!!	setMoveNr(in moveNr : int) : void
+		this.moveNr = moveNr;
+!!!2298114.java!!!	getActionValue() : Double
+		return actionValue;
+!!!2298242.java!!!	setActionValue(inout actionValue : Double) : void
+		this.actionValue = actionValue;
+!!!2298370.java!!!	getPlannerState() : PlannerState
+		return plannerState;
+!!!2298498.java!!!	setPlannerState(inout plannerState : PlannerState) : void
+		this.plannerState = plannerState;
+!!!2284802.java!!!	findPlannerState(inout a : ChessPlannerAction) : PlannerState
+		// TODO Auto-generated method stub
+		return null;
+!!!2284930.java!!!	findPlannerState(inout s : PlannerState) : PlannerState
+		List<ActionSchema> schemas = s.getActionSchemas();
+		boolean same = s == plannerState;
+		String name = null;
+		for ( ActionSchema schema : schemas) {
+			name = schema.getName();
+		}
+		
+		return plannerState;

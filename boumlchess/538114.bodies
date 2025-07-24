@@ -1,0 +1,58 @@
+class GameState
+!!!2315138.java!!!	GameState(inout gamePiece : GamePiece, inout actionSchema : ActionSchema)
+		super();
+		actions = new ArrayList<GameAction>();
+		this.gamePiece = gamePiece;
+		this.actionSchema = actionSchema;
+		for (Myaction allaction:Myaction.values()) {
+			action = new GameAction(gamePiece,this,allaction);
+			actions.add(action);
+		}
+!!!2315266.java!!!	GameState(inout pieceSentences : List<Sentence>, inout gamePiece : GamePiece, inout actionSchema : ActionSchema, inout thePerceptor : ChessPercept)
+		super();
+		actions = new ArrayList<GameAction>();
+		this.pieceSentences = pieceSentences;
+		this.gamePiece = gamePiece;
+		this.actionSchema = actionSchema;
+		this.thePerceptor = thePerceptor;
+		for (Myaction allaction:Myaction.values()) {
+			action = new GameAction(gamePiece,this,allaction);
+			actions.add(action);
+		}
+//		gamePiece.
+!!!2315394.java!!!	getThePerceptor() : ChessPercept
+		return thePerceptor;
+!!!2315522.java!!!	setThePerceptor(inout thePerceptor : ChessPercept) : void
+		this.thePerceptor = thePerceptor;
+!!!2315650.java!!!	getPieceSentences() : Sentence
+		return pieceSentences;
+!!!2315778.java!!!	setPieceSentences(inout pieceSentences : List<Sentence>) : void
+		this.pieceSentences = pieceSentences;
+!!!2315906.java!!!	getGamePiece() : GamePiece
+		return gamePiece;
+!!!2316034.java!!!	setGamePiece(inout gamePiece : GamePiece) : void
+		this.gamePiece = gamePiece;
+!!!2316162.java!!!	getActionSchema() : ActionSchema
+		return actionSchema;
+!!!2316290.java!!!	setActionSchema(inout actionSchema : ActionSchema) : void
+		this.actionSchema = actionSchema;
+!!!2316418.java!!!	getAlgebraicNotation() : String
+		return algebraicNotation;
+!!!2316546.java!!!	setAlgebraicNotation(in algebraicNotation : String) : void
+		this.algebraicNotation = algebraicNotation;
+!!!2316674.java!!!	getAction() : GameAction
+		return action;
+!!!2316802.java!!!	setAction(inout action : GameAction) : void
+		this.action = action;
+!!!2316930.java!!!	getActions() : GameAction
+/*
+ * Which actions are applicable in this state?		
+ */
+		return actions;
+!!!2317058.java!!!	testEnd(inout action : GameAction) : boolean
+	
+		return true;
+!!!2317186.java!!!	toString() : String
+		String theState = actionSchema.toString() + "\n" + gamePiece.toString() + "\n" + algebraicNotation ;
+		return theState;
+		

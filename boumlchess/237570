@@ -1,0 +1,206 @@
+format 223
+"online" // no::games::chess::search::online
+  revision 2
+  modified_by 2 "bruker"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no/games/chess/search/online/"
+  java_package "no.games.chess.search.online"
+  classview 235394 "online"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 531202 "ChessOnlineSearchProblem"
+      visibility public 
+      nformals 2
+      formal name "PlannerState" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "ChessPlannerAction" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
+      actual class class_ref 190338 // NondeterministicProblem
+        rank 0 explicit_value "PlannerState"
+      actual class class_ref 190338 // NondeterministicProblem
+        rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 0 explicit_value ""
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 1 explicit_value ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "@author ojn
+ChessOnlineSearchProblem
+This class implements the Online search Problem interface as described in chapter for of AIMA. (p. 147).
+From the AIMA book:
+An online search problem must be solved by an agent executing actions. WE assume a deterministic and fully observable environment.
+Non-deterministic problems may have multiple results for a given state and
+action; this class handles these results by mimicking Problem and replacing
+ResultFunction (one result) with ResultsFunction (a set of results).
+@param <PlannerState>
+@param <ChessPlannerAction>
+"
+      classrelation 746114 // <generalisation>
+	relation 746114 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 746114 // <generalisation>
+	  b parent class_ref 190338 // NondeterministicProblem
+      end
+
+      classrelation 746242 // <realization>
+	relation 746242 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}"
+	    classrelation_ref 746242 // <realization>
+	  b parent class_ref 135042 // OnlineSearchProblem
+      end
+
+      operation 2303874 "ChessOnlineSearchProblem"
+	cpp_inline public explicit_return_type ""
+	nparams 4
+	  param inout name "initialState" explicit_type "PlannerState"
+	  param inout name "actionsFn" type class_ref 135298 // ActionsFunction
+	  param inout name "resultsFn" type class_ref 142338 // ResultsFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2304002 "getInitialState"
+	cpp_inline public explicit_return_type "PlannerState"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2304130 "getActions"
+	cpp_inline public explicit_return_type "List<ChessPlannerAction>"
+	nparams 1
+	  param inout name "state" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " (non-Javadoc)
+@see aima.core.search.framework.problem.OnlineSearchProblem#getActions(java.lang.Object)
+
+
+Returns a List of actions allowed in state S
+"
+      end
+
+      operation 2304258 "getStepCosts"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "PlannerState"
+	  param inout name "action" explicit_type "ChessPlannerAction"
+	  param inout name "stateDelta" explicit_type "PlannerState"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " (non-Javadoc)
+@see aima.core.search.framework.problem.OnlineSearchProblem#testGoal(java.lang.Object)
+A goal test function
+"
+      end
+    end
+  end
+
+  deploymentview 215810 "online"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 453762 "ChessOnlineSearchProblem"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.List;
+import aima.core.search.framework.problem.ActionsFunction;
+import aima.core.search.framework.problem.GoalTest;
+import aima.core.search.framework.problem.OnlineSearchProblem;
+import aima.core.search.nondeterministic.NondeterministicProblem;
+import aima.core.search.nondeterministic.ResultsFunction;
+import no.games.chess.planning.ChessPlannerAction;
+import no.games.chess.planning.PlannerState;
+${definition}"
+      associated_elems
+	class_ref 531202 // ChessOnlineSearchProblem
+      end
+    end
+  end
+end

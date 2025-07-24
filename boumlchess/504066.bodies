@@ -1,19 +1,40 @@
 class ChessSearchProblem
 !!!2257154.java!!!	ChessSearchProblem(inout initialState : PlannerState, inout actionsFn : ActionsFunction, inout resultFn : ResultFunction, inout goalTest : GoalTest)
-		super(initialState, actionsFn, resultFn, goalTest);
-		// TODO Auto-generated constructor stub
+		super(initialState, (ActionsFunction<PlannerState, ChessPlannerAction>) actionsFn, (ResultFunction<PlannerState,
+				ChessPlannerAction>) resultFn, (GoalTest<PlannerState>) goalTest);
+		
+!!!2264322.java!!!	ChessSearchProblem(inout initialState : PlannerState, inout actionsFn : ActionsFunction, inout resultFn : ResultFunction, inout goalTest : GoalTest, inout stepCostFn : StepCostFunction, inout state : PlannerState, inout action : ChessPlannerAction, inout actions : List<ChessPlannerAction>)
+		super(initialState, actionsFn, resultFn, goalTest, stepCostFn);
+		this.state = state;
+		this.action = action;
+		this.actions = actions;
+		this.resultFn = resultFn;
+		this.goalTest = goalTest;
 !!!2234754.java!!!	getInitialState() : PlannerState
-		// TODO Auto-generated method stub
+	
 		return state;
 !!!2234882.java!!!	getActions(inout state : PlannerState) : List<ChessPlannerAction>
-		// TODO Auto-generated method stub
+		List<ChessPlannerAction> actions = state.getActions();
 		return state.getActions();
 !!!2235010.java!!!	getResult(inout state : PlannerState, inout action : ChessPlannerAction) : PlannerState
-		// TODO Auto-generated method stub
-		return null;
+	
+	    return resultFn.apply(state, action);
+		
 !!!2235138.java!!!	testGoal(inout state : PlannerState) : boolean
-		// TODO Auto-generated method stub
-		return false;
+		if(state == null)
+			return true;
+		boolean t = goalTest.test(state); //Using the goaltest predicate function
+		return t;
 !!!2235266.java!!!	getStepCosts(inout state : PlannerState, inout action : ChessPlannerAction, inout stateDelta : PlannerState) : double
 		// TODO Auto-generated method stub
 		return 0;
+!!!2278146.java!!!	testSolution(inout node : Node) : boolean
+		PlannerState state = node.getState();
+/*		List<ActionSchema> schemas = state.getActionSchemas();
+		List<ActionSchema> otherschemas = state.getOtherSchemaList();
+		System.out.println("SearchProblem other action schemas");
+		for (ActionSchema schema: otherschemas) {
+			System.out.println(schema.toString());
+		}*/
+		return testGoal(node.getState());
+		//		return super.testSolution(node);

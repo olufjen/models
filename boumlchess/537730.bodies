@@ -1,0 +1,64 @@
+class AndOrChessSearch
+!!!2310786.java!!!	search(inout problem : NondeterministicChessProblem) : ChessPlan
+		expandedNodes = 0;
+		// If no initial state then run andSearch !!!
+		GameState state = problem.getInitialState();
+
+		// OR-SEARCH(problem.INITIAL-STATE, problem, [])
+		ChessPlan plan = null;
+		if (state != null) {
+			plan = orSearch(problem.getInitialState(), problem, new ChessPath());
+			return plan != null ? Optional.of(plan) : Optional.empty();
+		}else { // If there is no initial state return all available states.
+			List<GameState> gameStates = problem.getResults(state, null);
+			andSearch(gameStates, problem, new ChessPath());
+			
+		}
+		return null;
+!!!2310914.java!!!	orSearch(inout state : GameState, inout problem : NondeterministicChessProblem, inout path : ChessPath) : ChessPlan
+		// do metrics
+		expandedNodes++;
+		// if problem.GOAL-TEST(state) then return the empty plan
+		if (problem.testGoal(state))
+			return new ChessPlan();
+
+		// if state is on path then return failure
+		if (path.contains(state))
+			return null;
+
+		// for each action in problem.ACTIONS(state) do - Get the set of gamestates from the result function for this action
+		for (GameAction action : problem.getActions(state)) { // Returns actions applicable in this state
+			// plan <- AND-SEARCH(RESULTS(state, action), problem, [state|path])
+			ChessPlan plan = andSearch(problem.getResults(state, action), problem, path.prepend(state)); //getResults returns the state as a result of the action
+			// if plan != failure then return [action|plan]
+			if (plan != null)
+				return plan.prepend(action);
+		}
+		// return failure
+		return null;
+!!!2311042.java!!!	andSearch(inout states : List<GameState>, inout problem : NondeterministicChessProblem, inout path : ChessPath) : ChessPlan
+		// do metrics, setup
+		expandedNodes++;
+		List<ChessPlan> subPlans = new ArrayList<>(states.size());
+		// for each s_i in states do - returns a plan as a result of an action by the agent (the player).
+		for (GameState state : states) {
+			// plan_i <- OR-SEARCH(s_i, problem, path)
+			ChessPlan subPlan = orSearch(state, problem, path);
+			subPlans.add(subPlan);
+			if (subPlan == null)
+				return null;
+		}
+		if (subPlans.size() == 1) {
+			// no if is needed in this case...
+			return subPlans.get(0);
+		} else {
+			// return [if s_1 then plan_1 ... else if s_n-1 then plan_n-1 else plan_n]
+			ChessPlan plan = new ChessPlan();
+			for (int i = 0; i < subPlans.size(); i++)
+				plan.addIfStatement(states.get(i), subPlans.get(i));
+			return plan;
+		}
+!!!2311170.java!!!	getMetrics() : Metrics
+		Metrics result = new Metrics();
+		result.set("expandedNodes", expandedNodes);
+		return result;

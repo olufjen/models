@@ -1,7 +1,7 @@
 class EvalFunction
 !!!2257538.java!!!	EvalFunction(inout h : ToDoubleFunction<Node<PlannerState, ChessPlannerAction>>)
             this.h = h;
-            this.g = Node::getPathCost;
+            this.g = Node::getPathCost; // The  definition of the functional interface
 !!!2257666.java!!!	applyAsDouble(inout n : Node) : double
             // f(n) = g(n) + h(n)
-            return g.applyAsDouble(n) + h.applyAsDouble(n);
+            return g.applyAsDouble((Node) n) + h.applyAsDouble(n);

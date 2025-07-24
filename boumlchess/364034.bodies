@@ -1,4 +1,8 @@
 class KnowledgeBuilder
+!!!2298626.java!!!	getKingCastleKey() : String
+	return kingCastleKey;
+!!!2298754.java!!!	setKingCastleKey(in kingCastleKey : String) : void
+	KnowledgeBuilder.kingCastleKey = kingCastleKey;
 !!!2178050.java!!!	getPIECE() : String
 	return PIECE;
 !!!2178178.java!!!	setPIECE(in pIECE : String) : void
@@ -193,7 +197,7 @@ class KnowledgeBuilder
 	Variable pieceName = null; // The piece name as a variable
 	Constant namedPiece = null; //The piece name as a constant 
 	Variable typeofPiece = null; // The type of piece as a variable
-	Constant givenType = null; // THe type of piece as a constant
+	Constant givenType = null; // The type of piece as a constant
 	*/
 	List<Term> othervariables = new ArrayList<Term>(); // The list of Terms for the occupy predicate
 	List<Term> totalvariables = new ArrayList<Term>(); // The list of all terms
@@ -204,13 +208,15 @@ class KnowledgeBuilder
 	AStartposfunction startPosfunction = new AStartposfunction(othervariables);
 	APiecetypefunction pieceTypefunction = new APiecetypefunction(typevariables);
 	ABoardtermFunction boardTermfunction = new ABoardtermFunction(boardTerms);
+	ApawnstrikeFunction pawnStrikefunction = new ApawnstrikeFunction(variables);
 	contex.register(keys[2], newPosfunction);
 	contex.register(keys[1], boardTermfunction);
 	contex.register(keys[0], startPosfunction);
 	contex.register(keys[3], pieceTypefunction);
+	contex.register(keys[4],pawnStrikefunction);
 /*	pieceName = new Variable("byPiece");
 	typeofPiece = new Variable("type");*/
-
+	String reach = REACHABLE;
 	if (nargs > 0) {
 		for (int i = 0;i<nargs;i++) {
 			AChessExecutor exec = null;
@@ -220,8 +226,18 @@ class KnowledgeBuilder
 				vparams.put(keys[i], var);
 			}else {
 				exec = new AChessExecutor(names[i]); //Creates a Constant Term
-				Constant var = (Constant)exec.execute();
-				cparams.put(keys[i], var);
+				Object tvar = exec.execute();
+				if (tvar instanceof Constant) {
+					Constant var = (Constant)tvar;
+					cparams.put(keys[i], var);
+				}
+				if (tvar instanceof String) {
+					String tpar = (String)tvar;
+					if (tpar.equals("pawn"))
+						reach = PAWNATTACK;
+					if (tpar.equals("castle"))
+						reach = CASTLE;
+				}
 			}
 
 		}
@@ -255,8 +271,16 @@ class KnowledgeBuilder
 	List<Literal> precondition = new ArrayList();
 	List<Literal> effects = new ArrayList();
 	String actionName = "occupypos";
+	Term type = typevariables.get(1);
+	Constant piecetype = null;
+/*	boolean pawn = false;
+	if (type instanceof Constant) {
+		piecetype = (Constant)type;
+		String typeName = piecetype.getSymbolicName();
+		pawn = typeName == PAWN;
+	}*/
 	Predicate firstposPredicate = new Predicate(OCCUPIES,othervariables); 
-	Predicate reachPredicate = new Predicate(REACHABLE,variables);
+	Predicate reachPredicate = new Predicate(reach,variables);
 	Predicate typePredicate = new Predicate(PIECETYPE,typevariables);
 	Predicate boardPredicate = new Predicate(BOARD,boardTerms);
 	precondition.add(new Literal((AtomicSentence)firstposPredicate));
@@ -321,17 +345,13 @@ class KnowledgeBuilder
 		
 			actions.add(propAction);
 		}
-		//		  }
-		/*		  else {
-			  actions.add(action);
-		  }*/
 !!!2179714.java!!!	extract(in s : String, inout f : Function<String,String>) : String
 	  return f.apply(s);
 !!!2179842.java!!!	extractString(in line : String, in separator : char, in startindex : int) : String
 	  int index = line.lastIndexOf(separator);
 	  if (index == -1)
 		  return null;
-	  Function<String,String> f = (String s) -> line.substring(startindex,index);
+	  Function<String,String> f = (String s) -> line.substring(startindex,index); // The implementation of the apply method of Function
 	  Function<String,String> ef = (String s) -> line.substring(index+1);
 //	  Function<String,String> xef = String::substring(index+1);
 	  if (startindex == -1)
@@ -339,3 +359,18 @@ class KnowledgeBuilder
 	  else
 		  return extract(line,f);
 
+!!!2285058.java!!!	toDouble() : Node
+	  ToDoubleFunction<Node<PlannerState, ChessPlannerAction>> h = node -> node.getPathCost();
+	  return h;
+!!!2285186.java!!!	aResultFunction() : ResultFunction
+	  ResultFunction<PlannerState, ChessPlannerAction> r = (s,a) -> a.findPlannerState(s);
+	  return r;
+!!!2285314.java!!!	anActionFunction() : ActionsFunction
+	  ActionsFunction<PlannerState, ChessPlannerAction> a = s -> s.getActions();
+	  return a;
+!!!2285442.java!!!	stepCost() : StepCostFunction
+	  StepCostFunction<PlannerState, ChessPlannerAction> step = new ChessStepCostImpl();
+	  return step;
+!!!2285570.java!!!	aGoaltest(inout a : ChessPlannerAction) : ChessGoalTest
+	  ChessGoalTest<PlannerState>  g = s -> s.testEnd(a);
+	  return g;

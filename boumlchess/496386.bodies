@@ -5,7 +5,10 @@ class AChessExecutor
 !!!2212482.java!!!	AChessExecutor(in name : String)
 		super();
 		this.name = name;
-		c = new Constant(this.name);
+		if (name.equals(pawn))
+			predName = KnowledgeBuilder.getPAWNATTACK();
+		else
+			c = new Constant(this.name);
 !!!2212610.java!!!	AChessExecutor(in val : int)
 		super();
 		this.val = val;
@@ -16,6 +19,8 @@ class AChessExecutor
 			return c;
 		if (v != null)
 			return v;
+		if (predName != null)
+			return predName;
 		return null;
 !!!2212866.java!!!	buildTerms(inout cParam : HashMap<String, Term>, inout vParam : HashMap<String, Term>) : void
 		// TODO Auto-generated method stub

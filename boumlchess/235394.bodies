@@ -244,6 +244,35 @@ class Aking
 			}
 		}
 
+!!!2292738.java!!!	checkRemovals(inout availablePositions : List<Position>, inout removedPositions : List<Position>) : Position
+		List<Position> castlelist = new ArrayList<Position>(castlePositions.values());
+		List<Position> availableCastlePositions = new ArrayList<Position>();
+/*		Position kingneighbore = myPiece.getMyPiece().getReacablePositions().get(castleNeighbore);
+		String kingPosName = kingneighbore.getPositionName();
+		Position kingneighborw = myPiece.getMyPiece().getReacablePositions().get(castleNeighborw);
+		String kingPosNamew = kingneighborw.getPositionName();*/		
+		boolean naboTeste = false;
+		boolean naboTestw = false;		
+		Position neighbore = (Position) removedPositions.stream().filter(c -> c.getPositionName().contains(castleNeighbore)).findAny().orElse(null);
+		Position neighborw = (Position) removedPositions.stream().filter(c -> c.getPositionName().contains(castleNeighborw)).findAny().orElse(null);
+		if (neighbore == null)
+			naboTeste = true;
+		if (neighborw == null)
+			naboTestw = true;
+		for (Position castlePos:castlelist) {
+			String posName = castlePos.getPositionName();
+			Position removedPos = (Position) removedPositions.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+			if (removedPos == null) {
+				availableCastlePositions.add(castlePos);
+				List<Position> availableList = myPiece.getMyPiece().getNewlistPositions();
+				Position thisPos = (Position) availableList.stream().filter(c -> c.getPositionName().contains(posName)).findAny().orElse(null);
+				if (thisPos == null && posName.equals(castlepose) && naboTeste)
+					myPiece.getMyPiece().getNewlistPositions().add(castlePos);
+				if (thisPos == null && posName.equals(castleposw) && naboTestw)
+					myPiece.getMyPiece().getNewlistPositions().add(castlePos);
+			}
+		}
+		return availableCastlePositions;
 !!!761474.java!!!	getPieceColor() : AbstractGamePiece::pieceColor
 		
 		return localColor;

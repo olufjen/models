@@ -1,5 +1,20 @@
 class APerceptor
-!!!2077570.java!!!	APerceptor(inout posin : Position, in reach : String, in type : String, in typeofPiece : String, in playerName : String)
+!!!2077570.java!!!	APerceptor(in playerName : String)
+		  super();
+		  setPredicatenames();
+		  this.playerName = playerName;
+		  ChessVariables.setPlayerName(playerName);
+		  mypieceNames = new ArrayList<String>();
+		  propinitStates = new ArrayList<State>();
+		  propgoalStates = new ArrayList<State>();
+		  try {
+			  fw = new FileWriter(outputFileName, true);
+		  } catch (IOException e1) {
+
+			  e1.printStackTrace();
+		  }
+		  writer = new PrintWriter(new BufferedWriter(fw));	
+!!!2294402.java!!!	APerceptor(inout posin : Position, in reach : String, in type : String, in typeofPiece : String, in playerName : String)
 		  super();
 		  setPredicatenames();
 		  this.playerName = playerName;
@@ -74,6 +89,22 @@ class APerceptor
 		  POSSIBLETHREAT = KnowledgeBuilder.getPOSSIBLETHREAT();
 		  POSSIBLEPROTECT = KnowledgeBuilder.getPOSSIBLEPROTECT();
 		  POSSIBLEREACH = KnowledgeBuilder.getPOSSIBLEREACH();
+!!!2294530.java!!!	getThreatenedPieces() : AgamePiece
+		return threatenedPieces;
+!!!2294658.java!!!	setThreatenedPieces(inout threatenedPieces : Map<String, AgamePiece>) : void
+		this.threatenedPieces = threatenedPieces;
+!!!2294786.java!!!	getThreadenedPositions() : Position
+		return threadenedPositions;
+!!!2294914.java!!!	setThreadenedPositions(inout threadenedPositions : Map<String, Position>) : void
+		this.threadenedPositions = threadenedPositions;
+!!!2295042.java!!!	getProtectors() : Map<String, ArrayList<AgamePiece>>
+		return protectors;
+!!!2295170.java!!!	setProtectors(inout protectors : Map<String, ArrayList<AgamePiece>>) : void
+		this.protectors = protectors;
+!!!2295298.java!!!	getAttackers() : Map<String, ArrayList<AgamePiece>>
+		return attackers;
+!!!2295426.java!!!	setAttackers(inout attackers : Map<String, ArrayList<AgamePiece>>) : void
+		this.attackers = attackers;
 !!!2186370.java!!!	getOtherActions() : ActionSchema
 		  return otherActions;
 !!!2186498.java!!!	setOtherActions(inout otherActions : List<ActionSchema>) : void
@@ -142,6 +173,19 @@ class APerceptor
 		return playerPiece;
 !!!2177282.java!!!	setPlayerPiece(inout playerPiece : AgamePiece) : void
 		this.playerPiece = playerPiece;
+!!!2295554.java!!!	getPossiblePieces() : AgamePiece
+		return possiblePieces;
+!!!2295682.java!!!	setPossiblePieces(inout possiblePieces : Map<String, AgamePiece>) : void
+		this.possiblePieces = possiblePieces;
+!!!2295810.java!!!	getPossiblePositions() : Position
+		return possiblePositions;
+!!!2295938.java!!!	setPossiblePositions(inout possiblePositions : Map<String, Position>) : void
+		this.possiblePositions = possiblePositions;
+!!!2296066.java!!!	checkOpponentthreat(in pieceName : String, in pos : String, in fact : String) : AgamePiece
+		boolean threats = folKb.checkThreats(pieceName, pos, fact, opponent);
+		if (!threats)
+			return null;
+		return folKb.getMovePieces();
 !!!2078722.java!!!	checkPercept(inout initStates : Map<String,State>) : State
 		  List<AgamePiece> pieces = myPlayer.getMygamePieces();
 		  List<State> allStates = new ArrayList<State>(initStates.values());
@@ -192,7 +236,9 @@ class APerceptor
 
 !!!2177538.java!!!	createKnowledgefacts(inout piece : AgamePiece, inout position : Position) : void
 		  ChessPiece chessPiece = piece.getMyPiece();
-		  String newPosname = position.getPositionName();
+		  String newPosname = null;
+		  if (position != null)
+			  newPosname = position.getPositionName();
 		  ABishop bishop = null;
 		  ARook rook = null;
 		  AKnight knight = null;
@@ -207,36 +253,48 @@ class APerceptor
 		  Position piecePosition = piece.getmyPosition();
 		  String piecePosname = piecePosition.getPositionName();
 		  if (piece.getMybishop() != null) {
-			  bishop = new ABishop(position,chessPiece);
-			  reachables = bishop.getLegalmoves();
+			  if (position != null) {
+				  bishop = new ABishop(position,chessPiece);
+				  reachables = bishop.getLegalmoves();
+			  }
 			  predicate = agent.getBISHOP();
 		  }
 		  if (piece.getMyrook() != null) {
-			  rook = new ARook(position,chessPiece);
-			  reachables = rook.getLegalmoves();
+			  if (position != null) {
+				  rook = new ARook(position,chessPiece);
+				  reachables = rook.getLegalmoves();
+			  }
 			  predicate = agent.getROOK();
 		  }
 		  if (piece.getMyKnight() != null) {
-			  knight = new AKnight(position,chessPiece);
-			  reachables = knight.getLegalmoves();
+			  if (position != null) {
+				  knight = new AKnight(position,chessPiece);
+				  reachables = knight.getLegalmoves(); 
+			  }
 			  predicate = agent.getKNIGHT();
 		  }
 		  if (piece.getMyqueen() != null) {
-			  queen = new AQueen(position,chessPiece);
-			  reachables = queen.getLegalmoves();
+			  if (position != null) {
+				  queen = new AQueen(position,chessPiece);
+				  reachables = queen.getLegalmoves();
+			  }
 			  predicate = agent.getQUEEN();
 		  }
 		  if (piece.getMyKing() != null) {
-			  king = new Aking(position,chessPiece);
-			  reachables = king.getLegalmoves();
+			  if (position != null) {
+				  king = new Aking(position,chessPiece);
+				  reachables = king.getLegalmoves();
+			  }
 			  predicate = agent.getKING();
 		  }	 
 		  if (piece.getMyPawn() != null) {
-			  pawn = new APawn(position,chessPiece);
-			  reachables = pawn.getAttackPositions();
+			  if (position != null) {
+				  pawn = new APawn(position,chessPiece);
+				  reachables = pawn.getAttackPositions();
+			  }
 			  predicate = agent.getPAWN();
 		  }
-		  if(reachables != null && !reachables.isEmpty()) {
+		  if(newPosname != null && reachables != null && !reachables.isEmpty()) {
 			  List<Position> reachablelist = new ArrayList<Position>(reachables.values());
 			  for (Position pos:reachablelist) {
 				  String posName = pos.getPositionName();
@@ -262,7 +320,7 @@ class APerceptor
 				  }
 			  }
 		  }
-!!!2188162.java!!!	createLiftedActions(inout  : String...names) : void
+!!!2188162.java!!!	createLiftedActions(inout  : String...names) : boolean
 		  writer.println("Actions with ");
 		  ActionSchema occupy = KnowledgeBuilder.createOccupyaction(names); // Creates a lifted action schema
 		  writer.println(occupy.toString());
@@ -273,13 +331,14 @@ class APerceptor
 	      State theGoal = null;		// A determined goalState for the Problem
 		  for (ActionSchema primitiveAction :
 			   otherActions) {	 
-			  writer.println(primitiveAction.toString());
+			  writer.println(primitiveAction.toString()); // This is the propositionalized action schema from the lifted action schema
 		  }
 		  List<State> allStates = new ArrayList<State>(initStates.values()); // All Init states from all available action schemas
 		  List<State> allGoals = new ArrayList<State>(goalStates.values()); // All goal states from all available action schemas
 	/*
 	 * A procedure to determine a possible initial state
 	 */
+		  boolean rfound = true;
 		  writer.println("New goal states - testing the result function");
 		  for (State state:allStates) { // For all the initial states:
 			  State agoalState = state.result(otherActions); // Given a list of propostionalized action schema the result function returns a goal state
@@ -287,7 +346,7 @@ class APerceptor
 			  if (!found) { // If not check if the new goal state entails the given goal state
 				  writer.println("A possible goal state not entailed by an init state");
 			      boolean agree = false;
-			      for (State goalstate:allGoals) {
+			      for (State goalstate:allGoals) { // All goal states from all available action schemas
 			    	  agree = agoalState.getFluents().containsAll(goalstate.getFluents());// A possible goal state entails the given goal state
 			    	  if (agree) {
 			    		  theGoal = goalstate; // The goal state has been found
@@ -316,28 +375,34 @@ class APerceptor
 				      for (Literal literal :
 				    	  state.getFluents()) {
 				    	 writer.println(literal.toString());
-				      } 
+				      }
+//				      break; //  OBS: This causes error !!!!!! Added 4.02.25 No need to search further when initial and goal states are found?
 			      }
+			      if (!agree) {
+			    	  writer.println("==No goal state or init state found== returning "+found);
+			      }
+			      rfound = found;
 		//		  writer.println(agoalState.toString());  
 			  }else {
-/*				  writer.println("A possible init state");
+				  writer.println("No Goal state found "+found);
+ /*			      for (Literal literal :
+			    	  state.getFluents()) {
+			    	 writer.println(literal.toString());
+			      }
+			      writer.println("For this goal state");*/
+				  writer.println("And the next initial state is");
 			      for (Literal literal :
 			    	  state.getFluents()) {
 			    	 writer.println(literal.toString());
 			      }
-			      writer.println("For this goal state");
-			      for (Literal literal :
-			    	  agoalState.getFluents()) {
-			    	 writer.println(literal.toString());
-			      }*/
 			      boolean agree = false;
-			      for (State goalstate:allGoals) {
+/*			      for (State goalstate:allGoals) {
 			    	  agree = agoalState.getFluents().containsAll(goalstate.getFluents());
 			    	  if (agree) {
 			    		  theGoal = goalstate;
 			    		  break;
 			    	  }
-			      }
+			      } OJN 8.04.25 Do not test possible goal states here !!!*/
 			     
 			      if (agree) { // Never found !!! ????
 			    	  writer.println("A possible goal state entails the given goal state in agreement with init state");
@@ -346,9 +411,12 @@ class APerceptor
 				    	 writer.println(literal.toString());
 				      }
 			      }
+//			      rfound = found;
+//			      break;
 			  }
 
-		  }
+		  } // End for all initial states
 		  initState = theInitState;
 		  goalState = theGoal;
 		  writer.flush();
+		  return rfound;

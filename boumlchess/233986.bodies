@@ -34,6 +34,7 @@ class AChessAgent
 	    writer = new PrintWriter(new BufferedWriter(fw));	
 		this.localAction = localAction;
 		actions = new ArrayList<ChessActionImpl>();
+		allActions = new ArrayList<ChessAction>();
 		opponentPieces = new ArrayList<String>();
 		positionList = game.getPositionlist();
 		for (Position pos:positionList) {
@@ -136,7 +137,13 @@ class AChessAgent
 		Predicate mKing = new Predicate("king",terms);*/
 		myPlayer = stateImpl.getMyPlayer();
 		opponent = stateImpl.getOpponent();
-		actions = stateImpl.getActions(); // creates new actions !!!
+		allActions = stateImpl.getActions(); // creates new actions !!!
+		for (ChessAction action:allActions) { //*** Added 23.05.25 olj
+			ChessActionImpl localAction =(ChessActionImpl) action;
+			actions.add(localAction);
+		}
+//		actions.add((ChessActionImpl) allActions); //*** Added 23.05.25 olj
+		myPlayer.setActions(allActions);
 		kb.setStateImpl(stateImpl);
 		
 		forwardChain = new FOLGamesFCAsk(); // A Forward Chain inference procedure see p. 332
@@ -203,8 +210,8 @@ class AChessAgent
 		QuantifiedSentence qSentence = new QuantifiedSentence("FORALL",variables,folPredicate);
 		folKb.tell(qSentence); // Returned to code 28.02.23
 		createConnected("player", "y", "x");
-		String s1 = "occupies(o,px)^occupies(pi,py)";
-		String s2 = "MOVE(pi,pz)";
+//		String s1 = "occupies(o,px)^occupies(pi,py)";
+//		String s2 = "MOVE(pi,pz)";
 	//	KnowledgeBuilder.parseSentence(s1,s2,folKb);
 		
 /*		List<Term> ownerTerms = new ArrayList<Term>();
@@ -303,6 +310,9 @@ class AChessAgent
 		} This has been turned off OLJ 25.5.21*/
 		
 		ChessActionImpl naction = null;
+		/*
+		 * Returns a problem containing an initial and goal state, and a set of Action Schemas.
+		 */
 		ChessProblem problem = solver.planProblem((ArrayList<ChessActionImpl>) actions);
 		List<AgamePiece>  pieces = myPlayer.getMygamePieces();
 		if (problem != null) {
@@ -320,7 +330,7 @@ class AChessAgent
 			List<Constant>solConstants = actionSchema.getConstants();
 
 
-			String aName = null;
+			String aName = null; // Name to be used to find the chessAction that the actionSchema corresponds to
 			for (Constant constant:solConstants) {
 				writer.println(constant.getSymbolicName());
 				String symName = constant.getSymbolicName();
@@ -338,7 +348,7 @@ class AChessAgent
 				chessName = nactionName.substring(0, nIndex);
 			else
 				chessName = aName;
-			String newName = chessName;
+			String newName = chessName; // Name to be used to find the chessAction that the actionSchema corresponds to
 			naction =  (ChessActionImpl) actions.stream().filter(c -> c.getActionName().equals(newName)).findAny().orElse(null);
 			Position altPos = null;
 			List<Literal>effects = actionSchema.getEffects(); // Find alt. new position
@@ -408,6 +418,24 @@ class AChessAgent
 			localAction = naction;
 		return localAction;
 //		return super.execute(state);
+!!!2292354.java!!!	updateKnowledge() : void
+		folKb.clear(); // Empty the knowledge base
+		actions = stateImpl.getActions(); // creates new actions !!!
+		opponentActions = this.stateImpl.getActions(opponent); // These are the opponent's actions
+		noofMoves = game.getMovements().size();
+		String playerName = stateImpl.getMyPlayer().getNameOfplayer();
+		makeRules(myPlayer,"g1","c1"); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		for (Position pos:positionList) {
+			pos.setFriendlyPosition(false);
+		}
+		makeRules(opponent,"g8","c8"); // tells the FOL knowledgebase rules about how to capture opponent pieces
+		setOpponentpieces(opponent);//creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
+		clearFriends(myPlayer);
+		clearFriends(opponent);
+		createConnected("player", "y", "x");
+		emptyPositions = game.getNotusedPositionlist();
+		makeSentences(stateImpl.getMyPlayer()); //
+		makeSentences(stateImpl.getOpponent()); //
 !!!1772034.java!!!	createConnected(in name : String, in pos : String, in piece : String) : void
 		List<Term> ownerTerms = new ArrayList<Term>();
 		Variable ownerVariable = new Variable(name);
@@ -505,10 +533,10 @@ class AChessAgent
 				
 				ownerTerms.add(ownerVariable);
 				String name = piece.getMyPiece().getOntlogyName(); 
-				if (name.equals("BlackBishop1")) {
+/*				if (name.equals("BlackBishop1")) {
 					String xx = name;
 					xx = xx + piece.getMyPosition().getPositionName();
-				}
+				}*/
 					
 /*				if (name.equals("WhiteQueen")) {
 					writer.println("The white queen\n"+piece.toString());
@@ -565,7 +593,7 @@ class AChessAgent
 				}
 				boolean pawnattack = false;
 				if (attackPositions != null && !attackPositions.isEmpty())
-					pawnattack = true;
+					pawnattack = true; // This is a pawn
 				if (availablePositions != null && !availablePositions.isEmpty()) {
 //					chessDomain.addPredicate(REACHABLE);
 					for (Position pos:availablePositions){
@@ -633,6 +661,10 @@ class AChessAgent
 										castleTerms.add(castleConstant);
 										Predicate castlePredicate = new Predicate(CASTLE,castleTerms);
 										folKb.tell(castlePredicate);
+										writer.println("Made a CASTLE predicate for "+name+" and position "+cPosname);
+										writer.flush();
+/*										writer.println(folKb.toString());
+										folKb.writeKnowledgebase();*/
 									}
 								}
 							}
@@ -641,7 +673,7 @@ class AChessAgent
 				}
 				if (pawnattack) {
 					for (Position pos:attackPositions){
-						if(!piece.checkRemoved(pos)) {
+//						if(!piece.checkRemoved(pos)) { OJN 23.01.25 Even if position is removed this position is protected and under pawn attack
 							String position = pos.getPositionName();
 							Constant protectorVariable = new Constant(name);
 							Constant protectedVariable = new Constant(position);
@@ -654,7 +686,7 @@ class AChessAgent
 							folKb.tell(pawnAttack);
 							chessDomain.addConstant(position);
 //							kb.tellCaptureRules(t, position, name);
-						}
+//						}
 				 	}
 				}
 			}

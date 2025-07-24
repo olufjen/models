@@ -1,0 +1,38 @@
+class ChessPlan
+!!!2311938.java!!!	isEmpty() : boolean
+		return actionSteps.isEmpty() && ifStatements.isEmpty();
+!!!2312066.java!!!	size() : int
+		return ifStatements.isEmpty() ? actionSteps.size() : actionSteps.size() + 1;
+!!!2312194.java!!!	isActionStep(in step : int) : boolean
+		return step < actionSteps.size();
+!!!2312322.java!!!	getAction(in step : int) : GameAction
+		return actionSteps.get(step);
+!!!2312450.java!!!	getChessPlan(in step : int, inout state : GameState) : ChessPlan
+		if (isActionStep(step) || step != actionSteps.size())
+			throw new IllegalArgumentException("Specified step is not conditional.");
+		for (IfStatement ifStatement : ifStatements) {
+			if (ifStatement.testCondition(state))
+				return ifStatement.getChessPlan();
+		}
+		return null; // no matching plan found for the given state.
+!!!2312578.java!!!	prepend(inout action : GameAction) : ChessPlan
+		actionSteps.add(0, action);
+		return this;
+!!!2312706.java!!!	addIfStatement(inout state : GameState, inout plan : ChessPlan) : void
+		ifStatements.add(new IfStatement(state, plan));
+!!!2312834.java!!!	toString() : String
+		StringBuilder s = new StringBuilder();
+		s.append("[");
+		int count = 0;
+		for (GameAction step : actionSteps) {
+			if (count++ > 0)
+				s.append(", ");
+			s.append(step);
+		}
+		for (IfStatement ifStatement : ifStatements) {
+			if (count++ > 0)
+				s.append(", ");
+			s.append(ifStatement);
+		}
+		s.append("]");
+		return s.toString();

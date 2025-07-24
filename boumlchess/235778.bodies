@@ -13,6 +13,7 @@ class APawn
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 !!!765954.java!!!	APawn(inout myPosition : Position, inout myPiece : ChessPiece)
 		super();
 		color = myPiece.getColor();
@@ -35,6 +36,7 @@ class APawn
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 		getLegalmoves(myPosition);
 !!!766082.java!!!	APawn(inout myPosition : Position)
 		super();
@@ -50,9 +52,14 @@ class APawn
 				reachablepiecePosition[i][j] = null;
 			}
 		}
+		friendPositions = new HashMap<String,Position>();
 		getLegalmoves(myPosition);
 !!!2046722.java!!!	getChesstype() : String
 		return chessType;
+!!!2292866.java!!!	getFriendPositions() : Position
+		return friendPositions;
+!!!2292994.java!!!	setFriendPositions(inout friendPositions : HashMap<String, Position>) : void
+		this.friendPositions = friendPositions;
 !!!963458.java!!!	getMother() : AgamePiece
 		return mother;
 !!!963586.java!!!	setMother(inout mother : AgamePiece) : void
@@ -164,11 +171,15 @@ class APawn
 		newPositions.put(newPosxyp.getPositionName(), newPosxyp);
 !!!1990146.java!!!	checkPawnremovals(inout availablePositions : List<Position>, inout removedPositions : List<Position>) : Position
 		List<Position> removedList = new ArrayList();
+		List<Position> attack = new ArrayList(attackPositions.values());
 		boolean pawnColor = localColor == pieceColor.WHITE;
 		XYLocation loc =  myPosition.getXyloc();
 		int y = loc.getYCoOrdinate();
 		if(removedPositions != null && !removedPositions.isEmpty()) {
 			Position rem = removedPositions.get(0);
+			String name = rem.getPositionName();
+			Position attackPos =  (Position) attack.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+			boolean inT = attackPos == null; // If the removed position is not part of attack positions !!!!
 			if (pawnColor && y == 1) {
 				blocked = true;
 			}
@@ -176,17 +187,31 @@ class APawn
 				blocked = true;
 			}
 			for (Position pos:availablePositions) {
-				if (pos != rem) {
+				if (inT && pos != rem) {
 					removedList.add(pos);
 				}
 			}
 		}
 		removedList.addAll(removedPositions);
 		return removedList;
+!!!2293122.java!!!	checkAttacks(inout availablePositions : List<Position>) : Position
+		List<Position> attack = new ArrayList(attackPositions.values());
+		Position returnpos = null;
+		for (Position pos:availablePositions) {
+			String name = pos.getPositionName();
+			Position attackPos =  (Position) attack.stream().filter(c -> c.getPositionName().contains(name)).findAny().orElse(null); // Do not put position in removed table if it is there already
+			if (attackPos == null) {
+				returnpos = pos;
+				break;
+			}
+		}
+		
+		return returnpos;
 !!!963970.java!!!	createattackPosition(inout attackPositions : HashMap<String,Position>, inout newloc : XYLocation) : void
 //		XYLocation newloc = new XYLocation(x,y);
 		Position newPosxyp = new Position(newloc,false,null);
 		attackPositions.put(newPosxyp.getPositionName(), newPosxyp);
+		newPositions.put(newPosxyp.getPositionName(), newPosxyp);
 !!!768770.java!!!	getNewPositions() : Position
 		return newPositions;
 !!!768898.java!!!	getLegalmoves() : HashMap
