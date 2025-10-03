@@ -1,6 +1,6 @@
 format 223
 "game" // no::chess::web::model::game
-  revision 32
+  revision 33
   modified_by 2 "bruker"
   // class settings
   
@@ -15498,6 +15498,27 @@ ChessDomain:
 	  b parent class_ref 169602 // ActionSchema
       end
 
+      classrelation 762626 // gameStateList (<unidirectional association>)
+	relation 762626 --->
+	  stereotype "List"
+	  a role_name "gameStateList" init_value " null" private
+	    comment " The list of GameState states. Represent the population of GameState OJN June 25 "
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 762626 // gameStateList (<unidirectional association>)
+	  b parent class_ref 545666 // GroundGameState
+      end
+
+      classrelation 762370 // thegameStateList (<unidirectional association>)
+	relation 762370 --->
+	  stereotype "List"
+	  a role_name "thegameStateList" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 762370 // thegameStateList (<unidirectional association>)
+	  b parent class_ref 538114 // GameState
+      end
+
       classrelation 474882 // opponentAgent (<unidirectional association>)
 	relation 474882 --->
 	  a role_name "opponentAgent" init_value " null" private
@@ -16403,6 +16424,11 @@ This method builds a goal state based on a chosen piece name and a chosen positi
 	
 	
 	
+	comment "fillthePerceptor
+This method fills the perceptor with necessary information.
+
+@param thePerceptor
+"
       end
 
       operation 2292482 "createPerceptor"
@@ -16503,6 +16529,8 @@ These action schemas are held in the Map actionSchemas with the name of the piec
 With every action schema there is an init state and a goal state. These are held in the maps initStates and goalStates
 @Since 17.12.21
 Preconditions and Effects are populated with Constants, the given piecename, posname
+@since June 25 
+Creates a GameState list from actionschemas
 @param actions
 @return a List of ActionSchemas
 "
@@ -16523,7 +16551,7 @@ Preconditions and Effects are populated with Constants, the given piecename, pos
 	
 	
 	comment "makeActionSchemas
-THis method creates an action schema based on a chess action.
+This method creates an action schema based on a chess action.
 @param pieceName Name of piece
 @param actionName Name of action (pieceName+\"_\"+toPosit
 @param posName Starting position of piece
@@ -16661,6 +16689,7 @@ This method adds protected literals to a state
 @return
 "
       end
+
     end
 
     class 364034 "KnowledgeBuilder"
@@ -18350,9 +18379,50 @@ The stepcost object for search problem
 	
 	
 	
-	comment "aGoaltest
+	comment "aGoaltest for the PlannerState
 The goal test, which determines whether a given state is a goal state
 @return a goaltest function
+"
+      end
+
+      operation 2326146 "gameActionFunction"
+	class_operation public return_type class_ref 135298 // ActionsFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GameState, GameAction> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "gameActionFunction
+This action function is related to the action function described in chapter 4.
+ActionsFunction<GameState, GameAction>
+The ActionFunction extends the Function<S,A> interface with signature S -> A (p. 53 Java 8)
+Given a particular state s, ACTIONS(s) returns the set of actions that can be
+executed in s. We say that each of these actions is <b>applicable</b> in s.
+
+@param <S> The type used to represent states
+@param <A> The type of the actions to be used to navigate through the state space
+@return
+"
+      end
+
+      operation 2326274 "nondeterminGoaltest"
+	class_operation public return_type class_ref 524034 // ChessGoalTest
+	nparams 1
+	  param inout name "a" type class_ref 538498 // GameAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<GameState> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "nondeterminGoaltest
+This is a nondeterministic goal test function Chapter 4 AIMA book
+The goal test, which determines whether a given state is a goal state
+@return a nondeterminGoaltest function
 "
       end
     end
@@ -22915,6 +22985,14 @@ Creates a set of propositionalized action schemas from the lifted action schema
 These action schemas are used as a basis for problem solving see the method createLiftedActions
 
 "
+      classrelation 762498 // <realization>
+	relation 762498 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 762498 // <realization>
+	  b parent class_ref 538370 // ChessPercept
+      end
+
       attribute 673922 "ACTION"
 	private explicit_type "String"
 	cpp_decl ""
@@ -24396,7 +24474,7 @@ This constructor creates a percept schema as described in AIMA chapter 11 p. 416
       end
 
       operation 2296066 "checkOpponentthreat"
-	public return_type class_ref 232706 // AgamePiece
+	public return_type class_ref 223746 // GamePiece
 	nparams 3
 	  param in name "pieceName" explicit_type "String"
 	  param in name "pos" explicit_type "String"
@@ -25607,6 +25685,8 @@ This class represent the Planner State of the game.
 It contains a number of Planner Actions and Action Schemas, and the Player of the game.
 There is one Planner Action for every Action schema
 It is created by the Problem Solver when the planProblem method is called.
+It is used  together with PlannerQueueBasedSearch - an implementation of an informed search strategy described in chapter 3.5 p. 92
+
 @author oluf
 
 "
@@ -27552,6 +27632,374 @@ This method returns an executable set with the lowest rank (highest priority)
 	
       end
     end
+
+    class 545666 "GroundGameState"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "GroundGameState
+This is a subclass of the GameState.
+A gamestate is created for every chess action and actions schema created in the searcProblem method.
+It contains a game piece and a set of Game actions one of each of the types:
+Myaction{CAPTUREPOS,MOVE,ATTACK,CAPTUREPIECE,PROTECTPOS,PROTECTPIECE,CASTLING;}
+
+Lifted action schemas are created by the perceptor with parameters in the following order:
+Startpos, Piecename, Newpos, Piecetype, or null. A fifth parameter \"pawn\" is added signaling a pawn strike, or \"castle\" signaling castling with king
+Lifted action schemas represent goal formulations.
+
+@author oluf
+
+"
+      classrelation 762754 // <generalisation>
+	relation 762754 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 762754 // <generalisation>
+	  b parent class_ref 538114 // GameState
+      end
+
+      classrelation 762882 // player (<unidirectional association>)
+	relation 762882 --->
+	  a role_name "player" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 762882 // player (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      classrelation 763010 // opponent (<unidirectional association>)
+	relation 763010 --->
+	  a role_name "opponent" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 763010 // opponent (<unidirectional association>)
+	  b parent class_ref 234370 // APlayer
+      end
+
+      attribute 786562 "moveNr"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 786690 "noofplayerActions"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 786818 "noofopponentActions"
+	private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 763138 // thePerceptor (<unidirectional association>)
+	relation 763138 --->
+	  a role_name "thePerceptor" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 763138 // thePerceptor (<unidirectional association>)
+	  b parent class_ref 429698 // APerceptor
+      end
+
+      attribute 786946 "outputFileName"
+	private explicit_type "String"
+	init_value "  \"C:\\\\Users\\\\bruker\\\\Google Drive\\\\privat\\\\ontologies\\\\analysis\\\\gamestate.txt\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 787074 "writer"
+	private explicit_type "PrintWriter"
+	init_value "  null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 787202 "fw"
+	private explicit_type "FileWriter"
+	init_value "  null"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 763266 // peas (<unidirectional association>)
+	relation 763266 --->
+	  a role_name "peas" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 763266 // peas (<unidirectional association>)
+	  b parent class_ref 531074 // ThePeas
+      end
+
+      attribute 787330 "pieceName"
+	private explicit_type "String"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 763394 // statePiece (<unidirectional association>)
+	relation 763394 --->
+	  a role_name "statePiece" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 763394 // statePiece (<unidirectional association>)
+	  b parent class_ref 232706 // AgamePiece
+      end
+
+      operation 2326402 "GroundGameState"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "gamePiece" type class_ref 232706 // AgamePiece
+	  param inout name "actionSchema" type class_ref 169602 // ActionSchema
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor used in searchProblem method
+@param gamePiece
+@param actionSchema
+"
+      end
+
+      operation 2326530 "GroundGameState"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "pieceSentences" explicit_type "List<Sentence>"
+	  param inout name "gamePiece" type class_ref 223746 // GamePiece
+	  param inout name "actionSchema" type class_ref 169602 // ActionSchema
+	  param inout name "thePerceptor" type class_ref 538370 // ChessPercept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1}<?> ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2326658 "GroundGameState"
+	public explicit_return_type ""
+	nparams 6
+	  param inout name "gamePiece" type class_ref 232706 // AgamePiece
+	  param inout name "actionSchema" type class_ref 169602 // ActionSchema
+	  param inout name "player" type class_ref 234370 // APlayer
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	  param in name "moveNr" explicit_type "int"
+	  param inout name "thePerceptor" type class_ref 429698 // APerceptor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}, ${t5} ${p5}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2326786 "getPlayer"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2326914 "setPlayer"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "player" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327042 "getOpponent"
+	public return_type class_ref 234370 // APlayer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327170 "setOpponent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "opponent" type class_ref 234370 // APlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327298 "getThePerceptor"
+	public return_type class_ref 429698 // APerceptor
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327426 "setThePerceptor"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "thePerceptor" type class_ref 429698 // APerceptor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327554 "getPeas"
+	public return_type class_ref 531074 // ThePeas
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327682 "setPeas"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "peas" type class_ref 531074 // ThePeas
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327810 "getMoveNr"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2327938 "setMoveNr"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "moveNr" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2328066 "testEnd"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "action" type class_ref 538498 // GameAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "testEnd
+This is the method used by the ChessGoalTest functional interface 
+the testGoal method
+A Game Action may return a set of GameStates, each of these states have a value.
+
+@param action Based on this action, is this the goal state?
+@return true if this is the goal state. This results in an empty plan in the search tree
+"
+      end
+    end
   end
 
   deploymentview 142722 "game"
@@ -28166,6 +28614,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28222,6 +28671,14 @@ import no.games.chess.search.ChessNode;
 import no.games.chess.search.ChessSearchProblem;
 import no.games.chess.search.PlannerQueueBasedSearch;
 import no.games.chess.search.PlannerQueueSearch;
+import no.games.chess.search.nondeterministic.AndOrChessSearch;
+import no.games.chess.search.nondeterministic.ChessPath;
+import no.games.chess.search.nondeterministic.ChessPlan;
+import no.games.chess.search.nondeterministic.GameAction;
+import no.games.chess.search.nondeterministic.GameState;
+import no.games.chess.search.nondeterministic.NonDetermineChessActionFunction;
+import no.games.chess.search.nondeterministic.NonDetermineResultFunction;
+import no.games.chess.search.nondeterministic.NondeterministicChessProblem;
 import no.games.chess.planning.ChessPlannerAction;
 ${definition}"
       associated_elems
@@ -28262,6 +28719,10 @@ import no.games.chess.planning.ChessPlannerAction;
 import no.games.chess.planning.PlannerState;
 import no.games.chess.search.ChessGoalTest;
 import no.games.chess.search.ChessStepCostImpl;
+import no.games.chess.search.nondeterministic.GameAction;
+import no.games.chess.search.nondeterministic.GameState;
+import no.games.chess.search.nondeterministic.NonDetermineChessActionFunction;
+import no.games.chess.search.nondeterministic.NonDetermineResultFunction;
 ${definition}"
       associated_elems
 	class_ref 364034 // KnowledgeBuilder
@@ -28412,8 +28873,10 @@ import aima.core.logic.planning.State;
 import no.chess.web.model.ChessPiece;
 import no.chess.web.model.Position;
 import no.games.chess.planning.PerceptSchema;
+import no.games.chess.search.nondeterministic.ChessPercept;
 import no.games.chess.ChessPieceType;
 import no.games.chess.ChessVariables;
+import no.games.chess.GamePiece;
 ${definition}"
       associated_elems
 	class_ref 429698 // APerceptor
@@ -28581,6 +29044,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import aima.core.logic.planning.ActionSchema;
+import no.games.chess.GamePiece;
 import no.chess.web.model.Position;
 import no.games.chess.ChessAction;
 import no.games.chess.ChessPlayer;
@@ -28644,6 +29108,28 @@ import no.function.FunctionContect;
 ${definition}"
       associated_elems
 	class_ref 531074 // ThePeas
+      end
+    end
+
+    artifact 467970 "GroundGameState"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import aima.core.logic.fol.parsing.ast.Sentence;
+import aima.core.logic.planning.ActionSchema;
+import no.games.chess.GamePiece;
+import no.games.chess.search.nondeterministic.ChessPercept;
+import no.games.chess.search.nondeterministic.GameAction;
+import no.games.chess.search.nondeterministic.GameState;
+${definition}"
+      associated_elems
+	class_ref 545666 // GroundGameState
       end
     end
   end

@@ -181,11 +181,13 @@ class APerceptor
 		return possiblePositions;
 !!!2295938.java!!!	setPossiblePositions(inout possiblePositions : Map<String, Position>) : void
 		this.possiblePositions = possiblePositions;
-!!!2296066.java!!!	checkOpponentthreat(in pieceName : String, in pos : String, in fact : String) : AgamePiece
+!!!2296066.java!!!	checkOpponentthreat(in pieceName : String, in pos : String, in fact : String) : GamePiece
 		boolean threats = folKb.checkThreats(pieceName, pos, fact, opponent);
 		if (!threats)
 			return null;
-		return folKb.getMovePieces();
+		List<AgamePiece> pieces = folKb.getMovePieces();
+		List<GamePiece> gamePieces = new ArrayList<GamePiece>(pieces);
+		return gamePieces;
 !!!2078722.java!!!	checkPercept(inout initStates : Map<String,State>) : State
 		  List<AgamePiece> pieces = myPlayer.getMygamePieces();
 		  List<State> allStates = new ArrayList<State>(initStates.values());

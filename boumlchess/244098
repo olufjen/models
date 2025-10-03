@@ -1,6 +1,6 @@
 format 223
 "nondeterministic" // no::games::chess::search::nondeterministic
-  revision 1
+  revision 2
   modified_by 2 "bruker"
   // class settings
   
@@ -213,6 +213,8 @@ function AND-SEARCH(states, problem, path) returns a conditional plan, or failur
 </code>
 </pre>
 
+
+
 @param states
 @param problem
 @param path
@@ -264,10 +266,12 @@ steps with just one if-statement and supports a clean representation of empty pl
 @author Ruediger Lunde
 @author Andrew Brown
 
-The OR node: The player chooses a move.
+The OR node: The player performs a move.
 All states but one remain the same.
 The outcome of the move is determined by the opponent's move. This is the AND node
 This opponent move produces a new set of states. All states but one remain the same.
+The plan consists of a linked list of if statements (if game state x) and a linked list of game actions: (then game action y)
+
 
 "
       attribute 778498 "serialVersionUID"
@@ -656,6 +660,7 @@ With defined step cost function
 	
 	comment "Returns <code>true</code> if the given state is a goal state.
 The goalTest interface is a predicate functional interface
+It calls the state's testEnd method
 @return <code>true</code> if the given state is a goal state.
 "
       end
@@ -746,7 +751,7 @@ PROTECT Position - This may involve several MOVEs
 CASTLING- normal exchange of king and castle.
 
 These predefined actions represent the set of GameActions available to this game state.
-This set of game actions are created when the game set is created. (See constructor).
+This set of game actions are created when the game state is created. (See constructor).
 The GamePiece belonging to this game state is used when creating these game actions. 
 
 The choice of action is determined by an evaluation function. This evaluation function is calculating various features of the
@@ -802,7 +807,22 @@ as a string array of the form:
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
-	comment " of the form:  {startpos,piecename,endpos,piecetype}"
+	comment " // These are keys for the moves in algebraic notation."
+      end
+
+      attribute 786306 "liftedKey"
+	protected explicit_type "String"
+	multiplicity "[]"
+	init_value " new String[5]"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}${multiplicity} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " A String array used as a parameter set for a lifted action of the form:  {startpos,piecename,endpos,piecetype}"
       end
 
       attribute 778882 "algebraicNotation"
@@ -966,6 +986,12 @@ ${members}}
 	
 	
 	
+	comment "This is the preferred contructor
+@param pieceSentences - can be null
+@param gamePiece  - The game piece involved in this state
+@param actionSchema - can be null
+@param thePerceptor
+"
       end
 
       operation 2315394 "getThePerceptor"
@@ -1118,6 +1144,58 @@ ${members}}
 	
       end
 
+      operation 2325634 "getNotations"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2325762 "setNotations"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "notations" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2325890 "getLiftedKey"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2326018 "setLiftedKey"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "liftedKey" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
       operation 2316930 "getActions"
 	public return_type class_ref 538498 // GameAction
 	nparams 0
@@ -1147,10 +1225,12 @@ It is called by the Nondeterministic action function through the .apply function
 	
 	
 	comment "testEnd
-This is the method used for the ChessGoalTest function
-Determines which action to be used
-@param action
-@return true if this is the goal state. This results in an empty plan
+This is the method used by the ChessGoalTest functional interface 
+the testGoal method
+A Game Action may return a set of GameStates, each of these states have a value.
+
+@param action Based on this action, is this the goal state?
+@return true if this is the goal state. This results in an empty plan in the search tree
 "
       end
 
@@ -1180,6 +1260,7 @@ ${members}}
       mysql_decl ""
       
       comment "ChessPath
+The chess path is a linked list of game states
 This class is the chess version of the Path class as described:
 Represents the path the agent travels through the AND-OR tree (see figure
 4.10, page 135, AIMA3e).
@@ -1641,10 +1722,10 @@ Given a particular state s, ACTIONS(s) returns the set of actions that can be
 executed in s. We say that each of these actions is <b>applicable</b> in s.
 
 @param <GameState> The type used to represent states
-@param <A> The type of the actions to be used to navigate through the state space
+@param <GameAction> The type of the actions to be used to navigate through the state space
 @author oluf
 
-@param <GameState>  These are type declarations, and so, could be any type
+@param <GameState> 
 @param <GameAction>
 "
       classrelation 754818 // <realization>

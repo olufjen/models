@@ -28,6 +28,8 @@ class AChessProblemSolver
 	    setPredicatenames();
 	    actionSchemas = new HashMap<String,ActionSchema>();
 	    actionSchemalist = new ArrayList<ActionSchema>();
+	    gameStateList = new LinkedList<GroundGameState>();
+	    thegameStateList = new LinkedList<GameState>();
 	    initialStates = new ArrayList<List>();
 	    initStates = new HashMap<String,State>(); 
 	    goalStates = new HashMap<String,State>();
@@ -949,7 +951,7 @@ class AChessProblemSolver
 !!!1776770.java!!!	planProblem(inout actions : ArrayList<ChessActionImpl>) : ChessProblem
 	  this.actions = actions; // All chess actions available to player
 	  opponentAgent.setPlayeractions(actions);
-	  actionSchemalist = searchProblem(actions); // Builds an ActionSchema for every Chess Action. This is the planning phase
+	  actionSchemalist = searchProblem(actions); // Builds an ActionSchema and GameStates for every Chess Action. This is the planning phase
 // The maps initStates and goalStates are also filled.	
 	  opponentAgent.setInitStates(initStates);
 	  opponentAgent.setGoalStates(goalStates);
@@ -973,6 +975,22 @@ class AChessProblemSolver
 //		otherSchemaList A list of propositionalized action schemas from the lifted action schema. It is used for problem solving      
 //      PlannerState plannerState = new PlannerStateImpl(myPlayer,actionSchemalist,otherSchemaList,noofMoves);
       createPerceptor();
+//      List<Sentence> sentences = folKb.getOriginalSentences();
+      writer.println("The population of gamestates");
+      for (GroundGameState gameState:gameStateList) { // A population of GameStates
+    	  writer.println(gameState.toString());
+    	  gameState.setThePerceptor(thePerceptor);
+    	  gameState.setOpponent(opponent);
+    	  gameState.setPlayer(myPlayer);
+    	  gameState.setMoveNr(noofMoves);
+      }
+      thegameStateList.addAll(gameStateList);
+/*
+ * How to define the initial state?      
+ */
+      GameState initialGameState = gameStateList.get(0);
+      GameAction gameAction = initialGameState.getAction();
+      
       PlannerState plannerState = new PlannerStateImpl(myPlayer,opponent,actionSchemalist,noofMoves,thePerceptor); // An alternative Plannerstate creator
       ChessPlannerAction plannerAction = plannerState.getAction();
 //      plannerGame = new AplannerGame(myPlayer,plannerState);
@@ -985,6 +1003,7 @@ class AChessProblemSolver
       search = (ChessPlannerSearch) search;
       search.setLogEnabled(true);
       */
+
       
 /*
  * The structure of queue search:    
@@ -997,6 +1016,7 @@ class AChessProblemSolver
 /*
  * PlannerQueueBasedSearch - an implementation of an informed search strategy described in chapter 3.5 p. 92
  * The general approach is called best first search. 
+ * This type of search explores available paths from an initial state to a goal state
  * Is it possible to use this search mechanism to find
  * 1. which position to occupy with what piece?
  * 2. which piece to move to a certain position?
@@ -1024,7 +1044,26 @@ class AChessProblemSolver
       Optional<PlannerState> astate = queuebasedSearch.findState(searchProblem);
       Metrics metric = queueSearch.getMetrics();
       Queue<Node<PlannerState, ChessPlannerAction>> front = queueSearch.getFrontier();
-      
+/*
+ * For nondeterministic search as described in chapter 4.3.2 and figure 4.11      
+ */
+      NonDetermineResultFunction ndeterRFN = new NonDetermineResultFunction (null,null,thegameStateList); // No initial state and no initial action
+      ChessGoalTest<GameState> gameTest = KnowledgeBuilder.nondeterminGoaltest(gameAction);
+      NonDetermineChessActionFunction ndeterActionfn =new NonDetermineChessActionFunction();
+      NondeterministicChessProblem nondeterProblem = new NondeterministicChessProblem(null,ndeterActionfn,ndeterRFN,gameTest); // No step cost function !!
+      /*
+       * The structure for And or search chapter 4.    
+       * A nondeterministic environment. It always starts with the andSearch 
+       */
+      AndOrChessSearch andorSearch = new AndOrChessSearch();
+      ChessPath path = new ChessPath();
+      Optional<ChessPlan> aPlan = andorSearch.search(nondeterProblem) ; // A nondeterministic environment. 
+/*
+ * The population of gamestates ends up in the ifstatements of the plan !!
+ * 
+ */
+      writer.println("The plan - ");
+      writer.println(aPlan.toString());
 // The optional astate object refers to the same object as plannerState and localPlanner       
 //	  thePerceptor.createLiftedActions(null,"WhiteKnight2","f3",null); // Creates the initial and goal states based on this action schema
 	  initialState = thePerceptor.getInitState();
@@ -1255,7 +1294,7 @@ class AChessProblemSolver
 				String newPos = action.getPossibleMove().getToPosition().getPositionName(); // Get newPos from Preferred position ??!!
 //				String newPos = action.getPreferredPosition().getPositionName(); !!!
 				String pieceName = action.getChessPiece().getMyPiece().getOntlogyName(); // Ontology name of piece
-
+				AgamePiece actionPiece = action.getChessPiece();
 				Position position = action.getChessPiece().getHeldPosition();
 				if (position == null) {
 					position = action.getChessPiece().getMyPosition();
@@ -1282,9 +1321,11 @@ class AChessProblemSolver
 				initStates.put(apiecepos, localinitialState);
 				goalStates.put(apiecepos, localgoalState);
 				ActionSchema movedAction = makeActionSchemas(pieceName, actionName, posName, newPos);
-				if (movedAction!= null)
+				if (movedAction!= null) {
 					schemas.add(movedAction);
-				else
+					GroundGameState gameState = new GroundGameState(actionPiece,movedAction); // Added june 25 OJN Modified in july
+					gameStateList.add(gameState);
+				}else
 					writer.println("No action schema for "+pieceName);
 	//			AgamePiece gpiece =  action.getChessPiece();
 				for (Position apos:availablePos) {
@@ -1298,8 +1339,11 @@ class AChessProblemSolver
 						goalStates.put(piecepos, anothergoalstate);
 						ActionSchema anotherActionschema = makeActionSchemas(pieceName, piecepos, posName, aposName);
 //Parameters: Ontology name of piece, Ontology name of piece+ name of available position,name of occupied position,name of available position
-						if (anotherActionschema!= null)
+						if (anotherActionschema!= null) {
 							schemas.add(anotherActionschema);
+							GroundGameState gameState = new GroundGameState(actionPiece,anotherActionschema); // Added june 25 OJN
+							gameStateList.add(gameState);
+						}
 					}
 				}
 				if (typeofPiece.equals(PAWN)) {
@@ -1316,8 +1360,11 @@ class AChessProblemSolver
 								initStates.put(piecepos, anotherinitialState);
 								goalStates.put(piecepos, anothergoalstate);
 								ActionSchema anotherActionschema = makeActionSchemas(pieceName, piecepos, posName, aposName);
-								if (anotherActionschema!= null)
+								if (anotherActionschema!= null) {
 									schemas.add(anotherActionschema);
+									GroundGameState gameState = new GroundGameState(actionPiece,anotherActionschema); // Added june 25 OJN
+									gameStateList.add(gameState);
+								}
 							}
 					 }
 				}

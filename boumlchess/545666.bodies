@@ -1,0 +1,52 @@
+class GroundGameState
+!!!2326402.java!!!	GroundGameState(inout gamePiece : AgamePiece, inout actionSchema : ActionSchema)
+		super(gamePiece, actionSchema);
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));
+	    statePiece = (AgamePiece) this.gamePiece;
+	    pieceName = statePiece.getMyPiece().getOntlogyName();
+!!!2326530.java!!!	GroundGameState(inout pieceSentences : List<Sentence>, inout gamePiece : GamePiece, inout actionSchema : ActionSchema, inout thePerceptor : ChessPercept)
+		super(pieceSentences, gamePiece, actionSchema, thePerceptor);
+		// TODO Auto-generated constructor stub
+!!!2326658.java!!!	GroundGameState(inout gamePiece : AgamePiece, inout actionSchema : ActionSchema, inout player : APlayer, inout opponent : APlayer, in moveNr : int, inout thePerceptor : APerceptor)
+		super(gamePiece, actionSchema);
+		this.player = player;
+		this.opponent = opponent;
+		this.moveNr = moveNr;
+		this.thePerceptor = thePerceptor;
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));	
+
+!!!2326786.java!!!	getPlayer() : APlayer
+		return player;
+!!!2326914.java!!!	setPlayer(inout player : APlayer) : void
+		this.player = player;
+!!!2327042.java!!!	getOpponent() : APlayer
+		return opponent;
+!!!2327170.java!!!	setOpponent(inout opponent : APlayer) : void
+		this.opponent = opponent;
+!!!2327298.java!!!	getThePerceptor() : APerceptor
+		return thePerceptor;
+!!!2327426.java!!!	setThePerceptor(inout thePerceptor : APerceptor) : void
+		this.thePerceptor = thePerceptor;
+!!!2327554.java!!!	getPeas() : ThePeas
+		return peas;
+!!!2327682.java!!!	setPeas(inout peas : ThePeas) : void
+		this.peas = peas;
+!!!2327810.java!!!	getMoveNr() : int
+		return moveNr;
+!!!2327938.java!!!	setMoveNr(in moveNr : int) : void
+		this.moveNr = moveNr;
+!!!2328066.java!!!	testEnd(inout action : GameAction) : boolean
+		
+		return super.testEnd(action);

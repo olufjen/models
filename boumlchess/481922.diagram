@@ -23,19 +23,28 @@ textcanvas 132226 "Created with no initial state"
   xyzwh 832 371 2000 130 14
 classinstance 132482 class_ref 537730 // AndOrChessSearch
  name ""  xyz 630 27 2000
-textcanvas 134146 "For all available states:
+textcanvas 134146 "For all applicable actions in chosen state:
 The orSearch return a goal state with an empty plan,
 Or returns a plan with all applicable actions in the given state"
   xyzwh 318 26 2000 237 79
-textcanvas 134786 "If goal state return empty plan"
-  xyzwh 482 303 2000 143 14
+textcanvas 134786 "If goal state then return empty plan"
+  xyzwh 482 304 2000 142 30
 classinstance 135042 class_ref 537986 // NondeterministicChessProblem
  name ""  xyz 945 184 2000
-textcanvas 135426 "Returns all actions applicable in the given state"
-  xyzwh 926 121 2000 225 14
+textcanvas 135426 "If testGoal (7) fails, then Returns all actions applicable in the given state"
+  xyzwh 930 109 2000 228 49
 textcanvas 136578 "For all applicable actions in the given state.
 It returns a plan"
-  xyzwh 925 65 2000 221 40
+  xyzwh 916 35 2000 221 40
+textcanvas 136834 "Call the ActionFunction:
+The actionsFn is a functional interface that extends the Function interface 
+ The interface has one method: apply
+ It returns the list of actions applicable in the given state by
+ calling the getAction function of the state"
+  xyzwh 829 212 2000 407 93
+textcanvas 137090 "The testGoal method represent the fitnes function?
+When a state has a high value, then this is the goal state."
+  xyzwh 121 251 2000 164 64
 linkcanvas 128258
   from ref 128130 z 2001 to ref 128002
 dirscanvas 128386 z 1000 linkcanvas_ref 128258
@@ -56,7 +65,7 @@ linkcanvas 130818
 dirscanvas 130946 z 1000 linkcanvas_ref 130818
   
   forward_label "4 getStates()" xyz 709 571 3000
-linkcanvas 132610 decenter_begin 105 decenter_end 115
+linkcanvas 132610 decenter_begin 104 decenter_end 115
   from ref 128002 z 2001 to ref 132482
 dirscanvas 132738 z 1000 linkcanvas_ref 132610
   
@@ -65,7 +74,7 @@ linkcanvas 133890
   from ref 132482 z 2001 to ref 128002
 dirscanvas 134018 z 1000 linkcanvas_ref 133890
   
-  forward_label "6 orSearch()" xyz 698 94 3000
+  forward_label "6 orSearch()" xyz 705 112 3000
 linkcanvas 134402 decenter_begin 79 decenter_end 171
   from ref 128002 z 2001 to ref 129666
 dirscanvas 134530 z 1000 linkcanvas_ref 134402
@@ -118,7 +127,7 @@ msgs
 msgsend
 line 130178 -_-_ decenter_end 503
   from ref 130050 z 2002 to ref 129794
-line 131202 -_-_ decenter_end 797
+line 131202 -_-_ decenter_end 796
   from ref 131074 z 2002 to ref 130434
 line 131458 -_-_ decenter_end 782
   from ref 131330 z 2002 to ref 130818
@@ -138,4 +147,9 @@ line 135554 -_-_
   from ref 135426 z 2002 to ref 135170
 line 136706 -_-_
   from ref 136578 z 2002 to ref 136322
+line 136962 -_-_ decenter_begin 224
+  from ref 136834 z 2003 to ref 135554
+line 137218 -_-_
+  from ref 137090 z 3006 to point 665 282
+  line 137346 z 3006 to ref 134786
 end
