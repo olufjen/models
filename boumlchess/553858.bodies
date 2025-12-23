@@ -1,0 +1,51 @@
+class OntologyHelper
+!!!2357890.java!!!	OntologyHelper()
+	 
+!!!2358018.java!!!	ModelJenaToOwlConvert(inout jenamodel : Model, in format : String) : OWLOntology
+
+    while (availablemain == false) {
+        try {wait();} catch (InterruptedException e) {System.err.println("ModelJenaToOwlConvert::: "+e);}
+    }
+
+    availablemain=false;
+
+     ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    if(!format.equals("RDF/XML")){
+        System.err.println("The only format supported is RDF/XML. Please check the format!");
+
+        availablemain = true;
+        notifyAll();
+        return null;
+    }else{
+
+    jenamodel.write(out,format);
+    OWLOntologyManager owlmanager = null;
+ //   OWLManager m = new OWLManager();
+ // Lagt til en try catch løkke   
+/*    try{
+        owlmanager = OWLManager.createOWLOntologyManager();
+    }catch(java.lang.NoClassDefFoundError e){
+    	System.err.print("No class found");
+    	e.printStackTrace();
+    	return null;
+    }*/
+
+
+    OWLOntology owlmodel = null;
+/*	try {
+		owlmodel = owlmanager.loadOntologyFromOntologyDocument(new ByteArrayInputStream(out.toByteArray()));
+	} catch (OWLOntologyCreationException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
+//    OWLOntology owlmodel = null;
+    availablemain = true;
+    notifyAll();
+    return owlmodel;
+ /*   }}catch (OWLOntologyCreationException eoc){
+        System.err.print("ModelJenaToOwlConvert::: ");
+        eoc.printStackTrace();
+        return null;
+    }*/
+    }

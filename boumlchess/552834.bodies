@@ -1,0 +1,118 @@
+class FileModel
+!!!2340482.java!!!	FileModel()
+		super();
+		
+!!!2340610.java!!!	getLinesFromfile() : List<String>
+		return linesFromfile;
+!!!2340738.java!!!	setLinesFromfile(inout linesFromfile : List<String>) : void
+		this.linesFromfile = linesFromfile;
+!!!2340866.java!!!	getLines() : Stream<String>
+		return lines;
+!!!2340994.java!!!	setLines(inout lines : Stream<String>) : void
+		this.lines = lines;
+!!!2341122.java!!!	getFilePath() : String
+		return filePath;
+!!!2341250.java!!!	setFilePath(in filePath : String) : void
+		this.filePath = filePath;
+!!!2341378.java!!!	createLines() : void
+		try {
+			lines = Files.lines(Paths.get(filePath), Charset.defaultCharset());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+!!!2341506.java!!!	readlines(inout r : FileProcess::ReadFile, inout br : BufferedReader) : String
+
+			return r.readFile(br); // Processing the buffered reader object
+
+		
+!!!2341634.java!!!	fillLines(inout list : List<T>, inout p : Predicate<T>) : List<T>
+		List<T> results = new ArrayList<>();
+		String line = null;
+		for(T s:list)
+		if (p.test(s)){ // calls the lambda expression
+			results.add(s);
+		}
+		return results;
+!!!2341762.java!!!	sendeListe() : List
+/*
+ * Define the lambda expression using predicate
+ * Keep a string if it is nonempty
+ */
+		Predicate<String> nonemptyP = (String s) -> (s != null && !s.isEmpty()); // Is executed for the whole list from the call to fillLines!!
+/*
+ * Define the lambda expression using functional interface ReadFile	
+ * The target type is ReadFile which must be a functional interface	
+ */
+		ReadFile r = (BufferedReader brx) -> brx.readLine(); // Is executed from the routine readlines
+		String line = "";
+		BufferedReader br = null;
+		
+		try {
+			br = new BufferedReader(new FileReader(filePath));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		linesFromfile = new ArrayList<String>();
+		while(line != null ){
+			try {
+				line = readlines(r, br);
+				linesFromfile.add(line);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				break;
+			}			
+		}
+		List<String> nonEmptylines = fillLines(linesFromfile,nonemptyP);
+		return nonEmptylines;
+!!!2341890.java!!!	extract(in s : String, inout f : Function<String,String>) : String
+		return f.apply(s);
+!!!2342018.java!!!	extractString(in line : String, in separator : char, in startindex : int) : String
+		int index = line.lastIndexOf(separator);
+		Function<String,String> f = (String s) -> line.substring(startindex,index);
+		return extract(line,f);
+
+!!!2342146.java!!!	createNewLines(inout startDate : LocalDate, inout endDate : LocalDate, inout linesFromfile : List<String>) : List<String>
+		DateTimeFormatter formattter = DateTimeFormatter.ofPattern("yy-MM-dd");   
+		String startSdato = startDate.format(formattter);
+		LocalDate tomorrow = startDate.plus(1, ChronoUnit.DAYS);
+		int cdt = 0;
+		do
+		{
+			String kveld = new String(startSdato);
+			startSdato = startSdato + "-08:00";
+			linesFromfile.add(startSdato);
+			kveld = kveld + "-20:00";
+			linesFromfile.add(kveld);
+			startSdato = tomorrow.format(formattter);
+			tomorrow = tomorrow.plus(1, ChronoUnit.DAYS);
+			cdt = tomorrow.compareTo(endDate);
+		}while(cdt < 1);
+		return linesFromfile;
+		
+!!!2342274.java!!!	writetoFile(inout fileData : Stream) : void
+		Path wiki_path = Paths.get("c:\\ullern\\acem\\radio\\", "translistnew.txt");
+
+        Charset charset = Charset.forName("UTF-8");
+ //       String text = "\nfrom java2s.com!";
+        try (BufferedWriter writer = Files.newBufferedWriter(wiki_path, charset, StandardOpenOption.APPEND)) {
+           // writer.write(text);
+            fileData.forEach(text -> writeToFile(writer,text));
+            writer.close();
+            fileData.close();
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+		
+	
+!!!2342402.java!!!	writeToFile(inout fw : BufferedWriter, inout text : Object) : void
+    	String tx = "";
+    	if (text != null && text.toString() != null)
+    		tx = text.toString();
+        try {
+            fw.write(String.format("%s%n", tx));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }

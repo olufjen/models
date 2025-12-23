@@ -1,0 +1,521 @@
+class OntologyModel
+!!!2346242.java!!!	OntologyModel()
+		super();
+		owlmanager = OWLManager.createOWLOntologyManager();
+		this.model = fetchOntology();
+		chessFactory = new ChessFactory(ontModel);
+		owlInference = chessFactory.getInference();
+		owlReasonerFactory = PelletReasonerFactory.getInstance();
+		owlReasoner = owlReasonerFactory.createReasoner(ontModel, new SimpleConfiguration());
+		owlDatafactory = owlmanager.getOWLDataFactory();
+		owlRenderer = new DLSyntaxObjectRenderer();
+		pm = (PrefixOWLOntologyFormat) owlmanager.getOntologyFormat(ontModel);
+		pm.setDefaultPrefix(BASE_URL+"#");
+		System.out.println("Preparing clarckpelletReasoner on ontModel ");
+		clarkpelletReasoner = PelletReasonerFactory.getInstance().createReasoner(ontModel);
+		clarkpelletReasoner.getKB().realize();
+		System.out.println("ClarckpelletReasoner on ontModel prepared "+clarkpelletReasoner.getReasonerName() );
+		
+		List<InferredAxiomGenerator<? extends OWLAxiom>> axiomGenerators = new ArrayList<InferredAxiomGenerator<? extends OWLAxiom>>();
+	    axiomGenerators.add( new InferredPropertyAssertionGenerator() );
+	    iog = new InferredOntologyGenerator(clarkpelletReasoner,axiomGenerators);
+	    iog.fillOntology((OWLDataFactory) owlmanager, ontModel);
+//	    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontModel);
+	    OutputStream owlOutputStream = new ByteArrayOutputStream();
+	    try {
+			owlmanager.saveOntology(ontModel, owlOutputStream);
+		} catch (OWLOntologyStorageException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+/*	    String inferredData = owlOutputStream.toString();	
+	    System.out.println(" Filled ontlogy "+inferredData);
+*/
+		String format = "RDF/XML";
+
+!!!2346370.java!!!	getIog() : InferredOntologyGenerator
+		return iog;
+!!!2346498.java!!!	setIog(inout iog : InferredOntologyGenerator) : void
+		this.iog = iog;
+!!!2346626.java!!!	getOwlDatafactory() : OWLDataFactory
+		return owlDatafactory;
+!!!2346754.java!!!	setOwlDatafactory(inout owlDatafactory : OWLDataFactory) : void
+		this.owlDatafactory = owlDatafactory;
+!!!2346882.java!!!	getOwlReasoner() : OWLReasoner
+		return owlReasoner;
+!!!2347010.java!!!	setOwlReasoner(inout owlReasoner : OWLReasoner) : void
+		this.owlReasoner = owlReasoner;
+!!!2347138.java!!!	getOwlRenderer() : OWLObjectRenderer
+		return owlRenderer;
+!!!2347266.java!!!	setOwlRenderer(inout owlRenderer : OWLObjectRenderer) : void
+		this.owlRenderer = owlRenderer;
+!!!2347394.java!!!	getPm() : PrefixOWLOntologyFormat
+		return pm;
+!!!2347522.java!!!	setPm(inout pm : PrefixOWLOntologyFormat) : void
+		this.pm = pm;
+!!!2347650.java!!!	getBASE_URL() : String
+		return BASE_URL;
+!!!2347778.java!!!	setBASE_URL(in bASE_URL : String) : void
+		BASE_URL = bASE_URL;
+!!!2347906.java!!!	getClarkpelletReasoner() : PelletReasoner
+		return clarkpelletReasoner;
+!!!2348034.java!!!	setClarkpelletReasoner(inout clarkpelletReasoner : PelletReasoner) : void
+		this.clarkpelletReasoner = clarkpelletReasoner;
+!!!2348162.java!!!	getResults() : ResultSet
+		return results;
+!!!2348290.java!!!	setResults(inout results : ResultSet) : void
+		this.results = results;
+!!!2348418.java!!!	getGenRulereasoner() : GenericRuleReasoner
+		return genRulereasoner;
+!!!2348546.java!!!	setGenRulereasoner(inout genRulereasoner : GenericRuleReasoner) : void
+		this.genRulereasoner = genRulereasoner;
+!!!2348674.java!!!	getInfModel() : InfModel
+		return infModel;
+!!!2348802.java!!!	setInfModel(inout infModel : InfModel) : void
+		this.infModel = infModel;
+!!!2348930.java!!!	getReasoner() : Reasoner
+		return reasoner;
+!!!2349058.java!!!	setReasoner(inout reasoner : Reasoner) : void
+		this.reasoner = reasoner;
+!!!2349186.java!!!	getAllBlackPieces() : BlackPiece
+		return allBlackPieces;
+!!!2349314.java!!!	setAllBlackPieces(inout allBlackPieces : Map<String, BlackPiece>) : void
+		this.allBlackPieces = allBlackPieces;
+!!!2349442.java!!!	getAllWhitePieces() : WhitePiece
+		return allWhitePieces;
+!!!2349570.java!!!	setAllWhitePieces(inout allWhitePieces : Map<String, WhitePiece>) : void
+		this.allWhitePieces = allWhitePieces;
+!!!2349698.java!!!	getOwlInference() : CodeGenerationInference
+		return owlInference;
+!!!2349826.java!!!	setOwlInference(inout owlInference : CodeGenerationInference) : void
+		this.owlInference = owlInference;
+!!!2349954.java!!!	getAllBlackPositions() : BlackBoardPosition
+		return allBlackPositions;
+!!!2350082.java!!!	setAllBlackPositions(inout allBlackPositions : Map<String, BlackBoardPosition>) : void
+		this.allBlackPositions = allBlackPositions;
+!!!2350210.java!!!	getAllWhitePositions() : WhiteBoardPosition
+		return allWhitePositions;
+!!!2350338.java!!!	setAllWhitePositions(inout allWhitePositions : Map<String, WhiteBoardPosition>) : void
+		this.allWhitePositions = allWhitePositions;
+!!!2350466.java!!!	getChessFactory() : ChessFactory
+		return chessFactory;
+!!!2350594.java!!!	setChessFactory(inout chessFactory : ChessFactory) : void
+		this.chessFactory = chessFactory;
+!!!2350722.java!!!	getOwlmanager() : OWLOntologyManager
+		return owlmanager;
+!!!2350850.java!!!	setOwlmanager(inout owlmanager : OWLOntologyManager) : void
+		this.owlmanager = owlmanager;
+!!!2350978.java!!!	getOntModel() : OWLOntology
+		return ontModel;
+!!!2351106.java!!!	setOntModel(inout ontModel : OWLOntology) : void
+		this.ontModel = ontModel;
+!!!2351234.java!!!	getChessGame() : Resource
+		return chessGame;
+!!!2351362.java!!!	setChessGame(inout chessGame : Resource) : void
+		this.chessGame = chessGame;
+!!!2351490.java!!!	getModel() : OntModel
+		return model;
+!!!2351618.java!!!	setModel(inout model : OntModel) : void
+		this.model = model;
+!!!2351746.java!!!	getallgivenBlackpositions() : BlackBoardPosition
+		
+		return (HashSet<BlackBoardPosition>) chessFactory.getAllBlackBoardPositionInstances();
+!!!2351874.java!!!	getallgivenWhitepositions() : WhiteBoardPosition
+		
+		return (HashSet<WhiteBoardPosition>) chessFactory.getAllWhiteBoardPositionInstances();
+!!!2352002.java!!!	getallgivenBlackpieces() : BlackPiece
+		return (HashSet<BlackPiece>) chessFactory.getAllBlackPieceInstances();
+!!!2352130.java!!!	getallgivenWhitepieces() : WhitePiece
+		return (HashSet<WhitePiece>) chessFactory.getAllWhitePieceInstances();
+!!!2352258.java!!!	getAllTakenPositions() : Taken
+		 allTakenPositions = (HashSet<Taken>) chessFactory.getAllTakenInstances();
+		return allTakenPositions;
+!!!2352386.java!!!	setAllTakenPositions(inout allTakenPositions : HashSet<Taken>) : void
+		this.allTakenPositions = allTakenPositions;
+!!!2352514.java!!!	getAllVacantPositions() : Vacant
+		allVacantPositions = (HashSet<Vacant>) chessFactory.getAllVacantInstances();
+		return allVacantPositions;
+!!!2352642.java!!!	setAllVacantPositions(inout allVacantPositions : HashSet<Vacant>) : void
+		this.allVacantPositions = allVacantPositions;
+!!!2352770.java!!!	getAllChessPositions() : ChessPosition
+		 allChessPositions = (HashSet<ChessPosition>) chessFactory.getAllChessPositionInstances();
+		return allChessPositions;
+!!!2352898.java!!!	setAllChessPositions(inout allChessPositions : HashSet<ChessPosition>) : void
+		this.allChessPositions = allChessPositions;
+!!!2353026.java!!!	fetchOntology() : OntModel
+//	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess.owl";
+//	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess-rev01.owl";
+	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chessnoimport.owl";
+	      String inputFileFormat = "RDF/XML";
+	      String reasoningLevel = "owl";//
+//	      File ontFile = new File("C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess.owl");
+//	      File ontFile = new File("C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess-rev01.owl");
+	      File ontFile = new File("C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chessnoimport.owl");
+	      try {
+	    	  ontModel  = owlmanager.loadOntologyFromOntologyDocument(ontFile);
+		} catch (OWLOntologyCreationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	      // Create a SWRL rule engine using the SWRLAPI Dette biblioteket skaper problemer:
+// java.lang.IllegalAccessError: tried to access method com.google.common.collect.MapMaker.makeComputingMap(Lcom/google/common/base/Function;)Ljava/util/concurrent/ConcurrentMap; 	      
+/*	      SWRLRuleEngine swrlRuleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontModel);
+	      SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontModel);
+	      swrlRuleEngine.infer();*/
+/*	      try {
+			SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?x, 2, 2) -> sqwrl:select(?x)");
+		} catch (SQWRLException | SWRLParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+	      //create an input stream for the input file
+	      FileInputStream inputStream = null;
+	      FileInputStream defaultModelStream = null;
+	      PrintWriter writer = null;
+	      try 
+	      {
+	         inputStream = new FileInputStream(inputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + inputFileName 
+	            + "' is an invalid input file.");
+	         return null;
+	      }
+	      try 
+	      {
+	    	  defaultModelStream = new FileInputStream(inputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + inputFileName 
+	            + "' is an invalid input file.");
+	         return null;
+	      }	      
+	      //create an output print writer for the results
+
+	      
+	      //create the appropriate jena model
+	      OntModel model = null;
+	     
+	      if("none".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "none" is jena model with OWL_DL
+	          * ontologies loaded and no inference enabled
+	          */
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM);
+	      }
+	      else if("rdfs".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "rdfs" is jena model with OWL_DL
+	          * ontologies loaded and RDFS inference enabled 
+	          */
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM_RDFS_INF); 
+	      }
+	      else if("owl".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "owl" is jena model with OWL_DL ontologies
+	          * wrapped around a pellet-based inference model
+	          */
+	    	  System.out.println("Preparing model - owl reasoning ");
+	    	  Model defaultModel = ModelFactory.createDefaultModel();
+	          Resource configuration  = defaultModel.createResource();
+//		         configuration.addProperty(ReasonerVocabulary.PROPruleMode, "hybrid");
+		         configuration.addProperty(ReasonerVocabulary.PROPruleSet, "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\rules.txt");
+		         configuration.addProperty(ReasonerVocabulary.PROPruleMode,"backward");
+/*	         reasoner = 
+	        		 org.mindswap.pellet.jena.PelletReasonerFactory.theInstance().create(configuration);*/
+	         reasoner = 
+	        		 org.mindswap.pellet.jena.PelletReasonerFactory.theInstance().create();
+	         Model infxModel = ModelFactory.createInfModel(
+	            reasoner, ModelFactory.createDefaultModel());
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM, infxModel);
+	         model.read(inputStream, null, inputFileFormat);
+	         reasoner = reasoner.bindSchema(model);
+	         model.prepare();
+	         
+	         defaultModel.read(defaultModelStream, null, inputFileFormat);
+	         
+	
+	         List<Rule> rules = Rule.rulesFromURL("C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\rules.txt");
+	         
+	         genRulereasoner = (GenericRuleReasoner) GenericRuleReasonerFactory.theInstance().create(configuration);
+	         genRulereasoner.setRules(rules);
+//	         String prefix = "@prefix <http://www.co-ode.org/ontologies/ont.owl>.";
+//	         String rule = prefix + " [ruleFriends: (?p ont:WhitePiece ?p) (?y ont:WhitePiece ?y) -> (?p ont:isFriendOf ?y)]";
+//	         genRulereasoner = new GenericRuleReasoner( Rule.rulesFromURL( "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\rules.txt" ) );
+//	         genRulereasoner = new GenericRuleReasoner( Rule.parseRules(rule));
+	         genRulereasoner.setDerivationLogging(true);
+	         infModel = ModelFactory.createInfModel( genRulereasoner, defaultModel );
+	         infModel.prepare();
+	         System.out.println("Infmodel prepared ");
+	         genRulereasoner.setTraceOn(true);
+	         
+	      }
+	      else
+	      {
+	         //invalid inference setting
+	         System.err.println("Invalid inference setting, "
+	            + "choose one of <none|rdfs|owl>.");
+	         return null;
+	      }
+	      
+	      //load the facts into the model
+	        System.out.println("Reading Model");	  
+	      model.read(inputStream, null, inputFileFormat);
+         System.out.println("Model read ");	      
+	      chessGame = model.getResource("http://www.co-ode.org/ontologies/ont.owl#ChessGame");
+	      //validate the file
+	      ValidityReport validityReport = model.validate();
+	      if(validityReport != null && !validityReport.isValid())
+	      {
+	         Iterator i = validityReport.getReports();
+	         while(i.hasNext())
+	         {
+	            System.err.println("Feilmelding: "+
+	               ((ValidityReport.Report)i.next()).getDescription());
+	         }
+	         System.out.println("returning null ");	  
+	         return null;
+	      }
+	        System.out.println("returning model ");	  
+	      return model;
+!!!2353154.java!!!	printOntology() : void
+		PrintWriter writer = null;
+	    String outputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\individuals.txt";
+	      //create an output print writer for the results
+	      try 
+	      {
+	         writer = new PrintWriter(outputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + outputFileName 
+	            + "' is an invalid output file.");
+	         return;
+	      }
+	      ExtendedIterator iIndividuals = null;
+	      try {
+	    	  iIndividuals = model.listIndividuals();
+	      } catch (ConversionException e) {
+	    	  System.out.println("No individual "+e.getMessage());
+	      }
+	      while(iIndividuals != null && iIndividuals.hasNext())
+	      {
+	         Individual i = (Individual)iIndividuals.next();
+	         printIndividual(i, writer);
+	      }
+//	      iIndividuals.close();
+	      
+	      writer.close();
+	      model.close();
+	      System.out.println("Printing individuals complete");
+	      printStatements();
+!!!2353282.java!!!	queryOntology(in q : String) : List<QuerySolution>
+		String queryString = q;
+		List<QuerySolution> variables = new ArrayList();
+		
+		 Query query = QueryFactory.create(queryString) ;
+		 results = null;
+//		 QuerySolutionMap solutionMap = new QuerySolutionMap();
+		 QuerySolution soln = null;
+//		 Statement stmt = 
+//		 infModel.getDerivation(arg0)
+	       try 
+	        {
+	            query = QueryFactory.create(queryString) ;
+	            QueryExecution qexec = QueryExecutionFactory.create(query, infModel) ; // or model or infModel!!
+	            results = qexec.execSelect() ;
+//	            soln = results.nextSolution() ;
+//	            Literal l = soln.getLiteral("subject");
+//	            Resource res = soln.getResource("subject");
+	           
+//	            System.out.println(res.toString()+" "+res.getLocalName());
+//	            solutionMap.addAll(soln);
+//	            ResultSetFormatter.out(results);
+	        }catch(Exception ex) { 
+	         ex.printStackTrace();
+	        }
+	       if (results != null){
+		       while (results.hasNext()  ){
+		    	   soln = results.next();
+		    	   variables.add(soln);
+		       }
+   	       }
+//	       ResultSetFormatter.out(results);
+	       return variables;
+!!!2353410.java!!!	printIndividual(inout i : Individual, inout writer : PrintWriter) : void
+		      //print the local name of the individual (to keep it terse)
+		      writer.println("Individual: " + i.getLocalName());
+		      
+		      //print the statements about this individual
+		      StmtIterator iProperties = i.listProperties();
+		      while(iProperties.hasNext())
+		      {
+		         Statement s = (Statement)iProperties.next();
+		         writer.println("  " + s.getPredicate().getLocalName() 
+		            + " : " + s.getObject().toString());
+		      }
+		      iProperties.close();
+		      writer.println();
+!!!2353538.java!!!	printStatements() : void
+			PrintWriter writer = null;
+		    String outputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\statements.txt";
+		      //create an output print writer for the results
+		      try 
+		      {
+		         writer = new PrintWriter(outputFileName);
+		      } catch (FileNotFoundException e) {
+		         System.err.println("'" + outputFileName 
+		            + "' is an invalid output file.");
+		         return;
+		      }		
+		  	StmtIterator it = infModel.listStatements();
+			while ( it.hasNext() )
+				{
+					Statement stmt = it.nextStatement();
+					
+					Resource subject = stmt.getSubject();
+					Property predicate = stmt.getPredicate();
+					RDFNode object = stmt.getObject();
+					String name = subject.getLocalName();
+					String predicateName = predicate.getLocalName();
+					writer.println("Subject name: "+name+" Predicate name: "+predicateName);
+					writer.println( subject.toString() + " " + predicate.toString() + " " + object.toString() );
+				}	
+			writer.println();
+		    writer.close();
+		    infModel.close();
+!!!2353666.java!!!	fetchandprintOntology() : void
+//	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess.owl";
+//	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chess-rev01.owl";
+	      String inputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\chessnoimport.owl";
+	      String inputFileFormat = "RDF/XML";
+	      String outputFileName = "C:\\Users\\bruker\\Google Drive\\privat\\ontologies\\individuals.txt";
+	      String reasoningLevel = "none";
+
+	      //create an input stream for the input file
+	      FileInputStream inputStream = null;
+	      PrintWriter writer = null;
+	      try 
+	      {
+	         inputStream = new FileInputStream(inputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + inputFileName 
+	            + "' is an invalid input file.");
+	         return;
+	      }
+	      
+	      //create an output print writer for the results
+	      try 
+	      {
+	         writer = new PrintWriter(outputFileName);
+	      } catch (FileNotFoundException e) {
+	         System.err.println("'" + outputFileName 
+	            + "' is an invalid output file.");
+	         return;
+	      }
+	      
+	      //create the appropriate jena model
+	      OntModel model = null;
+	     
+	      if("none".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "none" is jena model with OWL_DL
+	          * ontologies loaded and no inference enabled
+	          */
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM);
+	      }
+	      else if("rdfs".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "rdfs" is jena model with OWL_DL
+	          * ontologies loaded and RDFS inference enabled 
+	          */
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM_RDFS_INF); 
+	      }
+	      else if("owl".equals(reasoningLevel.toLowerCase()))
+	      {
+	         /*
+	          * "owl" is jena model with OWL_DL ontologies
+	          * wrapped around a pellet-based inference model
+	          */
+	         Reasoner reasoner = 
+	        		 org.mindswap.pellet.jena.PelletReasonerFactory.theInstance().create();
+	         Model infModel = ModelFactory.createInfModel(
+	            reasoner, ModelFactory.createDefaultModel());
+	         model = ModelFactory.createOntologyModel(
+	            OntModelSpec.OWL_DL_MEM, infModel);
+	      }
+	      else
+	      {
+	         //invalid inference setting
+	         System.err.println("Invalid inference setting, "
+	            + "choose one of <none|rdfs|owl>.");
+	         return;
+	      }
+	      
+	      //load the facts into the model
+	      model.read(inputStream, null, inputFileFormat);
+	      
+	      //validate the file
+	      ValidityReport validityReport = model.validate();
+	      if(validityReport != null && !validityReport.isValid())
+	      {
+	         Iterator i = validityReport.getReports();
+	         while(i.hasNext())
+	         {
+	            System.err.println(
+	               ((ValidityReport.Report)i.next()).getDescription());
+	         }
+	         return;
+	      }
+	      
+	      //Iterate over the individuals, print statements about them
+	      ExtendedIterator iIndividuals = null;
+	      try {
+	    	  iIndividuals = model.listIndividuals();
+	      } catch (ConversionException e) {
+	    	  System.out.println("No individual "+e.getMessage());
+	      }
+	      while(iIndividuals != null && iIndividuals.hasNext())
+	      {
+	         Individual i = (Individual)iIndividuals.next();
+	         printIndividual(i, writer);
+	      }
+	      iIndividuals.close();
+	      
+	      writer.close();
+	      model.close();
+!!!2353794.java!!!	getIndividuals() : List
+		 List allIndividuals = new ArrayList<Individual>();
+//		 System.out.println("Fetching individuals (model)");
+		 ExtendedIterator iIndividuals = null;
+		 try {
+		  iIndividuals = model.listIndividuals();
+		 } catch (ConversionException e) {
+			 System.out.println("No individual "+e.getMessage());
+		 }
+	      while(iIndividuals != null && iIndividuals.hasNext())
+	      {
+	         Individual i = (Individual)iIndividuals.next();
+	         allIndividuals.add(i);
+	      }
+	      return  allIndividuals;
+!!!2353922.java!!!	getProperties(inout allindividuals : List<Individual>) : Map<String, List<Statement>>
+		 Map<String, List<Statement>> statements = new HashMap();
+		 for (Individual individual:allindividuals){
+			 List<Statement> allStatements = new ArrayList();
+			 StmtIterator iProperties = individual.listProperties();
+//			 System.out.println("Found iterator for individual");
+			 while (iProperties.hasNext()){
+				 Statement s = iProperties.next();
+				 allStatements.add(s);
+			 }
+			 String key = individual.getLocalName();
+			 statements.put(key, allStatements);
+		 }
+		 return statements;

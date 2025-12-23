@@ -1,0 +1,45 @@
+class ParentModel
+!!!2342658.java!!!	ParentModel()
+		super();
+		formMap = new HashMap<String,String>();
+		// TODO Auto-generated constructor stub
+!!!2342786.java!!!	isLagret() : boolean
+		return lagret;
+!!!2342914.java!!!	setLagret(inout lagret : boolean) : void
+		this.lagret = lagret;
+!!!2343042.java!!!	extract(in s : String, inout f : Function<String,String>) : String
+		return f.apply(s);
+!!!2343170.java!!!	extractString(in line : String, in separator : char, in startindex : int) : String
+		int index = line.lastIndexOf(separator);
+		if (index == -1)
+			return null;
+		Function<String,String> f = (String s) -> line.substring(startindex,index);
+		Function<String,String> ef = (String s) -> line.substring(index+1);
+		if (startindex == -1)
+			return extract(line,ef);
+		else
+			return extract(line,f);
+
+!!!2343298.java!!!	setValues(inout entry : Parameter) : void
+		String name = entry.getName();
+		String value = entry.getValue();
+		/*
+		boolean finnes = formMap.containsKey(name);
+		if(finnes){
+			String val =  formMap.get(name);
+			value = val + "-" + value; 
+		}*/
+		formMap.put(name, value);
+	
+!!!2343426.java!!!	getFormMap() : Map
+		return formMap;
+!!!2343554.java!!!	setFormMap(inout formMap : Map) : void
+		this.formMap = formMap;
+!!!2343682.java!!!	getFormNames() : String
+		return formNames;
+!!!2343810.java!!!	setFormNames(inout formNames : String [[]]) : void
+		this.formNames = formNames;
+!!!2343938.java!!!	getAccountRef() : String
+		return accountRef;
+!!!2344066.java!!!	setAccountRef(in accountRef : String) : void
+		this.accountRef = accountRef;

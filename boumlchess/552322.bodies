@@ -1,0 +1,49 @@
+class EmailWebServiceImpl
+!!!2334850.java!!!	getSubject() : String
+			return subject;
+!!!2334978.java!!!	setSubject(in subject : String) : void
+			this.subject = subject;
+!!!2335106.java!!!	getEmailText() : String
+			return emailText;
+!!!2335234.java!!!	setEmailText(in emailText : String) : void
+			this.emailText = emailText;
+!!!2335362.java!!!	getMailAuthenticatorUser() : String
+			return mailAuthenticatorUser;
+!!!2335490.java!!!	setMailAuthenticatorUser(in mailAuthenticatorUser : String) : void
+			this.mailAuthenticatorUser = mailAuthenticatorUser;
+!!!2335618.java!!!	getMailAuthenticatorPwd() : String
+			return mailAuthenticatorPwd;
+!!!2335746.java!!!	setMailAuthenticatorPwd(in mailAuthenticatorPwd : String) : void
+			this.mailAuthenticatorPwd = mailAuthenticatorPwd;
+!!!2335874.java!!!	getMailTo() : String
+			return mailTo;
+!!!2336002.java!!!	setMailTo(in mailTo : String) : void
+			this.mailTo = mailTo;
+!!!2336130.java!!!	getMailFrom() : String
+			return mailFrom;
+!!!2336258.java!!!	setMailFrom(in mailFrom : String) : void
+			this.mailFrom = mailFrom;
+!!!2336386.java!!!	getHost() : String
+			return host;
+!!!2336514.java!!!	setHost(in host : String) : void
+			this.host = host;
+!!!2336642.java!!!	getPort() : String
+			return port;
+!!!2336770.java!!!	setPort(in port : String) : void
+			this.port = port;
+!!!2336898.java!!!	getMailer() : Mailer
+			return mailer;
+!!!2337026.java!!!	setMailer(inout mailer : Mailer) : void
+			this.mailer = mailer;
+!!!2337154.java!!!	sendEmail(in mailInfo : String) : void
+	    	mailer.setMailAuthenticatorUser(mailAuthenticatorUser);
+	    	mailer.setMailAuthenticatorPwd(mailAuthenticatorPwd);
+	    	mailer.setHost(host);
+	    	mailer.setPort(port);
+	    	if(mailFrom == null || mailFrom.isEmpty() )
+	    		mailFrom = mailAuthenticatorUser;
+	    	mailer.setMailFrom(mailFrom);
+	    	mailer.setMailTo(mailTo);
+	    	mailer.setMailSubject(subject);
+	    	mailer.setMailText(emailText+mailInfo);
+	    	mailer.sendEmail();
