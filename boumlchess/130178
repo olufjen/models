@@ -1,7 +1,7 @@
-format 223
+format 224
 "problem" // aima::core::search::framework::problem
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,16 +54,24 @@ format 223
      end
     class 134786 "GeneralProblem"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 134914 // Problem
         rank 0 explicit_value "S"
       actual class class_ref 134914 // Problem
         rank 1 explicit_value "A"
+      actual class class_ref 134914 // Problem
+        rank 2 explicit_value ""
+      actual class class_ref 134914 // Problem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -276,16 +284,24 @@ cost function (i.e. 1 per step).
 
     class 134914 "Problem"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 135042 // OnlineSearchProblem
         rank 0 explicit_value "S"
       actual class class_ref 135042 // OnlineSearchProblem
         rank 1 explicit_value "A"
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 2 explicit_value ""
+      actual class class_ref 135042 // OnlineSearchProblem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}
@@ -435,7 +451,11 @@ access the goal test via this method to support solution acceptance testing.
 
     class 135042 "OnlineSearchProblem"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -529,11 +549,77 @@ the agent knows that s' is the outcome; and</li>
 <code>stateDelta</code> denoted by c(s, a, s').
 "
       end
+
+      operation 2371202 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the initial state of the agent.
+"
+      end
+
+      operation 2371330 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the description of the possible actions available to the agent.
+"
+      end
+
+      operation 2371458 "testGoal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determines whether a given state is a goal state.
+"
+      end
+
+      operation 2371586 "getStepCosts"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	  param inout name "stateDelta" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state
+<code>stateDelta</code> denoted by c(s, a, s').
+"
+      end
     end
 
     class 135298 "ActionsFunction"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -570,7 +656,11 @@ executed in s. We say that each of these actions is <b>applicable</b> in s.
 
     class 135426 "ResultFunction"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -609,7 +699,9 @@ to refer to any state reachable from a given state by a single action.
 
     class 135554 "GoalTest"
       visibility public stereotype "interface"
-      nformals 1
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -692,7 +784,11 @@ OR of this predicate and the {@code other} predicate
 
     class 135682 "StepCostFunction"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -731,20 +827,43 @@ denoted by c(s, a, s').
 	
 	
       end
+
+      operation 2432002 "applyAsDouble"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	  param inout name "sDelta" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 135810 "BidirectionalProblem"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 134914 // Problem
         rank 0 explicit_value "S"
       actual class class_ref 134914 // Problem
         rank 1 explicit_value "A"
+      actual class class_ref 134914 // Problem
+        rank 2 explicit_value ""
+      actual class class_ref 134914 // Problem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}

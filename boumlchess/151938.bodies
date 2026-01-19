@@ -119,3 +119,123 @@ class Layer
 					upperLimit);
 			aVector.setValue(i, random);
 		}
+!!!2386946.java!!!	Layer(inout weightMatrix : Matrix, inout biasVector : Vector, inout af : ActivationFunction)
+
+		activationFunction = af;
+		this.weightMatrix = weightMatrix;
+		lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
+				weightMatrix.getColumnDimension());
+		penultimateWeightUpdateMatrix = new Matrix(
+				weightMatrix.getRowDimension(),
+				weightMatrix.getColumnDimension());
+
+		this.biasVector = biasVector;
+		lastBiasUpdateVector = new Vector(biasVector.getRowDimension());
+		penultimateBiasUpdateVector = new Vector(biasVector.getRowDimension());
+!!!2387074.java!!!	Layer(in numberOfNeurons : int, in numberOfInputs : int, in lowerLimitForWeights : double, in upperLimitForWeights : double, inout af : ActivationFunction)
+
+		activationFunction = af;
+		this.weightMatrix = new Matrix(numberOfNeurons, numberOfInputs);
+		lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
+				weightMatrix.getColumnDimension());
+		penultimateWeightUpdateMatrix = new Matrix(
+				weightMatrix.getRowDimension(),
+				weightMatrix.getColumnDimension());
+
+		this.biasVector = new Vector(numberOfNeurons);
+		lastBiasUpdateVector = new Vector(biasVector.getRowDimension());
+		penultimateBiasUpdateVector = new Vector(biasVector.getRowDimension());
+
+		initializeMatrix(weightMatrix, lowerLimitForWeights,
+				upperLimitForWeights);
+		initializeVector(biasVector, lowerLimitForWeights, upperLimitForWeights);
+!!!2387202.java!!!	feedForward(inout inputVector : Vector) : Vector
+		lastInput = inputVector;
+		Matrix inducedField = weightMatrix.times(inputVector).plus(biasVector);
+
+		Vector inducedFieldVector = new Vector(numberOfNeurons());
+		for (int i = 0; i < numberOfNeurons(); i++) {
+			inducedFieldVector.setValue(i, inducedField.get(i, 0));
+		}
+
+		lastInducedField = inducedFieldVector.copyVector();
+		Vector resultVector = new Vector(numberOfNeurons());
+		for (int i = 0; i < numberOfNeurons(); i++) {
+			resultVector.setValue(i, activationFunction
+					.activation(inducedFieldVector.getValue(i)));
+		}
+		// set the result as the last activation value
+		lastActivationValues = resultVector.copyVector();
+		return resultVector;
+!!!2387330.java!!!	getWeightMatrix() : Matrix
+		return weightMatrix;
+!!!2387458.java!!!	getBiasVector() : Vector
+		return biasVector;
+!!!2387586.java!!!	numberOfNeurons() : int
+		return weightMatrix.getRowDimension();
+!!!2387714.java!!!	numberOfInputs() : int
+		return weightMatrix.getColumnDimension();
+!!!2387842.java!!!	getLastActivationValues() : Vector
+		return lastActivationValues;
+!!!2387970.java!!!	getLastInducedField() : Vector
+		return lastInducedField;
+!!!2388098.java!!!	getLastWeightUpdateMatrix() : Matrix
+		return lastWeightUpdateMatrix;
+!!!2388226.java!!!	setLastWeightUpdateMatrix(inout m : Matrix) : void
+		lastWeightUpdateMatrix = m;
+!!!2388354.java!!!	getPenultimateWeightUpdateMatrix() : Matrix
+		return penultimateWeightUpdateMatrix;
+!!!2388482.java!!!	setPenultimateWeightUpdateMatrix(inout m : Matrix) : void
+		penultimateWeightUpdateMatrix = m;
+!!!2388610.java!!!	getLastBiasUpdateVector() : Vector
+		return lastBiasUpdateVector;
+!!!2388738.java!!!	setLastBiasUpdateVector(inout v : Vector) : void
+		lastBiasUpdateVector = v;
+!!!2388866.java!!!	getPenultimateBiasUpdateVector() : Vector
+		return penultimateBiasUpdateVector;
+!!!2388994.java!!!	setPenultimateBiasUpdateVector(inout v : Vector) : void
+		penultimateBiasUpdateVector = v;
+!!!2389122.java!!!	updateWeights() : void
+		weightMatrix.plusEquals(lastWeightUpdateMatrix);
+!!!2389250.java!!!	updateBiases() : void
+		Matrix biasMatrix = biasVector.plusEquals(lastBiasUpdateVector);
+		Vector result = new Vector(biasMatrix.getRowDimension());
+		for (int i = 0; i < biasMatrix.getRowDimension(); i++) {
+			result.setValue(i, biasMatrix.get(i, 0));
+		}
+		biasVector = result;
+!!!2389378.java!!!	getLastInputValues() : Vector
+
+		return lastInput;
+
+!!!2389506.java!!!	getActivationFunction() : ActivationFunction
+
+		return activationFunction;
+!!!2389634.java!!!	acceptNewWeightUpdate(inout weightUpdate : Matrix) : void
+		/*
+		 * penultimate weightupdates maintained only to implement VLBP later
+		 */
+		setPenultimateWeightUpdateMatrix(getLastWeightUpdateMatrix());
+		setLastWeightUpdateMatrix(weightUpdate);
+!!!2389762.java!!!	acceptNewBiasUpdate(inout biasUpdate : Vector) : void
+		setPenultimateBiasUpdateVector(getLastBiasUpdateVector());
+		setLastBiasUpdateVector(biasUpdate);
+!!!2389890.java!!!	errorVectorFrom(inout target : Vector) : Vector
+		return target.minus(getLastActivationValues());
+
+!!!2390018.java!!!	initializeMatrix(inout aMatrix : Matrix, in lowerLimit : double, in upperLimit : double) : void
+		for (int i = 0; i < aMatrix.getRowDimension(); i++) {
+			for (int j = 0; j < aMatrix.getColumnDimension(); j++) {
+				double random = Util.generateRandomDoubleBetween(lowerLimit,
+						upperLimit);
+				aMatrix.set(i, j, random);
+			}
+		}
+
+!!!2390146.java!!!	initializeVector(inout aVector : Vector, in lowerLimit : double, in upperLimit : double) : void
+		for (int i = 0; i < aVector.size(); i++) {
+
+			double random = Util.generateRandomDoubleBetween(lowerLimit,
+					upperLimit);
+			aVector.setValue(i, random);
+		}

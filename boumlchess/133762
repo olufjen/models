@@ -1,7 +1,7 @@
-format 223
+format 224
 "data" // aima::core::logic::fol::kb::data
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -707,6 +707,91 @@ ${members}}
 	
 	
       end
+
+      classrelation 787202 // <unidirectional association>
+	relation 787202 --->
+	  a role_name "" init_value " StandardizeApartIndexicalFactory
+			.newStandardizeApartIndexical('c')" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787202 // <unidirectional association>
+	  b parent class_ref 158594 // StandardizeApartIndexical
+      end
+
+      classrelation 787330 // <unidirectional association>
+	relation 787330 --->
+	  a role_name "" init_value " new Unifier()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787330 // <unidirectional association>
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 787458 // <unidirectional association>
+	relation 787458 --->
+	  a role_name "" init_value " new SubstVisitor()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787458 // <unidirectional association>
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      classrelation 787586 // <unidirectional association>
+	relation 787586 --->
+	  a role_name "" init_value " new VariableCollector()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787586 // <unidirectional association>
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 787714 // <unidirectional association>
+	relation 787714 --->
+	  a role_name "" init_value " new StandardizeApart()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787714 // <unidirectional association>
+	  b parent class_ref 159618 // StandardizeApart
+      end
+
+      classrelation 787842 // <unidirectional association>
+	relation 787842 --->
+	  a role_name "" init_value " new LiteralsSorter()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787842 // <unidirectional association>
+	  b parent class_ref 169090 // LiteralsSorter
+      end
+
+      classrelation 787970 // <unidirectional association>
+	relation 787970 --->
+	  stereotype "Set"
+	  a role_name "" init_value " new LinkedHashSet<Literal>()" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 787970 // <unidirectional association>
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 788098 // <unidirectional association>
+	relation 788098 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Literal>()" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 788098 // <unidirectional association>
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 788226 // <unidirectional association>
+	relation 788226 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Literal>()" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 788226 // <unidirectional association>
+	  b parent class_ref 148738 // Literal
+      end
     end
 
     class 148738 "Literal"
@@ -895,6 +980,15 @@ atomic sentence (a negative literal).
 	
 	
       end
+
+      classrelation 788482 // <unidirectional association>
+	relation 788482 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 788482 // <unidirectional association>
+	  b parent class_ref 162178 // AtomicSentence
+      end
     end
 
     class 157058 "CNF"
@@ -963,6 +1057,67 @@ is a disjunction of literals.
       end
 
       operation 329474 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      classrelation 788354 // <unidirectional association>
+	relation 788354 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Clause>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 788354 // <unidirectional association>
+	  b parent class_ref 148610 // Clause
+      end
+
+      operation 2403714 "CNF"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "conjunctionOfClauses" explicit_type "List<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403842 "getNumberOfClauses"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403970 "getConjunctionOfClauses"
+	public return_type class_ref 148610 // Clause
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2404098 "toString"
 	public explicit_return_type "String"
 	nparams 0
 	
@@ -1185,6 +1340,204 @@ equivalent to the original chain.
       end
 
       operation 322690 "toString"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      classrelation 786818 // <unidirectional association>
+	relation 786818 --->
+	  stereotype "List"
+	  a role_name "" init_value " Collections
+			.unmodifiableList(new ArrayList<Literal>())" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 786818 // <unidirectional association>
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 786946 // <unidirectional association>
+	relation 786946 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Literal>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 786946 // <unidirectional association>
+	  b parent class_ref 148738 // Literal
+      end
+
+      classrelation 787074 // <unidirectional association>
+	relation 787074 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 787074 // <unidirectional association>
+	  b parent class_ref 163330 // ProofStep
+      end
+
+      operation 2402050 "Chain"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402178 "Chain"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "literals" explicit_type "List<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402306 "Chain"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "literals" explicit_type "Set<Literal>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402434 "getProofStep"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402562 "setProofStep"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "proofStep" type class_ref 163330 // ProofStep
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402690 "isEmpty"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402818 "addLiteral"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "literal" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2402946 "getHead"
+	public return_type class_ref 148738 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403074 "getTail"
+	public return_type class_ref 148738 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403202 "getNumberLiterals"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403330 "getLiterals"
+	public return_type class_ref 148738 // Literal
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2403458 "getContrapositives"
+	public return_type class_ref 160002 // Chain
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A contrapositive of a chain is a permutation in which a different literal
+is placed at the front. The contrapositives of a chain are logically
+equivalent to the original chain.
+
+@return a list of contrapositives for this chain.
+"
+      end
+
+      operation 2403586 "toString"
 	public explicit_return_type "String"
 	nparams 0
 	

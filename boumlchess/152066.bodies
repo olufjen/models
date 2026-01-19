@@ -33,3 +33,37 @@ class LayerSensitivity
 					lastInducedField.getValue(i))));
 		}
 		return Matrix.createDiagonalMatrix(lst);
+!!!2390274.java!!!	LayerSensitivity(inout layer : Layer)
+		Matrix weightMatrix = layer.getWeightMatrix();
+		this.sensitivityMatrix = new Matrix(weightMatrix.getRowDimension(),
+				weightMatrix.getColumnDimension());
+		this.layer = layer;
+
+!!!2390402.java!!!	getSensitivityMatrix() : Matrix
+		return sensitivityMatrix;
+!!!2390530.java!!!	sensitivityMatrixFromErrorMatrix(inout errorVector : Vector) : Matrix
+		Matrix derivativeMatrix = createDerivativeMatrix(layer
+				.getLastInducedField());
+		Matrix calculatedSensitivityMatrix = derivativeMatrix
+				.times(errorVector).times(-2.0);
+		sensitivityMatrix = calculatedSensitivityMatrix.copy();
+		return calculatedSensitivityMatrix;
+!!!2390658.java!!!	sensitivityMatrixFromSucceedingLayer(inout nextLayerSensitivity : LayerSensitivity) : Matrix
+		Layer nextLayer = nextLayerSensitivity.getLayer();
+		Matrix derivativeMatrix = createDerivativeMatrix(layer
+				.getLastInducedField());
+		Matrix weightTranspose = nextLayer.getWeightMatrix().transpose();
+		Matrix calculatedSensitivityMatrix = derivativeMatrix.times(
+				weightTranspose).times(
+				nextLayerSensitivity.getSensitivityMatrix());
+		sensitivityMatrix = calculatedSensitivityMatrix.copy();
+		return sensitivityMatrix;
+!!!2390786.java!!!	getLayer() : Layer
+		return layer;
+!!!2390914.java!!!	createDerivativeMatrix(inout lastInducedField : Vector) : Matrix
+		List<Double> lst = new ArrayList<Double>();
+		for (int i = 0; i < lastInducedField.size(); i++) {
+			lst.add(new Double(layer.getActivationFunction().deriv(
+					lastInducedField.getValue(i))));
+		}
+		return Matrix.createDiagonalMatrix(lst);

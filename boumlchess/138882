@@ -1,7 +1,7 @@
-format 223
+format 224
 "map" // aima::core::robotics::impl::map
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,11 @@ format 223
      end
     class 189058 "IPoseFactory"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IPose2D<P,M>"
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
       formal name "P" type "" explicit_default_value ""
         explicit_extends "IPose2D<P,M>"
       formal name "M" type "" explicit_default_value ""
@@ -131,11 +135,67 @@ This function is used to create the result of {@link MclCartesianPlot2D}{@code .
 @return true if the heading is valid.
 "
       end
+
+      operation 2427010 "getPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <P>} for the given parameters.
+@param point the 2D coordinates of the new pose.
+@return the new pose.
+"
+      end
+
+      operation 2427138 "getPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 2
+	  param inout name "point" type class_ref 137218 // Point2D
+	  param in name "heading" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <P>} for the given parameters.<br/>
+This function is used to create the result of {@link MclCartesianPlot2D}{@code .getAverage()}.
+@param point the 2D coordinates of the new pose.
+@param heading the heading of the pose. This heading may be invalid. Based on the given environment this can be corrected or ignored.
+@return the new pose.
+"
+      end
+
+      operation 2427266 "isHeadingValid"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the heading of a pose is valid.
+@param pose the pose to be checked.
+@return true if the heading is valid.
+"
+      end
     end
 
     class 189186 "IRangeReadingFactory"
       visibility public stereotype "interface"
-      nformals 1
+      nformals 2
+      formal name "R" type "" explicit_default_value ""
+        extends class_ref 188674 // AbstractRangeReading
       formal name "R" type "" explicit_default_value ""
         extends class_ref 188674 // AbstractRangeReading
       cpp_decl ""
@@ -172,18 +232,41 @@ ${members}}
 @return the new range reading.
 "
       end
+
+      operation 2427394 "getRangeReading"
+	cpp_inline public explicit_return_type "R"
+	nparams 1
+	  param in name "value" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates a new instance of {@code <R>} for the given parameters.
+@param value the value of the new range reading.
+@return the new range reading.
+"
+      end
     end
 
     class 189314 "MclCartesianPlot2D"
       visibility public 
-      nformals 3
+      nformals 6
       formal name "P" type "" explicit_default_value ""
         explicit_extends "IPose2D<P,M>"
       formal name "M" type "" explicit_default_value ""
         explicit_extends "IMclMove<M>"
       formal name "R" type "" explicit_default_value ""
         extends class_ref 188674 // AbstractRangeReading
-      nactuals 4
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IPose2D<P,M>"
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        extends class_ref 188674 // AbstractRangeReading
+      nactuals 8
       actual class class_ref 187522 // IMclMap
         rank 0 explicit_value "P"
       actual class class_ref 187522 // IMclMap
@@ -192,6 +275,14 @@ ${members}}
         rank 2 explicit_value "M"
       actual class class_ref 187522 // IMclMap
         rank 3 value class_ref 188674 // AbstractRangeReading
+      actual class class_ref 187522 // IMclMap
+        rank 4 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 5 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 6 explicit_value ""
+      actual class class_ref 187522 // IMclMap
+        rank 7 explicit_value ""
       cpp_decl ""
       final java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

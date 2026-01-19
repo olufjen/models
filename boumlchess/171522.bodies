@@ -102,3 +102,46 @@ class PLResolution
 			}
 			clauses.removeAll(toDiscard);
 		}
+!!!2409474.java!!!	plResolution(inout kb : KnowledgeBase, inout alpha : Sentence) : boolean
+		// clauses <- the set of clauses in the CNF representation
+		// of KB & ~alpha
+		Set<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
+				kb, alpha);
+		// new <- {}
+		Set<Clause> newClauses = new LinkedHashSet<Clause>();
+		// loop do
+		do {
+			// for each pair of clauses C_i, C_j in clauses do
+			List<Clause> clausesAsList = new ArrayList<Clause>(clauses);
+			for (int i = 0; i < clausesAsList.size() - 1; i++) {
+				Clause ci = clausesAsList.get(i);
+				for (int j = i + 1; j < clausesAsList.size(); j++) {
+					Clause cj = clausesAsList.get(j);
+					// resolvents <- PL-RESOLVE(C_i, C_j)
+					Set<Clause> resolvents = plResolve(ci, cj);
+					// if resolvents contains the empty clause then return true
+					if (resolvents.contains(Clause.EMPTY)) {
+						return true;
+					}
+					// new <- new U resolvents
+					newClauses.addAll(resolvents);
+				}
+			}
+			// if new is subset of clauses then return false
+			if (clauses.containsAll(newClauses)) {
+				return false;
+			}
+
+			// clauses <- clauses U new
+			clauses.addAll(newClauses);
+
+		} while (true);
+!!!2409602.java!!!	plResolve(inout ci : Clause, inout cj : Clause) : Clause
+		Set<Clause> resolvents = new LinkedHashSet<Clause>();
+
+		// The complementary positive literals from C_i
+		resolvePositiveWithNegative(ci, cj, resolvents);
+		// The complementary negative literals from C_i
+		resolvePositiveWithNegative(cj, ci, resolvents);
+
+		return resolvents;

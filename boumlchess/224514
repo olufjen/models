@@ -1,7 +1,7 @@
-format 223
+format 224
 "ranking" // aima::core::nlp::ranking
-  revision 1
-  modified_by 2 "bruker"
+  revision 2
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -696,6 +696,47 @@ strings.
 @return
 "
       end
+
+      operation 2413954 "getOutlinks"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param inout name "page" type class_ref 379522 // Page
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Take a Page object and return its outlinks as a list of strings. The Page
+object must therefore possess the information to determine what it links
+to.
+
+@param page
+@return
+"
+      end
+
+      operation 2414082 "getInlinks"
+	public explicit_return_type "List<String>"
+	nparams 2
+	  param inout name "page" type class_ref 379522 // Page
+	  param inout name "pageTable" explicit_type "Map<String, Page>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Take a Page object and return its inlinks (who links to it) as a list of
+strings.
+
+@param page
+@param pageTable
+@return
+"
+      end
     end
 
     class 379778 "PagesDataset"
@@ -924,6 +965,20 @@ ${members}}
 
 "
       operation 1830786 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2414210 "main"
 	class_operation public explicit_return_type "void"
 	nparams 1
 	  param inout name "args" explicit_type "String"

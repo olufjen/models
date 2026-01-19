@@ -1,7 +1,7 @@
-format 223
+format 224
 "server" // no::chess::web::server
-  revision 1
-  modified_by 2 "bruker"
+  revision 5
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -30,9 +30,371 @@ format 223
   activitydiagramsettings
    end
   
-  java_dir "C:\\svnroot\\chess\\chess\\trunk\\chess_web\\src\\main\\java\\no/chess/web/server/"
+  java_dir "C:\\svnroot\\chess\\trunk\\chess\\src\\main\\java\\no\\chess\\web\\server"
   java_package "no.chess.web.server"
-  package_ref 145666 // listener
-
   package_ref 145794 // resource
+
+  classview 255874 "server"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 566530 "SkjemaResurs"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@Component
+@Path(\"/skjema\")
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment " <-- Må være på klassen for /api/skjema "
+      attribute 829570 "SESSION_TELLER_KEY"
+	class_attribute const_attribute private explicit_type "String"
+	init_value " \"unikBrukTeller\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 829698 "message"
+	private explicit_type "String"
+	init_value " \"Melding fra bean SkjemaResurs\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 830466 // globalCounterService (<unidirectional association>)
+	relation 830466 --->
+	  a role_name "globalCounterService" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 830466 // globalCounterService (<unidirectional association>)
+	  b parent class_ref 566274 // GlobalVisitCounterService
+      end
+
+      operation 2548866 "getSkjemaStatus"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "request" explicit_type "HttpServletRequest"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@Context ${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@GET
+@Path(\"/status\")
+@Produces(MediaType.TEXT_PLAIN)
+"
+	
+	
+	
+      end
+
+      operation 2548994 "visSkjema"
+	public explicit_return_type "Response"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@GET
+@Produces(MediaType.TEXT_HTML)
+"
+	
+	
+	
+	comment "Håndterer GET-forespørsler til /api/skjema.
+Returnerer selve HTML-siden.
+"
+      end
+
+      operation 2549122 "mottaSkjema"
+	public explicit_return_type "Response"
+	nparams 1
+	  param in name "innsendtMelding" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@FormParam(\"melding\") ${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Produces(MediaType.TEXT_HTML)
+"
+	
+	
+	
+	comment "Håndterer POST-forespørsler fra skjemaet (ACTION: api/skjema METHOD: POST).
+Bruker @FormParam for å fange data fra HTML-skjemaet.
+"
+      end
+
+      operation 2549250 "getMessage"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2549378 "setMessage"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 566914 "RestletApplikasjon"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@Component
+@ApplicationPath(\"/api\")
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Denne klassen er  fra test av spring boot
+
+ Forteller Spring å behandle denne som en Bean
+ Forteller Spring å behandle denne som en Bean"
+      classrelation 830210 // <generalisation>
+	relation 830210 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 830210 // <generalisation>
+	  b parent class_ref 570626 // Application
+      end
+
+      operation 2548610 "getClasses"
+	public explicit_return_type "Set<Class<?>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 570626 "Application"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@SpringBootApplication
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "The spring boot application
+Dette er min Applcation class og blir startet av ServletInitializer
+"
+      operation 2548482 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2575362 "commandLineRunner"
+	public explicit_return_type "CommandLineRunner"
+	nparams 1
+	  param inout name "ctx" explicit_type "ApplicationContext"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Bean
+"
+	
+	
+	
+	comment " Denne metoden kjøres automatisk NÅR Spring Boot er helt ferdig lastet"
+      end
+    end
+
+    class 570754 "ServletInitializer"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "ServletInitializer 
+Dette er oppstart spring boot servlet
+Den starter min Application class
+Fra SpringBootServletInitializer:
+An opinionated WebApplicationInitializer to run a SpringApplication from a traditional WAR deployment. Binds Servlet, Filter and ServletContextInitializer beans from the application context to the server.
+To configure the application either override the configure(SpringApplicationBuilder) method (calling SpringApplicationBuilder.sources(Class)) or make the initializer itself a @Configuration.
+If you are using SpringBootServletInitializer in combination with other WebApplicationInitializers you might also want to add an @Ordered annotation to configure a specific startup order.
+Note that a WebApplicationInitializer is only needed if you are building a war file and deploying it. If you prefer to run an embedded web server then you won't need this at all
+"
+      classrelation 830338 // <generalisation>
+	relation 830338 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 830338 // <generalisation>
+	  b parent class_ref 570882 // SpringBootServletInitializer
+      end
+
+      operation 2548738 "configure"
+	protected explicit_return_type "SpringApplicationBuilder"
+	nparams 1
+	  param inout name "application" explicit_type "SpringApplicationBuilder"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  package_ref 258690 // provider
+
+  deploymentview 236418 "server"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 489858 "Application"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import org.springframework.context.ApplicationContext;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+${definition}"
+      associated_elems
+	class_ref 570626 // Application
+      end
+    end
+
+    artifact 489986 "RestletApplikasjon"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Set;
+import org.springframework.stereotype.Component;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+${definition}"
+      associated_elems
+	class_ref 566914 // RestletApplikasjon
+      end
+    end
+
+    artifact 490114 "ServletInitializer"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+${definition}"
+      associated_elems
+	class_ref 570754 // ServletInitializer
+      end
+    end
+
+    artifact 490242 "SkjemaResurs"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import no.chess.web.config.GlobalVisitCounterService;
+import java.net.URI;
+import org.springframework.stereotype.Component;
+${definition}"
+      associated_elems
+	class_ref 566530 // SkjemaResurs
+      end
+    end
+  end
 end

@@ -1,0 +1,48 @@
+class SkjemaResurs
+!!!2548866.java!!!	getSkjemaStatus(inout request : HttpServletRequest) : String
+	        // --- 1. SESJONSBASERT TELLER (Per unik bruker) ---
+	        HttpSession session = request.getSession(true);
+	        Integer sessionTeller = (Integer) session.getAttribute(SESSION_TELLER_KEY);
+	        if (sessionTeller == null) {
+	            sessionTeller = 0;
+	        }
+	        sessionTeller++;
+	        session.setAttribute(SESSION_TELLER_KEY, sessionTeller);
+
+	        // --- 2. GLOBAL TELLER (Alle besÃ¸k) ---
+	        // Bruk den injiserte tjenesten direkte
+	        int totalCount = globalCounterService.incrementAndGetCount();
+	        
+	        
+	        // --- 3. RESPONS ---
+	        return "--- BesÃ¸ksinformasjon for /api/skjema/status ---\n\n" +
+	               "GLOBAL TELLER: Dette endepunktet har blitt kalt totalt " + totalCount + " ganger siden serverstart.\n" +
+	               "SESJONSTELLER: Du har besÃ¸kt denne siden " + sessionTeller + " ganger i din nÃ¥vÃ¦rende Ã¸kt.\n" +
+	               "Sesjons-ID: " + session.getId();
+!!!2548994.java!!!	visSkjema() : Response
+        // Her returnerer vi en omadressering (Redirect) til den statiske HTML-filen.
+        // Dette er den enkleste måten å vise en statisk HTML-side på.
+        try {
+            // OBS: Må peke til der index.html ligger relativt til Context-roten.
+            // Hvis index.html ligger i roten av webapp-mappen:
+            URI location = new URI("../forside.html"); 
+            return Response.temporaryRedirect(location).build();
+        } catch (Exception e) {
+            return Response.serverError().entity("Feil ved lasting av skjema: " + e.getMessage()).build();
+        }
+!!!2549122.java!!!	mottaSkjema(in innsendtMelding : String) : Response
+        // 1. Logikk: Gjør noe med den innsendte meldingen (f.eks. lagre til database, prosessering...)
+        System.out.println("Mottatt fra skjema: " + innsendtMelding);
+        
+        // 2. Respons: Lag en bekreftelsesmelding
+        String responsHtml = String.format(
+        		"Meldingen '%s' er mottatt og behandlet.",
+            innsendtMelding
+        );
+
+        // Returnerer en HTTP 200 OK med bekreftelses-HTML
+        return Response.ok(responsHtml).build();
+!!!2549250.java!!!	getMessage() : String
+		return message;
+!!!2549378.java!!!	setMessage(in message : String) : void
+		this.message = message;

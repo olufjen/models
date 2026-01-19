@@ -1,0 +1,30 @@
+class FreemarkerMessageBodyWriter
+!!!2549506.java!!!	FreemarkerMessageBodyWriter()
+        // 1. Initialiser Freemarker Konfigurasjon
+        freemarkerConfig = new Configuration(Configuration.VERSION_2_3_32);
+        // Angi hvor malene ligger (f.eks. i classpath under /templates/)
+        freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/");
+        freemarkerConfig.setDefaultEncoding(StandardCharsets.UTF_8.name());
+        System.out.println("FreemarkerMessageBodyWriter startet");
+!!!2549634.java!!!	isWriteable(inout type : Class<?>, inout genericType : Type, inout annotations : Annotation [[]], inout mediaType : MediaType) : boolean
+	      // Denne MessageBodyWriteren håndterer kun vår FreemarkerView-klasse
+        return FreemarkerView.class.isAssignableFrom(type);
+!!!2549762.java!!!	getSize(inout view : FreemarkerView, inout type : Class<?>, inout genericType : Type, inout annotations : Annotation [[]], inout mediaType : MediaType) : long
+        return -1; // Ukjent størrelse
+!!!2549890.java!!!	writeTo(inout view : FreemarkerView, inout type : Class<?>, inout genericType : Type, inout annotations : Annotation [[]], inout mediaType : MediaType, inout httpHeaders : MultivaluedMap<String, Object>, inout entityStream : OutputStream) : void
+    	 
+    	 System.out.println("FreemarkerMessageBodyWriter writeTo - template name "+view.getTemplateName());
+        // 2. Hent malen
+        Template template;
+        try {
+            template = freemarkerConfig.getTemplate(view.getTemplateName());
+        } catch (IOException e) {
+            throw new WebApplicationException("Klarte ikke laste Freemarker mal: " + view.getTemplateName(), e);
+        }
+//        System.out.println("FreemarkerMessageBodyWriter writeTo - template "+template.toString());
+        // 3. Flett datamodellen med malen og skriv til ut-strømmen
+        try (OutputStreamWriter writer = new OutputStreamWriter(entityStream, StandardCharsets.UTF_8)) {
+            template.process(view.getDataModel(), writer);
+        } catch (TemplateException e) {
+            throw new WebApplicationException("Feil under Freemarker gjengivelse.", e);
+        }

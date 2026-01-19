@@ -1,7 +1,7 @@
-format 223
+format 224
 "local" // aima::core::search::local
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,9 @@ format 223
      end
     class 140162 "FitnessFunction"
       visibility public stereotype "interface"
-      nformals 1
+      nformals 2
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -99,11 +101,31 @@ Here, we assume that all values are greater or equal to zero.
 @return the individual's fitness value (the higher the better).
 "
       end
+
+      operation 2375298 "apply"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "individual" type class_ref 140290 // Individual
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param individual
+           the individual whose fitness is to be accessed.
+@return the individual's fitness value (the higher the better).
+"
+      end
     end
 
     class 140290 "Individual"
       visibility public 
-      nformals 1
+      nformals 2
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -248,7 +270,9 @@ selected to produce a descendant.
 
     class 197378 "GeneticAlgorithm"
       visibility public 
-      nformals 1
+      nformals 2
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -762,9 +786,11 @@ ${members}}
 
     class 197634 "GeneticAlgorithmForNumbers"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 197378 // GeneticAlgorithm
         rank 0 explicit_value "Double"
+      actual class class_ref 197378 // GeneticAlgorithm
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -901,24 +927,40 @@ likelihood.
 
     class 197762 "HillClimbingSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 6
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 12
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value "S"
       actual class class_ref 137730 // SearchForActions
         rank 1 explicit_value "A"
+      actual class class_ref 137730 // SearchForActions
+        rank 2 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 3 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 0 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 2 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 3 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 0 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 2 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1405,20 +1447,32 @@ ${members}}
 
     class 198146 "SimulatedAnnealingSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 8
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value "S"
       actual class class_ref 137730 // SearchForActions
         rank 1 explicit_value "A"
+      actual class class_ref 137730 // SearchForActions
+        rank 2 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 3 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 0 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 2 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

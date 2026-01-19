@@ -1,7 +1,7 @@
-format 223
+format 224
 "informed" // aima::core::search::informed
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,16 +54,24 @@ format 223
      end
     class 196226 "AStarSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 196354 // BestFirstSearch
         rank 0 explicit_value "S"
       actual class class_ref 196354 // BestFirstSearch
         rank 1 explicit_value "A"
+      actual class class_ref 196354 // BestFirstSearch
+        rank 2 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -127,11 +135,15 @@ strategy and a heuristic function.
 	  explicit_extends ""
 	formal name "A" type "" explicit_default_value ""
 	  explicit_extends ""
-	nactuals 2
+	nactuals 4
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 0 explicit_value "S"
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 1 explicit_value "A"
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -199,20 +211,32 @@ heuristic cost to get from the specified node to the goal.
 
     class 196354 "BestFirstSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 8
       actual class class_ref 194434 // QueueBasedSearch
         rank 0 explicit_value "S"
       actual class class_ref 194434 // QueueBasedSearch
         rank 1 explicit_value "A"
+      actual class class_ref 194434 // QueueBasedSearch
+        rank 2 explicit_value ""
+      actual class class_ref 194434 // QueueBasedSearch
+        rank 3 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 0 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 2 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -307,7 +331,11 @@ evaluation function.
 
     class 196482 "Informed"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -339,11 +367,28 @@ are expected to implement this interface.
 	
 	
       end
+
+      operation 2432130 "setHeuristicFunction"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "h" explicit_type "ToDoubleFunction<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 196738 "HeuristicEvaluationFunction"
       abstract visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -414,16 +459,24 @@ the already known path to the node.
 
     class 196866 "GreedyBestFirstSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 196354 // BestFirstSearch
         rank 0 explicit_value "S"
       actual class class_ref 196354 // BestFirstSearch
         rank 1 explicit_value "A"
+      actual class class_ref 196354 // BestFirstSearch
+        rank 2 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -485,11 +538,15 @@ exploration strategy and a heuristic function.
 	  explicit_extends ""
 	formal name "A" type "" explicit_default_value ""
 	  explicit_extends ""
-	nactuals 2
+	nactuals 4
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 0 explicit_value "S"
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 1 explicit_value "A"
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -546,20 +603,32 @@ ${members}}
 
     class 197122 "RecursiveBestFirstSearch"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 8
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value "S"
       actual class class_ref 137730 // SearchForActions
         rank 1 explicit_value "A"
+      actual class class_ref 137730 // SearchForActions
+        rank 2 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 3 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 0 explicit_value ""
       actual class class_ref 196482 // Informed
         rank 1 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 2 explicit_value ""
+      actual class class_ref 196482 // Informed
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

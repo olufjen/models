@@ -1,7 +1,7 @@
-format 223
+format 224
 "neural" // aima::core::learning::neural
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -86,6 +86,32 @@ ${members}}
 	  param in name "parameter" explicit_type "double"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385794 "activation"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385922 "deriv"
+	public explicit_return_type "double"
+	nparams 1
+	  param in name "parameter" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -342,6 +368,47 @@ ${members}}
 	  param inout name "ffnn" type class_ref 151810 // FunctionApproximator
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2386050 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2386178 "processError"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "network" type class_ref 151682 // FeedForwardNeuralNetwork
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2386306 "setNeuralNetwork"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ffnn" type class_ref 151810 // FunctionApproximator
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -706,6 +773,44 @@ ${members}}
 	  param inout name "error" type class_ref 151554 // Vector
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Accept an error and change the parameters to accommodate it
+
+@param error
+           an error vector
+"
+      end
+
+      operation 2386434 "processInput"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "input" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the output values for the specified input values
+
+@param input
+           the input values
+
+@return the output values for the specified input values
+"
+      end
+
+      operation 2386562 "processError"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "error" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -1167,6 +1272,434 @@ receives input only from units in the immediately preceding layer.
 	
 	
       end
+
+      classrelation 782210 // <unidirectional association>
+	relation 782210 --->
+	  a role_name "" const_relation private
+	    comment " vectors are represented by n * 1 matrices;
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782210 // <unidirectional association>
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 782338 // <unidirectional association>
+	relation 782338 --->
+	  a role_name "" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782338 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 782466 // <unidirectional association>
+	relation 782466 --->
+	  a role_name "" package
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782466 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 782594 // <unidirectional association>
+	relation 782594 --->
+	  a role_name "" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782594 // <unidirectional association>
+	  b parent class_ref 151170 // ActivationFunction
+      end
+
+      classrelation 782722 // <unidirectional association>
+	relation 782722 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782722 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 782850 // <unidirectional association>
+	relation 782850 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782850 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 782978 // <unidirectional association>
+	relation 782978 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 782978 // <unidirectional association>
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 783106 // <unidirectional association>
+	relation 783106 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783106 // <unidirectional association>
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 783234 // <unidirectional association>
+	relation 783234 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783234 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      classrelation 783362 // <unidirectional association>
+	relation 783362 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783362 // <unidirectional association>
+	  b parent class_ref 151554 // Vector
+      end
+
+      operation 2386946 "Layer"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "weightMatrix" type class_ref 152194 // Matrix
+	  param inout name "biasVector" type class_ref 151554 // Vector
+	  param inout name "af" type class_ref 151170 // ActivationFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387074 "Layer"
+	public explicit_return_type ""
+	nparams 5
+	  param in name "numberOfNeurons" explicit_type "int"
+	  param in name "numberOfInputs" explicit_type "int"
+	  param in name "lowerLimitForWeights" explicit_type "double"
+	  param in name "upperLimitForWeights" explicit_type "double"
+	  param inout name "af" type class_ref 151170 // ActivationFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387202 "feedForward"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "inputVector" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387330 "getWeightMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387458 "getBiasVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387586 "numberOfNeurons"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387714 "numberOfInputs"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387842 "getLastActivationValues"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2387970 "getLastInducedField"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388098 "getLastWeightUpdateMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388226 "setLastWeightUpdateMatrix"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388354 "getPenultimateWeightUpdateMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388482 "setPenultimateWeightUpdateMatrix"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "m" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388610 "getLastBiasUpdateVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388738 "setLastBiasUpdateVector"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "v" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388866 "getPenultimateBiasUpdateVector"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2388994 "setPenultimateBiasUpdateVector"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "v" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389122 "updateWeights"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389250 "updateBiases"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389378 "getLastInputValues"
+	public return_type class_ref 151554 // Vector
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389506 "getActivationFunction"
+	public return_type class_ref 151170 // ActivationFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389634 "acceptNewWeightUpdate"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "weightUpdate" type class_ref 152194 // Matrix
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389762 "acceptNewBiasUpdate"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "biasUpdate" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2389890 "errorVectorFrom"
+	public return_type class_ref 151554 // Vector
+	nparams 1
+	  param inout name "target" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390018 "initializeMatrix"
+	class_operation private explicit_return_type "void"
+	nparams 3
+	  param inout name "aMatrix" type class_ref 152194 // Matrix
+	  param in name "lowerLimit" explicit_type "double"
+	  param in name "upperLimit" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 2390146 "initializeVector"
+	class_operation private explicit_return_type "void"
+	nparams 3
+	  param inout name "aVector" type class_ref 151554 // Vector
+	  param in name "lowerLimit" explicit_type "double"
+	  param in name "upperLimit" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 152066 "LayerSensitivity"
@@ -1271,6 +1804,107 @@ Used for backprop learning
       end
 
       operation 245378 "createDerivativeMatrix"
+	private return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "lastInducedField" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      classrelation 783490 // <unidirectional association>
+	relation 783490 --->
+	  a role_name "" private
+	    comment "
+contains sensitivity matrices and related calculations for each layer.
+Used for backprop learning
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783490 // <unidirectional association>
+	  b parent class_ref 152194 // Matrix
+      end
+
+      classrelation 783618 // <unidirectional association>
+	relation 783618 --->
+	  a role_name "" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783618 // <unidirectional association>
+	  b parent class_ref 151938 // Layer
+      end
+
+      operation 2390274 "LayerSensitivity"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "layer" type class_ref 151938 // Layer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390402 "getSensitivityMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390530 "sensitivityMatrixFromErrorMatrix"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "errorVector" type class_ref 151554 // Vector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390658 "sensitivityMatrixFromSucceedingLayer"
+	public return_type class_ref 152194 // Matrix
+	nparams 1
+	  param inout name "nextLayerSensitivity" type class_ref 152066 // LayerSensitivity
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390786 "getLayer"
+	public return_type class_ref 151938 // Layer
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2390914 "createDerivativeMatrix"
 	private return_type class_ref 152194 // Matrix
 	nparams 1
 	  param inout name "lastInducedField" type class_ref 151554 // Vector
@@ -1763,6 +2397,37 @@ create Example instances from a normalized data \"table\".
 	
 	
       end
+
+      classrelation 781954 // <unidirectional association>
+	relation 781954 --->
+	  stereotype "List"
+	  a role_name "" private
+	    comment "This class represents a source of examples to the rest of the nn
+framework. Assumes only one function approximator works on an instance at
+a given point in time
+
+
+the parsed and preprocessed form of the dataset.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 781954 // <unidirectional association>
+	  b parent class_ref 152578 // NNExample
+      end
+
+      classrelation 782082 // <unidirectional association>
+	relation 782082 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<NNExample>()" private
+	    comment "a copy from which examples are drawn.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 782082 // <unidirectional association>
+	  b parent class_ref 152578 // NNExample
+      end
     end
 
     class 152578 "NNExample"
@@ -2037,6 +2702,32 @@ to the neural network, and the second represents the desired output. See
 	  param inout name "outputValue" explicit_type "List<Double>"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2386690 "numerize"
+	public return_type class_ref 129026 // Pair
+	nparams 1
+	  param inout name "e" type class_ref 146306 // Example
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<List<Double>, List<Double>> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2386818 "denumerize"
+	public explicit_return_type "String"
+	nparams 1
+	  param inout name "outputValue" explicit_type "List<Double>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	

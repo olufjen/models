@@ -1,7 +1,7 @@
-format 223
+format 224
 "hierarchicalsearch" // aima::core::logic::planning::hierarchicalsearch
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -208,6 +208,46 @@ HLA whose preconditions are satisfied by the specified state, outcome.
       end
 
       operation 357506 "refinements"
+	public explicit_return_type "List<List<ActionSchema>>"
+	nparams 2
+	  param inout name "hla" type class_ref 169602 // ActionSchema
+	  param inout name "outcome" type class_ref 170242 // State
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The REFINEMENTS function returns a set of action sequences,
+one for each refinement of the HLA whose preconditions are
+satisfied by the specified state, outcome.
+
+@param hla     The hla to which the refinements are to be applied.
+@param outcome The state in which the refinements are to be applied.
+@return List of all refinements of the current hla in a given outcome state.
+"
+      end
+
+      operation 2407938 "heirarchicalSearch"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 1
+	  param inout name "problem" type class_ref 169986 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function HIERARCHICAL-SEARCH(problem, hierarchy) returns a solution, or failure
+
+@param problem The planning problem.
+@return A list of actions representing the plan.
+"
+      end
+
+      operation 2408066 "refinements"
 	public explicit_return_type "List<List<ActionSchema>>"
 	nparams 2
 	  param inout name "hla" type class_ref 169602 // ActionSchema

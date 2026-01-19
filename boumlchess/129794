@@ -1,7 +1,7 @@
-format 223
+format 224
 "adversarial" // aima::core::search::adversarial
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,18 +54,28 @@ format 223
      end
     class 133378 "IterativeDeepeningAlphaBetaSearch"
       visibility public 
-      nformals 3
+      nformals 6
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       formal name "P" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 133506 // AdversarialSearch
         rank 0 explicit_value "S"
       actual class class_ref 133506 // AdversarialSearch
         rank 1 explicit_value "A"
+      actual class class_ref 133506 // AdversarialSearch
+        rank 2 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -601,7 +611,11 @@ ${members}}
 
     class 133506 "AdversarialSearch"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -655,11 +669,47 @@ sequence of actions.
 "
       end
 
+      operation 2370050 "makeDecision"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the action which appears to be the best at the given state.
+"
+      end
+
+      operation 2370178 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the metrics of the search.
+
+@return all the metrics of the search.
+"
+      end
     end
 
     class 133762 "Game"
       visibility public stereotype "interface"
-      nformals 3
+      nformals 6
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -796,22 +846,123 @@ player is charged an entry fee of 1/2.</li>
 	
 	
       end
+
+      operation 2370306 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2370434 "getPlayers"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2370562 "getPlayer"
+	cpp_inline public explicit_return_type "P"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2370690 "getActions"
+	cpp_inline public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2370818 "getResult"
+	cpp_inline public explicit_return_type "S"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "action" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2370946 "isTerminal"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2371074 "getUtility"
+	cpp_inline public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" explicit_type "S"
+	  param inout name "player" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 189954 "AlphaBetaSearch"
       visibility public 
-      nformals 3
+      nformals 6
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       formal name "P" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 133506 // AdversarialSearch
         rank 0 explicit_value "S"
       actual class class_ref 133506 // AdversarialSearch
         rank 1 explicit_value "A"
+      actual class class_ref 133506 // AdversarialSearch
+        rank 2 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -988,23 +1139,32 @@ bookkeeping to pass these parameters along).
 	
 	
       end
-
     end
 
     class 190082 "MinimaxSearch"
       visibility public 
-      nformals 3
+      nformals 6
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
       formal name "P" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 133506 // AdversarialSearch
         rank 0 explicit_value "S"
       actual class class_ref 133506 // AdversarialSearch
         rank 1 explicit_value "A"
+      actual class class_ref 133506 // AdversarialSearch
+        rank 2 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1175,7 +1335,6 @@ set S that has the maximum value of f(a).
 	
 	
       end
-
     end
   end
 
@@ -1215,6 +1374,7 @@ ${definition}"
 ${package}
 ${imports}
 import java.util.List;
+import no.games.chess.planning.ChessPlannerAction;
 ${definition}"
       associated_elems
 	class_ref 133762 // Game

@@ -18,3 +18,22 @@ class MapFunctions
         if (pt1 != null && pt2 != null)
             result = pt1.distance(pt2);
         return result;
+!!!2372994.java!!!	createActionsFunction(inout map : Map) : ActionsFunction
+        return new MapActionsFunction(map, false);
+!!!2373122.java!!!	createReverseActionsFunction(inout map : Map) : ActionsFunction
+        return new MapActionsFunction(map, true);
+!!!2373250.java!!!	createResultFunction() : ResultFunction
+        return new MapResultFunction();
+!!!2373378.java!!!	createDistanceStepCostFunction(inout map : Map) : StepCostFunction
+        return new DistanceStepCostFunction(map);
+!!!2373506.java!!!	createPerceptToStateFunction() : Percept
+        return  p -> (String) ((DynamicPercept) p).getAttribute(DynAttributeNames.PERCEPT_IN);
+!!!2373634.java!!!	createSLDHeuristicFunction(in goal : String, inout map : Map) : Node
+        return node -> getSLD(node.getState(), goal, map);
+!!!2373762.java!!!	getSLD(in loc1 : String, in loc2 : String, inout map : Map) : double
+        double result = 0.0;
+        Point2D pt1 = map.getPosition(loc1);
+        Point2D pt2 = map.getPosition(loc2);
+        if (pt1 != null && pt2 != null)
+            result = pt1.distance(pt2);
+        return result;

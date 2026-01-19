@@ -1,7 +1,7 @@
-format 223
+format 224
 "fol" // aima::core::logic::fol
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -115,6 +115,59 @@ href=\"http://logic.stanford.edu/classes/cs157/2008/lectures/lecture09.pdf\"
       end
 
       operation 258050 "convertToCNF"
+	public return_type class_ref 157058 // CNF
+	nparams 1
+	  param inout name "aSentence" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence as a list of clauses, where each clause is
+a disjunction of literals.
+
+@param aSentence
+           a sentence in first order logic (predicate calculus)
+
+@return the specified sentence as a list of clauses, where each clause is
+        a disjunction of literals.
+"
+      end
+
+      classrelation 783746 // <unidirectional association>
+	relation 783746 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783746 // <unidirectional association>
+	  b parent class_ref 156802 // FOLParser
+      end
+
+      classrelation 783874 // <unidirectional association>
+	relation 783874 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 783874 // <unidirectional association>
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 2391042 "CNFConverter"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "parser" type class_ref 156802 // FOLParser
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2391170 "convertToCNF"
 	public return_type class_ref 157058 // CNF
 	nparams 1
 	  param inout name "aSentence" type class_ref 149634 // Sentence
@@ -774,6 +827,30 @@ ${members}}
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2393090 "getPrefix"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2393218 "getNextIndex"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -1794,6 +1871,108 @@ ${members}}
 	
 	
       end
+
+      classrelation 784002 // <unidirectional association>
+	relation 784002 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784002 // <unidirectional association>
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 784130 // <unidirectional association>
+	relation 784130 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784130 // <unidirectional association>
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 2392322 "StandardizeApart"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2392450 "StandardizeApart"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "variableCollector" type class_ref 159746 // VariableCollector
+	  param inout name "substVisitor" type class_ref 156930 // SubstVisitor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2392578 "standardizeApart"
+	public return_type class_ref 159874 // StandardizeApartResult
+	nparams 2
+	  param inout name "sentence" type class_ref 149634 // Sentence
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: see page 327."
+      end
+
+      operation 2392706 "standardizeApart"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "clause" type class_ref 148610 // Clause
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2392834 "standardizeApart"
+	public return_type class_ref 160002 // Chain
+	nparams 2
+	  param inout name "chain" type class_ref 160002 // Chain
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2392962 "standardizeApart"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "l1Literals" explicit_type "List<Literal>"
+	  param inout name "l2Literals" explicit_type "List<Literal>"
+	  param inout name "standardizeApartIndexical" type class_ref 158594 // StandardizeApartIndexical
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 159746 "VariableCollector"
@@ -2118,6 +2297,108 @@ ${members}}
 	
 	
       end
+
+      classrelation 784386 // <unidirectional association>
+	relation 784386 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784386 // <unidirectional association>
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 784514 // <unidirectional association>
+	relation 784514 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784514 // <unidirectional association>
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 784642 // <unidirectional association>
+	relation 784642 --->
+	  stereotype "Map"
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 784642 // <unidirectional association>
+	  b parent class_ref 157698 // Variable
+      end
+
+      classrelation 784770 // <unidirectional association>
+	relation 784770 --->
+	  stereotype "Map"
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}, Term> ${name}${value};
+"
+	    classrelation_ref 784770 // <unidirectional association>
+	  b parent class_ref 157698 // Variable
+      end
+
+      operation 2393858 "StandardizeApartResult"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "originalSentence" type class_ref 149634 // Sentence
+	  param inout name "standardized" type class_ref 149634 // Sentence
+	  param inout name "forwardSubstitution" explicit_type "Map<Variable, Term>"
+	  param inout name "reverseSubstitution" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2393986 "getOriginalSentence"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2394114 "getStandardized"
+	public return_type class_ref 149634 // Sentence
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2394242 "getForwardSubstitution"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2394370 "getReverseSubstitution"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 160130 "StandardizeApartIndexicalFactory"
@@ -2345,6 +2626,74 @@ ${members}}
 	
 	
       end
+
+      classrelation 784258 // <unidirectional association>
+	relation 784258 --->
+	  a role_name "" init_value " new CollectAllVariables()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784258 // <unidirectional association>
+	  b parent class_ref 160514 // CollectAllVariables
+      end
+
+      operation 2393346 "standardizeApart"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "c" type class_ref 160002 // Chain
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2393474 "standardizeApart"
+	class_operation public explicit_return_type "int"
+	nparams 2
+	  param inout name "c" type class_ref 148610 // Clause
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2393602 "standardizeApart"
+	class_operation private explicit_return_type "int"
+	nparams 3
+	  param inout name "variables" explicit_type "List<Variable>"
+	  param inout name "expr" explicit_type "Object"
+	  param in name "saIdx" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+"
+      end
+
+      operation 2393730 "collectAllVariables"
+	class_operation private explicit_return_type "void"
+	nparams 2
+	  param inout name "s" type class_ref 149634 // Sentence
+	  param inout name "vars" explicit_type "List<Variable>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 160514 "CollectAllVariables"
@@ -2530,6 +2879,28 @@ that is a subset of &Psi;.
 @author Mike Stampone
 "
       operation 274690 "findSubsumedClauses"
+	class_operation public return_type class_ref 148610 // Clause
+	nparams 1
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the clauses that are subsumed by (that is, more specific than) an
+existing clause in the specified set of clauses.
+
+@param clauses
+           a set of clauses in first order logic
+
+@return the clauses that are subsumed by (that is, more specific than) an
+        existing clause in the specified set of clauses.
+"
+      end
+
+      operation 2394498 "findSubsumedClauses"
 	class_operation public return_type class_ref 148610 // Clause
 	nparams 1
 	  param inout name "clauses" explicit_type "Set<Clause>"
@@ -2819,6 +3190,236 @@ function UNIFY-VAR(var, x, theta) returns a substitution
       end
 
       operation 276098 "cascadeSubstitution"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 160770 // Term
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " See:
+ http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
+ for need for this."
+      end
+
+      classrelation 784898 // <unidirectional association>
+	relation 784898 --->
+	  a role_name "" init_value " new SubstVisitor()" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 784898 // <unidirectional association>
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 2394626 "Unifier"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2394754 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 2
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "y" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+"
+      end
+
+      operation 2394882 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "y" type class_ref 161154 // FOLNode
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+@param theta
+           the substitution built up so far
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+"
+      end
+
+      operation 2395010 "unify"
+	public return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "x" explicit_type "List<? extends FOLNode>"
+	  param inout name "y" explicit_type "List<? extends FOLNode>"
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Map<Variable, Term> representing the substitution (i.e. a set
+of variable/term pairs) or null which is used to indicate a failure to
+unify.
+
+@param x
+           a variable, constant, list, or compound
+@param y
+           a variable, constant, list, or compound
+@param theta
+           the substitution built up so far
+
+@return a Map<Variable, Term> representing the substitution (i.e. a set
+        of variable/term pairs) or null which is used to indicate a
+        failure to unify.
+
+ else if LIST?(x) and LIST?(y) then
+ return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))"
+      end
+
+      operation 2395138 "occurCheck"
+	protected explicit_return_type "boolean"
+	nparams 3
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METHODS
+
+ Note: You can subclass and override this method in order
+ to re-implement the OCCUR-CHECK?() to always
+ return false if you want that to be the default
+ behavior, as is the case with Prolog.
+ Note: Implementation is based on unify-bug.pdf document by Peter Norvig:
+ http://norvig.com/unify-bug.pdf"
+      end
+
+      operation 2395266 "unifyVar"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param inout name "var" type class_ref 157698 // Variable
+	  param inout name "x" type class_ref 161154 // FOLNode
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PRIVATE METHODS
+
+
+<code>
+function UNIFY-VAR(var, x, theta) returns a substitution
+  inputs: var, a variable
+      x, any expression
+      theta, the substitution built up so far
+</code>
+"
+      end
+
+      operation 2395394 "unifyOps"
+	private return_type class_ref 157698 // Variable
+	nparams 3
+	  param in name "x" explicit_type "String"
+	  param in name "y" explicit_type "String"
+	  param inout name "theta" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2395522 "args"
+	private explicit_return_type "List<? extends FOLNode>"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2395650 "op"
+	private explicit_return_type "String"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2395778 "isCompound"
+	private explicit_return_type "boolean"
+	nparams 1
+	  param inout name "x" type class_ref 161154 // FOLNode
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2395906 "cascadeSubstitution"
 	private return_type class_ref 157698 // Variable
 	nparams 3
 	  param inout name "theta" explicit_type "Map<Variable, Term>"

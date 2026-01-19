@@ -1,0 +1,521 @@
+class PlayGame
+!!!2520322.java!!!	PlayGame(inout positions : HashMap<String, Position>, inout frontBoard : ChessBoard)
+		super();
+		this.myFrontBoard = frontBoard;
+		this.positions = positions;
+		positionlist = new ArrayList(positions.values());
+		setusedunused();
+		availablePositions = new HashMap();
+		availablePositionlist = new ArrayList();
+		game = new AchessGame(8,positions,myFrontBoard);
+		game.setGamePlayer(this); // Creates the initial state. This is the only place where the ChessState object is created
+// The ChessState object also implements the Percept interface		
+		currentState = game.getInitialState();
+		activeState = (ChessStateImpl) currentState;
+		movements = new ArrayList<ApieceMove>();
+		game.setMovements(movements);
+		fw = null;
+		writer = null;
+		String catalog = KnowledgeBuilder.getFileCatalog();
+		outputFileName = catalog+outputFileName;
+		try {
+			fw = new FileWriter(outputFileName, true);
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	    writer = new PrintWriter(new BufferedWriter(fw));
+//		kb = new ChessKnowledgeBase();
+!!!2520450.java!!!	getOldPosition() : Position
+		return oldPosition;
+!!!2520578.java!!!	setOldPosition(inout oldPosition : Position) : void
+		this.oldPosition = oldPosition;
+!!!2520706.java!!!	getNewPosition() : Position
+		return newPosition;
+!!!2520834.java!!!	setNewPosition(inout newPosition : Position) : void
+		this.newPosition = newPosition;
+!!!2520962.java!!!	getLastPiece() : AgamePiece
+		return lastPiece;
+!!!2521090.java!!!	setLastPiece(inout lastPiece : AgamePiece) : void
+		this.lastPiece = lastPiece;
+!!!2521218.java!!!	getDeferredGoalstates() : State
+		return deferredGoalstates;
+!!!2521346.java!!!	setDeferredGoalstates(inout deferredGoalstates : Map<String, State>) : void
+		this.deferredGoalstates = deferredGoalstates;
+!!!2521474.java!!!	getDeferredInitial() : State
+		return deferredInitial;
+!!!2521602.java!!!	setDeferredInitial(inout deferredInitial : State) : void
+		this.deferredInitial = deferredInitial;
+!!!2521730.java!!!	getDeferredGoal() : State
+		return deferredGoal;
+!!!2521858.java!!!	setDeferredGoal(inout deferredGoal : State) : void
+		this.deferredGoal = deferredGoal;
+!!!2521986.java!!!	getMovements() : ApieceMove
+		return movements;
+!!!2522114.java!!!	setMovements(inout movements : List<ApieceMove>) : void
+		this.movements = movements;
+!!!2522242.java!!!	getMyFrontBoard() : ChessBoard
+		return myFrontBoard;
+!!!2522370.java!!!	setMyFrontBoard(inout myFrontBoard : ChessBoard) : void
+		this.myFrontBoard = myFrontBoard;
+!!!2522498.java!!!	getGame() : AchessGame
+		return game;
+!!!2522626.java!!!	setGame(inout game : AchessGame) : void
+		this.game = game;
+!!!2522754.java!!!	getUsedPositions() : Position
+		return usedPositions;
+!!!2522882.java!!!	setUsedPositions(inout usedPositions : HashMap<String, Position>) : void
+		this.usedPositions = usedPositions;
+!!!2523010.java!!!	getNotusedPositions() : Position
+		return notusedPositions;
+!!!2523138.java!!!	setNotusedPositions(inout notusedPositions : HashMap<String, Position>) : void
+		this.notusedPositions = notusedPositions;
+!!!2523266.java!!!	getAvailablePositions() : Position
+		return availablePositions;
+!!!2523394.java!!!	setAvailablePositions(inout availablePositions : HashMap<String, Position>) : void
+		this.availablePositions = availablePositions;
+!!!2523522.java!!!	getUsedPositionlist() : Position
+		return usedPositionlist;
+!!!2523650.java!!!	setUsedPositionlist(inout usedPositionlist : List<Position>) : void
+		this.usedPositionlist = usedPositionlist;
+!!!2523778.java!!!	getNotusedPositionlist() : Position
+		return notusedPositionlist;
+!!!2523906.java!!!	setNotusedPositionlist(inout notusedPositionlist : List<Position>) : void
+		this.notusedPositionlist = notusedPositionlist;
+!!!2524034.java!!!	getAvailablePositionlist() : Position
+		return availablePositionlist;
+!!!2524162.java!!!	setAvailablePositionlist(inout availablePositionlist : List<Position>) : void
+		this.availablePositionlist = availablePositionlist;
+!!!2524290.java!!!	getPositionlist() : Position
+		return positionlist;
+!!!2524418.java!!!	setPositionlist(inout positionlist : List<Position>) : void
+		this.positionlist = positionlist;
+!!!2524546.java!!!	getPositions() : Position
+		return positions;
+!!!2524674.java!!!	setPositions(inout positions : HashMap<String, Position>) : void
+		this.positions = positions;
+!!!2524802.java!!!	getMovedblackPieces() : BlackPiece
+		return movedblackPieces;
+!!!2524930.java!!!	setMovedblackPieces(inout movedblackPieces : HashSet<BlackPiece>) : void
+		this.movedblackPieces = movedblackPieces;
+!!!2525058.java!!!	getMovedwhitePieces() : WhitePiece
+		return movedwhitePieces;
+!!!2525186.java!!!	setMovedwhitePieces(inout movedwhitePieces : HashSet<WhitePiece>) : void
+		this.movedwhitePieces = movedwhitePieces;
+!!!2525314.java!!!	setusedunused() : void
+		usedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::isInUse).collect(Collectors.toList());
+		notusedPositionlist = (List<Position>) ((List<Position>) positionlist).stream().filter(Position::notisInUse).collect(Collectors.toList());
+
+//		notusedPositions = (List<Position>) ((List<Position>) positions).stream().filter(board.queenExistsAt(position.getXyloc())).collect(Collectors.toList());
+!!!2525442.java!!!	getActiveState() : ChessStateImpl
+		return activeState;
+!!!2525570.java!!!	setActiveState(inout activeState : ChessStateImpl) : void
+		this.activeState = activeState;
+!!!2525698.java!!!	proposeMove() : void
+
+		castleMove = null;
+		currentState = game.getInitialState();
+		ChessStateImpl stateImpl = (ChessStateImpl) currentState;
+		activeState = stateImpl;
+		AdversarialSearch<ChessState<GameBoard>, ChessAction<?, ?, ?,  GamePiece<?>, ?>> search; // FILL IN !!!!
+//		ChessSearch<ChessState,ChessAction> search;
+		search = ChessAlphaBetaSearch.createFor(game, 0.0, 1.0, 1); // Changed timer from 2 to 1.
+		search = (ChessAlphaBetaSearch)search;
+//		search = ChessAlphaBetaSearch.createFor(game, 0.0, 1.0, 2);
+//		search = ChessSearchImpl.createFor(game, 0.0, 1.0, 5);
+//		search = MinimaxSearch.createFor(game);
+// 		search.logEnabled(true);	
+
+/*
+ * The makeDecision method returns either at timeout or when the state is terminal
+ * (a lose or a win for the active player).	
+ * The makeDecision method makes and creates a number of moves and returns the top action from a set of actions 
+ * that has been performed
+ * All the moves that are made is a result of the getResult method of the game object.
+ * 13.11.2019 : makeDecision must not return an action that has an inactive piece. 
+ */
+		
+/*		ChessAction newAction = search.makeDecision(currentState);
+		ChessActionImpl localAction = (ChessActionImpl) newAction;*/// Call to makeDecision removed 04.03.21 
+		
+		
+/*
+ * For every move a new knowledge base and agent must be created		
+ */
+		ChessActionImpl localAction = null;
+		kb = null;
+		kb = new ChessKnowledgeBase();
+		kb.setStateImpl(stateImpl); // The knowledge base receives the percepts of the the game which is the state of the game
+		chessAgent = null;
+		chessAgent = new AChessAgent(kb,localAction,this);
+//		chessAgent.execute(currentState); // Creates new knowledge for the knowledge base
+		localAction = (ChessActionImpl) chessAgent.execute(currentState); // ****** Creates new knowledge for the knowledge base and determines the next move.
+// The next move is in the returned local action.		
+		
+/*		if (localAction != newAction)
+			newAction = localAction;*/
+		
+		ApieceMove chosenMove = localAction.getPossibleMove(); // ******
+
+		Position movPos = chosenMove.getToPosition();
+		APlayer playerTomove = stateImpl.getMyPlayer();
+	
+		writer.println("Player to move "+playerTomove.getPlayerName()+" "+playerTomove.getPlayerId()); 
+		if (playerTomove.getPlayerName() == playerTomove.getBlackPlayer()) {
+			writer.println("Wrong player "+playerTomove.getPlayerName());
+		}
+		currentState.setAction(localAction); //******
+/*		currentState.setAction(newAction); // Set state action to action to be performed
+*/
+//		String a = newAction.toString();
+/*		List<ChessAction> actions = currentState.getActions();
+		ChessAction action = actions.get(0);*/
+		writer.println("Before call to emptymovements \n"+game.getBoardPic());
+/*		for (Position pos:positionlist) {
+			if (pos.getPositionName().equals("a3")) {
+				writer.println("!!Playgame position!! "+pos.toString());
+			}
+		}*/
+		List<ApieceMove> stateMoves = stateImpl.getMovements();
+/*		writer.println("State moves\n"); // OBS: 01.05.20 state moves are always empty !!
+		for (ApieceMove stateMove : stateMoves) {
+			writer.println(stateMove.toString());
+			Position pos = stateMove.getFromPosition();
+			AgamePiece piece = stateMove.getPiece();
+			AgamePiece posPiece = null;
+			if (pos.isInUse())
+				posPiece = pos.getUsedBy().getMyPiece();
+			if (posPiece != null && piece != posPiece) {
+				AgamePiece removed = pos.getRemoved().getMyPiece();
+				ChessPiece removedfromstack = pos.getRemovedPieces().pop();
+				AgamePiece removedGamepiece = removedfromstack.getMyPiece();
+				writer.println("Move piece different from position piece "+piece.toString()+" Position piece "+posPiece.toString() );
+				if (removed != null)
+					writer.println("Removed piece "+ removed.toString());
+			}
+			
+			
+		}*/
+		stateImpl.setChosenMove(chosenMove); // *******
+		
+//		AgamePiece piece = (AgamePiece) newAction.getChessPiece();
+		AgamePiece piece = (AgamePiece) localAction.getChessPiece(); // ******
+/*
+ * Keeps track of move numbers and the number of moves		
+ */
+		piece.setNofMoves(0); // *****
+
+		if (!piece.isActive()) {
+			writer.println("Chosen action has a passive piece "+ piece.toString() );
+		}
+		currentState.emptyMovements(); // empty all movements before the chosen action and move.
+		if (piece.isActive()) {
+			writer.println("Passive piece set active"+ piece.toString() );
+		}		
+//		Position position = (Position) newAction.getPreferredPosition();
+		Position position = (Position) localAction.getPreferredPosition();
+		if (position != movPos) {
+			writer.println("Preferred position different from move position "+ position.toString()+" Move Position: "+movPos.toString() );
+			
+		}
+/*		List<Position> availablePositions = (List<Position>) newAction.getAvailablePositions();
+		if (position == null)
+			position = availablePositions.get(0); // Should not happen !!!
+*/		
+/*		Caused by: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at java.util.ArrayList.rangeCheck(Unknown Source)
+	at java.util.ArrayList.get(Unknown Source)
+	at no.chess.web.model.PlayGame.proposeMove(PlayGame.java:232)
+	
+ * List<Position> availablePositions = (List<Position>) newAction.getAvailablePositions(); 
+		Position position = availablePositions.get(0);*/
+		
+		
+/*
+ * At this call the holds the correct from position !!!!		
+ */
+		writer.println("Proposemove\n"+piece.toString()+"Action\n"+localAction.toString());
+/*
+ * The chosen action must be verified. OLJ 28.02.20:
+ * This must be done as follows:
+ *  1. The current state must be emptied of all movements made during the makeDecision process.
+ *  2. New available positions and removed positions must be calculated for the piece belonging to the action.
+ *  3. Based on this, the preferable position of the action must be changed, - if necessary. 
+ * 		
+ */
+//		verifyAction(localAction, piece, position, playerTomove); Noty Used !!!
+		String newPos = position.getPositionName();
+		String pieceName = piece.getMyPiece().getName();
+		Position piecePos = piece.getMyPosition();
+		writer.println("Proposemove The piece start position:\n"+ piecePos.toString()+"\nPosition contains: "+piecePos.getUsedBy().toString());
+		Position oldPosition = null;
+/*
+ * position is preferred position.
+ * Does it contain a piece?
+ */
+		AgamePiece activeGamePiece = null;
+		ChessPiece activePiece = position.getUsedBy();
+		if (activePiece != null)
+			activeGamePiece = activePiece.getMyPiece();
+		
+		if (activeGamePiece != null && activeGamePiece == piece) {
+			writer.println(" Chosen Piece must be cleared from suggested position "+piece.toString()+"\n");
+//			currentState.clearMovements(piece); // This creates problems !!!! The emptymovements method is ok. !!!
+//			position.returnPiece();
+			piecePos = piece.getMyPosition();
+		}else {
+			writer.println(" == Gamepiece to move\n"+piece.toString()+"\n"+"In position "+position.toString()+"\n");
+			// This indicate an opponent piece that must be removed in case position is occupied !!!
+			// 31.01 2020 Removes also black Knight !!!
+			if (activeGamePiece != null) {
+				writer.println("Taken piece: "+ activeGamePiece.toString()+"\n");
+/*				activeGamePiece.setActive(false); This must be done after call to determineMove OJN 3.02.20
+				activeGamePiece.setMyPosition(null);
+				position.setUsedBy();*/
+//				currentState.clearMovements(piece);
+//				position.returnPiece();
+				piecePos = piece.getMyPosition();
+			}
+		}
+			
+//		writer.println("After call to emptymovements \n"+game.getBoardPic());
+/*
+ * These two statements executed before call to emptyMovements	
+ * OBS!!! oldpos and newpos are the same. the .emptymovewments clears this !!!	
+ */
+		String oldPos = piece.getMyPosition().getPositionName();
+		oldPosition = piece.getMyPosition();
+		if (position == piecePos) {
+			Position heldPosition = piece.getHeldPosition();
+			if (heldPosition == null) {
+				piece.restorePosition();
+				heldPosition = piece.getmyPosition();
+			}
+			oldPosition = heldPosition;
+			oldPos = oldPosition.getPositionName();
+		}
+
+		// This call must be carried out before check of activegamepiece !!!
+//		 writer.println("Positionlist before determinemove removed \n");
+/*		 for ( Position pos : positionlist) {
+			 writer.println(pos.toString());
+		 }*/
+		myFrontBoard.determineMove(oldPos, newPos, pieceName); // New fen is created based on this. This is done after the call to proposemove
+// The determinemove method sets new position Name in chesspiece !!
+	    piece.setMyPosition(position); // position is the preferred position from action This is the new position of the piece
+//	    piece.setHeldPosition(null); // Then there are no previous positions to restore from 
+	    
+//		currentState.emptyMovements(); // empty all movements before the chosen action and move.
+//	    writer.println("After call to board.determineMove \n"+game.getBoardPic()); // OK 
+
+//		piece.setHeldPosition(position); // New position to the position to restore to removed olj 10.07.20 !!!
+		position.setUsedandRemoved(piece.getMyPiece()); // The preferred position: Sets chesspiece to new position and also sets it in the removed list
+//		myFrontBoard.determineMove(oldPos, newPos, pieceName); // New fen is created based on this
+//		Position newPosition = myFrontBoard.findPostion(newPos);
+	
+
+//		clearMoves();
+//	    writer.println(game.getBoardPic());
+	    clearChessboard();
+//		 writer.println("After call to clearchessboard \n"+game.getBoardPic());
+/*
+ * OBS: Move from old to new position	!!! OJN 3.12.19    
+ */
+	    game.movePiece(piece, position," Playgame"); // This call creates the move on the aima chessboard
+
+//		game.movePiece(piece.getMyPosition().getXyloc(),position.getXyloc()); // The piece is moved to the new location on the chessboard held by the AbstractChessGame
+		
+//	    writer.println("After call to game.movepiece \n"+game.getBoardPic());
+		
+		ApieceMove move = null; //createMove(piece,oldPosition, position); // Here we must update the knowledge bases ?????
+	    piece.giveNewdirections(); // Calculates nw,ne,sw,se for bishop and queen Added 03.06.21
+		HashMap<String,ApieceMove> myMoves = stateImpl.getMyPlayer().getMyMoves();
+		APlayer myplayer = stateImpl.getMyPlayer();
+		String newNot = checkCastling(stateImpl.getMyPlayer());
+		String not = null; // Algebraic notation
+		if (newNot != null) {
+			not = newNot;
+			myMoves.put(not, castleMove);
+		}
+		if (newNot == null) {
+			move = createMove(piece,oldPosition, position);
+			not = move.getMoveNotation();
+			myMoves.put(not, move);
+		}
+		myplayer.showPieceactivity();
+		stateImpl.getOpponent().showPieceactivity();
+		moveStatistics(myplayer);
+		moveStatistics(stateImpl.getOpponent());
+//		chessAgent.updateKnowledge(); // Must update knowledge bases after last move ??
+/*
+ * At the end of statistics: We must update the FOL knowledge bases with the latest move !!		
+ */
+		int index = movements.size();
+		ApieceMove lastMove = movements.get(index-1);
+		String moveNot = lastMove.getMoveNotation(); // OBS move notation is not set !!!
+		myMoves.put(moveNot, lastMove); // For castling: must have different move notation
+		Integer moveNumber = new Integer(lastMove.getMoveNumber());
+		piece.getMoveNumbers().add(moveNumber);
+//		checkCastling(stateImpl.getMyPlayer()); The call to checkCastling is moved 07.10.22
+		stateImpl.switchActivePlayer(); // 16.04.20 After a move, must switch active player
+		lastPiece = piece; // Set the lastpiece to be moved
+		newPosition = position;
+		this.oldPosition = oldPosition;
+//		localAction.getActions(playerTomove); // Added 24.02.20 When a move has been made then the pieces belonging to the same player must get new
+//available positions calculated
+
+		game.createNewboard(); // A new set of usedunused lists are created.
+		 writer.println("After call to game.createnewboard \n"+game.getBoardPic()+"\n");
+/*		 for ( Position pos : positionlist) {
+			 writer.println(pos.toString());
+		 }*/
+		 writer.println("Knowledge base after last move \n"+chessAgent.getFolKb().toString());
+		 writer.println("Strategy Knowledge base after last move \n"+chessAgent.getStrategyKB().toString());
+		 writer.flush();
+!!!2525826.java!!!	moveStatistics(inout myplayer : APlayer) : void
+		List<AgamePiece> inactivePieces = myplayer.getInactivePieces();
+		List myPieces = myplayer.getMygamePieces();
+		HashMap<String,ApieceMove> myMoves = myplayer.getMyMoves();
+		HashMap<String, Integer> nameandRank = myplayer.getNamesAndrank(); // The key is //http....#WhiteRook
+		if (!inactivePieces.isEmpty()) {
+			writer.println("Inactive pieces for "+myplayer.getNameOfplayer());
+			for (AgamePiece piece:inactivePieces) {
+				String name = piece.getMyPiece().getOntlogyName();
+				Integer theValue = piece.getMyValue();
+				int rankvalue = -1;
+				Integer rank = nameandRank.get(name);
+				if (rank != null )
+					rankvalue = rank.intValue();
+				writer.println("Name and rank "+name+" "+rankvalue+ " "+theValue.intValue());
+			}
+		}
+
+		List<ApieceMove> movetotals = new ArrayList<ApieceMove>(myMoves.values());
+		 writer.println(" Moves so far for player "+ myplayer.getNameOfplayer());
+		for (ApieceMove thismove:movetotals) {
+			 writer.println(" Move "+thismove.toString());
+		}
+		
+!!!2525954.java!!!	checkCastling(inout player : APlayer) : String
+		String moveNot = null;
+		ChessActionImpl localAction = (ChessActionImpl) chessAgent.getCastleAction();
+		if (localAction != null) {
+			AgamePiece king = player.getChosenPiece("WhiteKing"); // Only with player as white player
+			if (king != null)
+				writer.println("King castling: "+king.toString());
+			AgamePiece castle = localAction.getChessPiece();
+			Position castlePos = localAction.getPreferredPosition();
+   	    	if (castle != null) {
+   	    		Position castlePosfrom = castle.getHeldPosition();
+   	    		if (castlePosfrom == null)
+   	    			castlePosfrom = castle.getMyPosition();
+   	    		String fromPos = castlePosfrom.getPositionName();
+   	    		String toPos = "";
+   	    		String castleName = castle.getName();
+   	    		if (castlePos != null) {
+   	    			toPos = castlePos.getPositionName();
+   	    			castleMove = createMove(castle,castlePosfrom, castlePos);
+   	    			myFrontBoard.determineMove(fromPos, toPos, castleName); // Determine if move is legal
+   	    			castle.setNofMoves(0);
+   	    			castle.setMyPosition(castlePos);
+   	    			castle.produceLegalmoves(castlePos);
+   	    			player.calculatePreferredPosition(castle, localAction);
+   	    			moveNot = "o-o";
+   	    		}
+   	    		
+   	    	}
+		}
+		return moveNot;
+!!!2526082.java!!!	verifyAction(inout action : ChessActionImpl, inout piece : AgamePiece, inout position : Position, inout playerTomove : APlayer) : void
+		action.getActions(playerTomove);
+		List<Position> availablePositions = (List<Position>) action.getAvailablePositions();
+		List<Position>  removedPos = (List<Position>)action.getPositionRemoved();
+		/*
+		 * Added 24.02.20		
+		 * When a move has been made then the pieces belonging to the same player must get new
+		 * available positions calculated				
+		 */
+				boolean available = false;
+				boolean removed = false;
+				for (Position pos:availablePositions) {
+					if (position == pos) {
+						available = true;
+						break;
+					}
+				}
+				for (Position pos:removedPos) {
+					if (position == pos) {
+						removed = true;
+						break;
+					}
+				}
+		/*
+		 * end added		
+		 */
+		if (removed) {
+			writer.println("Piece preferable position is occupied by friendly piece:\n"+piece.toString()+"\n Position "+position.toString());
+//			Double evaluation = new Double(0);
+		    writer.close();
+//			return evaluation;
+		}		
+!!!2526210.java!!!	createMove(inout piece : AgamePiece, inout from : Position, inout to : Position, inout moves : List<ApieceMove>) : void
+		int noofMoves = 0;
+		String algebraicmove = "";
+/*		ArrayList<ChessMoves> amoves = myFrontBoard.getChessMoves();
+		if (amoves != null && !amoves.isEmpty()) {
+			int ll = amoves.size();
+			ChessMoves move = amoves.get(ll-1);
+			algebraicmove = move.getBlackMove();
+			if (algebraicmove.equals(""))
+				algebraicmove = move.getWhiteMove();
+			
+		} This procedure is not necessary here*/
+		if (moves.isEmpty()) {
+			noofMoves = 0;
+		}
+		if (!moves.isEmpty()) {
+			noofMoves = moves.size();
+		}
+		noofMoves++;
+		piece.produceLegalmoves(to);
+//		piece.getLegalmoves(to); // Create a new list of available position after move 
+		ApieceMove pieceMove = new ApieceMove(piece,from, to, noofMoves, algebraicmove);
+		 writer.println("Creating a move with the makeDecision call: Piece "+piece.toString()+" is moved to \n"+to.toString()+"\n");
+		moves.add(pieceMove);
+			
+!!!2526338.java!!!	createMove(inout piece : AgamePiece, inout from : Position, inout to : Position) : ApieceMove
+		int noofMoves = 0;
+		String algebraicmove = "";
+		ArrayList<ChessMoves> moves = myFrontBoard.getChessMoves();
+		if (moves != null && !moves.isEmpty()) {
+			int ll = moves.size();
+			ChessMoves move = moves.get(ll-1);
+			algebraicmove = move.getBlackMove();
+			if (algebraicmove.equals(""))
+				algebraicmove = move.getWhiteMove();
+			
+		}
+		if (movements.isEmpty()) {
+			noofMoves = 0;
+		}
+		if (!movements.isEmpty()) {
+			noofMoves = movements.size();
+		}
+		noofMoves++;
+		algebraicmove = myFrontBoard.getAlgebraicNotation();
+		piece.produceLegalmoves(to);
+//		piece.getLegalmoves(to); // Create a new list of available position after move
+		ApieceMove pieceMove = new ApieceMove(piece,from, to, noofMoves, algebraicmove);
+		pieceMove.setCapturedName(piece.getMyPiece().getCapturedName());
+		pieceMove.setMoveNumber(noofMoves);
+		writer.println("Creating piecemove "+pieceMove.toString());
+		movements.add(pieceMove);
+		piece.getMyMoves().add(pieceMove); // Add the move to the piece
+		return pieceMove;	
+!!!2526466.java!!!	clearMoves() : void
+		if (!movements.isEmpty()) {
+			movements.clear();
+		}
+	
+!!!2526594.java!!!	clearChessboard() : void
+		game.clear();

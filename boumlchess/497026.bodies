@@ -1,12 +1,14 @@
 class PlannerStateImpl
 !!!2227202.java!!!	PlannerStateImpl(inout player : APlayer, inout opponent : APlayer, inout actionSchemas : List<ActionSchema>, in otherSchemaList : List<ActionSchema>, in moveNr : int)
 		super();
+		String catalog = KnowledgeBuilder.getFileCatalog();
 		this.player = player;
 		this.opponent = opponent;
 		this.actionSchemas = actionSchemas;
 		this.otherSchemaList = otherSchemaList;
 		this.moveNr = moveNr;
 		plannerActions = new ArrayList<ChessPlannerAction>();
+		outputFileName = catalog + outputFileName;
 		try {
 			fw = new FileWriter(outputFileName, true);
 		} catch (IOException e1) {
@@ -27,6 +29,8 @@ class PlannerStateImpl
 	    }
 !!!2298882.java!!!	PlannerStateImpl(inout player : APlayer, inout opponent : APlayer, inout actionSchemas : List<ActionSchema>, in moveNr : int, inout thePerceptor : APerceptor)
 		super();
+		String catalog = KnowledgeBuilder.getFileCatalog();
+		outputFileName = catalog + outputFileName;
 		this.player = player;
 		this.opponent = opponent;
 		this.actionSchemas = actionSchemas;
@@ -97,7 +101,7 @@ class PlannerStateImpl
 		return flag;
 !!!2299138.java!!!	setCastling(inout castling : boolean) : void
 		this.castling = castling;
-!!!2219906.java!!!	getPlannerActions() : List<ChessPlannerAction>
+!!!2219906.java!!!	getPlannerActions() : ChessPlannerAction
 		return plannerActions;
 !!!2220034.java!!!	setPlannerActions(inout plannerActions : List<ChessPlannerAction>) : void
 		this.plannerActions = plannerActions;
@@ -129,7 +133,7 @@ class PlannerStateImpl
 !!!2219394.java!!!	getAction() : ChessPlannerAction
 	
 		return this.plannerAction;
-!!!2219522.java!!!	getActions() : List<ChessPlannerAction>
+!!!2219522.java!!!	getActions() : ChessPlannerAction
 			return getPlannerActions();
 !!!2219650.java!!!	getActionSchema() : ActionSchema
 		

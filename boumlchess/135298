@@ -1,7 +1,7 @@
-format 223
+format 224
 "proof" // aima::core::logic::fol::inference::proof
-  revision 3
-  modified_by 2 "bruker"
+  revision 4
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -116,6 +116,56 @@ ${members}}
            used for any other reason.
 "
       end
+
+      operation 2399746 "getSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return A list of proof steps that show how an answer was derived.
+"
+      end
+
+      operation 2399874 "getAnswerBindings"
+	public return_type class_ref 157698 // Variable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Term> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a Map of bindings for any variables that were in the original
+        query. Will be an empty Map if no variables existed in the
+        original query.
+"
+      end
+
+      operation 2400002 "replaceAnswerBindings"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "updatedBindings" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param updatedBindings
+           allows for the bindings to be renamed. Note: should not be
+           used for any other reason.
+"
+      end
     end
 
     class 163330 "ProofStep"
@@ -187,6 +237,67 @@ ${members}}
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2399106 "getStepNumber"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2399234 "setStepNumber"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "step" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2399362 "getPredecessorSteps"
+	public return_type class_ref 163330 // ProofStep
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2399490 "getProof"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2399618 "getJustification"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -470,6 +581,25 @@ ${members}}
 
 "
       operation 305794 "printProof"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "proof" type class_ref 163202 // Proof
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Utility method for outputting proofs in a formatted textual
+representation.
+
+@param proof
+@return a String representation of the Proof.
+"
+      end
+
+      operation 2400130 "printProof"
 	class_operation public explicit_return_type "String"
 	nparams 1
 	  param inout name "proof" type class_ref 163202 // Proof

@@ -21,3 +21,25 @@ class Rule
 
 		return sb.append("if ").append(con).append(" then ").append(action)
 				.append(".").toString();
+!!!2369154.java!!!	Rule(inout con : Condition, inout action : Action)
+		assert (null != con);
+		assert (null != action);
+
+		this.con = con;
+		this.action = action;
+!!!2369282.java!!!	evaluate(inout p : ObjectWithDynamicAttributes) : boolean
+		return (con.evaluate(p));
+!!!2369410.java!!!	getAction() : Action
+		return action;
+!!!2369538.java!!!	equals(inout o : Object) : boolean
+		if (o == null || !(o instanceof Rule)) {
+			return super.equals(o);
+		}
+		return (toString().equals(((Rule) o).toString()));
+!!!2369666.java!!!	hashCode() : int
+		return toString().hashCode();
+!!!2369794.java!!!	toString() : String
+		StringBuilder sb = new StringBuilder();
+
+		return sb.append("if ").append(con).append(" then ").append(action)
+				.append(".").toString();

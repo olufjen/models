@@ -1,7 +1,7 @@
-format 223
+format 224
 "approx" // aima::core::probability::bayes::approx
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -243,6 +243,35 @@ algorithms.
 	  param in name "N" explicit_type "int"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param X
+           the query variables.
+@param observedEvidence
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables
+@param N
+           the total number of samples to be generated
+@return an estimate of <b>P</b>(X|e).
+"
+      end
+
+      operation 2419458 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 4
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	  param in name "N" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -919,6 +948,66 @@ given the values already sampled for the variable's parents.
       end
 
       operation 399746 "priorSample"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 1
+	  param inout name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Object> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function PRIOR-SAMPLE(bn) returns an event sampled from the prior
+ specified by bn
+
+The PRIOR-SAMPLE algorithm in Figure 14.13. A sampling algorithm that
+generates events from a Bayesian network. Each variable is sampled
+according to the conditional distribution given the values already
+sampled for the variable's parents.
+
+@param bn
+           a Bayesian network specifying joint distribution
+           <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
+@return an event sampled from the prior specified by bn
+"
+      end
+
+      classrelation 791938 // <unidirectional association>
+	relation 791938 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 791938 // <unidirectional association>
+	  b parent class_ref 155266 // Randomizer
+      end
+
+      operation 2419586 "PriorSample"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2419714 "PriorSample"
+	public explicit_return_type ""
+	nparams 1
+	  param inout name "r" type class_ref 155266 // Randomizer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2419842 "priorSample"
 	public return_type class_ref 175490 // RandomVariable
 	nparams 1
 	  param inout name "bn" type class_ref 175874 // BayesianNetwork

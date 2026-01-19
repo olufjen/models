@@ -1,7 +1,7 @@
-format 223
+format 224
 "robotics" // aima::core::robotics
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,15 @@ format 223
      end
     class 187522 "IMclMap"
       visibility public stereotype "interface"
-      nformals 4
+      nformals 8
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IMclPose<P,V,M>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
       formal name "P" type "" explicit_default_value ""
         explicit_extends "IMclPose<P,V,M>"
       formal name "V" type "" explicit_default_value ""
@@ -132,11 +140,66 @@ ${members}}
 @return true if the pose is valid.
 "
       end
+
+      operation 2425986 "randomPose"
+	cpp_inline public explicit_return_type "P"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates a random valid pose on the map.
+@return a random valid pose on the map.
+"
+      end
+
+      operation 2426114 "rayCast"
+	cpp_inline public explicit_return_type "R"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the length of a ray in a direction defined by a pose.
+@param pose the pose from which the ray is to be cast.
+@return the length of the ray as a range reading.
+"
+      end
+
+      operation 2426242 "isPoseValid"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "pose" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Verifies whether a pose is valid, that is inside the map boundaries and not within an obstacle.
+@param pose the pose which is to be evaluated.
+@return true if the pose is valid.
+"
+      end
     end
 
     class 187778 "IMclRobot"
       visibility public stereotype "interface"
-      nformals 3
+      nformals 6
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
       formal name "V" type "" explicit_default_value ""
         extends class_ref 187650 // IMclVector
       formal name "M" type "" explicit_default_value ""
@@ -198,11 +261,55 @@ ${members}}
 @throws RobotException thrown if the move was not successful.
 "
       end
+
+      operation 2426370 "getRangeReadings"
+	cpp_inline public explicit_return_type "R"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 187906 // RobotException
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Causes a series of sensor measurements to determine the distance to various obstacles within the environment.
+@return an array of range measurements {@code <R>}. 
+@throws RobotException thrown if the range reading was not successful.
+"
+      end
+
+      operation 2426498 "performMove"
+	cpp_inline public explicit_return_type "M"
+	nparams 0
+	nexceptions 1
+	  exception class_ref 187906 // RobotException
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Causes the robot to perform a movement.
+@return the move the robot performed.
+@throws RobotException thrown if the move was not successful.
+"
+      end
     end
 
     class 188034 "MonteCarloLocalization"
       visibility public 
-      nformals 4
+      nformals 8
+      formal name "P" type "" explicit_default_value ""
+        explicit_extends "IMclPose<P,V,M>"
+      formal name "V" type "" explicit_default_value ""
+        extends class_ref 187650 // IMclVector
+      formal name "M" type "" explicit_default_value ""
+        explicit_extends "IMclMove<M>"
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends "IMclRangeReading<R,V>"
       formal name "P" type "" explicit_default_value ""
         explicit_extends "IMclPose<P,V,M>"
       formal name "V" type "" explicit_default_value ""

@@ -1,7 +1,7 @@
-format 223
+format 224
 "mdp" // aima::core::probability::mdp
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -56,7 +56,11 @@ format 223
      end
     class 154370 "PolicyEvaluation"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -112,11 +116,43 @@ U<sub>i</sub>=U<sup>&pi;<sub>i</sub></sup>, the utility of each state if
         state if &pi;<sub>i</sub> were to be executed.
 "
       end
+
+      operation 2424834 "evaluate"
+	cpp_inline public explicit_return_type "Map<S, Double>"
+	nparams 3
+	  param inout name "pi_i" explicit_type "Map<S, A>"
+	  param inout name "U" explicit_type "Map<S, Double>"
+	  param inout name "mdp" type class_ref 183298 // MarkovDecisionProcess
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<S, A> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>Policy evaluation:</b> given a policy &pi;<sub>i</sub>, calculate
+U<sub>i</sub>=U<sup>&pi;<sub>i</sub></sup>, the utility of each state if
+&pi;<sub>i</sub> were to be executed.
+
+@param pi_i
+           a policy vector indexed by state
+@param U
+           a vector of utilities for states in S
+@param mdp
+           an MDP with states S, actions A(s), transition model P(s'|s,a)
+@return U<sub>i</sub>=U<sup>&pi;<sub>i</sub></sup>, the utility of each
+        state if &pi;<sub>i</sub> were to be executed.
+"
+      end
     end
 
     class 154626 "ActionsFunction"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -159,11 +195,34 @@ ${members}}
 @return the set of actions for state s.
 "
       end
+
+      operation 2423938 "actions"
+	cpp_inline public explicit_return_type "Set<A>"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the set of actions for state s.
+
+@param s
+           the state.
+@return the set of actions for state s.
+"
+      end
     end
 
     class 155138 "TransitionProbabilityFunction"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -213,11 +272,41 @@ on the underlying transition model P(s' | s, a).
 @return the probability of going from state s using action a to s'.
 "
       end
+
+      operation 2424962 "probability"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "sDelta" explicit_type "S"
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the probability of going from state s using action a to s' based
+on the underlying transition model P(s' | s, a).
+
+@param sDelta
+           the state s' being transitioned to.
+@param s
+           the state s being transitions from.
+@param a
+           the action used to move from state s to s'.
+@return the probability of going from state s using action a to s'.
+"
+      end
     end
 
     class 183298 "MarkovDecisionProcess"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -351,11 +440,110 @@ on the underlying transition model P(s' | s, a).
 @return the reward associated with being in state s.
 "
       end
+
+      operation 2424066 "states"
+	cpp_inline public explicit_return_type "Set<S>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the set of states associated with the Markov decision process.
+
+@return the set of states associated with the Markov decision process.
+"
+      end
+
+      operation 2424194 "getInitialState"
+	cpp_inline public explicit_return_type "S"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the initial state s<sub>0</sub> for this instance of a Markov
+decision process.
+
+@return the initial state s<sub>0</sub>.
+"
+      end
+
+      operation 2424322 "actions"
+	cpp_inline public explicit_return_type "Set<A>"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the set of actions for state s.
+
+@param s
+           the state.
+@return the set of actions for state s.
+"
+      end
+
+      operation 2424450 "transitionProbability"
+	cpp_inline public explicit_return_type "double"
+	nparams 3
+	  param inout name "sDelta" explicit_type "S"
+	  param inout name "s" explicit_type "S"
+	  param inout name "a" explicit_type "A"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the probability of going from state s using action a to s' based
+on the underlying transition model P(s' | s, a).
+
+@param sDelta
+           the state s' being transitioned to.
+@param s
+           the state s being transitions from.
+@param a
+           the action used to move from state s to s'.
+@return the probability of going from state s using action a to s'.
+"
+      end
+
+      operation 2424578 "reward"
+	cpp_inline public explicit_return_type "double"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the reward associated with being in state s.
+
+@param s
+           the state whose award is sought.
+@return the reward associated with being in state s.
+"
+      end
     end
 
     class 183426 "RewardFunction"
       visibility public stereotype "interface"
-      nformals 1
+      nformals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -387,7 +575,11 @@ ${members}}
 
     class 184450 "Policy"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -439,20 +631,47 @@ know what to do next.
 @return the action recommended by the policy &pi; for state s.
 "
       end
+
+      operation 2424706 "action"
+	cpp_inline public explicit_return_type "A"
+	nparams 1
+	  param inout name "s" explicit_type "S"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "&pi;(s) is the action recommended by the policy &pi; for state s.
+
+@param s
+           the state s
+@return the action recommended by the policy &pi; for state s.
+"
+      end
     end
 
     class 184578 "POMDP"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         extends class_ref 128002 // Action
-      nactuals 2
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
+      nactuals 4
       actual class class_ref 183298 // MarkovDecisionProcess
         rank 0 explicit_value "S"
       actual class class_ref 183298 // MarkovDecisionProcess
         rank 1 explicit_value "A"
+      actual class class_ref 183298 // MarkovDecisionProcess
+        rank 2 explicit_value ""
+      actual class class_ref 183298 // MarkovDecisionProcess
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}

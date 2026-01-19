@@ -1,7 +1,7 @@
-format 223
+format 224
 "shapes" // aima::core::util::math::geom::shapes
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -378,6 +378,104 @@ The reason being that these functions will be called more frequently than the co
 	  param inout name "matrix" type class_ref 202754 // TransformMatrix2D
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates a {@link TransformMatrix2D} onto this geometric shape.
+@param matrix the transformation matrix that gets calculated into this shape.
+@return the transformed shape.
+"
+      end
+
+      operation 2433282 "randomPoint"
+	public return_type class_ref 137218 // Point2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Generates a random point that is on this geometric shape. {@code isInsideBorder()} has to return {@code true} for that point.
+@return a new random point inside the shape.
+"
+      end
+
+      operation 2433410 "isInside"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Tests whether the point is inside this geometric shape excluding its border.
+@param point the point to be tested.
+@return true if the point is inside the shape.
+"
+      end
+
+      operation 2433538 "isInsideBorder"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "point" type class_ref 137218 // Point2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Tests whether the point is inside this geometric shape including its border.
+@param point the point to be tested.
+@return true if the point is inside the shape or on its border.
+"
+      end
+
+      operation 2433666 "rayCast"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "ray" type class_ref 202498 // Ray2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Intersects this geometric shape with a ray.
+@param ray the ray to intersect.
+@return the length of the ray until it intersects with this shape. {@code Double.POSITIVE_INFINITY} if it does not intersect this shape.
+"
+      end
+
+      operation 2433794 "getBounds"
+	public return_type class_ref 189826 // Rect2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Gets the boundaries of this geometric shape as a {@link Rect2D}.
+@return the boundaries of this shape.
+"
+      end
+
+      operation 2433922 "transform"
+	public return_type class_ref 189698 // IGeometric2D
+	nparams 1
+	  param inout name "matrix" type class_ref 202754 // TransformMatrix2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -776,6 +874,108 @@ A ray is represented by a {@link Point2D} and a directional {@link Vector2D}.
 @return the transformed ray.
 "
       end
+
+      classrelation 795010 // <unidirectional association>
+	relation 795010 --->
+	  a role_name "" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795010 // <unidirectional association>
+	  b parent class_ref 137218 // Point2D
+      end
+
+      classrelation 795138 // <unidirectional association>
+	relation 795138 --->
+	  a role_name "" const_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795138 // <unidirectional association>
+	  b parent class_ref 203138 // Vector2D
+      end
+
+      operation 2434050 "Ray2D"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "start" type class_ref 137218 // Point2D
+	  param inout name "direction" type class_ref 203138 // Vector2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param start the initial point from that the ray originates.
+@param direction the direction in which the ray beams.
+"
+      end
+
+      operation 2434178 "Ray2D"
+	public explicit_return_type ""
+	nparams 4
+	  param in name "startX" explicit_type "double"
+	  param in name "startY" explicit_type "double"
+	  param in name "endX" explicit_type "double"
+	  param in name "endY" explicit_type "double"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param startX the X coordinate of the initial point from which the ray originates.
+@param startY the Y coordinate of the initial point from which the ray originates.
+@param endX the X coordinate of any point on the ray that is different from the start.
+@param endY the Y coordinate of any point on the ray that is different from the start.
+"
+      end
+
+      operation 2434306 "getStart"
+	public return_type class_ref 137218 // Point2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the origin of the ray.
+"
+      end
+
+      operation 2434434 "getDirection"
+	public return_type class_ref 203138 // Vector2D
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the direction of the ray.
+"
+      end
+
+      operation 2434562 "transform"
+	public return_type class_ref 202498 // Ray2D
+	nparams 1
+	  param inout name "matrix" type class_ref 202754 // TransformMatrix2D
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates a transformation matrix onto the ray.
+
+@param matrix the {@link TransformMatrix2D} that gets calculated into this ray.
+@return the transformed ray.
+"
+      end
     end
 
     class 202754 "TransformMatrix2D"
@@ -1072,6 +1272,22 @@ For a multiplication in two-dimensional Cartesian space the third field is set t
 @param o the object to be compared to this matrix.
 @return true if the object is identical to this matrix.
 "
+      end
+
+      classrelation 795266 // <unidirectional association>
+	relation 795266 --->
+	  a role_name "" init_value " new TransformMatrix2D(1.0d,0.0d,0.0d,1.0d,0.0d,0.0d)" class_relation const_relation public
+	    comment "
+This is the unity/identity matrix:<br/>
+<code>[ 1 0 0 ]</code><br/>
+<code>[ 0 0 0 ]</code><br/>
+<code>[ 0 0 1 ]</code><br/>
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795266 // <unidirectional association>
+	  b parent class_ref 202754 // TransformMatrix2D
       end
     end
 
@@ -1881,6 +2097,45 @@ Both vectors must be different from the zero-vector.
 	
 	
 	
+      end
+
+      classrelation 795394 // <unidirectional association>
+	relation 795394 --->
+	  a role_name "" init_value " new Vector2D(1.0d,0.0d)" class_relation const_relation public
+	    comment "
+This is a vector that is parallel to the X axis.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795394 // <unidirectional association>
+	  b parent class_ref 203138 // Vector2D
+      end
+
+      classrelation 795522 // <unidirectional association>
+	relation 795522 --->
+	  a role_name "" init_value " new Vector2D(0.0d,1.0d)" class_relation const_relation public
+	    comment "
+This is a vector that is parallel to the Y axis.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795522 // <unidirectional association>
+	  b parent class_ref 203138 // Vector2D
+      end
+
+      classrelation 795650 // <unidirectional association>
+	relation 795650 --->
+	  a role_name "" init_value " new Vector2D(0.0d,0.0d)" class_relation const_relation public
+	    comment "
+This is the zero vector. It does not have a direction neither a length.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 795650 // <unidirectional association>
+	  b parent class_ref 203138 // Vector2D
       end
     end
 

@@ -1,7 +1,7 @@
-format 223
+format 224
 "wumpusworld" // aima::core::environment::wumpusworld
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -2659,11 +2659,15 @@ ${members}}
 
       class 144130 "WumpusActionsFunction"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 135298 // ActionsFunction
 	  rank 0 value class_ref 142594 // AgentPosition
 	actual class class_ref 135298 // ActionsFunction
 	  rank 1 value class_ref 143362 // WumpusAction
+	actual class class_ref 135298 // ActionsFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 135298 // ActionsFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -2723,11 +2727,15 @@ ${members}}
 
       class 144258 "WumpusResultFunction"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 135426 // ResultFunction
 	  rank 0 value class_ref 142594 // AgentPosition
 	actual class class_ref 135426 // ResultFunction
 	  rank 1 value class_ref 143362 // WumpusAction
+	actual class class_ref 135426 // ResultFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 135426 // ResultFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -2784,6 +2792,32 @@ ${members}}
 	  
 	  
 	end
+      end
+
+      operation 2375938 "createActionsFunction"
+	class_operation public return_type class_ref 135298 // ActionsFunction
+	nparams 1
+	  param inout name "cave" type class_ref 143618 // WumpusCave
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<AgentPosition, WumpusAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2376066 "createResultFunction"
+	class_operation public return_type class_ref 135426 // ResultFunction
+	nparams 1
+	  param inout name "cave" type class_ref 143618 // WumpusCave
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<AgentPosition, WumpusAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
     end
 

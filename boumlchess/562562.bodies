@@ -1,0 +1,20 @@
+class ChessGraph
+!!!2461954.java!!!	ChessGraph(inout problem : ChessProblem, inout initialLevel : ChessLevel)
+        this.problem = problem;
+        levels = new ArrayList<>();
+        levels.add(initialLevel);
+//        propositionalisedActions = problem.getPropositionalisedActions();
+        propositionalisedActions = problem.getGroundActions();
+!!!2462082.java!!!	numLevels() : int
+        return levels.size();
+!!!2462210.java!!!	getLevels() : ChessLevel
+        return levels;
+!!!2462338.java!!!	getProblem() : ChessProblem
+        return problem;
+!!!2462466.java!!!	getPropositionalisedActions() : ActionSchema
+        return propositionalisedActions;
+!!!2462594.java!!!	addLevel() : ChessGraph
+        ChessLevel lastLevel = levels.get(levels.size() - 1);
+        ChessLevel level = new ChessLevel(lastLevel, this.problem);
+        this.levels.add(level);
+        return this;

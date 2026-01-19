@@ -106,3 +106,110 @@ class EightPuzzleDemo
 
 !!!549762.java!!!	printActions(inout actions : List<Action>) : void
 		actions.forEach(System.out::println);
+!!!2441090.java!!!	main(inout args : String [[]]) : void
+		eightPuzzleDLSDemo();
+		eightPuzzleIDLSDemo();
+		eightPuzzleGreedyBestFirstDemo();
+		eightPuzzleGreedyBestFirstManhattanDemo();
+		eightPuzzleAStarDemo();
+		eightPuzzleAStarManhattanDemo();
+		eightPuzzleSimulatedAnnealingDemo();
+!!!2441218.java!!!	eightPuzzleDLSDemo() : void
+		System.out.println("\nEightPuzzleDemo recursive DLS (9) -->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+			SearchForActions<EightPuzzleBoard, Action> search = new DepthLimitedSearch<>(9);
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2441346.java!!!	eightPuzzleIDLSDemo() : void
+		System.out.println("\nEightPuzzleDemo Iterative DLS -->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
+			SearchForActions<EightPuzzleBoard, Action> search = new IterativeDeepeningSearch<>();
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2441474.java!!!	eightPuzzleGreedyBestFirstDemo() : void
+		System.out.println("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+			SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<>
+					(new GraphSearch<>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2441602.java!!!	eightPuzzleGreedyBestFirstManhattanDemo() : void
+		System.out.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+			SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<>
+					(new GraphSearch<>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2441730.java!!!	eightPuzzleAStarDemo() : void
+		System.out.println("\nEightPuzzleDemo AStar Search (MisplacedTileHeursitic)-->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
+			SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<>
+					(new GraphSearch<>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2441858.java!!!	eightPuzzleSimulatedAnnealingDemo() : void
+		System.out.println("\nEightPuzzleDemo Simulated Annealing  Search -->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
+			SimulatedAnnealingSearch<EightPuzzleBoard, Action> search = new SimulatedAnnealingSearch<>
+					(EightPuzzleFunctions.createManhattanHeuristicFunction());
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			System.out.println("Search Outcome=" + search.getOutcome());
+			System.out.println("Final State=\n" + search.getLastSearchState());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+!!!2441986.java!!!	eightPuzzleAStarManhattanDemo() : void
+		System.out.println("\nEightPuzzleDemo AStar Search (ManhattanHeursitic)-->");
+		try {
+			Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
+			SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<>
+					(new GraphSearch<>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+			SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+			printActions(agent.getActions());
+			printInstrumentation(agent.getInstrumentation());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+!!!2442114.java!!!	printInstrumentation(inout properties : Properties) : void
+		for (Object o : properties.keySet()) {
+			String key = (String) o;
+			String property = properties.getProperty(key);
+			System.out.println(key + " : " + property);
+		}
+
+!!!2442242.java!!!	printActions(inout actions : List<Action>) : void
+		actions.forEach(System.out::println);

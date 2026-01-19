@@ -25,3 +25,29 @@ class EightPuzzleFunctions
 		return new ManhattanHeuristicFunction();
 !!!160642.java!!!	createMisplacedTileHeuristicFunction() : Node
 		return new MisplacedTileHeuristicFunction();
+!!!2371714.java!!!	getActions(inout state : EightPuzzleBoard) : Action
+		List<Action> actions = new ArrayList<>(4);
+        for (Action action : Arrays.asList(EightPuzzleBoard.UP, EightPuzzleBoard.DOWN,
+                EightPuzzleBoard.LEFT, EightPuzzleBoard.RIGHT)) {
+            if (state.canMoveGap(action))
+                actions.add(action);
+        }
+		return actions;
+!!!2371842.java!!!	getResult(inout state : EightPuzzleBoard, inout action : Action) : EightPuzzleBoard
+		EightPuzzleBoard result = new EightPuzzleBoard(state);
+
+		if (state.canMoveGap(action)) {
+            if (EightPuzzleBoard.UP.equals(action))
+                result.moveGapUp();
+            else if (EightPuzzleBoard.DOWN.equals(action))
+                result.moveGapDown();
+            else if (EightPuzzleBoard.LEFT.equals(action))
+                result.moveGapLeft();
+            else if (EightPuzzleBoard.RIGHT.equals(action))
+                result.moveGapRight();
+        }
+		return result;
+!!!2371970.java!!!	createManhattanHeuristicFunction() : Node
+		return new ManhattanHeuristicFunction();
+!!!2372098.java!!!	createMisplacedTileHeuristicFunction() : Node
+		return new MisplacedTileHeuristicFunction();

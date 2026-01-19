@@ -1,7 +1,7 @@
-format 223
+format 224
 "map" // aima::core::environment::map
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,15 +54,23 @@ format 223
      end
     class 136578 "BidirectionalMapProblem"
       visibility public 
-      nactuals 4
+      nactuals 8
       actual class class_ref 134786 // GeneralProblem
         rank 0 explicit_value "string"
       actual class class_ref 134786 // GeneralProblem
         rank 1 value class_ref 136706 // MoveToAction
+      actual class class_ref 134786 // GeneralProblem
+        rank 2 explicit_value ""
+      actual class class_ref 134786 // GeneralProblem
+        rank 3 explicit_value ""
       actual class class_ref 135810 // BidirectionalProblem
         rank 0 explicit_value ""
       actual class class_ref 135810 // BidirectionalProblem
         rank 1 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 2 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -317,6 +325,98 @@ represented by two coordinates, e.g. latitude and longitude values.
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a location which is selected by random.
+"
+      end
+
+      operation 2372226 "getLocations"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns a list of all locations. "
+      end
+
+      operation 2372354 "getPossibleNextLocations"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Answers to the question: Where can I get, following one of the
+connections starting at the specified location?
+"
+      end
+
+      operation 2372482 "getPossiblePrevLocations"
+	public explicit_return_type "List<String>"
+	nparams 1
+	  param in name "location" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Answers to the question: From where can I reach a specified location,
+following one of the map connections?
+"
+      end
+
+      operation 2372610 "getDistance"
+	public explicit_return_type "Double"
+	nparams 2
+	  param in name "fromLocation" explicit_type "String"
+	  param in name "toLocation" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the travel distance between the two specified locations if they
+are linked by a connection and null otherwise.
+"
+      end
+
+      operation 2372738 "getPosition"
+	public return_type class_ref 137218 // Point2D
+	nparams 1
+	  param in name "loc" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the position of the specified location. The position is
+represented by two coordinates, e.g. latitude and longitude values.
+"
+      end
+
+      operation 2372866 "randomlyGenerateDestination"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -700,11 +800,15 @@ orthogonal coordinate system.
 
     class 137474 "MapAgent"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 137602 // ProblemSolvingAgent
         rank 0 explicit_value "string"
       actual class class_ref 137602 // ProblemSolvingAgent
         rank 1 value class_ref 136706 // MoveToAction
+      actual class class_ref 137602 // ProblemSolvingAgent
+        rank 2 explicit_value ""
+      actual class class_ref 137602 // ProblemSolvingAgent
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1310,11 +1414,15 @@ ${members}}
 
       class 138242 "MapActionsFunction"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 135298 // ActionsFunction
 	  rank 0 explicit_value "string"
 	actual class class_ref 135298 // ActionsFunction
 	  rank 1 value class_ref 136706 // MoveToAction
+	actual class class_ref 135298 // ActionsFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 135298 // ActionsFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1385,11 +1493,15 @@ ${members}}
 
       class 138498 "MapResultFunction"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 135426 // ResultFunction
 	  rank 0 explicit_value "string"
 	actual class class_ref 135426 // ResultFunction
 	  rank 1 value class_ref 136706 // MoveToAction
+	actual class class_ref 135426 // ResultFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 135426 // ResultFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1426,11 +1538,15 @@ ${members}}
 
       class 138754 "DistanceStepCostFunction"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 135682 // StepCostFunction
 	  rank 0 explicit_value "string"
 	actual class class_ref 135682 // StepCostFunction
 	  rank 1 value class_ref 136706 // MoveToAction
+	actual class class_ref 135682 // StepCostFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 135682 // StepCostFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1504,6 +1620,99 @@ ${members}}
 	  
 	  
 	end
+      end
+
+      operation 2372994 "createActionsFunction"
+	class_operation public return_type class_ref 135298 // ActionsFunction
+	nparams 1
+	  param inout name "map" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<String, MoveToAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2373122 "createReverseActionsFunction"
+	class_operation public return_type class_ref 135298 // ActionsFunction
+	nparams 1
+	  param inout name "map" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<String, MoveToAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2373250 "createResultFunction"
+	class_operation public return_type class_ref 135426 // ResultFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<String, MoveToAction> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2373378 "createDistanceStepCostFunction"
+	class_operation public return_type class_ref 135682 // StepCostFunction
+	nparams 1
+	  param inout name "map" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<String, MoveToAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2373506 "createPerceptToStateFunction"
+	class_operation public return_type class_ref 128386 // Percept
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Function<${type}, String> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2373634 "createSLDHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 2
+	  param in name "goal" explicit_type "String"
+	  param inout name "map" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<String, MoveToAction>> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns a heuristic function based on straight line distance computation. "
+      end
+
+      operation 2373762 "getSLD"
+	class_operation public explicit_return_type "double"
+	nparams 3
+	  param in name "loc1" explicit_type "String"
+	  param in name "loc2" explicit_type "String"
+	  param inout name "map" type class_ref 136834 // Map
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
     end
 
@@ -1637,15 +1846,44 @@ A map-based environment. Note that the contained map must be of type
 	
 	
       end
+
+      classrelation 780034 // <unidirectional association>
+	relation 780034 --->
+	  a role_name "" const_relation private
+	    comment "
+A map-based environment. Note that the contained map must be of type
+{@link ExtendableMap}.
+
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 780034 // <unidirectional association>
+	  b parent class_ref 137858 // MapEnvironment
+      end
+
+      classrelation 780162 // <unidirectional association>
+	relation 780162 --->
+	  a role_name "" const_relation private
+	    comment " A map reflecting the knowledge of the agent about the environment. 
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 780162 // <unidirectional association>
+	  b parent class_ref 136834 // Map
+      end
     end
 
     class 139010 "SimpleMapAgent"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 139138 // SimpleProblemSolvingAgent
         rank 0 explicit_value "string"
       actual class class_ref 139138 // SimpleProblemSolvingAgent
         rank 1 value class_ref 136706 // MoveToAction
+      actual class class_ref 139138 // SimpleProblemSolvingAgent
+        rank 2 explicit_value ""
+      actual class class_ref 139138 // SimpleProblemSolvingAgent
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

@@ -1,7 +1,7 @@
-format 223
+format 224
 "visitors" // aima::core::logic::propositional::visitors
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,14 +54,20 @@ format 223
      end
     class 173442 "BasicGatherer"
       abstract visibility public 
-      nformals 1
+      nformals 2
       formal name "T" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 172546 // PLVisitor
         rank 0 explicit_value "Set<T>"
       actual class class_ref 172546 // PLVisitor
         rank 1 explicit_value "Set<T>"
+      actual class class_ref 172546 // PLVisitor
+        rank 2 explicit_value ""
+      actual class class_ref 172546 // PLVisitor
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -140,9 +146,11 @@ existing parse tree .
 
     class 173570 "BiconditionalElimination"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 172802 // AbstractPLVisitor
         rank 0 explicit_value "any"
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -209,9 +217,11 @@ with (&alpha; => &beta;) & (&beta; => &alpha;)
 
     class 173698 "ClauseCollector"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 173442 // BasicGatherer
         rank 0 value class_ref 145026 // Clause
+      actual class class_ref 173442 // BasicGatherer
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -307,9 +317,11 @@ ${members}}
 
       class 173826 "LiteralCollector"
 	visibility private 
-	nactuals 1
+	nactuals 2
 	actual class class_ref 173442 // BasicGatherer
 	  rank 0 value class_ref 172418 // Literal
+	actual class class_ref 173442 // BasicGatherer
+	  rank 1 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -430,6 +442,28 @@ normal form.
         conjunctive normal form.
 "
       end
+
+      operation 2411266 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent conjunctive
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        conjunctive normal form.
+"
+      end
     end
 
     class 174082 "ConvertToConjunctionOfClauses"
@@ -487,6 +521,28 @@ clauses.
         conjunction of clauses.
 "
       end
+
+      operation 2411394 "convert"
+	class_operation public return_type class_ref 144642 // ConjunctionOfClauses
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent conjunction of
+clauses.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        conjunction of clauses.
+"
+      end
     end
 
     class 174210 "ConvertToDNF"
@@ -507,6 +563,28 @@ A Sentence is in DNF if it is a disjunction of conjunction of literals.
 @author Ciaran O'Reilly
 "
       operation 385026 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent disjunction
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        disjunction normal form.
+"
+      end
+
+      operation 2411522 "convert"
 	class_operation public return_type class_ref 144514 // Sentence
 	nparams 1
 	  param inout name "s" type class_ref 144514 // Sentence
@@ -569,13 +647,37 @@ normal form.
         negation normal form.
 "
       end
+
+      operation 2411650 "convert"
+	class_operation public return_type class_ref 144514 // Sentence
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the specified sentence in its logically equivalent negation
+normal form.
+
+@param s
+           a propositional logic sentence
+
+@return the input sentence converted to it logically equivalent
+        negation normal form.
+"
+      end
     end
 
     class 174466 "DistributeAndOverOr"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 172802 // AbstractPLVisitor
         rank 0 explicit_value "any"
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -646,9 +748,11 @@ Distributivity of & over |:<br>
 
     class 174594 "DistributeOrOverAnd"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 172802 // AbstractPLVisitor
         rank 0 explicit_value "any"
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -719,9 +823,11 @@ Distributivity of | over &:<br>
 
     class 174722 "ImplicationElimination"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 172802 // AbstractPLVisitor
         rank 0 explicit_value "any"
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -788,9 +894,11 @@ with ~&alpha; | &beta;
 
     class 174850 "MoveNotInwards"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 172802 // AbstractPLVisitor
         rank 0 explicit_value "any"
+      actual class class_ref 172802 // AbstractPLVisitor
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -863,9 +971,11 @@ Move ~ inwards by repeated application of the following equivalences:<br>
 
     class 174978 "SymbolCollector"
       visibility public 
-      nactuals 1
+      nactuals 2
       actual class class_ref 173442 // BasicGatherer
         rank 0 value class_ref 144770 // PropositionSymbol
+      actual class class_ref 173442 // BasicGatherer
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

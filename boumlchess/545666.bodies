@@ -1,15 +1,21 @@
 class GroundGameState
 !!!2326402.java!!!	GroundGameState(inout gamePiece : AgamePiece, inout actionSchema : ActionSchema)
 		super(gamePiece, actionSchema);
+		String catalog = KnowledgeBuilder.getFileCatalog();
+	    statePiece = (AgamePiece) this.gamePiece;
+	    pieceName = statePiece.getMyPiece().getOntlogyName();
+	    posName = statePiece.getmyPosition().getPositionName();
+//	    stateId = pieceName+"_"+posName;
+	    stateId = this.actionSchema.getName() + "_" + posName;
+	    String filename = catalog + outputFileName + pieceName + ".txt";
 		try {
-			fw = new FileWriter(outputFileName, true);
+			fw = new FileWriter(filename, true);
 		} catch (IOException e1) {
 
 			e1.printStackTrace();
 		}
 	    writer = new PrintWriter(new BufferedWriter(fw));
-	    statePiece = (AgamePiece) this.gamePiece;
-	    pieceName = statePiece.getMyPiece().getOntlogyName();
+
 !!!2326530.java!!!	GroundGameState(inout pieceSentences : List<Sentence>, inout gamePiece : GamePiece, inout actionSchema : ActionSchema, inout thePerceptor : ChessPercept)
 		super(pieceSentences, gamePiece, actionSchema, thePerceptor);
 		// TODO Auto-generated constructor stub
@@ -19,14 +25,36 @@ class GroundGameState
 		this.opponent = opponent;
 		this.moveNr = moveNr;
 		this.thePerceptor = thePerceptor;
+	    statePiece = (AgamePiece) this.gamePiece;
+	    pieceName = statePiece.getMyPiece().getOntlogyName();
+	    posName = statePiece.getmyPosition().getPositionName();
+//	    stateId = pieceName+"_"+posName;
+	    stateId = this.actionSchema.getName() + "_" + posName;
+	    String filename = outputFileName + pieceName + ".txt";
 		try {
-			fw = new FileWriter(outputFileName, true);
+			fw = new FileWriter(filename, true);
 		} catch (IOException e1) {
 
 			e1.printStackTrace();
 		}
 	    writer = new PrintWriter(new BufferedWriter(fw));	
-
+//	    stateStatisics();
+!!!2567042.java!!!	getPieceName() : String
+		return pieceName;
+!!!2567170.java!!!	setPieceName(in pieceName : String) : void
+		this.pieceName = pieceName;
+!!!2567298.java!!!	getPosName() : String
+		return posName;
+!!!2567426.java!!!	setPosName(in posName : String) : void
+		this.posName = posName;
+!!!2567554.java!!!	getStateId() : String
+		return stateId;
+!!!2567682.java!!!	setStateId(in stateId : String) : void
+		this.stateId = stateId;
+!!!2567810.java!!!	getStatePiece() : AgamePiece
+		return statePiece;
+!!!2567938.java!!!	setStatePiece(inout statePiece : AgamePiece) : void
+		this.statePiece = statePiece;
 !!!2326786.java!!!	getPlayer() : APlayer
 		return player;
 !!!2326914.java!!!	setPlayer(inout player : APlayer) : void
@@ -47,6 +75,37 @@ class GroundGameState
 		return moveNr;
 !!!2327938.java!!!	setMoveNr(in moveNr : int) : void
 		this.moveNr = moveNr;
+!!!2568066.java!!!	stateStatisics() : void
+		writer.println("Statistics for "+ stateId);
+		writer.println("Total no of moves player "+noofplayerActions);
+		writer.println("Total no of inactive player pieces "+noofplayerinactive);
+		writer.println("Total no of moves opponent "+noofopponentActions);
+		writer.println("Total no of inactive opponent pieces "+noofopponentinactive);
+		List<ApieceMove> moves = statePiece.getMyMoves();
+		List<Literal> literals = this.actionSchema.getEffects();
+		writer.println("Effects ");
+		for (Literal l:literals) {
+			writer.println(l.toString());
+		}
+		writer.println("Moves ");
+		if (moves != null && !moves.isEmpty()) {
+			for(ApieceMove move:moves) {
+				writer.println(move.toString());
+			}
+		}
+		writer.println("********* end statistics **********");
+		writer.flush();
+!!!2568194.java!!!	setStatestatistics() : void
+		HashMap<String,ApieceMove> myMoves = player.getMyMoves();
+		List<AgamePiece>myinactivePieces = player.getInactivePieces();
+		HashMap<String,ApieceMove> oppMoves =opponent.getMyMoves();
+		List<AgamePiece>oppinactivePieces = opponent.getInactivePieces();
+		noofplayerActions = myMoves.size();
+		noofopponentActions = oppMoves.size();
+		noofplayerinactive = myinactivePieces.size();
+		noofopponentinactive = oppinactivePieces.size();
+	    stateStatisics();	
+		
 !!!2328066.java!!!	testEnd(inout action : GameAction) : boolean
 		
 		return super.testEnd(action);

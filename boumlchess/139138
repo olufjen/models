@@ -1,7 +1,7 @@
-format 223
+format 224
 "inference" // aima::core::search::csp::inference
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,11 @@ format 223
      end
     class 191490 "InferenceLog"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "VAR" type "" explicit_default_value ""
         extends class_ref 190850 // Variable
       formal name "VAL" type "" explicit_default_value ""
@@ -124,11 +128,66 @@ ${members}}
 	comment "Returns an empty inference log.
 "
       end
+
+      operation 2429442 "isEmpty"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2429570 "inconsistencyFound"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2429698 "undo"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2429826 "emptyLog"
+	class_operation cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<VAR extends Variable, VAL> ${type}<VAR, VAL> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns an empty inference log.
+"
+      end
     end
 
     class 193026 "InferenceStrategy"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "VAR" type "" explicit_default_value ""
         extends class_ref 190850 // Variable
       formal name "VAL" type "" explicit_default_value ""
@@ -179,20 +238,61 @@ ${members}}
 for <code>var</code>.
 "
       end
+
+      operation 2429186 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 1
+	  param inout name "csp" type class_ref 191362 // CSP
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<VAR, VAL> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Inference method which is called before backtracking is started.
+"
+      end
+
+      operation 2429314 "apply"
+	cpp_inline public return_type class_ref 191490 // InferenceLog
+	nparams 3
+	  param inout name "csp" type class_ref 191362 // CSP
+	  param inout name "assignment" type class_ref 191234 // Assignment
+	  param inout name "var" explicit_type "VAR"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VAR, VAL> ${name}${(}${t0}<VAR, VAL> ${p0}, ${t1}<VAR, VAL> ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Inference method which is called after the assignment has (recursively) been extended by a value assignment
+for <code>var</code>.
+"
+      end
     end
 
     class 193922 "AC3Strategy"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "VAR" type "" explicit_default_value ""
         extends class_ref 190850 // Variable
       formal name "VAL" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 193026 // InferenceStrategy
         rank 0 explicit_value "VAR"
       actual class class_ref 193026 // InferenceStrategy
         rank 1 explicit_value "VAL"
+      actual class class_ref 193026 // InferenceStrategy
+        rank 2 explicit_value ""
+      actual class class_ref 193026 // InferenceStrategy
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -328,16 +428,24 @@ manages neighbor arcs (vi, vj). Constraints which are not binary are ignored.
 
     class 194050 "DomainLog"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "VAR" type "" explicit_default_value ""
         extends class_ref 190850 // Variable
       formal name "VAL" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 191490 // InferenceLog
         rank 0 explicit_value "VAR"
       actual class class_ref 191490 // InferenceLog
         rank 1 explicit_value "VAL"
+      actual class class_ref 191490 // InferenceLog
+        rank 2 explicit_value ""
+      actual class class_ref 191490 // InferenceLog
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -542,16 +650,24 @@ storage consumption.
 
     class 194178 "ForwardCheckingStrategy"
       visibility public 
-      nformals 2
+      nformals 4
       formal name "VAR" type "" explicit_default_value ""
         extends class_ref 190850 // Variable
       formal name "VAL" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      formal name "VAR" type "" explicit_default_value ""
+        extends class_ref 190850 // Variable
+      formal name "VAL" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 4
       actual class class_ref 193026 // InferenceStrategy
         rank 0 explicit_value "VAR"
       actual class class_ref 193026 // InferenceStrategy
         rank 1 explicit_value "VAL"
+      actual class class_ref 193026 // InferenceStrategy
+        rank 2 explicit_value ""
+      actual class class_ref 193026 // InferenceStrategy
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

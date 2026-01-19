@@ -1,7 +1,7 @@
-format 223
+format 224
 "temporal" // aima::core::probability::temporal
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -166,6 +166,34 @@ ${members}}
 @return f<sub>1:t+1</sub>
 "
       end
+
+      operation 2423810 "forward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "f1_t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_tp1" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The FORWARD operator is defined by Equation (15.5).<br>
+
+<pre>
+<b>P</b>(<b>X</b><sub>t+1</sub> | <b>e</b><sub>1:t+1</sub>) 
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>, <b>e</b><sub>1:t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>)
+= &alpha;<b>P</b>(<b>e</b><sub>t+1</sub> | <b>X</b><sub>t+1</sub>)&sum;<sub><b>x</b><sub>t</sub></sub><b>P</b>(<b>X</b><sub>t+1</sub> | <b>x</b><sub>t</sub>)P(<b>x</b><sub>t</sub> | <b>e</b><sub>1:t</sub>) (Markov Assumption)
+</pre>
+
+@param f1_t
+           f<sub>1:t</sub>
+@param e_tp1
+           <b>e</b><sub>t+1</sub>
+@return f<sub>1:t+1</sub>
+"
+      end
     end
 
     class 184066 "BackwardStepInference"
@@ -206,6 +234,42 @@ is defined by Equation (15.9).<br>
 	  param inout name "e_kp1t" explicit_type "List<AssignmentProposition>"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The BACKWARD operator<br>
+
+<pre>
+<b>b</b><sub>k+1:t</sub> = <b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+is defined by Equation (15.9).<br>
+
+<pre>
+<b>P</b>(e<sub>k+1:t</sub> | X<sub>k</sub>) 
+= &sum;<sub><b>x</b><sub>k+1</sub></sub><b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>, <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (conditioning on <b>X</b><sub>k+1</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>) (by conditional independence)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub>, <b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+= &sum;<sub><b>x</b><sub>k+1</sub></sub>P(<b>e</b><sub>k+1</sub> | <b>x</b><sub>k+1</sub>)P(<b>e</b><sub>k+2:t</sub> | <b>x</b><sub>k+1</sub>)<b>P</b>(<b>x</b><sub>k+1</sub> | <b>X</b><sub>k</sub>)
+</pre>
+
+@param b_kp2t
+           <b>b</b><sub>k+2:t</sub>
+@param e_kp1t
+           <b>e</b><sub>k+1:t</sub>
+@return <b>b</b><sub>k+1:t</sub>
+"
+      end
+
+      operation 2425858 "backward"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 2
+	  param inout name "b_kp2t" type class_ref 175106 // CategoricalDistribution
+	  param inout name "e_kp1t" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	

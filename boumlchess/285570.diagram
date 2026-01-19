@@ -1,17 +1,17 @@
-format 223
+format 224
 
 classinstance 128002 class_ref 363906 // AChessProblemSolver
- name ""  xyz 550 272 2000
+ name ""  xyz 594 266 2000
 textcanvas 129282 "This diagram shows the details of the planProblem method.
 This method creates and returns a High Level Action Problem given the available actions
 Hierarchical Task networks and High Level Actions are described in  chapter 11.
  At present, the High Level Problem contains one primitive action schema (chess action).
 "
-  xyzwh 40 17 2000 322 114
+  xyzwh 748 23 2000 323 149
 textcanvas 132994 "For every available chessaction that contains a possible move and that is not blocked:
  create an actionschema.
 These action schemas are held in the Map actionSchemas with the name of the piece as the key."
-  xyzwh 410 384 2000 173 118
+  xyzwh 400 362 2000 177 169
 textcanvas 134786 "An initial and goal state for every ActionSchema"
   xyzwh 16 434 2000 120 46
 classinstance 135554 class_ref 363906 // AChessProblemSolver
@@ -19,44 +19,43 @@ classinstance 135554 class_ref 363906 // AChessProblemSolver
 textcanvas 136834 "This method is called from the searchProblem method.
   Parameters that determine the structure of the Problem, and the states:
 OBS: At present only the piece type is determined OLJ 06.02.21"
-  xyzwh 277 120 2000 202 99
+  xyzwh 281 14 2000 305 109
 classinstance 137346 class_ref 403458 // ChessFolKnowledgeBase
- name ""  xyz 146 494 2000
+ name ""  xyz 159 678 2000
 textcanvas 140162 "This call checks to see if the end position of the chessaction move is protected"
-  xyzwh 236 416 2000 182 61
+  xyzwh 390 594 2000 234 82
 textcanvas 140546 "This call is for castling"
-  xyzwh 918 367 2000 107 14
+  xyzwh 962 362 2000 173 43
 textcanvas 140802 "These calls are made in the searchProblem method"
-  xyzwh 283 349 2000 101 56
+  xyzwh 252 335 2000 120 100
 classinstance 141058 class_ref 443138 // ChessGraphPlanAlgorithm
- name ""  xyz 741 486 2000
+ name ""  xyz 598 497 2000
 textcanvas 141442 " Planning graphs p. 379.
  S0 - A0 - S1
  A0 contains ground actions that might be applicable in S0
 S0 consists of nodes representing fluents that holds in S0	
 Returns a solution ( a set of action schemas) if there is one  "
-  xyzwh 855 551 2000 292 70
-linkcanvas 132482 decenter_begin 707 decenter_end 202
-  from ref 128002 z 2001 to point 635 188
-  line 135426 z 2001 to point 637 140
-  line 132610 z 2001 to point 564 140
+  xyzwh 790 577 2000 342 123
+linkcanvas 132482 decenter_begin 707 decenter_end 173
+  from ref 128002 z 2001 to point 681 134
+  line 132610 z 2001 to point 608 134
   line 132738 z 2001 to ref 128002
 dirscanvas 132866 z 1000 linkcanvas_ref 132482
   
-  backward_label "7 checkMovenumber()" xyz 658 225 3000
+  backward_label "7 checkMovenumber()" xyz 706 189 3000
 linkcanvas 134274 decenter_begin 925 decenter_end 925
-  from ref 128002 z 2007 to point 668 288
-  line 140418 z 2007 to point 867 352
-  line 136962 z 2007 to point 882 231
+  from ref 128002 z 2007 to point 712 282
+  line 140418 z 2007 to point 911 346
+  line 136962 z 2007 to point 926 225
   line 134402 z 2007 to ref 128002
 dirscanvas 134658 z 1000 linkcanvas_ref 136962
   
-  backward_label "6 deferredMove()" xyz 894 295 3000
+  backward_label "6 deferredMove()" xyz 938 289 3000
 linkcanvas 135938
   from ref 128002 z 2001 to ref 135554
 dirscanvas 136066 z 1000 linkcanvas_ref 135938
   
-  forward_label "1 searchProblem()" xyz 369 300 3000
+  forward_label "1 searchProblem()" xyz 402 298 3000
 linkcanvas 136194
   from ref 135554 z 2001 to point 221 158
   line 136322 z 2001 to point 162 158
@@ -70,24 +69,24 @@ linkcanvas 137474 decenter_end 384
   line 137730 z 2001 to ref 135554
 dirscanvas 137858 z 1000 linkcanvas_ref 137474
   
-  forward_label "3 buildInitialstate()" xyz 67 258 3000
+  forward_label "3 buildInitialstate()" xyz 69 254 3000
 linkcanvas 139010
   from ref 135554 z 2001 to point 41 298
   line 139138 z 2001 to point 49 375
   line 139266 z 2001 to ref 135554
 dirscanvas 139394 z 1000 linkcanvas_ref 139266
   
-  forward_label "4 buildGoalstate()" xyz 63 303 3000
+  forward_label "4 buildGoalstate()" xyz 68 303 3000
 linkcanvas 139650 decenter_end 521
   from ref 135554 z 2001 to ref 137346
 dirscanvas 139778 z 1000 linkcanvas_ref 139650
   
-  forward_label "5 searchFacts()" xyz 238 386 3000
+  forward_label "5 searchFacts()" xyz 251 477 3000
 linkcanvas 141186
   from ref 128002 z 2001 to ref 141058
 dirscanvas 141314 z 1000 linkcanvas_ref 141186
   
-  forward_label "8 graphPlan()" xyz 704 361 3000
+  forward_label "8 graphPlan()" xyz 688 385 3000
 msgs
   msg operation_ref 1776898 // "searchProblem(inout actions : ArrayList<ChessActionImpl>) : ActionSchema"
     forward ranks 1 "1" dirscanvas_ref 136066
@@ -124,7 +123,7 @@ line 137218 -_-_
   from ref 136834 z 2002 to ref 136194
 line 140034 -_-_
   from ref 134786 z 2002 to ref 139266
-line 140290 -_-_
+line 140290 -_-_ decenter_end 563
   from ref 140162 z 2002 to ref 139650
 line 140674 -_-_
   from ref 140546 z 2008 to ref 136962

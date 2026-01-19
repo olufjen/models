@@ -1,7 +1,7 @@
-format 223
+format 224
 "probability" // aima::core::probability
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,11 @@ format 223
      end
     class 128898 "BeliefState"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "Action" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "Percept" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "Action" type "" explicit_default_value ""
         explicit_extends ""
       formal name "Percept" type "" explicit_default_value ""
@@ -76,6 +80,20 @@ ${members}}
 	  param inout name "percept" explicit_type "Percept"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2414338 "update"
+	cpp_inline public explicit_return_type "void"
+	nparams 2
+	  param inout name "action" explicit_type "Action"
+	  param inout name "percept" explicit_type "Percept"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -572,6 +590,86 @@ their random variables must match).
         for the random variables comprising the Distribution.
 "
       end
+
+      operation 2414466 "getFor"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the random
+        variables this probability distribution is for.
+"
+      end
+
+      operation 2414594 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if this Distribution is for the passed in Random Variable,
+        false otherwise.
+"
+      end
+
+      operation 2414722 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Object...eventValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of values for the random variables
+comprising the Distribution (ordering and size of each must equal and
+their domains must match).
+
+@param eventValues
+           the values for the random variables comprising the
+           Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Distribution.
+"
+      end
+
+      operation 2414850 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...eventValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of AssignmentPropositions for the
+random variables comprising the Distribution (size of each must equal and
+their random variables must match).
+
+@param eventValues
+           the assignment propositions for the random variables
+           comprising the Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Distribution.
+"
+      end
     end
 
     class 175490 "RandomVariable"
@@ -614,6 +712,36 @@ of possible values it can take on.
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of possible values the Random Variable can take on.
+"
+      end
+
+      operation 2416770 "getName"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the name used to uniquely identify this variable.
+"
+      end
+
+      operation 2416898 "getDomain"
+	public return_type class_ref 177154 // Domain
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -769,6 +897,128 @@ the same action.
 @return
 "
       end
+
+      classrelation 791554 // <unidirectional association>
+	relation 791554 --->
+	  a role_name "" private
+	    comment " The underlying Bayesian network
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 791554 // <unidirectional association>
+	  b parent class_ref 175874 // BayesianNetwork
+      end
+
+      classrelation 791682 // <unidirectional association>
+	relation 791682 --->
+	  a role_name "" private
+	    comment " The single decision node
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 791682 // <unidirectional association>
+	  b parent class_ref 175490 // RandomVariable
+      end
+
+      classrelation 791810 // <unidirectional association>
+	relation 791810 --->
+	  a role_name "" private
+	    comment " To calculate various conditional probabilities
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 791810 // <unidirectional association>
+	  b parent class_ref 176002 // BayesInference
+      end
+
+      operation 2414978 "DecisionNetwork"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "network" type class_ref 175874 // BayesianNetwork
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "inferenceProcedure" type class_ref 176002 // BayesInference
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor for the decision network.
+
+@param network            The underlying Bayesian Network.
+@param action             The decision node .
+@param inferenceProcedure The inference procedure to be utilised for probability calculations.
+"
+      end
+
+      operation 2415106 "getUtilityForAction"
+	abstract public explicit_return_type "double"
+	nparams 2
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "value" explicit_type "Object"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Returns the utility for a particular state"
+      end
+
+      operation 2415234 "getExpectedUtility"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "action" type class_ref 175490 // RandomVariable
+	  param inout name "evidence" explicit_type "List<AssignmentProposition>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Calculates the expected utility of an action in the presence of a certain random variable.
+
+@param action   Action for which the utility is to be calculated.
+@param evidence The available information.
+@return
+"
+      end
+
+      operation 2415362 "getBestAction"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Currently the decision network supports only a single decision node and hence returns
+the same action.
+
+@return
+"
+      end
+
+      operation 2415490 "getNetwork"
+	public return_type class_ref 175874 // BayesianNetwork
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the underlying Bayesian Network.
+
+@return
+"
+      end
     end
 
     class 176130 "Factor"
@@ -809,6 +1059,28 @@ ${members}}
 	    param in name "value" explicit_type "double"
 	  
 	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	  comment "Called for each possible assignment for the Random Variables
+comprising this Factor.
+
+@param possibleAssignment
+           a possible assignment, &omega;, of variable/value pairs.
+@param value
+           the value associated with &omega;
+"
+	end
+
+	operation 2415618 "iterate"
+	  public explicit_return_type "void"
+	  nparams 2
+	    param inout name "possibleAssignment" explicit_type "Map<RandomVariable, Object>"
+	    param in name "value" explicit_type "double"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	  
@@ -1000,6 +1272,198 @@ comprising this Factor.
 	  param inout name "" explicit_type "AssignmentProposition...fixedValues"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all possible values assignments for the Random Variables
+comprising this Factor that are not in the fixed set of values. This
+allows you to iterate over a subset of possible combinations.
+
+@param fi
+           the Factor Iterator to iterate
+@param fixedValues
+           Fixed values for a subset of the Random Variables comprising
+           this Factor.
+"
+      end
+
+      operation 2415746 "getArgumentVariables"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the argument
+        variables for this Factor.
+"
+      end
+
+      operation 2415874 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if this Factor contains the passed in Random Variable, false
+        otherwise.
+"
+      end
+
+      operation 2416002 "getValues"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[] ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "<b>Note:</b> Do not modify the double[] returned by this method directly
+as it is intended to be read only.
+
+@return the double[] used to represent the Factor.
+"
+      end
+
+      operation 2416130 "sumOut"
+	public return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "" explicit_type "RandomVariable...vars"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Sum out the provided variables from this Factor creating a new Factor of
+the remaining variables with their values updated with the summed out
+random variables.<br>
+<br>
+see: AIMA3e page 527.<br>
+<br>
+
+@param vars
+           the random variables to sum out.
+@return a new Factor containing any remaining random variables not summed
+        out and a new set of values updated with the summed out values.
+"
+      end
+
+      operation 2416258 "pointwiseProduct"
+	public return_type class_ref 176130 // Factor
+	nparams 1
+	  param inout name "multiplier" type class_ref 176130 // Factor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Pointwise multiplication of this Factor by a given multiplier, creating a
+new Factor representing the product of the two.<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Note: Default Factor multiplication is not commutative. The reason is
+because the order of the variables comprising a Factor dictate the
+ordering of the values for that factor. The default order of the
+variables of the Factor returned is the order of the variables as they
+are seen, as read from the left to right term, for e.g.: <br>
+<br>
+f<sub>1</sub>(Y)f<sub>2</sub>(X, Y)<br>
+<br>
+would give a Factor of the following form: <br>
+Y, X<br>
+<br>
+i.e. an ordered union of the variables from the two factors. <br>
+To override the default order of the product use pointwiseProductPOS().
+
+@param multiplier
+
+@return a new Factor representing the pointwise product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product factor is the ordered union of the left term (this) and
+        the right term (multiplier).
+
+@see Factor#pointwiseProductPOS(Factor, RandomVariable...)
+"
+      end
+
+      operation 2416386 "pointwiseProductPOS"
+	public return_type class_ref 176130 // Factor
+	nparams 2
+	  param inout name "multiplier" type class_ref 176130 // Factor
+	  param inout name "" explicit_type "RandomVariable...prodVarOrder"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Pointwise Multiplication - Product Order Specified (POS).<br>
+<br>
+see: AIMA3e Figure 14.10 page 527.<br>
+<br>
+Pointwise multiplication of this Factor by a given multiplier, creating a
+new Factor representing the product of the two. The order of the
+variables comprising the product will match those specified.
+
+@param multiplier
+@param prodVarOrder
+           the order the variables comprising the product are to be in.
+
+@return a new Factor representing the pointwise product of this and the
+        passed in multiplier. The order of the variables comprising the
+        product distribution is the order specified.
+
+@see Factor#pointwiseProduct(Factor)
+"
+      end
+
+      operation 2416514 "iterateOver"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "fi" type class_ref 176258 // Iterator
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Iterate over all the possible value assignments for the Random Variables
+comprising this Factor.
+
+@param fi
+           the Factor Iterator to iterate.
+"
+      end
+
+      operation 2416642 "iterateOver"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "fi" type class_ref 176258 // Iterator
+	  param inout name "" explicit_type "AssignmentProposition...fixedValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	

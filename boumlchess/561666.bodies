@@ -1,0 +1,30 @@
+class FCGamesAskAnswerHandler
+!!!2456578.java!!!	FCGamesAskAnswerHandler()
+
+!!!2456706.java!!!	getStepFinal() : ProofStep
+		return stepFinal;
+!!!2456834.java!!!	setStepFinal(inout stepFinal : ProofStep) : void
+		this.stepFinal = stepFinal;
+!!!2456962.java!!!	setProofs(inout proofs : List<Proof>) : void
+		this.proofs = proofs;
+!!!2457090.java!!!	isPossiblyFalse() : boolean
+		return proofs.size() == 0;
+!!!2457218.java!!!	isTrue() : boolean
+		return proofs.size() > 0;
+!!!2457346.java!!!	isUnknownDueToTimeout() : boolean
+		return false;
+!!!2457474.java!!!	isPartialResultDueToTimeout() : boolean
+		return false;
+!!!2457602.java!!!	getProofs() : Proof
+		return proofs;
+!!!2457730.java!!!	clearProofs() : void
+		proofs.clear();
+!!!2457858.java!!!	addProofStep(inout implication : Clause, inout fact : Literal, inout bindings : Map<Variable, Term>) : void
+		stepFinal = new ProofStepFoChAssertFact(implication, fact,
+				bindings, stepFinal);
+!!!2457986.java!!!	addProofStep(inout step : ProofStep) : void
+		stepFinal = step;
+!!!2458114.java!!!	setAnswers(inout answers : Set<Map<Variable, Term>>) : void
+		for (Map<Variable, Term> ans : answers) {
+			proofs.add(new ProofFinal(stepFinal, ans));
+		}

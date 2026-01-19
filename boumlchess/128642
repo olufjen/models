@@ -1,7 +1,7 @@
-format 223
+format 224
 "util" // aima::core::util
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -58,7 +58,9 @@ format 223
      end
     class 154498 "FrequencyCounter"
       visibility public 
-      nformals 1
+      nformals 2
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "T" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -253,11 +255,29 @@ ${members}}
         [0.0d, 1.0d), i.e. 0.0d (inclusive) to 1.0d (exclusive).
 "
       end
+
+      operation 2432258 "nextDouble"
+	public explicit_return_type "double"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a double value, chosen (approximately) uniformly from the range
+        [0.0d, 1.0d), i.e. 0.0d (inclusive) to 1.0d (exclusive).
+"
+      end
     end
 
     class 199810 "ArrayIterator"
       visibility public 
-      nformals 1
+      nformals 2
+      formal name "T" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "T" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -470,7 +490,9 @@ ${members}}
 
     class 200322 "DisjointSets"
       visibility public 
-      nformals 1
+      nformals 2
+      formal name "E" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "E" type "" explicit_default_value ""
         explicit_extends ""
       cpp_decl ""
@@ -1102,6 +1124,70 @@ LinkedHashSet implementations).
         elements found in s1 but not in s2.)
 "
       end
+
+      operation 2432386 "union"
+	class_operation public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s1" explicit_type "Set<T>"
+	  param inout name "s2" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param <T>
+@param s1
+@param s2
+@return the union of s1 and s2. (The union of two sets is the set
+        containing all of the elements contained in either set.)
+"
+      end
+
+      operation 2432514 "intersection"
+	class_operation public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s1" explicit_type "Set<T>"
+	  param inout name "s2" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param <T>
+@param s1
+@param s2
+@return the intersection of s1 and s2. (The intersection of two sets is
+        the set containing only the elements common to both sets.)
+"
+      end
+
+      operation 2432642 "difference"
+	class_operation public explicit_return_type "Set<T>"
+	nparams 2
+	  param inout name "s1" explicit_type "Set<T>"
+	  param inout name "s2" explicit_type "Set<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param <T>
+@param s1
+@param s2
+@return the (asymmetric) set difference of s1 and s2. (For example, the
+        set difference of s1 minus s2 is the set containing all of the
+        elements found in s1 but not in s2.)
+"
+      end
     end
 
     class 201218 "Tasks"
@@ -1253,6 +1339,50 @@ They provide safe exits from time-consuming loops if the user is not interested 
 	
 	
 	
+      end
+
+      operation 2432770 "executeInBackground"
+	class_operation public explicit_return_type "Thread"
+	nparams 1
+	  param inout name "task" explicit_type "Runnable"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " simple API to execute cancellable tasks in background - functionality is provided by three functional
+ attributes
+ Executes a given task in background. "
+      end
+
+      operation 2432898 "cancel"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "thread" explicit_type "Thread"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Cancels the task which is executed in the given thread. "
+      end
+
+      operation 2433026 "currIsCancelled"
+	class_operation public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Tests whether the current task has been cancelled. Calls of this method can be placed anywhere in the code.
+They provide safe exits from time-consuming loops if the user is not interested in the result anymore. "
       end
     end
 

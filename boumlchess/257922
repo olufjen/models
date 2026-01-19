@@ -1,0 +1,291 @@
+format 224
+"function" // no::games::function
+  revision 3
+  modified_by 2 "olufj"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\games\\src\\main\\java\\no\\function"
+  java_package "no.function"
+  classview 255362 "function"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 560770 "FunctionContect"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This class register and defines functions to be executed
+These functions are held in a Map with the name of the function as the key.
+@author Oluf
+
+"
+      classrelation 796674 // context (<unidirectional association>)
+	relation 796674 --->
+	  stereotype "HashMap"
+	  a role_name "context" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<String, ${type}> ${name}${value};
+"
+	    classrelation_ref 796674 // context (<unidirectional association>)
+	  b parent class_ref 560898 // FunctionExecutor
+      end
+
+      operation 2575490 "FunctionContect"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2575618 "getContext"
+	public return_type class_ref 560898 // FunctionExecutor
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashMap<String, ${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2575746 "setContext"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "context" explicit_type "HashMap<String, FunctionExecutor>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2446466 "register"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "name" explicit_type "String"
+	  param inout name "function" type class_ref 560898 // FunctionExecutor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "register
+This method register functions to be used in the context Map
+@param name - The name of the function
+@param function - The function implementing the FunctionExecutor interface
+"
+      end
+
+      operation 2446594 "call"
+	public explicit_return_type "Object"
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2446722 "get"
+	public return_type class_ref 560898 // FunctionExecutor
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "get
+This method returns the FunctionExecutor with the given name
+@param name - The name of the FunctionExecutor
+@return
+"
+      end
+    end
+
+    class 560898 "FunctionExecutor"
+      visibility public stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface is used to define functions to be executed
+It is specialized for creating Terms to be used in creating Predicates (See Knowledgebuilder)
+@author Oluf
+
+"
+      operation 2446850 "execute"
+	public explicit_return_type "Object"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2576002 "buildTerms"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "cParam" explicit_type "HashMap<String,Term>"
+	  param inout name "vParam" explicit_type "HashMap<String,Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 577666 "FunctionExecutive"
+      visibility public stereotype "interface"
+      nformals 1
+      formal name "R" type "" explicit_default_value ""
+        explicit_extends ""
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "This interface is used to define functions to be executed
+when searching for the best move
+The execute function has a generic return type.
+Implementations must define the return type
+@author Oluf
+
+"
+      operation 2575874 "execute"
+	cpp_inline public explicit_return_type "R"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 235778 "function"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 482946 "FunctionContect"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+${definition}"
+      associated_elems
+	class_ref 560770 // FunctionContect
+      end
+    end
+
+    artifact 483074 "FunctionExecutor"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.HashMap;
+import aima.core.logic.fol.parsing.ast.Constant;
+import aima.core.logic.fol.parsing.ast.Term;
+${definition}"
+      associated_elems
+	class_ref 560898 // FunctionExecutor
+      end
+    end
+
+    artifact 497026 "FunctionExecutive"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+${definition}"
+      associated_elems
+	class_ref 577666 // FunctionExecutive
+      end
+    end
+  end
+end

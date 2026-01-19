@@ -1,0 +1,35 @@
+class ParallelMinimax
+!!!2479490.java!!!	ParallelMinimax()
+ 
+        this(NEGAMAX, getRuntime().availableProcessors()); 
+!!!2479618.java!!!	ParallelMinimax(in parallelism : int)
+ 
+        this(NEGAMAX, parallelism); 
+!!!2479746.java!!!	ParallelMinimax(inout algo : Minimax::Algorithm)
+ 
+        this(algo, getRuntime().availableProcessors()); 
+!!!2479874.java!!!	ParallelMinimax(inout algo : Minimax::Algorithm, in parallelism : int)
+ 
+        super(algo); 
+        if (parallelism <= 0) { 
+            throw new IllegalArgumentException(this.getClass().getSimpleName() + " MUST use at least one processor."); 
+        } 
+        this.pool = new ForkJoinPool(parallelism); 
+!!!2480002.java!!!	ParallelMinimax(inout from : ParallelMinimax)
+ 
+        super(from.getAlgorithm()); 
+!!!2480130.java!!!	ParallelMinimax(inout negamax : fr.pixelprose.minimax4j.IA.Algorithm, in availableProcessors : int)
+		// TODO Auto-generated constructor stub
+!!!2480258.java!!!	getBestMove(in depth : int) : M
+ 
+        if (depth <= 0) { 
+            throw new IllegalArgumentException("Search depth MUST be > 0"); 
+        } 
+        MoveWrapper<M> wrapper = new MoveWrapper<>(); 
+        switch (getAlgorithm()) { 
+        default: 
+        case NEGAMAX: 
+            pool.invoke(new NegamaxAction<>(this, wrapper, null, depth, -maxEvaluateValue(), maxEvaluateValue())); 
+            break; 
+        } 
+        return wrapper.move; 

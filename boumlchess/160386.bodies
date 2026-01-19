@@ -33,3 +33,37 @@ class StandardizeApartInPlace
 		return saIdx;
 !!!270594.java!!!	collectAllVariables(inout s : Sentence, inout vars : List<Variable>) : void
 		s.accept(_collectAllVariables, vars);
+!!!2393346.java!!!	standardizeApart(inout c : Chain, in saIdx : int) : int
+		List<Variable> variables = new ArrayList<Variable>();
+		for (Literal l : c.getLiterals()) {
+			collectAllVariables(l.getAtomicSentence(), variables);
+		}
+
+		return standardizeApart(variables, c, saIdx);
+!!!2393474.java!!!	standardizeApart(inout c : Clause, in saIdx : int) : int
+		List<Variable> variables = new ArrayList<Variable>();
+		for (Literal l : c.getLiterals()) {
+			collectAllVariables(l.getAtomicSentence(), variables);
+		}
+
+		return standardizeApart(variables, c, saIdx);
+!!!2393602.java!!!	standardizeApart(inout variables : List<Variable>, inout expr : Object, in saIdx : int) : int
+		Map<String, Integer> indexicals = new HashMap<String, Integer>();
+		for (Variable v : variables) {
+			if (!indexicals.containsKey(v.getIndexedValue())) {
+				indexicals.put(v.getIndexedValue(), saIdx++);
+			}
+		}
+		for (Variable v : variables) {
+			Integer i = indexicals.get(v.getIndexedValue());
+			if (null == i) {
+				throw new RuntimeException("ERROR: duplicate var=" + v
+						+ ", expr=" + expr);
+			} else {
+				v.setIndexical(i);
+			}
+		}
+
+		return saIdx;
+!!!2393730.java!!!	collectAllVariables(inout s : Sentence, inout vars : List<Variable>) : void
+		s.accept(_collectAllVariables, vars);

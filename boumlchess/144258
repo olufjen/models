@@ -1,7 +1,7 @@
-format 223
+format 224
 "chess" // no::games::chess
-  revision 14
-  modified_by 2 "bruker"
+  revision 20
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -30,7 +30,7 @@ format 223
   activitydiagramsettings
    end
   
-  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\src\\main\\java\\no/games/chess/"
+  java_dir "C:\\svnroot\\logic\\ai\\trunk\\games\\games\\src\\main\\java\\no\\games\\chess"
   java_package "no.games.chess"
   classview 142082 "chess"
     
@@ -945,13 +945,19 @@ This interface represent the ChessAction in a game of chess
         explicit_extends ""
       formal name "ChessPlayer" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 3
+      nactuals 6
       actual class class_ref 133762 // Game
         rank 0 explicit_value "ChessState"
       actual class class_ref 133762 // Game
         rank 1 explicit_value "ChessAction"
       actual class class_ref 133762 // Game
         rank 2 explicit_value "ChessPlayer"
+      actual class class_ref 133762 // Game
+        rank 3 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 4 explicit_value ""
+      actual class class_ref 133762 // Game
+        rank 5 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}
@@ -1076,6 +1082,7 @@ ${members}}
       comment "@author oluf
 
 This interface represent the state current state in the game of chess
+The implementations contains all available chess actions.
 @param <GameBoard> Represent the chess board in a game of chess
 "
       classrelation 282114 // <generalisation>
@@ -1341,6 +1348,118 @@ ${members}}
 	
 	
       end
+
+      operation 2448770 "getLegalmoves"
+	cpp_inline public explicit_return_type "HashMap<String,P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2448898 "getLegalmoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449026 "produceLegalmoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "position" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449154 "getPieceType"
+	cpp_inline public return_type class_ref 224258 // pieceType
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449282 "getPieceColor"
+	cpp_inline public return_type class_ref 224386 // pieceColor
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449410 "setMyPosition"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPosition" explicit_type "P"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449538 "getNewPositions"
+	cpp_inline public explicit_return_type "HashMap<String, P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449666 "getOntologyPositions"
+	cpp_inline public explicit_return_type "HashMap<String, P>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2449794 "setOntologyPositions"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "ontologyPositions" explicit_type "HashMap<String, P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 223874 "ChessPlayer"
@@ -1545,6 +1664,193 @@ This interface represent a chessPlayer in a game of chess
 	  param inout name "blackPlayer" type class_ref 224898 // player
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450178 "getPieces"
+	cpp_inline public explicit_return_type "HashMap<String,GamePiece>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450306 "getMyPieces"
+	cpp_inline public explicit_return_type "HashMap<String,GamePiece>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450434 "setMyPieces"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myPieces" explicit_type "HashMap<String, GamePiece>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450562 "getMyMoves"
+	cpp_inline public explicit_return_type "HashMap<String, PieceMove>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450690 "setMyMoves"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "myMoves" explicit_type "HashMap<String,PieceMove>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450818 "getCurrentMove"
+	cpp_inline public explicit_return_type "PieceMove"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450946 "setCurrentMove"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "currentMove" explicit_type "PieceMove"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451074 "getMygamePieces"
+	cpp_inline public explicit_return_type "ArrayList<GamePiece>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451202 "setMygamePieces"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "mygamePieces" explicit_type "ArrayList<GamePiece>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451330 "getPlayerName"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451458 "setPlayerName"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "playerName" type class_ref 224898 // player
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451586 "getWhitePlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451714 "setWhitePlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "whitePlayer" type class_ref 224898 // player
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451842 "getBlackPlayer"
+	cpp_inline public return_type class_ref 224898 // player
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2451970 "setBlackPlayer"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "blackPlayer" type class_ref 224898 // player
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -2242,6 +2548,30 @@ a toPosition
 	
 	
       end
+
+      operation 2449922 "getFromPosition"
+	cpp_inline public explicit_return_type "F"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2450050 "getToPosition"
+	cpp_inline public explicit_return_type "T"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 224770 "AbstractPlayer"
@@ -2439,17 +2769,27 @@ ${members}}
 
     class 225026 "ChessAlphaBetaSearch"
       visibility public 
-      nactuals 5
+      nactuals 10
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
         rank 0 explicit_value "ChessState<GameBoard>"
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
         rank 1 explicit_value "ChessAction<?, ?, ?,  GamePiece<?>, ?>"
       actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
         rank 2 explicit_value "ChessPlayer<GamePiece, PieceMove>"
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 3 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 4 explicit_value ""
+      actual class class_ref 133378 // IterativeDeepeningAlphaBetaSearch
+        rank 5 explicit_value ""
       actual class class_ref 133506 // AdversarialSearch
         rank 0 explicit_value ""
       actual class class_ref 133506 // AdversarialSearch
         rank 1 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 2 explicit_value ""
+      actual class class_ref 133506 // AdversarialSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -2903,6 +3243,165 @@ Positions
 	
 	
       end
+
+      operation 2452098 "findpieceType"
+	class_operation public explicit_return_type "P"
+	nparams 2
+	  param inout name "p" explicit_type "Q"
+	  param inout name "pr" explicit_type "Predicate<Q>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,Q> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2452226 "filterMove"
+	class_operation public explicit_return_type "List<T>"
+	nparams 3
+	  param inout name "l" explicit_type "List<T>"
+	  param inout name "p" explicit_type "P"
+	  param inout name "pr" explicit_type "Predicate<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,P> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "filterMove
+A filter method to be used to return:
+1. What pieces protect a given position?
+2. What pieces attack a given position
+@param l - a list of pieces?
+@param p - a given position?
+@param pr - the predicate
+@return
+"
+      end
+
+      operation 2452354 "filterPiece"
+	class_operation public explicit_return_type "List<T>"
+	nparams 2
+	  param inout name "list" explicit_type "List<T>"
+	  param inout name "pr" explicit_type "Predicate<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "filterPiece
+A filter method to be used to return:
+1. What pieces protect a given position?
+2. What pieces attack a given position
+@param l - a list of pieces?
+@param pr - the predicate
+@return
+"
+      end
+
+      operation 2452482 "processChessgame"
+	class_operation public explicit_return_type "R"
+	nparams 3
+	  param inout name "p" explicit_type "P"
+	  param inout name "q" explicit_type "Q"
+	  param inout name "processor" type class_ref 225538 // ChessProcessor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P, Q, R> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "processChessgame
+This is a chess game processor
+The parameters are chess game objects and the gameprocessor is of type 
+ChessProcessor
+The function descriptor is (P,Q) -> R
+@param p
+@param q
+@param processor
+@return A modified chess object
+"
+      end
+
+      operation 2452610 "createType"
+	class_operation public explicit_return_type "M"
+	nparams 3
+	  param inout name "p" explicit_type "P"
+	  param inout name "a" explicit_type "A"
+	  param inout name "f" explicit_type "BiFunction<P,A,M>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,A,M> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "createType
+This functional interface creates a new possible Type
+based on the Types P and A
+The function descriptor is (P,A) -> M
+@param p Any type of chess game object
+@param a Any type of chess game object
+@param f The create function
+@return THe chess object m must have a constructor of type m(P,A)
+"
+      end
+
+      operation 2452738 "moveRule"
+	class_operation public return_type class_ref 135938 // XYLocation
+	nparams 2
+	  param inout name "t" explicit_type "T"
+	  param inout name "r" type class_ref 225666 // MoveRule
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,L> List<${type}> ${name}${(}${t0} ${p0}, ${t1}<T,L> ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "moveRule
+This is a moveRuler. Based on chess piece type it calculates a list of available
+Positions
+@param t The chess piece
+@param r The functional interface
+@return a List<P> of positions.
+"
+      end
+
+      operation 2452866 "moveCalculation"
+	class_operation public explicit_return_type "List<P>"
+	nparams 3
+	  param inout name "t" explicit_type "T"
+	  param inout name "pr" explicit_type "Predicate<T>"
+	  param inout name "r" type class_ref 225794 // MoveCalculator
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<T,P> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}<T,P> ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2452994 "calculateMoves"
+	class_operation public explicit_return_type "List<T>"
+	nparams 2
+	  param inout name "p" explicit_type "P"
+	  param inout name "pr" explicit_type "Predicate<P>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<P,T> ${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 225538 "ChessProcessor"
@@ -2943,6 +3442,20 @@ P,Q,R represent all kinds of chess objects in this structure.
 	
 	
       end
+
+      operation 2453378 "processChessObject"
+	cpp_inline public explicit_return_type "R"
+	nparams 2
+	  param inout name "p" explicit_type "P"
+	  param inout name "q" explicit_type "Q"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 225666 "MoveRule"
@@ -2975,6 +3488,19 @@ that determine available positions for the piece t.
 	  param inout name "t" explicit_type "T"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2454402 "calculateRule"
+	cpp_inline public return_type class_ref 135938 // XYLocation
+	nparams 1
+	  param inout name "t" explicit_type "T"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -3020,6 +3546,20 @@ that determine available positions for the piece t.
 	
 	
       end
+
+      operation 2454274 "calculatePositions"
+	cpp_inline public explicit_return_type "P"
+	nparams 2
+	  param inout name "t" explicit_type "T"
+	  param inout name "p" explicit_type "Predicate<T>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 225922 "ChessPieceType"
@@ -3059,6 +3599,32 @@ the implemented chesspiece represent
 	  param in name "name" explicit_type "String"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453122 "test"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "piece" type class_ref 223746 // GamePiece
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453250 "checkName"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -3163,6 +3729,92 @@ This interface is for the minimax search
 	  param inout name "player" type class_ref 223874 // ChessPlayer
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453506 "makeDecision"
+	public return_type class_ref 223234 // ChessAction
+	nparams 1
+	  param inout name "state" type class_ref 223618 // ChessState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<?> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453634 "getMetrics"
+	public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453762 "setLogEnabled"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "b" explicit_type "boolean"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2453890 "maxValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2454018 "minValue"
+	public explicit_return_type "double"
+	nparams 5
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	  param in name "alpha" explicit_type "double"
+	  param in name "beta" explicit_type "double"
+	  param in name "depth" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2454146 "eval"
+	public explicit_return_type "double"
+	nparams 2
+	  param inout name "state" type class_ref 223618 // ChessState
+	  param inout name "player" type class_ref 223874 // ChessPlayer
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	

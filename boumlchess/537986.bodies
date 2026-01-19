@@ -17,3 +17,21 @@ class NondeterministicChessProblem
 		return this.resultsFn.results(state, action);
 !!!2319106.java!!!	getStepCosts(inout state : GameState, inout action : GameAction, inout stateDelta : GameState) : double
 		return stepCostFn.applyAsDouble(state, action, stateDelta);
+!!!2475778.java!!!	NondeterministicChessProblem(inout initialState : GameState, inout actionsFn : NonDetermineChessActionFunction, inout resultsFn : NonDetermineResultFunction, inout goalTest : GoalTest)
+		this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) -> 1.0); // This is an implementation of the interface StepCostFunction
+!!!2475906.java!!!	NondeterministicChessProblem(inout initialState : GameState, inout actionsFn : NonDetermineChessActionFunction, inout resultsFn : NonDetermineResultFunction, inout goalTest : GoalTest, inout stepCostFn : StepCostFunction)
+		this.initialState = initialState;
+		this.actionsFn = actionsFn;
+		this.resultsFn = resultsFn;
+		this.goalTest = goalTest;
+		this.stepCostFn = stepCostFn;
+!!!2476034.java!!!	getInitialState() : GameState
+		return initialState;
+!!!2476162.java!!!	testGoal(inout state : GameState) : boolean
+		return goalTest.test(state);
+!!!2476290.java!!!	getActions(inout state : GameState) : GameAction
+		return actionsFn.apply(state);
+!!!2476418.java!!!	getResults(inout state : GameState, inout action : GameAction) : GameState
+		return this.resultsFn.results(state, action);
+!!!2476546.java!!!	getStepCosts(inout state : GameState, inout action : GameAction, inout stateDelta : GameState) : double
+		return stepCostFn.applyAsDouble(state, action, stateDelta);

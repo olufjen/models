@@ -1,7 +1,7 @@
-format 223
+format 224
 "vacuum" // aima::core::environment::vacuum
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -1208,11 +1208,15 @@ ${members}}
 
       class 142466 "VacuumWorldResults"
 	visibility private 
-	nactuals 2
+	nactuals 4
 	actual class class_ref 142338 // ResultsFunction
 	  rank 0 value class_ref 141698 // VacuumEnvironmentState
 	actual class class_ref 142338 // ResultsFunction
 	  rank 1 value class_ref 128002 // Action
+	actual class class_ref 142338 // ResultsFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 142338 // ResultsFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1271,6 +1275,47 @@ ${members}}
 	  comment "Returns a list of possible results for a given state and action.
 "
 	end
+      end
+
+      operation 2375426 "getActions"
+	class_operation public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "state" type class_ref 141698 // VacuumEnvironmentState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Specifies the actions available to the agent at state s
+"
+      end
+
+      operation 2375554 "testGoal"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 141698 // VacuumEnvironmentState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2375682 "createResultsFunction"
+	class_operation public return_type class_ref 142338 // ResultsFunction
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<VacuumEnvironmentState, Action> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
     end
   end

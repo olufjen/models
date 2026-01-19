@@ -1,7 +1,7 @@
-format 223
+format 224
 "framework" // aima::gui::swing::framework
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -360,6 +360,96 @@ needs of the application even without creating a subclass.
       end
 
       operation 590338 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " ///////////////////////////////////////////////////////////////
+ main method for testing
+
+Starts a simple test frame application.
+"
+      end
+
+      operation 2443394 "startApplication"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructs an agent application and sets the application frame visible.
+"
+      end
+
+      operation 2443522 "constructApplicationFrame"
+	public return_type class_ref 212610 // AgentAppFrame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Creates all parts of an agent application and makes the parts know each
+other. Part construction is delegated to factory methods.
+"
+      end
+
+      operation 2443650 "createEnvironmentView"
+	public return_type class_ref 212738 // AgentAppEnvironmentView
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Factory method, responsible for creating the environment view. "
+      end
+
+      operation 2443778 "createFrame"
+	public return_type class_ref 212610 // AgentAppFrame
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Factory method, responsible for creating the frame. This implementation
+shows how the {@code AgentAppFrame} can be configured with respect to the
+needs of the application even without creating a subclass.
+"
+      end
+
+      operation 2443906 "createController"
+	public return_type class_ref 212866 // AgentAppController
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Factory method, responsible for creating the controller. "
+      end
+
+      operation 2444034 "main"
 	class_operation public explicit_return_type "void"
 	nparams 1
 	  param inout name "args" explicit_type "String"
@@ -1497,6 +1587,133 @@ environment if the simulation was canceled.
 @param simulationThread The thread which was used to run the simulation.
 "
       end
+
+      classrelation 796546 // <unidirectional association>
+	relation 796546 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 796546 // <unidirectional association>
+	  b parent class_ref 212610 // AgentAppFrame
+      end
+
+      operation 2444162 "setFrame"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "frame" type class_ref 212610 // AgentAppFrame
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Gives the controller access to the frame. This is useful to display
+status information.
+"
+      end
+
+      operation 2444290 "clear"
+	abstract public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The associated {@link AgentAppFrame} calls this method when the clear
+button is pressed.
+"
+      end
+
+      operation 2444418 "prepare"
+	abstract public explicit_return_type "void"
+	nparams 1
+	  param in name "changedSelector" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The associated {@link AgentAppFrame} calls this method when the prepare
+button is pressed or the selection state of the selectors changes.
+@param changedSelector Name of the changed selector or null.
+"
+      end
+
+      operation 2444546 "isPrepared"
+	abstract public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Checks whether the current environment is prepared for starting
+simulation.
+"
+      end
+
+      operation 2444674 "run"
+	abstract public explicit_return_type "void"
+	nparams 1
+	  param inout name "logger" type class_ref 213122 // MessageLogger
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The associated {@link AgentAppFrame} calls this method when the run
+button is activated. This code runs in a second thread, which can be
+stopped by the GUI at any time. Implementations should avoid to
+access swing components because they are not thread-safe. 
+"
+      end
+
+      operation 2444802 "step"
+	abstract public explicit_return_type "void"
+	nparams 1
+	  param inout name "logger" type class_ref 213122 // MessageLogger
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The associated {@link AgentAppFrame} calls this method when the step
+button is activated. This code runs in a second thread, which can be
+stopped by the GUI at any time. Implementations should avoid to
+access swing components because they are not thread-safe. 
+"
+      end
+
+      operation 2444930 "update"
+	abstract public explicit_return_type "void"
+	nparams 1
+	  param inout name "simulationThread" type class_ref 213250 // SimulationThread
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "This method is automatically called after the run and step methods
+have finished. Implementations are responsible for displaying status
+information in the frame and also for cleaning up the prepared
+environment if the simulation was canceled.
+@param simulationThread The thread which was used to run the simulation.
+"
+      end
     end
 
     class 213122 "MessageLogger"
@@ -1521,6 +1738,19 @@ ${members}}
 	  param in name "message" explicit_type "String"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2445570 "log"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	

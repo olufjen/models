@@ -1,0 +1,37 @@
+class ResteasyConfig
+!!!2495490.java!!!	setSkjemaResursSingleton(inout instance : SkjemaResurs) : void
+        skjemaResursSingleton = instance;
+        System.out.println("Singleton Skjema Resurs bean injisert til RestEasyConfig extends Application");
+//        String message = skjemaResursSingleton.getMessage();
+//        System.out.println("Melding fra bean "+message);
+!!!2495618.java!!!	setRestletApplication(inout restletApplication : RestletApplikasjon) : void
+		ResteasyConfig.restletApplication = restletApplication;
+	       System.out.println("Singleton restletApplication bean injisert til RestEasyConfig extends Application");
+
+!!!2495746.java!!!	setSpringcontextInjector(inout springcontextInjector : SpringContextInjector) : void
+		ResteasyConfig.springcontextInjector = springcontextInjector;
+		 System.out.println("Singleton springcontextInjector bean injisert til RestEasyConfig");
+!!!2495874.java!!!	setFreemarkerWriterSingleton(inout instance : FreemarkerMessageBodyWriter) : void
+     freemarkerWriterSingleton = instance;
+     System.out.println("Singleton FreemarkerWriter bean injisert til RestEasyConfig");
+!!!2496002.java!!!	setChessStarterServer(inout chessStarterServer : RapporterChessStartServerResourceHTML) : void
+	ResteasyConfig.chessStarterServer = chessStarterServer;
+    System.out.println("Singleton chessStarterServer  bean injisert til RestEasyConfig");
+!!!2496130.java!!!	getSingletons() : Set<Object>
+    	System.out.println("Henter singletons i RestEasyConfig");
+        if (skjemaResursSingleton == null || freemarkerWriterSingleton == null) {
+            throw new IllegalStateException("Alle obligatoriske singletons ble ikke satt av Spring/Context Injector.");
+       }
+
+        // Opprett og returner et sett med alle singletons
+        Set<Object> singletons = new HashSet<>();
+        singletons.add(skjemaResursSingleton);
+        singletons.add(freemarkerWriterSingleton);
+        singletons.add(chessStarterServer);
+//        singletons.add(springcontextInjector);
+//        singletons.add(restletApplication);
+        System.out.println("Returnerer definerte sigletons");
+        return singletons;
+ 
+!!!2496258.java!!!	getClasses() : Set<Class<?>>
+        return Collections.emptySet();

@@ -1,7 +1,7 @@
-format 223
+format 224
 "nondeterministic" // no::games::chess::search::nondeterministic
-  revision 2
-  modified_by 2 "bruker"
+  revision 4
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -719,6 +719,181 @@ The resultsFn is an ordinary interface with one method: results(state,action)
 The steCostFn is an ordinary interface with one method: applyAsDouble(state, action, stateDelta)
 "
       end
+
+      classrelation 803586 // <unidirectional association>
+	relation 803586 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 803586 // <unidirectional association>
+	  b parent class_ref 538114 // GameState
+      end
+
+      classrelation 803714 // <unidirectional association>
+	relation 803714 --->
+	  a role_name "" protected
+	    comment " Returns actions applicable in a given state"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 803714 // <unidirectional association>
+	  b parent class_ref 539010 // NonDetermineChessActionFunction
+      end
+
+      classrelation 803842 // <unidirectional association>
+	relation 803842 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GameState> ${name}${value};
+"
+	    classrelation_ref 803842 // <unidirectional association>
+	  b parent class_ref 135554 // GoalTest
+      end
+
+      classrelation 803970 // <unidirectional association>
+	relation 803970 --->
+	  a role_name "" protected
+	    comment "This is an interface, so the constructor must contain an implementation "
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<GameState, GameAction> ${name}${value};
+"
+	    classrelation_ref 803970 // <unidirectional association>
+	  b parent class_ref 135682 // StepCostFunction
+      end
+
+      classrelation 804098 // <unidirectional association>
+	relation 804098 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 804098 // <unidirectional association>
+	  b parent class_ref 539138 // NonDetermineResultFunction
+      end
+
+      operation 2475778 "NondeterministicChessProblem"
+	public explicit_return_type ""
+	nparams 4
+	  param inout name "initialState" type class_ref 538114 // GameState
+	  param inout name "actionsFn" type class_ref 539010 // NonDetermineChessActionFunction
+	  param inout name "resultsFn" type class_ref 539138 // NonDetermineResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3}<GameState> ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor
+No step cost function
+"
+      end
+
+      operation 2475906 "NondeterministicChessProblem"
+	public explicit_return_type ""
+	nparams 5
+	  param inout name "initialState" type class_ref 538114 // GameState
+	  param inout name "actionsFn" type class_ref 539010 // NonDetermineChessActionFunction
+	  param inout name "resultsFn" type class_ref 539138 // NonDetermineResultFunction
+	  param inout name "goalTest" type class_ref 135554 // GoalTest
+	  param inout name "stepCostFn" type class_ref 135682 // StepCostFunction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3}<GameState> ${p3}, ${t4}<GameState,GameAction> ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor
+With defined step cost function
+"
+      end
+
+      operation 2476034 "getInitialState"
+	public return_type class_ref 538114 // GameState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the initial state of the agent.
+
+@return the initial state of the agent.
+"
+      end
+
+      operation 2476162 "testGoal"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 538114 // GameState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns <code>true</code> if the given state is a goal state.
+The goalTest interface is a predicate functional interface
+It calls the state's testEnd method
+@return <code>true</code> if the given state is a goal state.
+"
+      end
+
+      operation 2476290 "getActions"
+	package return_type class_ref 538498 // GameAction
+	nparams 1
+	  param inout name "state" type class_ref 538114 // GameState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the description of the possible actions available to the agent.
+The actionsFn is a functional interface that extends the Function interface (p. 53 Java 8)
+The interface has one method: apply
+It returns the list of actions applicable in the given state
+"
+      end
+
+      operation 2476418 "getResults"
+	public return_type class_ref 538114 // GameState
+	nparams 2
+	  param inout name "state" type class_ref 538114 // GameState
+	  param inout name "action" type class_ref 538498 // GameAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the description of what each action does.
+The resultsFn is an ordinary interface with one method: results(state,action)
+@return the description of what each action does - a list of possible outcome states.
+"
+      end
+
+      operation 2476546 "getStepCosts"
+	package explicit_return_type "double"
+	nparams 3
+	  param inout name "state" type class_ref 538114 // GameState
+	  param inout name "action" type class_ref 538498 // GameAction
+	  param inout name "stateDelta" type class_ref 538114 // GameState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state
+<code>stateDelta</code> denoted by c(s, a, s').
+The steCostFn is an ordinary interface with one method: applyAsDouble(state, action, stateDelta)
+"
+      end
     end
 
     class 538114 "GameState"
@@ -1245,6 +1420,34 @@ A Game Action may return a set of GameStates, each of these states have a value.
 	
 	
       end
+
+      classrelation 802818 // <unidirectional association>
+	relation 802818 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Sentence>()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 802818 // <unidirectional association>
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 802946 // <unidirectional association>
+	relation 802946 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?> ${name}${value};
+"
+	    classrelation_ref 802946 // <unidirectional association>
+	  b parent class_ref 223746 // GamePiece
+      end
+
+      classrelation 803074 // <unidirectional association>
+	relation 803074 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 803074 // <unidirectional association>
+	  b parent class_ref 169602 // ActionSchema
+      end
     end
 
     class 538242 "ChessPath"
@@ -1334,7 +1537,7 @@ ${members}}
 This interface is to be used by the GameState and represent the Aperceptor class:
 Creates a set of propositionalized action schemas from the lifted action schema
 These action schemas are used as a basis for problem solving see the method createLiftedActions
-
+Interim changes again
 @author oluf
 
 "
@@ -1367,6 +1570,46 @@ These action schemas are used as a basis for problem solving see the method crea
       end
 
       operation 2311810 "getOtherActions"
+	public return_type class_ref 169602 // ActionSchema
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2474626 "createLiftedActions"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "" explicit_type "String...names"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2474754 "checkOpponentthreat"
+	public return_type class_ref 223746 // GamePiece
+	nparams 3
+	  param in name "name" explicit_type "String"
+	  param in name "newPos" explicit_type "String"
+	  param in name "fact" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2474882 "getOtherActions"
 	public return_type class_ref 169602 // ActionSchema
 	nparams 0
 	
@@ -1636,6 +1879,35 @@ This method returns a set of states as result of this action
 @return A list of gamestates
 "
       end
+
+      classrelation 802434 // <unidirectional association>
+	relation 802434 --->
+	  stereotype "List"
+	  a role_name "" init_value " new ArrayList<Sentence>()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 802434 // <unidirectional association>
+	  b parent class_ref 149634 // Sentence
+      end
+
+      classrelation 802562 // <unidirectional association>
+	relation 802562 --->
+	  a role_name "" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<?> ${name}${value};
+"
+	    classrelation_ref 802562 // <unidirectional association>
+	  b parent class_ref 223746 // GamePiece
+      end
+
+      classrelation 802690 // <unidirectional association>
+	relation 802690 --->
+	  a role_name "" protected
+	    comment " The state to which this action belongs to"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 802690 // <unidirectional association>
+	  b parent class_ref 538114 // GameState
+      end
     end
 
     class 538882 "NondeterimineStepCostFunction"
@@ -1645,11 +1917,15 @@ This method returns a set of states as result of this action
         explicit_extends ""
       formal name "GameAction" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      nactuals 4
       actual class class_ref 135682 // StepCostFunction
         rank 0 explicit_value "GameState"
       actual class class_ref 135682 // StepCostFunction
         rank 1 explicit_value "GameAction"
+      actual class class_ref 135682 // StepCostFunction
+        rank 2 explicit_value ""
+      actual class class_ref 135682 // StepCostFunction
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1700,11 +1976,15 @@ It is the implementation of a stepcost function as described in chapter 4.
 
     class 539010 "NonDetermineChessActionFunction"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 135298 // ActionsFunction
         rank 0 value class_ref 538114 // GameState
       actual class class_ref 135298 // ActionsFunction
         rank 1 value class_ref 538498 // GameAction
+      actual class class_ref 135298 // ActionsFunction
+        rank 2 explicit_value ""
+      actual class class_ref 135298 // ActionsFunction
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1717,9 +1997,10 @@ ${members}}
       
       comment "NonDetermineChessActionFunction
 This class is an implementation of the aima.core.search.framework.problem.ActionsFunction.
+The ActionFunction extends the Function interface (java 8) (p. 52) which has one method: apply
 As described in the interface:
 Given a particular state s, ACTIONS(s) returns the set of actions that can be
-executed in s. We say that each of these actions is <b>applicable</b> in s.
+executed in s. We say that each of these actions are <b>applicable</b> in s.
 
 @param <GameState> The type used to represent states
 @param <GameAction> The type of the actions to be used to navigate through the state space
@@ -1873,6 +2154,126 @@ THe constructor of the NonDetermineResultFunction
       end
 
       operation 2318210 "results"
+	public return_type class_ref 538114 // GameState
+	nparams 2
+	  param inout name "state" type class_ref 538114 // GameState
+	  param inout name "action" type class_ref 538498 // GameAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Return the description of what each action does.
+The resultsFn is an ordinary interface with one method: results(state,action)
+It is called from the orSearch method when the problem testGoal function for a chosen state returns false.
+The call is carried out for every state in the population of states, and every action belonging to this state 
+@return the description of what each action does - a list of possible outcome states.
+"
+      end
+
+      classrelation 803202 // <unidirectional association>
+	relation 803202 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 803202 // <unidirectional association>
+	  b parent class_ref 538114 // GameState
+      end
+
+      classrelation 803330 // <unidirectional association>
+	relation 803330 --->
+	  a role_name "" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 803330 // <unidirectional association>
+	  b parent class_ref 538498 // GameAction
+      end
+
+      classrelation 803458 // <unidirectional association>
+	relation 803458 --->
+	  stereotype "List"
+	  a role_name "" private
+	    comment " The population of gamestates"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 803458 // <unidirectional association>
+	  b parent class_ref 538114 // GameState
+      end
+
+      operation 2475010 "NonDetermineResultFunction"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "state" type class_ref 538114 // GameState
+	  param inout name "action" type class_ref 538498 // GameAction
+	  param inout name "gameStates" explicit_type "List<GameState>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "NonDetermineResultFunction
+THe constructor of the NonDetermineResultFunction
+@param state
+@param action
+@param gameStates The population of game states
+"
+      end
+
+      operation 2475138 "getState"
+	public return_type class_ref 538114 // GameState
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2475266 "setState"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "state" type class_ref 538114 // GameState
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2475394 "getAction"
+	public return_type class_ref 538498 // GameAction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2475522 "setAction"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "action" type class_ref 538498 // GameAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2475650 "results"
 	public return_type class_ref 538114 // GameState
 	nparams 2
 	  param inout name "state" type class_ref 538114 // GameState

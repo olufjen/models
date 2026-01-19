@@ -1,0 +1,102 @@
+class ChessProblem
+!!!2469378.java!!!	getPieceNames() : List<String>
+		return pieceNames;
+!!!2469506.java!!!	setPieceNames(inout pieceNames : List<String>) : void
+		this.pieceNames = pieceNames;
+!!!2469634.java!!!	ChessProblem(inout initialState : State, inout goalState : State, inout actionSchemas : Set<ActionSchema>)
+        this.initialState = initialState;
+        this.actionSchemas = actionSchemas;
+        this.goalState = goalState;
+!!!2469762.java!!!	ChessProblem(inout initialState : State, inout goalState : State, inout  : ActionSchema...actions)
+        this(initialState, goalState, new HashSet<>(Arrays.asList(actions)));
+!!!2469890.java!!!	getInitialState() : State
+        return initialState;
+!!!2470018.java!!!	getActionSchemas() : ActionSchema
+        return actionSchemas;
+!!!2470146.java!!!	getGoalState() : State
+        return goalState;
+!!!2470274.java!!!	determinConstants(inout literals : List<Literal>) : Constant
+    	List<Constant> constants = new ArrayList<>();
+     	for (Literal l:literals) {
+    		AtomicSentence s = l.getAtomicSentence();
+    		String name = s.getSymbolicName();
+    		if (name.equals(predSymbol)) {
+				List<Term> terms = (List<Term>) s.getArgs();
+				Term f = terms.get(0);
+				Term p = terms.get(1);
+				if(f instanceof Constant) {
+					 if (!constants.contains((Constant) f))
+	                        constants.add((Constant) f);
+				}
+				if(p instanceof Constant) {
+					 if (!constants.contains((Constant) p))
+	                        constants.add((Constant) p);
+				}
+
+    		}
+    	}
+     	return constants;
+!!!2470402.java!!!	getProblemConstants() : Constant
+    	List<Constant> constants = determinConstants(getInitialState().getFluents());
+     	List<Constant> goallConstants = determinConstants(getGoalState().getFluents());
+
+     	for (Constant gc:goallConstants) {
+     		if (!constants.contains(gc)) {
+     			constants.add(gc);
+     		}
+     	}
+ /*     	if (!constants.containsAll(goallConstants)) {
+     		constants.addAll(goallConstants);
+     	}*/
+   /*        for (Literal literal :
+                getInitialState().getFluents()) {
+            for (Term term :
+                    literal.getAtomicSentence().getArgs()) {
+                if (term instanceof Constant) {
+                    if (!constants.contains((Constant) term))
+                        constants.add((Constant) term);
+                }
+            }
+        }
+        for (Literal literal :
+                getGoalState().getFluents()) {
+            for (Term term :
+                    literal.getAtomicSentence().getArgs()) {
+                if (term instanceof Constant) {
+                    if (!constants.contains((Constant) term))
+                        constants.add((Constant) term);
+                }
+            }
+        }*/
+        for (ActionSchema actionSchema :
+                getActionSchemas()) {
+            for (Constant constant :
+                    actionSchema.getConstants()) {
+                if (!constants.contains(constant))
+                    constants.add(constant);
+            }
+        }
+        return constants;
+!!!2470530.java!!!	getPropositionalisedActions() : ActionSchema
+        List<Constant> problemConstants = getProblemConstants();
+        List<ActionSchema> result = new ArrayList<>();
+        for (ActionSchema actionSchema :
+                getActionSchemas()) {
+            int numberOfVars = actionSchema.getVariables().size();
+            for (List<Constant> constants :
+                    ChessPermutationGenerator.generatePermutations(problemConstants, numberOfVars)) {
+                result.add(actionSchema.getActionBySubstitution(constants));
+            }
+        }
+        return result;
+!!!2470658.java!!!	getGroundActions() : ActionSchema
+    	List<ActionSchema> result = new ArrayList<>();
+    	List<Constant> problemConstants = getProblemConstants();
+    	List<ActionSchema> schemas = new ArrayList<ActionSchema>(getActionSchemas());
+    	ActionSchema schema = schemas.get(0);
+    	result.add(schema);
+    	 for (ActionSchema actionSchema :
+             getActionSchemas()) {
+    		 result.add(actionSchema.getActionBySubstitution(problemConstants)); 
+    	 }
+    	return result;

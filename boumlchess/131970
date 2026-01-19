@@ -1,7 +1,7 @@
-format 223
+format 224
 "inference" // aima::core::logic::propositional::inference
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -127,6 +127,74 @@ Checks the satisfiability of a sentence in propositional logic.
 	  param inout name "alpha" type class_ref 144514 // Sentence
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
+
+@param kb
+           a Knowledge Base in propositional logic.
+@param alpha
+           a propositional sentence.
+@return true, if &alpha; is entailed by KB, false otherwise.
+"
+      end
+
+      operation 2408194 "dpllSatisfiable"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "s" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "DPLL-SATISFIABLE?(s)<br>
+Checks the satisfiability of a sentence in propositional logic.
+
+@param s
+           a sentence in propositional logic.
+@return true if the sentence is satisfiable, false otherwise.
+"
+      end
+
+      operation 2408322 "dpll"
+	public explicit_return_type "boolean"
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "DPLL(clauses, symbols, model)<br>
+
+@param clauses
+           the set of clauses.
+@param symbols
+           a list of unassigned symbols.
+@param model
+           contains the values for assigned symbols.
+@return true if the model is satisfiable under current assignments, false
+        otherwise.
+"
+      end
+
+      operation 2408450 "isEntailed"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -798,6 +866,120 @@ The forward-chaining algorithm for propositional logic.
 	
 	
       end
+
+      operation 2408578 "plfcEntails"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "q" type class_ref 144770 // PropositionSymbol
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-FC-ENTAILS?(KB, q)<br>
+The forward-chaining algorithm for propositional logic.
+
+@param kb
+           the knowledge base, a set of propositional definite clauses.
+@param q
+           q, the query, a proposition symbol
+@return true if KB |= q, false otherwise.
+@throws IllegalArgumentException
+            if KB contains any non-definite clauses.
+"
+      end
+
+      operation 2408706 "initializeCount"
+	protected return_type class_ref 145026 // Clause
+	nparams 1
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Integer> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " SUPPORTING CODE
+
+
+ PROTECTED
+"
+      end
+
+      operation 2408834 "initializeInferred"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Boolean> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2408962 "initializeAgenda"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Queue<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: at the point of calling this routine, count will contain all the
+ clauses in KB."
+      end
+
+      operation 2409090 "initializeIndex"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 2
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	  param inout name "inferred" explicit_type "Map<PropositionSymbol, Boolean>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Map<${type}, Set<Clause>> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Note: at the point of calling this routine, count will contain all the
+ clauses in KB while inferred will contain all the proposition symbols."
+      end
+
+      operation 2409218 "decrement"
+	protected explicit_return_type "void"
+	nparams 2
+	  param inout name "count" explicit_type "Map<Clause, Integer>"
+	  param inout name "c" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2409346 "conclusion"
+	protected return_type class_ref 144770 // PropositionSymbol
+	nparams 1
+	  param inout name "c" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 171522 "PLResolution"
@@ -1028,6 +1210,53 @@ clauses during processing.
 	comment " Utility routine for removing the tautological clauses from a set (in
  place)."
       end
+
+      operation 2409474 "plResolution"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-RESOLUTION(KB, &alpha;)<br>
+A simple resolution algorithm for propositional logic.
+
+@param kb
+           the knowledge base, a sentence in propositional logic.
+@param alpha
+           the query, a sentence in propositional logic.
+@return true if KB |= &alpha;, false otherwise.
+"
+      end
+
+      operation 2409602 "plResolve"
+	public return_type class_ref 145026 // Clause
+	nparams 2
+	  param inout name "ci" type class_ref 145026 // Clause
+	  param inout name "cj" type class_ref 145026 // Clause
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "PL-RESOLVE(C<sub>i</sub>, C<sub>j</sub>)<br>
+Calculate the set of all possible clauses by resolving its two inputs.
+
+@param ci
+           clause 1
+@param cj
+           clause 2
+@return the set of all possible clauses obtained by resolving its two
+        inputs.
+"
+      end
     end
 
     class 171650 "SATPlan"
@@ -1124,6 +1353,19 @@ ${members}}
 	  
 	  
 	end
+
+	operation 2409858 "assertions"
+	  public return_type class_ref 144514 // Sentence
+	  nparams 1
+	    param in name "t" explicit_type "int"
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
       end
 
       class 171906 "SolutionExtractor"
@@ -1144,6 +1386,19 @@ ${members}}
 	    param inout name "model" type class_ref 171010 // Model
 	  
 	  java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	  
+	  
+	  
+	end
+
+	operation 2409986 "extractSolution"
+	  public return_type class_ref 128002 // Action
+	  nparams 1
+	    param inout name "model" type class_ref 171010 // Model
+	  
+	  preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	  
@@ -1201,6 +1456,88 @@ ${members}}
 	comment " PROTECTED
 "
       end
+
+      operation 2409730 "satPlan"
+	public return_type class_ref 128002 // Action
+	nparams 4
+	  param inout name "init" type class_ref 171778 // Describe
+	  param inout name "transition" type class_ref 171778 // Describe
+	  param inout name "goal" type class_ref 171778 // Describe
+	  param in name "tMax" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function SATPlan(init, transition, goal, T<sub>max</sub>) returns
+solution or failure<br>
+
+@param init
+           provides a collection of assertions about the initial state.
+@param transition
+           provides the successor-state axioms for all possible actions
+           at each time step up to some maximum t.
+@param goal
+           provides the assertion that the goal is achieved at time t.
+@param tMax
+           the maximum number of time steps in which the goal is to be
+           achieved in.
+@return a list of actions describing a solution for the given problem or
+        null if no solution is found (i.e failure)
+"
+      end
+
+      classrelation 790402 // <unidirectional association>
+	relation 790402 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 790402 // <unidirectional association>
+	  b parent class_ref 172034 // SATSolver
+      end
+
+      classrelation 790530 // <unidirectional association>
+	relation 790530 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 790530 // <unidirectional association>
+	  b parent class_ref 171906 // SolutionExtractor
+      end
+
+      operation 2410114 "SATPlan"
+	public explicit_return_type ""
+	nparams 2
+	  param inout name "satSolver" type class_ref 172034 // SATSolver
+	  param inout name "solutionExtractor" type class_ref 171906 // SolutionExtractor
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2410242 "translateToSAT"
+	protected return_type class_ref 145026 // Clause
+	nparams 4
+	  param inout name "init" type class_ref 171778 // Describe
+	  param inout name "transition" type class_ref 171778 // Describe
+	  param inout name "goal" type class_ref 171778 // Describe
+	  param in name "t" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED
+"
+      end
     end
 
     class 172034 "SATSolver"
@@ -1226,6 +1563,25 @@ ${members}}
 	  param inout name "cnf" explicit_type "Set<Clause>"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Solve a given problem in CNF format.
+
+@param cnf
+       a CNF representation of the problem to be solved.
+@return a satisfiable model or null if it cannot be satisfied.
+"
+      end
+
+      operation 2410370 "solve"
+	public return_type class_ref 171010 // Model
+	nparams 1
+	  param inout name "cnf" explicit_type "Set<Clause>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -1312,6 +1668,59 @@ logical operation on its two arguments, returning true or false.
       end
 
       operation 364418 "ttCheckAll"
+	public explicit_return_type "boolean"
+	nparams 4
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	  param inout name "symbols" explicit_type "List<PropositionSymbol>"
+	  param inout name "model" type class_ref 171010 // Model
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function TT-CHECK-ALL(KB, &alpha; symbols, model) returns true or false
+
+@param kb
+           KB, the knowledge base, a sentence in propositional logic
+@param alpha
+           &alpha;, the query, a sentence in propositional logic
+@param symbols
+           a list of currently unassigned propositional symbols in the
+           model.
+@param model
+           a partially or fully assigned model for the given KB and
+           query.
+@return true if KB entails &alpha;, false otherwise.
+"
+      end
+
+      operation 2410498 "ttEntails"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "kb" type class_ref 144386 // KnowledgeBase
+	  param inout name "alpha" type class_ref 144514 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function TT-ENTAILS?(KB, &alpha;) returns true or false.
+
+@param kb
+           KB, the knowledge base, a sentence in propositional logic
+@param alpha
+           &alpha;, the query, a sentence in propositional logic
+
+@return true if KB entails &alpha;, false otherwise.
+"
+      end
+
+      operation 2410626 "ttCheckAll"
 	public explicit_return_type "boolean"
 	nparams 4
 	  param inout name "kb" type class_ref 144386 // KnowledgeBase
@@ -1525,6 +1934,34 @@ flipping the values of variables. Many versions of the algorithm exist.
 	
 	
 	
+      end
+
+      operation 2410754 "walkSAT"
+	public return_type class_ref 171010 // Model
+	nparams 3
+	  param inout name "clauses" explicit_type "Set<Clause>"
+	  param in name "p" explicit_type "double"
+	  param in name "maxFlips" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "WALKSAT(clauses, p, max_flips)<br>
+
+@param clauses
+           a set of clauses in propositional logic
+@param p
+           the probability of choosing to do a \"random walk\" move,
+           typically around 0.5
+@param maxFlips
+           number of flips allowed before giving up. Note: a value < 0 is
+           interpreted as infinity.
+
+@return a satisfying model or failure (null).
+"
       end
     end
   end

@@ -1,4 +1,23 @@
 class RapporterChessStartServerResourceHTML
+!!!2565378.java!!!	RapporterChessStartServerResourceHTML()
+		super();
+		  System.out.println("RapporterChessStartServerResourceHTML felles started");
+!!!2565506.java!!!	getTilgjengeligPos() : String
+		return tilgjengeligPos;
+!!!2565634.java!!!	setTilgjengeligPos(in tilgjengeligPos : String) : void
+		this.tilgjengeligPos = tilgjengeligPos;
+!!!2565762.java!!!	getAvailablePosNames() : List<String>
+		return availablePosNames;
+!!!2565890.java!!!	setAvailablePosNames(inout availablePosNames : List<String>) : void
+		this.availablePosNames = availablePosNames;
+!!!2566018.java!!!	getAvailableKey() : String
+		return availableKey;
+!!!2566146.java!!!	setAvailableKey(in availableKey : String) : void
+		this.availableKey = availableKey;
+!!!2566274.java!!!	getAvailableMoves() : Position
+		return availableMoves;
+!!!2566402.java!!!	setAvailableMoves(inout availableMoves : List<Position>) : void
+		this.availableMoves = availableMoves;
 !!!803074.java!!!	getMovesKey() : String
 		return movesKey;
 !!!803202.java!!!	setMovesKey(in movesKey : String) : void
@@ -84,17 +103,34 @@ class RapporterChessStartServerResourceHTML
 			chessMove.setBlackMove(move);
 		}
 		
-!!!806530.java!!!	getChess() : Representation
+!!!806530.java!!!	getChess(inout request : HttpServletRequest) : Response
 
-	     Reference reference = new Reference(getReference(),"..").getTargetRef();
-	     Request request = getRequest();
-	     Map<String, Object> dataModel = new HashMap<String, Object>();
+   // 	Response rep = null;
+    	String siden = "chess/startside.html";
+		/*
+		 * try { // OBS: Må peke til der index.html ligger relativt til Context-roten.
+		 * // Hvis index.html ligger i roten av webapp-mappen: URI location = new
+		 * URI("../../chess/startside.html"); rep =
+		 * Response.temporaryRedirect(location).build(); } catch (Exception e) { return
+		 * Response.serverError().entity("Feil ved lasting av skjema: " +
+		 * e.getMessage()).build(); }
+		 */
+    	
+    
+		/*
+		 * Reference reference = new Reference(getReference(),"..").getTargetRef(); //
+		 * org.restlet.data Request request = getRequest(); // Tidligere kall til
+		 * org.restlet.resource.ServerResource !!
+		 */
+//    	HttpSession session = (HttpSession) request.getSession(true);
+         Map<String, Object> dataModel = new HashMap<String, Object>();
 	
 //	     establishMoves();
 	     String meldingsText = " ";
 	     String fileName = null;
 	     SimpleScalar simple = new SimpleScalar(piece);
-	     SimpleScalar movedTo = new SimpleScalar(newPos);
+	     SimpleScalar movedTo = new SimpleScalar(snewPosition);
+	     SimpleScalar movedfrom = new SimpleScalar(soldPosition);
 	     SimpleScalar chessPosition = new SimpleScalar(startPosition);
 //	     SimpleScalar chessMove = new SimpleScalar(moves);
 	     ChessBoard chessBoard = new ChessBoard(fileName);
@@ -113,11 +149,14 @@ class RapporterChessStartServerResourceHTML
 //	     if (whitePawn1 != null)
 //	    	 whitePawn1.setLegalMoves(legalMoves);
 		 dataModel.put(pieceId,simple );
+		 dataModel.put(newPosId,movedTo );
+		 dataModel.put(oldPosId,movedfrom );
 		 dataModel.put(displayKey, chessPosition);
-
-		
+		 availablePosNames = new ArrayList<String>();
+		 availablePosNames.add("xx");
    	 	dataModel.put(rulesKey,chessRules);
    	 	dataModel.put(movesKey, chessMoves);
+   	 	dataModel.put(availableKey, availablePosNames);
  //  	 	dataModel.put(blackmovesKey, blackMoves);
 //   	 	dataModel.put(rulelabelKey, labels);
    	 	
@@ -125,28 +164,39 @@ class RapporterChessStartServerResourceHTML
 		
 //		 SimpleScalar pwd = new SimpleScalar(passordCheck);
 //		 dataModel.put(displayPassord,pwd);
-	     LocalReference pakke = LocalReference.createClapReference(LocalReference.CLAP_CLASS,
-                 "/chess");
-	    
-	     LocalReference localUri = new LocalReference(reference);
+   	 	
+   	 	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+			/*
+			 * LocalReference pakke =
+			 * LocalReference.createClapReference(LocalReference.CLAP_CLASS, "/chess"); //
+			 * org.restlet.data
+			 * 
+			 * LocalReference localUri = new LocalReference(reference);
+			 * 
+			 * // Denne client resource forholder seg til src/main/resource katalogen !!!
+			 * ClientResource clres2 = new
+			 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+			 * "/chess/startside.html")); //org.restlet.resource
+			 * 
+			 * Representation pasientkomplikasjonFtl = clres2.get();
+			 * 
+			 * TemplateRepresentation templatemapRep = new
+			 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+			 * MediaType.TEXT_HTML); // org.restlet.representation
+			 */
+   	 	 return Response.ok(view).build();
 	
-// Denne client resource forholder seg til src/main/resource katalogen !!!	
-	     ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-
-	        Representation pasientkomplikasjonFtl = clres2.get();
-
-	        TemplateRepresentation  templatemapRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-	                MediaType.TEXT_HTML);
-		 return templatemapRep;
-	
-!!!806658.java!!!	storeChess(inout form : Form) : Representation
-    	TemplateRepresentation  templateRep = null;
+!!!806658.java!!!	storeChess(in restartGame : String, in ontology : String, in printOntology : String, in reload : String, in query : String, in fileselect : String, in ontlogyselect : String, in printGame : String, in eightqueen : String, in achessGame : String, in findPiece : String, in posisjon : String, in piece : String, in startposisjon : String, in tilgjengeligpos : String, inout request : HttpServletRequest) : Response
+    	
+//    	TemplateRepresentation  templateRep = null;
  	    Map<String, Object> dataModel = new HashMap<String, Object>();
- 	    Request request = getRequest();
+ 	   String siden = "chess/startside.html";
+// 	    Request request = getRequest();
  	   boolean noMove = false;
-    	if(form == null){
-    		invalidateSessionobjects();
-    	}
+ 
+		/*
+		 * if(form == null){ invalidateSessionobjects(); }
+		 */
 /*	     String[] legalMoves = {"a3","a4"};
 	     ChessPiece whitePawn1 = new ChessPiece(newPos,"w","wP",legalMoves);
 	     whitePawn1.setValue(1);*/
@@ -154,36 +204,41 @@ class RapporterChessStartServerResourceHTML
 	      	dataModel.put(popupId, popup);
     	String[] legalMoves = {"",""};
     	ChessPiece chessPiece = null;
-    	ChessBoard chessBoard = (ChessBoard)sessionAdmin.getSessionObject(request, chessBoardsession);
+ //   	availablePosNames = null;
+    	availableMoves = null;
+    	ChessBoard chessBoard = (ChessBoard)sessionAdmin.getSessionObject(request , chessBoardsession);
     	PlayGame game = (PlayGame)sessionAdmin.getSessionObject(request, gameboardSession); // If the game object is null, then the user has not chosen to play a game yet.
 	    moves = chessBoard.getMoves();
 	    blackMoves = chessBoard.getBlackMoves();
 	    chessMoves = chessBoard.getChessMoves();
-    	Parameter restartGame = form.getFirst("startBtnx"); // Bruker oppgir å starte på nytt
-    	Parameter ontology = form.getFirst("ontBtnx"); // User wants ontology position on chessboard
-    	Parameter printOntology = form.getFirst("printBtnx"); // User wants ontology printed
-    	Parameter reload = form.getFirst("relBtnx"); // User wants to reload ontology from file
-    	Parameter query = form.getFirst("qBtnx"); // User wants to query ontology 
-    	Parameter fileselect = form.getFirst("fileinput"); // User has selected a file
-      	Parameter ontlogyselect = form.getFirst("ontologyinput"); // User has selected an ontology file file
-    	Parameter printGame = form.getFirst("printgame"); // User has selected to print the game
-    	Parameter eightqueen = form.getFirst("eightqueen"); // User has selected to solve the eight queen problem
-    	Parameter achessGame = form.getFirst("playgame"); // User has selected to play a game of chess
+	    availableMoves = new ArrayList<Position>();
+//    	Parameter restartGame = form.getFirst("startBtnx"); // Bruker oppgir å starte på nytt
+//    	Parameter ontology = form.getFirst("ontBtnx"); // User wants ontology position on chessboard
+//    	Parameter printOntology = form.getFirst("printBtnx"); // User wants ontology printed
+//    	Parameter reload = form.getFirst("relBtnx"); // User wants to reload ontology from file
+//    	Parameter query = form.getFirst("qBtnx"); // User wants to query ontology 
+//    	Parameter fileselect = form.getFirst("fileinput"); // User has selected a file
+//      	Parameter ontlogyselect = form.getFirst("ontologyinput"); // User has selected an ontology file file
+//    	Parameter printGame = form.getFirst("printgame"); // User has selected to print the game
+//    	Parameter eightqueen = form.getFirst("eightqueen"); // User has selected to solve the eight queen problem
+//    	Parameter achessGame = form.getFirst("playgame"); // User has selected to play a game of chess
+//    	Parameter findPiece = form.getFirst("btnfind"); // User has moved mouse over a piece
     	if (printGame != null) {
 //         	chessBoard.findMoves(gameMoves);
 //	     	int nolines = gameMoves.size();
 //	     	String mov = (String)gameMoves.get(13)+gameMoves.get(14)+gameMoves.get(15);
-			Representation representation = null;
-			Response response = getResponse(); 
+//			Representation representation = null;
+//			Response response = getResponse(); 
     		chessMoves = chessBoard.getChessMoves();
     		String pdfFile = "";
     		try {
 				pdfFile = printGame(chessMoves);
-				representation = new FileRepresentation(pdfFile, MediaType.APPLICATION_PDF); 
-			    Disposition disposition = representation.getDisposition();
-			    disposition.setType(disposition.TYPE_ATTACHMENT);
-			    disposition.setFilename("game" + ".pdf"); 
-			    response.setEntity(representation); 
+				/*
+				 * representation = new FileRepresentation(pdfFile, MediaType.APPLICATION_PDF);
+				 * Disposition disposition = representation.getDisposition();
+				 * disposition.setType(disposition.TYPE_ATTACHMENT);
+				 * disposition.setFilename("game" + ".pdf"); response.setEntity(representation);
+				 */
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -203,33 +258,36 @@ class RapporterChessStartServerResourceHTML
          	dataModel.put(rulesKey,chessRules);
          	dataModel.put(movesKey, chessMoves);
          	//  	 	dataModel.put(blackmovesKey, blackMoves);
-
+         	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
          	//		 dataModel.put(pawnId,whitePawn1);
-         	ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-         	Representation pasientkomplikasjonFtl = clres2.get();
-         	templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-         			MediaType.TEXT_HTML);	
-
-
-
-         	return templateRep;
+			/*
+			 * ClientResource clres2 = new
+			 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+			 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+			 * clres2.get(); templateRep = new
+			 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+			 * MediaType.TEXT_HTML);
+			 * 
+			 * 
+			 * 
+			 * return templateRep;
+			 */
     	}
-    	if (ontlogyselect != null && !ontlogyselect.getValue().isEmpty()) {// This parameter is always created: Why?!!
+    	if (ontlogyselect != null && !ontlogyselect.equals("")) {// This parameter is always created: Why?!!
        		String fileName = "";
     		String rep = "\\";
     		String newRep = "\\\\";
     		String user = "olj";
     		String newUser = "bruker";
     		System.out.println("ontlogy selected");
-    		for (Parameter entry : form) {
-    			if (entry.getValue() != null && !(entry.getValue().equals("")) && entry.getName().equals("ontologyinput")){
-    					System.out.println(entry.getName() + "=" + entry.getValue());
-    					fileName = entry.getValue();
-    					fileName = fileName.replace(rep, newRep);
-    					fileName = fileName.replace(user, newUser);
-    					System.out.println(fileName);
-    			}
-    		}
+			/*
+			 * for (Parameter entry : form) { if (entry.getValue() != null &&
+			 * !(entry.getValue().equals("")) && entry.getName().equals("ontologyinput")){
+			 * System.out.println(entry.getName() + "=" + entry.getValue()); fileName =
+			 * entry.getValue(); fileName = fileName.replace(rep, newRep); fileName =
+			 * fileName.replace(user, newUser); System.out.println(fileName); } }
+			 */
     		 sessionAdmin.setSessionObject(request,fileName, ontologyKey);
     		 chessBoard = null;
     		 chessBoard = new ChessBoard(fileName);
@@ -243,41 +301,43 @@ class RapporterChessStartServerResourceHTML
     	     chessMoves = chessBoard.getChessMoves();
     		 dataModel.put(pieceId,simple );
     		 dataModel.put(displayKey, chessPosition);
-
-    	     Reference reference = new Reference(getReference(),"..").getTargetRef();
-       	 	dataModel.put(rulesKey,chessRules);
-       	 	dataModel.put(movesKey, chessMoves);
-
-    	     LocalReference pakke = LocalReference.createClapReference(LocalReference.CLAP_CLASS,
-                     "/chess");
-    	    
-    	     LocalReference localUri = new LocalReference(reference);
-
-    // Denne client resource forholder seg til src/main/resource katalogen !!!	
-    	     ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-
-    	        Representation pasientkomplikasjonFtl = clres2.get();
-
-    	        TemplateRepresentation  templatemapRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-    	                MediaType.TEXT_HTML);
-    		 return templatemapRep;
+        	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
+			/*
+			 * Reference reference = new Reference(getReference(),"..").getTargetRef();
+			 * dataModel.put(rulesKey,chessRules); dataModel.put(movesKey, chessMoves);
+			 * 
+			 * LocalReference pakke =
+			 * LocalReference.createClapReference(LocalReference.CLAP_CLASS, "/chess");
+			 * 
+			 * LocalReference localUri = new LocalReference(reference);
+			 * 
+			 * // Denne client resource forholder seg til src/main/resource katalogen !!!
+			 * ClientResource clres2 = new
+			 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+			 * "/chess/startside.html"));
+			 * 
+			 * Representation pasientkomplikasjonFtl = clres2.get();
+			 * 
+			 * TemplateRepresentation templatemapRep = new
+			 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+			 * MediaType.TEXT_HTML); return templatemapRep;
+			 */
     	}
-    	if (fileselect != null && !fileselect.getValue().isEmpty()) { // This parameter is always created: Why?!!
+    	if (fileselect != null && !fileselect.equals("")) { // This parameter is always created: Why?!!
     		String fileName = "";
     		String rep = "\\";
     		String newRep = "\\\\";
     		String user = "olj";
     		String newUser = "bruker";
     		System.out.println("fileselect");
-    		for (Parameter entry : form) {
-    			if (entry.getValue() != null && !(entry.getValue().equals("")) && entry.getName().equals("fileinput")){
-    					System.out.println(entry.getName() + "=" + entry.getValue());
-    					fileName = entry.getValue();
-    					fileName = fileName.replace(rep, newRep);
-    					fileName = fileName.replace(user, newUser);
-    					System.out.println(fileName);
-    			}
-    		}
+			/*
+			 * for (Parameter entry : form) { if (entry.getValue() != null &&
+			 * !(entry.getValue().equals("")) && entry.getName().equals("fileinput")){
+			 * System.out.println(entry.getName() + "=" + entry.getValue()); fileName =
+			 * entry.getValue(); fileName = fileName.replace(rep, newRep); fileName =
+			 * fileName.replace(user, newUser); System.out.println(fileName); } }
+			 */
 //    		fileName = "C:\\Users\\olj\\Google Drive\\privat\\ontologies\\chessgames\\brill\\brill.pgn";
 //    		fileName = "c:\\\\ullern\\\\acem\\\\radio\\\\translist.txt";
 //    		chessBoard.getGameFile().setFilePath("c:\\ullern\\acem\\radio\\translist.txt");
@@ -302,16 +362,21 @@ class RapporterChessStartServerResourceHTML
     	 	dataModel.put(rulesKey,chessRules);
     		dataModel.put(movesKey, chessMoves);
 //      	 	dataModel.put(blackmovesKey, blackMoves);
-
+       	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+        	return Response.ok(view).build();
      //		 dataModel.put(pawnId,whitePawn1);
-    	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-            Representation pasientkomplikasjonFtl = clres2.get();
-            templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                    MediaType.TEXT_HTML);	
-
-
-
-        	return templateRep;
+		/*
+		 * ClientResource clres2 = new
+		 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+		 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+		 * clres2.get(); templateRep = new
+		 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+		 * MediaType.TEXT_HTML);
+		 * 
+		 * 
+		 * 
+		 * return templateRep;
+		 */
     	}
     	if (query != null){
     		chessBoard.queryOntology();
@@ -319,16 +384,21 @@ class RapporterChessStartServerResourceHTML
     		//   	     System.out.println(fen);
     		dataModel.put(fenPosid,fen);
     		sessionAdmin.setSessionObject(request,chessBoard, chessBoardsession);
-
+       	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+        	return Response.ok(view).build();
      //		 dataModel.put(pawnId,whitePawn1);
-    	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-            Representation pasientkomplikasjonFtl = clres2.get();
-            templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                    MediaType.TEXT_HTML);	
-        	return templateRep;   
+		/*
+		 * ClientResource clres2 = new
+		 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+		 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+		 * clres2.get(); templateRep = new
+		 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+		 * MediaType.TEXT_HTML); return templateRep;
+		 */
     	}    	
     	if (reload != null){
-    		sessionAdmin.getSession(request,chessBoardsession).invalidate();
+    		request.getSession().invalidate();
+//    		sessionAdmin.getSession(request,chessBoardsession).invalidate();
     		chessBoard = null;
     		String fileName = null;
    	     	SimpleScalar simple = new SimpleScalar(piece);
@@ -349,26 +419,28 @@ class RapporterChessStartServerResourceHTML
     		//   	     System.out.println(fen);
     		dataModel.put(fenPosid,fen);
     		sessionAdmin.setSessionObject(request,chessBoard, chessBoardsession);
+         	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
 
      //		 dataModel.put(pawnId,whitePawn1);
-    	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-            Representation pasientkomplikasjonFtl = clres2.get();
-            templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                    MediaType.TEXT_HTML);	
-        	return templateRep;   
+		/*
+		 * ClientResource clres2 = new
+		 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+		 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+		 * clres2.get(); templateRep = new
+		 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+		 * MediaType.TEXT_HTML); return templateRep;
+		 */
     	}
     	if (printOntology != null){
     	 chessBoard.printOntology();	
    	     String fen = chessBoard.createFen();
    	     System.out.println(fen);
    	     dataModel.put(fenPosid,fen);
+      	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+     	return Response.ok(view).build();
 
- //		 dataModel.put(pawnId,whitePawn1);
-	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-        Representation pasientkomplikasjonFtl = clres2.get();
-        templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                MediaType.TEXT_HTML);	
-    	return templateRep;    		
+
     	}
     	if (ontology != null){ // User want ontology position on board
     		chessBoard.createChessontlogyPosition();
@@ -384,15 +456,9 @@ class RapporterChessStartServerResourceHTML
     		List<ChessRules> chessRules = chessBoard.getChessRules();
     		dataModel.put(rulesKey,chessRules);
     		dataModel.put(movesKey, chessMoves);
-//    		dataModel.put(blackmovesKey, blackMoves);
-    		/*      	 	dataModel.put(rulesKey,chessBoard.getExeRules());
-       	 	dataModel.put(rulelabelKey, chessBoard.getExeLabels());*/
-    		//		 dataModel.put(pawnId,whitePawn1);
-    		ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-    		Representation pasientkomplikasjonFtl = clres2.get();
-    		templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-    				MediaType.TEXT_HTML);	
-    		return templateRep;
+         	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
+
     	}
     	if (restartGame != null){
     		chessBoard.createStartPosition();
@@ -410,12 +476,17 @@ class RapporterChessStartServerResourceHTML
 //      	 	dataModel.put(blackmovesKey, blackMoves);
     		 dataModel.put(displayKey, chessPosition);
        	 	dataModel.put(pieceId,pieceMoved );
+         	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
      //		 dataModel.put(pawnId,whitePawn1);
-    	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-            Representation pasientkomplikasjonFtl = clres2.get();
-            templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                    MediaType.TEXT_HTML);	
-        	return templateRep;
+		/*
+		 * ClientResource clres2 = new
+		 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+		 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+		 * clres2.get(); templateRep = new
+		 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+		 * MediaType.TEXT_HTML); return templateRep;
+		 */
     	}
     	if (eightqueen != null) { // User wants to solve the eight queen problem  
 //      		chessBoard.clearChessBoard();
@@ -452,12 +523,17 @@ class RapporterChessStartServerResourceHTML
 //     	 	dataModel.put(blackmovesKey, blackMoves);
    		 dataModel.put(displayKey, chessPosition);
       	 	dataModel.put(pieceId,pieceMoved );
+         	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+         	return Response.ok(view).build();
     //		 dataModel.put(pawnId,whitePawn1);
-   	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-           Representation pasientkomplikasjonFtl = clres2.get();
-           templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                   MediaType.TEXT_HTML);	
-       	return templateRep;
+	/*
+	 * ClientResource clres2 = new
+	 * ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,
+	 * "/chess/startside.html")); Representation pasientkomplikasjonFtl =
+	 * clres2.get(); templateRep = new
+	 * TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
+	 * MediaType.TEXT_HTML); return templateRep;
+	 */
     	}
 /*
  *     	 User wants to play a game of chess
@@ -472,50 +548,60 @@ class RapporterChessStartServerResourceHTML
   	    	opponent.calculateOpponentActions(game.getActiveState());   
  // 	    	opponent.calculateOpponentPositions();This call is replaced by the call to calculateOpponentActions
        	    System.out.println("Start positions\n"+game.getGame().getBoardPic());
-    		SimpleScalar pieceMoved = new SimpleScalar(piece);
-    		SimpleScalar movedTo = new SimpleScalar(newPos);
+    	
     		SimpleScalar chessPosition = new SimpleScalar(position);
-    		establishRules(chessBoard);
+//    		establishRules(chessBoard);
     		chessBoard.emptyGame();
     		game.proposeMove();
+  	    	AgamePiece playerPiece = game.getLastPiece();
+   		 	availablePosNames = new ArrayList<String>();
+   		 	availablePosNames.add("pl"); // Wants to play a game of chess
+   		 	
+   	    	piece = playerPiece.getMyPiece().getName();
+  	    	snewPosition = game.getNewPosition().getPositionName();
+   	    	soldPosition = game.getOldPosition().getPositionName();
+   	    	String fen = chessBoard.createFen();
+   	    	
+    		return produceTemplate(siden,dataModel,fen,chessBoard);
+    	}
+    	if (findPiece != null) {   		// User has marked a piece formSubmit('btnfind');
+    		collectParameters(posisjon, piece, startposisjon, tilgjengeligpos);
+        	if (newPos == null || newPos.equals("")){
+        		newPos = "a2";
+        	}
+        	if (oldPos == null || oldPos.equals("y")){
+        		oldPos = newPos;
+        	}    
+        	boolean findTilgjengelig = tilgjengeligPos.equals("til");
+       	    chessPiece = chessBoard.findPiece(oldPos,piece);
+       	   	AgamePiece movedPiece = chessPiece.getMyPiece();
+      	    System.out.println("Piece marked Finding available positions "+findTilgjengelig);
       	    String fen = chessBoard.createFen();
-//       	    System.out.println("Piece name "+chessPiece.getOntlogyName());
-       	    System.out.println(fen);
-       	    // End positions:
-       	    System.out.println(game.getGame().getBoardPic());
-//       	    game.clearChessboard();
- //      	    System.out.println(game.getGame().getBoardPic());
-    		dataModel.put(fenPosid,fen);
-    		//     		dataModel.put(pieceId,simple );
-    		dataModel.put(rulesKey,chessRules);
-    		dataModel.put(movesKey, chessMoves);
-    		//     	 	dataModel.put(blackmovesKey, blackMoves);
-    		dataModel.put(displayKey, chessPosition);
-    		dataModel.put(pieceId,pieceMoved );
-    		//		 dataModel.put(pawnId,whitePawn1);
-    		ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-    		Representation pasientkomplikasjonFtl = clres2.get();
-    		templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-    				MediaType.TEXT_HTML);	
-    		return templateRep;
+      	   	 if (game != null && findTilgjengelig) { // 
+     	    	APlayer opponent = game.getActiveState().getOpponent();
+     	    	Position oldPosition = chessBoard.findPostion(oldPos);
+     	    	Position newPosition = chessBoard.findPostion(newPos);
+        	    	HashMap<String,Position> allMoves =  movedPiece.getLegalmoves();
+        	    	Set<String> keySet = allMoves.keySet();
+        	    	ArrayList<String> listOfKeys = new ArrayList<String>(keySet);
+        	    	ArrayList<Position> allMoveslist = new ArrayList<>(allMoves.values());
+        	    	availableMoves.addAll(allMoveslist);
+        	    	availablePosNames = new ArrayList<String>();
+      	    	for (Position pos:availableMoves) {
+      	    		availablePosNames.add(pos.getPositionName());
+      	    	}
+        	 }
+            return produceTemplate(siden,dataModel,fen,chessBoard);
     	}
-   // Player has moved a piece 	
-    	for (Parameter entry : form) {
-			if (entry.getValue() != null && !(entry.getValue().equals(""))){
-					System.out.println(entry.getName() + "=" + entry.getValue());
-					if (entry.getName().equals("piece"))
-						piece = entry.getValue();
-					if (entry.getName().equals("posisjon"))
-						newPos = entry.getValue();
-					if (entry.getName().equals("startposisjon"))
-						oldPos = entry.getValue();
-			}
-			
-    	}
+   // Opponent Player has moved a piece	
+   		collectParameters(posisjon, piece, startposisjon, tilgjengeligpos); // This call replaces the structure below:
+
     	if (newPos == null || newPos.equals("")){
     		newPos = "a2";
     	}
-    	
+    	if (oldPos == null || oldPos.equals("y")){
+    		oldPos = newPos;
+    	}    	
     	String moveText = "Proper move";
     	if (oldPos.equals(newPos)) { // A no move
     		noMove = true;
@@ -527,17 +613,18 @@ class RapporterChessStartServerResourceHTML
  * corresponds to position.positionName and piece.name !!! 
  */
 
-
-   	    chessPiece = chessBoard.findPiece(oldPos,piece);
+    	boolean findTilgjengelig = tilgjengeligPos.equals("til");
+   	    chessPiece = chessBoard.findPiece(oldPos,piece); // Name of piece (String object from user) to a chess piece !!!
    	   	AgamePiece movedPiece = chessPiece.getMyPiece();
    	    String fen = chessBoard.createFen();
-   	    System.out.println("Piece name "+chessPiece.getOntlogyName());
+   	    System.out.println("Piece name "+chessPiece.getOntlogyName()+" Finding available positions "+findTilgjengelig);
+   	    System.out.println("Game and moveflagg "+game+" "+noMove+" "+moveText);
    	    System.out.println(fen);
-   	    if (noMove) {
+/*   	    if (noMove) {
    	    	System.out.println(movedPiece.toString());
-   	    }
+   	    }*/
    	    
-   	    if (game != null && !noMove) { // Performs the opponent's move
+   	    if (game != null && !noMove && !findTilgjengelig) { // Performs the opponent's move and creates the next move
 
 //       	chessPiece.setPosition(newPos);
    	    	APlayer opponent = game.getActiveState().getOpponent();
@@ -566,6 +653,16 @@ class RapporterChessStartServerResourceHTML
    	    		}
    	    		
    	    	}
+   	    	
+   	    	HashMap<String,Position> allMoves =  movedPiece.getLegalmoves();
+   	    	Set<String> keySet = allMoves.keySet();
+   	    	ArrayList<String> listOfKeys = new ArrayList<String>(keySet);
+   	    	ArrayList<Position> allMoveslist = new ArrayList<>(allMoves.values());
+   	    	availableMoves.addAll(allMoveslist);
+   	    	availablePosNames = new ArrayList<String>();
+ 	    	for (Position pos:availableMoves) {
+ 	    		availablePosNames.add(pos.getPositionName());
+ 	    	}
 
    	    	chessBoard.determineMove(oldPos, newPos, piece); // Determine if move is legal
    	    	if (castle != null) {
@@ -590,7 +687,7 @@ class RapporterChessStartServerResourceHTML
  /*
   * end new	    	
   */
- 	    	System.out.println("Old position "+oldPosition.toString()+ " New position "+newPosition.toString());
+// 	    	System.out.println("Old position "+oldPosition.toString()+ " New position "+newPosition.toString());
  	    // setHeldPosition(oldPosition); in this position removes the black pawn in move nr. 3 
  	    	List<ApieceMove>  movesofar = game.getMovements();
  	    	 System.out.println("Moves so far ");
@@ -604,6 +701,13 @@ class RapporterChessStartServerResourceHTML
  	    			System.out.println(movePiece.toString());
  	    		}
  	    		
+ 	    	}
+ 	    	System.out.println("Available positions for "+piece+" before move");
+ 	    	for (Position pos:allMoveslist) {
+ 	    		System.out.println(pos.getPositionName());
+ 	    	}
+ 	    	for (String akey:listOfKeys) {
+ 	    		System.out.println(akey);
  	    	}
   	    	game.getGame().movePiece(movedPiece, newPosition,"Opponent");// 16.04.20 Move piece before setting new position.
 
@@ -635,38 +739,73 @@ class RapporterChessStartServerResourceHTML
    	    	System.out.println(game.getGame().getBoardPic());
 //   	    	game.getGame().setChosenPlayer(); // This method is only used at startup OLJ 20.04.20
    	    	
-   	    	game.proposeMove(); //The game object proposes the next move
+   	    	game.proposeMove(); //The game object proposes the next move for player
+   	    	AgamePiece playerPiece = game.getLastPiece();
+   	    	piece = playerPiece.getMyPiece().getName();
+   	    	snewPosition = game.getNewPosition().getPositionName();
+   	    	soldPosition = game.getOldPosition().getPositionName();
      	    fen = chessBoard.createFen();
 //   	    System.out.println("Piece name "+chessPiece.getOntlogyName());
-     	    System.out.println(fen);
+     	    System.out.println("moved piece "+piece+" "+fen);
    	    	System.out.println(game.getGame().getBoardPic());
-   	    	for (ChessMoves move:chessMoves) {
+ /*  	    	for (ChessMoves move:chessMoves) {
    	    		System.out.println(move.toString());
-   	    	}
+   	    	}*/
    	    } // End opponent move
-   	    dataModel.put(fenPosid,fen);
-    	SimpleScalar pieceMoved = new SimpleScalar(piece);
-    	SimpleScalar movedTo = new SimpleScalar(newPos);
-	    SimpleScalar chessPosition = new SimpleScalar(position);
-		dataModel.put(displayKey, chessPosition);
-   	 	dataModel.put(pieceId,pieceMoved );
-  		establishRules(chessBoard);
-//		dataModel.put(pieceId,simple );
-	 	dataModel.put(rulesKey,chessRules);
-		dataModel.put(movesKey, chessMoves);
-//  	 	dataModel.put(blackmovesKey, blackMoves);
+/*   	 if (game != null && findTilgjengelig) { // 
+	    	APlayer opponent = game.getActiveState().getOpponent();
+	    	Position oldPosition = chessBoard.findPostion(oldPos);
+	    	Position newPosition = chessBoard.findPostion(newPos);
+   	    	HashMap<String,Position> allMoves =  movedPiece.getLegalmoves();
+   	    	Set<String> keySet = allMoves.keySet();
+   	    	ArrayList<String> listOfKeys = new ArrayList<String>(keySet);
+   	    	ArrayList<Position> allMoveslist = new ArrayList<>(allMoves.values());
+   	    	availableMoves.addAll(allMoveslist);
+   	    	availablePosNames = new ArrayList<String>();
+ 	    	for (Position pos:availableMoves) {
+ 	    		availablePosNames.add(pos.getPositionName());
+ 	    	}
+   	 }*/
+   	 if (availablePosNames == null) {
+	 	availablePosNames = new ArrayList<String>();
+		 	availablePosNames.add("yy");
+   	 }
+ /*  The below code has been replaced by call to produceTemplate	
+*/
 
- //		 dataModel.put(pawnId,whitePawn1);
-	    ClientResource clres2 = new ClientResource(LocalReference.createClapReference(LocalReference.CLAP_CLASS,"/chess/startside.html"));
-        Representation pasientkomplikasjonFtl = clres2.get();
-        templateRep = new TemplateRepresentation(pasientkomplikasjonFtl,dataModel,
-                MediaType.TEXT_HTML);	
-        String page = "../chess/test.html";
-/*         if (noMove) {
-        	redirectTemporary(page);
-        }*/
+        return produceTemplate(siden,dataModel,fen,chessBoard);
+!!!2566530.java!!!	collectParameters(in posisjon : String, in mpiece : String, in startposisjon : String, in tilgjengeligpos : String) : void
+    	
+    	if(posisjon != null)
+    		newPos = posisjon;
+    	if(mpiece != null)
+    		piece = mpiece;
+    	if(startposisjon != null)
+    		oldPos = startposisjon;
+    	if(tilgjengeligpos != null)
+    		tilgjengeligPos = tilgjengeligpos;
+ 
+!!!2566658.java!!!	produceTemplate(in siden : String, inout dataModel : Map<String,Object>, in fen : String, inout chessBoard : ChessBoard) : Response
+//    	TemplateRepresentation  templateRep = null;
+      	 dataModel.put(fenPosid,fen);
+       	 SimpleScalar pieceMoved = new SimpleScalar(piece);
+       	 SimpleScalar movedTo = new SimpleScalar(snewPosition);
+       	 SimpleScalar movedfrom = new SimpleScalar(soldPosition);
+       	 SimpleScalar chessPosition = new SimpleScalar(position);
+       	 dataModel.put(newPosId,movedTo );
+       	 dataModel.put(oldPosId,movedfrom );
+       	 dataModel.put(displayKey, chessPosition);
+       	 dataModel.put(pieceId,pieceMoved );
+       	 establishRules(chessBoard);
+       	 //		dataModel.put(pieceId,simple );
+       	 dataModel.put(rulesKey,chessRules);
+       	 dataModel.put(movesKey, chessMoves);
+       	 dataModel.put(availableKey, availablePosNames);
+       	 //  	 	dataModel.put(blackmovesKey, blackMoves);
 
-    	return templateRep;
+       	 //		 dataModel.put(pawnId,whitePawn1);
+      	 FreemarkerView view = new FreemarkerView(siden, dataModel);
+     	return Response.ok(view).build();
 !!!1840002.java!!!	castleMove(inout castle : AgamePiece, inout newPosition : Position, inout opponent : APlayer, inout chessBoard : ChessBoard) : Position
     	String posName = newPosition.getPositionName();
     	Position castlePos =null;

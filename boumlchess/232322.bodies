@@ -268,7 +268,17 @@ class Position
 		} 
 !!!728322.java!!!	checkPieceOccupation(inout piece : Piece) : void
 		if (piece.getOccupies() != null){
-			HashSet<BoardPosition> whitePosset = (HashSet<BoardPosition>) piece.getOccupies();
+//			HashSet<BoardPosition> occupies = ((HashSet<BoardPosition>) piece.getOccupies());
+			Collection<? extends Taken> takenPieces = piece.getOccupies();
+	        // Convert the collection of Taken objects to a HashSet of BoardPosition objects
+	        HashSet<BoardPosition> boardPositions = takenPieces.stream()
+	                .map(KnowledgeBuilder::convertToBoardPosition) // Apply a mapping function
+	                .collect(Collectors.toCollection(HashSet::new));
+
+
+	        HashSet<BoardPosition> whitePosset = boardPositions;
+			
+//			HashSet<BoardPosition> whitePosset = occupies;
 			Iterator<BoardPosition> whitePosIterator =  whitePosset.iterator(); // Empty after move???!!
 			while(whitePosIterator.hasNext()){
 				BoardPosition whitePos = whitePosIterator.next();

@@ -18,6 +18,8 @@ class AChessProblemSolver
 		playSide = playerName.substring(0,5);
 		noofMoves = game.getMovements().size();
 		graphPlan = new GraphPlanAlgorithm();
+		String catalog = KnowledgeBuilder.getFileCatalog();
+		outputFileName = catalog+outputFileName;
 		try {
 			fw = new FileWriter(outputFileName, true);
 		} catch (IOException e1) {
@@ -978,15 +980,16 @@ class AChessProblemSolver
 //      List<Sentence> sentences = folKb.getOriginalSentences();
       writer.println("The population of gamestates");
       for (GroundGameState gameState:gameStateList) { // A population of GameStates
-    	  writer.println(gameState.toString());
     	  gameState.setThePerceptor(thePerceptor);
     	  gameState.setOpponent(opponent);
     	  gameState.setPlayer(myPlayer);
     	  gameState.setMoveNr(noofMoves);
+    	  gameState.setStatestatistics();
+    	  writer.println(gameState.toString());
       }
       thegameStateList.addAll(gameStateList);
 /*
- * How to define the initial state?      
+ * How to define the initial state?   At present not in use OJN 05.08.25   
  */
       GameState initialGameState = gameStateList.get(0);
       GameAction gameAction = initialGameState.getAction();
@@ -1053,24 +1056,28 @@ class AChessProblemSolver
       NondeterministicChessProblem nondeterProblem = new NondeterministicChessProblem(null,ndeterActionfn,ndeterRFN,gameTest); // No step cost function !!
       /*
        * The structure for And or search chapter 4.    
-       * A nondeterministic environment. It always starts with the andSearch 
+       * A nondeterministic environment. 
        */
       AndOrChessSearch andorSearch = new AndOrChessSearch();
       ChessPath path = new ChessPath();
       Optional<ChessPlan> aPlan = andorSearch.search(nondeterProblem) ; // A nondeterministic environment. 
+      ChessPlan thisPlan = aPlan.isPresent() ? aPlan.get() : null;
 /*
  * The population of gamestates ends up in the ifstatements of the plan !!
- * 
+ * At present all game states are the goal state, so there is no plan
  */
       writer.println("The plan - ");
-      writer.println(aPlan.toString());
+      writer.println(thisPlan.toString());
 // The optional astate object refers to the same object as plannerState and localPlanner       
 //	  thePerceptor.createLiftedActions(null,"WhiteKnight2","f3",null); // Creates the initial and goal states based on this action schema
 	  initialState = thePerceptor.getInitState();
 	  goalState = thePerceptor.getGoalState();
 	  otherSchemas = thePerceptor.getOtherSchemas();
+/*
+ * The above states and schemas are necessary for creating the ChessProblem for the planning graph 	  
+ */
 	  otherSchemaList = thePerceptor.getOtherActions();
- /*
+ /* 
   * This astate object must contain the initial and goal states used when creating the ChessProblem used in the graphplan algorithm.     
   */
       String pieceKey = null;

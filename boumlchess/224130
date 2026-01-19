@@ -1,7 +1,7 @@
-format 223
+format 224
 "parsing" // aima::core::nlp::parsing
-  revision 1
-  modified_by 2 "bruker"
+  revision 2
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -285,6 +285,79 @@ derivation chain that most probably derives the words provided to the parser.
 @return
 "
       end
+
+      operation 2412546 "parse"
+	public explicit_return_type "float"
+	nparams 2
+	  param inout name "words" explicit_type "List<String>"
+	  param inout name "grammar" type class_ref 377858 // ProbCNFGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}[][][] ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2412674 "length"
+	public explicit_return_type "int"
+	nparams 1
+	  param inout name "ls" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Simple function to make algorithm more closely resemble pseudocode
+@param ls
+@return the length of the list
+"
+      end
+
+      operation 2412802 "printProbTable"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "probTable" explicit_type "float"
+	multiplicity "[][][]"
+	  param inout name "words" explicit_type "List<String>"
+	  param inout name "g" type class_ref 378626 // ProbUnrestrictedGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][][] ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Print out the probability table produced by the CYK Algorithm
+@param probTable
+@param words
+@param g
+"
+      end
+
+      operation 2412930 "getMostProbableDerivation"
+	public explicit_return_type "ArrayList<String>"
+	nparams 2
+	  param inout name "probTable" explicit_type "float"
+	multiplicity "[][][]"
+	  param inout name "g" type class_ref 378626 // ProbUnrestrictedGrammar
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[][][] ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The probability table get's us halfway there, but this method can provide the 
+derivation chain that most probably derives the words provided to the parser.
+@param probTable
+@param g
+@return
+"
+      end
     end
 
     class 378882 "LexWord"
@@ -379,6 +452,20 @@ ${members}}
 
 "
       operation 1821954 "main"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "args" explicit_type "String"
+	multiplicity "[]"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2413058 "main"
 	class_operation public explicit_return_type "void"
 	nparams 1
 	  param inout name "args" explicit_type "String"

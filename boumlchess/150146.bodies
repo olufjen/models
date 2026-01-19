@@ -46,3 +46,50 @@ class VersionSpace
             return fromGeneral;
         else
             return fromSpecific;
+!!!2384386.java!!!	immediateGeneralisation(inout sSet : HashSet<Hypothesis>, inout e : LogicalExample) : Hypothesis
+        Hypothesis toAdd = new Hypothesis("",
+                new ArrayList<>(Collections.singletonList(
+                                new HashMap<>(e.getAttributes()))));
+        sSet.add(toAdd);
+        return sSet;
+!!!2384514.java!!!	immediateSpecialisation(inout gSet : HashSet<Hypothesis>, inout example : LogicalExample) : Hypothesis
+        Hypothesis toAdd = new Hypothesis("",
+                new ArrayList<>(Collections.singletonList(
+                        new HashMap<>(example.getAttributes()))));
+        gSet.add(toAdd);
+        return gSet;
+!!!2384642.java!!!	predictFromGeneralisedSet(inout example : LogicalExample) : boolean
+        if (this.mostGeneralSet.isEmpty())
+            return true;
+        for (Hypothesis hypothesis :
+             this.mostGeneralSet) {
+            if (hypothesis.predict(example))
+                return false;
+        }
+        return true;
+!!!2384770.java!!!	predictFromSpecialisedSet(inout example : LogicalExample) : boolean
+        if (this.mostSpecificSet.isEmpty())
+            return false;
+        for (Hypothesis hypothesis :
+                this.mostSpecificSet) {
+            if (hypothesis.predict(example))
+                return true;
+        }
+        return false;
+!!!2384898.java!!!	getMostGeneralSet() : Hypothesis
+        return mostGeneralSet;
+!!!2385026.java!!!	setMostGeneralSet(inout mostGeneralSet : HashSet<Hypothesis>) : void
+        this.mostGeneralSet = mostGeneralSet;
+!!!2385154.java!!!	setMostSpecificSet(inout mostSpecificSet : HashSet<Hypothesis>) : void
+        this.mostSpecificSet = mostSpecificSet;
+!!!2385282.java!!!	getMostSpecificSet() : Hypothesis
+        return mostSpecificSet;
+!!!2385410.java!!!	predict(inout example : LogicalExample) : boolean
+        boolean fromGeneral = this.predictFromGeneralisedSet(example);
+        boolean fromSpecific = this.predictFromSpecialisedSet(example);
+        if (fromGeneral==fromSpecific)
+            return fromGeneral;
+        if (Math.random()<0.5)
+            return fromGeneral;
+        else
+            return fromSpecific;

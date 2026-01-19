@@ -19,3 +19,23 @@ class SearchUtils
 		return node.isPresent() ? Optional.of(getSequenceOfActions(node.get())) : Optional.empty();
 !!!467202.java!!!	toState(inout node : Optional<Node<S, A>>) : Optional<S>
 		return node.isPresent() ? Optional.of(node.get().getState()) : Optional.empty();
+!!!2431490.java!!!	getPathFromRoot(inout node : Node) : Node
+		List<Node<S, A>> path = new LinkedList<>();
+		while (!node.isRootNode()) {
+			path.add(0, node);
+			node = node.getParent();
+		}
+		// ensure the root node is added
+		path.add(0, node);
+		return path;
+!!!2431618.java!!!	getSequenceOfActions(inout node : Node) : List<A>
+		List<A> actions = new LinkedList<>();
+		while (!node.isRootNode()) {
+			actions.add(0, node.getAction());
+			node = node.getParent();
+		}
+		return actions;
+!!!2431746.java!!!	toActions(inout node : Optional<Node<S, A>>) : Optional<List<A>>
+		return node.isPresent() ? Optional.of(getSequenceOfActions(node.get())) : Optional.empty();
+!!!2431874.java!!!	toState(inout node : Optional<Node<S, A>>) : Optional<S>
+		return node.isPresent() ? Optional.of(node.get().getState()) : Optional.empty();

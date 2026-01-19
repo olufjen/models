@@ -1,0 +1,22 @@
+class SpringContextInjector
+!!!2496386.java!!!	contextInitialized(inout event : ServletContextEvent) : void
+    	// --- NØKKELEN ER HER: Hent konteksten trygt ---
+        ApplicationContext springContext = 
+            WebApplicationContextUtils.getWebApplicationContext(event.getServletContext());        
+        if (springContext == null) {
+             throw new IllegalStateException("Spring Context ble ikke injisert. Sjekk at @Component er på.");
+        }
+        System.out.println("SpringContextInjector - ServletContextListener henter alle beans");
+        // Steg 1: Hent alle Bean-en
+        SkjemaResurs skjemaResursBean = springContext.getBean(SkjemaResurs.class);
+//        FreemarkerMessageBodyWriter freeMarker = springContext.getBean(FreemarkerMessageBodyWriter.class);
+        RapporterChessStartServerResourceHTML chessStarterServer = springContext.getBean(RapporterChessStartServerResourceHTML.class);
+        FreemarkerMessageBodyWriter bodyWriter = springContext.getBean(FreemarkerMessageBodyWriter.class);
+        // Steg 2: Sett den statisk i ResteasyConfig
+        ResteasyConfig.setSkjemaResursSingleton(skjemaResursBean);
+        ResteasyConfig.setChessStarterServer(chessStarterServer);
+//        ResteasyConfig.setFreemarkerResourceSingleton(freeMarker);
+        ResteasyConfig.setFreemarkerWriterSingleton(bodyWriter);
+        System.out.println("ResteasyConfig suksessfullt initiert med fullt injisert Spring Beans.");
+!!!2496514.java!!!	contextDestroyed(inout event : ServletContextEvent) : void
+        // ...

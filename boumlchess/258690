@@ -1,0 +1,211 @@
+format 224
+"provider" // no::chess::web::server::provider
+  revision 3
+  modified_by 2 "olufj"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\chess\\trunk\\chess\\src\\main\\java\\no\\chess/web/server/provider/"
+  java_package "no.chess.web.server.provider"
+  classview 256002 "provider"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 566658 "FreemarkerMessageBodyWriter"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@Component
+@Provider
+@Produces(MediaType.TEXT_HTML)
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Dette er en bean for Freemarker rammeverket
+
+ <-- Forteller Spring at dette er en bønne
+ <-- Forteller Spring at dette er en bønne
+ Registrerer denne klassen som en JAX-RS utvidelse
+ Registrerer denne klassen som en JAX-RS utvidelse
+ Håndterer kun forespørsler som forventer HTML"
+      classrelation 830594 // <realization>
+	relation 830594 -_-|>
+	  stereotype "bind"
+	  a public
+	    java "${type}<FreemarkerView>"
+	    classrelation_ref 830594 // <realization>
+	  b parent class_ref 571138 // MessageBodyWriter
+      end
+
+      attribute 829826 "freemarkerConfig"
+	const_attribute private explicit_type "Configuration"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 2549506 "FreemarkerMessageBodyWriter"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2549634 "isWriteable"
+	public explicit_return_type "boolean"
+	nparams 4
+	  param inout name "type" explicit_type "Class<?>"
+	  param inout name "genericType" explicit_type "Type"
+	  param inout name "annotations" explicit_type "Annotation"
+	multiplicity "[]"
+	  param inout name "mediaType" explicit_type "MediaType"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2}[] ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2549762 "getSize"
+	public explicit_return_type "long"
+	nparams 5
+	  param inout name "view" type class_ref 571010 // FreemarkerView
+	  param inout name "type" explicit_type "Class<?>"
+	  param inout name "genericType" explicit_type "Type"
+	  param inout name "annotations" explicit_type "Annotation"
+	multiplicity "[]"
+	  param inout name "mediaType" explicit_type "MediaType"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3}[] ${p3}, ${t4} ${p4}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Returnerer størrelsen på innholdet (ignoreres ofte for streaming). "
+      end
+
+      operation 2549890 "writeTo"
+	public explicit_return_type "void"
+	nparams 7
+	  param inout name "view" type class_ref 571010 // FreemarkerView
+	  param inout name "type" explicit_type "Class<?>"
+	  param inout name "genericType" explicit_type "Type"
+	  param inout name "annotations" explicit_type "Annotation"
+	multiplicity "[]"
+	  param inout name "mediaType" explicit_type "MediaType"
+	  param inout name "httpHeaders" explicit_type "MultivaluedMap<String, Object>"
+	  param inout name "entityStream" type class_ref 210562 // OutputStream
+	nexceptions 2
+	  explicit_exception "IOException"
+	  explicit_exception "WebApplicationException"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3}[] ${p3}, ${t4} ${p4}, ${t5} ${p5}, ${t6} ${p6}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment " Hovedmetoden: Gjengi malen og skriv resultatet til HTTP-responsen. "
+      end
+    end
+  end
+
+  deploymentview 236546 "provider"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 490370 "FreemarkerMessageBodyWriter"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import org.springframework.stereotype.Component;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
+import no.chess.web.view.FreemarkerView;
+${definition}"
+      associated_elems
+	class_ref 566658 // FreemarkerMessageBodyWriter
+      end
+    end
+  end
+end

@@ -2,11 +2,7 @@ format 224
 
 classcanvas 128002 class_ref 231554 // SessionAdminImpl
   classdiagramsettings member_max_width 0 end
-  xyz 438 205 2000
-end
-classcanvas 128130 class_ref 231426 // SessionAdmin
-  classdiagramsettings member_max_width 0 end
-  xyz 442 23 2006
+  xyz 398 74 2000
 end
 note 129154 "Fra chess web .control"
   xyzwh 161 46 2000 211 53
@@ -16,15 +12,18 @@ classcanvas 129538 class_ref 237442 // SessionServerResource
 end
 classcanvas 129666 class_ref 237570 // ProsedyreServerResource
   classdiagramsettings member_max_width 0 end
-  xyz 826 44 2012
+  xyz 826 70 2012
 end
 classcanvas 130050 class_ref 231170 // EmailWebService
   classdiagramsettings member_max_width 0 end
-  xyz 629 145 2006
+  hidden_operations
+    operation_ref 694786 // setMailTo
+    operation_ref 694914 // sendEmail
+  xyz 593 194 2006
 end
 classcanvas 130306 class_ref 233090 // LoginModel
   classdiagramsettings member_max_width 0 end
-  xyz 609 244 3005
+  xyz 589 295 3005
 end
 classcanvas 130562 class_ref 237314 // ChessServerResource
   classdiagramsettings member_max_width 0 end
@@ -56,6 +55,15 @@ end
 classcanvas 130818 class_ref 237954 // RapporterChessStartServerResourceHTML
   classdiagramsettings member_max_width 0 end
   hidden_operations
+    operation_ref 2565378 // RapporterChessStartServerResourceHTML
+    operation_ref 2565506 // getTilgjengeligPos
+    operation_ref 2565634 // setTilgjengeligPos
+    operation_ref 2565762 // getAvailablePosNames
+    operation_ref 2565890 // setAvailablePosNames
+    operation_ref 2566018 // getAvailableKey
+    operation_ref 2566146 // setAvailableKey
+    operation_ref 2566274 // getAvailableMoves
+    operation_ref 2566402 // setAvailableMoves
     operation_ref 803074 // getMovesKey
     operation_ref 803202 // setMovesKey
     operation_ref 803330 // getBlackmovesKey
@@ -85,8 +93,10 @@ classcanvas 130818 class_ref 237954 // RapporterChessStartServerResourceHTML
     operation_ref 806402 // establishMoves
     operation_ref 806530 // getChess
     operation_ref 806658 // storeChess
+    operation_ref 2566530 // collectParameters
+    operation_ref 2566658 // produceTemplate
     operation_ref 1840002 // castleMove
-  xyz 264 449 2012
+  xyz 251 258 2012
 end
 classcanvas 131074 class_ref 232450 // ChessMoves
   classdiagramsettings member_max_width 0 end
@@ -96,23 +106,6 @@ classcanvas 131458 class_ref 232194 // ChessRules
   classdiagramsettings member_max_width 0 end
   xyz 10 135 3005
 end
-classcanvas 131714 class_ref 237698 // ServerResource
-  classdiagramsettings member_max_width 0 end
-  xyz 1045 27 2018
-end
-note 131970 "ServerResource fra Restlet"
-  xyzwh 1054 121 2000 111 61
-relationcanvas 128258 relation_ref 285058 // <realization>
-  decenter_begin 472
-  from ref 128002 z 2007 to ref 128130
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 129794 relation_ref 312450 // <unidirectional association>
-  from ref 129666 z 2013 to ref 128130
-  role_a_pos 574 72 3000 no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
 relationcanvas 129922 relation_ref 312578 // <generalisation>
   from ref 129538 z 2013 to ref 129666
   no_role_a no_role_b
@@ -120,12 +113,12 @@ relationcanvas 129922 relation_ref 312578 // <generalisation>
 end
 relationcanvas 130178 relation_ref 312706 // <unidirectional association>
   from ref 129538 z 2007 to ref 130050
-  role_a_pos 751 176 3000 no_role_b
+  role_a_pos 719 227 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 130434 relation_ref 312834 // <unidirectional association>
   from ref 129538 z 3006 to ref 130306
-  role_a_pos 743 320 3000 no_role_b
+  role_a_pos 723 357 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 130690 relation_ref 312962 // <generalisation>
@@ -140,28 +133,24 @@ relationcanvas 130946 relation_ref 313218 // <generalisation>
 end
 relationcanvas 131202 relation_ref 313474 // <unidirectional association>
   from ref 130818 z 2019 to ref 131074
-  role_a_pos 122 503 3000 no_role_b
+  role_a_pos 122 474 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 131330 relation_ref 313602 // <unidirectional association>
-  from ref 130818 z 2019 stereotype "<<ArrayList>>" xyz 144.5 541 2019 to ref 131074
-  role_a_pos 122 503 3000 no_role_b
+  from ref 130818 z 2019 stereotype "<<ArrayList>>" xyz 137.5 481.5 2019 to ref 131074
+  role_a_pos 122 474 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 131586 relation_ref 313346 // <unidirectional association>
-  from ref 130818 z 3006 stereotype "<<List>>" xyz 161.5 357 3006 to ref 131458
-  role_a_pos 123 274 3000 no_role_b
+  from ref 130818 z 3006 stereotype "<<List>>" xyz 150.5 291 3006 to ref 131458
+  role_a_pos 116 228 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 131842 relation_ref 312322 // <generalisation>
-  from ref 129666 z 2019 to ref 131714
-  no_role_a no_role_b
+relationcanvas 132482 relation_ref 841858 // <unidirectional association>
+  from ref 129666 z 2013 to ref 128002
+  role_a_pos 536 124 3000 no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-line 129282 -_-_
-  from ref 129154 z 2007 to ref 128130
 line 129410 -_-_
   from ref 129154 z 2001 to ref 128002
-line 132098 -_-_
-  from ref 131970 z 2019 to ref 131714
 end

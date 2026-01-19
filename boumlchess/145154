@@ -1,7 +1,7 @@
-format 223
+format 224
 "control" // no::chess::web::control
-  revision 13
-  modified_by 2 "bruker"
+  revision 16
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -30,7 +30,7 @@ format 223
   activitydiagramsettings
    end
   
-  java_dir "C:\\svnroot\\chess\\chess\\trunk\\chess_web\\src\\main\\java\\no/chess/web/control/"
+  java_dir "C:\\svnroot\\chess\\trunk\\chess\\src\\main\\java\\no\\chess\\web\\control"
   java_package "no.chess.web.control"
   classview 142722 "control"
     
@@ -480,13 +480,13 @@ Klassen håndterer alle session objekter for Restlet resurser
 @author olj
 
 "
-      operation 697474 "getSessionObject"
+      operation 2496898 "getSessionObject"
 	public explicit_return_type "Object"
 	nparams 2
-	  param inout name "request" explicit_type "Request"
+	  param inout name "request" explicit_type "javax.servlet.http.HttpServletRequest"
 	  param in name "idKey" explicit_type "String"
 	
-	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@Context ${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -494,14 +494,14 @@ Klassen håndterer alle session objekter for Restlet resurser
 	
       end
 
-      operation 697602 "setSessionObject"
+      operation 2497026 "setSessionObject"
 	public explicit_return_type "void"
 	nparams 3
-	  param inout name "request" explicit_type "Request"
+	  param inout name "request" explicit_type "HttpServletRequest"
 	  param inout name "o" explicit_type "Object"
 	  param in name "idKey" explicit_type "String"
 	
-	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@Context ${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -509,13 +509,13 @@ Klassen håndterer alle session objekter for Restlet resurser
 	
       end
 
-      operation 697730 "getSession"
+      operation 2497154 "getSession"
 	public explicit_return_type "HttpSession"
 	nparams 2
-	  param inout name "request" explicit_type "Request"
+	  param inout name "request" explicit_type "HttpServletRequest"
 	  param in name "idKey" explicit_type "String"
 	
-	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@Context ${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -562,18 +562,12 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
-      comment "Denne klassen administerer session objekter for Restlet Resurser 
+      comment "Denne klassen administerer session objekter for Resurser 
 @author olj
+@since December 2025
+Reworked for use of jakarta
 
 "
-      classrelation 285058 // <realization>
-	relation 285058 -_-|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 285058 // <realization>
-	  b parent class_ref 231426 // SessionAdmin
-      end
-
       attribute 277634 "sessionParams"
 	private explicit_type "String"
 	multiplicity "[]"
@@ -599,55 +593,6 @@ ${members}}
 	
       end
 
-      operation 698242 "getSessionObject"
-	public explicit_return_type "Object"
-	nparams 2
-	  param inout name "request" explicit_type "Request"
-	  param in name "idKey" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-      end
-
-      operation 698370 "setSessionObject"
-	public explicit_return_type "void"
-	nparams 3
-	  param inout name "request" explicit_type "Request"
-	  param inout name "o" explicit_type "Object"
-	  param in name "idKey" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-      end
-
-      operation 698498 "getSession"
-	public explicit_return_type "HttpSession"
-	nparams 2
-	  param inout name "request" explicit_type "Request"
-	  param in name "idKey" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-      end
-
       operation 698626 "getSessionParams"
 	public explicit_return_type "String"
 	nparams 0
@@ -667,6 +612,48 @@ ${members}}
 	multiplicity "[]"
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 698242 "getSessionObject"
+	public explicit_return_type "Object"
+	nparams 2
+	  param inout name "request" explicit_type "HttpServletRequest"
+	  param in name "idKey" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 698370 "setSessionObject"
+	public explicit_return_type "void"
+	nparams 3
+	  param inout name "request" explicit_type "HttpServletRequest"
+	  param inout name "o" explicit_type "Object"
+	  param in name "idKey" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 698498 "getSession"
+	public explicit_return_type "HttpSession"
+	nparams 1
+	  param inout name "request" explicit_type "HttpServletRequest"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -710,7 +697,8 @@ ${definition}"
 ${package}
 ${imports}
 import javax.servlet.http.HttpSession;
-import org.restlet.Request;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Context;
 ${definition}"
       associated_elems
 	class_ref 231426 // SessionAdmin
@@ -722,10 +710,8 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.restlet.Request;
-import org.restlet.ext.servlet.ServletUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 ${definition}"
       associated_elems
 	class_ref 231554 // SessionAdminImpl

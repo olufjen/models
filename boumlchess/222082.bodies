@@ -29,3 +29,33 @@ class GraphicsTransfer2D
 		return result;
 !!!639234.java!!!	transfer(inout rect : Rect2D) : Shape
 		return new java.awt.geom.Rectangle2D.Double(rect.getLowerLeft().getX(), rect.getLowerLeft().getY(), rect.getUpperRight().getX() - rect.getLowerLeft().getX(), rect.getUpperRight().getY() - rect.getLowerLeft().getY());
+!!!2445698.java!!!	transfer(inout geometric : IGeometric2D) : Shape
+		if(geometric instanceof Circle2D)
+			return transfer((Circle2D) geometric);
+		else if(geometric instanceof Ellipse2D)
+			return transfer((Ellipse2D) geometric);
+		else if(geometric instanceof Line2D)
+			return transfer((Line2D) geometric);
+		else if(geometric instanceof Polyline2D)
+			return transfer((Polyline2D) geometric);
+		else if(geometric instanceof Rect2D)
+			return transfer((Rect2D) geometric);
+		return null;
+!!!2445826.java!!!	transfer(inout circle : Circle2D) : Shape
+		return new java.awt.geom.Ellipse2D.Double(circle.getCenter().getX()-circle.getRadius(),circle.getCenter().getY()-circle.getRadius(),2*circle.getRadius(),2*circle.getRadius());
+!!!2445954.java!!!	transfer(inout ellipse : Ellipse2D) : Shape
+		Shape result = new java.awt.geom.Ellipse2D.Double(ellipse.getCenter().getX()-ellipse.getHorizontalLength(),ellipse.getCenter().getY()-ellipse.getVerticalLength(),2*ellipse.getHorizontalLength(),2*ellipse.getVerticalLength());
+		return AffineTransform.getRotateInstance(ellipse.getAngle()).createTransformedShape(result);
+!!!2446082.java!!!	transfer(inout line : Line2D) : Shape
+		return new java.awt.geom.Line2D.Double(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+!!!2446210.java!!!	transfer(inout polyline : Polyline2D) : Shape
+		Path2D result = new java.awt.geom.Path2D.Double();
+		Point2D[] vertexes = polyline.getVertexes();
+		result.moveTo(vertexes[0].getX(),vertexes[0].getY());
+		for(int i=1;i<vertexes.length;i++) {
+			result.lineTo(vertexes[i].getX(),vertexes[i].getY());
+		}
+		if(polyline.isClosed()) result.closePath();
+		return result;
+!!!2446338.java!!!	transfer(inout rect : Rect2D) : Shape
+		return new java.awt.geom.Rectangle2D.Double(rect.getLowerLeft().getX(), rect.getLowerLeft().getY(), rect.getUpperRight().getX() - rect.getLowerLeft().getX(), rect.getUpperRight().getY() - rect.getLowerLeft().getY());

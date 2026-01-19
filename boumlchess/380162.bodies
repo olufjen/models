@@ -1,6 +1,7 @@
 class OpponentAgent
 !!!1836034.java!!!	OpponentAgent(inout stateImpl : ChessStateImpl, inout game : PlayGame, inout myPlayer : APlayer, inout opponent : APlayer, inout folKb : ChessFolKnowledgeBase, inout chessDomain : ChessDomain)
 		super();
+		String catalog = KnowledgeBuilder.getFileCatalog();
 		this.stateImpl = stateImpl;
 		this.game = game;
 		this.myPlayer = myPlayer; // myPlayer is the opponent
@@ -17,6 +18,7 @@ class OpponentAgent
 		protectedPositions = new HashMap<String,Position>(); //Which positions are protected by opponent
 		positionKeys = new ArrayList<String>();// The key for positions that are reachable
 		myPieceNames = new ArrayList<String>(); // A list of opponent pieces that are active
+		outputFileName = catalog + outputFileName;
 		try {
 			fw = new FileWriter(outputFileName, true);
 		} catch (IOException e1) {
@@ -179,8 +181,10 @@ class OpponentAgent
 				myPieceNames.add(pieceName);
 			}
 		}
+		List<ChessActionImpl> myActions = new ArrayList<ChessActionImpl>();
 		for (ChessAction action:actions) {
 			ChessActionImpl localAction = (ChessActionImpl) action;
+			myActions.add(localAction);
 			ApieceMove move = localAction.getPossibleMove();
 			AgamePiece piece = localAction.getChessPiece();
 			String pieceName = piece.getMyPiece().getOntlogyName();
@@ -199,8 +203,8 @@ class OpponentAgent
 				}
 			}
 		}
-		List<ChessActionImpl> myActions = new ArrayList();
-		myActions.addAll((Collection<? extends ChessActionImpl>) actions);
+
+//		myActions.addAll((Collection<? extends ChessActionImpl>) actions);
 		probepossibilities(myActions, myPlayer);
 !!!1837954.java!!!	tellFacts(in piece : String, in pos : String, in predicate : String) : void
 		Constant pieceVariable = new Constant(piece);

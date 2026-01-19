@@ -1,7 +1,7 @@
-format 223
+format 224
 "agent" // aima::core::agent
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -74,6 +74,24 @@ Actuators.
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates whether or not this Action is a 'No Operation'.<br>
+Note: AIMA3e - NoOp, or no operation, is the name of an assembly language
+instruction that does nothing.
+
+@return true if this is a NoOp Action.
+"
+      end
+
+      operation 2366210 "isNoOp"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -239,6 +257,26 @@ artificial agent will be implemented by an agent program.
 	  param inout name "percept" type class_ref 128386 // Percept
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "The Agent's program, which maps any given percept sequences to an action.
+
+@param percept
+           The current percept of a sequence perceived by the Agent.
+@return the Action to be taken in response to the currently perceived
+        percept.
+"
+      end
+
+      operation 2366338 "execute"
+	public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "percept" type class_ref 128386 // Percept
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -641,6 +679,247 @@ task(s).
            the message to notify the registered EnvironmentViews with.
 "
       end
+
+      operation 2366466 "getAgents"
+	public return_type class_ref 128130 // Agent
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the Agents belonging to this Environment.
+
+@return The Agents belonging to this Environment.
+"
+      end
+
+      operation 2366594 "addAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add an agent to the Environment.
+
+@param agent
+           the agent to be added.
+"
+      end
+
+      operation 2366722 "removeAgent"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "agent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove an agent from the environment.
+
+@param agent
+           the agent to be removed.
+"
+      end
+
+      operation 2366850 "getEnvironmentObjects"
+	public return_type class_ref 128258 // EnvironmentObject
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the EnvironmentObjects that exist in this Environment.
+
+@return the EnvironmentObjects that exist in this Environment.
+"
+      end
+
+      operation 2366978 "addEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add an EnvironmentObject to the Environment.
+
+@param eo
+           the EnvironmentObject to be added.
+"
+      end
+
+      operation 2367106 "removeEnvironmentObject"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "eo" type class_ref 128258 // EnvironmentObject
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove an EnvironmentObject from the Environment.
+
+@param eo
+           the EnvironmentObject to be removed.
+"
+      end
+
+      operation 2367234 "step"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Move the Environment one time step forward.
+"
+      end
+
+      operation 2367362 "step"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "n" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Move the Environment n time steps forward.
+
+@param n
+           the number of time steps to move the Environment forward.
+"
+      end
+
+      operation 2367490 "stepUntilDone"
+	public explicit_return_type "void"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Step through time steps until the Environment has no more tasks.
+"
+      end
+
+      operation 2367618 "isDone"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns <code>true</code> if the Environment is finished with its current
+task(s).
+
+@return <code>true</code> if the Environment is finished with its current
+        task(s).
+"
+      end
+
+      operation 2367746 "getPerformanceMeasure"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "forAgent" type class_ref 128130 // Agent
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve the performance measure associated with an Agent.
+
+@param forAgent
+           the Agent for which a performance measure is to be retrieved.
+@return the performance measure associated with the Agent.
+"
+      end
+
+      operation 2367874 "addEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Add a view on the Environment.
+
+@param ev
+           the EnvironmentView to be added.
+"
+      end
+
+      operation 2368002 "removeEnvironmentView"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "ev" type class_ref 129282 // EnvironmentView
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Remove a view on the Environment.
+
+@param ev
+           the EnvironmentView to be removed.
+"
+      end
+
+      operation 2368130 "notifyViews"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Notify all registered EnvironmentViews of a message.
+
+@param msg
+           the message to notify the registered EnvironmentViews with.
+"
+      end
     end
 
     class 129282 "EnvironmentView"
@@ -729,6 +1008,73 @@ perceives initially.
            the Environment in which the agent has acted.
 "
       end
+
+      operation 2368258 "notify"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A simple notification message from an object in the Environment.
+
+@param msg
+           the message received.
+"
+      end
+
+      operation 2368386 "agentAdded"
+	public explicit_return_type "void"
+	nparams 2
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates an Agent has been added to the environment and what it
+perceives initially.
+
+@param agent
+           the Agent just added to the Environment.
+@param source
+           the Environment to which the agent was added.
+"
+      end
+
+      operation 2368514 "agentActed"
+	public explicit_return_type "void"
+	nparams 4
+	  param inout name "agent" type class_ref 128130 // Agent
+	  param inout name "percept" type class_ref 128386 // Percept
+	  param inout name "action" type class_ref 128002 // Action
+	  param inout name "source" type class_ref 129154 // Environment
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Indicates the Environment has changed as a result of an Agent's action.
+
+@param agent
+           the Agent that performed the Action.
+@param percept
+           the Percept the Agent received from the environment.
+@param action
+           the Action the Agent performed.
+@param source
+           the Environment in which the agent has acted.
+"
+      end
     end
 
     class 129410 "EnvironmentState"
@@ -770,6 +1116,25 @@ ${members}}
 	  param in name "msg" explicit_type "String"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A simple notification message, to be forwarded to an Environment's
+registered EnvironmentViews.
+
+@param msg
+           the message to be forwarded to the EnvironmentViews.
+"
+      end
+
+      operation 2368642 "notifyViews"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "msg" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	

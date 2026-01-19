@@ -1,7 +1,7 @@
-format 223
+format 224
 "search" // aima::core::probability::mdp::search
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,7 +54,11 @@ format 223
      end
     class 184962 "PolicyIteration"
       visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -166,11 +170,82 @@ The policy iteration algorithm for calculating an optimal policy.
 @return a policy vector indexed by state, initially random.
 "
       end
+
+      classrelation 794626 // <unidirectional association>
+	relation 794626 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 794626 // <unidirectional association>
+	  b parent class_ref 154370 // PolicyEvaluation
+      end
+
+      operation 2425090 "PolicyIteration"
+	cpp_inline public explicit_return_type ""
+	nparams 1
+	  param inout name "policyEvaluation" type class_ref 154370 // PolicyEvaluation
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Constructor.
+
+@param policyEvaluation
+           the policy evaluation function to use.
+"
+      end
+
+      operation 2425218 "policyIteration"
+	cpp_inline public return_type class_ref 184450 // Policy
+	nparams 1
+	  param inout name "mdp" type class_ref 183298 // MarkovDecisionProcess
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<S, A> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " function POLICY-ITERATION(mdp) returns a policy
+
+The policy iteration algorithm for calculating an optimal policy.
+
+@param mdp
+           an MDP with states S, actions A(s), transition model P(s'|s,a)
+@return an optimal policy
+"
+      end
+
+      operation 2425346 "initialPolicyVector"
+	class_operation cpp_inline public explicit_return_type "Map<S, A>"
+	nparams 1
+	  param inout name "mdp" type class_ref 183298 // MarkovDecisionProcess
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A extends Action> ${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Create a policy vector indexed by state, initially random.
+
+@param mdp
+           an MDP with states S, actions A(s), transition model P(s'|s,a)
+@return a policy vector indexed by state, initially random.
+"
+      end
     end
 
     class 185090 "POMDPValueIteration"
       visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -339,11 +414,24 @@ It currently calculates the difference of the average of the maximum utilities o
 @return The maximum difference.
 "
       end
+
+      classrelation 794754 // <unidirectional association>
+	relation 794754 --->
+	  a role_name "" public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type}<S, A> ${name}${value};
+"
+	    classrelation_ref 794754 // <unidirectional association>
+	  b parent class_ref 184578 // POMDP
+      end
     end
 
     class 185218 "ValueIteration"
       visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        extends class_ref 128002 // Action
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""

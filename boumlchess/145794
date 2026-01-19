@@ -1,7 +1,7 @@
-format 223
+format 224
 "resource" // no::chess::web::server::resource
-  revision 16
-  modified_by 2 "bruker"
+  revision 19
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -30,7 +30,7 @@ format 223
   activitydiagramsettings
    end
   
-  java_dir "C:\\svnroot\\chess\\chess\\trunk\\chess_web\\src\\main\\java\\no/chess/web/server/resource/"
+  java_dir "C:\\svnroot\\chess\\trunk\\chess\\src\\main\\java\\no\\chess\\web\\server\\resource"
   java_package "no.chess.web.server.resource"
   classview 143234 "resource"
     
@@ -53,7 +53,7 @@ format 223
     activitydiagramsettings
      end
     class 237314 "ChessServerResource"
-      visibility public 
+      abstract visibility public 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -105,6 +105,33 @@ ${members}}
 
       attribute 299522 "piece"
 	protected explicit_type "String"
+	init_value " \"pp\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " name of opponent piece when opponent has made a move"
+      end
+
+      attribute 836610 "soldPosition"
+	protected explicit_type "String"
+	init_value " \"p\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 836738 "snewPosition"
+	protected explicit_type "String"
 	init_value " \"p\""
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
@@ -118,7 +145,35 @@ ${members}}
 
       attribute 299650 "newPos"
 	protected explicit_type "String"
-	init_value " \"pos\""
+	init_value " \"x\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Contains the opponent new position as a string during a game"
+      end
+
+      attribute 299778 "oldPos"
+	protected explicit_type "String"
+	init_value " \"y\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " Contains the opponent old position as a string during a game"
+      end
+
+      attribute 836866 "newPosId"
+	protected explicit_type "String"
+	init_value " \"newpos\""
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
@@ -129,9 +184,9 @@ ${members}}
 	MysqlColumn
       end
 
-      attribute 299778 "oldPos"
+      attribute 836994 "oldPosId"
 	protected explicit_type "String"
-	init_value " \"xy\""
+	init_value " \"oldpos\""
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
@@ -509,7 +564,7 @@ ${members}}
     end
 
     class 237442 "SessionServerResource"
-      visibility public 
+      abstract visibility public 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -703,7 +758,7 @@ Denne rutinen fjerner alle session objekter
     end
 
     class 237570 "ProsedyreServerResource"
-      visibility public 
+      abstract visibility public 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -719,21 +774,13 @@ ${members}}
 @author oluf
 
 "
-      classrelation 312322 // <generalisation>
-	relation 312322 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 312322 // <generalisation>
-	  b parent class_ref 237698 // ServerResource
-      end
-
-      classrelation 312450 // sessionAdmin (<unidirectional association>)
-	relation 312450 --->
-	  a role_name "sessionAdmin" init_value " null" protected
+      classrelation 841858 // sessionAdmin (<unidirectional association>)
+	relation 841858 --->
+	  a role_name "sessionAdmin" init_value " new SessionAdminImpl()" const_relation protected
 	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	    classrelation_ref 312450 // sessionAdmin (<unidirectional association>)
-	  b parent class_ref 231426 // SessionAdmin
+	    classrelation_ref 841858 // sessionAdmin (<unidirectional association>)
+	  b parent class_ref 231554 // SessionAdminImpl
       end
 
       attribute 298882 "sessionParams"
@@ -750,23 +797,10 @@ ${members}}
       end
 
       operation 798338 "getSessionAdmin"
-	public return_type class_ref 231426 // SessionAdmin
+	public return_type class_ref 231554 // SessionAdminImpl
 	nparams 0
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 798466 "setSessionAdmin"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "sessionAdmin" type class_ref 231426 // SessionAdmin
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -801,62 +835,14 @@ ${members}}
       end
     end
 
-    class 237826 "MyApplication"
-      visibility public 
-      cpp_decl ""
-      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      classrelation 313090 // <generalisation>
-	relation 313090 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 313090 // <generalisation>
-	  b parent class_ref 206082 // Application
-      end
-
-      operation 802818 "main"
-	class_operation public explicit_return_type "void"
-	nparams 1
-	  param inout name "args" explicit_type "String"
-	multiplicity "[]"
-	nexceptions 1
-	  explicit_exception "Exception"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}[] ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 802946 "createInboundRoot"
-	public explicit_return_type "Restlet"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-      end
-    end
-
     class 237954 "RapporterChessStartServerResourceHTML"
       visibility public 
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
+"
+      java_annotation "@Component
+@Path(\"/chess\")
 "
       php_decl ""
       python_2_2 python_decl ""
@@ -867,7 +853,10 @@ ${members}}
       comment "@author olj
  Denne resursen er knyttet til startsiden i
  Sjakkspillet
-"
+
+ <-- Forteller Spring at dette er en bønne
+ <-- Forteller Spring at dette er en bønne
+ <-- Må være på klassen for /api/skjema "
       classrelation 313218 // <generalisation>
 	relation 313218 ---|>
 	  a public
@@ -954,6 +943,19 @@ ${members}}
 	MysqlColumn
       end
 
+      attribute 837122 "tilgjengeligPos"
+	private explicit_type "String"
+	init_value " \"t\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
       attribute 301314 "rulesKey"
 	private explicit_type "String"
 	init_value " \"rules\""
@@ -1012,6 +1014,19 @@ ${members}}
       attribute 301826 "ontologyKey"
 	private explicit_type "String"
 	init_value " \"ontologyfile\""
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 837250 "availableKey"
+	private explicit_type "String"
+	init_value " \"available\""
 	cpp_decl ""
 	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
@@ -1101,6 +1116,142 @@ ${members}}
 "
 	    classrelation_ref 313602 // chessMoves (<unidirectional association>)
 	  b parent class_ref 232450 // ChessMoves
+      end
+
+      classrelation 841986 // availableMoves (<unidirectional association>)
+	relation 841986 --->
+	  stereotype "List"
+	  a role_name "availableMoves" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 841986 // availableMoves (<unidirectional association>)
+	  b parent class_ref 232322 // Position
+      end
+
+      attribute 837378 "availablePosNames"
+	private explicit_type "String"
+	init_value " null"
+	stereotype "List"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      operation 2565378 "RapporterChessStartServerResourceHTML"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2565506 "getTilgjengeligPos"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2565634 "setTilgjengeligPos"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "tilgjengeligPos" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2565762 "getAvailablePosNames"
+	public explicit_return_type "List<String>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2565890 "setAvailablePosNames"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "availablePosNames" explicit_type "List<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2566018 "getAvailableKey"
+	public explicit_return_type "String"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2566146 "setAvailableKey"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "availableKey" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2566274 "getAvailableMoves"
+	public return_type class_ref 232322 // Position
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2566402 "setAvailableMoves"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "availableMoves" explicit_type "List<Position>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
 
       operation 803074 "getMovesKey"
@@ -1453,13 +1604,15 @@ This method creates a new move in the list of moves, it is stored in algebraic n
       end
 
       operation 806530 "getChess"
-	public explicit_return_type "Representation"
-	nparams 0
+	public explicit_return_type "Response"
+	nparams 1
+	  param inout name "request" explicit_type "HttpServletRequest"
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@Context ${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
-	java_annotation "@Get
+	java_annotation "@GET
+@Produces(MediaType.TEXT_HTML)
 "
 	
 	
@@ -1467,20 +1620,37 @@ This method creates a new move in the list of moves, it is stored in algebraic n
 	comment "getChess
 Denne rutinen starter med startside.html
 Denne rutinen henter inn nødvendige session objekter og  setter opp nettsiden for å 
-vise et sjakkbrett
+vise et sjakkbrett. Den blir utført når nettsiden \"Sjakk\" starter opp.
 @return
 "
       end
 
       operation 806658 "storeChess"
-	public explicit_return_type "Representation"
-	nparams 1
-	  param inout name "form" explicit_type "Form"
+	public explicit_return_type "Response"
+	nparams 16
+	  param in name "restartGame" explicit_type "String"
+	  param in name "ontology" explicit_type "String"
+	  param in name "printOntology" explicit_type "String"
+	  param in name "reload" explicit_type "String"
+	  param in name "query" explicit_type "String"
+	  param in name "fileselect" explicit_type "String"
+	  param in name "ontlogyselect" explicit_type "String"
+	  param in name "printGame" explicit_type "String"
+	  param in name "eightqueen" explicit_type "String"
+	  param in name "achessGame" explicit_type "String"
+	  param in name "findPiece" explicit_type "String"
+	  param in name "posisjon" explicit_type "String"
+	  param in name "piece" explicit_type "String"
+	  param in name "startposisjon" explicit_type "String"
+	  param in name "tilgjengeligpos" explicit_type "String"
+	  param inout name "request" explicit_type "HttpServletRequest"
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}@FormParam(\"startBtnx\") ${t0} ${p0}, @FormParam(\"ontBtnx\") ${t1} ${p1}, @FormParam(\"printBtnx\") ${t2} ${p2}, @FormParam(\"relBtnx\") ${t3} ${p3}, @FormParam(\"qBtnx\") ${t4} ${p4}, @FormParam(\"fileinput\") ${t5} ${p5}, @FormParam(\"ontologyinput\") ${t6} ${p6}, @FormParam(\"printgame\") ${t7} ${p7}, @FormParam(\"eightqueen\") ${t8} ${p8}, @FormParam(\"playgame\") ${t9} ${p9}, @FormParam(\"btnmove\") ${t10} ${p10}, @FormParam(\"posisjon\") ${t11} ${p11}, @FormParam(\"piece\") ${t12} ${p12}, @FormParam(\"startposisjon\") ${t13} ${p13}, @FormParam(\"tilgjengeligpos\") ${t14} ${p14}, @Context ${t15} ${p15}${)}${throws}${staticnl}{
   ${body}}
 "
-	java_annotation "@Post
+	java_annotation "@POST
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Produces(MediaType.TEXT_HTML)
 "
 	
 	
@@ -1493,6 +1663,50 @@ Such moves also includes restart of game etc.
 
 
 @param form
+@return
+"
+      end
+
+      operation 2566530 "collectParameters"
+	private explicit_return_type "void"
+	nparams 4
+	  param in name "posisjon" explicit_type "String"
+	  param in name "mpiece" explicit_type "String"
+	  param in name "startposisjon" explicit_type "String"
+	  param in name "tilgjengeligpos" explicit_type "String"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "collectParameters
+This method collects all parameters entered by user
+@param form, the form containing all parameters 
+"
+      end
+
+      operation 2566658 "produceTemplate"
+	private explicit_return_type "Response"
+	nparams 4
+	  param in name "siden" explicit_type "String"
+	  param inout name "dataModel" explicit_type "Map<String,Object>"
+	  param in name "fen" explicit_type "String"
+	  param inout name "chessBoard" type class_ref 231938 // ChessBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "produceTemplate
+This method produces the template used by Restlet
+@since december 2025 returns the Response used by Jakarta.ws
+@param dataModel
+@param fen
+@param chessBoard
 @return
 "
       end
@@ -1511,279 +1725,13 @@ Such moves also includes restart of game etc.
 	
 	
 	
-      end
-    end
-
-    class 238082 "RapporterGameServerResourceHTML"
-      visibility public 
-      cpp_decl ""
-      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      comment "@author olj
- Denne resursen er knyttet til startsiden 
- Sjakkspillet
-"
-      classrelation 313730 // <generalisation>
-	relation 313730 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 313730 // <generalisation>
-	  b parent class_ref 237314 // ChessServerResource
-      end
-
-      attribute 302466 "delMelding"
-	private explicit_type "String"
-	init_value " \"delmelding\""
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 302594 "meldeTxtId"
-	private explicit_type "String"
-	init_value " \"melding\""
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 302722 "passordCheck"
-	private explicit_type "String"
-	init_value " \"none\""
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 302850 "displayPassord"
-	private explicit_type "String"
-	init_value " \"passord\""
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      attribute 302978 "position"
-	private explicit_type "String"
-	init_value " \"r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R\""
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
-"
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
-      operation 806786 "getPosition"
-	public explicit_return_type "String"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 806914 "setPosition"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "position" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807042 "getDisplayPassord"
-	public explicit_return_type "String"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807170 "setDisplayPassord"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "displayPassord" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807298 "getPassordCheck"
-	public explicit_return_type "String"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807426 "setPassordCheck"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "passordCheck" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807554 "getDelMelding"
-	public explicit_return_type "String"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807682 "setDelMelding"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "delMelding" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807810 "getMeldeTxtId"
-	public explicit_return_type "String"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 807938 "setMeldeTxtId"
-	public explicit_return_type "void"
-	nparams 1
-	  param in name "meldeTxtId" explicit_type "String"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 808066 "getPositions"
-	class_operation public explicit_return_type "Object"
-	nparams 1
-	  param inout name "object" explicit_type "Object"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 808194 "getChess"
-	public explicit_return_type "Representation"
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Get
-"
-	
-	
-	
-	comment "getChess
-Denne rutinen starter med startside.html
-Denne rutinen henter inn nødvendige session objekter og  setter opp nettsiden for å 
-vise et sjakkbrett
-@return
-"
-      end
-
-      operation 808322 "storeChess"
-	public explicit_return_type "Representation"
-	nparams 1
-	  param inout name "form" explicit_type "Form"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Post
-"
-	
-	
-	
-	comment "storeChess
-Denne rutinen rutinen kjøres dersom epost og passord er gitt fra bruker.
-Den tar imot epost og passord og henter frem riktig meldingsinformasjon fra
-databasen basert på melders id 
-@param form
-@return
-
-
-@param form
-@return
+	comment "castleMove
+This method checks if at correct castle move has been made
+@param castle
+@param newPosition
+@param opponent
+@param chessBoard
+@return POsition correct castleposition or null
 "
       end
     end
@@ -1809,8 +1757,6 @@ ${members}}
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
-	java_annotation "@Get
-"
 	
 	
 	
@@ -1833,14 +1779,6 @@ ${members}}
       explicit_switch_type ""
       mysql_decl ""
       
-      classrelation 313858 // <generalisation>
-	relation 313858 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 313858 // <generalisation>
-	  b parent class_ref 237698 // ServerResource
-      end
-
       classrelation 313986 // <realization>
 	relation 313986 -_-|>
 	  a public
@@ -1863,122 +1801,6 @@ ${members}}
 	
       end
     end
-
-    class 238466 "ToxmlServerresource"
-      visibility public 
-      cpp_decl ""
-      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      classrelation 314114 // <generalisation>
-	relation 314114 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 314114 // <generalisation>
-	  b parent class_ref 237698 // ServerResource
-      end
-
-      operation 808706 "toXml"
-	public explicit_return_type "Representation"
-	nparams 0
-	nexceptions 1
-	  explicit_exception "IOException"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Get
-"
-	
-	
-	
-      end
-
-      operation 808834 "store"
-	public explicit_return_type "void"
-	nparams 1
-	  param inout name "mailRep" explicit_type "DomRepresentation"
-	nexceptions 1
-	  explicit_exception "IOException"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Put
-"
-	
-	
-	
-      end
-    end
-
-    class 238594 "Tracer"
-      visibility public 
-      cpp_decl ""
-      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
-${members}}
-"
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      mysql_decl ""
-      
-      classrelation 314242 // <generalisation>
-	relation 314242 ---|>
-	  a public
-	    java "${type}"
-	    classrelation_ref 314242 // <generalisation>
-	  b parent class_ref 238722 // Restlet
-      end
-
-      operation 808962 "Tracer"
-	public explicit_return_type ""
-	nparams 1
-	  param inout name "context" explicit_type "Context"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 809090 "Tracer"
-	public explicit_return_type ""
-	nparams 0
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-      end
-
-      operation 809218 "handle"
-	public explicit_return_type "void"
-	nparams 2
-	  param inout name "request" explicit_type "Request"
-	  param inout name "response" explicit_type "Response"
-	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
-  ${body}}
-"
-	java_annotation "@Override
-"
-	
-	
-	
-      end
-    end
   end
 
   deploymentview 142978 "resource"
@@ -1990,8 +1812,8 @@ ${members}}
       java_src "${comment}
 ${package}
 ${imports}
-import org.restlet.resource.ServerResource;
 import no.chess.web.control.SessionAdmin;
+import no.chess.web.control.SessionAdminImpl;
 ${definition}"
       associated_elems
 	class_ref 237570 // ProsedyreServerResource
@@ -2007,8 +1829,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.restlet.Request;
-import org.restlet.data.Reference;
 import no.chess.web.control.EmailWebService;
 import no.chess.web.model.LoginModel;
 ${definition}"
@@ -2041,37 +1861,28 @@ ${definition}"
       end
     end
 
-    artifact 217858 "MyApplication"
-      stereotype "source"
-      java_src "${comment}
-${package}
-${imports}
-import org.restlet.Application;
-import org.restlet.Component;
-import org.restlet.Restlet;
-import org.restlet.data.LocalReference;
-import org.restlet.data.Protocol;
-import org.restlet.resource.Directory;
-import org.restlet.routing.Router;
-${definition}"
-      associated_elems
-	class_ref 237826 // MyApplication
-      end
-    end
-
     artifact 217986 "RapporterChessStartServerResourceHTML"
       stereotype "source"
       java_src "${comment}
 ${package}
 ${imports}
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import no.basic.ontology.model.OntologyModel;
 import no.chess.ontology.BlackBoardPosition;
+import no.chess.web.control.SessionAdminImpl;
 import no.chess.web.model.ChessBoard;
 import no.chess.web.model.ChessMoves;
 import no.chess.web.model.ChessPiece;
@@ -2083,20 +1894,8 @@ import no.chess.web.model.QueensEnvironment;
 import no.chess.web.model.game.APlayer;
 import no.chess.web.model.game.AgamePiece;
 import no.chess.web.model.game.ApieceMove;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.data.Disposition;
-import org.restlet.data.Form;
-import org.restlet.data.LocalReference;
-import org.restlet.data.MediaType;
-import org.restlet.data.Parameter;
-import org.restlet.data.Reference;
-import org.restlet.ext.freemarker.TemplateRepresentation;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ClientResource;
-import org.restlet.resource.Get;
-import org.restlet.resource.Post;
+import no.chess.web.view.FreemarkerView;
+import org.springframework.stereotype.Component;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.impl.IndividualImpl;
@@ -2111,36 +1910,28 @@ import aima.core.search.csp.Domain;
 import aima.core.search.csp.Variable;
 import aima.core.search.csp.examples.NQueensCSP;
 import aima.core.util.datastructure.XYLocation;
+import freemarker.template.Configuration;
 import freemarker.template.SimpleScalar;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
 ${definition}"
       associated_elems
 	class_ref 237954 // RapporterChessStartServerResourceHTML
-      end
-    end
-
-    artifact 218114 "RapporterGameServerResourceHTML"
-      stereotype "source"
-      java_src "${comment}
-${package}
-${imports}
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.restlet.Request;
-import org.restlet.data.Form;
-import org.restlet.data.LocalReference;
-import org.restlet.data.MediaType;
-import org.restlet.data.Parameter;
-import org.restlet.data.Reference;
-import org.restlet.ext.freemarker.TemplateRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ClientResource;
-import org.restlet.resource.Get;
-import org.restlet.resource.Post;
-import freemarker.template.SimpleScalar;
-${definition}"
-      associated_elems
-	class_ref 238082 // RapporterGameServerResourceHTML
       end
     end
 
@@ -2149,7 +1940,6 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
-import org.restlet.resource.Get;
 ${definition}"
       associated_elems
 	class_ref 238210 // RootResource
@@ -2161,47 +1951,9 @@ ${definition}"
       java_src "${comment}
 ${package}
 ${imports}
-import org.restlet.resource.ServerResource;
 ${definition}"
       associated_elems
 	class_ref 238338 // RootServerResource
-      end
-    end
-
-    artifact 218498 "ToxmlServerresource"
-      stereotype "source"
-      java_src "${comment}
-${package}
-${imports}
-import java.io.IOException;
-import org.restlet.data.Reference;
-import org.restlet.ext.xml.DomRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.resource.Get;
-import org.restlet.resource.Put;
-import org.restlet.resource.ServerResource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-${definition}"
-      associated_elems
-	class_ref 238466 // ToxmlServerresource
-      end
-    end
-
-    artifact 218626 "Tracer"
-      stereotype "source"
-      java_src "${comment}
-${package}
-${imports}
-import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.Restlet;
-import org.restlet.data.MediaType;
-${definition}"
-      associated_elems
-	class_ref 238594 // Tracer
       end
     end
   end

@@ -1,0 +1,471 @@
+format 224
+"config" // no::chess::web::config
+  revision 3
+  modified_by 2 "olufj"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  java_dir "C:\\svnroot\\chess\\trunk\\chess\\src\\main\\java\\no\\chess\\web\\config"
+  java_package "no.chess.web.config"
+  classview 255746 "config"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 566274 "GlobalVisitCounterService"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@Service
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Spring Boot vil automatisk gjøre denne til en Singleton"
+      operation 2495106 "getGlobalCount"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2495234 "setGlobalCount"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "globalCount" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      attribute 816898 "globalCount"
+	volatile private explicit_type "int"
+	init_value " 0"
+	cpp_decl ""
+	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+	comment " volatile sikrer at variabelen synkroniseres korrekt mellom tråder
+"
+      end
+
+      operation 2495362 "incrementAndGetCount"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent synchronized java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Øker den globale telleren på en trådsikker måte.
+@return Den nye globale tellingen.
+"
+      end
+
+      operation 2566786 "getGlobalCount"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2566914 "setGlobalCount"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "globalCount" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2568706 "getGlobalCount"
+	public explicit_return_type "int"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2568834 "setGlobalCount"
+	public explicit_return_type "void"
+	nparams 1
+	  param in name "globalCount" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+    end
+
+    class 566402 "ResteasyConfig"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@ApplicationPath(\"/restapi\")
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment "Subklasse av jakarta.ws.rs.core.Application
+Definerer rotstien for alle REST-tjenester i applikasjonen. Alle JAX-RS-ressurser vil starte med denne stien. /restapi
+DEn definerer og setter opp alle definerte beans @component som singletons
+
+"
+      classrelation 806402 // <generalisation>
+	relation 806402 ---|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 806402 // <generalisation>
+	  b parent class_ref 206082 // Application
+      end
+
+      classrelation 806530 // skjemaResursSingleton (<unidirectional association>)
+	relation 806530 --->
+	  a role_name "skjemaResursSingleton" class_relation private
+	    comment "Statisk felt som holdes av JAX-RS Application.
+ Dette er definerte Spring beans
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 806530 // skjemaResursSingleton (<unidirectional association>)
+	  b parent class_ref 566530 // SkjemaResurs
+      end
+
+      classrelation 806658 // freemarkerWriterSingleton (<unidirectional association>)
+	relation 806658 --->
+	  a role_name "freemarkerWriterSingleton" class_relation private
+	    comment " MessageBodyWriter er en Provider og benyttes for Freemarker"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 806658 // freemarkerWriterSingleton (<unidirectional association>)
+	  b parent class_ref 566658 // FreemarkerMessageBodyWriter
+      end
+
+      classrelation 806786 // chessStarterServer (<unidirectional association>)
+	relation 806786 --->
+	  a role_name "chessStarterServer" class_relation private
+	    comment " For dialog med bruker"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 806786 // chessStarterServer (<unidirectional association>)
+	  b parent class_ref 237954 // RapporterChessStartServerResourceHTML
+      end
+
+      classrelation 806914 // springcontextInjector (<unidirectional association>)
+	relation 806914 --->
+	  a role_name "springcontextInjector" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 806914 // springcontextInjector (<unidirectional association>)
+	  b parent class_ref 566786 // SpringContextInjector
+      end
+
+      classrelation 807042 // restletApplication (<unidirectional association>)
+	relation 807042 --->
+	  a role_name "restletApplication" class_relation private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 807042 // restletApplication (<unidirectional association>)
+	  b parent class_ref 566914 // RestletApplikasjon
+      end
+
+      operation 2495490 "setSkjemaResursSingleton"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "instance" type class_ref 566530 // SkjemaResurs
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Alle set rutinene er kalt av SpringContextInjector
+"
+      end
+
+      operation 2495618 "setRestletApplication"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "restletApplication" type class_ref 566914 // RestletApplikasjon
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2495746 "setSpringcontextInjector"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "springcontextInjector" type class_ref 566786 // SpringContextInjector
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2495874 "setFreemarkerWriterSingleton"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "instance" type class_ref 566658 // FreemarkerMessageBodyWriter
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " Ny setter for FreemarkerMessageBodyWriter"
+      end
+
+      operation 2496002 "setChessStarterServer"
+	class_operation public explicit_return_type "void"
+	nparams 1
+	  param inout name "chessStarterServer" type class_ref 237954 // RapporterChessStartServerResourceHTML
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2496130 "getSingletons"
+	public explicit_return_type "Set<Object>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+	comment "getSingletons()
+Returnerer alle definerte beans
+"
+      end
+
+      operation 2496258 "getClasses"
+	public explicit_return_type "Set<Class<?>>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+
+    class 566786 "SpringContextInjector"
+      visibility public 
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      java_annotation "@Component
+@WebListener
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      comment " ✅ MÅ VÆRE PÅ Forteller Spring Boot å behandle denne klassen som en Spring Bean. Dette gjør at Spring kan opprette og administrere objektet, og injisere det i RESTEasy-rammeverket.
+ ✅ MÅ VÆRE PÅ Forteller Spring Boot å behandle denne klassen som en Spring Bean. Dette gjør at Spring kan opprette og administrere objektet, og injisere det i RESTEasy-rammeverket.
+ <--- LEGG TIL DENNE!
+ <--- LEGG TIL DENNE!"
+      classrelation 807170 // <realization>
+	relation 807170 -_-|>
+	  a public
+	    java "${type}"
+	    classrelation_ref 807170 // <realization>
+	  b parent class_ref 236930 // ServletContextListener
+      end
+
+      operation 2496386 "contextInitialized"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "event" explicit_type "ServletContextEvent"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+
+      operation 2496514 "contextDestroyed"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "event" explicit_type "ServletContextEvent"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@Override
+"
+	
+	
+	
+      end
+    end
+  end
+
+  deploymentview 236162 "config"
+    //deployment diagram settings
+    deploymentdiagramsettings
+     end
+    artifact 487810 "GlobalVisitCounterService"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import org.springframework.stereotype.Service;
+${definition}"
+      associated_elems
+	class_ref 566274 // GlobalVisitCounterService
+      end
+    end
+
+    artifact 487938 "ResteasyConfig"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import no.chess.web.server.RestletApplikasjon;
+import no.chess.web.server.SkjemaResurs;
+import no.chess.web.server.provider.FreemarkerMessageBodyWriter;
+import no.chess.web.server.resource.RapporterChessStartServerResourceHTML;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+${definition}"
+      associated_elems
+	class_ref 566402 // ResteasyConfig
+      end
+    end
+
+    artifact 488066 "SpringContextInjector"
+      stereotype "source"
+      java_src "${comment}
+${package}
+${imports}
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+import no.chess.web.server.SkjemaResurs;
+import no.chess.web.server.provider.FreemarkerMessageBodyWriter;
+import no.chess.web.server.resource.RapporterChessStartServerResourceHTML;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+${definition}"
+      associated_elems
+	class_ref 566786 // SpringContextInjector
+      end
+    end
+  end
+end

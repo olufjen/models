@@ -1,7 +1,7 @@
-format 223
+format 224
 "proposition" // aima::core::probability::proposition
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -118,6 +118,63 @@ random variables under consideration.
 	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Determine whether or not the proposition holds in a particular possible
+world.
+
+@param possibleWorld
+           A possible world is defined to be an assignment of values to
+           all of the random variables under consideration.
+@return true if the proposition holds in the given possible world, false
+        otherwise.
+"
+      end
+
+      operation 2425474 "getScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of RandomVariables in the World (sample space) that this
+        Proposition is applicable to.
+"
+      end
+
+      operation 2425602 "getUnboundScope"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Set of RandomVariables from this propositions scope that are
+        not constrained to any particular set of values (e.g. bound =
+        P(Total = 11), while unbound = P(Total)). If a variable is
+        unbound it implies the distributions associated with the variable
+        is being sought.
+"
+      end
+
+      operation 2425730 "holds"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "possibleWorld" explicit_type "Map<RandomVariable, Object>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	

@@ -31,3 +31,35 @@ class SimpleAgentApp
 		return new DemoController();
 !!!590338.java!!!	main(inout args : String [[]]) : void
 		new SimpleAgentApp().startApplication();
+!!!2443394.java!!!	startApplication() : void
+		AgentAppFrame frame = constructApplicationFrame();
+		frame.centerPane.setDividerLocation(frame.centerPane.getResizeWeight());
+		frame.setVisible(true);
+!!!2443522.java!!!	constructApplicationFrame() : AgentAppFrame
+		AgentAppEnvironmentView envView = createEnvironmentView();
+		AgentAppFrame frame = createFrame();
+		AgentAppController controller = createController();
+		frame.setEnvView(envView);
+		envView.setMessageLogger(frame.getMessageLogger());
+		frame.setController(controller);
+		controller.setFrame(frame);
+		frame.setDefaultSelection();
+		return frame;
+!!!2443650.java!!!	createEnvironmentView() : AgentAppEnvironmentView
+		return new EmptyEnvironmentView();
+!!!2443778.java!!!	createFrame() : AgentAppFrame
+		AgentAppFrame result = new AgentAppFrame();
+		result.setTitle("Demo Agent Application");
+		result.setSelectors(new String[] { "XSelect", "YSelect" },
+				new String[] { "Select X", "Select Y" });
+		result.setSelectorItems("XSelect", new String[] { "X1 (Small)",
+				"X2 (Large)" }, 1);
+		result.setSelectorItems("YSelect",
+				new String[] { "Y=1", "Y=2", "Y=3" }, 0);
+		result.setSplitPaneResizeWeight(0.5); // puts split bar in center
+		result.setSize(600, 400);
+		return result;
+!!!2443906.java!!!	createController() : AgentAppController
+		return new DemoController();
+!!!2444034.java!!!	main(inout args : String [[]]) : void
+		new SimpleAgentApp().startApplication();

@@ -1,7 +1,7 @@
-format 223
+format 224
 "inference" // aima::core::logic::fol::inference
-  revision 3
-  modified_by 2 "bruker"
+  revision 4
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -542,6 +542,67 @@ ${members}}
 	  
 	  
 	end
+      end
+
+      classrelation 785026 // <unidirectional association>
+	relation 785026 --->
+	  a role_name "" init_value " new VariableCollector()" protected
+	    comment " PROTECTED ATTRIBUTES
+"
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 785026 // <unidirectional association>
+	  b parent class_ref 159746 // VariableCollector
+      end
+
+      classrelation 785154 // <unidirectional association>
+	relation 785154 --->
+	  a role_name "" init_value " new Unifier()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 785154 // <unidirectional association>
+	  b parent class_ref 161026 // Unifier
+      end
+
+      classrelation 785282 // <unidirectional association>
+	relation 785282 --->
+	  a role_name "" init_value " new SubstVisitor()" protected
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 785282 // <unidirectional association>
+	  b parent class_ref 156930 // SubstVisitor
+      end
+
+      operation 2397186 "isValidMatch"
+	abstract protected explicit_return_type "boolean"
+	nparams 4
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "toMatchVariables" explicit_type "Set<Variable>"
+	  param inout name "possibleMatch" type class_ref 160770 // Term
+	  param inout name "substitution" explicit_type "Map<Variable, Term>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment " PROTECTED METODS
+"
+      end
+
+      operation 2397314 "getMatchingSubstitution"
+	protected return_type class_ref 162050 // IdentifyCandidateMatchingTerm
+	nparams 2
+	  param inout name "toMatch" type class_ref 160770 // Term
+	  param inout name "expression" type class_ref 162178 // AtomicSentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
     end
 
@@ -1301,6 +1362,27 @@ ${members}}
 @return an InferenceResult.
 "
       end
+
+      operation 2397442 "ask"
+	public return_type class_ref 162818 // InferenceResult
+	nparams 2
+	  param inout name "kb" type class_ref 162946 // FOLKnowledgeBase
+	  param inout name "query" type class_ref 149634 // Sentence
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param kb
+           the knowledge base against which the query is to be made.
+@param query
+           the query to be answered.
+@return an InferenceResult.
+"
+      end
     end
 
     class 162818 "InferenceResult"
@@ -1391,6 +1473,90 @@ ${members}}
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return a list of 0 or more proofs (multiple proofs can be returned if
+        the original query contains variables).
+"
+      end
+
+      operation 2397570 "isPossiblyFalse"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the query is not entailed from the premises. This just
+        means the query is not entailed, the query itself may be true.
+"
+      end
+
+      operation 2397698 "isTrue"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the query is entailed from the premises (Note: can get
+        partial results if the original query contains variables
+        indicating that there can possibly be more than 1 proof/bindings
+        for the query, see: isPartialResultDueToTimeout()).
+"
+      end
+
+      operation 2397826 "isUnknownDueToTimeout"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the inference procedure ran for a length of time and
+        found no proof one way or the other before it timed out.
+"
+      end
+
+      operation 2397954 "isPartialResultDueToTimeout"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true, if the inference procedure found a proof for a query
+        containing variables (i.e. possibly more than 1 proof can be
+        returned) and the inference procedure was still looking for other
+        possible answers before it timed out.
+"
+      end
+
+      operation 2398082 "getProofs"
+	public return_type class_ref 163202 // Proof
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -3655,6 +3821,26 @@ ${members}}
 
 "
       operation 301954 "printInferenceResult"
+	class_operation public explicit_return_type "String"
+	nparams 1
+	  param inout name "ir" type class_ref 162818 // InferenceResult
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Utility method for outputting InferenceResults in a formatted textual
+representation.
+
+@param ir
+           an InferenceResult
+@return a String representation of the InferenceResult.
+"
+      end
+
+      operation 2398210 "printInferenceResult"
 	class_operation public explicit_return_type "String"
 	nparams 1
 	  param inout name "ir" type class_ref 162818 // InferenceResult

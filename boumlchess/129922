@@ -1,7 +1,7 @@
-format 223
+format 224
 "framework" // aima::core::search::framework
-  revision 4
-  modified_by 2 "bruker"
+  revision 5
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -229,7 +229,11 @@ ${members}}
 
     class 135170 "Node"
       visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -473,7 +477,11 @@ indicated by the parent pointers.
 
     class 137730 "SearchForActions"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -565,11 +573,82 @@ node is expanded during search.
 	comment "Removes a listener from the list of node listeners.
 "
       end
+
+      operation 2429954 "findActions"
+	cpp_inline public explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a list of actions leading to a goal state if a goal was found,
+otherwise empty. Note that the list can be empty which means that the
+initial state is a goal state.
+
+@param p
+           the search problem
+
+@return a (possibly empty) list of actions or empty
+"
+      end
+
+      operation 2430082 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the metrics of the search.
+"
+      end
+
+      operation 2430210 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds a listener to the list of node listeners. It is informed whenever a
+node is expanded during search.
+"
+      end
+
+      operation 2430338 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes a listener from the list of node listeners.
+"
+      end
     end
 
     class 194306 "NodeExpander"
       visibility public 
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -755,20 +834,32 @@ node is expanded during search.
 
     class 194434 "QueueBasedSearch"
       abstract visibility public 
-      nformals 2
+      nformals 4
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
+      nactuals 8
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value "S"
       actual class class_ref 137730 // SearchForActions
         rank 1 explicit_value "A"
+      actual class class_ref 137730 // SearchForActions
+        rank 2 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 3 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 0 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 2 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -918,7 +1009,11 @@ Search space exploration control is always delegated to some
 
     class 194562 "SearchForStates"
       visibility public stereotype "interface"
-      nformals 2
+      nformals 4
+      formal name "S" type "" explicit_default_value ""
+        explicit_extends ""
+      formal name "A" type "" explicit_default_value ""
+        explicit_extends ""
       formal name "S" type "" explicit_default_value ""
         explicit_extends ""
       formal name "A" type "" explicit_default_value ""
@@ -1008,6 +1103,72 @@ node is expanded during search.
 	comment "Removes a listener from the list of node listeners.
 "
       end
+
+      operation 2430978 "findState"
+	cpp_inline public explicit_return_type "Optional<S>"
+	nparams 1
+	  param inout name "p" type class_ref 134914 // Problem
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a state which is might be but not necessary is a goal state of
+the problem or empty.
+
+@param p
+           the search problem
+
+@return a state or empty.
+"
+      end
+
+      operation 2431106 "getMetrics"
+	cpp_inline public return_type class_ref 133634 // Metrics
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns all the metrics of the search.
+"
+      end
+
+      operation 2431234 "addNodeListener"
+	cpp_inline public explicit_return_type "void"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Adds a listener to the list of node listeners. It is informed whenever a
+node is expanded during search.
+"
+      end
+
+      operation 2431362 "removeNodeListener"
+	cpp_inline public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "listener" explicit_type "Consumer<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Removes a listener from the list of node listeners.
+"
+      end
     end
 
     class 194818 "QueueFactory"
@@ -1088,7 +1249,9 @@ element comes first!
 
       class 194946 "FifoQueueWithHashSet"
 	visibility private 
-	nformals 1
+	nformals 2
+	formal name "E" type "" explicit_default_value ""
+	  explicit_extends ""
 	formal name "E" type "" explicit_default_value ""
 	  explicit_extends ""
 	cpp_decl ""
@@ -1206,6 +1369,65 @@ ${members}}
 	  
 	end
       end
+
+      operation 2430466 "createFifoQueue"
+	class_operation public explicit_return_type "Queue<E>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<E> ${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a {@link LinkedList}.
+"
+      end
+
+      operation 2430594 "createFifoQueueNoDuplicates"
+	class_operation public explicit_return_type "Queue<E>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<E> ${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a {@link LinkedList} which is extended by a {@link HashSet} for efficient containment checks. Elements
+are only added if they are not already present in the queue. Use only queue methods for access!
+"
+      end
+
+      operation 2430722 "createLifoQueue"
+	class_operation public explicit_return_type "Queue<E>"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<E> ${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a Last-in-first-out (Lifo) view on a {@link LinkedList}.
+"
+      end
+
+      operation 2430850 "createPriorityQueue"
+	class_operation public explicit_return_type "Queue<E>"
+	nparams 1
+	  param inout name "comparator" explicit_type "Comparator<? super E>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<E> ${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns a standard java {@link PriorityQueue}. Note that the smallest
+element comes first!
+"
+      end
     end
 
     class 195330 "SearchUtils"
@@ -1274,6 +1496,70 @@ tree.
       end
 
       operation 467202 "toState"
+	class_operation public explicit_return_type "Optional<S>"
+	nparams 1
+	  param inout name "node" explicit_type "Optional<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A> ${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"OptionalUsedAsFieldOrParameterType\")
+"
+	
+	
+	
+      end
+
+      operation 2431490 "getPathFromRoot"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A> List<${type}<S, A>> ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the path from the root node to this node.
+
+@return the path from the root node to this node.
+"
+      end
+
+      operation 2431618 "getSequenceOfActions"
+	class_operation public explicit_return_type "List<A>"
+	nparams 1
+	  param inout name "node" type class_ref 135170 // Node
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A> ${type} ${name}${(}${t0}<S, A> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Returns the list of actions which corresponds to the complete path to the
+given node. The list is empty, if the node is the root node of the search
+tree.
+"
+      end
+
+      operation 2431746 "toActions"
+	class_operation public explicit_return_type "Optional<List<A>>"
+	nparams 1
+	  param inout name "node" explicit_type "Optional<Node<S, A>>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}<S, A> ${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	java_annotation "@SuppressWarnings(\"OptionalUsedAsFieldOrParameterType\")
+"
+	
+	
+	
+      end
+
+      operation 2431874 "toState"
 	class_operation public explicit_return_type "Optional<S>"
 	nparams 1
 	  param inout name "node" explicit_type "Optional<Node<S, A>>"

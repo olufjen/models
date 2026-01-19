@@ -1,0 +1,108 @@
+class PerceptSchema
+!!!2471938.java!!!	PerceptSchema(in name : String, inout variables : List<Term>, inout precondition : List<Literal>)
+        if (variables == null)
+            variables = new ArrayList<>();
+        this.name = name;
+        this.variables = variables;
+        this.precondition = precondition;
+
+!!!2472066.java!!!	PerceptSchema(in name : String, inout variables : List<Term>, in precondition : String)
+        this(name, variables, Utils.parse(precondition));
+!!!2472194.java!!!	toString() : String
+        String result = "Percept(" + this.getName() + ")\n\tPRECOND:";
+        for (Literal precond :
+                getPrecondition()) {
+            result = result + "^" + precond.toString();
+        }
+        return result;
+!!!2472322.java!!!	equals(inout obj : Object) : boolean
+        if (this == obj)
+            return true;
+        if (!(obj instanceof PerceptSchema))
+            return false;
+        return this.getName().equals(((PerceptSchema) obj).getName()) &&
+                this.getPrecondition().containsAll(((PerceptSchema) obj).getPrecondition())
+                && ((PerceptSchema) obj).getPrecondition().containsAll(this.getPrecondition());
+  
+!!!2472450.java!!!	hashCode() : int
+        int hashCode = 17;
+        for (Literal preCo :
+                this.getPrecondition()) {
+            hashCode = 37 * hashCode + preCo.hashCode();
+        }
+        for (Term var :
+                this.getVariables()) {
+            hashCode = 37 * hashCode + var.hashCode();
+        }
+        return hashCode;
+!!!2472578.java!!!	getActionBySubstitution(inout constants : List<Constant>) : PerceptSchema
+        List<Literal> precondList = this.getPrecondition();
+        List<Term> vars = this.getVariables();
+        List<Literal> newPrecond = new ArrayList<>();
+        String pieceVariable = ChessVariables.getPieceVariable(); // These variables a specific to the chess game
+        String typeVariable = ChessVariables.getTypeVariable();
+        String playerColor = ChessVariables.getPlayerColor();
+        for (Literal precondition :
+                precondList) {
+            List<Term> newTerms = new ArrayList<>();
+            for (Term variable :
+                    precondition.getAtomicSentence().getArgs()) {
+            	String varName = variable.getSymbolicName();
+                if (variable instanceof Variable) {
+                 	if (varName.equals(pieceVariable)) {
+                		for (Constant c:constants) {
+                			String cname = c.getSymbolicName();
+                			if (cname.contains(playerColor)) {
+                				 newTerms.add(c);
+                				 break;
+                			}
+                		}
+                	}
+                	if (varName.equals(typeVariable)) {
+                		for (Constant c:constants) {
+                			String cname = c.getSymbolicName();
+                			String rc = ChessVariables.checkPiecetype(cname);
+                			if (rc != null) {
+                				 newTerms.add(c);
+                				 break;
+                			}
+                			
+                		}
+                	}
+/*                	int index = vars.lastIndexOf(variable);
+                	Constant c = constants.get(vars.lastIndexOf(variable));
+                    newTerms.add(c);*/
+                } else
+                    newTerms.add(variable);
+            }
+            newPrecond.add(new Literal(new
+                    Predicate(precondition.getAtomicSentence().getSymbolicName(),
+                    newTerms), precondition.isNegativeLiteral()));
+        }
+        return new PerceptSchema(this.getName(), null, newPrecond);
+!!!2472706.java!!!	getConstants() : Constant
+        List<Constant> constants = new ArrayList<>();
+        for (Constant constant :
+                extractConstant(getPrecondition())) {
+            if (!constants.contains(constant))
+                constants.add(constant);
+        }
+
+        return constants;
+!!!2472834.java!!!	extractConstant(inout list : List<Literal>) : Constant
+        List<Constant> result = new ArrayList<>();
+        for (Literal literal :
+                list) {
+            for (Term term :
+                    literal.getAtomicSentence().getArgs()) {
+                if (term instanceof Constant && !list.contains(term))
+                    result.add((Constant) term);
+            }
+        }
+        return result;
+!!!2472962.java!!!	getName() : String
+        return name;
+!!!2473090.java!!!	getVariables() : Term
+        return variables;
+!!!2473218.java!!!	getPrecondition() : Literal
+        return precondition;

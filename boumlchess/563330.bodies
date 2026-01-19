@@ -1,0 +1,84 @@
+class ChessPlanningProblemFactory
+!!!2468866.java!!!	airCargoTransportProblem() : Problem
+        State initialState = new State("At(C1,SFO)^At(C2,JFK)^At(P1,SFO)" +
+                "^At(P2,JFK)^Cargo(C1)^Cargo(C2)^Plane(P1)^Plane(P2)^Airport(JFK)^Airport(SFO)");
+        State goalState = new State("At(C1,JFK)^At(C2,SFO)");
+        Variable c = new Variable("c");
+        Variable p = new Variable("p");
+        Variable a = new Variable("a");
+        Variable from = new Variable("from");
+        Variable to = new Variable("to");
+        ArrayList variables = new ArrayList<>(Arrays.asList(c, p, a));
+        ArrayList flyVars = new ArrayList<>(Arrays.asList(p, from, to));
+        ActionSchema loadAction = new ActionSchema("Load", variables,
+                "At(c,a)^At(p,a)^Cargo(c)^Plane(p)^Airport(a)",
+                "~At(c,a)^In(c,p)");
+        ActionSchema unloadAction = new ActionSchema("Unload", variables,
+                "In(c,p)^At(p,a)^Cargo(c)^Plane(p)^Airport(a)",
+                "At(c,a)^~In(c,p)");
+        ActionSchema flyAction = new ActionSchema("Fly", flyVars,
+                "At(p,from)^Plane(p)^Airport(from)^Airport(to)",
+                "~At(p,from)^At(p,to)");
+
+        return new Problem(initialState, goalState, loadAction, unloadAction, flyAction);
+!!!2468994.java!!!	spareTireProblem() : Problem
+        State initialState = new State("Tire(Flat)^Tire(Spare)^At(Flat,Axle)" +
+                "^At(Spare,Trunk)");
+        State goalState = new State("At(Spare,Axle)");
+        Variable obj = new Variable("obj");
+        Variable loc = new Variable("loc");
+        Variable t = new Variable("t");
+        Constant Axle = new Constant("Axle");
+        ArrayList removeVars = new ArrayList<>(Arrays.asList(obj, loc));
+        ArrayList putOnVars = new ArrayList<>(Arrays.asList(t, Axle));
+        ActionSchema removeAction = new ActionSchema("Remove", removeVars,
+                "At(obj,loc)",
+                "~At(obj,loc)^At(obj,Ground)");
+        ActionSchema putOnAction = new ActionSchema("PutOn", putOnVars,
+                "Tire(t)^At(t,Ground)^~At(Flat,Axle)",
+                "~At(t,Ground)^At(t,Axle)");
+        ActionSchema leaveOvernightAction = new ActionSchema("LeaveOvernight", null,
+                "",
+                "~At(Spare,Ground)^~At(Spare,Axle)^~At(Spare,Trunk)" +
+                        "^~At(Flat,Ground)^~At(Flat,Axle)^~At(Flat,Trunk)");
+        return new Problem(initialState, goalState, removeAction, putOnAction, leaveOvernightAction);
+!!!2469122.java!!!	goHomeToSFOProblem() : Problem
+        State initialState = new State("At(Home)");
+        State goalState = new State("At(SFO)");
+        ActionSchema driveAction = new ActionSchema("Drive", null,
+                "At(Home)",
+                "~At(Home)^At(SFOLongTermParking)");
+        ActionSchema shuttleAction = new ActionSchema("Shuttle", null,
+                "At(SFOLongTermParking)",
+                "~At(SFOLongTermParking)^At(SFO)");
+        ActionSchema taxiAction = new ActionSchema("Taxi", null,
+                "At(Home)",
+                "~At(Home)^At(SFO)");
+        return new Problem(initialState, goalState, driveAction, shuttleAction, taxiAction);
+
+!!!2469250.java!!!	getHlaAct(inout problem : ChessProblem) : ChessHighLevelAction
+        List<List<ActionSchema>> refinements = new ArrayList<>();
+/*
+ * The parameters are:
+ * The name of the action, A list of variables (Terms, Variable, and Constant implement Term),
+ * "Precondition, "Effects", A list of ActionSchemas (refinements).
+ * This is so because ChessHighLevelAction is a subclass of ActionSchema        
+ */
+        ChessHighLevelAction act = new ChessHighLevelAction("Chessplan", null, "", "", refinements);
+/*
+ * THe call to getPropositionalisedActions() must produce a set of refinements of primitive actions to
+ * be used in the HLA.        
+ */
+ //       List<ActionSchema> schemas =  problem.getPropositionalisedActions();
+        List<ActionSchema> schemas =  problem.getGroundActions();
+/*        System.out.println("primitive actions");
+        for (ActionSchema primitiveAction :
+            schemas) {
+        	System.out.println(primitiveAction.toString());
+        }*/
+        for (ActionSchema primitiveAction :
+                schemas) {
+            act.addRefinement(new ArrayList<>(Arrays.asList(primitiveAction, act)));
+        }
+        act.addRefinement(new ArrayList<>());
+        return act;

@@ -43,3 +43,47 @@ class Example
 		}
 		return new Example(numerizedExampleData,
 				numerizedExampleData.get(targetAttribute.name()));
+!!!2381442.java!!!	Example(inout attributes : Hashtable<String, Attribute>, inout targetAttribute : Attribute)
+		this.attributes = attributes;
+		this.targetAttribute = targetAttribute;
+!!!2381570.java!!!	getAttributeValueAsString(in attributeName : String) : String
+		return attributes.get(attributeName).valueAsString();
+!!!2381698.java!!!	getAttributeValueAsDouble(in attributeName : String) : double
+		Attribute attribute = attributes.get(attributeName);
+		if (attribute == null || !(attribute instanceof NumericAttribute)) {
+			throw new RuntimeException(
+					"cannot return numerical value for non numeric attribute");
+		}
+		return ((NumericAttribute) attribute).valueAsDouble();
+!!!2381826.java!!!	toString() : String
+		return attributes.toString();
+!!!2381954.java!!!	targetValue() : String
+		return getAttributeValueAsString(targetAttribute.name());
+!!!2382082.java!!!	equals(inout o : Object) : boolean
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (this.getClass() != o.getClass())) {
+			return false;
+		}
+		Example other = (Example) o;
+		return attributes.equals(other.attributes);
+!!!2382210.java!!!	hashCode() : int
+		return attributes.hashCode();
+!!!2382338.java!!!	numerize(inout attrValueToNumber : Hashtable<String, Hashtable<String, Integer>>) : Example
+		Hashtable<String, Attribute> numerizedExampleData = new Hashtable<String, Attribute>();
+		for (String key : attributes.keySet()) {
+			Attribute attribute = attributes.get(key);
+			if (attribute instanceof StringAttribute) {
+				int correspondingNumber = attrValueToNumber.get(key).get(
+						attribute.valueAsString());
+				NumericAttributeSpecification spec = new NumericAttributeSpecification(
+						key);
+				numerizedExampleData.put(key, new NumericAttribute(
+						correspondingNumber, spec));
+			} else {// Numeric Attribute
+				numerizedExampleData.put(key, attribute);
+			}
+		}
+		return new Example(numerizedExampleData,
+				numerizedExampleData.get(targetAttribute.name()));

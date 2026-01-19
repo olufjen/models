@@ -1,8 +1,9 @@
 class ChessFolKnowledgeBase
 !!!1958402.java!!!	ChessFolKnowledgeBase(inout domain : ChessDomain, inout inferenceProcedure : InferenceProcedure)
 		super(domain, inferenceProcedure);
+		String catalog = KnowledgeBuilder.getFileCatalog();
 		fileName = "tempknowledgebase.txt";
-		outputFileName = outputFileName+this.fileName;
+		outputFileName = catalog+outputFileName+this.fileName;
 		movePieces = new ArrayList<AgamePiece>();
 		try {
 			fw = new FileWriter(outputFileName, true);
@@ -15,8 +16,9 @@ class ChessFolKnowledgeBase
 	 
 !!!1965954.java!!!	ChessFolKnowledgeBase(inout domain : ChessDomain, inout inferenceProcedure : InferenceProcedure, in fileName : String)
 		super(domain, inferenceProcedure);
+		String catalog = KnowledgeBuilder.getFileCatalog();
 		this.fileName = fileName;
-		outputFileName = outputFileName+this.fileName;
+		outputFileName = catalog+outputFileName+this.fileName;
 		try {
 			fw = new FileWriter(outputFileName, true);
 		} catch (IOException e1) {

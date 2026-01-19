@@ -1,7 +1,7 @@
-format 223
+format 224
 "search" // no::games::chess::search
-  revision 11
-  modified_by 2 "bruker"
+  revision 13
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,15 +54,23 @@ format 223
      end
     class 504066 "ChessSearchProblem"
       visibility public 
-      nactuals 4
+      nactuals 8
       actual class class_ref 134786 // GeneralProblem
         rank 0 explicit_value "PlannerState"
       actual class class_ref 134786 // GeneralProblem
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 134786 // GeneralProblem
+        rank 2 explicit_value ""
+      actual class class_ref 134786 // GeneralProblem
+        rank 3 explicit_value ""
       actual class class_ref 134914 // Problem
         rank 0 explicit_value "PlannerState"
       actual class class_ref 134914 // Problem
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 134914 // Problem
+        rank 2 explicit_value ""
+      actual class class_ref 134914 // Problem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -99,41 +107,32 @@ The Goaltest function is Predicate interface, used to test for a goal state.
 	  b parent class_ref 134914 // Problem
       end
 
-      attribute 753026 "state"
-	private explicit_type "PlannerState"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 830850 // state (<unidirectional association>)
+	relation 830850 --->
+	  a role_name "state" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 830850 // state (<unidirectional association>)
+	  b parent class_ref 562178 // PlannerState
       end
 
-      attribute 753154 "action"
-	private explicit_type "ChessPlannerAction"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 830978 // action (<unidirectional association>)
+	relation 830978 --->
+	  a role_name "action" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 830978 // action (<unidirectional association>)
+	  b parent class_ref 562306 // ChessPlannerAction
       end
 
-      attribute 753282 "actions"
-	private explicit_type "ChessPlannerAction"
-	stereotype "List"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+      classrelation 831106 // actions (<unidirectional association>)
+	relation 831106 --->
+	  stereotype "List"
+	  a role_name "actions" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 831106 // actions (<unidirectional association>)
+	  b parent class_ref 562306 // ChessPlannerAction
       end
 
       classrelation 730242 // resultFn (<unidirectional association>)
@@ -216,11 +215,11 @@ The Goaltest function is Predicate interface, used to test for a goal state.
       end
 
       operation 2234882 "getActions"
-	public explicit_return_type "List<ChessPlannerAction>"
+	public return_type class_ref 562306 // ChessPlannerAction
 	nparams 1
 	  param inout name "state" explicit_type "PlannerState"
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	java_annotation "@Override
@@ -320,11 +319,15 @@ implementation
         explicit_extends ""
       formal name "ChessPlannerAction" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      nactuals 4
       actual class class_ref 199554 // IterativeDeepeningSearch
         rank 0 explicit_value "PlannerState"
       actual class class_ref 199554 // IterativeDeepeningSearch
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 199554 // IterativeDeepeningSearch
+        rank 2 explicit_value ""
+      actual class class_ref 199554 // IterativeDeepeningSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -499,19 +502,31 @@ ${members}}
 
     class 510722 "PlannerQueueBasedSearch"
       visibility public 
-      nactuals 6
+      nactuals 12
       actual class class_ref 196354 // BestFirstSearch
-        rank 0 explicit_value "PlannerState"
+        rank 0 value class_ref 562178 // PlannerState
       actual class class_ref 196354 // BestFirstSearch
-        rank 1 explicit_value "ChessPlannerAction"
+        rank 1 value class_ref 562306 // ChessPlannerAction
+      actual class class_ref 196354 // BestFirstSearch
+        rank 2 explicit_value ""
+      actual class class_ref 196354 // BestFirstSearch
+        rank 3 explicit_value ""
       actual class class_ref 137730 // SearchForActions
         rank 0 explicit_value ""
       actual class class_ref 137730 // SearchForActions
         rank 1 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 2 explicit_value ""
+      actual class class_ref 137730 // SearchForActions
+        rank 3 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 0 explicit_value ""
       actual class class_ref 194562 // SearchForStates
         rank 1 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 2 explicit_value ""
+      actual class class_ref 194562 // SearchForStates
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -556,28 +571,22 @@ It uses the subclass PlannerQueueSearch as the implementation for QueueSearch
 	  b parent class_ref 194562 // SearchForStates
       end
 
-      attribute 759810 "state"
-	private explicit_type "PlannerState"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 831234 // state (<unidirectional association>)
+	relation 831234 --->
+	  a role_name "state" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 831234 // state (<unidirectional association>)
+	  b parent class_ref 562178 // PlannerState
       end
 
-      attribute 759938 "action"
-	private explicit_type "ChessPlannerAction"
-	cpp_decl ""
-	java_decl "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+      classrelation 831362 // action (<unidirectional association>)
+	relation 831362 --->
+	  a role_name "action" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
 "
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
+	    classrelation_ref 831362 // action (<unidirectional association>)
+	  b parent class_ref 562306 // ChessPlannerAction
       end
 
       classrelation 716674 // impl (<unidirectional association>)
@@ -711,11 +720,11 @@ This constructor creates a priority queue and a root node
       end
 
       operation 2242818 "findState"
-	public explicit_return_type "Optional<PlannerState>"
+	public return_type class_ref 562178 // PlannerState
 	nparams 1
 	  param inout name "p" type class_ref 134914 // Problem
 	
-	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Optional<${type}> ${name}${(}${t0}<PlannerState, ChessPlannerAction> ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	java_annotation "@Override
@@ -753,11 +762,15 @@ computes a node referencing a goal state, if such a state was found.
 	  explicit_extends ""
 	formal name "ChessPlannerAction" type "" explicit_default_value ""
 	  explicit_extends ""
-	nactuals 2
+	nactuals 4
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 0 explicit_value "PlannerState"
 	actual class class_ref 196738 // HeuristicEvaluationFunction
 	  rank 1 explicit_value "ChessPlannerAction"
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 2 explicit_value ""
+	actual class class_ref 196738 // HeuristicEvaluationFunction
+	  rank 3 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -825,11 +838,15 @@ heuristic cost to get from the specified node to the goal.
 
     class 510850 "PlannerQueueSearch"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 194690 // QueueSearch
         rank 0 explicit_value "PlannerState"
       actual class class_ref 194690 // QueueSearch
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 194690 // QueueSearch
+        rank 2 explicit_value ""
+      actual class class_ref 194690 // QueueSearch
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1002,11 +1019,15 @@ How to investigate the root node such that all available action schemas are expl
 
     class 517378 "ChessNode"
       visibility public 
-      nactuals 2
+      nactuals 4
       actual class class_ref 135170 // Node
         rank 0 explicit_value "PlannerState"
       actual class class_ref 135170 // Node
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 135170 // Node
+        rank 2 explicit_value ""
+      actual class class_ref 135170 // Node
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -1067,9 +1088,11 @@ This is the subclass of the aima.core.search.framework Node
       nformals 1
       formal name "PlannerState" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 1
+      nactuals 2
       actual class class_ref 135554 // GoalTest
         rank 0 explicit_value "PlannerState"
+      actual class class_ref 135554 // GoalTest
+        rank 1 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}interface ${name}${extends} {
 ${members}}
@@ -1117,11 +1140,15 @@ The Goaltest interface extends the Predicate function interface
       nformals 1
       formal name "PlannerState" type "" explicit_default_value ""
         explicit_extends ""
-      nactuals 2
+      nactuals 4
       actual class class_ref 135682 // StepCostFunction
         rank 0 explicit_value "PlannerState"
       actual class class_ref 135682 // StepCostFunction
         rank 1 explicit_value "ChessPlannerAction"
+      actual class class_ref 135682 // StepCostFunction
+        rank 2 explicit_value ""
+      actual class class_ref 135682 // StepCostFunction
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}

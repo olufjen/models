@@ -1,7 +1,7 @@
-format 223
+format 224
 "nqueens" // aima::core::environment::nqueens
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -638,6 +638,119 @@ Supports queen placing, queen removal, and queen movement actions.
 the board.
 "
       end
+
+      operation 2373890 "createIncrementalFormulationProblem"
+	class_operation public return_type class_ref 134914 // Problem
+	nparams 1
+	  param in name "boardSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<NQueensBoard, QueenAction> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2374018 "createCompleteStateFormulationProblem"
+	class_operation public return_type class_ref 134914 // Problem
+	nparams 2
+	  param in name "boardSize" explicit_type "int"
+	  param inout name "config" type class_ref 139650 // Config
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<NQueensBoard, QueenAction> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2374146 "getIFActions"
+	class_operation public return_type class_ref 139906 // QueenAction
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements an ACTIONS function for the incremental formulation of the
+n-queens problem.
+<p>
+Assumes that queens are placed column by column, starting with an empty
+board, and provides queen placing actions for all non-attacked positions
+of the first free column.
+"
+      end
+
+      operation 2374274 "getCSFActions"
+	class_operation public return_type class_ref 139906 // QueenAction
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements an ACTIONS function for the complete-state formulation of the
+n-queens problem.
+<p>
+Assumes exactly one queen in each column and provides all possible queen
+movements in vertical direction as actions.
+"
+      end
+
+      operation 2374402 "getResult"
+	class_operation public return_type class_ref 139522 // NQueensBoard
+	nparams 2
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	  param inout name "action" type class_ref 139906 // QueenAction
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements a RESULT function for the n-queens problem.
+Supports queen placing, queen removal, and queen movement actions.
+"
+      end
+
+      operation 2374530 "testGoal"
+	class_operation public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "state" type class_ref 139522 // NQueensBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Implements a GOAL-TEST for the n-queens problem.
+"
+      end
+
+      operation 2374658 "createAttackingPairsHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<NQueensBoard, QueenAction>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Estimates the distance to goal by the number of attacking pairs of queens on
+the board.
+"
+      end
     end
 
     class 139906 "QueenAction"
@@ -846,9 +959,11 @@ representation used by the GeneticAlgorithm.
 
       class 140418 "NQueensFitnessFunction"
 	visibility public 
-	nactuals 1
+	nactuals 2
 	actual class class_ref 140162 // FitnessFunction
 	  rank 0 explicit_value "Integer"
+	actual class class_ref 140162 // FitnessFunction
+	  rank 1 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -884,9 +999,11 @@ ${members}}
 
       class 140546 "NQueensGenAlgoGoalTest"
 	visibility public 
-	nactuals 1
+	nactuals 2
 	actual class class_ref 135554 // GoalTest
 	  rank 0 explicit_value "Individual<Integer>"
+	actual class class_ref 135554 // GoalTest
+	  rank 1 explicit_value ""
 	cpp_decl ""
 	static java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -937,6 +1054,56 @@ ${members}}
 	  param inout name "individual" type class_ref 140290 // Individual
 	
 	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0}<Integer> ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2374786 "getFitnessFunction"
+	class_operation public return_type class_ref 140162 // FitnessFunction
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Integer> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2374914 "getGoalTest"
+	class_operation public return_type class_ref 135554 // GoalTest
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Individual<Integer>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2375042 "generateRandomIndividual"
+	class_operation public return_type class_ref 140290 // Individual
+	nparams 1
+	  param in name "boardSize" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type}<Integer> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2375170 "getFiniteAlphabetForBoardOfSize"
+	class_operation public explicit_return_type "Collection<Integer>"
+	nparams 1
+	  param in name "size" explicit_type "int"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
   ${body}}
 "
 	

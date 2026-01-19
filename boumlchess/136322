@@ -1,7 +1,7 @@
-format 223
+format 224
 "bayes" // aima::core::probability::bayes
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -129,6 +129,41 @@ are many synonyms, including \"belief network\", \"probabilistic network\",
         Network.
 "
       end
+
+      operation 2417026 "getVariablesInTopologicalOrder"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a list of the Random Variables, in topological order, contained
+        within the network.
+"
+      end
+
+      operation 2417154 "getNode"
+	public return_type class_ref 177282 // Node
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the RandomVariable whose corresponding Node is to be
+           retrieved.
+@return the Node associated with the random variable in this Bayesian
+        Network.
+"
+      end
     end
 
     class 176002 "BayesInference"
@@ -157,6 +192,32 @@ ${members}}
 	  param in name "bn" type class_ref 175874 // BayesianNetwork
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@param X
+           the query variables.
+@param observedEvidence
+           observed values for variables E.
+@param bn
+           a Bayes net with variables {X} &cup; E &cup; Y /* Y = hidden
+           variables
+@return a distribution over the query variables.
+"
+      end
+
+      operation 2417282 "ask"
+	public return_type class_ref 175106 // CategoricalDistribution
+	nparams 3
+	  param in name "X" type class_ref 175490 // RandomVariable
+	multiplicity "[]"
+	  param in name "observedEvidence" type class_ref 176898 // AssignmentProposition
+	multiplicity "[]"
+	  param in name "bn" type class_ref 175874 // BayesianNetwork
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}final ${t0}[] ${p0}, final ${t1}[] ${p1}, final ${t2} ${p2}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -284,6 +345,103 @@ given its parents, children, and children's parents - that is, given its
 	nparams 0
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Conditional Probability Distribution associated with this
+        Node.
+"
+      end
+
+      operation 2418690 "getRandomVariable"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the Random Variable this Node is for/on.
+"
+      end
+
+      operation 2418818 "isRoot"
+	public explicit_return_type "boolean"
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return true if this Node has no parents.
+
+@see Node#getParents()
+"
+      end
+
+      operation 2418946 "getParents"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the parent Nodes for this Node.
+"
+      end
+
+      operation 2419074 "getChildren"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@return the children Nodes for this Node.
+"
+      end
+
+      operation 2419202 "getMarkovBlanket"
+	public return_type class_ref 177282 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get this Node's Markov Blanket:<br>
+'A node is conditionally independent of all other nodes in the network,
+given its parents, children, and children's parents - that is, given its
+<b>MARKOV BLANKET</b> (AIMA3e pg, 517).
+
+@return this Node's Markov Blanket.
+"
+      end
+
+      operation 2419330 "getCPD"
+	public return_type class_ref 177410 // ConditionalProbabilityDistribution
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
   ${body}}
 "
 	
@@ -518,6 +676,228 @@ distribution is on.
 	  param inout name "" explicit_type "AssignmentProposition...parentValues"
 	
 	java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve a specific example for the Random Variable this conditional
+distribution is on.
+
+@param probabilityChoice
+           a double value, from the range [0.0d, 1.0d), i.e. 0.0d
+           (inclusive) to 1.0d (exclusive).
+@param parentValues
+           for the conditioning case. The size of parentValues must equal
+           getParents() and their Random Variables must match.
+@return a sample value from the domain of the Random Variable this
+        distribution is on, based on the probability argument passed in.
+@see ConditionalProbabilityDistribution#getOn()
+"
+      end
+
+      operation 2417410 "getOn"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return the Random Variable this conditional probability distribution is
+        on.
+"
+      end
+
+      operation 2417538 "getParents"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "@return a consistent ordered Set (e.g. LinkedHashSet) of the parent
+        Random Variables for this conditional distribution.
+"
+      end
+
+      operation 2417666 "getFor"
+	public return_type class_ref 175490 // RandomVariable
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}Set<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A convenience method for merging the elements of getParents() and getOn()
+into a consistent ordered set (i.e. getOn() should always be the last
+Random Variable returned when iterating over the set).
+
+@return a consistent ordered Set (e.g. LinkedHashSet) of the random
+        variables this conditional probability distribution is for.
+"
+      end
+
+      operation 2417794 "contains"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "rv" type class_ref 175490 // RandomVariable
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "
+@param rv
+           the Random Variable to be checked.
+@return true if the conditional distribution is for the passed in Random
+        Variable, false otherwise.
+"
+      end
+
+      operation 2417922 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "Object...eventValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of values for the random variables
+comprising the Conditional Distribution (ordering and size of each must
+equal getFor() and their domains must match).
+
+@param eventValues
+           the values for the random variables comprising the Conditional
+           Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Conditional Distribution.
+"
+      end
+
+      operation 2418050 "getValue"
+	public explicit_return_type "double"
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...eventValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Get the value for the provided set of AssignmentPropositions for the
+random variables comprising the Conditional Distribution (size of each
+must equal and their random variables must match).
+
+@param eventValues
+           the assignment propositions for the random variables
+           comprising the Conditional Distribution
+@return the value for the possible worlds associated with the assignments
+        for the random variables comprising the Conditional Distribution.
+"
+      end
+
+      operation 2418178 "getConditioningCase"
+	public return_type class_ref 175362 // ProbabilityDistribution
+	nparams 1
+	  param inout name "" explicit_type "Object...parentValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A conditioning case is just a possible combination of values for the
+parent nodes - a miniature possible world, if you like. The returned
+distribution must sum to 1, because the entries represent an exhaustive
+set of cases for the random variable.
+
+@param parentValues
+           for the conditioning case. The ordering and size of
+           parentValues must equal getParents() and their domains must
+           match.
+@return the Probability Distribution for the Random Variable the
+        Conditional Probability Distribution is On.
+@see ConditionalProbabilityDistribution#getOn()
+@see ConditionalProbabilityDistribution#getParents()
+"
+      end
+
+      operation 2418306 "getConditioningCase"
+	public return_type class_ref 175362 // ProbabilityDistribution
+	nparams 1
+	  param inout name "" explicit_type "AssignmentProposition...parentValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "A conditioning case is just a possible combination of values for the
+parent nodes - a miniature possible world, if you like. The returned
+distribution must sum to 1, because the entries represent an exhaustive
+set of cases for the random variable.
+
+@param parentValues
+           for the conditioning case. The size of parentValues must equal
+           getParents() and their Random Variables must match.
+@return the Probability Distribution for the Random Variable the
+        Conditional Probability Distribution is On.
+@see ConditionalProbabilityDistribution#getOn()
+@see ConditionalProbabilityDistribution#getParents()
+"
+      end
+
+      operation 2418434 "getSample"
+	public explicit_return_type "Object"
+	nparams 2
+	  param in name "probabilityChoice" explicit_type "double"
+	  param inout name "" explicit_type "Object...parentValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "Retrieve a specific example for the Random Variable this conditional
+distribution is on.
+
+@param probabilityChoice
+           a double value, from the range [0.0d, 1.0d), i.e. 0.0d
+           (inclusive) to 1.0d (exclusive).
+@param parentValues
+           for the conditioning case. The ordering and size of
+           parentValues must equal getParents() and their domains must
+           match.
+@return a sample value from the domain of the Random Variable this
+        distribution is on, based on the probability argument passed in.
+@see ConditionalProbabilityDistribution#getOn()
+"
+      end
+
+      operation 2418562 "getSample"
+	public explicit_return_type "Object"
+	nparams 2
+	  param in name "probabilityChoice" explicit_type "double"
+	  param inout name "" explicit_type "AssignmentProposition...parentValues"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
   ${body}}
 "
 	

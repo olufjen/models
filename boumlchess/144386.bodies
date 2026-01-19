@@ -31,3 +31,35 @@ class KnowledgeBase
 		return sentences.isEmpty() ? "" : asSentence().toString();
 !!!199170.java!!!	getSentences() : Sentence
 		return sentences;
+!!!2376194.java!!!	tell(in aSentence : String) : void
+		tell((Sentence) parser.parse(aSentence));
+		
+!!!2376322.java!!!	tell(inout aSentence : Sentence) : void
+		if (!(sentences.contains(aSentence))) {
+			sentences.add(aSentence);
+			asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
+			symbols.addAll(SymbolCollector.getSymbolsFrom(aSentence));
+		}
+!!!2376450.java!!!	tellAll(inout percepts : String [[]]) : void
+		for (String percept : percepts) {
+			tell(percept);
+		}
+
+!!!2376578.java!!!	size() : int
+		return sentences.size();
+!!!2376706.java!!!	asSentence() : Sentence
+		return Sentence.newConjunction(sentences);
+!!!2376834.java!!!	asCNF() : Clause
+		return asCNF.getClauses();
+!!!2376962.java!!!	getSymbols() : PropositionSymbol
+		return symbols;
+!!!2377090.java!!!	askWithTTEntails(in queryString : String) : boolean
+		PLParser parser = new PLParser();
+
+		Sentence alpha = parser.parse(queryString);
+
+		return new TTEntails().ttEntails(this, alpha);
+!!!2377218.java!!!	toString() : String
+		return sentences.isEmpty() ? "" : asSentence().toString();
+!!!2377346.java!!!	getSentences() : Sentence
+		return sentences;

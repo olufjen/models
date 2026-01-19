@@ -1,7 +1,7 @@
-format 223
+format 224
 "knowledge" // aima::core::learning::knowledge
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -97,6 +97,28 @@ generalized as needed.
 @author samagra
 "
       operation 220162 "currentBestLearning"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 3
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	  param inout name "h" type class_ref 148354 // Hypothesis
+	  param inout name "examplesSoFar" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function CURRENT-BEST-LEARNING(examples, h) returns a hypothesis or fail
+
+@param examples
+@param h
+@param examplesSoFar
+@return
+"
+      end
+
+      operation 2382978 "currentBestLearning"
 	public return_type class_ref 148354 // Hypothesis
 	nparams 3
 	  param inout name "examples" explicit_type "List<LogicalExample>"
@@ -334,6 +356,48 @@ ${members}}
       end
 
       operation 220546 "extendExample"
+	private explicit_return_type "List<List<HashMap<Variable,Constant>>>"
+	nparams 2
+	  param inout name "example" explicit_type "HashMap<Variable,Constant>"
+	  param inout name "literal" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383106 "foil"
+	public return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "examples" explicit_type "List<List<HashMap<Variable,Constant>>>"
+	  param inout name "target" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383234 "newClause"
+	private return_type class_ref 148610 // Clause
+	nparams 2
+	  param inout name "examples" explicit_type "List<List<HashMap<Variable, Constant>>>"
+	  param inout name "target" type class_ref 148738 // Literal
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383362 "extendExample"
 	private explicit_return_type "List<List<HashMap<Variable,Constant>>>"
 	nparams 2
 	  param inout name "example" explicit_type "HashMap<Variable,Constant>"
@@ -747,6 +811,24 @@ ${members}}
 	comment " PRIVATE METHODS
 "
       end
+
+      classrelation 781442 // <unidirectional association>
+	relation 781442 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 781442 // <unidirectional association>
+	  b parent class_ref 148866 // FOLDataSetDomain
+      end
+
+      classrelation 781570 // <unidirectional association>
+	relation 781570 --->
+	  a role_name "" init_value " null" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 781570 // <unidirectional association>
+	  b parent class_ref 146306 // Example
+      end
     end
 
     class 149762 "LogicalExample"
@@ -913,6 +995,59 @@ ${members}}
 	
 	
       end
+
+      operation 2383490 "getRestaurantLogicalExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383618 "getConductanceMeasurementProblem"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383746 "getExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 3
+	  param inout name "attrs" explicit_type "List<String>"
+	  param inout name "goal" explicit_type "boolean"
+	  param inout name "" explicit_type "String...values"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2383874 "getExample"
+	class_operation public return_type class_ref 149762 // LogicalExample
+	nparams 2
+	  param inout name "attrs" explicit_type "List<String>"
+	  param inout name "" explicit_type "String...values"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 150018 "MinimalConsistentDet"
@@ -981,6 +1116,50 @@ Figure ?? An algorithm for finding a minimal consistent determination.
       end
 
       operation 227074 "consistentDet"
+	public explicit_return_type "boolean"
+	nparams 2
+	  param inout name "attributes" explicit_type "List<String>"
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Consistent-Det?(A, E) returns a truth value
+
+@param attributes
+inputs: A, a set of attributes
+@param examples
+     E, a set of examples
+@return
+"
+      end
+
+      operation 2384002 "minimalConsistentDet"
+	public explicit_return_type "Set<String>"
+	nparams 2
+	  param inout name "e" explicit_type "List<LogicalExample>"
+	  param inout name "a" explicit_type "Set<String>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Minimal-Consistent-Det(E, A) returns a set of attributes
+
+@param e
+ inputs: E, a set of examples
+@param a
+     A, a set of attributes, of size n
+@return
+"
+      end
+
+      operation 2384130 "consistentDet"
 	public explicit_return_type "boolean"
 	nparams 2
 	  param inout name "attributes" explicit_type "List<String>"
@@ -1169,6 +1348,155 @@ examples.
 	
 	
       end
+
+      classrelation 781698 // <unidirectional association>
+	relation 781698 --->
+	  stereotype "HashSet"
+	  a role_name "" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 781698 // <unidirectional association>
+	  b parent class_ref 148354 // Hypothesis
+      end
+
+      classrelation 781826 // <unidirectional association>
+	relation 781826 --->
+	  stereotype "HashSet"
+	  a role_name "" init_value " new HashSet<>()" private
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${stereotype}<${type}> ${name}${value};
+"
+	    classrelation_ref 781826 // <unidirectional association>
+	  b parent class_ref 148354 // Hypothesis
+      end
+
+      operation 2384258 "VersionSpace"
+	public explicit_return_type ""
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${synchronized}${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2384386 "immediateGeneralisation"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 2
+	  param inout name "sSet" explicit_type "HashSet<Hypothesis>"
+	  param inout name "e" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2384514 "immediateSpecialisation"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 2
+	  param inout name "gSet" explicit_type "HashSet<Hypothesis>"
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2384642 "predictFromGeneralisedSet"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2384770 "predictFromSpecialisedSet"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2384898 "getMostGeneralSet"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385026 "setMostGeneralSet"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "mostGeneralSet" explicit_type "HashSet<Hypothesis>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385154 "setMostSpecificSet"
+	public explicit_return_type "void"
+	nparams 1
+	  param inout name "mostSpecificSet" explicit_type "HashSet<Hypothesis>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385282 "getMostSpecificSet"
+	public return_type class_ref 148354 // Hypothesis
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}HashSet<${type}> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2385410 "predict"
+	public explicit_return_type "boolean"
+	nparams 1
+	  param inout name "example" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
     end
 
     class 150274 "VersionSpaceLearning"
@@ -1225,6 +1553,42 @@ function Version-Space-Learning(examples) returns a version space
       end
 
       operation 228610 "versionSpaceUpdate"
+	private return_type class_ref 150146 // VersionSpace
+	nparams 2
+	  param inout name "v" type class_ref 150146 // VersionSpace
+	  param inout name "e" type class_ref 149762 // LogicalExample
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Version-Space-Update(V, e) returns an updated version space
+@param v
+@param e
+@return
+"
+      end
+
+      operation 2385538 "versionSpaceLearning"
+	public return_type class_ref 150146 // VersionSpace
+	nparams 1
+	  param inout name "examples" explicit_type "List<LogicalExample>"
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+	comment "function Version-Space-Learning(examples) returns a version space
+@param examples
+@return
+"
+      end
+
+      operation 2385666 "versionSpaceUpdate"
 	private return_type class_ref 150146 // VersionSpace
 	nparams 2
 	  param inout name "v" type class_ref 150146 // VersionSpace

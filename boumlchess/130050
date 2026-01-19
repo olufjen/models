@@ -1,7 +1,7 @@
-format 223
+format 224
 "eightpuzzle" // aima::core::environment::eightpuzzle
-  revision 2
-  modified_by 2 "bruker"
+  revision 3
+  modified_by 2 "olufj"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -54,15 +54,23 @@ format 223
      end
     class 134530 "BidirectionalEightPuzzleProblem"
       visibility public 
-      nactuals 4
+      nactuals 8
       actual class class_ref 134786 // GeneralProblem
         rank 0 value class_ref 134658 // EightPuzzleBoard
       actual class class_ref 134786 // GeneralProblem
         rank 1 value class_ref 128002 // Action
+      actual class class_ref 134786 // GeneralProblem
+        rank 2 explicit_value ""
+      actual class class_ref 134786 // GeneralProblem
+        rank 3 explicit_value ""
       actual class class_ref 135810 // BidirectionalProblem
         rank 0 explicit_value ""
       actual class class_ref 135810 // BidirectionalProblem
         rank 1 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 2 explicit_value ""
+      actual class class_ref 135810 // BidirectionalProblem
+        rank 3 explicit_value ""
       cpp_decl ""
       java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
 ${members}}
@@ -515,6 +523,42 @@ in horizontal direction).
 	
 	
       end
+
+      classrelation 779394 // <unidirectional association>
+	relation 779394 --->
+	  a role_name "" init_value " new DynamicAction(\"Left\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 779394 // <unidirectional association>
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 779522 // <unidirectional association>
+	relation 779522 --->
+	  a role_name "" init_value " new DynamicAction(\"Right\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 779522 // <unidirectional association>
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 779650 // <unidirectional association>
+	relation 779650 --->
+	  a role_name "" init_value " new DynamicAction(\"Up\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 779650 // <unidirectional association>
+	  b parent class_ref 128002 // Action
+      end
+
+      classrelation 779778 // <unidirectional association>
+	relation 779778 --->
+	  a role_name "" init_value " new DynamicAction(\"Down\")" class_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 779778 // <unidirectional association>
+	  b parent class_ref 128002 // Action
+      end
     end
 
     class 136066 "EightPuzzleFunctions"
@@ -690,6 +734,66 @@ ${members}}
 	  
 	  
 	end
+      end
+
+      classrelation 779906 // <unidirectional association>
+	relation 779906 --->
+	  a role_name "" init_value " new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 })" class_relation const_relation public
+	    java "  ${comment}${@}${visibility}${static}${final}${transient}${volatile}${type} ${name}${value};
+"
+	    classrelation_ref 779906 // <unidirectional association>
+	  b parent class_ref 134658 // EightPuzzleBoard
+      end
+
+      operation 2371714 "getActions"
+	class_operation public return_type class_ref 128002 // Action
+	nparams 1
+	  param inout name "state" type class_ref 134658 // EightPuzzleBoard
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}List<${type}> ${name}${(}${t0} ${p0}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2371842 "getResult"
+	class_operation public return_type class_ref 134658 // EightPuzzleBoard
+	nparams 2
+	  param inout name "state" type class_ref 134658 // EightPuzzleBoard
+	  param inout name "action" type class_ref 128002 // Action
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}${type} ${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2371970 "createManhattanHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<EightPuzzleBoard, Action>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
+      end
+
+      operation 2372098 "createMisplacedTileHeuristicFunction"
+	class_operation public return_type class_ref 135170 // Node
+	nparams 0
+	
+	preserve_java_body_indent java_def "  ${comment}${@}${visibility}${final}${static}${abstract}${synchronized}ToDoubleFunction<${type}<EightPuzzleBoard, Action>> ${name}${(}${)}${throws}${staticnl}{
+  ${body}}
+"
+	
+	
+	
       end
     end
   end

@@ -11,3 +11,9 @@ class Tasks
         Tasks.cancelFn = cancelFn;
 !!!500226.java!!!	setIsCancelledFn(inout isCancelledFn : Supplier<Boolean>) : void
         Tasks.isCancelledFn = isCancelledFn;
+!!!2432770.java!!!	executeInBackground(inout task : Runnable) : Thread
+        return startThreadFn.apply(task);
+!!!2432898.java!!!	cancel(inout thread : Thread) : void
+        cancelFn.accept(thread);
+!!!2433026.java!!!	currIsCancelled() : boolean
+        return isCancelledFn.get();

@@ -10,3 +10,14 @@ class ConvertToConjunctionOfClauses
 		result = new ConjunctionOfClauses(clauses);
 
 		return result;
+!!!2411394.java!!!	convert(inout s : Sentence) : ConjunctionOfClauses
+		ConjunctionOfClauses result = null;
+
+		Sentence cnfSentence = ConvertToCNF.convert(s);
+		
+		List<Clause> clauses = new ArrayList<Clause>();
+		clauses.addAll(ClauseCollector.getClausesFrom(cnfSentence));
+		
+		result = new ConjunctionOfClauses(clauses);
+
+		return result;

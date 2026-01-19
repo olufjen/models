@@ -4,6 +4,8 @@ class AChessAgent
 		
 !!!740866.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl)
 		super(KB);
+		String catalog = KnowledgeBuilder.getFileCatalog();
+		outputFileName = catalog+outputFileName;
 		this.kb = (ChessKnowledgeBase)KB;
 		try {
 			fw = new FileWriter(outputFileName, true);
@@ -23,6 +25,8 @@ class AChessAgent
 		setPredicatenames();
 !!!740994.java!!!	AChessAgent(inout KB : ChessKnowledgeBase, inout localAction : ChessActionImpl, inout game : PlayGame)
 		super(KB);
+		String catalog = KnowledgeBuilder.getFileCatalog();
+		outputFileName = catalog+outputFileName;
 		this.game = game;
 		this.kb = (ChessKnowledgeBase)KB;
 		try {
@@ -144,7 +148,7 @@ class AChessAgent
 		}
 //		actions.add((ChessActionImpl) allActions); //*** Added 23.05.25 olj
 		myPlayer.setActions(allActions);
-		kb.setStateImpl(stateImpl);
+//		kb.setStateImpl(stateImpl);
 		
 		forwardChain = new FOLGamesFCAsk(); // A Forward Chain inference procedure see p. 332
 		backwardChain = new FOLGamesBCAsk(); // A backward Chain inference procedure see p. 337
@@ -154,11 +158,11 @@ class AChessAgent
 //		folKb.tell(mKing);
 		// Moved to behind makerules !! 20.11.21
 //		setOpponentpieces(opponent);//creates knowledge about the opponent and its pieces to the first order knowledge base and its domain
-		kb.setOpponentPieces(opponentPieces);
+//		kb.setOpponentPieces(opponentPieces);
 		noofMoves = game.getMovements().size();
 		String playerName = stateImpl.getMyPlayer().getNameOfplayer();
-		Sentence playSentence = kb.newSymbol(kb.TOPLAY+playerName, noofMoves);
-		kb.tell(playSentence);
+//		Sentence playSentence = kb.newSymbol(kb.TOPLAY+playerName, noofMoves);
+//		kb.tell(playSentence);
 	
 		makeRules(myPlayer,"g1","c1"); // tells the FOL knowledgebase rules about how to capture opponent pieces
 		for (Position pos:positionList) {
@@ -206,9 +210,9 @@ class AChessAgent
 		terms.add(pieceVariable);
 		terms.add(posVariable);
 		
-		Predicate folPredicate = new Predicate(chessPr,terms);  // The folPredicate is OWNER
-		QuantifiedSentence qSentence = new QuantifiedSentence("FORALL",variables,folPredicate);
-		folKb.tell(qSentence); // Returned to code 28.02.23
+		Predicate folPredicate = new Predicate(chessPr,terms);  // The folPredicate is POSSIBLEPROTECT
+//		QuantifiedSentence qSentence = new QuantifiedSentence("FORALL",variables,folPredicate); // A single sentence including FORALL
+//		folKb.tell(qSentence); // Returned to code 28.02.23 REplaced, see createConnected
 		createConnected("player", "y", "x");
 //		String s1 = "occupies(o,px)^occupies(pi,py)";
 //		String s2 = "MOVE(pi,pz)";
@@ -443,6 +447,11 @@ class AChessAgent
 		Variable otherPiece = new Variable("p");
 		Variable posVariable = new Variable(pos);
 		Variable newPosition = new Variable("z");
+		List<Variable> variables = new ArrayList<Variable>();
+		variables.add(pieceVariable);
+		variables.add(posVariable);
+		variables.add(newPosition);
+		variables.add(otherPiece);
 		ownerTerms.add(ownerVariable);
 		ownerTerms.add(pieceVariable);
 		Predicate ownerPredicate = new Predicate(OWNER,ownerTerms);
@@ -463,10 +472,11 @@ class AChessAgent
 		ConnectedSentence reachableandprotectedSentence = new ConnectedSentence(Connectors.AND,reachablePredicate,protectedPredicate);
 		Predicate safemovePredicate = new Predicate(SAFEMOVE,moveTerms);
 		ConnectedSentence goal = new ConnectedSentence(Connectors.IMPLIES,reachableandprotectedSentence,move);
+		QuantifiedSentence qSentence = new QuantifiedSentence("FORALL",variables,goal); // A single sentence including FORALL
 /*		ConnectedSentence protectedGoal = new ConnectedSentence(Connectors.IMPLIES,goal,safemovePredicate);
 		ConnectedSentence canAndSafe = new ConnectedSentence(Connectors.AND,movePredicate,safemovePredicate);
 		ConnectedSentence safeTomove = new ConnectedSentence(Connectors.IMPLIES,canAndSafe,move);*/
-		folKb.tell(goal);
+		folKb.tell(qSentence);
 //		folKb.tell(protectedGoal);
 //		folKb.tell(safeTomove);
 		List<Term> typeTerms = new ArrayList<Term>();
@@ -476,9 +486,10 @@ class AChessAgent
 		Predicate typePredicate = new Predicate(PIECETYPE,typeTerms);
 		Predicate pawnMove = new Predicate(PAWNMOVE,reachableTerms);
 //		ConnectedSentence pawnSentence = new ConnectedSentence(Connectors.AND,ownerPredicate,typePredicate);
-		ConnectedSentence pawnReachable = new ConnectedSentence(Connectors.AND,typePredicate,reachablePredicate);
+		ConnectedSentence pawnReachable = new ConnectedSentence(Connectors.AND,typePredicate,reachablePredicate); // *** Add FORALL ****
 		ConnectedSentence pawnmove = new ConnectedSentence(Connectors.IMPLIES,pawnReachable,pawnMove);
-		folKb.tell(pawnmove);
+		QuantifiedSentence qpawn = new QuantifiedSentence("FORALL",variables,pawnmove); // A single sentence including FORALL
+		folKb.tell(qpawn);
 
 !!!1772162.java!!!	askMove(inout player : APlayer, inout action : ChessActionImpl) : void
 		List<AgamePiece> pieces = player.getMygamePieces();
@@ -634,7 +645,7 @@ class AChessAgent
 								folKb.tell(threatenPredicate);
 							}*/
 							chessDomain.addConstant(position);
-							if (type == type.KING && castlePositions != null) {
+							if (type == type.KING && castlePositions != null) { // Must be simplified
 								List<Position> removedKing = piece.getRemovedPositions();
 								for (Position cpos: castlePositions) {
 									String cPosname = cpos.getPositionName();

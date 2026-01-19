@@ -1,0 +1,436 @@
+class Position
+!!!2526722.java!!!	Position(in positionName : String, inout inUse : boolean, inout usedBy : ChessPiece)
+		super();
+		this.positionName = positionName;
+		this.inUse = inUse;
+		if (usedBy == null){
+			String[] legalMoves = {};
+			usedBy =  new ChessPiece("","x","ee",legalMoves);
+		}
+		this.column = positionName.substring(0, 1);
+		this.row = positionName.substring(1);
+		intRow = Integer.parseInt(row);
+		this.usedBy = usedBy;
+		intColumn = findColumn();
+		calculateColor();
+		int ycol = getIntRow() - 1;	// This is the correct position definition
+		int xrow = getIntColumn() - 1;
+		xyloc = new XYLocation(xrow,ycol);
+		centerleftlow = ycol == 3 && xrow == 3;
+		centerlefthigh = ycol == 3 && xrow == 4;
+		centerrightlow = ycol == 4 && xrow == 3;
+		centerrighthigh = ycol == 4 && xrow == 4;
+		removedPieces = new Stack();
+		predicates = new ArrayList<String>();
+		mydirection = direction.NONE;
+!!!2526850.java!!!	Position(inout loc : XYLocation, inout inUse : boolean, inout usedBy : ChessPiece)
+		this.xyloc = loc;
+		this.usedBy = usedBy;
+		this.inUse = inUse;
+		if (usedBy == null){
+			String[] legalMoves = {};
+			usedBy =  new ChessPiece("","x","ee",legalMoves);
+		}
+		int x = loc.getXCoOrdinate();
+		int y = loc.getYCoOrdinate();
+		setIntRow(y+1);
+		setIntColumn(x+1);
+		String row = String.valueOf(y+1);
+		String col = findColumnletter(x);
+		this.positionName = col+row;
+		calculateColor();
+		int ycol = getIntRow() - 1;	// This is the correct position definition
+		int xrow = getIntColumn() - 1;
+		centerleftlow = ycol == 3 && xrow == 3;
+		centerlefthigh = ycol == 3 && xrow == 4;
+		centerrightlow = ycol == 4 && xrow == 3;
+		centerrighthigh = ycol == 4 && xrow == 4;
+		removedPieces = new Stack();
+		predicates = new ArrayList<String>();
+		mydirection = direction.NONE;
+!!!2526978.java!!!	getSumNorth() : int
+		return sumNorth;
+!!!2527106.java!!!	setSumNorth(in sumNorth : int) : void
+		this.sumNorth = sumNorth;
+!!!2527234.java!!!	getSumSouth() : int
+		return sumSouth;
+!!!2527362.java!!!	setSumSouth(in sumSouth : int) : void
+		this.sumSouth = sumSouth;
+!!!2527490.java!!!	getSumEast() : int
+		return sumEast;
+!!!2527618.java!!!	setSumEast(in sumEast : int) : void
+		this.sumEast = sumEast;
+!!!2527746.java!!!	getSumWest() : int
+		return sumWest;
+!!!2527874.java!!!	setSumWest(in sumWest : int) : void
+		this.sumWest = sumWest;
+!!!2528002.java!!!	isNorth() : boolean
+		return north;
+!!!2528130.java!!!	setNorth(inout north : boolean) : void
+		this.north = north;
+		mydirection = direction.NORTH;
+!!!2528258.java!!!	isSouth() : boolean
+		return south;
+!!!2528386.java!!!	setSouth(inout south : boolean) : void
+		this.south = south;
+		mydirection = direction.SOUTH;
+!!!2528514.java!!!	isEast() : boolean
+		return east;
+!!!2528642.java!!!	setEast(inout east : boolean) : void
+		this.east = east;
+		mydirection = direction.EAST;
+!!!2528770.java!!!	isWest() : boolean
+		return west;
+!!!2528898.java!!!	setWest(inout west : boolean) : void
+		this.west = west;
+		mydirection = direction.WEST;
+!!!2529026.java!!!	getNorthDirection() : Position::direction
+		return northDirection;
+!!!2529154.java!!!	setNorthDirection(inout northDirection : Position::direction) : void
+		this.northDirection = northDirection;
+!!!2529282.java!!!	getSouthDirection() : Position::direction
+		return southDirection;
+!!!2529410.java!!!	setSouthDirection(inout southDirection : Position::direction) : void
+		this.southDirection = southDirection;
+!!!2529538.java!!!	getWestDirection() : Position::direction
+		return westDirection;
+!!!2529666.java!!!	setWestDirection(inout westDirection : Position::direction) : void
+		this.westDirection = westDirection;
+!!!2529794.java!!!	getEastDirection() : Position::direction
+		return eastDirection;
+!!!2529922.java!!!	setEastDirection(inout eastDirection : Position::direction) : void
+		this.eastDirection = eastDirection;
+!!!2530050.java!!!	getNeDirection() : Position::direction
+		return neDirection;
+!!!2530178.java!!!	setNeDirection(inout neDirection : Position::direction) : void
+		this.neDirection = neDirection;
+!!!2530306.java!!!	getnWDirection() : Position::direction
+		return nWDirection;
+!!!2530434.java!!!	setnWDirection(inout nWDirection : Position::direction) : void
+		this.nWDirection = nWDirection;
+!!!2530562.java!!!	getSeDirection() : Position::direction
+		return seDirection;
+!!!2530690.java!!!	setSeDirection(inout seDirection : Position::direction) : void
+		this.seDirection = seDirection;
+!!!2530818.java!!!	getSwDirection() : Position::direction
+		return swDirection;
+!!!2530946.java!!!	setSwDirection(inout swDirection : Position::direction) : void
+		this.swDirection = swDirection;
+!!!2531074.java!!!	getLastDirection() : Position::direction
+		return lastDirection;
+!!!2531202.java!!!	setLastDirection(inout lastDirection : Position::direction) : void
+		this.lastDirection = lastDirection;
+!!!2531330.java!!!	getMydirection() : Position::direction
+		return mydirection;
+!!!2531458.java!!!	setMydirection(inout mydirection : Position::direction) : void
+		this.mydirection = mydirection;
+!!!2531586.java!!!	setDefaultdirection() : void
+		this.mydirection = direction.NONE;
+		sumNorth = 0;
+		sumSouth = 0;
+		sumEast = 0;
+		sumWest = 0;
+!!!2531714.java!!!	getSumDif() : Integer
+		return sumDif;
+!!!2531842.java!!!	setSumDif(inout sumDif : Integer) : void
+		this.sumDif = sumDif;
+!!!2531970.java!!!	isOpponentRemove() : boolean
+		return opponentRemove;
+!!!2532098.java!!!	setOpponentRemove(inout opponentRemove : boolean) : void
+		this.opponentRemove = opponentRemove;
+!!!2532226.java!!!	isFriendlyPosition() : boolean
+		return friendlyPosition;
+!!!2532354.java!!!	setFriendlyPosition(inout friendlyPosition : boolean) : void
+		this.friendlyPosition = friendlyPosition;
+!!!2532482.java!!!	isNw() : boolean
+		return nw;
+!!!2532610.java!!!	setNw(inout nw : boolean) : void
+		this.nw = nw;
+		mydirection = direction.NW;
+!!!2532738.java!!!	isNe() : boolean
+		return ne;
+!!!2532866.java!!!	setNe(inout ne : boolean) : void
+		this.ne = ne;
+		mydirection = direction.NE;
+!!!2532994.java!!!	isSw() : boolean
+		return sw;
+!!!2533122.java!!!	setSw(inout sw : boolean) : void
+		this.sw = sw;
+		mydirection = direction.SW;
+!!!2533250.java!!!	isSe() : boolean
+		return se;
+!!!2533378.java!!!	setSe(inout se : boolean) : void
+		this.se = se;
+		mydirection = direction.SE;
+!!!2533506.java!!!	getPiecePred() : String
+		return piecePred;
+!!!2533634.java!!!	setPiecePred(in piecePred : String) : void
+		this.piecePred = piecePred;
+!!!2533762.java!!!	getPredicate() : String
+		return predicate;
+!!!2533890.java!!!	setPredicate(in predicate : String) : void
+		this.predicate = predicate;
+		String str[] = this.predicate.split(";");
+		predicates = Arrays.asList(str);
+!!!2534018.java!!!	getPredicates() : List<String>
+		return predicates;
+!!!2534146.java!!!	setPredicates(inout predicates : List<String>) : void
+		this.predicates = predicates;
+!!!2534274.java!!!	isCenterlefthigh() : boolean
+		return centerlefthigh;
+!!!2534402.java!!!	setCenterlefthigh(inout centerlefthigh : boolean) : void
+		this.centerlefthigh = centerlefthigh;
+!!!2534530.java!!!	isCenterrighthigh() : boolean
+		return centerrighthigh;
+!!!2534658.java!!!	setCenterrighthigh(inout centerrighthigh : boolean) : void
+		this.centerrighthigh = centerrighthigh;
+!!!2534786.java!!!	isCenterrightlow() : boolean
+		return centerrightlow;
+!!!2534914.java!!!	setCenterrightlow(inout centerrightlow : boolean) : void
+		this.centerrightlow = centerrightlow;
+!!!2535042.java!!!	isCenterleftlow() : boolean
+		return centerleftlow;
+!!!2535170.java!!!	setCenterleftlow(inout centerleftlow : boolean) : void
+		this.centerleftlow = centerleftlow;
+!!!2535298.java!!!	getXyloc() : XYLocation
+		return xyloc;
+!!!2535426.java!!!	setXyloc(inout xyloc : XYLocation) : void
+		this.xyloc = xyloc;
+!!!2535554.java!!!	getPieces() : Piece
+		return pieces;
+!!!2535682.java!!!	getRemovedPieces() : ChessPiece
+		return removedPieces;
+!!!2535810.java!!!	setRemovedPieces(inout removedPieces : Stack<ChessPiece>) : void
+		this.removedPieces = removedPieces;
+!!!2535938.java!!!	calculateColor() : void
+		if (evenNumbers.test(intRow+intColumn)){
+			positionColor = "B";
+		}else
+			positionColor = "W";
+!!!2536066.java!!!	transformValue(inout letters : List<String>, inout f : Function<List<String>, Integer>) : Integer
+			return f.apply(letters);
+!!!2536194.java!!!	findColumnletter(in col : int) : String
+		List <String> letters  = Arrays.asList("a","b","c","d","e","f","g","h");
+		for (int i = 0;i<8;i++) {
+			if (i == col)
+				return letters.get(i);
+		}
+		return null;
+		
+!!!2536322.java!!!	findColumn() : int
+		List <String> letters  = Arrays.asList("a","b","c","d","e","f","g","h");
+		Function<List<String>,Integer> f = (List<String> l) -> {
+			int ct = 0;
+			for (String s:letters){
+				ct++;
+				if (s.equals(column)){
+					return ct;
+				}
+	
+			}
+			return ct;
+		};
+		return transformValue(letters,f);
+!!!2536450.java!!!	checkUsed() : void
+		if (inUse &&getUsedBy() == null){
+			setInUse(false);
+		}
+!!!2536578.java!!!	setPieces(inout pieces : HashSet<Piece>) : void
+		this.pieces = pieces;
+		if (pieces != null){
+			Iterator<Piece> pieceIterator = pieces.iterator();
+			while (pieceIterator.hasNext()){
+				Piece piece = pieceIterator.next();
+				IRI ir = piece.getOwlIndividual().getIRI();
+				String irs = ir.toString();
+		    	char sep = '#';
+		    	String name = extractString(irs, sep,-1); 
+		    	if (name.startsWith("White")){
+		    		usedBy.setWhitePiece(piece);
+		    		if (piece != null)
+		    			checkPieceOccupation(piece);
+		    		else
+		    			System.out.println("Piece is null!! Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+		    	}
+		    	if (name.startsWith("Black")){
+		    		usedBy.setBlackPiece(piece);
+		    		if (piece != null)
+		    			checkPieceOccupation(piece);
+		    		else
+		    			System.out.println("Piece is null!! Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+		    	}
+		    	usedBy.setOntlogyName(name);
+		    	usedBy.setFullName(irs);
+//		    	usedBy.setPredicate(piecePred);
+		    	System.out.println("setPieces: Name of piece: "+name+" Name of chess piece: "+usedBy.getPieceName()+" "+usedBy.getName());
+
+			}
+		} 
+!!!2536706.java!!!	checkPieceOccupation(inout piece : Piece) : void
+		if (piece.getOccupies() != null){
+//			HashSet<BoardPosition> occupies = ((HashSet<BoardPosition>) piece.getOccupies());
+			Collection<? extends Taken> takenPieces = piece.getOccupies();
+	        // Convert the collection of Taken objects to a HashSet of BoardPosition objects
+	        HashSet<BoardPosition> boardPositions = takenPieces.stream()
+	                .map(KnowledgeBuilder::convertToBoardPosition) // Apply a mapping function
+	                .collect(Collectors.toCollection(HashSet::new));
+
+
+	        HashSet<BoardPosition> whitePosset = boardPositions;
+			
+//			HashSet<BoardPosition> whitePosset = occupies;
+			Iterator<BoardPosition> whitePosIterator =  whitePosset.iterator(); // Empty after move???!!
+			while(whitePosIterator.hasNext()){
+				BoardPosition whitePos = whitePosIterator.next();
+				IRI ir = whitePos.getOwlIndividual().getIRI();
+				String irs = ir.toString();
+				char sep = '#';
+				String name = extractString(irs, sep,-1);
+				if (name.equals(positionName)){
+//					System.out.println("Occupies correct position: " + irs+ " " + name + " " +positionName);
+				}else {
+					System.out.println("Occupies wrong position: "+ irs+ " " + name + " " +positionName);
+					piece.removeOccupies((Taken) whitePos);
+					if (whiteBoardPosition != null){
+						piece.addOccupies((Taken) whiteBoardPosition);
+						System.out.println("New white position: "+ whiteBoardPosition.getOwlIndividual().getIRI().toString() + " " +positionName);
+					}
+					else if (blackBoardPosition != null){
+						piece.addOccupies((Taken) blackBoardPosition);
+						System.out.println("New black position: "+ blackBoardPosition.getOwlIndividual().getIRI().toString() + " " +positionName);
+					}
+				
+				}
+			}			
+		}else{
+			System.out.println("Piece does not occupy position: " + piece.toString()+positionName);
+		}
+			
+!!!2536834.java!!!	checkWhiteOccupation(inout whitePositions : HashSet<WhiteBoardPosition>) : void
+		Iterator<WhiteBoardPosition> whitePosIterator =  whitePositions.iterator();
+	      while(whitePosIterator.hasNext()){
+	    	  WhiteBoardPosition whitePos = whitePosIterator.next();
+	    	  IRI ir = whitePos.getOwlIndividual().getIRI();
+	    	  HashSet<Piece> pieces =  (HashSet<Piece>)((Taken) whitePos).getIsOccupiedBy();
+	    	  String irs = ir.toString();
+	    	  OWLNamedIndividual wp = whitePos.getOwlIndividual();
+	    	  char sep = '#';
+	    	  String name = extractString(irs, sep,-1);
+	    	  if (name.equals(positionName) && usedBy != null){
+//	    		  CodeGenerationInference inference = usedBy.getWhitePiece().
+	    		  if (pieces.isEmpty() || pieces == null){
+	    			Piece newIsOccupiedBy = new DefaultWhitePiece(null, ir);
+					((Taken) whitePos).addIsOccupiedBy(newIsOccupiedBy );
+	    		  }
+	    		  if (pieces != null){
+	    			  Iterator<Piece> pieceIterator = pieces.iterator();
+	    			  while (pieceIterator.hasNext()){
+	    				  Piece newPiece = pieceIterator.next();
+	    				  IRI irp = newPiece.getOwlIndividual().getIRI();
+	    				  String irsp = ir.toString();
+	    				  char sepp = '#';
+	    				  String pname = extractString(irs, sepp,-1); 
+	    			  }
+	    		  }
+	    	  }
+	      }
+		
+!!!2536962.java!!!	getIntColumn() : int
+		return intColumn;
+!!!2537090.java!!!	setIntColumn(in intColumn : int) : void
+		this.intColumn = intColumn;
+!!!2537218.java!!!	getRow() : String
+		return row;
+!!!2537346.java!!!	setRow(in row : String) : void
+		this.row = row;
+!!!2537474.java!!!	getIntRow() : int
+		return intRow;
+!!!2537602.java!!!	setIntRow(in intRow : int) : void
+		this.intRow = intRow;
+!!!2537730.java!!!	getPositionColor() : String
+		return positionColor;
+!!!2537858.java!!!	setPositionColor(in positionColor : String) : void
+		this.positionColor = positionColor;
+!!!2537986.java!!!	getBlackBoardPosition() : BlackBoardPosition
+		return blackBoardPosition;
+!!!2538114.java!!!	setBlackBoardPosition(inout blackBoardPosition : BlackBoardPosition) : void
+		this.blackBoardPosition = blackBoardPosition;
+!!!2538242.java!!!	getWhiteBoardPosition() : WhiteBoardPosition
+		return whiteBoardPosition;
+!!!2538370.java!!!	setWhiteBoardPosition(inout whitePos : WhiteBoardPosition) : void
+		this.whiteBoardPosition = whitePos;
+!!!2538498.java!!!	getColumn() : String
+		return column;
+!!!2538626.java!!!	setColumn(in column : String) : void
+		this.column = column;
+!!!2538754.java!!!	getPositionName() : String
+		return positionName;
+!!!2538882.java!!!	setPositionName(in positionName : String) : void
+		this.positionName = positionName;
+!!!2539010.java!!!	returnInuse() : boolean
+		return inUse;
+!!!2539138.java!!!	isInUse() : boolean
+		boolean active = false;
+		if (usedBy != null && usedBy.getMyPiece() != null)
+			active = usedBy.getMyPiece().isActive();
+		if (active && inUse)
+			return inUse;
+		if (!active && usedBy != null && usedBy.getMyPiece() != null)
+			return active;
+		return inUse;
+!!!2539266.java!!!	notisInUse() : boolean
+		return !inUse;
+!!!2539394.java!!!	setInUse(inout inUse : boolean) : void
+		this.inUse = inUse;
+!!!2539522.java!!!	getUsedBy() : ChessPiece
+		return usedBy;
+!!!2539650.java!!!	getRemoved() : ChessPiece
+		return removed;
+!!!2539778.java!!!	setRemoved(inout removed : ChessPiece) : void
+		this.removed = removed;
+!!!2539906.java!!!	returnPiece() : void
+/*		if (removed != null) {
+			usedBy = removed;
+		}*/
+		if (removed == null && removedPieces.empty()) {
+			setUsedBy();
+		}
+		if (removedPieces != null && !removedPieces.empty()) {
+			ChessPiece removed = removedPieces.pop();
+			if (removed.isUse()) { // Added 21.04.20  The use flag is only set false in chesspiece acceptmove method
+				usedBy = removed;
+				usedBy.getMyPiece().setActive(true);
+				inUse = true; // Added 4.08.20 olj
+			}
+		}
+
+!!!2540034.java!!!	returnPiece(inout piece : ChessPiece) : void
+		this.usedBy = piece;
+!!!2540162.java!!!	setUsedBy() : void
+		this.usedBy = null;
+		inUse = false;
+!!!2540290.java!!!	setUsedandRemoved(inout usedBy : ChessPiece) : void
+		this.usedBy = usedBy;
+		inUse = true;
+		setRemoved(usedBy);
+		removedPieces.push(removed);
+		
+!!!2540418.java!!!	setUsedBy(inout usedBy : ChessPiece) : void
+		if (this.usedBy != null && this.usedBy.getMyPiece() != null && this.usedBy != usedBy) {
+			removed = this.usedBy;
+			removed.getMyPiece().setActive(false);
+			removedPieces.push(removed);
+		}
+		this.usedBy = usedBy;
+		inUse = true;
+!!!2540546.java!!!	toString() : String
+		StringBuilder builder = new StringBuilder();
+		String p = "None";
+		String gp = "Gamenone";
+		if (usedBy != null) {
+			p = usedBy.toString();
+			gp = usedBy.getMyPiece().getName();
+		}
+		
+		builder.append(positionName+ " Color "+positionColor+" Direction "+mydirection+" sumdif "+ sumDif+" Piece  "+p+" "+inUse+" Friendly "+friendlyPosition+" gamepiece "+gp+"\n");
+		return builder.toString();
